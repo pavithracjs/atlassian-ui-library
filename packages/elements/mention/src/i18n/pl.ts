@@ -6,7 +6,7 @@
  */
 // Polish
 export default {
-  'fabric.mention.unknow.user.error': 'Nieznany użytkownik {id}',
+  'fabric.mention.unknow.user.error': 'Nieznany użytkownik {userId}',
   'fabric.mention.noAccess.warning':
     'Użytkownicy: {name} nie zostaną powiadomieni, ponieważ nie mają dostępu',
   'fabric.mention.noAccess.label': 'Brak dostępu',
@@ -22,4 +22,12 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ użytkowników',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ użytkowników wliczając Ciebie',
+  'fabric.elements.mentions.team.mention.highlight.title':
+    'Wspomniano Twój zespół',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Przekieruj wszystkich na stronę za pomocą jednego kliknięcia. Nie masz zespołu?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Załóż go.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Odrzuć',
 };

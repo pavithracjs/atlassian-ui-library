@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.5.1
+
+### Patch Changes
+
+- [patch][d399d55637](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d399d55637):
+
+  Move @types/bytes from dependencies to devDependencies.
+
 ## 11.5.0
 
 ### Minor Changes

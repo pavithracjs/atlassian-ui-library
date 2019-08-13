@@ -67,6 +67,16 @@ async function add(pathToFile) {
   return gitCmd.code === 0;
 }
 
+async function checkout(pathToFile) {
+  const gitCmd = await spawn('git', ['checkout', pathToFile]);
+  return gitCmd.code === 0;
+}
+
+async function branch(branchName) {
+  const gitCmd = await spawn('git', ['checkout', '-b', branchName]);
+  return gitCmd.code === 0;
+}
+
 async function commit(message) {
   const gitCmd = await spawn('git', ['commit', '-m', message, '--allow-empty']);
   return gitCmd.code === 0;
@@ -269,6 +279,8 @@ module.exports = {
   getBranchName,
   getMasterRef,
   add,
+  branch,
+  checkout,
   commit,
   push,
   tag,

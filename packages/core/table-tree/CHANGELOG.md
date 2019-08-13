@@ -1,5 +1,10 @@
 # @atlaskit/table-tree
 
+## 7.0.9
+
+- Updated dependencies [433311c16a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/433311c16a):
+  - @atlaskit/empty-state@6.0.0
+
 ## 7.0.8
 
 ### Patch Changes

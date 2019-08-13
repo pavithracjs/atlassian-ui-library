@@ -22,6 +22,7 @@ import {
   PersonItem,
   QuickSearchContext,
   UrsPersonItem,
+  NavScopeResultItem,
 } from './types';
 import { ModelParam } from '../util/model-parameters';
 import { GlobalSearchPrefetchedResults } from './prefetchResults';
@@ -31,6 +32,8 @@ export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   abTestId: 'default',
   controlId: 'default',
 });
+
+const QUICKSEARCH_API_URL = 'quicksearch/v1';
 
 type PeopleScopes = Scope.People | Scope.UserConfluence | Scope.UserJira;
 type ConfluenceObjectScopes =
@@ -94,7 +97,12 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
+export type SearchItem =
+  | ConfluenceItem
+  | JiraItem
+  | PersonItem
+  | UrsPersonItem
+  | NavScopeResultItem;
 
 export interface ABTest {
   abTestId: string;
@@ -145,6 +153,15 @@ export interface SearchParams {
   modelParams: ModelParam[];
   resultLimit?: number;
   filters?: Filter[];
+  mapItemToResult?: ItemToResultMapper;
+}
+
+export interface RecentParams {
+  context: QuickSearchContext;
+  modelParams: ModelParam[];
+  resultLimit?: number;
+  filters?: Filter[];
+  mapItemToResult: ItemToResultMapper;
 }
 
 export interface SearchPeopleParams {
@@ -157,10 +174,14 @@ export interface SearchPeopleParams {
 
 export interface CrossProductSearchClient {
   search(params: SearchParams): Promise<CrossProductSearchResults>;
+  getRecentItems(params: RecentParams): Promise<CrossProductSearchResults>;
   getPeople(params: SearchPeopleParams): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
   getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
+  getNavAutocompleteSuggestions(query: string): Promise<string[]>;
 }
+
+export type ItemToResultMapper = (scope: Scope, item: SearchItem) => Result;
 
 export default class CachingCrossProductSearchClientImpl
   implements CrossProductSearchClient {
@@ -168,6 +189,7 @@ export default class CachingCrossProductSearchClientImpl
   private cloudId: string;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
   private bootstrapPeopleCache: Promise<CrossProductSearchResults> | undefined;
+  private crossProductRecentsCache: Promise<SearchResultsMap> | undefined;
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;
@@ -180,6 +202,29 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+    this.crossProductRecentsCache = prefetchResults
+      ? prefetchResults.crossProductRecentItemsPromise
+      : undefined;
+  }
+
+  public async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
+    const path = 'quicksearch/v1';
+
+    const results: CrossProductSearchResponse = await this.makeRequest<
+      CrossProductSearchResponse
+    >(path, {
+      cloudId: this.cloudId,
+      scopes: [Scope.NavSearchCompleteConfluence],
+      query,
+    });
+
+    const matchingScope: ScopeResult | undefined = results.scopes.find(
+      scope => scope.id === Scope.NavSearchCompleteConfluence,
+    );
+
+    const matchingDocuments = matchingScope ? matchingScope.results : [];
+
+    return matchingDocuments.map(mapItemToNavCompletionString);
   }
 
   public async getPeople({
@@ -233,9 +278,8 @@ export default class CachingCrossProductSearchClientImpl
     modelParams,
     resultLimit = this.RESULT_LIMIT,
     filters = [],
+    mapItemToResult = postQueryMapItemToResult,
   }: SearchParams): Promise<CrossProductSearchResults> {
-    const path = 'quicksearch/v1';
-
     const body = {
       query: query,
       cloudId: this.cloudId,
@@ -250,10 +294,44 @@ export default class CachingCrossProductSearchClientImpl
     };
 
     const response = await this.makeRequest<CrossProductSearchResponse>(
-      path,
+      QUICKSEARCH_API_URL,
       body,
     );
-    return this.parseResponse(response);
+    return this.parseResponse(response, mapItemToResult);
+  }
+
+  public async getRecentItems({
+    context,
+    modelParams,
+    resultLimit = this.RESULT_LIMIT,
+    filters = [],
+    mapItemToResult,
+  }: RecentParams): Promise<CrossProductSearchResults> {
+    const scopes = mapContextToScopes(context);
+
+    if (this.crossProductRecentsCache) {
+      const recents = await this.crossProductRecentsCache;
+      if (areAllScopesInCache(scopes, recents)) {
+        return {
+          results: recents,
+        };
+      }
+    }
+
+    const body = {
+      query: '',
+      cloudId: this.cloudId,
+      limit: resultLimit,
+      scopes,
+      filters: filters,
+      ...(modelParams.length > 0 ? { modelParams } : {}),
+    };
+
+    const response = await this.makeRequest<CrossProductSearchResponse>(
+      QUICKSEARCH_API_URL,
+      body,
+    );
+    return this.parseResponse(response, mapItemToResult);
   }
 
   public async getAbTestDataForProduct(product: QuickSearchContext) {
@@ -333,6 +411,7 @@ export default class CachingCrossProductSearchClientImpl
    */
   private parseResponse(
     response: CrossProductSearchResponse,
+    mapItemToResult: ItemToResultMapper,
   ): CrossProductSearchResults {
     let abTest: ABTest | undefined;
     const results: SearchResultsMap = response.scopes
@@ -391,12 +470,13 @@ function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
   };
 }
 
-function mapItemToResult(scope: Scope, item: SearchItem): Result {
+function postQueryMapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
     return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
+
   if (scope.startsWith('jira')) {
-    return mapJiraItemToResult(item as JiraItem);
+    return mapJiraItemToResult(AnalyticsType.ResultJira)(item as JiraItem);
   }
 
   if (scope === Scope.People) {
@@ -407,5 +487,31 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
     return mapUrsResultItemToResult(item as UrsPersonItem);
   }
 
+  if (scope === Scope.NavSearchCompleteConfluence) {
+    throw new Error(
+      'nav.completion-confluence cannot be transformed into a result because it is not a search result',
+    );
+  }
+
   throw new Error(`Non-exhaustive match for scope: ${scope}`);
+}
+
+function mapItemToNavCompletionString(item: SearchItem): string {
+  const completionItem = item as NavScopeResultItem;
+
+  return completionItem.query;
+}
+
+function mapContextToScopes(context: QuickSearchContext) {
+  if (context === 'jira') {
+    return [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
+  } else {
+    throw new Error(
+      `Supplied contet ${context} is not supported for pre-fetching`,
+    );
+  }
+}
+
+function areAllScopesInCache(scopes: Scope[], cache: SearchResultsMap) {
+  return scopes.filter(scope => cache[scope] === undefined).length === 0;
 }

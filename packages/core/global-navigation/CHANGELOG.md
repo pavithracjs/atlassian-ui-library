@@ -1,5 +1,21 @@
 # @atlaskit/global-navigation
 
+## 7.4.0
+
+### Minor Changes
+
+- [minor][9fe5a0fa58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9fe5a0fa58):
+
+  Allow app to configure a backIcon for drawer component inside global navigation
+
+## 7.3.9
+
+### Patch Changes
+
+- [patch][3e4ca4d715](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e4ca4d715):
+
+  Removed unused dependencies from package.json for global-navigation: @emotion/core, @atlaskit/blanket and react-transition-group were unused.
+
 ## 7.3.8
 
 ### Patch Changes

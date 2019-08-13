@@ -1,5 +1,21 @@
 # @atlaskit/navigation
 
+## 35.1.14
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
+## 35.1.13
+
+### Patch Changes
+
+- [patch][2e70d856a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e70d856a3):
+
+  Removed unused dependencies from package.json for packages: atlaskit-navigation: keycode was unused.
+
 ## 35.1.12
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):

@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.5.0
+
+### Minor Changes
+
+- [minor][4c5ceeb532](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c5ceeb532):
+
+  Remove "overflow: auto;" CSS rule from LayoutContainer. This was added earlier to resolve a problem with showing site banners.
+
 ## 6.4.0
 
 ### Minor Changes

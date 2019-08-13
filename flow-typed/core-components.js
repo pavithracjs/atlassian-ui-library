@@ -45,6 +45,10 @@ declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/empty-state' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/flag' {
   declare module.exports: any;
 }

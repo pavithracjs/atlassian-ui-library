@@ -1,5 +1,13 @@
 # @atlaskit/field-radio-group
 
+## 6.0.6
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
 ## 6.0.5
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/onboarding",
-  "version": "8.0.8",
+  "version": "8.0.9",
   "description": "Highlight elements of the UI to the user and display a complementary dialog.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -27,6 +27,7 @@
     "@atlaskit/portal": "^3.0.7",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
+    "exenv": "^1.2.2",
     "memoize-one": "^3.0.1",
     "react-focus-lock": "^1.19.1",
     "react-node-resolver": "^1.0.1",

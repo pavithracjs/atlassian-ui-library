@@ -1,5 +1,67 @@
 # @atlaskit/analytics-next
 
+## 5.4.0
+
+### Minor Changes
+
+- [minor][e1f8aaf33b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1f8aaf33b):
+
+  - Adding entry point for `AnalyticsErrorBoundary` package
+
+  ```
+  // How to use
+
+  // Import via entry point
+  import AnalyticsListener from '@atlaskit/analytics-next/AnalyticsListener';
+  import AnalyticsErrorBoundary from '@atlaskit/analytics-next/AnalyticsErrorBoundary';
+
+  // Wrapping your component with the component
+  class ButtonWithAnalyticsErrorBoundary extends React.Component {
+    handleEvent = (analyticsEvent) => {
+      const { payload, context } = analyticsEvent;
+      console.log('Received event:', analyticsEvent, { payload, context });
+    };
+
+    render() {
+      return (
+        <AnalyticsListener channel="atlaskit" onEvent={this.handleEvent}>
+          <AnalyticsErrorBoundary
+            channel="atlaskit"
+            data={{
+              componentName: 'button',
+              packageName: '@atlaskit/button',
+              componentVersion: '999.9.9',
+            }}
+          >
+            <Button>Click me</Button>
+          </AnalyticsErrorBoundary>
+        </AnalyticsListener>
+      )
+    }
+  }
+  ```
+
+  Notes on new API:
+
+  - Plug-and-play component. As soon and it's wrapping a component it's fully integrated.
+  - It has Analytics context and events integrated already. Keep in mind it requires `AnalyticsListener` as a top level component to work properly, otherwise it won't trigger analytics events.
+
+## 5.3.1
+
+### Patch Changes
+
+- [patch][281451e6dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/281451e6dc):
+
+  Republishing package to export AnalyticsErrorBoundaryProps
+
+## 5.3.0
+
+### Minor Changes
+
+- [minor][ed9ae90c94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed9ae90c94):
+
+  Adding Analytics Error Boundary component
+
 ## 5.2.0
 
 ### Minor Changes

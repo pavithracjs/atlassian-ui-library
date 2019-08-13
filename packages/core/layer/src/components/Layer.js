@@ -86,6 +86,13 @@ const FixedTarget = styled.div`
   }};
 `;
 
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/layer has been deprecated. It is an internal component and should not be used directly.',
+  );
+}
+
 export default class Layer extends Component<Props, State> {
   popper: {
     destroy: Function,

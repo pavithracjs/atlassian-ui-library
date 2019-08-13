@@ -293,7 +293,7 @@ export function createApiRouter(): Router<DatabaseSchema> {
     const records = descriptors.map((descriptor: any) => {
       const record = database.findOne('collectionItem', {
         id: descriptor.id,
-        collectionName: descriptor.collection,
+        // TODO [MS-2249]: add collectionName: descriptor.collection check
       });
       if (record) {
         return {

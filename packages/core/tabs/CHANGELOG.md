@@ -1,5 +1,13 @@
 # @atlaskit/tabs
 
+## 11.0.4
+
+### Patch Changes
+
+- [patch][3342f64d5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3342f64d5e):
+
+  Removed unused dependencies from package.json for tabs: keycode was unused.
+
 ## 11.0.3
 
 ### Patch Changes

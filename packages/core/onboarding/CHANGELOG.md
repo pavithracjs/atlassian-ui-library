@@ -1,5 +1,13 @@
 # @atlaskit/onboarding
 
+## 8.0.9
+
+### Patch Changes
+
+- [patch][2e3d9d3e25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e3d9d3e25):
+
+  Spotlight target highlight is out of position if the the target element or any of its parent has a "fixed" position. Fix the issue by checking for fixed position before setting the position values for target highlight.
+
 ## 8.0.8
 
 - Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):

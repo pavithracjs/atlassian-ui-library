@@ -15,6 +15,7 @@ import {
   permissionResponseWithUserPickerPermission,
 } from './jiraPermissionResponse';
 import { ScopeResult } from '../../src/api/CrossProductSearchClient';
+import { Scope } from '../../src/api/types';
 
 type Request = string;
 
@@ -80,14 +81,27 @@ function mockCrossProductSearchApi(delayMs: number, queryMockSearch: any) {
       const query = body.query;
       const filters = body.filters;
       const response = queryMockSearch(query, filters);
+      const includesNavCompletionScope =
+        body.scopes.indexOf(Scope.NavSearchCompleteConfluence) > -1;
 
-      const scopeResponses = response.scopes.map((scope: ScopeResult) => {
-        const { results, ...rest } = scope;
-        return {
-          ...rest,
-          results: results.slice(0, body.limit),
-        };
-      });
+      const scopeResponses = response.scopes
+        .filter((scope: ScopeResult) => body.scopes.includes(scope.id))
+        .map((scope: ScopeResult) => {
+          const { results, ...rest } = scope;
+          return {
+            ...rest,
+            results: results.slice(0, body.limit),
+          };
+        })
+        .filter((scope: ScopeResult) => {
+          if (!includesNavCompletionScope) {
+            return scope.id === Scope.NavSearchCompleteConfluence
+              ? false
+              : true;
+          } else {
+            return true;
+          }
+        });
 
       return delay(delayMs, { ...response, scopes: scopeResponses });
     },

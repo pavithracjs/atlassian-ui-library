@@ -1,5 +1,29 @@
 # @atlaskit/atlassian-switcher
 
+## 3.17.0
+
+### Minor Changes
+
+- [minor][520e77bd9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/520e77bd9c):
+
+  Fixed analytics bug for A/B testing product sorting algorithm for account-centric products
+
+## 3.16.0
+
+### Minor Changes
+
+- [minor][74501ba0ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74501ba0ea):
+
+  Accept a feature flag to AB test which site to show at the top of the product (efault being the current site, and variation being the most frequently visited)
+
+## 3.15.0
+
+### Minor Changes
+
+- [minor][aac9ae7ee8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aac9ae7ee8):
+
+  Licensed links in switcher are now grouped by product, with a dropdown that containing individual site options for sited products
+
 ## 3.14.0
 
 ### Minor Changes

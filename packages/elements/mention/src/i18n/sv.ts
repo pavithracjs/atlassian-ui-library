@@ -6,7 +6,7 @@
  */
 // Swedish
 export default {
-  'fabric.mention.unknow.user.error': 'Okänd användare {id}',
+  'fabric.mention.unknow.user.error': 'Okänd användare {userId}',
   'fabric.mention.noAccess.warning':
     '{name} kommer inte att meddelas eftersom de saknar åtkomst',
   'fabric.mention.noAccess.label': 'Ingen åtkomst',
@@ -22,4 +22,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ medlemmar',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ medlemmar, inklusive du',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Omnämn ditt team',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Få alla till sidan med ett klick. Har ni inget team?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Starta ett.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Stäng',
 };

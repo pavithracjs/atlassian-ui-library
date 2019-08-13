@@ -55,7 +55,7 @@ import {
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
-import { Dropzone } from '../../components/dropzone/dropzone';
+import { Dropzone, DropzoneBase } from '../../components/dropzone/dropzone';
 import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 import { resetView } from '../actions/resetView';
@@ -107,7 +107,7 @@ export interface AppState {
 export class App extends Component<AppProps, AppState> {
   private readonly componentMediaClient: MediaClient;
   private browserRef = React.createRef<BrowserComponent>();
-  private dropzoneRef = React.createRef<Dropzone>();
+  private dropzoneRef = React.createRef<DropzoneBase>();
   private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {

@@ -6,14 +6,13 @@
  */
 // Italian
 export default {
-  'fabric.mention.unknow.user.error': 'Utente {id} sconosciuto',
+  'fabric.mention.unknow.user.error': 'Utente {userId} sconosciuto',
   'fabric.mention.noAccess.warning':
     'A {name} non verrà inviata una notifica poiché non ha accesso',
   'fabric.mention.noAccess.label': 'Nessun accesso',
   'fabric.mention.error.defaultHeadline': 'Si è verificato un errore',
   'fabric.mention.error.defaultAction': 'Riprova tra qualche secondo',
-  'fabric.mention.error.loginAgain':
-    'Prova a uscire quindi ad accedere di nuovo',
+  'fabric.mention.error.loginAgain': 'Prova a uscire e ad accedere di nuovo',
   'fabric.mention.error.differentText': 'Prova a inserire un testo diverso',
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{1 membro} other{{0} membri}}',
@@ -22,4 +21,12 @@ export default {
   'fabric.elements.mentions.team.member.50plus': 'Più di 50 membri',
   'fabric.elements.mentions.team.member.50plus.including.you':
     'Più di 50 membri, incluso te',
+  'fabric.elements.mentions.team.mention.highlight.title':
+    'Menziona il tuo team',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Mantieni tutti allineati: basta un clic. Nessun team?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Inizia da qui.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Ignora',
 };

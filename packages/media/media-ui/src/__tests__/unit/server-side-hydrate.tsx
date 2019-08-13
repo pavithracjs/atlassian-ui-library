@@ -9,10 +9,10 @@ const getConsoleMockCalls = mockConsole(console);
 afterEach(() => {
   jest.resetAllMocks();
 });
-
-test('should ssr then hydrate media-ui correctly', async () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('should ssr then hydrate media-ui correctly', async () => {
   const [example] = await getExamplesFor('media-ui');
-  const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = await require(example.filePath).default;
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
   ReactDOM.hydrate(<Example />, elem);
