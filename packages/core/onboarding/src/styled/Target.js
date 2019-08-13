@@ -38,7 +38,7 @@ export const Div = styled.div`
 
 // fixed position holds the target in place if overflow/scroll is necessary
 export const TargetInner = styled(Div)`
-  ${animationWithCheck} position: absolute;
+  ${animationWithCheck} position: fixed;
 `;
 
 export const TargetOverlay = styled.div`

@@ -1,0 +1,1 @@
+Spotlight target highlight is out of position if the the target element or any of its parent has a "fixed" position. Fix the issue by checking for fixed position before setting the position values for target highlight.
