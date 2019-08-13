@@ -2,7 +2,7 @@ import React from 'react';
 import { md, Example, code, Props } from '@atlaskit/docs';
 
 export default md`
-A \`<input>\` component that supports elements at the start and end of the \`<input>\`
+\`TextField\` is a wrapped \`<input>\` component that supports elements at the start and end of the \`<input>\`
 
 ${code`
 import Textfield from '@atlaskit/textfield';

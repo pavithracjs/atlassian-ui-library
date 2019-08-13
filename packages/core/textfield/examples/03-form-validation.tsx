@@ -9,7 +9,7 @@ import Form, {
 } from '@atlaskit/form';
 import Textfield from '../src';
 
-function validate(value) {
+function validate(value: unknown) {
   if (value !== 'open sesame') {
     return 'INCORRECT_PHRASE';
   }
@@ -25,7 +25,7 @@ export default class extends Component<{}> {
   render() {
     return (
       <Form name="validation-example" onSubmit={this.handleSubmit}>
-        {({ formProps }) => (
+        {({ formProps }: any) => (
           <form {...formProps}>
             <FormHeader title="Validation" />
             <Field
@@ -35,7 +35,7 @@ export default class extends Component<{}> {
               validate={validate}
               defaultValue=""
             >
-              {({ fieldProps, error, meta: { valid } }) => (
+              {({ fieldProps, error, meta: { valid } }: any) => (
                 <Fragment>
                   <Textfield {...fieldProps} />
                   {valid && <ValidMessage>Your wish granted</ValidMessage>}
