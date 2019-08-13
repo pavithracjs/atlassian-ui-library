@@ -2,15 +2,6 @@ import React from 'react';
 import { ThemeProp } from '@atlaskit/theme';
 import { ThemeProps, ThemeTokens } from './theme';
 
-export interface Overrides {
-  Container?: {
-    attributes?: () => React.HTMLAttributes<HTMLElement>;
-  };
-  Input?: {
-    attributes?: () => React.InputHTMLAttributes<HTMLInputElement>;
-  };
-}
-
 // External component
 export interface PublicProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
