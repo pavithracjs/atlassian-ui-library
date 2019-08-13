@@ -46,14 +46,6 @@ export default class MediaSingleNode extends Component<
     mediaOptions: {},
   };
 
-  mediaNodeUpdater: MediaNodeUpdater;
-
-  constructor(props: MediaSingleNodeProps) {
-    super(props);
-
-    this.mediaNodeUpdater = new MediaNodeUpdater(props);
-  }
-
   state = {
     width: undefined,
     height: undefined,
@@ -63,6 +55,8 @@ export default class MediaSingleNode extends Component<
   componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
       this.setViewMediaClientConfig(nextProps);
+      const mediaNodeUpdater = new MediaNodeUpdater(nextProps);
+      mediaNodeUpdater.updateFileAttrs();
     }
   }
 
@@ -79,31 +73,38 @@ export default class MediaSingleNode extends Component<
     }
   };
 
-  async componentDidMount() {
-    this.setViewMediaClientConfig(this.props);
+  updateMediaNodeAttributes = async (props: MediaSingleNodeProps) => {
+    const mediaNodeUpdater = new MediaNodeUpdater(props);
 
-    const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
+    const updatedDimensions = await mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
-      this.mediaNodeUpdater.updateDimensions(updatedDimensions);
+      mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
-    const { node } = this.props;
+    const { node } = props;
     const childNode = node.firstChild;
 
     if (!childNode || childNode.attrs.type === 'external') {
       return;
     }
 
-    const contextId = this.mediaNodeUpdater.getCurrentContextId();
+    const contextId = mediaNodeUpdater.getCurrentContextId();
     if (!contextId) {
-      await this.mediaNodeUpdater.updateContextId();
+      await mediaNodeUpdater.updateContextId();
     }
 
-    const isNodeFromDifferentCollection = await this.mediaNodeUpdater.isNodeFromDifferentCollection();
+    const isNodeFromDifferentCollection = await mediaNodeUpdater.isNodeFromDifferentCollection();
 
     if (isNodeFromDifferentCollection) {
-      this.mediaNodeUpdater.copyNode();
+      mediaNodeUpdater.copyNode();
     }
+  };
+
+  async componentDidMount() {
+    await Promise.all([
+      this.setViewMediaClientConfig(this.props),
+      this.updateMediaNodeAttributes(this.props),
+    ]);
   }
 
   private onExternalImageLoaded = ({

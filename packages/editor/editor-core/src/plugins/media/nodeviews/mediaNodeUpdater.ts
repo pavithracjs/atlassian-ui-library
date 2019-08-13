@@ -40,6 +40,53 @@ export class MediaNodeUpdater {
     )(this.props.view.state, this.props.view.dispatch);
   };
 
+  hasFileAttributesDefined = () => {
+    const attrs = this.getAttrs();
+    return (
+      attrs && attrs.__fileName && attrs.__fileMimeType && attrs.__fileSize
+    );
+  };
+
+  updateFileAttrs = async () => {
+    const attrs = this.getAttrs();
+    const mediaProvider = await this.props.mediaProvider;
+
+    if (
+      !mediaProvider ||
+      !mediaProvider.uploadParams ||
+      !attrs ||
+      !attrs.id ||
+      this.hasFileAttributesDefined()
+    ) {
+      return;
+    }
+
+    const mediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+    const mediaClient = getMediaClient({
+      mediaClientConfig,
+    });
+
+    const fileState = await mediaClient.file.getCurrentState(attrs.id);
+
+    if (fileState.status === 'error') {
+      return;
+    }
+
+    const { name, mimeType, size } = fileState;
+
+    updateMediaNodeAttrs(
+      attrs.id,
+      {
+        __fileName: name,
+        __fileMimeType: mimeType,
+        __fileSize: size,
+      },
+      true,
+    )(this.props.view.state, this.props.view.dispatch);
+  };
+
   getAttrs = (): MediaAttributes | undefined => {
     const { firstChild } = this.props.node;
     if (firstChild) {
