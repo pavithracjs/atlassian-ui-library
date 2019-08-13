@@ -146,6 +146,8 @@ class Textfield extends React.Component<InternalProps, State> {
             >
               {tokens => (
                 <Input
+                  /* spreading before applying other props to prevent overwriting */
+                  {...otherProps}
                   isDisabled={isDisabled!}
                   isReadOnly={isReadOnly!}
                   isRequired={isRequired!}
@@ -158,7 +160,6 @@ class Textfield extends React.Component<InternalProps, State> {
                   elemAfterInput={elemAfterInput}
                   elemBeforeInput={elemBeforeInput}
                   innerRef={this.setInputRef}
-                  {...otherProps}
                 />
               )}
             </Theme.Consumer>
