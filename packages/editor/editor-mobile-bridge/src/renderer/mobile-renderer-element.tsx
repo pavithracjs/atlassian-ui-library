@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { MediaProvider as MediaProviderType } from '@atlaskit/editor-core';
-import { ReactRenderer } from '@atlaskit/renderer';
+import { ReactRenderer, RendererProps } from '@atlaskit/renderer';
 
 import RendererBridgeImpl from './native-to-web/implementation';
 import { toNativeBridge } from './web-to-native/implementation';
@@ -17,8 +17,8 @@ import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { eventDispatcher } from './dispatcher';
 import { ObjectKey, TaskState } from '@atlaskit/task-decision';
 
-export interface MobileRendererProps {
-  document?: string;
+export interface MobileRendererProps extends RendererProps {
+  document: string;
   mediaProvider?: Promise<MediaProviderType>;
 }
 
