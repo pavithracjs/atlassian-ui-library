@@ -32,8 +32,6 @@ import {
 } from '../../_test-data';
 import { Observable } from 'rxjs/Observable';
 
-jest.mock('@atlaskit/media-core');
-
 class TestSiteEmojiResource extends SiteEmojiResource {
   constructor(tokenManager: TokenManager) {
     super(siteServiceConfig, defaultMediaApiToken());
