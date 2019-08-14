@@ -192,9 +192,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           <Section
             sectionId="switchTo"
             title={
-              disableHeadings
-                ? null
-                : <FormattedMessage {...messages.switchTo} /> || null
+              disableHeadings ? null : (
+                <FormattedMessage {...messages.switchTo} />
+              )
             }
           >
             {licensedProductLinks.map(item => (
