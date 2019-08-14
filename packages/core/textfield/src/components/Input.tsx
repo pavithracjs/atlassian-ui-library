@@ -12,6 +12,7 @@ function warnIfClash(
 
   ourKeys.forEach((key: string) => {
     if (theirKeys.includes(key)) {
+      // eslint-disable-next-line no-console
       console.warn(`
           FieldText:
           You are attempting to add prop "${key}" to the input field.
