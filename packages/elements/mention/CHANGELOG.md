@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.14.1
+
+### Patch Changes
+
+- [patch][84b795279d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84b795279d):
+
+  TEAMS-626 : Adding translations for team mention spotlight
+
 ## 18.14.0
 
 ### Minor Changes

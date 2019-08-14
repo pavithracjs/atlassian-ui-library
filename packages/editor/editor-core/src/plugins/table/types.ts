@@ -9,6 +9,11 @@ import {
 } from '@atlaskit/adf-schema';
 import { TableSharedCssClassName } from '@atlaskit/editor-common';
 
+export enum SortOrder {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
 export type PermittedLayoutsDescriptor = TableLayout[] | 'all';
 export type Cell = { pos: number; start: number; node: PmNode };
 export type CellTransform = (cell: Cell) => (tr: Transaction) => Transaction;
@@ -21,6 +26,7 @@ export interface PluginConfig {
   allowHeaderRow?: boolean;
   allowMergeCells?: boolean;
   allowNumberColumn?: boolean;
+  allowColumnSorting?: boolean;
   isHeaderRowRequired?: boolean;
   stickToolbarToBottom?: boolean;
   permittedLayouts?: PermittedLayoutsDescriptor;
@@ -82,6 +88,12 @@ export type TablePluginAction =
       };
     }
   | {
+      type: 'HOVER_CELLS';
+      data: {
+        decorationSet: DecorationSet;
+      };
+    }
+  | {
       type: 'HOVER_COLUMNS';
       data: {
         decorationSet: DecorationSet;
@@ -133,6 +145,7 @@ export enum TableDecorations {
   ROW_CONTROLS_HOVER = 'ROW_CONTROLS_HOVER',
   COLUMN_CONTROLS_HOVER = 'COLUMN_CONTROLS_HOVER',
   TABLE_CONTROLS_HOVER = 'TABLE_CONTROLS_HOVER',
+  CELL_CONTROLS_HOVER = 'CELL_CONTROLS_HOVER',
 
   COLUMN_CONTROLS_DECORATIONS = 'COLUMN_CONTROLS_DECORATIONS',
   COLUMN_SELECTED = 'COLUMN_SELECTED',
@@ -184,6 +197,7 @@ export const TableCssClassName = {
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
   HOVERED_CELL_IN_DANGER: 'danger',
   HOVERED_CELL_ACTIVE: 'active',
+  HOVERED_CELL_WARNING: `${tablePrefixSelector}-hovered-cell__warning`,
   HOVERED_DELETE_BUTTON: `${tablePrefixSelector}-hovered-delete-button`,
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,

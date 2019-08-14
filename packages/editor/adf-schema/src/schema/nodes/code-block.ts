@@ -44,6 +44,14 @@ const getLanguageFromBitbucketStyle = (
   return;
 };
 
+// If there is a child code element, check that for data-language
+const getLanguageFromCode = (dom: HTMLElement): string | undefined => {
+  const firstChild = dom.firstElementChild;
+  if (firstChild && firstChild.nodeName === 'CODE') {
+    return firstChild.getAttribute('data-language') || undefined;
+  }
+};
+
 const extractLanguageFromClass = (className: string): string | undefined => {
   const languageRegex = /(?:^|\s)language-([^\s]+)/;
   const result = languageRegex.exec(className);
@@ -70,14 +78,6 @@ export const codeBlock: NodeSpec = {
   defining: true,
   parseDOM: [
     {
-      tag: 'pre > code',
-      preserveWhitespace: 'full',
-      getAttrs: dom => {
-        const language = (dom as HTMLElement).getAttribute('data-language')!;
-        return { language };
-      },
-    },
-    {
       tag: 'pre',
       preserveWhitespace: 'full',
       getAttrs: domNode => {
@@ -85,6 +85,7 @@ export const codeBlock: NodeSpec = {
         const language =
           getLanguageFromBitbucketStyle(dom.parentElement!) ||
           getLanguageFromEditorStyle(dom.parentElement!) ||
+          getLanguageFromCode(dom) ||
           dom.getAttribute('data-language')!;
         dom = removeLastNewLine(dom);
         return { language };

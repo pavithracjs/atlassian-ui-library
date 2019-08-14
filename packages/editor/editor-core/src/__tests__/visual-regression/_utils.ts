@@ -18,7 +18,11 @@ export {
   toggleFeature,
 } from '../integration/_helpers';
 
-export const editorSelector = '.ProseMirror';
+export const editorSelector = '.akEditor';
+export const editorFullPageContentSelector =
+  '.fabric-editor-popup-scroll-parent';
+export const editorCommentContentSelector = '.ak-editor-content-area';
+export const pmSelector = '.ProseMirror';
 
 export const DEFAULT_WIDTH = 800;
 export const DEFAULT_HEIGHT = 600;
@@ -147,7 +151,7 @@ export async function mountEditor(
     props,
     mountOptions,
   );
-  await page.waitForSelector(editorSelector, 500);
+  await page.waitForSelector(pmSelector, 500);
 }
 
 export enum Appearance {
@@ -266,7 +270,7 @@ export const updateEditorProps = async (
 
 export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
-    const dom = document.querySelector(editorSelector) as HTMLElement;
+    const dom = document.querySelector(pmSelector) as HTMLElement;
     dom.innerHTML = '<p><br /></p>';
   });
 };
@@ -277,7 +281,7 @@ export const snapshot = async (
     tolerance?: number;
     useUnsafeThreshold?: boolean;
   } = {},
-  selector: string = '.akEditor',
+  selector: string = editorFullPageContentSelector,
 ) => {
   const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);

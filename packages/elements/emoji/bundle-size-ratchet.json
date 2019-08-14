@@ -2,43 +2,43 @@
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 80206,
-      "gzipSize": 24095
+      "size": 80186,
+      "gzipSize": 24109
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 36288,
-      "gzipSize": 9937
+      "size": 36276,
+      "gzipSize": 9930
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
       "size": 296873,
-      "gzipSize": 78075
+      "gzipSize": 78092
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
@@ -50,31 +50,31 @@
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 70262,
-      "gzipSize": 17848
+      "size": 70039,
+      "gzipSize": 17791
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
       "size": 12402,
-      "gzipSize": 2607
+      "gzipSize": 2608
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
@@ -86,19 +86,19 @@
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 21761,
-      "gzipSize": 6001
+      "size": 21497,
+      "gzipSize": 5942
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
@@ -110,25 +110,25 @@
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 469883,
-      "gzipSize": 126876
+      "size": 469373,
+      "gzipSize": 126651
     }
   },
   {
     "team": "elements",
     "package": "@atlaskit/emoji",
-    "version": "62.2.3",
+    "version": "62.2.8",
     "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 109734,
-      "gzipSize": 26893
+      "size": 109724,
+      "gzipSize": 26890
     }
   }
 ]

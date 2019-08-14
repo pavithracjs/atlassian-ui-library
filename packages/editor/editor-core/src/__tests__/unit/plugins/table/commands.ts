@@ -48,7 +48,9 @@ describe('table plugin: actions', () => {
     createEditor({
       doc,
       editorProps: {
-        allowTables: true,
+        allowTables: {
+          allowHeaderRow: true,
+        },
         allowPanel: true,
       },
       pluginKey,
@@ -649,7 +651,7 @@ describe('table plugin: actions', () => {
      *  ---- ---- ----
      * | th | td | td |
      */
-    test('should keep right column header and cells after split', () => {
+    it('should keep right column header and cells after split', () => {
       const { editorView } = editor(
         doc(
           table()(

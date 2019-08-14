@@ -1,4 +1,4 @@
-import { initFullPageEditorWithAdf, snapshot } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import adf from './__fixtures__/noData-adf.json';
 
 describe('Placeholder', () => {
@@ -10,7 +10,11 @@ describe('Placeholder', () => {
   });
 
   it('wraps long placeholder onto new line', async () => {
-    await initFullPageEditorWithAdf(page, adf);
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      viewport: { width: 800, height: 300 },
+    });
     await snapshot(page);
   });
 });

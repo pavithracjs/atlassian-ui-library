@@ -1,6 +1,6 @@
 // @flow
 
-import type { ComponentType, ElementRef } from 'react';
+import type { ComponentType, ElementRef, Node } from 'react';
 import type { DrawerWidth } from '@atlaskit/drawer';
 
 type NonStringRef<T> = {
@@ -183,6 +183,10 @@ export type GlobalNavDrawerProps = {
   /** A prop to decide if the contents of the drawer should unmount on drawer
    * close. It is true by default. */
   shouldHelpDrawerUnmountOnExit?: boolean,
+
+  /** An optional Prop to configure the back icon */
+
+  drawerBackIcon?: Node,
 };
 
 export type GlobalNavigationProps = {

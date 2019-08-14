@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/layer-manager",
-  "version": "7.0.9",
+  "version": "7.0.10",
   "description": "A React Component for managing layers",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

@@ -1,8 +1,18 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+${(
+  <SectionMessage
+    appearance="warning"
+    title="Note: @atlaskit/analytics is deprecated."
+  >
+    Please use the @atlaskit/analytics-next package instead.
+  </SectionMessage>
+)}
+
   The analytics package exports several components and functions that work together
   to enable other components to fire analytics, extend event data, and process events.
 

@@ -10,7 +10,6 @@ declare module '@atlaskit/comment';
 declare module '@atlaskit/datetime-picker';
 declare module '@atlaskit/dropdown-menu';
 declare module '@atlaskit/droplist';
-declare module '@atlaskit/empty-state';
 declare module '@atlaskit/feedback-collector';
 declare module '@atlaskit/field-radio-group';
 declare module '@atlaskit/field-range';
@@ -57,6 +56,7 @@ declare module '@atlaskit/webdriver-runner';
 declare module '@atlaskit/webdriver-runner/*';
 declare module '@atlaskit/util-common-test';
 
+declare const ENABLE_ANALYTICS_GASV3: string;
 declare const WEBSITE_ENV: string;
 declare const DEFAULT_META_DESCRIPTION: string;
 declare const BASE_TITLE: string;

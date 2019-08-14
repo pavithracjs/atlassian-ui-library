@@ -87,13 +87,15 @@ export default class TableView extends ReactNodeView {
       // Ignore mutation doesn't pick up children updates
       // E.g. inserting a bodiless extension that renders
       // arbitrary nodes (aka macros).
-      if (this.observer) {
-        this.observer.observe(rendered.dom, {
-          subtree: true,
-          childList: true,
-          attributes: true,
-        });
-      }
+      requestAnimationFrame(() => {
+        if (this.observer) {
+          this.observer.observe(rendered.dom, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+          });
+        }
+      });
     }
 
     return rendered;

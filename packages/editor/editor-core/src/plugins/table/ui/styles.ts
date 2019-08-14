@@ -35,6 +35,8 @@ const {
   N200,
   N0,
   R500,
+  Y50,
+  Y200,
 } = colors;
 
 export const tableToolbarColor = N20;
@@ -419,6 +421,15 @@ const hoveredCell = `
   }
 `
 
+const hoveredWarningCell = `
+  :not(.${ClassName.IS_RESIZING}) .${ClassName.TABLE_CONTAINER}:not(.${ClassName.HOVERED_DELETE_BUTTON}) {
+    td.${ClassName.HOVERED_CELL_WARNING} {
+      background-color: ${Y50} !important; // We need to override the background-color added to the cell
+      border: 1px solid ${Y200};
+    }
+  }
+`
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -438,6 +449,7 @@ export const tableStyles = css`
     ${columnControlsLineMarker};
     ${hoveredDeleteButton};
     ${hoveredCell};
+    ${hoveredWarningCell};
 
     .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
       ${insertColumnButtonWrapper}

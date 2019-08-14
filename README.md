@@ -14,6 +14,8 @@ The full list of components can be found in the [Atlaskit Registry][atlaskitregi
 
 Atlaskit components and utilities are available as discrete npm packages.
 
+The `@atlassiansox/analytics-web-client` package is a peer dependency as it is a private package and so must be installed alongside the tool.
+
 #### Pre-requisites
 
 It's strongly advised to use the Atlaskit CSS reset in your whole project, or some Atlaskit components

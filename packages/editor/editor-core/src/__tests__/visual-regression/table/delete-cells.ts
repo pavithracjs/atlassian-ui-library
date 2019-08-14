@@ -1,27 +1,32 @@
 import { waitForTooltip } from '@atlaskit/visual-regression/helper';
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import adf from './__fixtures__/full-width-table.adf.json';
 import tableWithFirstColumnMerged from './__fixtures__/table-3x3-with-two-cells-merged-on-first-row.adf.json';
 import {
   tableSelectors,
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
-
-import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Delete in table:', () => {
-  let page: any;
+  let page: Page;
+  beforeAll(async () => {
+    // @ts-ignore
+    page = global.page;
+  });
+
+  const initEditor = async (adf: Object) => {
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      viewport: { width: 1440, height: 400 },
+    });
+    await clickFirstCell(page);
+  };
 
   describe(`Full page`, () => {
-    beforeAll(async () => {
-      // @ts-ignore
-      page = global.page;
-    });
-
     beforeEach(async () => {
-      await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
-      await clickFirstCell(page);
-      await animationFrame(page);
+      await initEditor(adf);
     });
 
     afterEach(async () => {
@@ -53,13 +58,7 @@ describe('Delete in table:', () => {
 
     describe('with cell merged', () => {
       beforeEach(async () => {
-        await initFullPageEditorWithAdf(
-          page,
-          tableWithFirstColumnMerged,
-          Device.LaptopHiDPI,
-        );
-        await clickFirstCell(page);
-        await animationFrame(page);
+        await initEditor(tableWithFirstColumnMerged);
       });
 
       it('should show danger when hovers to remove column', async () => {

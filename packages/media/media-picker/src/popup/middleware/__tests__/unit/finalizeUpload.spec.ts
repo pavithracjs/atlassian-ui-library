@@ -10,6 +10,7 @@ import {
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
+import { resetView } from '../../../actions';
 import finalizeUploadMiddleware, { finalizeUpload } from '../../finalizeUpload';
 import {
   FinalizeUploadAction,
@@ -212,5 +213,13 @@ describe('finalizeUploadMiddleware', () => {
       name: 'some-file-name',
       size: 12345,
     });
+  });
+
+  it('should call reset view', async () => {
+    const { fetcher, store, action } = setup();
+
+    await finalizeUpload(fetcher, store, action);
+
+    expect(store.dispatch).toHaveBeenCalledWith(resetView());
   });
 });

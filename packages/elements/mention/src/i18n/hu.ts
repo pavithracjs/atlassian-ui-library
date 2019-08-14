@@ -6,7 +6,7 @@
  */
 // Hungarian
 export default {
-  'fabric.mention.unknow.user.error': 'Ismeretlen felhasználó: {id}',
+  'fabric.mention.unknow.user.error': 'Ismeretlen felhasználó: {userId}',
   'fabric.mention.noAccess.warning':
     '{name} nem kap értesítést, mert nincs hozzáférése.',
   'fabric.mention.noAccess.label': 'Nincs hozzáférés',
@@ -23,4 +23,12 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ tag',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ tag, ideértve téged is',
+  'fabric.elements.mentions.team.mention.highlight.title':
+    'Említsd meg csapatodat',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Egyetlen kattintással mindenkit felvehetsz az oldalra. Nincs csapatod?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Hozz létre egyet.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Bezárás',
 };
