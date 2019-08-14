@@ -23,7 +23,7 @@ export interface MediaSingleNodeProps {
   mediaPluginOptions?: MediaPMPluginOptions;
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
   fullWidthMode?: boolean;
   mediaPluginState: MediaPluginState;
   dispatchAnalyticsEvent: DispatchAnalyticsEvent;
