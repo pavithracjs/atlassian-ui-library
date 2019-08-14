@@ -27,10 +27,7 @@ import { shallow } from 'enzyme';
 import { ReactElement } from 'react';
 import { IntlProvider } from 'react-intl';
 import commonMessages from '../../../../../messages';
-import {
-  FloatingToolbarButton,
-  FloatingToolbarCustom,
-} from '../../../../../plugins/floating-toolbar/types';
+import { FloatingToolbarCustom } from '../../../../../plugins/floating-toolbar/types';
 import Button from '../../../../../plugins/floating-toolbar/ui/Button';
 import { MediaOptions } from '../../../../../plugins/media';
 import {
@@ -42,7 +39,6 @@ import {
   AnnotationToolbar,
   messages as annotateMessages,
 } from '../../../../../plugins/media/toolbar/annotation';
-import { Command } from '../../../../../types';
 import { setNodeSelection } from '../../../../../utils';
 import {
   getFreshMediaProvider,
@@ -50,6 +46,10 @@ import {
   testCollectionName,
 } from '../_utils';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import {
+  getToolbarItems,
+  findToolbarBtn,
+} from '../../floating-toolbar/_helpers';
 
 describe('media', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
@@ -114,8 +114,9 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl);
       expect(toolbar).toBeDefined();
-      const removeButton = toolbar!.items.find(
-        item => item.type === 'button' && item.title === removeTitle,
+      const removeButton = findToolbarBtn(
+        getToolbarItems(toolbar!, editorView),
+        removeTitle,
       );
 
       expect(removeButton).toBeDefined();
@@ -129,7 +130,7 @@ describe('media', () => {
       const { editorView } = editor(docWithMediaSingle);
 
       const toolbar = floatingToolbar(editorView.state, intl, {
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(11);
@@ -140,7 +141,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(8);
@@ -152,11 +153,13 @@ describe('media', () => {
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
         allowAnnotation: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(9);
-      const item = toolbar!.items.find(cmd => cmd.type === 'custom');
+      const item = getToolbarItems(toolbar!, editorView).find(
+        cmd => cmd.type === 'custom',
+      );
       expect(item).toBeDefined();
     });
 
@@ -165,7 +168,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'comment',
+        allowAdvancedToolBarOptions: false,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -183,7 +186,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -201,7 +204,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -212,7 +215,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -225,7 +228,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -236,9 +239,10 @@ describe('media', () => {
       setNodeSelection(editorView, 0);
 
       const toolbar = floatingToolbar(editorView.state, intl);
-      const removeButton = toolbar!.items.find(
-        item => item.type === 'button' && item.title === removeTitle,
-      ) as FloatingToolbarButton<Command>;
+      const removeButton = findToolbarBtn(
+        getToolbarItems(toolbar!, editorView),
+        removeTitle,
+      );
 
       removeButton.onClick(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(doc(p()));
@@ -252,11 +256,13 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
-      const button = toolbar!.items.find(
-        item => item.type === 'button' && item.title === alignLeftTitle,
-      ) as FloatingToolbarButton<Command>;
+
+      const button = findToolbarBtn(
+        getToolbarItems(toolbar!, editorView),
+        alignLeftTitle,
+      );
 
       button.onClick(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(
@@ -303,12 +309,13 @@ describe('media', () => {
         const toolbar = floatingToolbar(editorView.state, intl, {
           allowResizing: true,
           allowAnnotation: true,
-          appearance: 'full-page',
+          allowAdvancedToolBarOptions: true,
         });
 
-        const annotateToolbarComponent = toolbar!.items.find(
-          item => item.type === 'custom',
-        ) as FloatingToolbarCustom;
+        const annotateToolbarComponent = getToolbarItems(
+          toolbar!,
+          editorView,
+        ).find(item => item.type === 'custom') as FloatingToolbarCustom;
 
         const annotationToolbar = shallow(annotateToolbarComponent.render(
           editorView,

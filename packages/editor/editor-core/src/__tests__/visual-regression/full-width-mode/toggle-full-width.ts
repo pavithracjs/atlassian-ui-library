@@ -116,7 +116,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
 
     it('handles breakout mode + gap cursor', async () => {
       const panelContentSelector = '.ak-editor-panel__content';
-      await initEditor(layoutWithBreakoutAdf);
+      await initEditor(layoutWithBreakoutAdf, { width: 1440, height: 500 });
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
       await toggleFullWidthProp({

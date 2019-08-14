@@ -1,0 +1,1 @@
+ED-7357 - Refactor scroll gutter plugin to use ProseMirror scrolling hooks, FM-2210 - Enable scroll gutter plugin for mobile appearance.

@@ -103,6 +103,7 @@ const FloatingContextualMenu = ({
           )}
           isOpen={isOpen}
           targetCellPosition={targetCellPosition}
+          allowColumnSorting={pluginConfig && pluginConfig.allowColumnSorting}
           allowMergeCells={pluginConfig!.allowMergeCells}
           allowBackgroundColor={pluginConfig!.allowBackgroundColor}
           selectionRect={selectionRect}

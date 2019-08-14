@@ -57,22 +57,6 @@ describe('hyperlink', () => {
     });
   });
 
-  describe('quick insert', () => {
-    it('should trigger link typeahead invoked analytics event', async () => {
-      const { editorView, sel } = editor(doc(p('{<>}')));
-      insertText(editorView, '/Link', sel);
-      sendKeyToPm(editorView, 'Enter');
-
-      expect(createAnalyticsEvent).toHaveBeenCalledWith({
-        action: 'invoked',
-        actionSubject: 'typeAhead',
-        actionSubjectId: 'linkTypeAhead',
-        attributes: { inputMethod: 'quickInsert' },
-        eventType: 'ui',
-      });
-    });
-  });
-
   describe('floating toolbar', () => {
     let waitForAnimationFrame: any;
     let getFloatingToolbarSpy: jest.SpyInstance<
@@ -131,6 +115,50 @@ describe('hyperlink', () => {
           ]),
         }),
       );
+    });
+  });
+
+  describe('analytics', () => {
+    it('should fire event when open link typeahead', async () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, '/Link', sel);
+      sendKeyToPm(editorView, 'Enter');
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'invoked',
+        actionSubject: 'typeAhead',
+        actionSubjectId: 'linkTypeAhead',
+        attributes: { inputMethod: 'quickInsert' },
+        eventType: 'ui',
+      });
+    });
+
+    it('should fire event when a link is auto-detected when typing', async () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, 'https://www.atlassian.com ', sel);
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'autoDetect' },
+        nonPrivacySafeAttributes: { linkDomain: 'atlassian.com' },
+        eventType: 'track',
+      });
+    });
+
+    it('should fire event when insert link via autoformatting', async () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, '[Atlassian](https://www.atlassian.com)', sel);
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'autoformatting' },
+        nonPrivacySafeAttributes: { linkDomain: 'atlassian.com' },
+        eventType: 'track',
+      });
     });
   });
 });

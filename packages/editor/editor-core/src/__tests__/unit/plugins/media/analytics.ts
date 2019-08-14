@@ -127,7 +127,7 @@ describe('Media Analytics', () => {
       const imageNoExtension: MediaFile = {
         ...imageFile,
         id: '3',
-        type: '',
+        type: 'image/png',
         name: 'bettong',
       };
       insertMedia(imageNoExtension);

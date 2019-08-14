@@ -1,0 +1,1 @@
+ED-7288: reduces the number of DOM nodes in table cells, changes the way resize handles are positioned

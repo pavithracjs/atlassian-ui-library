@@ -19,10 +19,17 @@ export const BlockCard: FC<BlockCardProps> = ({
   handleErrorRetry,
   handleFrameClick,
   isSelected,
+  onResolve,
 }) => {
   switch (status) {
     case 'pending':
-      return <CardLinkView link={url} isSelected={isSelected} />;
+      return (
+        <CardLinkView
+          link={url}
+          isSelected={isSelected}
+          onClick={handleFrameClick}
+        />
+      );
     case 'resolving':
       return (
         <BlockCardResolvingView
@@ -31,9 +38,18 @@ export const BlockCard: FC<BlockCardProps> = ({
         />
       );
     case 'resolved':
+      const props = extractBlockPropsFromJSONLD(
+        (details && details.data) || {},
+      );
+
+      if (onResolve) {
+        onResolve({ title: props.title && props.title.text, url });
+      }
+
       return (
         <BlockCardResolvedView
-          {...extractBlockPropsFromJSONLD((details && details.data) || {})}
+          {...props}
+          link={url}
           isSelected={isSelected}
           onClick={handleFrameClick}
         />

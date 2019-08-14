@@ -39,6 +39,7 @@ import {
   getPluginState,
 } from '../../../../plugins/table/pm-plugins/main';
 import { EditorView } from 'prosemirror-view';
+import { splitCell } from '../../../../plugins/table/commands/misc';
 
 describe('table plugin: actions', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -47,7 +48,9 @@ describe('table plugin: actions', () => {
     createEditor({
       doc,
       editorProps: {
-        allowTables: true,
+        allowTables: {
+          allowHeaderRow: true,
+        },
         allowPanel: true,
       },
       pluginKey,
@@ -633,6 +636,73 @@ describe('table plugin: actions', () => {
           expect(editorView.state.storedMarks).toBeNull();
         });
       });
+    });
+  });
+
+  describe('#splitCell', () => {
+    /**
+     * | th | th | th |
+     *  ----      ----
+     * | td |    | td |
+     *
+     * If header row is enabled should split into:
+     *
+     * | th | th | th |
+     *  ---- ---- ----
+     * | th | td | td |
+     */
+    it('should keep right column header and cells after split', () => {
+      const { editorView } = editor(
+        doc(
+          table()(
+            tr(th()(p('')), th({ rowspan: 2 })(p('foo{<>}')), th()(p(''))),
+            tr(td()(p('')), td()(p(''))),
+          ),
+        ),
+      );
+
+      splitCell(editorView.state, editorView.dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table()(
+            tr(th()(p('')), th()(p('foo')), th()(p(''))),
+            tr(td()(p('')), td()(p('')), td()(p(''))),
+          ),
+        ),
+      );
+    });
+
+    /**
+     * | th | th | th |
+     * |   th    | td |
+     *
+     * If header column is enabled should split into:
+     *
+     * | th | th | th |
+     * | th | td | td |
+     */
+    test('should keep right row header and cells after split', () => {
+      const { editorView } = editor(
+        doc(
+          table()(
+            tr(th()(p('')), th()(p('')), th()(p(''))),
+            tr(td({ colspan: 2 })(p('foo{<>}')), td()(p(''))),
+          ),
+        ),
+      );
+      toggleHeaderColumn(editorView.state, editorView.dispatch); // Activate header columns first
+
+      splitCell(editorView.state, editorView.dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table()(
+            tr(th()(p('')), th()(p('')), th()(p(''))),
+            tr(th()(p('foo')), td()(p('')), td()(p(''))),
+          ),
+        ),
+      );
     });
   });
 });

@@ -29,7 +29,7 @@ class TestReactEditorView extends ReactEditorView<{
   getPlugins(editorProps: EditorProps): EditorPlugin[] {
     return (
       this.props.plugins ||
-      super.getPlugins(editorProps, this.props.createAnalyticsEvent)
+      super.getPlugins(editorProps, undefined, this.props.createAnalyticsEvent)
     );
   }
 }

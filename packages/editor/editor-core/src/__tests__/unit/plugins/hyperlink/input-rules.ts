@@ -371,6 +371,7 @@ describe('hyperlink', () => {
         actionSubjectId: 'link',
         attributes: { inputMethod: 'autoDetect' },
         eventType: 'track',
+        nonPrivacySafeAttributes: { linkDomain: 'atlassian.com' },
       });
     });
 
@@ -383,6 +384,20 @@ describe('hyperlink', () => {
         actionSubjectId: 'link',
         attributes: { inputMethod: 'autoformatting' },
         eventType: 'track',
+        nonPrivacySafeAttributes: { linkDomain: 'foo' },
+      });
+    });
+
+    it('with only the domain', () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, 'http://foo.org/sensitive/data ', sel, sel);
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'autoDetect' },
+        eventType: 'track',
+        nonPrivacySafeAttributes: { linkDomain: 'foo.org' },
       });
     });
   });
