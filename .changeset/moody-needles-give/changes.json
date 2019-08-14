@@ -1,0 +1,23 @@
+{
+  "releases": [
+    { "name": "@atlaskit/analytics", "type": "patch" },
+    { "name": "@atlaskit/avatar", "type": "patch" },
+    { "name": "@atlaskit/drawer", "type": "patch" },
+    { "name": "@atlaskit/dropdown-menu", "type": "patch" },
+    { "name": "@atlaskit/droplist", "type": "patch" },
+    { "name": "@atlaskit/field-base", "type": "patch" },
+    { "name": "@atlaskit/field-radio-group", "type": "patch" },
+    { "name": "@atlaskit/field-range", "type": "patch" },
+    { "name": "@atlaskit/field-text-area", "type": "patch" },
+    { "name": "@atlaskit/field-text", "type": "patch" },
+    { "name": "@atlaskit/form", "type": "patch" },
+    { "name": "@atlaskit/input", "type": "patch" },
+    { "name": "@atlaskit/layer", "type": "patch" },
+    { "name": "@atlaskit/multi-select", "type": "patch" },
+    { "name": "@atlaskit/navigation", "type": "patch" },
+    { "name": "@atlaskit/onboarding", "type": "patch" },
+    { "name": "@atlaskit/single-select", "type": "patch" },
+    { "name": "@atlaskit/size-detector", "type": "patch" }
+  ],
+  "dependents": []
+}
