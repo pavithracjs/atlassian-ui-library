@@ -65,7 +65,7 @@ let cli = meow(
 const input = cli.input[0] || '';
 const commitHash = input.substr(0, 12);
 
-const errors = validateOptions({ commitHash, ...cli.flags });
+const errors = validateOptions(commitHash, { ...cli.flags });
 
 if (errors.length === 0) {
   _installFromCommit(commitHash, cli.flags).catch(e => process.exit(1));
