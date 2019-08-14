@@ -47,6 +47,11 @@ const getFreshMediaProvider = () =>
     collectionName: testCollectionName,
   });
 
+const getLastMediaNodeUpdaterMockInstance = (): MediaNodeUpdater => {
+  const instances = (MediaNodeUpdater as any).instances;
+  return instances[instances.length - 1];
+};
+
 describe('nodeviews/mediaSingle', () => {
   let pluginState: MediaPluginState;
   const mediaNodeAttrs = {
@@ -119,7 +124,6 @@ describe('nodeviews/mediaSingle', () => {
     } as any) as MediaPluginState;
 
     getDimensions = (wrapper: ReactWrapper) => (): Promise<any> => {
-      console.log('!!!');
       if ((wrapper.props() as any).node.firstChild.attrs.type === 'external') {
         return Promise.resolve(false);
       }
@@ -366,7 +370,7 @@ describe('nodeviews/mediaSingle', () => {
   });
 
   describe('when dimensions are missing on images', () => {
-    it.only('asks media APIs for dimensions when not in ADF and updates it', async () => {
+    it('asks media APIs for dimensions when not in ADF and updates it', async () => {
       const mediaNodeAttrs = {
         id: 'foo',
         type: 'file',
@@ -392,18 +396,16 @@ describe('nodeviews/mediaSingle', () => {
         />,
       );
 
-      (MediaNodeUpdater as any).resolve(
+      (MediaNodeUpdater as any).setMock(
         'getRemoteDimensions',
         getDimensions(wrapper),
       );
 
-      await getDimensions(wrapper)();
+      await (wrapper.instance() as any).componentDidMount();
 
-      const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
-      console.log(instances.length);
-      // instances[0].getRemoteDimensions = getDimensions(wrapper);
-
-      expect(instances[0].updateDimensions).toHaveBeenCalledWith({
+      expect(
+        getLastMediaNodeUpdaterMockInstance().updateDimensions,
+      ).toHaveBeenCalledWith({
         id: 'foo',
         height: 100,
         width: 100,
@@ -518,7 +520,7 @@ describe('nodeviews/mediaSingle', () => {
     expect(wrapper.state('viewMediaClientConfig')).toBeDefined();
   });
 
-  it.skip('should call updateFileAttrs if mediaProvider changes', async () => {
+  it('should call updateFileAttrs if mediaProvider changes', async () => {
     const mediaNodeAttrs = {
       id: 'some-id',
       type: 'file',
@@ -545,6 +547,6 @@ describe('nodeviews/mediaSingle', () => {
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });
 
-    // expect(mediaNodeUpdaterDummy.updateFileAttrs).toBeCalled();
+    expect(getLastMediaNodeUpdaterMockInstance().updateFileAttrs).toBeCalled();
   });
 });

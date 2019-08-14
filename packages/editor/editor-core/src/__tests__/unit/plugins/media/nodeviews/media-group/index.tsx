@@ -21,6 +21,7 @@ import {
 import MediaGroup from '../../../../../../plugins/media/nodeviews/mediaGroup';
 import { EditorAppearance } from '../../../../../../types';
 import { MediaNodeUpdater } from '../../../../../../plugins/media/nodeviews/mediaNodeUpdater';
+const MockMediaNodeUpdater = MediaNodeUpdater as jest.Mock<MediaNodeUpdater>;
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -33,12 +34,20 @@ describe('nodeviews/mediaGroup', () => {
   let pluginState: MediaPluginState;
   let mediaProvider: Promise<MediaProvider>;
   let contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+
   const mediaNode = media({
     id: 'foo',
     type: 'file',
     collection: 'collection',
   })();
+
+  const externalMediaNode = media({
+    type: 'external',
+    url: 'some-url',
+  })();
+
   const view = {} as EditorView;
+
   beforeEach(() => {
     mediaProvider = getFreshMediaProvider();
     contextIdentifierProvider = Promise.resolve({
@@ -50,7 +59,7 @@ describe('nodeviews/mediaGroup', () => {
     pluginState.mediaGroupNodes = {};
     pluginState.handleMediaNodeRemoval = () => {};
     jest.spyOn(mediaStateKey, 'getState').mockImplementation(() => pluginState);
-    (MediaNodeUpdater as jest.Mock<MediaNodeUpdater>).mockReset(); // part of mocked class API, not original
+    MockMediaNodeUpdater.mockReset(); // part of mocked class API, not original
   });
 
   it('should re-render for custom media picker with no thumb', () => {
@@ -72,29 +81,66 @@ describe('nodeviews/mediaGroup', () => {
     expect(wrapper.length).toEqual(1);
   });
 
-  it('should create MediaNodeUpdators for each child node', async () => {
-    pluginState.getMediaOptions = () => ({ customMediaPicker: {} } as any);
+  describe('MediaNodeUpdater', () => {
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
 
-    const mediaGroupNode = mediaGroup(mediaNode);
-    const props = {
-      view: view,
-      node: mediaGroupNode(defaultSchema),
-      getPos: () => 1,
-      selected: null,
-      editorAppearance: 'full-page' as EditorAppearance,
-      mediaProvider,
-      contextIdentifierProvider,
+    const setup = async (node: any) => {
+      pluginState.getMediaOptions = () => ({ customMediaPicker: {} } as any);
+
+      const mediaGroupNode = mediaGroup(node);
+      const props = {
+        view: view,
+        node: mediaGroupNode(defaultSchema),
+        getPos: () => 1,
+        selected: null,
+        editorAppearance: 'full-page' as EditorAppearance,
+        mediaProvider,
+        contextIdentifierProvider,
+      };
+
+      const wrapper = mount(<MediaGroup {...props} />);
+
+      await nextTick();
+      await nextTick();
+
+      return {
+        wrapper,
+      };
     };
 
-    mount(<MediaGroup {...props} />);
+    it('should create a MediaNodeUpdater for each child node', async () => {
+      await setup(mediaNode);
 
-    await nextTick();
-    await nextTick();
+      expect(instances).toHaveLength(1);
+      expect(instances[0].copyNode).toHaveBeenCalled();
+    });
 
-    // get the mocked classes stored instances
-    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
-    expect(instances).toHaveLength(1);
-    expect(instances[0].copyNode).toHaveBeenCalled();
+    it('should not create a MediaNodeUpdater when node is external', async () => {
+      await setup(externalMediaNode);
+
+      expect(instances).toHaveLength(0);
+    });
+
+    it('should call MediaNodeUpdater.updateContextId when node contextId is not found', async () => {
+      (MediaNodeUpdater as any).setMock(
+        'getCurrentContextId',
+        jest.fn().mockReturnValue(undefined),
+      );
+      await setup(mediaNode);
+
+      expect(instances[0].updateContextId).toHaveBeenCalled();
+    });
+
+    it('should only call MediaNodeUpdater.copyNode when node from different collection', async () => {
+      (MediaNodeUpdater as any).setMock(
+        'isNodeFromDifferentCollection',
+        jest.fn().mockResolvedValue(false),
+      );
+      await setup(mediaNode);
+
+      expect(instances).toHaveLength(1);
+      expect(instances[0].copyNode).not.toHaveBeenCalled();
+    });
   });
 
   afterEach(() => {

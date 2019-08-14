@@ -115,7 +115,7 @@ const mediaPlugin = (
                   portalProviderAPI,
                   providerFactory,
                   pluginOptions && pluginOptions.allowLazyLoading,
-                  // props.appearance, TODO: required? not in ENR
+                  props.appearance,
                 ),
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,

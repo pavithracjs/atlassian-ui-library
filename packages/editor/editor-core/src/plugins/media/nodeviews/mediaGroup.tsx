@@ -67,6 +67,10 @@ export default class MediaGroup extends React.Component<
     this.updateMediaClientConfig();
 
     this.mediaNodes.forEach(async (node: PMNode) => {
+      if (node.attrs.type === 'external') {
+        return;
+      }
+
       const { view, mediaProvider, contextIdentifierProvider } = this.props;
       const mediaNodeUpdater = new MediaNodeUpdater({
         view,
@@ -75,10 +79,6 @@ export default class MediaGroup extends React.Component<
         node,
         isMediaSingle: false,
       });
-
-      if (node.attrs.type === 'external') {
-        return;
-      }
 
       const contextId = mediaNodeUpdater.getCurrentContextId();
       if (!contextId) {
@@ -234,7 +234,7 @@ export const ReactMediaGroupNode = (
   portalProviderAPI: PortalProviderAPI,
   providerFactory: ProviderFactory,
   allowLazyLoading?: boolean,
-  editorAppearance?: EditorAppearance,
+  editorAppearance?: any,
 ) => (node: PMNode, view: EditorView, getPos: () => number): NodeView => {
   return new MediaGroupNodeView(node, view, getPos, portalProviderAPI, {
     allowLazyLoading,
