@@ -1,0 +1,1 @@
+Use the build config similar to all the other components newly converted to TS
