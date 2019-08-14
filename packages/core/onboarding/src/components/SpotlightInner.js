@@ -57,11 +57,12 @@ class SpotlightInner extends React.Component<
     this.props.onClosed();
   }
 
-  isPositionFixed = (element: Element) =>
+  isPositionFixed = (element: HTMLElement) =>
     window.getComputedStyle(element).position === 'fixed';
 
-  hasPositionFixedParent = (element: Element) => {
-    const { offsetParent } = element;
+  hasPositionFixedParent = (element: HTMLElement) => {
+    // Cast to to any - offsetParent should be of type "HTMLElement" instead of "Element"
+    const { offsetParent } = (element: any);
     if (!offsetParent) {
       return false;
     }
@@ -73,7 +74,7 @@ class SpotlightInner extends React.Component<
     return this.hasPositionFixedParent(offsetParent);
   };
 
-  getTargetNodeRect = () => {
+  getTargetNodeStyle = () => {
     if (!canUseDOM) {
       return {};
     }
@@ -89,6 +90,7 @@ class SpotlightInner extends React.Component<
         left,
         top,
         width,
+        // fixed position holds the target in place if overflow/scroll is necessary
         position: 'fixed',
       };
     }
@@ -122,13 +124,13 @@ class SpotlightInner extends React.Component<
               <NodeResovler
                 innerRef={elem => this.setState({ replacementElement: elem })}
               >
-                <TargetReplacement {...this.getTargetNodeRect()} />
+                <TargetReplacement {...this.getTargetNodeStyle()} />
               </NodeResovler>
             ) : (
               <Clone
                 pulse={pulse}
                 target={target}
-                rect={this.getTargetNodeRect()}
+                style={this.getTargetNodeStyle()}
                 targetBgColor={targetBgColor}
                 targetNode={targetNode}
                 targetOnClick={targetOnClick}
