@@ -1,0 +1,1 @@
+Fix media picker's dropzone analytics event by including the necessary eventType key
