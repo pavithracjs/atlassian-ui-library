@@ -1,5 +1,13 @@
 # @atlaskit/dynamic-table
 
+## 13.1.8
+
+### Patch Changes
+
+- [patch][60e3ba3eed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60e3ba3eed):
+
+  Made table headers accessible and sortable with keyboard
+
 ## 13.1.7
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
