@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import {
   defaultCollectionName,
   createStorybookMediaClientConfig,
+  createUploadMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -20,7 +21,9 @@ import {
   Popup,
 } from '../src';
 
-const mediaClientConfig = createStorybookMediaClientConfig();
+const userMediaClientConfig = createUploadMediaClientConfig();
+const tenantMediaClientConfig = createStorybookMediaClientConfig();
+
 const dataSourceOptions = [
   { label: 'List', value: 'list' },
   { label: 'Collection', value: 'collection' },
@@ -46,7 +49,7 @@ export default class Example extends React.Component<{}, State> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker(mediaClientConfig, {
+    const popup = await MediaPicker(userMediaClientConfig, {
       uploadParams: {
         collection: defaultCollectionName,
       },
@@ -120,7 +123,7 @@ export default class Example extends React.Component<{}, State> {
       return (
         <div key={key} style={{ display: 'inline-block', margin: '10px' }}>
           <Card
-            mediaClientConfig={mediaClientConfig}
+            mediaClientConfig={tenantMediaClientConfig}
             identifier={identifier}
             dimensions={{
               width: 200,
