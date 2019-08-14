@@ -1,0 +1,1 @@
+FIND-133: Allow switcher to be rendered standalone (outside a drawer)
