@@ -3,6 +3,7 @@ import {
   waitForNoTooltip,
 } from '@atlaskit/visual-regression/helper';
 import {
+  hoverElementWithText,
   clickElementWithText,
   getBoundingRect,
   scrollToElement,
@@ -43,7 +44,10 @@ export const tableSelectors = {
   cornerButton: `.${ClassName.CONTROLS_CORNER_BUTTON}`,
   breakoutButton: `.${ClassName.LAYOUT_BUTTON}`,
   mergeCellsText: `Merge cells`,
+  sortColumnASC: `Sort column A → Z`,
+  sortColumnDESC: `Sort column Z → A`,
   splitCellText: `Split cell`,
+  tableWrapper: '.ProseMirror .pm-table-wrapper',
   tableOptionsText: `Table options`,
   removeRowButton: `button[title="Remove row"]`,
   removeColumnButton: `button[title="Remove column"]`,
@@ -103,6 +107,12 @@ export const selectCellOption = async (page: any, option: string) => {
   await page.waitForSelector(tableSelectors.contextualMenu);
   await page.click(tableSelectors.contextualMenu);
   await clickElementWithText({ page, tag: 'span', text: option });
+};
+
+export const hoverCellOption = async (page: any, option: string) => {
+  await page.waitForSelector(tableSelectors.contextualMenu);
+  await page.click(tableSelectors.contextualMenu);
+  await hoverElementWithText({ page, tag: 'span', text: option });
 };
 
 // colorIndex - index of the color button DOM node, values from 1 to 8

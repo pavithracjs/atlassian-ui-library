@@ -96,6 +96,7 @@ export default class GlobalNavigation extends Component<
     settingsDrawerWidth: 'wide',
     recentDrawerWidth: 'wide',
     inviteDrawerWidth: 'wide',
+    drawerBackIcon: null,
   };
 
   constructor(props: GlobalNavigationProps) {
@@ -442,6 +443,7 @@ export default class GlobalNavigation extends Component<
   render() {
     // TODO: Look into memoizing this to avoid memory bloat
     const { primaryItems, secondaryItems } = this.constructNavItems();
+    const { drawerBackIcon } = this.props;
 
     return (
       <NavigationAnalyticsContext
@@ -487,6 +489,7 @@ export default class GlobalNavigation extends Component<
                     ? 'narrow'
                     : this.props[`${drawerName}DrawerWidth`]
                 }
+                icon={drawerBackIcon}
               >
                 <ScreenTracker
                   name={analyticsIdMap[drawerName]}

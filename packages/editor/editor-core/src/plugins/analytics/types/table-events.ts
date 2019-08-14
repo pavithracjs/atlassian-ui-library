@@ -1,5 +1,6 @@
 import { TableAEP } from './events';
 import { INPUT_METHOD } from './enums';
+import { SortOrder } from '../../table/types';
 
 //#region Constants
 export enum TABLE_ACTION {
@@ -18,6 +19,7 @@ export enum TABLE_ACTION {
   ADDED_COLUMN = 'addedColumn',
   DELETED_ROW = 'deletedRow',
   DELETED_COLUMN = 'deletedColumn',
+  SORTED_COLUMN = 'sortedColumn',
 }
 
 export enum TABLE_BREAKOUT {
@@ -28,6 +30,10 @@ export enum TABLE_BREAKOUT {
 //#endregion
 
 //#region Type Helpers
+interface SortColumn {
+  sortOrder: SortOrder;
+}
+
 interface TotalRowAndColCount {
   totalRowCount: number;
   totalColumnCount: number;
@@ -120,6 +126,21 @@ type TableDeleteRowOrColumnAEP = TableAEP<
   } & TotalRowAndColCount,
   undefined
 >;
+
+type TableSortColumnAEP = TableAEP<
+  TABLE_ACTION.SORTED_COLUMN,
+  {
+    inputMethod:
+      | INPUT_METHOD.SHORTCUT
+      | INPUT_METHOD.CONTEXT_MENU
+      | INPUT_METHOD.BUTTON
+      | INPUT_METHOD.KEYBOARD;
+    position: number;
+  } & TotalRowAndColCount &
+    SortColumn,
+  undefined
+>;
+
 //#endregion
 
 export type TableEventPayload =
@@ -131,4 +152,5 @@ export type TableEventPayload =
   | TableChangeBreakoutAEP
   | TableCopyAndCutAEP
   | TableAddRowOrColumnAEP
+  | TableSortColumnAEP
   | TableDeleteRowOrColumnAEP;

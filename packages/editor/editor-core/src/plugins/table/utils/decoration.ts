@@ -38,6 +38,23 @@ export const findControlsHoverDecoration = (
 ): Decoration[] =>
   filterDecorationByKey(TableDecorations.ALL_CONTROLS_HOVER, decorationSet);
 
+export const createCellHoverDecoration = (
+  cells: Cell[],
+  type: 'warning',
+): Decoration[] =>
+  cells.map(cell =>
+    Decoration.node(
+      cell.pos,
+      cell.pos + cell.node.nodeSize,
+      {
+        class: ClassName.HOVERED_CELL_WARNING,
+      },
+      {
+        key: TableDecorations.CELL_CONTROLS_HOVER,
+      },
+    ),
+  );
+
 export const createControlsHoverDecoration = (
   cells: Cell[],
   type: 'row' | 'column' | 'table',

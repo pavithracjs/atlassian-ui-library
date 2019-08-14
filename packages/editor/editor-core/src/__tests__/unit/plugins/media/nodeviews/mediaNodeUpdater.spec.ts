@@ -2,11 +2,12 @@ jest.mock('@atlaskit/media-client');
 
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { EditorView } from 'prosemirror-view';
-import { getMediaClient } from '@atlaskit/media-client';
+import { getMediaClient, FileState } from '@atlaskit/media-client';
 import {
   getDefaultMediaClientConfig,
   asMockReturnValue,
   fakeMediaClient,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import * as commands from '../../../../../plugins/media/commands';
@@ -14,12 +15,16 @@ import {
   MediaNodeUpdater,
   MediaNodeUpdaterProps,
 } from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
+import * as mediaCommon from '../../../../../plugins/media/utils/media-common';
 import { MediaProvider } from '../../../../../plugins/media/pm-plugins/main';
 
 describe('MediaNodeUpdater', () => {
   const setup = (props?: Partial<MediaNodeUpdaterProps>) => {
     jest.resetAllMocks();
     jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => {});
+    jest
+      .spyOn(mediaCommon, 'getViewMediaClientConfigFromMediaProvider')
+      .mockReturnValue(getDefaultMediaClientConfig());
 
     const mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);
@@ -82,6 +87,39 @@ describe('MediaNodeUpdater', () => {
         {
           __contextId: 'object-id',
           contextId: 'object-id',
+        },
+        true,
+      );
+    });
+  });
+
+  describe('updateFileAttrs()', () => {
+    it('should update node attrs with file attributes', async () => {
+      const { mediaNodeUpdater } = setup();
+
+      const mediaClient = fakeMediaClient();
+
+      const fileState: Partial<FileState> = {
+        size: 10,
+        name: 'some-file',
+        mimeType: 'image/jpeg',
+      };
+
+      asMock(mediaClient.file.getCurrentState).mockReturnValue(
+        Promise.resolve(fileState),
+      );
+
+      asMockReturnValue(getMediaClient, mediaClient);
+
+      await mediaNodeUpdater.updateFileAttrs();
+
+      expect(commands.updateMediaNodeAttrs).toBeCalledTimes(1);
+      expect(commands.updateMediaNodeAttrs).toBeCalledWith(
+        'source-file-id',
+        {
+          __fileName: 'some-file',
+          __fileMimeType: 'image/jpeg',
+          __fileSize: 10,
         },
         true,
       );

@@ -1,5 +1,26 @@
 # @atlaskit/editor-core
 
+## 112.41.3
+
+### Patch Changes
+
+- [patch][af9fb044da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af9fb044da):
+
+  CEMS-201: Fix icon sizes in block extension headers
+
+## 112.41.2
+
+- Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+  - @atlaskit/editor-common@39.17.2
+  - @atlaskit/renderer@49.7.7
+  - @atlaskit/media-card@63.3.9
+  - @atlaskit/media-core@30.0.9
+  - @atlaskit/media-editor@36.2.7
+  - @atlaskit/media-filmstrip@34.3.1
+  - @atlaskit/media-picker@46.0.3
+  - @atlaskit/media-test-helpers@24.3.5
+  - @atlaskit/media-client@2.0.0
+
 ## 112.41.1
 
 - Updated dependencies [4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):

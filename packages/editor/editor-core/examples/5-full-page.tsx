@@ -191,6 +191,7 @@ class ExampleEditorComponent extends React.Component<
               allowTextColor={true}
               allowTables={{
                 advanced: true,
+                allowColumnSorting: true,
               }}
               allowBreakout={true}
               allowJiraIssue={true}

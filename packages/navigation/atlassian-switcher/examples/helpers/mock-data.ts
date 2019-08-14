@@ -71,7 +71,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
             url: null,
           },
           {
-            activityCount: 2,
+            activityCount: 200,
             productType: 'JIRA_SOFTWARE',
             url: null,
           },

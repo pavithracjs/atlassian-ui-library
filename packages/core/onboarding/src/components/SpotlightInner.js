@@ -5,6 +5,7 @@ import Portal from '@atlaskit/portal';
 import ScrollLock from 'react-scrolllock';
 import NodeResovler from 'react-node-resolver';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { canUseDOM } from 'exenv';
 import { Fade } from './Animation';
 import Clone from './Clone';
 import SpotlightDialog from './SpotlightDialog';
@@ -56,6 +57,37 @@ class SpotlightInner extends React.Component<
     this.props.onClosed();
   }
 
+  isPositionFixed = (element: Element) =>
+    window.getComputedStyle(element).position === 'fixed';
+
+  getTargetNodeRect = () => {
+    if (!canUseDOM) {
+      return {};
+    }
+    const { targetNode } = this.props;
+    const { offsetParent } = targetNode;
+    const { height, left, top, width } = targetNode.getBoundingClientRect();
+
+    if (
+      this.isPositionFixed(targetNode) ||
+      (offsetParent && this.isPositionFixed(offsetParent))
+    ) {
+      return {
+        height,
+        left,
+        top,
+        width,
+      };
+    }
+
+    return {
+      height,
+      left: left + window.pageXOffset,
+      top: top + window.pageYOffset,
+      width,
+    };
+  };
+
   render() {
     const {
       pulse,
@@ -67,13 +99,6 @@ class SpotlightInner extends React.Component<
       targetReplacement: TargetReplacement,
     } = this.props;
     const { replacementElement } = this.state;
-    const { height, left, top, width } = targetNode.getBoundingClientRect();
-    const rect = {
-      height,
-      left: left + window.pageXOffset,
-      top: top + window.pageYOffset,
-      width,
-    };
 
     return (
       <SpotlightTransitionConsumer>
@@ -83,13 +108,13 @@ class SpotlightInner extends React.Component<
               <NodeResovler
                 innerRef={elem => this.setState({ replacementElement: elem })}
               >
-                <TargetReplacement {...rect} />
+                <TargetReplacement {...this.getTargetNodeRect()} />
               </NodeResovler>
             ) : (
               <Clone
                 pulse={pulse}
                 target={target}
-                rect={rect}
+                rect={this.getTargetNodeRect()}
                 targetBgColor={targetBgColor}
                 targetNode={targetNode}
                 targetOnClick={targetOnClick}

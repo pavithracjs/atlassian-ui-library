@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 11.2.0
+
+### Minor Changes
+
+- [minor][f0887d7b06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f0887d7b06):
+
+  Faster search now works for Jira
+
+## 11.1.2
+
+### Patch Changes
+
+- [patch][705280759d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/705280759d):
+
+  Support pre-fetching in Jira
+
+## 11.1.1
+
+### Patch Changes
+
+- [patch][a047bbaff3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a047bbaff3):
+
+  Fixed a minor bug with Jira prefetching
+
+## 11.1.0
+
+### Minor Changes
+
+- [minor][f874437a5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f874437a5c):
+
+  Remove feature flag to get jira recent items from the aggregator
+
+## 11.0.2
+
+### Patch Changes
+
+- [patch][3aae2cb8c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3aae2cb8c7):
+
+  Move @types/seedrandom from dependencies to devDependencies.
+
 ## 11.0.1
 
 ### Patch Changes

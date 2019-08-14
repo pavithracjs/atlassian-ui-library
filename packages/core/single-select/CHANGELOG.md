@@ -1,5 +1,13 @@
 # @atlaskit/single-select
 
+## 8.0.7
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
 ## 8.0.6
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

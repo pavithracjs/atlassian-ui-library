@@ -1,5 +1,13 @@
 # @atlaskit/dependency-version-analytics
 
+## 0.1.5
+
+### Patch Changes
+
+- [patch][b9b8222978](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b9b8222978):
+
+  @types/node-fetch was declared in devDependencies and dependencies. Move @types/node-fetch, @types/node, @types/url-parse from dependencies to devDependencies.
+
 ## 0.1.4
 
 ### Patch Changes

@@ -102,10 +102,10 @@ const JIRA_RECENT_ITEMS = [
   {
     id: 'jira-object-result',
     hasContainerId: true,
-    resultsCount: 7,
+    resultsCount: 8,
   },
   {
-    id: 'jira-object-result',
+    id: 'jira-project-result',
     hasContainerId: false,
     resultsCount: 6,
   },
@@ -384,7 +384,7 @@ const getRecentItems = (product: string) =>
       it('should trigger result selected', () => {
         keyPress('Enter');
         const results = wrapper.find(ResultBase);
-        const expectedResultsCount = product === 'confluence' ? 18 : 17;
+        const expectedResultsCount = 18;
         expect(results.length).toBe(expectedResultsCount);
         const result = results.at(10);
         result.simulate('click', {
@@ -411,9 +411,9 @@ const getRecentItems = (product: string) =>
             : {
                 sectionId: 'recent-jira',
                 globalIndex: 10,
-                resultCount: 16, // does not include advanced search links
+                resultCount: 17, // does not include advanced search links
                 sectionIndex: 1,
-                indexWithinSection: 2,
+                indexWithinSection: 1,
                 trigger: 'click',
                 newTab: true,
                 type: 'jira-board',
@@ -443,7 +443,7 @@ const getRecentItems = (product: string) =>
             : {
                 sectionId: 'recent-jira',
                 globalIndex: 1,
-                resultCount: 17, // include advanced search links
+                resultCount: 18, // include advanced search links
                 sectionIndex: 0,
                 indexWithinSection: 0,
                 trigger: 'returnKey',

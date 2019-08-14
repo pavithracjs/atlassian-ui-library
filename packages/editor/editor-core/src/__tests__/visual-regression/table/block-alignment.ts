@@ -3,6 +3,7 @@ import {
   snapshot,
   initFullPageEditorWithAdf,
   initCommentEditorWithAdf,
+  editorCommentContentSelector,
 } from '../_utils';
 import adf from './__fixtures__/table-with-blocks.adf.json';
 import {
@@ -11,9 +12,10 @@ import {
 } from '../../__helpers/page-objects/_table';
 import { emojiReadySelector } from '../../__helpers/page-objects/_emoji';
 import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Table with block looks correct for fullpage:', () => {
-  let page: any;
+  let page: Page;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -58,7 +60,7 @@ describe('Table with block looks correct for fullpage:', () => {
 });
 
 describe('Table with block looks correct for comment:', () => {
-  let page: any;
+  let page: Page;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -66,7 +68,7 @@ describe('Table with block looks correct for comment:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page);
+    await snapshot(page, undefined, editorCommentContentSelector);
   });
 
   it('default layout ', async () => {

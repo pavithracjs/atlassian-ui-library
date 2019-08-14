@@ -25,6 +25,7 @@ import {
   WorklensProductType,
   ProductKey,
   RecommendationsEngineResponse,
+  ProductTopItemVariation,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
@@ -230,9 +231,15 @@ const getLinkDescription = (
 const getAvailableProductLinkFromSiteProduct = (
   connectedSites: ConnectedSite[],
   singleSite: boolean,
+  productTopItemVariation?: string,
 ): SwitcherItemType => {
+  // if productTopItemVariation is 'most-frequent-site', we show most frequently visited site at the top
+  const shouldEnableMostFrequentSortForTopItem =
+    productTopItemVariation === ProductTopItemVariation.mostFrequentSite;
+
   const topSite =
-    connectedSites.find(site => site.isCurrentSite) ||
+    (!shouldEnableMostFrequentSortForTopItem &&
+      connectedSites.find(site => site.isCurrentSite)) ||
     connectedSites.sort(
       (a, b) => b.product.activityCount - a.product.activityCount,
     )[0];
@@ -260,6 +267,7 @@ const getAvailableProductLinkFromSiteProduct = (
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
   cloudId: string | null | undefined,
+  productTopItemVariation?: string,
 ): SwitcherItemType[] => {
   const productsMap: { [key: string]: ConnectedSite[] } = {};
 
@@ -288,6 +296,7 @@ export const getAvailableProductLinks = (
       getAvailableProductLinkFromSiteProduct(
         connectedSites,
         availableProducts.sites.length === 1,
+        productTopItemVariation,
       )
     );
   }).filter(link => !!link);

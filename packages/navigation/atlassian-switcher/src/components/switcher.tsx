@@ -46,6 +46,7 @@ type SwitcherProps = {
   adminLinks: SwitcherItemType[];
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
+  productTopItemVariation?: string;
   manageLink?: string;
 };
 
@@ -127,6 +128,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       manageLink,
       hasLoaded,
       hasLoadedCritical,
+      productTopItemVariation,
     } = this.props;
 
     /**
@@ -145,6 +147,21 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const firstContentArrived = Boolean(licensedProductLinks.length);
 
+    let numberOfSites = firstContentArrived ? 1 : 0;
+    if (licensedProductLinks) {
+      const uniqueSets: { [key: string]: boolean } = {};
+      licensedProductLinks.forEach(link => {
+        (link.childItems || []).forEach(item => {
+          uniqueSets[item.label] = true;
+        });
+      });
+
+      const numbberOfUniqueSites = Object.keys(uniqueSets).length;
+      if (numbberOfUniqueSites > 0) {
+        numberOfSites = numbberOfUniqueSites;
+      }
+    }
+
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
@@ -156,6 +173,8 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
                 adminLinks: adminLinks.map(item => item.key),
                 fixedLinks: fixedLinks.map(item => item.key),
+                numberOfSites,
+                productTopItemVariation,
               }}
             />
           )}

@@ -3,6 +3,7 @@ import Editor, { EditorProps } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
 import CollapsedEditor from '../src/ui/CollapsedEditor';
+import ToolbarHelp from '../src/ui/ToolbarHelp';
 import { mention, emoji } from '@atlaskit/util-data-test';
 import { mediaProvider } from './5-full-page';
 import { EmojiProvider } from '../../../elements/emoji';
@@ -73,6 +74,11 @@ export class CommentEditorJiraBento extends React.Component<Props, State> {
                 allowTextColor={true}
                 allowTables={true}
                 allowPanel={true}
+                allowHelpDialog={true}
+                placeholder="We support markdown! Try **bold**, `inline code`, or ``` for code blocks."
+                primaryToolbarComponents={[
+                  <ToolbarHelp titlePosition="top" title="Help" />,
+                ]}
               />
             </CollapsedEditor>
           )}
