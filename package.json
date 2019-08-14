@@ -89,7 +89,7 @@
     "start:teamwork-ecosystem": "            yarn run website:start **/packages/teamwork-ecosystem/**"
   },
   "bolt": {
-    "version": "^0.21.1 || ^0.22.1 || ^0.23.1",
+    "version": "^0.23.1",
     "workspaces": [
       "build/*",
       "packages/*/*",
