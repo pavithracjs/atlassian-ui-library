@@ -60,23 +60,36 @@ class SpotlightInner extends React.Component<
   isPositionFixed = (element: Element) =>
     window.getComputedStyle(element).position === 'fixed';
 
+  hasPositionFixedParent = (element: Element) => {
+    const { offsetParent } = element;
+    if (!offsetParent) {
+      return false;
+    }
+
+    if (this.isPositionFixed(offsetParent)) {
+      return true;
+    }
+
+    return this.hasPositionFixedParent(offsetParent);
+  };
+
   getTargetNodeRect = () => {
     if (!canUseDOM) {
       return {};
     }
     const { targetNode } = this.props;
-    const { offsetParent } = targetNode;
     const { height, left, top, width } = targetNode.getBoundingClientRect();
 
     if (
       this.isPositionFixed(targetNode) ||
-      (offsetParent && this.isPositionFixed(offsetParent))
+      this.hasPositionFixedParent(targetNode)
     ) {
       return {
         height,
         left,
         top,
         width,
+        position: 'fixed',
       };
     }
 
@@ -85,6 +98,7 @@ class SpotlightInner extends React.Component<
       left: left + window.pageXOffset,
       top: top + window.pageYOffset,
       width,
+      position: 'absolute',
     };
   };
 
