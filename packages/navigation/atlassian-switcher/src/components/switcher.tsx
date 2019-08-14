@@ -192,7 +192,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           <Section
             sectionId="switchTo"
             title={
-              !disableHeadings && <FormattedMessage {...messages.switchTo} />
+              disableHeadings
+                ? null
+                : <FormattedMessage {...messages.switchTo} /> || null
             }
           >
             {licensedProductLinks.map(item => (
@@ -286,7 +288,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
           <Section
             sectionId="recent"
             title={
-              !disableHeadings && <FormattedMessage {...messages.recent} />
+              disableHeadings ? null : <FormattedMessage {...messages.recent} />
             }
           >
             {recentLinks.map(
@@ -308,7 +310,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           </Section>
           <Section
             sectionId="customLinks"
-            title={!disableHeadings && <FormattedMessage {...messages.more} />}
+            title={
+              disableHeadings ? null : <FormattedMessage {...messages.more} />
+            }
           >
             {customLinks.map(({ label, href, Icon }, idx) => (
               // todo: id in SwitcherItem should be consumed from custom link resolver
