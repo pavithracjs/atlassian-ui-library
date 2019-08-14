@@ -14,6 +14,7 @@ pipelines:
           script:
             # Note: in master, this script will rebase you onto latest origin/master.
             - source ./build-setup.sh
+            - ([[ "$BITBUCKET_BRANCH" == "master" ]]) || (echo "This build should only be run on master" && exit 1)
             - bolt install --pure-lockfile
             - (cd build/ci-scripts && yarn stop-if-older-build)
             - yarn build
@@ -179,6 +180,7 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
+            - ([[ "$BITBUCKET_BRANCH" == "master" ]]) || (echo "This build should only be run on master" && exit 1)
             - bolt install --pure-lockfile
             - cd website
             - WEBSITE_ENV=production yarn build
