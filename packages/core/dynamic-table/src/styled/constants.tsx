@@ -21,7 +21,7 @@ export const truncateStyle = ({
       `
     : ''} ${isFixedSize
     ? css`
-        overflow: visible;
+        overflow: hidden;
       `
     : ''};
   ${isFixedSize && shouldTruncate
