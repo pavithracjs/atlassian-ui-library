@@ -1,3 +1,6 @@
+// NOTE: for the purposes of this test we are mocking MediaNodeUpdater using __mocks__ version
+jest.mock('../../../../../../plugins/media/nodeviews/mediaNodeUpdater');
+
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
@@ -16,11 +19,7 @@ import {
   MediaProvider,
 } from '../../../../../../plugins/media/pm-plugins/main';
 import MediaGroup from '../../../../../../plugins/media/nodeviews/mediaGroup';
-
 import { EditorAppearance } from '../../../../../../types';
-
-// NOTE: for the purposes of this test we are mocking MediaNodeUpdater using __mocks__ version
-jest.mock('../../../../../../plugins/media/nodeviews/mediaNodeUpdater');
 import { MediaNodeUpdater } from '../../../../../../plugins/media/nodeviews/mediaNodeUpdater';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
