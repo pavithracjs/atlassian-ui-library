@@ -99,9 +99,9 @@ const LightSubtextWrapper = styled.span`
 const getI18nConfluenceContainerSubtext = (
   containerName: string,
   friendlyLastModified: string | undefined,
-  isComplexSearchExtensionsEnabled: boolean,
+  searchExtensionsEnabled: boolean,
 ) => {
-  if (isComplexSearchExtensionsEnabled) {
+  if (searchExtensionsEnabled) {
     const containerText = friendlyLastModified ? (
       <FormattedMessage
         {...messages.confluence_container_subtext_with_modified_date}
@@ -152,7 +152,7 @@ class ResultList extends React.Component<Props> {
           const subText = getI18nConfluenceContainerSubtext(
             confluenceResult.containerName,
             confluenceResult.friendlyLastModified,
-            confluenceFeatures.complexSearchExtensionsEnabled,
+            confluenceFeatures.searchExtensionsEnabled,
           );
 
           return (

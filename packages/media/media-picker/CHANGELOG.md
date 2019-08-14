@@ -1,5 +1,56 @@
 # @atlaskit/media-picker
 
+## 46.0.6
+
+### Patch Changes
+
+- [patch][15290ac8ad](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/15290ac8ad):
+
+  Fix issue where popup media-picker doesn't throw upload-end event
+
+## 46.0.5
+
+### Patch Changes
+
+- [patch][7c762529af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c762529af):
+
+  Move @types/bricks.js from dependencies to devDependencies.
+
+## 46.0.4
+
+### Patch Changes
+
+- [patch][116236c249](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/116236c249):
+
+  Instrument analytics for media-picker's dropzone draggedInto, draggedOut and droppedInto actions
+
+## 46.0.3
+
+- Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+  - @atlaskit/media-card@63.3.9
+  - @atlaskit/media-core@30.0.9
+  - @atlaskit/media-editor@36.2.7
+  - @atlaskit/media-store@12.0.6
+  - @atlaskit/media-test-helpers@24.3.5
+  - @atlaskit/media-viewer@43.2.8
+  - @atlaskit/media-client@2.0.0
+
+## 46.0.2
+
+### Patch Changes
+
+- [patch][da814b8ebc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da814b8ebc):
+
+  Bump media-picker to fix the master bbranch where bitbucket and npm are out of sync.
+
+## 46.0.1
+
+### Patch Changes
+
+- [patch][6744fe7753](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6744fe7753):
+
+  Adding dispatch for failure errors in media picker
+
 ## 46.0.0
 
 ### Major Changes

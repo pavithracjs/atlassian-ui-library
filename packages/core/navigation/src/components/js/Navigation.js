@@ -149,6 +149,13 @@ type State = {
   resizeDelta: number,
 };
 
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/navigation has been deprecated. Please use the @atlaskit/navigation-next package instead.',
+  );
+}
+
 class Navigation extends PureComponent<Props, State> {
   static defaultProps = {
     drawers: [],

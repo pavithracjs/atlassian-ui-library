@@ -4,6 +4,7 @@ import {
   inlineExtensionData,
   bodiedExtensionData,
 } from '@atlaskit/editor-test-helpers';
+import { StyledImage } from '../../../../../plugins/extension/ui/Extension/styles';
 
 import Lozenge, {
   ICON_SIZE,
@@ -13,12 +14,12 @@ import { PlaceholderFallback } from '../../../../../plugins/extension/ui/Extensi
 describe('@atlaskit/editor-core/ui/Extension/Lozenge', () => {
   it('should render image if extension has an image param', () => {
     const lozenge = shallow(<Lozenge node={inlineExtensionData[0] as any} />);
-    expect(lozenge.find('img')).toHaveLength(1);
+    expect(lozenge.find(StyledImage)).toHaveLength(1);
   });
 
   it('should render icon with fallback width and height', () => {
     const lozenge = shallow(<Lozenge node={inlineExtensionData[2] as any} />);
-    const img = lozenge.find('img');
+    const img = lozenge.find(StyledImage);
     expect(img).toHaveLength(1);
     expect(img.props()).toHaveProperty('height', ICON_SIZE);
     expect(img.props()).toHaveProperty('width', ICON_SIZE);

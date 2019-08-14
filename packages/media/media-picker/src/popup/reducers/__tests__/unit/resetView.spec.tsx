@@ -1,4 +1,5 @@
 import resetView from '../../resetView';
+import { State } from '../../../domain';
 
 describe('resetView reducer', () => {
   const action = { type: 'RESET_VIEW' };
@@ -23,47 +24,51 @@ describe('resetView reducer', () => {
     expect(newState.uploads).toEqual({});
   });
 
-  it('should not drop upload with progress 0', () => {
-    const oldState: any = {
+  it('should drop only fully uploaded and processed ones', () => {
+    const oldState: Partial<State> = {
       uploads: {
-        'some-file-id': { progress: 0 },
+        'ended-file-id': {
+          file: {} as any,
+          index: 0,
+          timeStarted: 0,
+          progress: 1,
+          events: [
+            {
+              name: 'upload-end',
+              data: {} as any,
+            },
+          ],
+        },
+        'errored-file-id': {
+          file: {} as any,
+          index: 0,
+          timeStarted: 0,
+          progress: 1,
+          events: [
+            {
+              name: 'upload-error',
+              data: {} as any,
+            },
+          ],
+        },
+        'non-finished-file-id': {
+          file: {} as any,
+          index: 0,
+          timeStarted: 0,
+          progress: 1,
+          events: [
+            {
+              name: 'upload-preview-update',
+              data: {} as any,
+            },
+          ],
+        },
       },
     };
 
-    const newState = resetView(oldState, action);
+    const newState = resetView(oldState as State, action);
 
-    expect(newState.uploads).toEqual({
-      'some-file-id': { progress: 0 },
-    });
-  });
-
-  it('should drop upload with progress undefined', () => {
-    const oldState: any = {
-      uploads: {
-        'some-file-id': {},
-      },
-    };
-
-    const newState = resetView(oldState, action);
-
-    expect(newState.uploads).toEqual({});
-  });
-
-  it('should leave only uncompleted uploads', () => {
-    const oldState: any = {
-      uploads: {
-        'first-file-id': { progress: 1 },
-        'second-file-id': { progress: 0.85 },
-        'third-file-id': { progress: 0.15 },
-      },
-    };
-
-    const newState = resetView(oldState, action);
-
-    expect(newState.uploads).toEqual({
-      'second-file-id': { progress: 0.85 },
-      'third-file-id': { progress: 0.15 },
-    });
+    expect(Object.keys(newState.uploads)).toEqual(['non-finished-file-id']);
   });
 
   it('should set empty selectedItems', () => {

@@ -19,6 +19,7 @@ import fileListUpdateHandler from './fileListUpdateHandler';
 import searchGiphyHandler from './searchGiphyHandler';
 import editorShowImageHandler from './editorShowImageHandler';
 import showPopupHandler from './showPopupHandler';
+import failureErrorLoggerHandler from './failureErrorLoggerHandler';
 
 import { Action, MiddlewareAPI } from 'redux';
 import { State } from '../../domain';
@@ -46,4 +47,5 @@ export default [
   searchGiphyHandler,
   editorShowImageHandler,
   showPopupHandler,
+  failureErrorLoggerHandler,
 ] as Array<(action: Action, store: MiddlewareAPI<State>) => HandlerResult>;

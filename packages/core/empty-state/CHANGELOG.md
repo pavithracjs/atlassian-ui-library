@@ -1,5 +1,13 @@
 # @atlaskit/empty-state
 
+## 6.0.0
+
+### Major Changes
+
+- [major][433311c16a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/433311c16a):
+
+  @atlaskit/empty-state has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 5.0.3
 
 ### Patch Changes

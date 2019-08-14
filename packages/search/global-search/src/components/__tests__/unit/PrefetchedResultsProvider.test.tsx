@@ -1,10 +1,14 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { QuickSearchContext } from '../../../api/types';
-import { mockConfluencePrefetchedData } from '../../../__tests__/unit/mocks/_mockPrefetchResults';
+import { QuickSearchContext, Scope } from '../../../api/types';
+import {
+  mockConfluencePrefetchedData,
+  mockJiraPrefetchedData,
+} from '../../../__tests__/unit/mocks/_mockPrefetchResults';
 
 jest.doMock('../../../api/prefetchResults', () => ({
   getConfluencePrefetchedData: mockConfluencePrefetchedData,
+  getJiraPrefetchedData: mockJiraPrefetchedData,
 }));
 
 import PrefetchedResultsProvider, {
@@ -13,7 +17,9 @@ import PrefetchedResultsProvider, {
 
 import {
   getConfluencePrefetchedData,
+  getJiraPrefetchedData,
   ConfluencePrefetchedResults,
+  JiraPrefetchedResults,
 } from '../../../api/prefetchResults';
 
 function render(
@@ -34,26 +40,28 @@ describe('PrefetchedResultsProvider', () => {
     jest.clearAllMocks();
   });
 
+  let cloudId = 'cloudId';
+  let prefetchedResultsHelper: jest.Mock;
+
+  const renderPrefetchComponent = (context: QuickSearchContext) => {
+    prefetchedResultsHelper = jest.fn();
+    const child = (
+      <GlobalSearchPreFetchContext.Consumer>
+        {prefetchedResults => {
+          prefetchedResultsHelper(prefetchedResults);
+          return <div />;
+        }}
+      </GlobalSearchPreFetchContext.Consumer>
+    );
+
+    render(context, child, cloudId);
+  };
+
   describe('confluence', () => {
     const context = 'confluence';
-    let cloudId = 'cloudId';
-    let prefetchedResultsHelper: jest.Mock;
-
-    beforeEach(() => {
-      prefetchedResultsHelper = jest.fn();
-      const child = (
-        <GlobalSearchPreFetchContext.Consumer>
-          {prefetchedResults => {
-            prefetchedResultsHelper(prefetchedResults);
-            return <div />;
-          }}
-        </GlobalSearchPreFetchContext.Consumer>
-      );
-
-      render(context, child, cloudId);
-    });
 
     it('should get confluence prefetch data', async () => {
+      renderPrefetchComponent(context);
       expect(getConfluencePrefetchedData).toHaveBeenCalled();
 
       const results = (getConfluencePrefetchedData as jest.Mock).mock.results[0]
@@ -67,10 +75,41 @@ describe('PrefetchedResultsProvider', () => {
     });
 
     it('should get ab test prefetch data', async () => {
+      renderPrefetchComponent(context);
       expect(getConfluencePrefetchedData).toHaveBeenCalled();
 
       const results = (getConfluencePrefetchedData as jest.Mock).mock.results[0]
         .value as ConfluencePrefetchedResults;
+
+      const promiseResult = await results.abTestPromise;
+
+      expect(promiseResult).toBeTruthy();
+    });
+  });
+
+  describe('jira', () => {
+    const context = 'jira';
+
+    it('should get jira prefetch data', async () => {
+      renderPrefetchComponent(context);
+      expect(getJiraPrefetchedData).toHaveBeenCalled();
+
+      const results = (getJiraPrefetchedData as jest.Mock).mock.results[0]
+        .value as JiraPrefetchedResults;
+
+      const promiseResult = await results.crossProductRecentItemsPromise;
+
+      expect(promiseResult).toBeTruthy();
+      expect(promiseResult[Scope.JiraIssue]).toBeDefined();
+      expect(promiseResult[Scope.JiraBoardProjectFilter]).toBeDefined();
+    });
+
+    it('should get ab test prefetch data', async () => {
+      renderPrefetchComponent(context);
+      expect(getJiraPrefetchedData).toHaveBeenCalled();
+
+      const results = (getJiraPrefetchedData as jest.Mock).mock.results[0]
+        .value as JiraPrefetchedResults;
 
       const promiseResult = await results.abTestPromise;
 

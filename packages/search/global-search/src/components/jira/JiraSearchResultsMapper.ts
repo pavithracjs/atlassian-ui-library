@@ -21,6 +21,7 @@ import { JiraFeatures } from '../../util/features';
 const DEFAULT_MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
 const MAX_PEOPLE = 3;
+export const MAX_RECENT_RESULTS_TO_SHOW = 3;
 
 const DEFAULT_JIRA_RESULTS_MAP: JiraResultsMap = {
   objects: [],

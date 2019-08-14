@@ -1,8 +1,18 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+${(
+  <SectionMessage
+    appearance="warning"
+    title="Note: @atlaskit/size-detector is deprecated."
+  >
+    Please use @atlaskit/width-detector instead.
+  </SectionMessage>
+)}
+
   Size Detector is a utility component that informs the child function of the available width and height.
 
   ## Usage

@@ -38,6 +38,7 @@ import {
   SearchResultsMap,
   FilterType,
   SearchParams,
+  RecentParams,
 } from '../../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../SearchResultsUtil';
 
@@ -55,11 +56,11 @@ const referralContextIdentifiers: ReferralContextIdentifiers = {
 
 const DEFAULT_FEATURES: ConfluenceFeatures = {
   abTest: DEFAULT_AB_TEST,
-  isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -89,6 +90,11 @@ const mockCrossProductSearchClient = {
   search(searchParams: SearchParams) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE) as any;
   },
+  getRecentItems(searchParams: RecentParams) {
+    return Promise.reject(
+      'Recent items is not supported for Confluence scopes',
+    );
+  },
   getAbTestDataForProduct() {
     return Promise.resolve(DEFAULT_AB_TEST) as any;
   },
@@ -97,6 +103,9 @@ const mockCrossProductSearchClient = {
   },
   getPeople() {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
+  getNavAutocompleteSuggestions() {
+    return Promise.resolve([]);
   },
 } as CrossProductSearchClient;
 
@@ -131,7 +140,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       (quickSearchContainer.props() as QuickSearchContainerProps<
         ConfluenceResultsMap
       >).getSearchResults('query', sessionId, 100, 0, []),
-    ).rejects.toEqual('error');
+    ).rejects.toEqual(new Error('error'));
   });
 
   it('should return recent viewed items', async () => {
@@ -250,6 +259,11 @@ describe('ConfluenceQuickSearchContainer', () => {
         search(params: SearchParams) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
+        getRecentItems() {
+          return Promise.reject(
+            'Recent items is not supported for Confluence scopes',
+          );
+        },
         getAbTestDataForProduct() {
           return Promise.resolve(DEFAULT_AB_TEST);
         },
@@ -258,6 +272,9 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
         getPeople() {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getNavAutocompleteSuggestions() {
+          return Promise.resolve([]);
         },
       },
     });
@@ -550,8 +567,8 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: 0,
           searchSessionId: mockSearchSessionId,
+          searchResultsTotalSize: 0,
         },
       );
 
@@ -647,6 +664,87 @@ describe('ConfluenceQuickSearchContainer', () => {
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
       const props = quickSearchContainer.props();
       expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+    });
+  });
+
+  describe('NavAutocomplete', () => {
+    it('should not call getNavAutocompleteSuggestions if isNavAutocompleteEnabled and isAutocompleteEnabled are false', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).toBeUndefined();
+    });
+
+    it('should call getNavAutocompleteSuggestions if isNavAutocompleteEnabled is true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES, isNavAutocompleteEnabled: true },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call getNavAutocompleteSuggestions if both isAutoEnabled and isNavAutocompleteEnabled are true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: {
+          ...DEFAULT_FEATURES,
+          isNavAutocompleteEnabled: true,
+          isAutocompleteEnabled: true,
+        },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
     });
   });
 });

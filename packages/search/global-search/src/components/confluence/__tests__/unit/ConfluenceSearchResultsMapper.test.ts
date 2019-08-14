@@ -28,11 +28,11 @@ const abTest = {
 
 const features: ConfluenceFeatures = {
   abTest,
-  isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 const searchSessionId = 'searchSessionId';

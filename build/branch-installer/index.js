@@ -2,39 +2,43 @@
 const log = console.log;
 const meow = require('meow');
 const chalk = require('chalk');
-const installFromBranch = require('./src/install-from-branch');
+const {
+  _installFromCommit,
+  validateOptions,
+} = require('./src/install-from-commit');
 
-let c = meow(
+let cli = meow(
   `
     Usage
-        $ atlaskit-branch-installer <branch-name>
+        $ atlaskit-branch-installer commitHash
       Options
-        --no-bolt Do not use bolt, use yarn.
+        --engine Which engine to use (bolt/yarn) [Default: yarn]
+        --cmd Command to run to install packages (add/upgrade) [Default: add]
         --dry-run Do not install the packages just print it
-        --verbose, -v Show what is going on
+        --verbose Show what is going on
+
+        [Advanced]
+        --packages Comma separated list of packages to install from commit [Default: all]
+        --timeout Maximum time to wait (in ms) for a manifest to be published for a commit [Default: 20000]
+        --interval How long to wait (in ms) between retries when looking for packages manifest [Default: 5000]
+
       Examples
-        $ atlaskit-branch-installer ED-1252-typofix
+        $ yarn atlaskit-branch-installer 6ce63f22816e --verbose
+        $ yarn atlaskit-branch-installer 6ce63f22816e --packages=@atlaskit/avatar,@atlaskit/editor-core
+        $ yarn atlaskit-branch-installer 6ce63f22816e --timeout=180000 --interval=10000 --engine=bolt --cmd=upgrade
 `,
   {
     flags: {
-      maxAttempts: {
-        type: 'number',
-        alias: 'a',
-        default: 1,
+      engine: {
+        type: 'string',
+        default: 'yarn',
       },
-      timeout: {
-        type: 'number',
-        alias: 't',
-        default: 2000,
-      },
-      bolt: {
-        type: 'boolean',
-        alias: 'bolt',
-        default: true,
+      cmd: {
+        type: 'string',
+        default: 'add',
       },
       dryRun: {
         type: 'boolean',
-        alias: 'd',
         default: false,
       },
       verbose: {
@@ -42,14 +46,31 @@ let c = meow(
         alias: 'v',
         default: false,
       },
+      packages: {
+        type: 'string',
+        default: 'all',
+      },
+      timeout: {
+        type: 'number',
+        default: 20000,
+      },
+      interval: {
+        type: 'number',
+        default: 5000,
+      },
     },
   },
 );
 
-const branchName = c.input[0];
+const input = cli.input[0] || '';
+const commitHash = input.substr(0, 12);
 
-if (branchName) {
-  installFromBranch(branchName, c.flags);
+const errors = validateOptions(commitHash, { ...cli.flags });
+
+if (errors.length === 0) {
+  _installFromCommit(commitHash, cli.flags).catch(e => process.exit(1));
 } else {
-  console.log(chalk.red('no branch name, no work to do. :D'));
+  console.error(chalk.red(errors.join('\n')));
+  cli.showHelp();
+  process.exit(1);
 }

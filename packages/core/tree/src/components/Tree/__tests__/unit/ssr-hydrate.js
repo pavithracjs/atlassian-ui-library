@@ -39,7 +39,7 @@ const App = () => (
   />
 );
 
-//TODO: https://ecosystem.atlassian.net/browse/AK-6450
+//TODO: https://ecosystem.atlassian.net/browse/AK-6450// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
 test.skip('should ssr then hydrate tree correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
