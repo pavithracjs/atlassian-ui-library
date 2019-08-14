@@ -52,11 +52,20 @@ export default class MediaSingleNode extends Component<
     viewMediaClientConfig: undefined,
   };
 
+  createMediaNodeUpdater = (props: MediaSingleNodeProps): MediaNodeUpdater => {
+    const node = this.props.node.firstChild;
+
+    return new MediaNodeUpdater({
+      ...props,
+      isMediaSingle: true,
+      node: node ? (node as PMNode) : this.props.node,
+    });
+  };
+
   componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
       this.setViewMediaClientConfig(nextProps);
-      const mediaNodeUpdater = new MediaNodeUpdater(nextProps);
-      mediaNodeUpdater.updateFileAttrs();
+      this.createMediaNodeUpdater(nextProps).updateFileAttrs();
     }
   }
 
@@ -74,17 +83,21 @@ export default class MediaSingleNode extends Component<
   };
 
   updateMediaNodeAttributes = async (props: MediaSingleNodeProps) => {
-    const mediaNodeUpdater = new MediaNodeUpdater(props);
+    const mediaNodeUpdater = this.createMediaNodeUpdater(props);
+
+    // we want the first child of MediaSingle (type "media")
+    const node = this.props.node.firstChild;
+
+    if (!node) {
+      return;
+    }
 
     const updatedDimensions = await mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
       mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
-    const { node } = props;
-    const childNode = node.firstChild;
-
-    if (!childNode || childNode.attrs.type === 'external') {
+    if (node.attrs.type === 'external') {
       return;
     }
 
