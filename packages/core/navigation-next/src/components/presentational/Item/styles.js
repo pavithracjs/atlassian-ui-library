@@ -1,6 +1,11 @@
 // @flow
 
-import { colors, fontSize, gridSize as gridSizeFn } from '@atlaskit/theme';
+import {
+  colors,
+  fontSize,
+  fontFamily,
+  gridSize as gridSizeFn,
+} from '@atlaskit/theme';
 
 import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
@@ -49,19 +54,21 @@ const baseStyles = {
     flexDirection: 'column',
     flexGrow: 1,
     overflowX: 'hidden',
+    fontFamily: fontFamily(),
   },
   textWrapper: {
     flex: '1 1 auto',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    lineHeight: 16 / fontSize(),
+    lineHeight: 18 / fontSize(),
   },
   subTextWrapper: {
     flex: '1 1 auto',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    marginTop: '-2px',
   },
   afterWrapper: {
     alignItems: 'center',
@@ -98,7 +105,7 @@ const layoutStyles = {
     },
     subTextWrapper: {
       fontSize: '12px',
-      lineHeight: 14 / 12,
+      lineHeight: 16 / 12,
     },
     afterWrapper: {
       marginLeft: gridSize * 2,
