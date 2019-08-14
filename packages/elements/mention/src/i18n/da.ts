@@ -6,7 +6,7 @@
  */
 // Danish
 export default {
-  'fabric.mention.unknow.user.error': 'Ukendt bruger {id}',
+  'fabric.mention.unknow.user.error': 'Ukendt bruger {userId}',
   'fabric.mention.noAccess.warning':
     '{name} får ikke besked, da personen ikke har adgang',
   'fabric.mention.noAccess.label': 'Ingen adgang',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ medlemmer',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ medlemmer, inklusive dig',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Omtal dit team',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Få alle med på siden med ét klik. Har du ikke et team?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Så opret et.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Afvis',
 };

@@ -50,7 +50,7 @@ export default md`
 
   We no longer support the \`invalidMessage\`, \`isInvalid\` and \`required\` props.
   Validation messages are now a concern of the [@atlaskit/form](/packages/core/form) package.
-  We do however, provide a validateState prop, which takes a string value of either \`success\` or \`error\` which augments the border of the trigger.
+  We do however, provide a \`validationState\` prop, which takes a string value of either \`success\` or \`error\` which augments the border of the trigger.
   See the example below:
 
   ${(

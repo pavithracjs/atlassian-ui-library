@@ -58,11 +58,24 @@ export enum Feature {
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }
 
+export enum MultiVariateFeature {
+  productTopItemVariation = 'productTopItemVariation',
+}
+
+export enum ProductTopItemVariation {
+  mostFrequentSite = 'most-frequent-site',
+  currentSite = 'current-site',
+}
+
 export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
+} & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
 };
 
-export type FeatureMap = { [key in Feature]: boolean };
+export type FeatureMap = { [key in Feature]: boolean } & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
+};
 
 export type CustomLinksResponse = CustomLink[];
 

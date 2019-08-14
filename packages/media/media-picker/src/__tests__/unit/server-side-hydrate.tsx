@@ -14,8 +14,8 @@ afterEach(() => {
   jest.resetAllMocks();
   jest.restoreAllMocks();
 });
-
-test('should ssr then hydrate media-picker correctly', async () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('should ssr then hydrate media-picker correctly', async () => {
   const [example] = await getExamplesFor('media-picker');
   const Example = await require(example.filePath).default;
   const elem = document.createElement('div');

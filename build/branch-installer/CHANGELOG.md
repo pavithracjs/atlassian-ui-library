@@ -1,5 +1,13 @@
 # @atlaskit/branch-installer
 
+## 0.1.1
+
+### Patch Changes
+
+- [patch][b1a76f9009](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1a76f9009):
+
+  Fixes bug in CLI not passing flags correctly
+
 ## 0.1.0
 
 ### Minor Changes

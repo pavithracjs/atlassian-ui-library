@@ -38,6 +38,7 @@ import {
   SearchResultsMap,
   FilterType,
   SearchParams,
+  RecentParams,
 } from '../../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../SearchResultsUtil';
 
@@ -89,6 +90,11 @@ const mockCrossProductSearchClient = {
   search(searchParams: SearchParams) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE) as any;
   },
+  getRecentItems(searchParams: RecentParams) {
+    return Promise.reject(
+      'Recent items is not supported for Confluence scopes',
+    );
+  },
   getAbTestDataForProduct() {
     return Promise.resolve(DEFAULT_AB_TEST) as any;
   },
@@ -134,7 +140,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       (quickSearchContainer.props() as QuickSearchContainerProps<
         ConfluenceResultsMap
       >).getSearchResults('query', sessionId, 100, 0, []),
-    ).rejects.toEqual('error');
+    ).rejects.toEqual(new Error('error'));
   });
 
   it('should return recent viewed items', async () => {
@@ -252,6 +258,11 @@ describe('ConfluenceQuickSearchContainer', () => {
       crossProductSearchClient: {
         search(params: SearchParams) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getRecentItems() {
+          return Promise.reject(
+            'Recent items is not supported for Confluence scopes',
+          );
         },
         getAbTestDataForProduct() {
           return Promise.resolve(DEFAULT_AB_TEST);

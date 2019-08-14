@@ -1,5 +1,13 @@
 # @atlaskit/droplist
 
+## 9.0.11
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
 ## 9.0.10
 
 ### Patch Changes
