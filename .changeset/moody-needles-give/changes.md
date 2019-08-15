@@ -1,0 +1,1 @@
+Adding a condition to check if the component are referenced in tests running in CI. It reduces the noise and help reading the CI log.
