@@ -11,7 +11,7 @@ import CardLoader, {
 const mediaClient = fakeMediaClient();
 
 const identifier: FileIdentifier = {
-  id: 123,
+  id: '123',
   mediaItemType: 'file',
   collectionName: 'some-name',
 };
@@ -38,7 +38,9 @@ describe('Async Card Loader', () => {
     });
 
     it('should pass dimensions to the loading component if the async components were NOT resolved', async () => {
-      const wrapper = mount(<CardLoader {...props} />);
+      const wrapper = mount<CardWithMediaClientConfigProps, AsyncCardState>(
+        <CardLoader {...props} />,
+      );
 
       await nextTick();
 
