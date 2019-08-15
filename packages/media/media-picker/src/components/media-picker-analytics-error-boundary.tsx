@@ -1,11 +1,12 @@
 import React from 'react';
 
 import AnalyticsErrorBoundary from '@atlaskit/analytics-next/AnalyticsErrorBoundary';
-import { FabricChannel } from '@atlaskit/analytics-listeners';
 
 export type MediaPickerAnalyticsErrorBoundaryProps = {
   data?: { [k: string]: any };
 };
+
+export const ANALYTICS_MEDIA_CHANNEL = 'media';
 
 export default class MediaPickerAnalyticsErrorBoundary extends React.Component<
   MediaPickerAnalyticsErrorBoundaryProps
@@ -15,7 +16,7 @@ export default class MediaPickerAnalyticsErrorBoundary extends React.Component<
   render() {
     const { data = {} } = this.props;
     return (
-      <AnalyticsErrorBoundary channel={FabricChannel.media} data={data}>
+      <AnalyticsErrorBoundary channel={ANALYTICS_MEDIA_CHANNEL} data={data}>
         {this.props.children}
       </AnalyticsErrorBoundary>
     );

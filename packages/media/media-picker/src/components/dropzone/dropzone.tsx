@@ -17,12 +17,12 @@ import {
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 
-import { FabricChannel } from '@atlaskit/analytics-listeners';
-
 import {
   name as packageName,
   version as packageVersion,
 } from '../../version.json';
+
+import { ANALYTICS_MEDIA_CHANNEL } from '../media-picker-analytics-error-boundary';
 
 export type DropzoneProps = LocalUploadComponentBaseProps &
   WithAnalyticsEventProps &
@@ -213,7 +213,7 @@ export class DropzoneBase extends LocalUploadComponentReact<
           fileCount,
         },
       });
-      analyticsEvent.fire(FabricChannel.media);
+      analyticsEvent.fire(ANALYTICS_MEDIA_CHANNEL);
     }
   }
 
