@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { DropzoneProps } from './dropzone';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 
-type DropzoneWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+import { DropzoneProps } from './dropzone';
+import MediaPickerAnalyticsErrorBoundary from '../media-picker-analytics-error-boundary';
+
+export type DropzoneWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   DropzoneProps
 >;
 type DropzoneWithMediaClientConfigComponent = React.ComponentType<
   DropzoneWithMediaClientConfigProps
 >;
 
-type State = {
+export type State = {
   Dropzone?: DropzoneWithMediaClientConfigComponent;
 };
 
@@ -24,18 +26,22 @@ export class DropzoneLoader extends React.PureComponent<
 
   async componentWillMount() {
     if (!this.state.Dropzone) {
-      const [mediaClient, dropzoneModule] = await Promise.all([
-        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
-        import(/* webpackChunkName:"@atlaskit-internal_Dropzone" */ './dropzone'),
-      ]);
+      try {
+        const [mediaClient, dropzoneModule] = await Promise.all([
+          import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+          import(/* webpackChunkName:"@atlaskit-internal_Dropzone" */ './dropzone'),
+        ]);
 
-      DropzoneLoader.Dropzone = mediaClient.withMediaClient(
-        dropzoneModule.Dropzone,
-      );
+        DropzoneLoader.Dropzone = mediaClient.withMediaClient(
+          dropzoneModule.Dropzone,
+        );
 
-      this.setState({
-        Dropzone: DropzoneLoader.Dropzone,
-      });
+        this.setState({
+          Dropzone: DropzoneLoader.Dropzone,
+        });
+      } catch (error) {
+        // TODO [MS-2272]: Add operational error to catch async import error
+      }
     }
   }
 
@@ -44,6 +50,10 @@ export class DropzoneLoader extends React.PureComponent<
       return null;
     }
 
-    return <this.state.Dropzone {...this.props} />;
+    return (
+      <MediaPickerAnalyticsErrorBoundary>
+        <this.state.Dropzone {...this.props} />
+      </MediaPickerAnalyticsErrorBoundary>
+    );
   }
 }
