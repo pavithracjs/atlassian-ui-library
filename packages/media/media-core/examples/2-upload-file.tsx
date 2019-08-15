@@ -15,7 +15,7 @@ export interface ComponentState {
   files: { [id: string]: FileState };
 }
 
-const mediaContext = getMediaClient({
+const mediaClient = getMediaClient({
   mediaClientConfig: {
     authProvider: mediaPickerAuthProvider('asap'),
   },
@@ -57,7 +57,7 @@ class Example extends Component<ComponentProps, ComponentState> {
       collection: defaultCollectionName,
     };
     const uploadController = new UploadController();
-    const stream = mediaContext.file.upload(uplodableFile, uploadController);
+    const stream = mediaClient.file.upload(uplodableFile, uploadController);
 
     this.uploadController = uploadController;
     this.addStream(stream);

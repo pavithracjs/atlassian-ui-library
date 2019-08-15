@@ -15,7 +15,7 @@ export interface ComponentState {
   files: { [id: string]: FileState };
 }
 
-const mediaContext = getMediaClient({
+const mediaClient = getMediaClient({
   mediaClientConfig: {
     authProvider: mediaPickerAuthProvider('asap'),
   },
@@ -63,14 +63,14 @@ class Example extends Component<ComponentProps, ComponentState> {
   };
 
   getFile = (id: string, collectionName?: string) => {
-    const stream = mediaContext.file.getFileState(id, { collectionName });
+    const stream = mediaClient.file.getFileState(id, { collectionName });
 
     this.addStream(stream);
   };
 
   uploadFile = async (event: SyntheticEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files![0];
-    const stream = mediaContext.file.upload({
+    const stream = mediaClient.file.upload({
       content: file,
       name: file.name,
       collection: defaultCollectionName,
