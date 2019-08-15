@@ -40,6 +40,6 @@ describe('<DecisionList/>', () => {
     expect(ol.prop('data-decision-list-local-id')).toEqual('');
     const li = component.find('li');
     expect(li.length).toEqual(1);
-    expect(li.prop('data-decision-local-id')).toEqual('');
+    expect(li.prop('data-decision-local-id')).toBeDefined();
   });
 });
