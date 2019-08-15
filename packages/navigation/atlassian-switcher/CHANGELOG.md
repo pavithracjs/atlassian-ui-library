@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.17.1
+
+### Patch Changes
+
+- [patch][04388187f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04388187f4):
+
+  Added docs and details about i18n
+
 ## 3.17.0
 
 ### Minor Changes

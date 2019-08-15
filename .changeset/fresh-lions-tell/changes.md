@@ -1,1 +1,0 @@
-Added docs and details about i18n
