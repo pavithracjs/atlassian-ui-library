@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.18.0
+
+### Minor Changes
+
+- [minor][bdbe90c48b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdbe90c48b):
+
+  FIND-133: Allow switcher to be rendered standalone (outside a drawer)
+
 ## 3.17.1
 
 ### Patch Changes
