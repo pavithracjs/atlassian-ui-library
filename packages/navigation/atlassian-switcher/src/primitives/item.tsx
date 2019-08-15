@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
-import Item, { itemThemeNamespace } from '@atlaskit/item';
-import { gridSize } from '@atlaskit/theme';
+import Item from '@atlaskit/item';
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
@@ -10,24 +8,14 @@ import {
 } from '../utils/analytics';
 import { FadeIn } from './fade-in';
 
-const itemTheme = {
-  padding: {
-    default: {
-      bottom: gridSize(),
-      left: gridSize(),
-      top: gridSize(),
-      right: gridSize(),
-    },
-  },
-};
-
-type SwitcherItemProps = {
+export type SwitcherItemProps = {
   children: React.ReactNode;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   description?: React.ReactNode;
   onClick?: Function;
   href?: string;
   isDisabled?: boolean;
+  onKeyDown?: any;
 };
 
 class SwitcherItem extends React.Component<SwitcherItemProps> {
@@ -35,9 +23,7 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
     const { icon, description, ...rest } = this.props;
     return (
       <FadeIn>
-        <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
-          <Item elemBefore={icon} description={description} {...rest} />
-        </ThemeProvider>
+        <Item elemBefore={icon} description={description} {...rest} />
       </FadeIn>
     );
   }

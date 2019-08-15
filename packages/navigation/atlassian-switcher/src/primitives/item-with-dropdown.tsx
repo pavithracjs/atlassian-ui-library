@@ -1,12 +1,13 @@
 import * as React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
-import Item, { itemThemeNamespace } from '@atlaskit/item';
-import { colors, gridSize } from '@atlaskit/theme';
+import { SwitcherThemedItem, SwitcherThemedChildItem } from './index';
+import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { FadeIn } from './fade-in';
 import { SwitcherChildItem } from '../types';
+
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
@@ -16,42 +17,6 @@ import {
   SWITCHER_ITEM_EXPAND_SUBJECT,
 } from '../utils/analytics';
 import { createIcon } from '../utils/icon-themes';
-
-const itemTheme = {
-  padding: {
-    default: {
-      bottom: gridSize(),
-      left: gridSize(),
-      top: gridSize(),
-      right: gridSize(),
-    },
-  },
-  hover: {
-    background: 'transparent',
-  },
-  default: {
-    background: 'transparent',
-    text: colors.text,
-    secondaryText: colors.N200,
-  },
-};
-
-const childItemTheme = {
-  padding: {
-    default: {
-      ...itemTheme.padding.default,
-      bottom: gridSize() / 2,
-      top: gridSize() / 2,
-    },
-  },
-  hover: {
-    background: colors.N20A,
-  },
-  default: {
-    ...itemTheme.default,
-    text: colors.N700,
-  },
-};
 
 const ItemContainer = styled.div`
   display: flex;
@@ -63,11 +28,9 @@ const ItemContainer = styled.div`
 `;
 
 const ItemWrapper = styled.div<ToggleProps>`
-  display: flex;
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
-
   width: 100%;
   overflow: hidden;
 
@@ -76,7 +39,6 @@ const ItemWrapper = styled.div<ToggleProps>`
   &&& > * {
     max-width: 100%;
   }
-
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
 
@@ -92,12 +54,10 @@ const ChildItemsContainer = styled.div`
 `;
 
 const Toggle = styled.div<ToggleProps>`
-  flex-shrink: 0;
-  flex-grow: 0;
-
+  flex-grow: 1;
+  max-height: 47px;
   cursor: pointer;
   margin-left: 2px;
-  border-radius: 3px;
 
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
@@ -157,37 +117,29 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
             onMouseLeave={this.onMouseLeave}
           >
             <ItemWrapper isParentHovered={itemHovered}>
-              <ThemeProvider
-                theme={{
-                  [itemThemeNamespace]: itemTheme,
-                }}
-              >
-                <Item
-                  elemBefore={icon}
-                  description={childItemsExist ? description : null}
-                  onClick={onItemClick}
-                  {...rest}
-                />
-              </ThemeProvider>
+              <SwitcherThemedItem
+                icon={icon}
+                description={childItemsExist ? description : null}
+                onClick={onItemClick}
+                {...rest}
+              />
             </ItemWrapper>
             {childItemsExist && this.renderToggle(showChildItems, itemHovered)}
           </ItemContainer>
           {showChildItems && childItems && (
-            <ThemeProvider theme={{ [itemThemeNamespace]: childItemTheme }}>
-              <ChildItemsContainer>
-                {childItems.map(item => (
-                  <Item
-                    elemBefore={childIcon}
-                    href={item.href}
-                    key={item.label}
-                    onClick={onChildItemClick}
-                    data-test-id="switcher-child-item"
-                  >
-                    {item.label}
-                  </Item>
-                ))}
-              </ChildItemsContainer>
-            </ThemeProvider>
+            <ChildItemsContainer>
+              {childItems.map(item => (
+                <SwitcherThemedChildItem
+                  icon={childIcon}
+                  href={item.href}
+                  key={item.label}
+                  onClick={onChildItemClick}
+                  data-test-id="switcher-child-item"
+                >
+                  {item.label}
+                </SwitcherThemedChildItem>
+              ))}
+            </ChildItemsContainer>
           )}
         </React.Fragment>
       </FadeIn>
@@ -205,21 +157,15 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
         position="top"
       >
         <Toggle isParentHovered={isParentHovered}>
-          <ThemeProvider
-            theme={{
-              [itemThemeNamespace]: itemTheme,
-            }}
+          <SwitcherThemedItem
+            data-test-id="switcher-expand-toggle"
+            onClick={this.toggleChildItemsVisibility}
+            onKeyDown={(e: KeyboardEvent) =>
+              e.key === 'Enter' && this.toggleChildItemsVisibility()
+            }
           >
-            <Item
-              data-test-id="switcher-expand-toggle"
-              onClick={this.toggleChildItemsVisibility}
-              onKeyDown={(e: KeyboardEvent) =>
-                e.key === 'Enter' && this.toggleChildItemsVisibility()
-              }
-            >
-              <Icon theme="subtle" />
-            </Item>
-          </ThemeProvider>
+            <Icon theme="subtle" />
+          </SwitcherThemedItem>
         </Toggle>
       </Tooltip>
     );

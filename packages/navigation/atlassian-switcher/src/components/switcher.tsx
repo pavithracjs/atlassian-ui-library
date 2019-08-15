@@ -5,7 +5,7 @@ import isEqual from 'lodash.isequal';
 
 import {
   SwitcherWrapper,
-  SwitcherItem,
+  SwitcherThemedItem,
   SwitcherItemWithDropdown,
   Section,
   ManageButton,
@@ -28,7 +28,7 @@ import { urlToHostname } from '../utils/url-to-hostname';
 
 const noop = () => void 0;
 
-type SwitcherProps = {
+export type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
   /**
@@ -232,7 +232,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.href,
                 )}
               >
-                <SwitcherItem
+                <SwitcherThemedItem
                   icon={<item.Icon theme="product" />}
                   onClick={this.triggerXFlow(item.key)}
                 >
@@ -240,7 +240,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   <TryLozenge>
                     <FormattedMessage {...messages.try} />
                   </TryLozenge>
-                </SwitcherItem>
+                </SwitcherThemedItem>
               </NavigationAnalyticsContext>
             ))}
             {fixedLinks.map(item => (
@@ -253,7 +253,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.href,
                 )}
               >
-                <SwitcherItem
+                <SwitcherThemedItem
                   icon={<item.Icon theme="product" />}
                   href={item.href}
                   onClick={
@@ -263,7 +263,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   }
                 >
                   {item.label}
-                </SwitcherItem>
+                </SwitcherThemedItem>
               </NavigationAnalyticsContext>
             ))}
             {adminLinks.map(item => (
@@ -276,12 +276,12 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.href,
                 )}
               >
-                <SwitcherItem
+                <SwitcherThemedItem
                   icon={<item.Icon theme="admin" />}
                   href={item.href}
                 >
                   {item.label}
-                </SwitcherItem>
+                </SwitcherThemedItem>
               </NavigationAnalyticsContext>
             ))}
           </Section>
@@ -297,13 +297,13 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   key={key}
                   data={getItemAnalyticsContext(idx, type, 'recent', href)}
                 >
-                  <SwitcherItem
+                  <SwitcherThemedItem
                     icon={<Icon theme="recent" />}
                     description={description}
                     href={href}
                   >
                     {label}
-                  </SwitcherItem>
+                  </SwitcherThemedItem>
                 </NavigationAnalyticsContext>
               ),
             )}
@@ -320,9 +320,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 key={idx + '.' + label}
                 data={getItemAnalyticsContext(idx, null, 'customLink', href)}
               >
-                <SwitcherItem icon={<Icon theme="custom" />} href={href}>
+                <SwitcherThemedItem icon={<Icon theme="custom" />} href={href}>
                   {label}
-                </SwitcherItem>
+                </SwitcherThemedItem>
               </NavigationAnalyticsContext>
             ))}
           </Section>
