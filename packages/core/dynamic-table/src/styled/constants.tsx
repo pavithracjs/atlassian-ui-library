@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { gridSize, math } from '@atlaskit/theme';
+import { colors, gridSize, math } from '@atlaskit/theme';
 import { ASC, DESC } from '../internal/constants';
 import { arrow } from '../theme';
 import { SortOrderType } from '../types';
@@ -37,6 +37,7 @@ export const onClickStyle = ({ onClick }: { onClick?: boolean }) =>
   css`
     &:hover {
       cursor: pointer;
+      background-color: ${colors.N30A};
     }
   `;
 

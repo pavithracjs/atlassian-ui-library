@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.7
+
+### Patch Changes
+
+- [patch][d3ccc2e47f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3ccc2e47f):
+
+  Fix media picker's dropzone analytics event by including the necessary eventType key
+
 ## 46.0.6
 
 ### Patch Changes

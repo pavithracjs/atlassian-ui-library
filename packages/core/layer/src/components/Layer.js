@@ -86,7 +86,7 @@ const FixedTarget = styled.div`
   }};
 `;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/layer has been deprecated. It is an internal component and should not be used directly.',

@@ -6,7 +6,7 @@ import ErrorBoundary from '../src/components/error-boundary';
 
 class SwitcherExample extends React.Component {
   state = {
-    isDrawerOpen: true,
+    isDrawerOpen: false,
   };
 
   openDrawer = () =>

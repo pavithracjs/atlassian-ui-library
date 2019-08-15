@@ -1,5 +1,13 @@
 # @atlaskit/field-text
 
+## 9.0.6
+
+### Patch Changes
+
+- [patch][d905cbc0ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d905cbc0ac):
+
+  Adding a condition to check if the component are referenced in tests running in CI. It reduces the noise and help reading the CI log.
+
 ## 9.0.5
 
 ### Patch Changes

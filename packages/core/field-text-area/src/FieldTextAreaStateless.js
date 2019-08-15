@@ -69,7 +69,7 @@ type Props = {
   isValidationHidden?: boolean,
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/field-text-area has been deprecated. Please use the @atlaskit/textarea package instead.',
