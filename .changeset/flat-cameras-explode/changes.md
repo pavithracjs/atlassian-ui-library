@@ -1,0 +1,1 @@
+CEMS-201: Remove image for block extenions
