@@ -9,7 +9,7 @@ import {
 import { FadeIn } from './fade-in';
 
 export type SwitcherItemProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   icon?: React.ReactNode;
   description?: React.ReactNode;
   onClick?: Function;

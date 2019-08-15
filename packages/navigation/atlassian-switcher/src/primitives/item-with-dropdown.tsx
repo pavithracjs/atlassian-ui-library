@@ -2,7 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
-import { SwitcherThemedItem, SwitcherThemedChildItem } from './index';
+import SwitcherThemedItem from './themed-item';
+import SwitcherThemedChildItem from './themed-child-item';
+
 import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { FadeIn } from './fade-in';
@@ -16,13 +18,11 @@ import {
   SWITCHER_ITEM_SUBJECT,
   SWITCHER_ITEM_EXPAND_SUBJECT,
 } from '../utils/analytics';
-import { createIcon } from '../utils/icon-themes';
 
 const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   box-sizing: border-box;
   border-radius: 3px;
 `;
@@ -65,6 +65,15 @@ const Toggle = styled.div<ToggleProps>`
   &:hover {
     background-color: ${colors.N30A};
   }
+`;
+
+const IconWrapper = styled.div`
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: -8px;
 `;
 
 interface ToggleProps {
@@ -147,9 +156,15 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
   }
 
   private renderToggle(showChildItems: boolean, isParentHovered: boolean) {
-    const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
-      size: 'medium',
-    });
+    const icon = (
+      <IconWrapper>
+        {showChildItems ? (
+          <ChevronUpIcon label="close" />
+        ) : (
+          <ChevronDownIcon label="open" />
+        )}
+      </IconWrapper>
+    );
 
     return (
       <Tooltip
@@ -163,9 +178,9 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
             onKeyDown={(e: KeyboardEvent) =>
               e.key === 'Enter' && this.toggleChildItemsVisibility()
             }
-          >
-            <Icon theme="subtle" />
-          </SwitcherThemedItem>
+            children={undefined}
+            icon={icon}
+          />
         </Toggle>
       </Tooltip>
     );
