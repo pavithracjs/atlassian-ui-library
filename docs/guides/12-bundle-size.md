@@ -23,13 +23,20 @@ There are couple of tools that measure the bundle size:
 
 # How do we currently measure the bundle size in Atlaskit?
 
-In Atlaskit, we use a tool *measure* that uses Webpack-bundle-analyzer. We use ratchet files to store the relevant output of the measure and we use them to compare between versions.
+In Atlaskit, we use a tool *measure* that uses Webpack-bundle-analyzer. In the past, we used local ratchet files to store the relevant output of the measure and we use them to compare between versions.
+As this solution was not ideal, we moved the ratchet files to s3.
 
-More about it how does it work, is available in this [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/01/11/378834980/Atlaskit+now+has+a+bundle+size+ratchet).
+More about the journey:
+- [Atlaskit+now+has+a+bundle+size+ratchet](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/01/11/378834980/Atlaskit+now+has+a+bundle+size+ratchet).
+- [Bundle size add on](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/05/16/458923875/Atlaskit+-+Bundle+size+check+add-on) about it.
+.)
+- [Release add-on to Atlaskit](https://hello.atlassian.net/wiki/spaces/TBTT/blog/2019/08/13/531210841/Atlaskit+PR+s+update....Bundle+size+checking...).
 
 ## Usage
 
-If you are unsure about what to do locally , please run: bolt measure --help
+### Locally
+
+If you are unsure about what to do locally , please run: yarn measure --help
  ```
   Usage
         $ measure <[paths]|[pkgs]>
@@ -39,12 +46,21 @@ If you are unsure about what to do locally , please run: bolt measure --help
         --json                  Outputs measure stats as json
         --lint                  Lint mode fails build if size has been increased beyond threshold
         --updateSnapshot        Update measure snapshots
+        --s3                    Run S3 flow
 
       Examples
         $ measure editor-core editor-common
         $ measure editor-core --updateSnapshot
         $ measure editor-core --analyze
 ```
+
+### CI
+
+In CI, the flow is using s3. Ratchet files are generated and stored by commit. Every hour a custom build computes the master bundle size for all the packages and then stored it on s3. An add-on on pull-request will display a comparison between your s3 committed files to s3 master.
+Reviewers will need to approve those changes.
+
+For further details, please read this [blog](https://hello.atlassian.net/wiki/spaces/TBTT/blog/2019/08/13/531210841/Atlaskit+PR+s+update....Bundle+size+checking...) or jump on [#bundle-size-addon](https://app.slack.com/client/TFCUTJ0G5/CJETTKT63/thread/CFGLY49D2-1565841834.207200) Slack channel.
+
 
 # What is the most important information in a bundle size measurement?
 
@@ -62,7 +78,7 @@ As a developer, the output of the measure tool / file gives you a list of differ
 
 * Combined size – since gzip can show different results depending on how many content the resulting bundle has, it makes sense to combine all chunks together and see how well they are compressed. Also split in main and async sub-chunks.
 
-Output example:
+Local Output example:
 ```
 # Editor-core
   Source code:
@@ -91,10 +107,77 @@ Output example:
   Combined:
     – main: 2.54 MB (857 B)
 ```
+S3 / CI output [example](https://s3-ap-southeast-2.amazonaws.com/atlaskit-artefacts/c1a9ff173fc5/merged.json):
 
-# What changes to expect about the bundle size in Atlaskit in the future?
-
-As the current solution is not ideal, we are working on a bitbucket add-on to display it on PR.
-
-Feel free to read the [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/05/16/458923875/Atlaskit+-+Bundle+size+check+add-on) about it.
-
+```
+[
+  {
+    team: "core",
+    package: "@atlaskit/badge",
+    version: "12.0.4",
+    dependent: false,
+    id: "src.main",
+    name: "main",
+    stats: {
+      size: 4228,
+      gzipSize: 1701,
+      originalSize: 4200,
+      newSize: 4228,
+      sizeDiff: 28,
+      gzipOriginalSize: 1685,
+      gzipSizeDiff: 16
+    }
+  },
+  {
+    team: "core",
+    package: "@atlaskit/badge",
+    version: "12.0.4",
+    dependent: false,
+    id: "node_modules.main",
+    name: "node_modules [main]",
+    stats: {
+      size: 72689,
+      gzipSize: 25647,
+      originalSize: 3425,
+      newSize: 72689,
+      sizeDiff: 69264,
+      gzipOriginalSize: 1232,
+      gzipSizeDiff: 24415
+    }
+  },
+  {
+    team: "core",
+    package: "@atlaskit/badge",
+    version: "12.0.4",
+    dependent: false,
+    id: "atlaskit.core.main",
+    name: "main",
+    stats: {
+      size: 12254,
+      gzipSize: 3329,
+      originalSize: 12252,
+      newSize: 12254,
+      sizeDiff: 2,
+      gzipOriginalSize: 3329,
+      gzipSizeDiff: 0
+    }
+  },
+  {
+    team: "core",
+    package: "@atlaskit/badge",
+    version: "12.0.4",
+    dependent: false,
+    id: "combined.main",
+    name: "main",
+    stats: {
+    size: 87763,
+    gzipSize: 29716,
+    originalSize: 18467,
+    newSize: 87763,
+    sizeDiff: 69296,
+    gzipOriginalSize: 5433,
+    gzipSizeDiff: 24283
+    }
+  }
+]
+```
