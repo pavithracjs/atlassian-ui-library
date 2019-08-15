@@ -30,7 +30,7 @@ export default class ExtensionLozenge extends Component<Props, any> {
     const { node } = this.props;
 
     const imageData = getExtensionLozengeData({ node, type: 'image' });
-    if (imageData) {
+    if (imageData && node.type.name !== 'extension') {
       return this.renderImage(imageData);
     }
 
