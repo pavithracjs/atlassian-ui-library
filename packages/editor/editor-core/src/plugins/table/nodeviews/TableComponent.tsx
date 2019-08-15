@@ -192,6 +192,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           isNumberColumnEnabled={node.attrs.isNumberColumnEnabled}
           isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
           isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
+          ordering={pluginState.ordering}
           hasHeaderRow={containsHeaderRow(view.state, node)}
           // pass `selection` and `tableHeight` to control re-render
           selection={view.state.selection}
