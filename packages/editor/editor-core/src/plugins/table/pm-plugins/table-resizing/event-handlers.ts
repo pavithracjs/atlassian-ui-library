@@ -16,7 +16,7 @@ import {
   pointsAtCell,
   updateControls,
 } from './utils';
-import { getSelectedColumnIndexes } from '../../utils';
+import { getSelectedColumnIndexes, updateResizeHandles } from '../../utils';
 import { pluginKey as widthPluginKey } from '../../../width';
 import { getPluginState } from './plugin';
 import { setDragging, evenColumns } from './commands';
@@ -177,6 +177,7 @@ export const handleMouseDown = (
     resizeColumn(resizeState, colIndex, clientX - dragging.startX, dom);
 
     updateControls(state);
+    updateResizeHandles(dom);
   }
 
   window.addEventListener('mouseup', finish);
