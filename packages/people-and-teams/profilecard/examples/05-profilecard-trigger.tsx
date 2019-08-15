@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ProfileCardTrigger } from '../src';
-import { getMockProfileClient } from './helper/util';
+import { getMockProfileClient, analyticsHandler } from './helper/util';
 import LocaleIntlProvider from './helper/locale-intl-provider';
 
 const mockClient = getMockProfileClient(10, 0);
@@ -28,6 +28,20 @@ export const Section = styled.div`
   }
 `;
 
+const defaultProps = {
+  cloudId: 'DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048',
+  position: 'bottom-start',
+  resourceClient: mockClient,
+  analytics: analyticsHandler,
+  actions: [
+    {
+      label: 'View profile',
+      id: 'view-profile',
+      callback: () => {},
+    },
+  ],
+};
+
 export default function Example() {
   return (
     <LocaleIntlProvider>
@@ -36,19 +50,7 @@ export default function Example() {
           <h4>Profilecard triggered by hover</h4>
           <div>
             Lorem ipsum{' '}
-            <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
-              userId="1"
-              position="bottom-start"
-              resourceClient={mockClient}
-              actions={[
-                {
-                  label: 'View profile',
-                  id: 'view-profile',
-                  callback: () => {},
-                },
-              ]}
-            >
+            <ProfileCardTrigger {...defaultProps} userId="1">
               <strong>hover over me</strong>
             </ProfileCardTrigger>{' '}
             dolor sit amet
@@ -58,20 +60,7 @@ export default function Example() {
           <h4>Profilecard triggered by click</h4>
           <div>
             Lorem ipsum{' '}
-            <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
-              userId="1"
-              position="bottom-start"
-              resourceClient={mockClient}
-              trigger="click"
-              actions={[
-                {
-                  label: 'View profile',
-                  id: 'view-profile',
-                  callback: () => {},
-                },
-              ]}
-            >
+            <ProfileCardTrigger {...defaultProps} userId="1" trigger="click">
               <strong>click me</strong>
             </ProfileCardTrigger>{' '}
             dolor sit amet
@@ -83,9 +72,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={getMockProfileClient(10, 0, {
                 status: 'closed',
               })}
@@ -102,9 +90,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={mockClientForInactiveAccount}
               trigger="click"
             >
@@ -122,9 +109,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={mockClientForClosedAccountAndCustomMessage}
               trigger="click"
             >

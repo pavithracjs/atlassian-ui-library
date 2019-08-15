@@ -13,7 +13,7 @@ import {
   ProfileCardAction,
 } from '../types';
 
-export default class ProfilecardResourced extends React.Component<
+export default class ProfilecardResourced extends React.PureComponent<
   ProfileCardResourcedProps,
   ProfileCardResourcedState
 > {
@@ -22,16 +22,11 @@ export default class ProfilecardResourced extends React.Component<
     customElevation: 'e200',
   };
 
-  _isMounted: boolean;
-
-  constructor(props: ProfileCardResourcedProps) {
-    super(props);
-    this._isMounted = false;
-  }
+  _isMounted: boolean = false;
 
   state: ProfileCardResourcedState = {
     visible: false,
-    isLoading: false,
+    isLoading: undefined,
     hasError: false,
     error: null,
     data: null,
@@ -55,20 +50,29 @@ export default class ProfilecardResourced extends React.Component<
 
   clientFetchProfile = () => {
     const { cloudId, userId } = this.props;
+    const { isLoading } = this.state;
 
-    this.setState({
-      isLoading: true,
-      hasError: false,
-      data: null,
-    });
+    if (isLoading === true) {
+      // don't fetch data when fetching is in process
+      return;
+    }
 
-    this.props.resourceClient
-      .getProfile(cloudId, userId)
-      .then(
-        res => this.handleClientSuccess(res),
-        err => this.handleClientError(err),
-      )
-      .catch(err => this.handleClientError(err));
+    this.setState(
+      {
+        isLoading: true,
+        hasError: false,
+        data: null,
+      },
+      () => {
+        this.props.resourceClient
+          .getProfile(cloudId, userId)
+          .then(
+            res => this.handleClientSuccess(res),
+            err => this.handleClientError(err),
+          )
+          .catch(err => this.handleClientError(err));
+      },
+    );
   };
 
   handleClientSuccess(res: any) {
@@ -87,6 +91,7 @@ export default class ProfilecardResourced extends React.Component<
     if (!this._isMounted) {
       return;
     }
+
     this.setState({
       isLoading: false,
       hasError: true,
@@ -101,7 +106,12 @@ export default class ProfilecardResourced extends React.Component<
     const { isLoading, hasError, error, data } = this.state;
     const { analytics, customElevation } = this.props;
 
-    if (isLoading) {
+    // skip rendering first time
+    if (isLoading === undefined) {
+      return null;
+    }
+
+    if (isLoading === true) {
       return (
         <CardElevationWrapper customElevation={customElevation}>
           <LoadingState />
