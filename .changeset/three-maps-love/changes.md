@@ -1,1 +1,0 @@
-Adding missing Atlassian / ADG License.
