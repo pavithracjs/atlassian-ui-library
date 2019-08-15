@@ -33,13 +33,6 @@ const defaultProps = {
   position: 'bottom-start',
   resourceClient: mockClient,
   analytics: analyticsHandler,
-  actions: [
-    {
-      label: 'View profile',
-      id: 'view-profile',
-      callback: () => {},
-    },
-  ],
 };
 
 export default function Example() {
@@ -50,7 +43,17 @@ export default function Example() {
           <h4>Profilecard triggered by hover</h4>
           <div>
             Lorem ipsum{' '}
-            <ProfileCardTrigger {...defaultProps} userId="1">
+            <ProfileCardTrigger
+              {...defaultProps}
+              userId="1"
+              actions={[
+                {
+                  label: 'View profile',
+                  id: 'view-profile',
+                  callback: () => {},
+                },
+              ]}
+            >
               <strong>hover over me</strong>
             </ProfileCardTrigger>{' '}
             dolor sit amet
@@ -60,7 +63,18 @@ export default function Example() {
           <h4>Profilecard triggered by click</h4>
           <div>
             Lorem ipsum{' '}
-            <ProfileCardTrigger {...defaultProps} userId="1" trigger="click">
+            <ProfileCardTrigger
+              {...defaultProps}
+              userId="1"
+              trigger="click"
+              actions={[
+                {
+                  label: 'View profile',
+                  id: 'view-profile',
+                  callback: () => {},
+                },
+              ]}
+            >
               <strong>click me</strong>
             </ProfileCardTrigger>{' '}
             dolor sit amet

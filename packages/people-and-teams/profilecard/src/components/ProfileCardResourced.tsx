@@ -106,12 +106,10 @@ export default class ProfilecardResourced extends React.PureComponent<
     const { isLoading, hasError, error, data } = this.state;
     const { analytics, customElevation } = this.props;
 
-    // skip rendering first time
-    if (isLoading === undefined) {
-      return null;
-    }
+    const isFetchingOrNotStartToFetchYet =
+      isLoading === true || isLoading === undefined;
 
-    if (isLoading === true) {
+    if (isFetchingOrNotStartToFetchYet) {
       return (
         <CardElevationWrapper customElevation={customElevation}>
           <LoadingState />

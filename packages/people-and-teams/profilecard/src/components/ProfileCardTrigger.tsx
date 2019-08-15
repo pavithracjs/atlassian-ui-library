@@ -49,14 +49,13 @@ class ProfilecardTrigger extends React.PureComponent<
   };
 
   showProfilecard = () => {
-    if (!this.state.visible) {
-      this.clientFetchProfile();
-    }
-
     clearTimeout(this.hideTimer);
 
     this.showTimer = window.setTimeout(() => {
-      this.setState({ visible: true });
+      if (!this.state.visible) {
+        this.clientFetchProfile();
+        this.setState({ visible: true });
+      }
     }, this.showDelay);
   };
 
@@ -200,15 +199,19 @@ class ProfilecardTrigger extends React.PureComponent<
   }
 
   renderLoading() {
-    return this.state.visible && this.state.isLoading === true && this.targetRef
+    const { isLoading, visible } = this.state;
+    const isFetchingOrNotStartToFetchYet =
+      isLoading === true || isLoading === undefined;
+
+    return visible && isFetchingOrNotStartToFetchYet && this.targetRef
       ? this.renderWithPopper(<LoadingState />)
       : null;
   }
 
   renderProfileCardLoaded() {
-    return this.state.visible &&
-      this.state.isLoading === false &&
-      this.targetRef
+    const { isLoading, visible } = this.state;
+
+    return visible && isLoading === false && this.targetRef
       ? this.renderWithPopper(this.renderProfileCard())
       : null;
   }
