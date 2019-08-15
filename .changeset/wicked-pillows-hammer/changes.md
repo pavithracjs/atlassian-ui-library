@@ -1,0 +1,1 @@
+FIND-133: Add support to theming
