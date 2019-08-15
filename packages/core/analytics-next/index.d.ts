@@ -190,4 +190,17 @@ declare module '@atlaskit/analytics-next' {
     cleanProps.js
   */
   export function cleanProps(props: ObjectType): ObjectType;
+
+  /**
+   * AnalyticsErrorBoundary
+   */
+
+  export type AnalyticsErrorBoundaryProps = {
+    children: React.ReactNode;
+    data: ObjectType;
+    channel: string;
+  };
+  export class AnalyticsErrorBoundary extends React.Component<
+    AnalyticsErrorBoundaryProps
+  > {}
 }

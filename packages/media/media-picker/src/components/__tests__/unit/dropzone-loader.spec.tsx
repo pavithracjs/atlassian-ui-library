@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { fakeMediaClient, nextTick } from '@atlaskit/media-test-helpers';
 
 import {
@@ -28,7 +28,10 @@ describe('Dropzone Async Loader', () => {
 
     it('should NOT render Dropzone component', () => {
       const wrapper = mount<DropzoneWithMediaClientConfigProps, State>(
-        <DropzoneLoader mediaClient={mediaClient} config={config} />,
+        <DropzoneLoader
+          mediaClientConfig={mediaClient.config}
+          config={config}
+        />,
       );
 
       expect(wrapper.state().Dropzone).toBeUndefined();
@@ -42,8 +45,11 @@ describe('Dropzone Async Loader', () => {
     });
 
     it('should render Dropzone component', async () => {
-      const wrapper = await shallow<DropzoneWithMediaClientConfigProps, State>(
-        <DropzoneLoader mediaClient={mediaClient} config={config} />,
+      const wrapper = await mount<DropzoneWithMediaClientConfigProps, State>(
+        <DropzoneLoader
+          mediaClientConfig={mediaClient.config}
+          config={config}
+        />,
       );
 
       await nextTick();
@@ -53,7 +59,10 @@ describe('Dropzone Async Loader', () => {
 
     it('should render Error boundary component', async () => {
       const wrapper = await mount<DropzoneWithMediaClientConfigProps, State>(
-        <DropzoneLoader mediaClient={mediaClient} config={config} />,
+        <DropzoneLoader
+          mediaClientConfig={mediaClient.config}
+          config={config}
+        />,
       );
       await nextTick();
       expect(wrapper.find(MediaPickerAnalyticsErrorBoundary)).toBeDefined();
