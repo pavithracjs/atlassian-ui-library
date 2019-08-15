@@ -16,7 +16,7 @@ function getCurrentBranch(): Promise<string> {
   });
 }
 
-function getancestorCommit(
+function getAncestorCommit(
   branchName: string,
   currentBranch: string,
 ): Promise<string> {
@@ -47,7 +47,7 @@ export default function loadFileFromGitHistory(
 ): Promise<string> {
   return new Promise(async (resolve, reject) => {
     const currentBranch = await getCurrentBranch();
-    const ancestorCommit = await getancestorCommit(branchName, currentBranch);
+    const ancestorCommit = await getAncestorCommit(branchName, currentBranch);
     exec(
       `git show ${ancestorCommit}:${fileName}`,
       { maxBuffer: FiveMBBuffer },
