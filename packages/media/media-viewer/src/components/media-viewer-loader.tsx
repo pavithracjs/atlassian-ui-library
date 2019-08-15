@@ -43,7 +43,7 @@ export default class AsyncMediaViewer extends React.PureComponent<
         this.setState({ MediaViewer: MediaViewerWithClient });
       }
     } catch (error) {
-      // TODO [MS-2272]: Add operational error to catch async import error
+      // TODO [MS-2277]: Add operational error to catch async import error
     }
   }
 

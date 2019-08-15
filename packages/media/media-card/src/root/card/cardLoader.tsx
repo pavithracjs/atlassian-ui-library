@@ -36,7 +36,7 @@ export default class CardLoader extends React.PureComponent<
         this.setState({ Card: CardLoader.Card });
       }
     } catch (error) {
-      // TODO [MS-2272]: Add operational error to catch async import error
+      // TODO [MS-2278]: Add operational error to catch async import error
     }
   }
 
