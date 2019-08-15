@@ -1,0 +1,1 @@
+Fix a bug which causes ProfileCard triggers viewed analytics event twice
