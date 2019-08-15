@@ -19,15 +19,15 @@ export default class AsyncEditorView extends React.PureComponent<
   };
 
   async componentWillMount() {
-    try {
-      if (!this.state.EditorView) {
+    if (!this.state.EditorView) {
+      try {
         const module = await import(/* webpackChunkName:"@atlaskit-internal_media-editor-view" */
         './editorView');
         AsyncEditorView.EditorView = module.default;
         this.setState({ EditorView: module.default });
+      } catch (error) {
+        // TODO [MS-2279]: Add operational error to catch async import error
       }
-    } catch (error) {
-      // TODO [MS-2279]: Add operational error to catch async import error
     }
   }
 

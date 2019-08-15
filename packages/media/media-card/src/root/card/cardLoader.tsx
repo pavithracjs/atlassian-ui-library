@@ -25,8 +25,8 @@ export default class CardLoader extends React.PureComponent<
   };
 
   async componentDidMount() {
-    try {
-      if (!this.state.Card) {
+    if (!this.state.Card) {
+      try {
         const [mediaClient, cardModule] = await Promise.all([
           import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
           import(/* webpackChunkName:"@atlaskit-internal_Card" */ './index'),
@@ -34,9 +34,9 @@ export default class CardLoader extends React.PureComponent<
 
         CardLoader.Card = mediaClient.withMediaClient(cardModule.Card);
         this.setState({ Card: CardLoader.Card });
+      } catch (error) {
+        // TODO [MS-2278]: Add operational error to catch async import error
       }
-    } catch (error) {
-      // TODO [MS-2278]: Add operational error to catch async import error
     }
   }
 

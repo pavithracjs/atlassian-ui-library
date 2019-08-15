@@ -29,8 +29,8 @@ export default class AsyncMediaViewer extends React.PureComponent<
   };
 
   async componentWillMount() {
-    try {
-      if (!this.state.MediaViewer) {
+    if (!this.state.MediaViewer) {
+      try {
         const [mediaClient, mediaViewerModule] = await Promise.all([
           import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
           import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
@@ -41,9 +41,9 @@ export default class AsyncMediaViewer extends React.PureComponent<
         );
         AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
         this.setState({ MediaViewer: MediaViewerWithClient });
+      } catch (error) {
+        // TODO [MS-2277]: Add operational error to catch async import error
       }
-    } catch (error) {
-      // TODO [MS-2277]: Add operational error to catch async import error
     }
   }
 
