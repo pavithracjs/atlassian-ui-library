@@ -78,6 +78,10 @@ const BeforePreQueryStateContainer = styled.div`
   margin-top: ${gridSize()}px;
 `;
 
+const containsQuery = (string: string, query: string) => {
+  return string.toLowerCase().indexOf(query.toLowerCase()) > -1;
+};
+
 const getRecentItemMatches = (
   query: string,
   recentItems: JiraResultsMap | null,
@@ -88,7 +92,10 @@ const getRecentItemMatches = (
 
   return recentItems.objects
     .filter(result => {
-      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+      return (
+        containsQuery(result.name, query) ||
+        (result.objectKey && containsQuery(result.objectKey, query))
+      );
     })
     .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
 };

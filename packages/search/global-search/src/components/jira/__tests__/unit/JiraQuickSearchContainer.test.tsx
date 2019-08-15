@@ -485,16 +485,19 @@ describe('Jira Quick Search Container', () => {
           resultId: recentItemCommon2,
           name: recentItemCommon2,
           contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-123',
         }),
         makeJiraObjectResult({
           resultId: recentItemCommon1a,
           name: recentItemCommon1a,
           contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-1',
         }),
         makeJiraObjectResult({
           resultId: recentItemCommon1b,
           name: recentItemCommon1b,
           contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-2',
         }),
       ],
       containers: [
@@ -538,6 +541,31 @@ describe('Jira Quick Search Container', () => {
         .forEach(resultGroup => {
           expect(resultGroup.items.length).toBe(0);
         });
+    });
+
+    it('should include issue keys when filtering', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'test-1',
+        mockRecentItems,
+        true,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // The results are filtered by issue-key
+      const issueKeys = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.objectKey);
+      expect(issueKeys).toEqual(['TEST-123', 'TEST-1']);
     });
 
     it('should show normal list of issues when not loading with matching recent items at the top', () => {
