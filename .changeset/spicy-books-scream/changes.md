@@ -1,0 +1,1 @@
+include issue key matches in faster search results
