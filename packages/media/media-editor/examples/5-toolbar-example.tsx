@@ -5,8 +5,7 @@ import { colors } from '@atlaskit/theme';
 import { ThemeProvider } from 'styled-components';
 import Toolbar from '../src/react/editorView/toolbar/toolbar';
 import { Theme as ButtonTheme } from '@atlaskit/button';
-import { Tool } from '../src/common';
-import { Blanket } from '../src/react/styled';
+import { Tool, Blanket } from '../src';
 
 interface State {
   readonly color: string;
