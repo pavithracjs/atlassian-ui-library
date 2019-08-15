@@ -1,4 +1,4 @@
-FROM atlassianlabs/atlaskit-mk-2:1.0.12
+FROM atlassianlabs/atlaskit-mk-2:1.0.13
 
 # Install Chromium and Puppeteer
 RUN apt-get update && apt-get install -yq gconf-service libasound2  libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
