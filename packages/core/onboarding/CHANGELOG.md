@@ -1,5 +1,13 @@
 # @atlaskit/onboarding
 
+## 8.0.11
+
+### Patch Changes
+
+- [patch][678b2407a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/678b2407a1):
+
+  Fix spotlight highlight issue when the offset parent has "fixed" position.
+
 ## 8.0.10
 
 ### Patch Changes

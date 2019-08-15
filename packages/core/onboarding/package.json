@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/onboarding",
-  "version": "8.0.10",
+  "version": "8.0.11",
   "description": "Highlight elements of the UI to the user and display a complementary dialog.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",

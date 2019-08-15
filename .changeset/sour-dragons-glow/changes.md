@@ -1,1 +1,0 @@
-Fix spotlight highlight issue when the offset parent has "fixed" position.
