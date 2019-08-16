@@ -215,6 +215,9 @@ describe('Media', () => {
       expect(mediaClient.file.getCurrentState).toBeCalled();
       expect(mediaClient.file.getCurrentState).toBeCalledWith(
         fileIdentifier.id,
+        {
+          collectionName: fileIdentifier.collectionName,
+        },
       );
       await nextTick();
       component.update();
