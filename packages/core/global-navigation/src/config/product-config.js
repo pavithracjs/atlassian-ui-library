@@ -188,6 +188,17 @@ function notificationConfigFactory(
       );
 }
 
+function appSwitcherConfigFactory(props) {
+  let { label } = props;
+  if (!label && typeof props.tooltip === 'string') {
+    label = props.tooltip;
+  }
+  return {
+    ...props,
+    label,
+  };
+}
+
 export default function generateProductConfig(
   props: GlobalNavigationProps,
   openDrawer: DrawerName => () => void,
@@ -352,12 +363,12 @@ export default function generateProductConfig(
     ),
     appSwitcher:
       appSwitcherComponent && !shouldRenderAtlassianSwitcher
-        ? {
+        ? appSwitcherConfigFactory({
             itemComponent: appSwitcherComponent,
             label: appSwitcherLabel,
             tooltip: appSwitcherTooltip,
             getRef: getAppSwitcherRef,
-          }
+          })
         : null,
   };
 }

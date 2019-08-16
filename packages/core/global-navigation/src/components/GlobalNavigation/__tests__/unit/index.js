@@ -450,16 +450,17 @@ describe('GlobalNavigation', () => {
       });
     });
 
-    navItems.forEach(({ icon, name, defaultTooltip }) => {
+    navItems.forEach(({ icon, name }) => {
       it(`should render a custom tooltip for "${name}" item`, () => {
+        const customTooltip = `${name} tooltip`;
         expect(
           customTooltipWrapper
             .find(icon)
             .parents('Tooltip')
             .prop('content'),
-        ).toBe(`${defaultTooltip}`);
+        ).toBe(`${customTooltip}`);
         expect(customTooltipWrapper.find(icon).prop('label')).toBe(
-          `${defaultTooltip}`,
+          `${customTooltip}`,
         );
       });
     });
