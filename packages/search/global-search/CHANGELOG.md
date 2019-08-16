@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.2.2
+
+### Patch Changes
+
+- [patch][b49435cead](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b49435cead):
+
+  Fix minor bug with faster search analytics
+
 ## 11.2.1
 
 ### Patch Changes
