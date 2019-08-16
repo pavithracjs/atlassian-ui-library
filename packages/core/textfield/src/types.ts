@@ -31,5 +31,8 @@ export interface PublicProps
 }
 
 export interface InternalProps extends PublicProps {
+  /** forwardedRef is not a public prop.
+  It is being picked up due to an issue with `extract-react-types`
+  */
   forwardedRef: React.Ref<HTMLInputElement>;
 }

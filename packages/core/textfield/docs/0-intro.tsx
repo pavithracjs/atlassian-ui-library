@@ -35,9 +35,14 @@ If you pass through a [\`React.InputHTMLAttributes<HTMLInputElement>\`](https://
     />
   )}
 
+## Spreading props
+
+In addition to the below props, you can also apply any prop in: [\`React.InputHTMLAttributes<HTMLInputElement>\`](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts#L1939).
+These will be applied to the underlying \`<input>\` element.
+
   ${(
     <Props
-      props={require('!!extract-react-types-loader!../src/components/Textfield')}
+      props={require('!!extract-react-types-loader!../src/components/TextField')}
     />
   )}
 `;
