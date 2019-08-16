@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Textfield from '../src';
 
@@ -12,16 +10,15 @@ const eventResultStyle = {
   margin: '0.5em 0',
 };
 
-type Props = {};
-type State = {| eventResult: string |};
+type State = { eventResult: string };
 
-export default class TextfieldExample extends Component<Props, State> {
+export default class TextfieldExample extends Component<void, State> {
   state = {
     eventResult:
       'Click into & out of the input above to trigger onBlur & onFocus.',
   };
 
-  handleOnChange = (e: any) => {
+  handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       eventResult: `onChange called with value: ${e.target.value}`,
     });
@@ -49,8 +46,10 @@ export default class TextfieldExample extends Component<Props, State> {
         />
         <div style={eventResultStyle}>{eventResult}</div>
 
-        <label htmlFor="default-value">Default Value</label>
-        <Textfield isCompact name="default-value" defaultValue="candy" />
+        <label htmlFor="default-value">
+          Default value (not the same as a placeholder)
+        </label>
+        <Textfield name="default-value" defaultValue="candy" />
 
         <label htmlFor="disabled">Disabled</label>
         <Textfield
