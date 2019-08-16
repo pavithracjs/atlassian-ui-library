@@ -29,7 +29,8 @@ const extractSpecificAttributes = (
       };
     case 'board':
       return {
-        containerName: attributes.container && attributes.container.title,
+        containerName: attributes.containerName,
+        containerId: attributes.containerId,
       };
     case 'filter':
       return {

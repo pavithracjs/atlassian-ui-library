@@ -220,6 +220,7 @@ const container = document.createElement('div');
       ];
       it('should fire a draggedInto event when a file is dragged over dropzone', async () => {
         const expectedPayload = {
+          eventType: 'ui',
           action: 'draggedInto',
           actionSubject: 'dropzone',
           attributes: {
@@ -248,6 +249,7 @@ const container = document.createElement('div');
 
       it('should fire a draggedOut event when mouse leaves dropzone', async () => {
         const expectedPayload = {
+          eventType: 'ui',
           action: 'draggedOut',
           actionSubject: 'dropzone',
           attributes: { fileCount: 1 },
@@ -279,6 +281,7 @@ const container = document.createElement('div');
 
       it('should fire a droppedInto event when a file is dropped in dropzone', async () => {
         const expectedPayload = {
+          eventType: 'ui',
           action: 'droppedInto',
           actionSubject: 'dropzone',
           attributes: { fileCount: 1 },

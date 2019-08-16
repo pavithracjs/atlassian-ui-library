@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.2.9
+
+### Patch Changes
+
+- [patch][af6787c63d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af6787c63d):
+
+  Export EmojiTypeAheadList from @atlaskit/emoji/typeahead
+
 ## 62.2.8
 
 ### Patch Changes

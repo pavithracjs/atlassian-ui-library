@@ -67,6 +67,8 @@ export interface JiraItemAvatar {
 export interface JiraItemAttributes {
   '@type': 'issue' | 'board' | 'project' | 'filter';
   container?: Container;
+  containerName?: string;
+  containerId?: string;
   ownerId?: string;
   ownerName?: string;
   key?: string;

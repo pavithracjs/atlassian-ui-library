@@ -1,5 +1,13 @@
 # @atlaskit/icon-file-type
 
+## 4.0.5
+
+### Patch Changes
+
+- [patch][9885da7ac4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9885da7ac4):
+
+  Adding missing Atlassian / ADG License.
+
 ## 4.0.4
 
 ### Patch Changes

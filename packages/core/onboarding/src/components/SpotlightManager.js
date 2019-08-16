@@ -63,7 +63,7 @@ export default class SpotlightManager extends PureComponent<
   };
 
   componentDidMount() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
       if (this.props.component) {
         // eslint-disable-next-line no-console
         console.warn(

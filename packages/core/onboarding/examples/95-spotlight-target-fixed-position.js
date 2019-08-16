@@ -33,11 +33,17 @@ export default class SpotlightDialogWidthExample extends Component<{}, State> {
               background: 'salmon',
             }}
           >
-            <SpotlightTarget name="custom-button-appearances">
-              <Highlight>
-                <h1>Target</h1>
-              </Highlight>
-            </SpotlightTarget>
+            <div
+              style={{
+                position: 'relative',
+              }}
+            >
+              <SpotlightTarget name="custom-button-appearances">
+                <Highlight>
+                  <h1>Target</h1>
+                </Highlight>
+              </SpotlightTarget>
+            </div>
           </div>
           <div style={{ marginLeft: 300, textAlign: 'center' }}>
             <h1>Scroll down and click on the button</h1>

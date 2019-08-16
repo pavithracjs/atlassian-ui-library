@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/field-radio-group",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "A radio group React component used for selecting discrete values in a form",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -22,7 +22,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/field-base": "^13.0.8",
+    "@atlaskit/field-base": "^13.0.9",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0"
