@@ -1,0 +1,1 @@
+Export EmojiTypeAheadList from @atlaskit/emoji/typeahead
