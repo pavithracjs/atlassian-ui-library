@@ -1,0 +1,1 @@
+Updates OpsGenie logo width
