@@ -56,7 +56,7 @@ If you are unsure about what to do locally , please run: yarn measure --help
 
 ### CI
 
-In CI, the flow is using s3. Ratchet files are generated and stored by commit. Every hour a custom build computes the master bundle size for all the packages and then stored it on s3. An add-on on pull-request will display a comparison between your s3 committed files to s3 master.
+In CI, the flow is using s3. Ratchet files are generated and stored by commit. Every hour, a custom build computes the master bundle size for all the packages and then stored it on s3. An add-on on pull-request will display a comparison between your s3 committed files to s3 master.
 Reviewers will need to approve those changes.
 
 For further details, please read this [blog](https://hello.atlassian.net/wiki/spaces/TBTT/blog/2019/08/13/531210841/Atlaskit+PR+s+update....Bundle+size+checking...) or jump on [#bundle-size-addon](https://app.slack.com/client/TFCUTJ0G5/CJETTKT63/thread/CFGLY49D2-1565841834.207200) Slack channel.
@@ -78,7 +78,7 @@ As a developer, the output of the measure tool / file gives you a list of differ
 
 * Combined size – since gzip can show different results depending on how many content the resulting bundle has, it makes sense to combine all chunks together and see how well they are compressed. Also split in main and async sub-chunks.
 
-Local Output example:
+Local output example:
 ```
 # Editor-core
   Source code:
