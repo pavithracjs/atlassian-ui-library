@@ -27,7 +27,7 @@ export const decisionItem: NodeSpec = {
   },
   parseDOM: [
     {
-      tag: 'li[data-decision-local-id]',
+      tag: 'div[data-decision-local-id]',
 
       // Default priority is 50. We normally don't change this but since this node type is
       // also used by list-item we need to make sure that we run this parser first.
@@ -45,6 +45,6 @@ export const decisionItem: NodeSpec = {
       'data-decision-local-id': localId || 'local-decision',
       'data-decision-state': state,
     };
-    return ['li', attrs, 0];
+    return ['div', attrs, 0];
   },
 };
