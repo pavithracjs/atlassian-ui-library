@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.19.0
+
+### Minor Changes
+
+- [minor][d700e692be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d700e692be):
+
+  Fix ellipsis on item with dropdown
+
 ## 3.18.0
 
 ### Minor Changes

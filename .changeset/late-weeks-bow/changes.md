@@ -1,1 +1,0 @@
-Fix ellipsis on item with dropdown
