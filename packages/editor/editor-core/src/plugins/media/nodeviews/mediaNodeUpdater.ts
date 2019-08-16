@@ -82,7 +82,11 @@ export class MediaNodeUpdater {
       mediaClientConfig,
     });
 
-    const fileState = await mediaClient.file.getCurrentState(attrs.id);
+    const options = {
+      collectionName: attrs.collection,
+    };
+
+    const fileState = await mediaClient.file.getCurrentState(attrs.id, options);
 
     if (fileState.status === 'error') {
       return;
