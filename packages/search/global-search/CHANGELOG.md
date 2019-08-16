@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.2.3
+
+### Patch Changes
+
+- [patch][b1082f1172](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1082f1172):
+
+  include issue key matches in faster search results
+
 ## 11.2.2
 
 ### Patch Changes
