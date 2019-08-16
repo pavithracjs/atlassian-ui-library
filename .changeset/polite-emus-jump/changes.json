@@ -1,0 +1,9 @@
+{
+  "releases": [
+    { "name": "@atlaskit/media-avatar-picker", "type": "patch" },
+    { "name": "@atlaskit/media-card", "type": "patch" },
+    { "name": "@atlaskit/media-editor", "type": "patch" },
+    { "name": "@atlaskit/media-viewer", "type": "patch" }
+  ],
+  "dependents": []
+}
