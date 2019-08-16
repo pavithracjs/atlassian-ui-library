@@ -48,10 +48,9 @@ interface State {
   currentConfig: string;
 }
 
-export default class WithNavigation extends React.Component<
-  Partial<PartialProps> & Config,
-  State
-> {
+type Props = Partial<PartialProps> & Config;
+
+export default class WithNavigation extends React.Component<Props, State> {
   state = {
     context: this.props.context || 'confluence',
     locale: 'en',
@@ -214,23 +213,32 @@ export default class WithNavigation extends React.Component<
     return <MessageContainer>{message}</MessageContainer>;
   }
 
-  renderNavigation = () => {
+  renderSearchDraw = () => {
     const { context: currentContext, locale } = this.state;
 
     return (
-      <PrefetchedResultsProvider context={currentContext} cloudId="123">
-        <BasicNavigation
-          searchDrawerContent={() => (
-            <LocaleIntlProvider locale={locale}>
-              <DefaultQuickSearchWrapper
-                context={currentContext}
-                //@ts-ignore
-                {...presetConfig[this.state.currentConfig] || {}}
-                {...this.props}
-              />
-            </LocaleIntlProvider>
-          )}
+      <LocaleIntlProvider locale={locale}>
+        <DefaultQuickSearchWrapper
+          context={currentContext}
+          //@ts-ignore
+          {...presetConfig[this.state.currentConfig] || {}}
+          {...this.props}
         />
+      </LocaleIntlProvider>
+    );
+  };
+
+  renderNavigation = () => {
+    const { context: currentContext, currentConfig } = this.state;
+
+    return (
+      // We use the current context and config as key here as we want to bust the prefetch cache when those change
+      <PrefetchedResultsProvider
+        context={currentContext}
+        cloudId="123"
+        key={`${currentContext}_${currentConfig}`}
+      >
+        <BasicNavigation searchDrawerContent={this.renderSearchDraw} />
       </PrefetchedResultsProvider>
     );
   };
