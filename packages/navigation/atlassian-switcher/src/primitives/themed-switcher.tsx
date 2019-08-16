@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Switcher, { SwitcherProps } from '../components/switcher';
-import { ItemTheme, ChildItemTheme, Themeable } from '../theme';
+import { ItemTheme, ChildItemTheme } from '../theme/default-theme';
+import { Themeable } from '../theme/types';
 
 export default ({ theme = {}, ...rest }: Themeable<SwitcherProps>) => {
   return (

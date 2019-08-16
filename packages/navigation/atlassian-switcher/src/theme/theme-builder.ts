@@ -1,23 +1,12 @@
 import get from 'lodash.get';
 import pickBy from 'lodash.pickby';
-import { ThemeProps, ThemeTokens } from '../theme';
-
-export type CustomizableStates = {
-  default?: CustomizableTokens;
-  hover?: CustomizableTokens;
-};
-
-type CustomizableTokens = {
-  background?: string;
-  text?: string;
-  secondaryText?: string;
-};
-
-type CustomTheme = {
-  mainBackgroundColor?: string;
-  item: CustomizableStates;
-  childItem: CustomizableStates;
-};
+import {
+  ThemeProps,
+  CustomTheme,
+  CustomizableStates,
+  CustomizableTokens,
+  CustomThemeResult,
+} from './types';
 
 function getThemedTokens(
   theme: Partial<CustomTheme>,
@@ -34,9 +23,6 @@ function getThemedTokens(
     return key;
   });
 }
-
-type ThemeFn = (theme: any, props: ThemeProps) => ThemeTokens;
-export type CustomThemeResult = { itemTheme: ThemeFn; childItemTheme: ThemeFn };
 
 export const createCustomTheme = (
   customThemeProps: Partial<CustomTheme>,

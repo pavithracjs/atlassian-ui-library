@@ -10,7 +10,7 @@ import {
 } from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
-import { Themeable } from '../theme';
+import { Themeable } from '../theme/types';
 
 type GenericSwitcherProps = {
   cloudId?: string;

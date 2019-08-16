@@ -16,7 +16,7 @@ import {
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
-import { Themeable } from '../theme';
+import { Themeable } from '../theme/types';
 
 type ConfluenceSwitcherProps = {
   cloudId: string;

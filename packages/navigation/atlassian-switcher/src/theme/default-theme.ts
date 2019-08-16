@@ -1,20 +1,5 @@
 import { colors, gridSize, createTheme } from '@atlaskit/theme';
-
-export type ItemStateTokens = {
-  background?: string;
-  text?: string;
-  secondaryText?: string;
-};
-
-export type ThemeTokens = {
-  padding: any;
-  hover?: ItemStateTokens;
-  default?: ItemStateTokens;
-};
-
-export type ThemeProps = {};
-
-export type Themeable<T> = T & { theme?: any };
+import { ThemeProps, ThemeTokens } from './types';
 
 const defaultItemTheme = (props: ThemeProps) => ({
   display: 'block',

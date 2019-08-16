@@ -20,7 +20,7 @@ import {
 } from '../utils/analytics';
 import packageContext from '../utils/package-context';
 import mapPropsToFeatures from '../utils/map-props-to-features';
-import { Themeable } from '../theme';
+import { Themeable } from '../theme/types';
 
 type AtlassianSwitcherProps = {
   product: string;

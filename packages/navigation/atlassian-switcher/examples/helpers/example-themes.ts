@@ -1,5 +1,5 @@
 import { colors } from '@atlaskit/theme';
-import { createCustomTheme } from '../../src/utils/theme-builder';
+import { createCustomTheme } from '../../src/theme/theme-builder';
 
 export const customTheme = createCustomTheme({
   mainBackgroundColor: colors.R75,

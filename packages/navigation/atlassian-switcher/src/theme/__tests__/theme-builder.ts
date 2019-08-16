@@ -1,8 +1,6 @@
-import {
-  createCustomTheme,
-  CustomizableStates,
-  CustomThemeResult,
-} from '../../theme-builder';
+import { createCustomTheme } from '../theme-builder';
+import { CustomizableStates } from '../types';
+
 import get from 'lodash.get';
 import { colors } from '@atlaskit/theme';
 
