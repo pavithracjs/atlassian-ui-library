@@ -6,7 +6,7 @@ export type ItemStateTokens = {
   secondaryText?: string;
 };
 
-export type ItemThemeTokens = {
+export type ThemeTokens = {
   padding: any;
   hover?: ItemStateTokens;
   default?: ItemStateTokens;
@@ -57,9 +57,7 @@ const defaultChildItemTheme = (props: ThemeProps) => {
   };
 };
 
-export const ItemTheme = createTheme<ItemThemeTokens, ThemeProps>(
-  defaultItemTheme,
-);
-export const ChildItemTheme = createTheme<ItemThemeTokens, ThemeProps>(
+export const ItemTheme = createTheme<ThemeTokens, ThemeProps>(defaultItemTheme);
+export const ChildItemTheme = createTheme<ThemeTokens, ThemeProps>(
   defaultChildItemTheme,
 );

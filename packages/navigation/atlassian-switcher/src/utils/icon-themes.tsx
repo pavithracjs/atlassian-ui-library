@@ -39,7 +39,7 @@ interface AkLogoProps {
 }
 
 interface IconBackgroundTheme {
-  backgroundColor: string;
+  backgroundColor?: string;
 }
 
 interface IconTheme {
@@ -75,7 +75,7 @@ export const themes: IconThemeMap = {
     iconElevation: elevation.e100,
   },
   subtle: {
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     primaryColor: colors.text,
   },
 };

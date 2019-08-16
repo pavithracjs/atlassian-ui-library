@@ -20,6 +20,7 @@ import {
 } from '../utils/analytics';
 import packageContext from '../utils/package-context';
 import mapPropsToFeatures from '../utils/map-props-to-features';
+import { Themeable } from '../theme';
 
 type AtlassianSwitcherProps = {
   product: string;
@@ -36,7 +37,7 @@ const getAnalyticsContext = (attributes: object) => ({
   ...analyticsAttributes(attributes),
 });
 
-const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
+const AtlassianSwitcher = (props: Themeable<AtlassianSwitcherProps>) => {
   const { product } = props;
 
   let Switcher: React.ElementType;

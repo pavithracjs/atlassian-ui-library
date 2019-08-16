@@ -4,11 +4,7 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { ItemTheme, ChildItemTheme } from '../src/theme';
-import {
-  bloodyChildItemTheme,
-  bloodyItemTheme,
-} from './helpers/example-themes';
+import { customTheme } from './helpers/example-themes';
 
 class GenericSwitcherExample extends React.Component {
   state = {
@@ -57,18 +53,15 @@ class GenericSwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <ItemTheme.Provider value={bloodyItemTheme}>
-            <ChildItemTheme.Provider value={bloodyChildItemTheme}>
-              <AtlassianSwitcher
-                product="site-admin"
-                cloudId="some-cloud-id"
-                triggerXFlow={this.onTriggerXFlow}
-                isDiscoverMoreForEveryoneEnabled
-                onDiscoverMoreClicked={this.onDiscoverMoreClicked}
-                enableUserCentricProducts
-              />
-            </ChildItemTheme.Provider>
-          </ItemTheme.Provider>
+          <AtlassianSwitcher
+            product="site-admin"
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+            isDiscoverMoreForEveryoneEnabled
+            onDiscoverMoreClicked={this.onDiscoverMoreClicked}
+            enableUserCentricProducts
+            theme={customTheme}
+          />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

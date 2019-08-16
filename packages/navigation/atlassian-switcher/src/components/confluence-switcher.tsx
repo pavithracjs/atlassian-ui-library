@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import Switcher from './switcher';
+import Switcher from '../primitives/themed-switcher';
 import {
   CustomLinksProvider,
   MANAGE_HREF,
@@ -16,6 +16,7 @@ import {
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
+import { Themeable } from '../theme';
 
 type ConfluenceSwitcherProps = {
   cloudId: string;
@@ -26,7 +27,7 @@ type ConfluenceSwitcherProps = {
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
-export default (props: ConfluenceSwitcherProps) => (
+export default (props: Themeable<ConfluenceSwitcherProps>) => (
   <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
     {customLinks => (
       <AvailableProductsProvider

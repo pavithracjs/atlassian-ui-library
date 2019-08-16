@@ -5,7 +5,7 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
 import { ItemTheme } from '../src/theme';
-import { bloodyItemTheme } from './helpers/example-themes';
+import { customTheme } from './helpers/example-themes';
 class InlineDialogSwitcherExample extends React.Component {
   state = {
     isOpen: false,
@@ -71,16 +71,15 @@ class InlineDialogSwitcherExample extends React.Component {
               overflow: 'auto',
             }}
           >
-            <ItemTheme.Provider value={bloodyItemTheme}>
-              <AtlassianSwitcher
-                product="trello"
-                disableCustomLinks
-                disableRecentContainers
-                disableHeadings
-                cloudId="some-cloud-id"
-                triggerXFlow={this.onTriggerXFlow}
-              />
-            </ItemTheme.Provider>
+            <AtlassianSwitcher
+              product="trello"
+              disableCustomLinks
+              disableRecentContainers
+              disableHeadings
+              cloudId="some-cloud-id"
+              triggerXFlow={this.onTriggerXFlow}
+              theme={customTheme}
+            />
           </div>
         }
       >

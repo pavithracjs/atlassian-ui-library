@@ -1,31 +1,30 @@
 import { colors } from '@atlaskit/theme';
-import { ThemeProps } from '../../src/theme';
+import { createCustomTheme } from '../../src/utils/theme-builder';
 
-export const bloodyItemTheme = (theme: any, props: ThemeProps) => ({
-  ...theme(props),
-  hover: {
-    ...theme(props).hover,
-    background: colors.R500,
-    text: colors.N0,
-    secondaryText: colors.N30,
+export const customTheme = createCustomTheme({
+  mainBackgroundColor: colors.R75,
+  item: {
+    hover: {
+      background: colors.R500,
+      text: colors.R75,
+      secondaryText: colors.N30,
+    },
+    default: {
+      text: colors.R500,
+      secondaryText: colors.R200,
+    },
   },
-  default: {
-    ...theme(props).default,
-    text: colors.R500,
-    secondaryText: colors.R200,
+  childItem: {
+    hover: {
+      background: colors.R500,
+      text: colors.N0,
+      secondaryText: colors.N30,
+    },
+    default: {
+      text: colors.R500,
+    },
   },
 });
 
-export const bloodyChildItemTheme = (theme: any, props: ThemeProps) => ({
-  ...theme(props),
-  hover: {
-    ...theme(props).hover,
-    background: colors.R500,
-    text: colors.N0,
-    secondaryText: colors.N30,
-  },
-  default: {
-    ...theme(props).default,
-    text: colors.R500,
-  },
-});
+export const bloodyItemTheme = customTheme.itemTheme;
+export const bloodyChildItemTheme = customTheme.childItemTheme;

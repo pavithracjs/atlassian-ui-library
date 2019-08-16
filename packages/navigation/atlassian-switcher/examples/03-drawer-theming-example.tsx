@@ -4,8 +4,7 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { bloodyItemTheme } from './helpers/example-themes';
-import { ItemTheme } from '../src/theme';
+import { customTheme } from './helpers/example-themes';
 
 class JiraSwitcherExample extends React.Component {
   state = {
@@ -59,13 +58,12 @@ class JiraSwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <ItemTheme.Provider value={bloodyItemTheme}>
-            <AtlassianSwitcher
-              product="jira"
-              cloudId="some-cloud-id"
-              triggerXFlow={this.onTriggerXFlow}
-            />
-          </ItemTheme.Provider>
+          <AtlassianSwitcher
+            product="jira"
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+            theme={customTheme}
+          />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

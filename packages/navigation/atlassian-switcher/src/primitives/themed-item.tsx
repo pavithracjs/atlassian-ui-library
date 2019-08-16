@@ -5,13 +5,11 @@ import { ItemTheme, Themeable } from '../theme';
 import { ThemeProvider } from 'styled-components';
 
 export default (props: Themeable<SwitcherItemProps>) => (
-  <ItemTheme.Provider>
-    <ItemTheme.Consumer>
-      {tokens => (
-        <ThemeProvider theme={{ [itemThemeNamespace]: tokens }}>
-          <Item {...props} />
-        </ThemeProvider>
-      )}
-    </ItemTheme.Consumer>
-  </ItemTheme.Provider>
+  <ItemTheme.Consumer>
+    {tokens => (
+      <ThemeProvider theme={{ [itemThemeNamespace]: tokens }}>
+        <Item {...props} />
+      </ThemeProvider>
+    )}
+  </ItemTheme.Consumer>
 );
