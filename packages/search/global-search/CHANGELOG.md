@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.2.1
+
+### Patch Changes
+
+- [patch][f96e55e2ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f96e55e2ec):
+
+  show project name for jira board results
+
 ## 11.2.0
 
 ### Minor Changes
