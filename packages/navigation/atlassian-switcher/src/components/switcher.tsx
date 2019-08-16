@@ -48,6 +48,10 @@ type SwitcherProps = {
   customLinks: SwitcherItemType[];
   productTopItemVariation?: string;
   manageLink?: string;
+  /**
+   * Remove section headers - useful if something else is providing them. i.e: trello inline dialog
+   */
+  disableHeadings?: boolean;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -129,6 +133,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       hasLoaded,
       hasLoadedCritical,
       productTopItemVariation,
+      disableHeadings,
     } = this.props;
 
     /**
@@ -186,7 +191,11 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={<FormattedMessage {...messages.switchTo} />}
+            title={
+              disableHeadings ? null : (
+                <FormattedMessage {...messages.switchTo} />
+              )
+            }
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext
@@ -278,7 +287,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           </Section>
           <Section
             sectionId="recent"
-            title={<FormattedMessage {...messages.recent} />}
+            title={
+              disableHeadings ? null : <FormattedMessage {...messages.recent} />
+            }
           >
             {recentLinks.map(
               ({ key, label, href, type, description, Icon }, idx) => (
@@ -299,7 +310,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           </Section>
           <Section
             sectionId="customLinks"
-            title={<FormattedMessage {...messages.more} />}
+            title={
+              disableHeadings ? null : <FormattedMessage {...messages.more} />
+            }
           >
             {customLinks.map(({ label, href, Icon }, idx) => (
               // todo: id in SwitcherItem should be consumed from custom link resolver

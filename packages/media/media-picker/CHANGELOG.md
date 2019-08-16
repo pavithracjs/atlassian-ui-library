@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.8
+
+### Patch Changes
+
+- [patch][1439241943](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1439241943):
+
+  Adding error boundary in media picker dropzone
+
 ## 46.0.7
 
 ### Patch Changes

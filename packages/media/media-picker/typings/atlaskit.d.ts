@@ -21,3 +21,6 @@ declare module '@atlaskit/webdriver-runner/runner' {
     tester: Tester,
   );
 }
+
+// TEMPORARY - TO BE REMOVED AFTER MIGRATE `@atlaskit/analytics-next` TO TYPESCRIPT
+declare module '@atlaskit/analytics-next/AnalyticsErrorBoundary';

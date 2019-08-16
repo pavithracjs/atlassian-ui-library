@@ -25,6 +25,7 @@ describe('mapJiraItemToResult', () => {
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
       contentType: ContentType.JiraIssue,
+      isRecentResult: false,
     });
   });
 
@@ -44,6 +45,7 @@ describe('mapJiraItemToResult', () => {
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
       contentType: ContentType.JiraIssue,
+      isRecentResult: false,
     });
   });
 
@@ -74,11 +76,11 @@ describe('mapJiraItemToResult', () => {
       avatarUrl: avatar.url,
       name: board.name,
       href: expect.stringMatching(board.url),
-      containerName:
-        board.attributes.container && board.attributes.container.title,
+      containerName: board.attributes.containerName,
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
       contentType: ContentType.JiraBoard,
+      isRecentResult: false,
     });
   });
 
@@ -96,6 +98,7 @@ describe('mapJiraItemToResult', () => {
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraProjectResult,
       contentType: ContentType.JiraProject,
+      isRecentResult: false,
     });
   });
 
@@ -122,6 +125,15 @@ describe('mapJiraItemToResult', () => {
       });
     },
   );
+
+  it('should set the isRecentResult attribute', () => {
+    const project = generateRandomJiraProject() as JiraItemV2;
+    const result = mapJiraItemToResult(AnalyticsType.RecentJira)(project);
+
+    expect(result).toMatchObject({
+      isRecentResult: true,
+    });
+  });
 
   describe('avatar url', () => {
     it('should be able to extract the 48x48 avatar url', () => {
