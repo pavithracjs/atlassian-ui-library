@@ -216,21 +216,8 @@ const getProductSiteUrl = (connectedSite: ConnectedSite): string => {
   return siteUrl + AVAILABLE_PRODUCT_DATA_MAP[product.productType].href;
 };
 
-const getLinkDescription = (
-  siteName: string,
-  singleSite: boolean,
-  productType: WorklensProductType,
-): string | null => {
-  if (singleSite || productType === WorklensProductType.BITBUCKET) {
-    return null;
-  }
-
-  return siteName;
-};
-
 const getAvailableProductLinkFromSiteProduct = (
   connectedSites: ConnectedSite[],
-  singleSite: boolean,
   productTopItemVariation?: string,
 ): SwitcherItemType => {
   // if productTopItemVariation is 'most-frequent-site', we show most frequently visited site at the top
@@ -250,7 +237,7 @@ const getAvailableProductLinkFromSiteProduct = (
     ...productLinkProperties,
     key: productType + topSite.siteName,
     href: getProductSiteUrl(topSite),
-    description: getLinkDescription(topSite.siteName, singleSite, productType),
+    description: topSite.siteName,
     productType,
     childItems:
       connectedSites.length > 1
@@ -295,7 +282,6 @@ export const getAvailableProductLinks = (
       connectedSites &&
       getAvailableProductLinkFromSiteProduct(
         connectedSites,
-        availableProducts.sites.length === 1,
         productTopItemVariation,
       )
     );
