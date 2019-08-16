@@ -1,1 +1,0 @@
-Change the code-insights tool to compare the duplicates of the latest commit with the branch of point with master. Instead of the current behaviour of comparing branch with origin/master.
