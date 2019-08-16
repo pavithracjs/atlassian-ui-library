@@ -90,13 +90,15 @@ const getRecentItemMatches = (
     return [];
   }
 
-  return recentItems.objects
-    .filter(result => {
-      return (
-        containsQuery(result.name, query) ||
-        (result.objectKey && containsQuery(result.objectKey, query))
-      );
-    })
+  const issueKeyMatches = recentItems.objects.filter(
+    result => result.objectKey && containsQuery(result.objectKey, query),
+  );
+  const titleMatches = recentItems.objects.filter(result =>
+    containsQuery(result.name, query),
+  );
+
+  return issueKeyMatches
+    .concat(titleMatches)
     .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
 };
 

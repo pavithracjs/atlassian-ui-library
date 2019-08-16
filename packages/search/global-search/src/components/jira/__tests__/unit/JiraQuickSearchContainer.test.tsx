@@ -568,6 +568,55 @@ describe('Jira Quick Search Container', () => {
       expect(issueKeys).toEqual(['TEST-123', 'TEST-1']);
     });
 
+    it('should show issueKey matches before title matches', () => {
+      const recentItems: JiraResultsMap = {
+        objects: [
+          makeJiraObjectResult({
+            resultId: recentItemCommon1a,
+            name: 'This issue has TEST-123 in the title',
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-4',
+          }),
+          makeJiraObjectResult({
+            resultId: recentItemCommon2,
+            name: recentItemCommon2,
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-123',
+          }),
+          makeJiraObjectResult({
+            resultId: recentItemCommon1b,
+            name: recentItemCommon1b,
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-12',
+          }),
+        ],
+        containers: [],
+        people: [],
+      };
+
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'test-1',
+        recentItems,
+        true,
+        'some-session-id',
+      );
+
+      expect(displayedResults.length).toBe(4);
+      const issueKeys = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.objectKey);
+      // The issueKey matches should appear before the title matches
+      expect(issueKeys).toEqual(['TEST-123', 'TEST-12', 'TEST-4']);
+    });
+
     it('should show normal list of issues when not loading with matching recent items at the top', () => {
       const component = renderComponent({
         features: {
