@@ -113,6 +113,12 @@ describe('MediaNodeUpdater', () => {
 
       await mediaNodeUpdater.updateFileAttrs();
 
+      expect(mediaClient.file.getCurrentState).toBeCalledWith(
+        'source-file-id',
+        {
+          collectionName: 'source-collection',
+        },
+      );
       expect(commands.updateMediaNodeAttrs).toBeCalledTimes(1);
       expect(commands.updateMediaNodeAttrs).toBeCalledWith(
         'source-file-id',
