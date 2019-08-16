@@ -26,13 +26,15 @@ describe('Dropzone Async Loader', () => {
       });
     });
 
-    it('should NOT render Dropzone component', () => {
+    it('should NOT render Dropzone component', async () => {
       const wrapper = mount<DropzoneWithMediaClientConfigProps, State>(
         <DropzoneLoader
           mediaClientConfig={mediaClient.config}
           config={config}
         />,
       );
+
+      await nextTick();
 
       expect(wrapper.state().Dropzone).toBeUndefined();
     });
@@ -54,7 +56,7 @@ describe('Dropzone Async Loader', () => {
 
       await nextTick();
 
-      expect(wrapper.state().Dropzone).not.toBeUndefined();
+      expect(wrapper.state().Dropzone).toBeDefined();
     });
 
     it('should render Error boundary component', async () => {
