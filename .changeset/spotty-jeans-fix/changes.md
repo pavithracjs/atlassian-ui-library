@@ -1,1 +1,0 @@
-Fixes bug in CLI not passing flags correctly

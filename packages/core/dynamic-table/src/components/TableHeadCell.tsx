@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import { HeadCell } from '../styled/TableHead';
 import { SortOrderType } from '../types';
 
@@ -11,6 +11,7 @@ export interface Props {
   inlineStyles?: {};
   content?: React.ReactNode;
   onClick?: () => void;
+  onKeyDown?: (e: KeyboardEvent) => void;
 }
 
 class TableHeadCell extends React.Component<Props, {}> {
@@ -23,7 +24,11 @@ class TableHeadCell extends React.Component<Props, {}> {
     const { content, inlineStyles, ...rest } = this.props;
 
     return (
-      <HeadCell style={inlineStyles} {...rest}>
+      <HeadCell
+        style={inlineStyles}
+        {...rest}
+        tabIndex={rest.isSortable ? 0 : undefined}
+      >
         <span>{content}</span>
       </HeadCell>
     );

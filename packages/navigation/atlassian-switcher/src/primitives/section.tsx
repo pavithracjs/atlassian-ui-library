@@ -39,9 +39,11 @@ const Section = (props: SectionProps) => {
 
   return React.Children.count(children) ? (
     <SectionContainer>
-      <FadeIn>
-        <SectionTitle>{title}</SectionTitle>
-      </FadeIn>
+      {title && (
+        <FadeIn>
+          <SectionTitle>{title}</SectionTitle>
+        </FadeIn>
+      )}
       {children}
     </SectionContainer>
   ) : null;

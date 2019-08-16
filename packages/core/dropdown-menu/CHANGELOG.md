@@ -1,5 +1,13 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.12
+
+### Patch Changes
+
+- [patch][d905cbc0ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d905cbc0ac):
+
+  Adding a condition to check if the component are referenced in tests running in CI. It reduces the noise and help reading the CI log.
+
 ## 8.0.11
 
 ### Patch Changes
