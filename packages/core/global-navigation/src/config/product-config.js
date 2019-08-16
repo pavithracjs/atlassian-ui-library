@@ -57,7 +57,10 @@ function configFactory(
 ) {
   const { href } = otherConfig;
   const shouldNotRenderItem = !onClick && !href;
-
+  let { label } = otherConfig;
+  if (!label && typeof tooltip === 'string') {
+    label = tooltip;
+  }
   if (shouldNotRenderItem && (tooltip || isNotEmpty(otherConfig))) {
     // eslint-disable-next-line no-console
     console.warn(
@@ -71,6 +74,7 @@ function configFactory(
     ...(href ? { href } : null),
     ...(onClick ? { onClick } : null),
     ...(tooltip ? { tooltip } : null),
+    label,
     ...otherConfig,
   };
 }
@@ -84,11 +88,15 @@ function helpConfigFactory(items, tooltip, otherConfig = {}) {
   }
 
   if (!items) return null;
-
+  let { label } = otherConfig;
+  if (!label && typeof tooltip === 'string') {
+    label = tooltip;
+  }
   return {
     icon: QuestionIcon,
     dropdownItems: items,
     ...(tooltip ? { tooltip } : null),
+    label,
     ...otherConfig,
   };
 }
@@ -120,10 +128,14 @@ function profileConfigFactory(
   const profileComponent = items
     ? { icon: generateAvatar(profileIconUrl), dropdownItems: items }
     : { icon: SignInIcon, href };
-
+  let { label } = otherConfig;
+  if (!label && typeof tooltip === 'string') {
+    label = tooltip;
+  }
   return {
     ...profileComponent,
-    ...(tooltip ? { tooltip, label: tooltip } : null),
+    ...(tooltip ? { tooltip } : null),
+    label,
     ...otherConfig,
   };
 }
@@ -159,17 +171,20 @@ function notificationConfigFactory(
     }
     openDrawer();
   };
-  const label = notificationLabel || notificationTooltip;
   return isNotificationInbuilt
     ? configFactory(notificationOnClickHandler, notificationTooltip, {
         badgeCount,
         getRef: getNotificationRef,
-        label,
+        label: notificationLabel,
       })
     : configFactory(
         onNotificationClick || (notificationDrawerContents && openDrawer),
         notificationTooltip,
-        { ...notificationBadge(badgeCount), getRef: getNotificationRef, label },
+        {
+          ...notificationBadge(badgeCount),
+          getRef: getNotificationRef,
+          label: notificationLabel,
+        },
       );
 }
 
@@ -222,7 +237,7 @@ export default function generateProductConfig(
     getStarredRef,
 
     notificationTooltip,
-    notificationLabel,
+    notificationsLabel,
     notificationCount,
     notificationDrawerContents,
     onNotificationClick,
@@ -270,44 +285,47 @@ export default function generateProductConfig(
       icon: productIcon,
       href: productHref,
       getRef: getProductRef,
-      label: productLabel || productTooltip,
+      label: productLabel,
     }),
     recent: configFactory(
       onRecentClick || (recentDrawerContents && openDrawer('recent')),
       recentTooltip,
-      { getRef: getRecentRef, label: recentLabel || recentTooltip },
+      { getRef: getRecentRef, label: recentLabel },
     ),
     invite: configFactory(
       onInviteClick || (inviteDrawerContents && openDrawer('invite')),
       inviteTooltip,
-      { getRef: getInviteRef, label: inviteLabel || inviteTooltip },
+      { getRef: getInviteRef, label: inviteLabel },
     ),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),
       createTooltip,
-      { getRef: getCreateRef, label: createLabel || createTooltip },
+      { getRef: getCreateRef, label: createLabel },
     ),
     search: configFactory(
       onSearchClick || (searchDrawerContents && openDrawer('search')),
       searchTooltip,
-      { getRef: getSearchRef, label: searchLabel || searchTooltip },
+      { getRef: getSearchRef, label: searchLabel },
     ),
     starred: configFactory(
       onStarredClick || (starredDrawerContents && openDrawer('starred')),
       starredTooltip,
-      { getRef: getStarredRef, label: starredLabel || starredTooltip },
+      { getRef: getStarredRef, label: starredLabel },
     ),
     help: enableHelpDrawer
       ? configFactory(
           onHelpClick || (helpDrawerContents && openDrawer('help')),
           helpTooltip,
-          { getRef: getHelpRef, label: helpLabel || helpTooltip },
+          { getRef: getHelpRef, label: helpLabel },
         )
-      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
+      : helpConfigFactory(helpItems, helpTooltip, {
+          getRef: getHelpRef,
+          label: helpLabel,
+        }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
-      { getRef: getSettingsRef, label: settingsLabel || settingsTooltip },
+      { getRef: getSettingsRef, label: settingsLabel },
     ),
     atlassianSwitcher: shouldRenderAtlassianSwitcher
       ? configFactory(openDrawer('atlassianSwitcher'), '', {
@@ -317,7 +335,7 @@ export default function generateProductConfig(
 
     notification: notificationConfigFactory(
       notificationTooltip,
-      notificationLabel,
+      notificationsLabel,
       notificationCount,
       notificationDrawerContents,
       onNotificationClick,
@@ -330,13 +348,13 @@ export default function generateProductConfig(
       profileTooltip,
       loginHref,
       profileIconUrl,
-      { getRef: getProfileRef, label: profileLabel || profileTooltip },
+      { getRef: getProfileRef, label: profileLabel },
     ),
     appSwitcher:
       appSwitcherComponent && !shouldRenderAtlassianSwitcher
         ? {
             itemComponent: appSwitcherComponent,
-            label: appSwitcherLabel || appSwitcherTooltip,
+            label: appSwitcherLabel,
             tooltip: appSwitcherTooltip,
             getRef: getAppSwitcherRef,
           }

@@ -198,7 +198,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the product logo item. */
   productLabel?: string,
   /** The text to display in the tooltip for the product logo item. */
-  productTooltip?: Node,
+  productTooltip?: string | Node,
   /** An href attribute for the product logo item. */
   productHref?: string,
   /** A function to get ref of the product icon */
@@ -210,7 +210,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the recent drawer item. */
   recentLabel?: string,
   /** The text to display in the tooltip for the recent drawer item. */
-  recentTooltip?: Node,
+  recentTooltip?: string | Node,
   /** A function to get ref of the recent icon */
   getRecentRef?: (node: NonStringRef<'div'>) => void,
 
@@ -220,7 +220,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the global invite drawer item. */
   inviteLabel?: string,
   /** The text to display in the tooltip for the global invite drawer item. */
-  inviteTooltip?: Node,
+  inviteTooltip?: string | Node,
   /** A function to get ref of the global invite icon */
   getInviteRef?: (node: NonStringRef<'div'>) => void,
 
@@ -230,7 +230,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the create drawer item. */
   createLabel?: string,
   /** The text to display in the tooltip for the create drawer item. */
-  createTooltip?: Node,
+  createTooltip?: string | Node,
   /** A function to get ref of the create icon */
   getCreateRef?: (node: NonStringRef<'div'>) => void,
 
@@ -240,7 +240,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the starred drawer item. */
   starredLabel?: string,
   /** The text to display in the tooltip for the starred drawer item. */
-  starredTooltip?: Node,
+  starredTooltip?: string | Node,
   /** A function to get ref of the starred icon */
   getStarredRef?: (node: NonStringRef<'div'>) => void,
 
@@ -250,16 +250,16 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the search drawer item. */
   searchLabel?: string,
   /** The text to display in the tooltip for the search drawer item. */
-  searchTooltip?: Node,
+  searchTooltip?: string | Node,
   /** A function to get ref of the search icon */
   getSearchRef?: (node: NonStringRef<'div'>) => void,
 
   /** The component to render the app switcher. */
   appSwitcherComponent?: ComponentType<*>, // AppSwitcher component
   /** The text to display as the label for the app switcher item. */
-  appswitcherLabel?: string,
+  appSwitcherLabel?: string,
   /** The text to display in the tooltip for the app switcher item. */
-  appSwitcherTooltip?: Node,
+  appSwitcherTooltip?: string | Node,
   /** A function to get ref of the appSwitcher icon */
   getAppSwitcherRef?: (node: NonStringRef<'div'>) => void,
 
@@ -274,7 +274,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the help drawer item. */
   helpLabel?: string,
   /** The text to display in the tooltip for the help drawer item. */
-  helpTooltip?: Node,
+  helpTooltip?: string | Node,
   /** A function to get ref of the help icon */
   getHelpRef?: (node: NonStringRef<'div'>) => void,
 
@@ -286,7 +286,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the profile item. */
   profileLabel?: string,
   /** The text to display in the tooltip for the profile item. */
-  profileTooltip?: Node,
+  profileTooltip?: string | Node,
   /** A component to render into the profile menu dropdown. */
   profileItems?: ComponentType<{}>,
   /** The URL of the avatar image to render in the profile item. */
@@ -305,7 +305,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the notifications drawer item. */
   notificationsLabel?: string,
   /** The text to display in the tooltip for the notifications drawer item. */
-  notificationTooltip?: Node,
+  notificationTooltip?: string | Node,
   /** A function to get ref of the notification icon */
   getNotificationRef?: (node: NonStringRef<'div'>) => void,
 
@@ -314,7 +314,7 @@ export type GlobalNavigationProps = {
   /** The text to display as the label for the settings drawer item. */
   settingsLabel?: string,
   /** The text to display in the tooltip for the settings drawer item. */
-  settingsTooltip?: Node,
+  settingsTooltip?: string | Node,
   /** A function to get ref of the settings icon */
   getSettingsRef?: (node: NonStringRef<'div'>) => void,
 
