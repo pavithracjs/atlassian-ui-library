@@ -1,0 +1,1 @@
+yRemove description from items that don't have multiple sites
