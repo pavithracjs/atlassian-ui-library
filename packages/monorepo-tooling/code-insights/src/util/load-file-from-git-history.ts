@@ -11,7 +11,7 @@ function getCurrentBranch(): Promise<string> {
         reject(stderr);
       }
 
-      resolve(stdout.toString());
+      resolve(stdout.toString().replace(/\n$/gi, ''));
     });
   });
 }
@@ -32,22 +32,17 @@ function getAncestorCommit(
           reject(stderr);
         }
 
-        resolve(stdout.toString().replace(/\n$/, ''));
+        resolve(stdout.toString().replace(/\n$/gi, ''));
       },
     );
   });
 }
 
-// Lock files tend to be huge
-const FiveMBBuffer = 1024 * 5000;
-
-export default function loadFileFromGitHistory(
-  branchName: string,
+function getFileFromGitHistory(
+  ancestorCommit: string,
   fileName: string,
 ): Promise<string> {
   return new Promise(async (resolve, reject) => {
-    const currentBranch = await getCurrentBranch();
-    const ancestorCommit = await getAncestorCommit(branchName, currentBranch);
     exec(
       `git show ${ancestorCommit}:${fileName}`,
       { maxBuffer: FiveMBBuffer },
@@ -64,4 +59,17 @@ export default function loadFileFromGitHistory(
       },
     );
   });
+}
+
+// Lock files tend to be huge
+const FiveMBBuffer = 1024 * 5000;
+
+export default async function loadFileFromGitHistory(
+  branchName: string,
+  fileName: string,
+): Promise<string> {
+  const currentBranch = await getCurrentBranch();
+  const ancestorCommit = await getAncestorCommit(branchName, currentBranch);
+
+  return getFileFromGitHistory(ancestorCommit, fileName);
 }
