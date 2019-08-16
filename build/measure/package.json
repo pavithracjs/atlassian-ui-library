@@ -15,7 +15,7 @@
   "dependencies": {
     "@atlaskit/webpack-config": "^2.0.5",
     "axios":"^0.18.0",
-    "bolt": "^0.23.1",
+    "bolt": "^0.23.6",
     "chalk": "^2.1.0",
     "gzip-size": "^5.0.0",
     "meow": "^5.0.0",

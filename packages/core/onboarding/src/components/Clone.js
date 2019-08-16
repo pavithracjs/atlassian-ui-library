@@ -5,8 +5,8 @@ import { TargetOverlay, TargetInner } from '../styled/Target';
 type Props = {
   /** Whether or not to display a pulse animation around the spotlighted element */
   pulse: boolean,
-  /* An object containining the information used for positioning clone */
-  rect: {},
+  /* An object containing the information used for positioning clone */
+  style: {},
   /** The name of the SpotlightTarget */
   target?: string,
   /** The spotlight target node */
@@ -35,7 +35,7 @@ function cloneAndOverrideStyles(node: HTMLElement): HTMLElement {
 const Clone = (props: Props) => {
   const {
     pulse,
-    rect,
+    style,
     target,
     targetBgColor,
     targetOnClick,
@@ -48,7 +48,7 @@ const Clone = (props: Props) => {
       pulse={pulse}
       bgColor={targetBgColor}
       radius={targetRadius}
-      style={rect}
+      style={style}
     >
       <div
         // eslint-disable-next-line react/no-danger

@@ -136,7 +136,7 @@ type State = {
   droplistWidth?: number,
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/single-select has been deprecated. Please use the @atlaskit/select package instead.',

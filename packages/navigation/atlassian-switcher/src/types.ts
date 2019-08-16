@@ -54,6 +54,7 @@ export enum Feature {
   enableUserCentricProducts = 'enableUserCentricProducts',
   disableCustomLinks = 'disableCustomLinks',
   disableRecentContainers = 'disableRecentContainers',
+  disableHeadings = 'disableHeadings',
   xflow = 'xflow',
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }

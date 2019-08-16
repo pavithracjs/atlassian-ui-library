@@ -74,8 +74,7 @@ describe('mapJiraItemToResult', () => {
       avatarUrl: avatar.url,
       name: board.name,
       href: expect.stringMatching(board.url),
-      containerName:
-        board.attributes.container && board.attributes.container.title,
+      containerName: board.attributes.containerName,
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
       contentType: ContentType.JiraBoard,

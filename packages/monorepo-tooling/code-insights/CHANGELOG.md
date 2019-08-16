@@ -1,5 +1,13 @@
 # @atlaskit/code-insights
 
+## 1.1.5
+
+### Patch Changes
+
+- [patch][90de42e3ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90de42e3ac):
+
+  Change the code-insights tool to compare the duplicates of the latest commit with the branch of point with master. Instead of the current behaviour of comparing branch with origin/master.
+
 ## 1.1.4
 
 ### Patch Changes
