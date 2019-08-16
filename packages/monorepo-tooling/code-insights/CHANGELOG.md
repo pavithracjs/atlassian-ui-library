@@ -1,5 +1,13 @@
 # @atlaskit/code-insights
 
+## 1.1.6
+
+### Patch Changes
+
+- [patch][8a30920bec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a30920bec):
+
+  Fix false positives for duplicate dependencies in code-insights.
+
 ## 1.1.5
 
 ### Patch Changes
