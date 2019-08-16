@@ -1,0 +1,1 @@
+Adding error boundary in media picker dropzone
