@@ -1,0 +1,1 @@
+Fix minor bug with faster search analytics
