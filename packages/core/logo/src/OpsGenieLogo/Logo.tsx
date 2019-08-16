@@ -7,8 +7,8 @@ import Wrapper from '../Wrapper';
 
 const svg = (iconGradientStart: string, iconGradientStop: string) => {
   const id = uid({ iconGradientStart: iconGradientStop });
-  return `<canvas height="32" width="179" aria-hidden="true"></canvas>
-  <svg viewBox="0 0 179 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+  return `<canvas height="32" width="133" aria-hidden="true"></canvas>
+  <svg viewBox="0 0 133 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
     <defs>
       <linearGradient id="${id}-1" x1="50%" x2="50%" y1="0%" y2="100%">
         <stop
