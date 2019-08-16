@@ -26,10 +26,6 @@ const itemTheme = {
       right: gridSize(),
     },
   },
-  width: {
-    compact: '100%',
-    default: '100%',
-  },
   hover: {
     background: 'transparent',
   },
