@@ -1,0 +1,1 @@
+The measure tool is now public on npm. This tool measure bundle size of packages in Atlaskit
