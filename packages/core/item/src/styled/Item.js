@@ -48,6 +48,22 @@ const getHeightStyles = ({ isCompact, theme }) => {
     : '';
 };
 
+const getWidthStyles = ({ isCompact, theme }) => {
+  const widthKey = isCompact ? 'compact' : 'default';
+  const width = getThemeStyle(theme[themeNamespace], widthKey, 'width');
+
+  if (!width) {
+    return '';
+  }
+  return typeof width === 'number'
+    ? css`
+        width: ${width}px;
+      `
+    : css`
+        width: ${width};
+      `;
+};
+
 // This function is responsible for drawing any focus styles for the element
 const getInteractiveStyles = ({
   theme,
@@ -117,7 +133,7 @@ export const ItemBase = ({ theme }: any) => css`
     flex: none;
     ${getItemState(
       'default',
-    )} ${getPadding} ${getInteractiveStyles} ${getHeightStyles} &:focus {
+    )} ${getPadding} ${getInteractiveStyles} ${getHeightStyles} ${getWidthStyles} &:focus {
       /* focus shadow drawn by getInteractiveStyles */
 
       outline: none;

@@ -27,6 +27,10 @@ export const defaultTheme: ItemTheme = {
     compact: 0,
     default: 0,
   },
+  width: {
+    compact: 'auto',
+    default: 'auto',
+  },
   padding: {
     default: {
       bottom: akGridSize() / 2,
