@@ -42,7 +42,7 @@ function getFileFromGitHistory(
   ancestorCommit: string,
   fileName: string,
 ): Promise<string> {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     exec(
       `git show ${ancestorCommit}:${fileName}`,
       { maxBuffer: FiveMBBuffer },
