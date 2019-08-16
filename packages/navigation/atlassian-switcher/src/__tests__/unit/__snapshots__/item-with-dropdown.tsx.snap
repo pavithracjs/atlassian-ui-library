@@ -143,7 +143,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
 }
 
 .c2.c2.c2 > * {
-  max-width: 100%;
+  max-width: calc(100% - 50px);
 }
 
 .c2:hover {
@@ -291,6 +291,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
               onMouseLeave={[Function]}
             >
               <styled.div
+                hasToggle={false}
                 isParentHovered={false}
               >
                 <div
@@ -981,6 +982,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
+                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -2050,6 +2052,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
+                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -3457,6 +3460,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
+                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -4007,7 +4011,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
 }
 
 .c2.c2.c2 > * {
-  max-width: 100%;
+  max-width: calc(100% - 50px);
 }
 
 .c2:hover {
@@ -4155,6 +4159,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
               onMouseLeave={[Function]}
             >
               <styled.div
+                hasToggle={false}
                 isParentHovered={false}
               >
                 <div
