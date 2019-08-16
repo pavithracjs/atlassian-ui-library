@@ -23,7 +23,7 @@ export interface OverflowShadowOptions {
 }
 
 const isIE11 = browser.ie_version === 11;
-const defaultDebounceTime = 250;
+const defaultDebounceTime = 500;
 
 export default function overflowShadow<P extends OverflowShadowProps>(
   Component: React.ComponentType<P> | React.StatelessComponent<P>,
