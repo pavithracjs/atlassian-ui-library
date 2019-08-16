@@ -143,7 +143,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
 }
 
 .c2.c2.c2 > * {
-  max-width: calc(100% - 50px);
+  max-width: 100%;
 }
 
 .c2:hover {
@@ -291,7 +291,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
               onMouseLeave={[Function]}
             >
               <styled.div
-                hasToggle={false}
                 isParentHovered={false}
               >
                 <div
@@ -982,7 +981,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
-                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -2052,7 +2050,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
-                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -3460,7 +3457,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
               onMouseLeave={[Function]}
             >
               <styled.div
-                hasToggle={true}
                 isParentHovered={false}
               >
                 <div
@@ -3930,27 +3926,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   padding-bottom: 1px;
 }
 
-.c10 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #6B778C;
-  font-size: 11px;
-  line-height: 1.2727272727272727;
-  padding-bottom: 1px;
-}
-
-*:hover > * > .c10 {
-  color: #6B778C;
-}
-
-*:active > * > .c10 {
-  color: #6B778C;
-}
-
 .c0 {
   -webkit-animation: ljGnjM 500ms ease forwards;
   animation: ljGnjM 500ms ease forwards;
@@ -4011,7 +3986,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
 }
 
 .c2.c2.c2 > * {
-  max-width: calc(100% - 50px);
+  max-width: 100%;
 }
 
 .c2:hover {
@@ -4038,7 +4013,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   fill: transparent;
   -webkit-text-decoration: none;
   text-decoration: none;
-  padding: 7px 8px 7px 8px;
+  padding: 8px 8px 7px 8px;
 }
 
 .c3.c3:focus {
@@ -4159,7 +4134,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
               onMouseLeave={[Function]}
             >
               <styled.div
-                hasToggle={false}
                 isParentHovered={false}
               >
                 <div
@@ -4192,7 +4166,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                     <Item
                       autoFocus={false}
                       createAnalyticsEvent={[Function]}
-                      description="some-instance"
+                      description={null}
                       elemBefore={
                         <Unknown
                           theme="product"
@@ -4216,7 +4190,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                         aria-disabled={false}
                         autoFocus={false}
                         createAnalyticsEvent={[Function]}
-                        description="some-instance"
+                        description={null}
                         elemBefore={
                           <Unknown
                             theme="product"
@@ -4394,16 +4368,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                                   className="c9"
                                 >
                                   Opsgenie
-                                </span>
-                              </styled.span>
-                              <styled.span
-                                isCompact={false}
-                                isDisabled={false}
-                              >
-                                <span
-                                  className="c10"
-                                >
-                                  some-instance
                                 </span>
                               </styled.span>
                             </span>
