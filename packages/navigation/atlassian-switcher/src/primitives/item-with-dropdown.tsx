@@ -33,7 +33,6 @@ const itemTheme = {
     background: 'transparent',
     text: colors.text,
     secondaryText: colors.N200,
-    width: '100%',
   },
 };
 
