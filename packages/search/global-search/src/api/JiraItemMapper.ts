@@ -85,6 +85,7 @@ const mapJiraItemToResultV2 = (
     ...extractSpecificAttributes(attributes),
     avatarUrl: attributes.avatar && extractAvatarUrl(attributes.avatar),
     contentType,
+    isRecentResult: mapAnalyticsTypeToRecentResult(analyticsType),
   };
 };
 
@@ -102,5 +103,12 @@ const mapJiraItemToResultV1 = (
     analyticsType,
     resultType: ResultType.JiraObjectResult,
     contentType: ContentType.JiraIssue,
+    isRecentResult: mapAnalyticsTypeToRecentResult(analyticsType),
   };
+};
+
+const mapAnalyticsTypeToRecentResult = (
+  analyticsType: AnalyticsType,
+): boolean => {
+  return analyticsType.startsWith('recent');
 };
