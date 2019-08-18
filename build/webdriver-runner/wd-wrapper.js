@@ -54,15 +54,54 @@ export default class Page {
   }
 
   async moveTo(selector, x, y) {
-    const elem = await this.browser.$(selector);
-    elem.moveTo(x, y);
-    await this.browser.pause(500);
+    if (this.isBrowser('Safari')) {
+      const bounds = await this.getBoundingRect(selector);
+      await this.SAFARI_moveTo([{ x, y }]);
+    } else {
+      const elem = await this.browser.$(selector);
+      elem.moveTo(x, y);
+      await this.browser.pause(500);
+    }
   }
 
   async hover(selector) {
-    const elem = await this.browser.$(selector);
-    elem.moveTo();
-    await this.browser.pause(500);
+    if (this.isBrowser('Safari')) {
+      const bounds = await this.getBoundingRect(selector);
+
+      await this.SAFARI_moveTo([{ x: bounds.left, y: bounds.top }]);
+    } else {
+      const elem = await this.browser.$(selector);
+      await elem.moveTo(1, 1);
+      return await this.browser.pause(500);
+    }
+  }
+
+  // TODO: Remove it after the fix been merged on webdriver.io:
+  // https://github.com/webdriverio/webdriverio/pull/4330
+  async SAFARI_moveTo(coords) {
+    const actions = coords.map(set => ({
+      type: 'pointerMove',
+      duration: 0,
+      x: set.x,
+      y: set.y,
+    }));
+
+    return this.browser.performActions([
+      {
+        type: 'pointer',
+        id: 'finger1',
+        parameters: { pointerType: 'mouse' },
+        actions,
+      },
+    ]);
+  }
+
+  async getBoundingRect(selector) {
+    return await this.browser.execute(selector => {
+      const element = document.querySelector(selector);
+      const { x, y, width, height } = element.getBoundingClientRect();
+      return { left: x, top: y, width, height, id: element.id };
+    }, selector);
   }
 
   async title() {

@@ -195,8 +195,7 @@ export const insertRow = async (page: any, atIndex: number) => {
 
     await page.mouse.move(x, y);
   } else {
-    const y = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.height * 0.51);
-    await page.moveTo(tableSelectors.nthColumnControl(atIndex), 1, y);
+    await page.hover(tableSelectors.nthRowControl(atIndex + 1));
   }
 
   await page.waitForSelector(tableSelectors.insertButton);
