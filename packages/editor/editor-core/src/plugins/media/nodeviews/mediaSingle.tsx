@@ -98,6 +98,7 @@ export default class MediaSingleNode extends Component<
     }
 
     if (node.attrs.type === 'external') {
+      await mediaNodeUpdater.uploadExternalMedia(this.props.getPos());
       return;
     }
 

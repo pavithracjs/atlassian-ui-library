@@ -1,5 +1,5 @@
 import uuidV4 from 'uuid/v4';
-import { updateMediaNodeAttrs } from '../commands';
+import { updateMediaNodeAttrs, replaceExternalMedia } from '../commands';
 import { MediaAttributes, ExternalMediaAttributes } from '@atlaskit/adf-schema';
 import {
   DEFAULT_IMAGE_HEIGHT,
@@ -119,6 +119,45 @@ export class MediaNodeUpdater {
       .contextIdentifierProvider;
 
     return contextIdentifierProvider.objectId;
+  };
+
+  uploadExternalMedia = async (pos: number) => {
+    const { firstChild } = this.props.node;
+    const mediaProvider = await this.props.mediaProvider;
+
+    if (firstChild && mediaProvider) {
+      const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+        mediaProvider,
+      );
+      if (!uploadMediaClientConfig) {
+        return;
+      }
+      const mediaClient = getMediaClient({
+        mediaClientConfig: uploadMediaClientConfig,
+      });
+
+      const collection =
+        mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
+
+      try {
+        const {
+          uploadableFileUpfrontIds,
+          dimensions,
+        } = await mediaClient.file.uploadExternal(
+          firstChild.attrs.url,
+          collection,
+        );
+
+        replaceExternalMedia(pos, {
+          id: uploadableFileUpfrontIds.id,
+          collection,
+          height: dimensions.height,
+          width: dimensions.width,
+        })(this.props.view.state, this.props.view.dispatch);
+      } catch (e) {
+        //keep it an external image
+      }
+    }
   };
 
   getCurrentContextId = (): string | undefined => {
