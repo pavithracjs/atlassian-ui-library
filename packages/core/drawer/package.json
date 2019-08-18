@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/drawer",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "React component the renders a Drawer from the left of the screen",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -19,7 +19,7 @@
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/avatar": "^16.0.7",
+    "@atlaskit/avatar": "^16.0.9",
     "@atlaskit/blanket": "^10.0.7",
     "@atlaskit/docs": "^8.1.3",
     "@atlaskit/icon": "^19.0.0",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.2.0",
     "@atlaskit/button": "^13.1.1",
-    "@atlaskit/dropdown-menu": "^8.0.11",
+    "@atlaskit/dropdown-menu": "^8.0.12",
     "@atlaskit/quick-search": "^7.6.6",
     "@atlaskit/section-message": "^4.0.5",
     "@atlaskit/ssr": "^0.1.0",

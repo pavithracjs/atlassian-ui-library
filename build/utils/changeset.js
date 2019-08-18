@@ -8,7 +8,7 @@ const path = require('path');
 
 const createChangeset = async (packages, message) => {
   const changeset = {
-    release: packages,
+    releases: packages,
     dependents: [],
   };
   const id = humanId({

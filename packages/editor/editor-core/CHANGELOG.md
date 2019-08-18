@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.41.5
+
+### Patch Changes
+
+- [patch][98dc5f3a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98dc5f3a6a):
+
+  CEMS-201: Fix gadget name in block header extension
+
+## 112.41.4
+
+### Patch Changes
+
+- [patch][c3618f9775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3618f9775):
+
+  CEMS-201: Remove image for block extenions
+
+## 112.41.3
+
+### Patch Changes
+
+- [patch][af9fb044da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af9fb044da):
+
+  CEMS-201: Fix icon sizes in block extension headers
+
 ## 112.41.2
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

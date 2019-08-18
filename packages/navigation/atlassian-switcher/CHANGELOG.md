@@ -1,5 +1,37 @@
 # @atlaskit/atlassian-switcher
 
+## 3.20.0
+
+### Minor Changes
+
+- [minor][a055fbda01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a055fbda01):
+
+  yRemove description from items that don't have multiple sites
+
+## 3.19.0
+
+### Minor Changes
+
+- [minor][d700e692be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d700e692be):
+
+  Fix ellipsis on item with dropdown
+
+## 3.18.0
+
+### Minor Changes
+
+- [minor][bdbe90c48b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdbe90c48b):
+
+  FIND-133: Allow switcher to be rendered standalone (outside a drawer)
+
+## 3.17.1
+
+### Patch Changes
+
+- [patch][04388187f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04388187f4):
+
+  Added docs and details about i18n
+
 ## 3.17.0
 
 ### Minor Changes

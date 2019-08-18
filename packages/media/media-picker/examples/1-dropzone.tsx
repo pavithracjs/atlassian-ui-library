@@ -19,15 +19,9 @@ import {
   DropzoneContentWrapper,
   DropzoneItemsInfo,
 } from '../example-helpers/styled';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 
-import { Dropzone } from '../src/';
-import { DropzoneConfig } from '../src/components/types';
-import { UploadsStartEventPayload } from '../src';
+import { Dropzone, DropzoneConfig, UploadsStartEventPayload } from '../src';
 
 export interface DropzoneWrapperState {
   isConnectedToUsersCollection: boolean;
@@ -41,9 +35,6 @@ const mediaClientConfig = createUploadMediaClientConfig();
 const nonUserMediaClientConfig = createStorybookMediaClientConfig({
   authType: 'asap',
 });
-
-const handleAnalyticsEvent = (event: UIAnalyticsEventInterface) =>
-  console.debug(event);
 
 class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
   dropzoneContainer?: HTMLDivElement;
@@ -170,37 +161,32 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
     const { isConnectedToUsersCollection, isActive } = this.state;
 
     return (
-      <AnalyticsListener channel="media" onEvent={handleAnalyticsEvent}>
-        <PopupContainer>
-          <PopupHeader>
-            <Button appearance="primary" onClick={this.onFetchLastItems}>
-              Fetch last items
-            </Button>
-            <Button appearance="danger">Cancel uploads</Button>
-            Connected to users collection
-            <Toggle
-              isDefaultChecked={isConnectedToUsersCollection}
-              onChange={this.onConnectionChange}
-            />
-            Active
-            <Toggle
-              isDefaultChecked={isActive}
-              onChange={this.onActiveChange}
-            />
-          </PopupHeader>
-          <DropzoneContentWrapper>
-            <DropzoneContainer
-              isActive={isActive}
-              innerRef={this.saveDropzoneContainer}
-            />
-            <DropzoneItemsInfo>
-              {this.renderDragZone()}
-              <h1>User collection items</h1>
-              {this.renderLastItems()}
-            </DropzoneItemsInfo>
-          </DropzoneContentWrapper>
-        </PopupContainer>
-      </AnalyticsListener>
+      <PopupContainer>
+        <PopupHeader>
+          <Button appearance="primary" onClick={this.onFetchLastItems}>
+            Fetch last items
+          </Button>
+          <Button appearance="danger">Cancel uploads</Button>
+          Connected to users collection
+          <Toggle
+            isDefaultChecked={isConnectedToUsersCollection}
+            onChange={this.onConnectionChange}
+          />
+          Active
+          <Toggle isDefaultChecked={isActive} onChange={this.onActiveChange} />
+        </PopupHeader>
+        <DropzoneContentWrapper>
+          <DropzoneContainer
+            isActive={isActive}
+            innerRef={this.saveDropzoneContainer}
+          />
+          <DropzoneItemsInfo>
+            {this.renderDragZone()}
+            <h1>User collection items</h1>
+            {this.renderLastItems()}
+          </DropzoneItemsInfo>
+        </DropzoneContentWrapper>
+      </PopupContainer>
     );
   }
 }

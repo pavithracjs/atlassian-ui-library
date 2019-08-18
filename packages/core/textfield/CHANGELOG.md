@@ -1,5 +1,15 @@
 # @atlaskit/textfield
 
+## 3.0.0
+
+### Major Changes
+
+- [major][84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+
+  - Converting from flow to typescript 🎉
+  - Correctly typing the current prop spreading onto the internal `<input>` element
+  - Removing `isHovered` and `isFocused` from public API as they previously did not do anything
+
 ## 2.0.5
 
 ### Patch Changes

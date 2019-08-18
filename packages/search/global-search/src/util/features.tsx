@@ -2,6 +2,7 @@ import { ABTest, DEFAULT_AB_TEST } from '../api/CrossProductSearchClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
+const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const SEARCH_EXTENSIONS_EXPERIMENT = 'search-extensions-simple';
 const SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT = 'search-extensions-complex';
 
@@ -10,6 +11,10 @@ const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
     abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT ||
     isInSearchExtensionsComplexExperiment(abTest)
   );
+};
+
+const isInFasterSearchExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === FASTER_SEARCH_EXPERIMENT;
 };
 
 const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
@@ -30,6 +35,7 @@ export interface ConfluenceFeatures extends CommonFeatures {
 
 export interface JiraFeatures extends CommonFeatures {
   disableJiraPreQueryPeopleSearch: boolean;
+  isInFasterSearchExperiment: boolean;
 }
 
 export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
@@ -39,6 +45,7 @@ export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
   complexSearchExtensionsEnabled: false,
   disableJiraPreQueryPeopleSearch: false,
   searchExtensionsEnabled: false,
+  isInFasterSearchExperiment: false,
   abTest: DEFAULT_AB_TEST,
 };
 
@@ -67,6 +74,7 @@ export const createFeatures: (
       useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
+      isInFasterSearchExperiment: isInFasterSearchExperiment(abTest),
       searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
       isAutocompleteEnabled,
       isNavAutocompleteEnabled,

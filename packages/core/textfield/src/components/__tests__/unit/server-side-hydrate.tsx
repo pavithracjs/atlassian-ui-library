@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -6,7 +5,9 @@ import { ssr } from '@atlaskit/ssr';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-jest.spyOn(global.console, 'error').mockImplementation(() => {});
+const error: jest.Mock = jest
+  .spyOn(global.console, 'error')
+  .mockImplementation(() => {});
 
 beforeEach(() => {
   jest.setTimeout(10000);
@@ -18,7 +19,6 @@ afterEach(() => {
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
 test.skip('should ssr then hydrate textfield correctly', async () => {
   const [example] = await getExamplesFor('textfield');
-  // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
@@ -26,9 +26,7 @@ test.skip('should ssr then hydrate textfield correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   await waitForExpect(() => {
-    // ignore warnings caused by emotion's server-side rendering approach
-    // eslint-disable-next-line no-console
-    const mockCalls = console.error.mock.calls.filter(
+    const mockCalls = error.mock.calls.filter(
       ([f, s]) =>
         !(
           f ===

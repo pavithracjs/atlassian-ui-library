@@ -22,7 +22,7 @@ type State = {
   valuePercent: string,
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/field-range has been deprecated. Please use the @atlaskit/range package instead.',

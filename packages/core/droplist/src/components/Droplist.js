@@ -65,7 +65,7 @@ type Props = {
   onPositioned?: Function,
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/droplist has been deprecated. It is an internal component and should not be used directly.',

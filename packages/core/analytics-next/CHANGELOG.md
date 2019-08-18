@@ -1,5 +1,13 @@
 # @atlaskit/analytics-next
 
+## 5.4.1
+
+### Patch Changes
+
+- [patch][1439241943](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1439241943):
+
+  Adding error boundary in media picker dropzone
+
 ## 5.4.0
 
 ### Minor Changes
@@ -16,7 +24,7 @@
   import AnalyticsErrorBoundary from '@atlaskit/analytics-next/AnalyticsErrorBoundary';
 
   // Wrapping your component with the component
-  class ButtonWithAnalyticsErrorBoundary etends React.Component {
+  class ButtonWithAnalyticsErrorBoundary extends React.Component {
     handleEvent = (analyticsEvent) => {
       const { payload, context } = analyticsEvent;
       console.log('Received event:', analyticsEvent, { payload, context });

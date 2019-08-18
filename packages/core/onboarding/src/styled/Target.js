@@ -36,9 +36,8 @@ export const Div = styled.div`
   ${backgroundColor} ${borderRadius};
 `;
 
-// fixed position holds the target in place if overflow/scroll is necessary
 export const TargetInner = styled(Div)`
-  ${animationWithCheck} position: absolute;
+  ${animationWithCheck};
 `;
 
 export const TargetOverlay = styled.div`

@@ -1,5 +1,21 @@
 # @atlaskit/media-picker
 
+## 46.0.8
+
+### Patch Changes
+
+- [patch][1439241943](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1439241943):
+
+  Adding error boundary in media picker dropzone
+
+## 46.0.7
+
+### Patch Changes
+
+- [patch][d3ccc2e47f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3ccc2e47f):
+
+  Fix media picker's dropzone analytics event by including the necessary eventType key
+
 ## 46.0.6
 
 ### Patch Changes

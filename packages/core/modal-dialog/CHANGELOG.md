@@ -1,5 +1,12 @@
 # @atlaskit/modal-dialog
 
+## 10.1.2
+
+- Updated dependencies [84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+  - @atlaskit/form@6.1.7
+  - @atlaskit/icon@19.0.2
+  - @atlaskit/textfield@3.0.0
+
 ## 10.1.1
 
 ### Patch Changes

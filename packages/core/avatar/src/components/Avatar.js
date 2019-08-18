@@ -24,7 +24,7 @@ import { Theme } from '../theme';
 import type { AvatarPropTypes, SupportedSizeWithAnIcon } from '../types';
 
 const warn = (message: string) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
     console.warn(message); // eslint-disable-line no-console
   }
 };

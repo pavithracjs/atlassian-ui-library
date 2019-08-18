@@ -1,9 +1,6 @@
-// @flow
-
 import React from 'react';
 import { mount } from 'enzyme';
-
-import Textfield from '../../Textfield';
+import Textfield from '../../../';
 
 describe('Textfield', () => {
   test('should show defaults', () => {
@@ -22,13 +19,6 @@ describe('Textfield', () => {
     describe('isDisabled', () => {
       test("should set it's value to true on the input", () => {
         const wrapper = mount(<Textfield isDisabled />).props().isDisabled;
-        expect(wrapper).toBe(true);
-      });
-    });
-
-    describe('isFocused', () => {
-      test("should set it's value to true on the input", () => {
-        const wrapper = mount(<Textfield isFocused />).props().isFocused;
         expect(wrapper).toBe(true);
       });
     });
@@ -65,22 +55,39 @@ describe('Textfield', () => {
       test('should pass through any native input props to the input', () => {
         const nativeProps = {
           type: 'text',
-          disabled: true,
           name: 'test',
           placeholder: 'test placeholder',
           maxLength: 8,
           min: 1,
           max: 8,
-          required: true,
           autoComplete: 'on',
           form: 'test-form',
           pattern: '/.+/',
         };
 
-        const wrapper = mount(<Textfield {...nativeProps} />)
+        const props = mount(<Textfield {...nativeProps} />)
           .find('input')
           .props();
-        expect(wrapper).toEqual(expect.objectContaining(nativeProps));
+        expect(props).toEqual(expect.objectContaining(nativeProps));
+      });
+
+      test('should override any native input prop clashes', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const nativeProps = {
+          disabled: true,
+        };
+
+        const props = mount(<Textfield {...nativeProps} />)
+          .find('input')
+          .props();
+        expect(props.disabled).toEqual(false);
+
+        expect(warn).toHaveBeenCalledWith(
+          expect.stringContaining(
+            'You are attempting to add prop "disabled" to the input field',
+          ),
+        );
+        warn.mockClear();
       });
     });
 
@@ -113,6 +120,7 @@ describe('Textfield', () => {
         const focusSpy = jest.fn();
         const wrapper = mount(<Textfield onFocus={focusSpy} />);
         expect(focusSpy).toHaveBeenCalledTimes(0);
+        // @ts-ignore
         wrapper.find('input').prop('onFocus')();
         expect(focusSpy).toHaveBeenCalledTimes(1);
       });
@@ -152,7 +160,7 @@ test('textfield ref should be an input', () => {
   mount(
     <div>
       <Textfield
-        ref={input => {
+        ref={(input: HTMLInputElement | null) => {
           ref = input;
         }}
       />

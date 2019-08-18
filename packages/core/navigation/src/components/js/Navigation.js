@@ -149,7 +149,7 @@ type State = {
   resizeDelta: number,
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
   // eslint-disable-next-line no-console
   console.warn(
     '@atlaskit/navigation has been deprecated. Please use the @atlaskit/navigation-next package instead.',
