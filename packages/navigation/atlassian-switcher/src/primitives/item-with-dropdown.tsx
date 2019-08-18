@@ -65,9 +65,17 @@ const ItemContainer = styled.div`
 const ItemWrapper = styled.div<ToggleProps>`
   display: flex;
   flex-grow: 1;
-
   border-radius: 3px;
   padding-top: 1px;
+
+  width: 100%;
+  overflow: hidden;
+
+  // limit the width of the Item component to make sure long labels and descriptions are ellipsed properly
+  // remove this once the Item allows width theming
+  &&& > * {
+    max-width: 100%;
+  }
 
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
@@ -156,7 +164,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
               >
                 <Item
                   elemBefore={icon}
-                  description={description}
+                  description={childItemsExist ? description : null}
                   onClick={onItemClick}
                   {...rest}
                 />

@@ -4,7 +4,7 @@ import * as colors from '@atlaskit/theme/colors';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { MediaViewerProps } from './types';
 
-type MediaViewerWithContextMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+export type MediaViewerWithContextMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   MediaViewerProps
 >;
 
@@ -12,7 +12,7 @@ type MediaViewerWithMediaClientConfigComponent = React.ComponentType<
   MediaViewerWithContextMediaClientConfigProps
 >;
 
-interface AsyncMediaViewerState {
+export interface AsyncMediaViewerState {
   MediaViewer?: MediaViewerWithMediaClientConfigComponent;
 }
 
@@ -30,16 +30,20 @@ export default class AsyncMediaViewer extends React.PureComponent<
 
   async componentWillMount() {
     if (!this.state.MediaViewer) {
-      const [mediaClient, mediaViewerModule] = await Promise.all([
-        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
-        import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
-      ]);
+      try {
+        const [mediaClient, mediaViewerModule] = await Promise.all([
+          import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+          import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
+        ]);
 
-      const MediaViewerWithClient = mediaClient.withMediaClient(
-        mediaViewerModule.MediaViewer,
-      );
-      AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
-      this.setState({ MediaViewer: MediaViewerWithClient });
+        const MediaViewerWithClient = mediaClient.withMediaClient(
+          mediaViewerModule.MediaViewer,
+        );
+        AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
+        this.setState({ MediaViewer: MediaViewerWithClient });
+      } catch (error) {
+        // TODO [MS-2277]: Add operational error to catch async import error
+      }
     }
   }
 

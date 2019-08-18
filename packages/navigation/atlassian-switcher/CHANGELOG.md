@@ -1,5 +1,21 @@
 # @atlaskit/atlassian-switcher
 
+## 3.20.0
+
+### Minor Changes
+
+- [minor][a055fbda01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a055fbda01):
+
+  yRemove description from items that don't have multiple sites
+
+## 3.19.0
+
+### Minor Changes
+
+- [minor][d700e692be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d700e692be):
+
+  Fix ellipsis on item with dropdown
+
 ## 3.18.0
 
 ### Minor Changes

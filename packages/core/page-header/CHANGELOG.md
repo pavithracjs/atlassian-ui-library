@@ -1,5 +1,11 @@
 # @atlaskit/page-header
 
+## 9.0.8
+
+- Updated dependencies [84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+  - @atlaskit/inline-edit@10.0.13
+  - @atlaskit/textfield@3.0.0
+
 ## 9.0.7
 
 ### Patch Changes

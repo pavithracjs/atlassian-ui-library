@@ -1,5 +1,12 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.16
+
+- Updated dependencies [84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+  - @atlaskit/form@6.1.7
+  - @atlaskit/smart-card@12.4.3
+  - @atlaskit/textfield@3.0.0
+
 ## 8.8.15
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

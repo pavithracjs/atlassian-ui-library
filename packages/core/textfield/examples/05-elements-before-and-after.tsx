@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import Avatar from '@atlaskit/avatar';
@@ -12,7 +11,7 @@ export default function() {
         id="after-input"
         elemAfterInput={
           <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
-            <ErrorIcon />
+            <ErrorIcon label="error" />
           </div>
         }
       />
