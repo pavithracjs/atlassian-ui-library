@@ -75,7 +75,7 @@ export const themes: IconThemeMap = {
     iconElevation: elevation.e100,
   },
   subtle: {
-    // backgroundColor: 'transparent',
+    backgroundColor: 'transparent',
     primaryColor: colors.text,
   },
 };

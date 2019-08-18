@@ -5,6 +5,7 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
 import { customTheme } from './helpers/example-themes';
+
 class InlineDialogSwitcherExample extends React.Component {
   state = {
     isOpen: false,
