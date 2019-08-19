@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 49.7.8
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/editor-test-helpers@9.11.6
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-filmstrip@34.3.2
+  - @atlaskit/media-test-helpers@25.0.0
+
 ## 49.7.7
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

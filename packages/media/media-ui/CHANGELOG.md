@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 11.5.2
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-test-helpers@25.0.0
+
 ## 11.5.1
 
 ### Patch Changes
