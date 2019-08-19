@@ -1,5 +1,13 @@
 # @atlaskit/bitbucket-releases-addon
 
+## 1.1.1
+
+### Patch Changes
+
+- [patch][a03a8d4db8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a03a8d4db8):
+
+  Only display on open PRs and restrict changeset support to one per repo (either fs or commit changesets)
+
 ## 1.1.0
 
 - [minor][44ec8bf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44ec8bf):
