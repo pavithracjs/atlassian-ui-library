@@ -27,6 +27,7 @@
       "location": "org.bitbucket.pullrequest.overview.informationPanel",
       "conditions": [{
         "conditions": [{
+          "conditions": [{
             "condition": "equals",
             "target": "repository.uuid",
             "params": {
@@ -47,6 +48,15 @@
             }
           }],
         "type": "OR"
+          },
+        {
+          "condition": "equals",
+          "target": "pullrequest.state",
+          "params": {
+            "value": "OPEN"
+          }
+        }],
+          "type": "AND"
       }]
     }]
   }
