@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AnalyticsListener,
-  UIAnalyticsEventHandlerSignature,
+  UIAnalyticsEventHandler,
 } from '@atlaskit/analytics-next';
 import { DEFAULT_SOURCE, GasPayload } from '@atlaskit/analytics-gas-types';
 import { sendEvent } from '../analytics-web-client-wrapper';
@@ -10,7 +10,7 @@ import { ListenerProps, FabricChannel } from '../types';
 export default class MediaAnalyticsListener extends React.Component<
   ListenerProps
 > {
-  listenerHandler: UIAnalyticsEventHandlerSignature = event => {
+  listenerHandler: UIAnalyticsEventHandler = event => {
     const { client, logger } = this.props;
     logger.debug('Received Media event', event);
 

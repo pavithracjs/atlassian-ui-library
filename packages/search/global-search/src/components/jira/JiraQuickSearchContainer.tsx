@@ -634,6 +634,7 @@ export class JiraQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         handleSearchSubmit={this.handleSearchSubmit}
+        // @ts-ignore this prop should not be accessed by consumers
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}
@@ -654,5 +655,5 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
 );
 
 export default injectFeatures(
-  withAnalyticsEvents<Props>()(JiraQuickSearchContainerWithIntl),
+  withAnalyticsEvents()(JiraQuickSearchContainerWithIntl),
 );

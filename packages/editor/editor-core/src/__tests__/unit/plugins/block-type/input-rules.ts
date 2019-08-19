@@ -15,7 +15,7 @@ import {
   a as link,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
 import { EditorView } from 'prosemirror-view';
@@ -23,7 +23,7 @@ import { EditorView } from 'prosemirror-view';
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let trackEvent: jest.SpyInstance | undefined;
 
   const editor = (doc: any) => {

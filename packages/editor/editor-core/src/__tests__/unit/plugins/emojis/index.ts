@@ -18,7 +18,7 @@ import {
   spyOnReturnValue,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { emojiPluginKey } from '../../../../plugins/emoji/pm-plugins/main';
 
 const { testData } = emojiData;
@@ -44,7 +44,7 @@ describe('emojis', () => {
 
   const event = createEvent('event');
   const providerFactory = ProviderFactory.create({ emojiProvider });
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });

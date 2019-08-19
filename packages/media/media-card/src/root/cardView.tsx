@@ -8,7 +8,7 @@ import {
 import {
   withAnalyticsEvents,
   createAndFireEvent,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 
 import {
@@ -55,7 +55,7 @@ export interface CardViewState {
 }
 
 export type CardViewBaseProps = CardViewOwnProps &
-  WithAnalyticsEventProps & {
+  WithAnalyticsEventsProps & {
     readonly mediaItemType: MediaItemType;
   };
 
@@ -211,9 +211,7 @@ const createAndFireEventOnMedia = createAndFireEvent('media');
  * With this CardView class constructor version `createAnalyticsEvent` props is supplied for you, so
  * when creating instance of that class you don't need to worry about it.
  */
-export const CardViewWithAnalyticsEvents = withAnalyticsEvents<
-  CardViewBaseProps
->({
+export const CardViewWithAnalyticsEvents = withAnalyticsEvents({
   onClick: createAndFireEventOnMedia({ action: 'clicked' }),
 })(CardViewBase);
 

@@ -1,4 +1,5 @@
 import { ComponentType, ReactNode, KeyboardEvent, MouseEvent } from 'react';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 export interface TabData {
   label?: string;
@@ -54,7 +55,7 @@ export type OnSelectCallback = (
   selectedIndex: number,
 ) => void;
 
-export interface TabsProps {
+export interface TabsProps extends WithAnalyticsEventsProps {
   /** Custom components to render instead of the default tab item or content.
    * See Tab Content Provided Props and Tab Item Provided Props below. */
   components?: {

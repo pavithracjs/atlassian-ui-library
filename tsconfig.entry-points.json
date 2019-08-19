@@ -63,6 +63,10 @@
         "../../core/analytics-next/src/AnalyticsContext",
         "./packages/core/analytics-next/src/AnalyticsContext"
       ],
+      "@atlaskit/analytics-next/AnalyticsContextConsumer": [
+        "../../core/analytics-next/src/AnalyticsContextConsumer",
+        "./packages/core/analytics-next/src/AnalyticsContextConsumer"
+      ],
       "@atlaskit/analytics-next/AnalyticsErrorBoundary": [
         "../../core/analytics-next/src/AnalyticsErrorBoundary",
         "./packages/core/analytics-next/src/AnalyticsErrorBoundary"

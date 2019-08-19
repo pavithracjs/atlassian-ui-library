@@ -8,7 +8,7 @@ import { hideControlsClassName, MediaButton } from '@atlaskit/media-ui';
 import { Shortcut } from '@atlaskit/media-ui';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { ArrowsWrapper, RightWrapper, LeftWrapper, Arrow } from './styled';
 import { getSelectedIndex } from './utils';
@@ -25,7 +25,7 @@ export type NavigationProps = Readonly<{
   selectedItem: Identifier;
   onChange: (item: Identifier) => void;
 }> &
-  WithAnalyticsEventProps;
+  WithAnalyticsEventsProps;
 
 export type NavigationSource = 'keyboard' | 'mouse';
 export class NavigationBase extends Component<NavigationProps, {}> {
@@ -114,6 +114,4 @@ export class NavigationBase extends Component<NavigationProps, {}> {
   }
 }
 
-export const Navigation = withAnalyticsEvents<NavigationProps>({})(
-  NavigationBase,
-);
+export const Navigation = withAnalyticsEvents({})(NavigationBase);

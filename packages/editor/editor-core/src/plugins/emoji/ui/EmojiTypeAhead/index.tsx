@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { Popup, akEditorFloatingDialogZIndex } from '@atlaskit/editor-common';
 import { EmojiTypeAhead as AkEmojiTypeAhead } from '@atlaskit/emoji/typeahead';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
@@ -35,7 +35,7 @@ export interface Props {
   popupsScrollableElement?: HTMLElement;
   emojiProvider: Promise<EmojiProvider>;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface State {

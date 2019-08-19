@@ -1,6 +1,5 @@
-/* eslint-disable import/prefer-default-export */
-
 import { ReactNode, MouseEventHandler, FocusEventHandler } from 'react';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 export type ChildrenType = any;
 export type ElementType = any;
@@ -62,13 +61,14 @@ export type AutoDismissFlagProps = {
   linkComponent?: ElementType;
 };
 
-export type FlagProps = AutoDismissFlagProps & {
-  /** Standard onBlur event, applied to Flag by AutoDismissFlag */
-  onBlur?: FocusEventHandler;
-  /** Standard onFocus event, applied to Flag by AutoDismissFlag */
-  onFocus?: FocusEventHandler;
-  /** Standard onMouseOut event, applied to Flag by AutoDismissFlag */
-  onMouseOut?: MouseEventHandler;
-  /** Standard onMouseOver event, applied to Flag by AutoDismissFlag */
-  onMouseOver?: MouseEventHandler;
-};
+export type FlagProps = AutoDismissFlagProps &
+  WithAnalyticsEventsProps & {
+    /** Standard onBlur event, applied to Flag by AutoDismissFlag */
+    onBlur?: FocusEventHandler;
+    /** Standard onFocus event, applied to Flag by AutoDismissFlag */
+    onFocus?: FocusEventHandler;
+    /** Standard onMouseOut event, applied to Flag by AutoDismissFlag */
+    onMouseOut?: MouseEventHandler;
+    /** Standard onMouseOver event, applied to Flag by AutoDismissFlag */
+    onMouseOver?: MouseEventHandler;
+  };

@@ -1,4 +1,4 @@
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorPlugin, EditorProps } from '../types';
 import {
   basePlugin,
@@ -83,7 +83,7 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
  */
 export default function createPluginsList(
   props: EditorProps,
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
 ): EditorPlugin[] {
   const plugins = getDefaultPluginsList(props);
 

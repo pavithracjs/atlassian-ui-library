@@ -14,7 +14,7 @@ import {
   createAndFireEvent,
   withAnalyticsEvents,
   withAnalyticsContext,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import Blanket from '@atlaskit/blanket';
 import {
@@ -33,7 +33,7 @@ const OnlyChild: FC<any> = ({ children }) =>
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 const createAndFireOnClick = (
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent: CreateUIAnalyticsEvent,
   trigger: CloseTrigger,
 ) =>
   createAndFireEventOnAtlaskit({
@@ -180,8 +180,8 @@ export * from './skeletons';
 export * from './item-group';
 export * from './item';
 
-export default withAnalyticsContext<DrawerProps>({
+export default withAnalyticsContext({
   componentName: 'drawer',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<DrawerProps>()(DrawerBase));
+})(withAnalyticsEvents()(DrawerBase));

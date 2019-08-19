@@ -11,7 +11,7 @@ import {
   emojiQuery,
   emoji,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
 import { EditorState } from 'prosemirror-state';
 
@@ -21,7 +21,7 @@ const providerFactory = ProviderFactory.create({ emojiProvider });
 describe('ascii emojis - input rules', () => {
   const createEditor = createEditorFactory();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
