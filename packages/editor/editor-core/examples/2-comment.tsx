@@ -131,7 +131,9 @@ class CommentEditorWithFeedbackComponent extends React.Component<Props, State> {
                     allowTextColor={true}
                     allowLists={true}
                     allowRule={true}
-                    allowTables={true}
+                    allowTables={{
+                      allowControls: true,
+                    }}
                     allowHelpDialog={true}
                     disabled={disabled}
                     activityProvider={activityProvider}
