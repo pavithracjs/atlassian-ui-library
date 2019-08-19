@@ -1,6 +1,7 @@
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { browser } from '../../utils';
+import WidthDetector from '../../../../../core/width-detector/src';
 
 export const shadowClassNames = {
   RIGHT_SHADOW: 'right-shadow',
@@ -23,7 +24,7 @@ export interface OverflowShadowOptions {
 }
 
 const isIE11 = browser.ie_version === 11;
-const defaultDebounceTime = 500;
+const defaultDebounceTime = 100;
 
 export default function overflowShadow<P extends OverflowShadowProps>(
   Component: React.ComponentType<P> | React.StatelessComponent<P>,
@@ -169,7 +170,11 @@ export default function overflowShadow<P extends OverflowShadowProps>(
           handleRef={this.handleContainer}
           shadowClassNames={classNames}
           {...this.props}
-        />
+        >
+          <WidthDetector onResize={this.handleUpdateRightShadow}>
+            {() => this.props.children}
+          </WidthDetector>
+        </Component>
       );
     }
   };
