@@ -1,4 +1,5 @@
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { FileState } from '@atlaskit/media-client';
+import * as MediaClientModule from '@atlaskit/media-client';
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
 import fetchMock from 'fetch-mock/src/client';
@@ -31,8 +32,6 @@ import {
 } from '../../_test-data';
 import { Observable } from 'rxjs/Observable';
 
-jest.mock('@atlaskit/media-core');
-
 class TestSiteEmojiResource extends SiteEmojiResource {
   constructor(tokenManager: TokenManager) {
     super(siteServiceConfig, defaultMediaApiToken());
@@ -41,8 +40,17 @@ class TestSiteEmojiResource extends SiteEmojiResource {
 }
 
 describe('SiteEmojiResource', () => {
+  let getMediaClientSpy: jest.SpyInstance<
+    typeof MediaClientModule['getMediaClient']
+  >;
+
+  beforeEach(() => {
+    getMediaClientSpy = jest.spyOn(MediaClientModule, 'getMediaClient');
+  });
+
   afterEach(() => {
     fetchMock.restore();
+    getMediaClientSpy.mockRestore();
   });
 
   describe('#uploadEmoji', () => {
@@ -97,11 +105,9 @@ describe('SiteEmojiResource', () => {
         }),
       );
 
-      (ContextFactory as any).create = () => {
-        return {
-          file: { upload: uploadFile },
-        };
-      };
+      getMediaClientSpy.mockReturnValue({
+        file: { upload: uploadFile },
+      });
 
       return { uploadFile };
     };
@@ -175,7 +181,9 @@ describe('SiteEmojiResource', () => {
         }),
       );
 
-      (ContextFactory as any).create = () => ({ file: { upload: uploadFile } });
+      getMediaClientSpy.mockReturnValue({
+        file: { upload: uploadFile },
+      });
 
       const tokenManagerStub = sinon.createStubInstance(TokenManager) as any;
       const siteEmojiResource = new TestSiteEmojiResource(tokenManagerStub);
@@ -268,7 +276,9 @@ describe('SiteEmojiResource', () => {
         }),
       );
 
-      (ContextFactory as any).create = () => ({ file: { upload: uploadFile } });
+      getMediaClientSpy.mockReturnValue({
+        file: { upload: uploadFile },
+      });
       const tokenManagerStub = sinon.createStubInstance(TokenManager) as any;
       const siteEmojiResource = new TestSiteEmojiResource(tokenManagerStub);
 

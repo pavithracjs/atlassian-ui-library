@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.2.10
+
+### Patch Changes
+
+- [patch][f171f08d59](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f171f08d59):
+
+  Switch from Media's Context to Media's MediaClient
+
 ## 62.2.9
 
 ### Patch Changes

@@ -1,5 +1,3 @@
-// @flow
-
 export { default } from './components/Textfield';
 export { Theme, themeTokens } from './theme';
-export type { ThemeAppearance, ThemeProps, ThemeTokens } from './theme';
+export { ThemeAppearance, ThemeProps, ThemeTokens } from './theme';

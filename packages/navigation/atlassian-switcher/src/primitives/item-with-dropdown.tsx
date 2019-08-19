@@ -53,8 +53,6 @@ const childItemTheme = {
   },
 };
 
-const toggleOffset = 50;
-
 const ItemContainer = styled.div`
   display: flex;
   align-items: center;
@@ -64,7 +62,7 @@ const ItemContainer = styled.div`
   border-radius: 3px;
 `;
 
-const ItemWrapper = styled.div<ItemWrapperProps>`
+const ItemWrapper = styled.div<ToggleProps>`
   display: flex;
   flex-grow: 1;
   border-radius: 3px;
@@ -76,10 +74,7 @@ const ItemWrapper = styled.div<ItemWrapperProps>`
   // limit the width of the Item component to make sure long labels and descriptions are ellipsed properly
   // remove this once the Item allows width theming
   &&& > * {
-    ${({ hasToggle }) =>
-      hasToggle
-        ? 'max-width: 100%'
-        : `max-width: calc(100% - ${toggleOffset}px)`};
+    max-width: 100%;
   }
 
   ${({ isParentHovered }) =>
@@ -115,10 +110,6 @@ const Toggle = styled.div<ToggleProps>`
 interface ToggleProps {
   isParentHovered?: boolean;
 }
-
-type ItemWrapperProps = ToggleProps & {
-  hasToggle?: boolean;
-};
 
 interface Props {
   children: React.ReactNode;
@@ -165,10 +156,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
           >
-            <ItemWrapper
-              isParentHovered={itemHovered}
-              hasToggle={childItemsExist}
-            >
+            <ItemWrapper isParentHovered={itemHovered}>
               <ThemeProvider
                 theme={{
                   [itemThemeNamespace]: itemTheme,
@@ -176,7 +164,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
               >
                 <Item
                   elemBefore={icon}
-                  description={description}
+                  description={childItemsExist ? description : null}
                   onClick={onItemClick}
                   {...rest}
                 />

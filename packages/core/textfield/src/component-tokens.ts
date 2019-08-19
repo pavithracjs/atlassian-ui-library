@@ -1,4 +1,3 @@
-// @flow
 import { colors } from '@atlaskit/theme';
 
 // The following are the name for color mappings in @atlaskit/themes
