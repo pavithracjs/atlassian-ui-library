@@ -11,8 +11,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Charles L",
-    "Mike G"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "internal": true,

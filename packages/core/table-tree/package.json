@@ -10,8 +10,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Bartosz S"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Table Tree",

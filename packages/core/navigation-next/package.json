@@ -10,8 +10,10 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Harsha Ivaturi",
-    "Ajay M"
+    "Sean C",
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Navigation Next",

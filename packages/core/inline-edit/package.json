@@ -11,10 +11,10 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Kang C",
     "Sean C",
-    "Ajay M",
-    "Daniel D"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Inline Edit",

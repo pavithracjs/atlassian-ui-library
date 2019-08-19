@@ -14,9 +14,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "peerDependencies": {

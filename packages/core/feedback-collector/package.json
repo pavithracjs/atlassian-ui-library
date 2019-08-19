@@ -39,10 +39,10 @@
   },
   "author": "Atlassian Pty. Ltd",
   "maintainers": [
-    "Eric S",
-    "Carla B",
     "Sean C",
-    "Ajay M"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Feedback Collector",
