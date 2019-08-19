@@ -48,10 +48,7 @@ const displayChangedPackagesSinceMaster = async () => {
   const cwd = process.cwd();
   const allPackages = (await bolt.getWorkspaces({ cwd })).map(pkg => ({
     ...pkg,
-    relativeDir: pkg.dir.replace(
-      '/Users/mdejongh/Projects/Atlassian/atlaskit-mk-2/',
-      '',
-    ),
+    relativeDir: pkg.dir.replace(new RegExp('.*/atlaskit-mk-2/'), ''),
   }));
 
   // Changed packages that have been worked on since master.
