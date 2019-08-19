@@ -23,7 +23,7 @@
       "name": {
         "value": "Releases"
       },
-      "url": "/index.html?user={pullrequest.source.repository.owner.username}&repo={pullrequest.source.repository.name}&pullrequestid={pullrequest.id}",
+      "url": "/index.html?user={pullrequest.source.repository.owner.username}&repo={pullrequest.source.repository.name}&pullrequestid={pullrequest.id}&repoid={repository.uuid}",
       "location": "org.bitbucket.pullrequest.overview.informationPanel",
       "conditions": [{
         "conditions": [{
