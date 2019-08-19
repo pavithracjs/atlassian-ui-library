@@ -20,7 +20,7 @@ describe('Snapshot Test: Table scaling', () => {
   });
 
   afterEach(async () => {
-    await animationFrame(page);
+    await page.waitFor(1000); // wait overflow shadow to render.
     await snapshot(page);
   });
 

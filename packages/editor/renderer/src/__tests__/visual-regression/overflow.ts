@@ -18,7 +18,7 @@ describe('Snapshot Test: Overflow shadows', () => {
   });
 
   afterEach(async () => {
-    await page.waitFor(300);
+    await page.waitFor(1000); // wait overflow shadow to render.
     await snapshot(page);
   });
 
