@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/css-reset",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
   "module": "dist/bundle.css",
@@ -24,7 +24,7 @@
     "build": "ts-node --compiler-options='{ \"module\": \"CommonJS\", \"allowJs\": true }' build/js-to-css.ts"
   },
   "dependencies": {
-    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/theme": "^9.1.3",
     "fbjs": "^1.0.0",
     "mkdirp": "^0.5.1"
   },

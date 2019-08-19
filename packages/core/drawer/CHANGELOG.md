@@ -1,5 +1,13 @@
 # @atlaskit/drawer
 
+## 5.0.5
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
 ## 5.0.4
 
 ### Patch Changes
