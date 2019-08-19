@@ -7,8 +7,8 @@ import { EmojiRepository } from '@atlaskit/emoji/resource';
 import { EmojiDescription, EmojiServiceResponse } from '@atlaskit/emoji/types';
 import { denormaliseEmojiServiceResponse } from '@atlaskit/emoji/utils';
 import { siteEmojiWtf } from './test-data';
-import { getStandardEmojiData } from '../json-data/service-data-standard.json';
-import { getAtlassianEmojiData } from '../json-data/service-data-atlassian.json';
+import { getStandardEmojiData } from '../../json-data/service-data-standard.json';
+import { getAtlassianEmojiData } from '../../json-data/service-data-atlassian.json';
 
 let emojisSets: Map<string, any[]>;
 

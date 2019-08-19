@@ -3,9 +3,9 @@ import {
   MockTaskDecisionResourceConfig,
 } from './MockTaskDecisionResource';
 
-import { getServiceDecisionsResponse } from '../json-data/sample-decisions.json';
-import { getServiceTasksResponse } from '../json-data/sample-tasks.json';
-import { getServiceItemsResponse } from '../json-data/sample-elements.json';
+import { getServiceDecisionsResponse } from '../../json-data/sample-decisions.json';
+import { getServiceTasksResponse } from '../../json-data/sample-tasks.json';
+import { getServiceItemsResponse } from '../../json-data/sample-elements.json';
 
 declare var require: {
   <T>(path: string): T;

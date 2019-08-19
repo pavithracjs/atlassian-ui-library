@@ -11,8 +11,8 @@ import {
   MockEmojiResourceConfig,
 } from './MockEmojiResource';
 
-import { standardServiceEmojis } from '../json-data/test-emoji-standard.json';
-import { atlassianServiceEmojis } from '../json-data/test-emoji-atlassian.json';
+import { standardServiceEmojis } from '../../json-data/test-emoji-standard.json';
+import { atlassianServiceEmojis } from '../../json-data/test-emoji-atlassian.json';
 
 export const spriteEmoji = {
   id: 'grimacing',

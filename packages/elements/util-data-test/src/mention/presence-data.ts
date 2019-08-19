@@ -1,5 +1,5 @@
-import { validPresenceData } from '../json-data/presence-valid-info.json';
-import { invalidPresenceData } from '../json-data/presence-invalid-info.json';
+import { validPresenceData } from '../../json-data/presence-valid-info.json';
+import { invalidPresenceData } from '../../json-data/presence-invalid-info.json';
 
 declare var require: {
   <T>(path: string): T;

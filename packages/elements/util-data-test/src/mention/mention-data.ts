@@ -1,4 +1,4 @@
-import { mentionData } from '../json-data/mention-data.json';
+import { mentionData } from '../../json-data/mention-data.json';
 
 declare var require: {
   <T>(path: string): T;
