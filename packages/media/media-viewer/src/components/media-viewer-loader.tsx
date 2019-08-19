@@ -3,6 +3,7 @@ import { ModalSpinner } from '@atlaskit/media-ui';
 import * as colors from '@atlaskit/theme/colors';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { MediaViewerProps } from './types';
+import { MediaViewerAnalyticsErrorBoundaryProps } from './media-viewer-analytics-error-boundary';
 
 export type MediaViewerWithContextMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   MediaViewerProps
@@ -12,8 +13,13 @@ type MediaViewerWithMediaClientConfigComponent = React.ComponentType<
   MediaViewerWithContextMediaClientConfigProps
 >;
 
+type MediaViewerErrorBoundaryComponent = React.ComponentType<
+  MediaViewerAnalyticsErrorBoundaryProps
+>;
+
 export interface AsyncMediaViewerState {
   MediaViewer?: MediaViewerWithMediaClientConfigComponent;
+  MediaViewerErrorBoundary?: MediaViewerErrorBoundaryComponent;
 }
 
 export default class AsyncMediaViewer extends React.PureComponent<
@@ -22,25 +28,35 @@ export default class AsyncMediaViewer extends React.PureComponent<
 > {
   static displayName = 'AsyncMediaViewer';
   static MediaViewer?: MediaViewerWithMediaClientConfigComponent;
+  static MediaViewerErrorBoundary?: MediaViewerErrorBoundaryComponent;
 
   state: AsyncMediaViewerState = {
     // Set state value to equal to current static value of this class.
     MediaViewer: AsyncMediaViewer.MediaViewer,
+    MediaViewerErrorBoundary: AsyncMediaViewer.MediaViewerErrorBoundary,
   };
 
   async componentWillMount() {
     if (!this.state.MediaViewer) {
       try {
-        const [mediaClient, mediaViewerModule] = await Promise.all([
+        const [
+          mediaClient,
+          mediaViewerModule,
+          mediaViewerErrorBoundaryModule,
+        ] = await Promise.all([
           import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
           import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
+          import(/* webpackChunkName:"@atlaskit-internal_MediaPickerErrorBoundary" */ './media-viewer-analytics-error-boundary'),
         ]);
 
         const MediaViewerWithClient = mediaClient.withMediaClient(
           mediaViewerModule.MediaViewer,
         );
         AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
-        this.setState({ MediaViewer: MediaViewerWithClient });
+        this.setState({
+          MediaViewer: MediaViewerWithClient,
+          MediaViewerErrorBoundary: mediaViewerErrorBoundaryModule.default,
+        });
       } catch (error) {
         // TODO [MS-2277]: Add operational error to catch async import error
       }
@@ -48,12 +64,16 @@ export default class AsyncMediaViewer extends React.PureComponent<
   }
 
   render() {
-    if (!this.state.MediaViewer) {
+    if (!this.state.MediaViewer || !this.state.MediaViewerErrorBoundary) {
       return (
         <ModalSpinner blankedColor={colors.DN30} invertSpinnerColor={true} />
       );
     }
 
-    return <this.state.MediaViewer {...this.props} />;
+    return (
+      <this.state.MediaViewerErrorBoundary>
+        <this.state.MediaViewer {...this.props} />
+      </this.state.MediaViewerErrorBoundary>
+    );
   }
 }
