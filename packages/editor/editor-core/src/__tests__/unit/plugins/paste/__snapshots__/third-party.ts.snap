@@ -1829,13 +1829,33 @@ Object {
           "text": "Emphasis",
           "type": "text",
         },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "content": Array [
         Object {
-          "type": "hardBreak",
+          "text": " ",
+          "type": "text",
+        },
+        Object {
+          "marks": Array [
+            Object {
+              "attrs": Object {
+                "type": "sup",
+              },
+              "type": "subsup",
+            },
+          ],
+          "text": "Superscript",
+          "type": "text",
+        },
+        Object {
+          "marks": Array [
+            Object {
+              "attrs": Object {
+                "type": "sub",
+              },
+              "type": "subsup",
+            },
+          ],
+          "text": "Subscript",
+          "type": "text",
         },
       ],
       "type": "paragraph",
