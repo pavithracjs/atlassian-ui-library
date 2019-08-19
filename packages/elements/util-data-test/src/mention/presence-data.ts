@@ -1,3 +1,6 @@
+import { validPresenceData } from '../json-data/presence-valid-info.json';
+import { invalidPresenceData } from '../json-data/presence-invalid-info.json';
+
 declare var require: {
   <T>(path: string): T;
 };
@@ -19,6 +22,7 @@ export interface PresenceBulk {
   stateMetadata?: string;
 }
 
-export const validPresenceData: PresenceValidInfo = require('../../json-data/presence-valid-info.json') as PresenceValidInfo;
+export const validPresenceData: PresenceValidInfo = validPresenceData as PresenceValidInfo;
 
-export const invalidPresenceData: PresenceValidInfo = require('../../json-data/presence-invalid-info.json') as PresenceValidInfo;
+export const invalidPresenceData: PresenceValidInfo = invalidPresenceData as PresenceValidInfo;
+``;

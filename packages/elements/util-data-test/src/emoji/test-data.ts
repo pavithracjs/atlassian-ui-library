@@ -11,6 +11,9 @@ import {
   MockEmojiResourceConfig,
 } from './MockEmojiResource';
 
+import { standardServiceEmojis } from '../json-data/test-emoji-standard.json';
+import { atlassianServiceEmojis } from '../json-data/test-emoji-atlassian.json';
+
 export const spriteEmoji = {
   id: 'grimacing',
   shortName: ':grimacing:',
@@ -162,9 +165,9 @@ declare var require: {
   <T>(path: string): T;
 };
 
-export const standardServiceEmojis = require('../../json-data/test-emoji-standard.json') as any; // EmojiServiceResponse
+export const standardServiceEmojis = standardServiceEmojis as EmojiServiceResponse;
+export const atlassianServiceEmojis = atlassianServiceEmojis as EmojiServiceResponse;
 
-export const atlassianServiceEmojis = require('../../json-data/test-emoji-atlassian.json') as any; // EmojiServiceResponse
 export const siteServiceEmojis = () => ({
   emojis: [mediaServiceEmoji],
   meta: {

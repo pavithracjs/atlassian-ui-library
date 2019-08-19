@@ -7,6 +7,8 @@ import { EmojiRepository } from '@atlaskit/emoji/resource';
 import { EmojiDescription, EmojiServiceResponse } from '@atlaskit/emoji/types';
 import { denormaliseEmojiServiceResponse } from '@atlaskit/emoji/utils';
 import { siteEmojiWtf } from './test-data';
+import { getStandardEmojiData } from '../json-data/service-data-standard.json';
+import { getAtlassianEmojiData } from '../json-data/service-data-atlassian.json';
 
 let emojisSets: Map<string, any[]>;
 
@@ -15,9 +17,9 @@ declare var require: {
 };
 
 export const getStandardEmojiData = (): EmojiServiceResponse =>
-  require('../../json-data/service-data-standard.json') as EmojiServiceResponse;
+  getStandardEmojiData as EmojiServiceResponse;
 export const getAtlassianEmojiData = (): EmojiServiceResponse =>
-  require('../../json-data/service-data-atlassian.json') as EmojiServiceResponse;
+  getAtlassianEmojiData as EmojiServiceResponse;
 
 const siteEmojis = {
   emojis: [siteEmojiWtf],
