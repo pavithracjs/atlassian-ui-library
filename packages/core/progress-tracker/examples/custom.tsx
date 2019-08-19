@@ -1,13 +1,10 @@
-// @flow
-
 import React, { PureComponent } from 'react';
 import { colors } from '@atlaskit/theme';
 import { Link, BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { ProgressTracker } from '../src';
-import type { Stage, LinkElement } from '../src/types';
+import { ProgressTracker, Stage, Stages } from '../src';
 
-const items = [
+const items: Stages = [
   {
     id: 'disabled-1',
     label: 'Disabled Step',
@@ -47,15 +44,10 @@ const items = [
   },
 ];
 
-type Props = {
+interface Props {
   /** stage data passed to each `ProgressTrackerStage` component */
-  item: Stage & CustomProgressTrackerLinkStageAdditionalProps,
-};
-
-type CustomProgressTrackerLinkStageAdditionalProps = {
-  href?: string,
-  onClick?: () => void,
-};
+  item: Stage;
+}
 
 const StyledLink = styled(Link)`
   color: ${colors.N800};
@@ -63,13 +55,13 @@ const StyledLink = styled(Link)`
 
 class CustomProgressTrackerLink extends PureComponent<Props> {
   render() {
-    const { href, label } = this.props.item;
+    const { href = '', label } = this.props.item;
     return <StyledLink to={href}>{label}</StyledLink>;
   }
 }
 
 const render = {
-  link: (props: Props): LinkElement => <CustomProgressTrackerLink {...props} />,
+  link: (props: Props) => <CustomProgressTrackerLink {...props} />,
 };
 
 export default () => (

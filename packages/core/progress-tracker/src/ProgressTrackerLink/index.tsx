@@ -1,18 +1,11 @@
-// @flow
-
 import React, { PureComponent } from 'react';
 import { Link } from './styled';
-import type { Stage } from '../types';
+import { Stage } from '../types';
 
-type Props = {
+interface Props {
   /** stage data passed to each `ProgressTrackerStage` component */
-  item: Stage & ProgressTrackerLinkStageAdditionalProps,
-};
-
-type ProgressTrackerLinkStageAdditionalProps = {
-  href?: string,
-  onClick?: () => void,
-};
+  item: Stage;
+}
 
 export default class ProgressTrackerLink extends PureComponent<Props> {
   render() {

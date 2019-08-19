@@ -1,11 +1,10 @@
-// @flow
-
 import { shallow } from 'enzyme';
 import React from 'react';
 
 import * as colors from '@atlaskit/theme/colors';
 import { GridColumn } from '@atlaskit/page';
-import ProgressTrackerStage from '../../index';
+import { Stage, LinkComponentProps } from '../../../types';
+import ProgressTrackerStage from '../../';
 import ProgressTrackerLink from '../../../ProgressTrackerLink';
 import {
   ProgressTrackerStageContainer,
@@ -13,11 +12,10 @@ import {
   ProgressTrackerStageBar,
   ProgressTrackerStageTitle,
 } from '../../styled';
-import type { LinkComponentProps } from '../../../types';
 
 describe('ak-progress-tracker/progress-tracker-stage', () => {
   it('should render the component', () => {
-    const item = {
+    const item: Stage = {
       id: 'visited-1',
       label: 'Visited Step',
       percentageComplete: 100,
@@ -52,7 +50,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
   it('should render unvisited stage with correct props', () => {
     const percentageComplete = 0;
     const regular = '400';
-    const item = {
+    const item: Stage = {
       id: 'unvisited-1',
       label: 'Unvisited Step',
       percentageComplete,
@@ -87,7 +85,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
   it('should render current stage with correct props', () => {
     const percentageComplete = 0;
     const semibold = '600';
-    const item = {
+    const item: Stage = {
       id: 'current-1',
       label: 'Current Step',
       percentageComplete,
@@ -122,7 +120,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
   it('should render disabled stage with correct props', () => {
     const percentageComplete = 0;
     const semibold = '600';
-    const item = {
+    const item: Stage = {
       id: 'disabled-1',
       label: 'Disabled Step',
       percentageComplete,
@@ -157,7 +155,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
   it('should render visited stage with default link and correct props', () => {
     const percentageComplete = 100;
     const semibold = '600';
-    const item = {
+    const item: Stage = {
       id: 'visited-1',
       label: 'Visited Step',
       percentageComplete,
@@ -191,7 +189,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
 
   it('should render visited stage without link if noLink is true', () => {
     const percentageComplete = 100;
-    const item = {
+    const item: Stage = {
       id: 'visited-1',
       label: 'Visited Step',
       percentageComplete,
@@ -218,7 +216,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
     const percentageComplete = 100;
     const transitionDelay = 10;
     const transitionSpeed = 10;
-    const item = {
+    const item: Stage = {
       id: 'visited-1',
       label: 'Visited Step',
       percentageComplete,
@@ -237,11 +235,12 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         transitionEasing="linear"
       />,
     );
-    expect(wrapper.find('Fade')).toHaveLength(3);
+    expect(wrapper.find('CSSTransition')).toHaveLength(3);
     expect(
       wrapper
-        .find('Fade')
+        .find('CSSTransition')
         .first()
+        // @ts-ignore
         .props().timeout,
     ).toBe(transitionDelay + transitionSpeed);
   });

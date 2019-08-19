@@ -1,5 +1,3 @@
-// @flow
-
 import { N800 } from '@atlaskit/theme/colors';
 import styled from 'styled-components';
 
