@@ -35,6 +35,9 @@ const itemTheme = {
     text: colors.text,
     secondaryText: colors.N200,
   },
+  width: {
+    default: '100%',
+  },
 };
 
 const childItemTheme = {
@@ -71,12 +74,6 @@ const ItemWrapper = styled.div<ToggleProps>`
 
   width: 100%;
   overflow: hidden;
-
-  // limit the width of the Item component to make sure long labels and descriptions are ellipsed properly
-  // remove this once the Item allows width theming
-  &&& > * {
-    max-width: 100%;
-  }
 
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
