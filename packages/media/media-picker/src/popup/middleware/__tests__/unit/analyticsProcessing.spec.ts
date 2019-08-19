@@ -69,6 +69,7 @@ const makePayloadForOperationalFileUpload = (
   actionSubjectId: uploadType,
   attributes: {
     fileAttributes: {
+      fileId: file.id,
       fileSize: file.size,
       fileMimetype: file.type,
       fileSource: 'mediapicker',
@@ -89,6 +90,7 @@ const makePayloadForTrackFileConversion = (
   actionSubjectId: uploadType,
   attributes: {
     fileAttributes: {
+      fileId: file.id,
       fileSize: file.size,
       fileMimetype: file.type,
       fileSource: 'mediapicker',
@@ -431,6 +433,7 @@ describe('analyticsProcessing middleware', () => {
         actionSubjectId: 'localMedia',
         attributes: {
           fileAttributes: {
+            fileId: testFile1.id,
             fileSize: 1,
             fileMimetype: 'type1',
             fileSource: 'mediapicker',
@@ -506,10 +509,6 @@ describe('analyticsProcessing middleware', () => {
       'localMedia',
       'success',
     );
-    const fileAttributes = {
-      ...payload.attributes.fileAttributes,
-    };
-    delete fileAttributes.fileMimetype;
     verifyAnalyticsCall(
       fileUploadEnd({
         file: testFile1,
@@ -518,7 +517,7 @@ describe('analyticsProcessing middleware', () => {
         ...payload,
         attributes: {
           ...payload.attributes,
-          fileAttributes,
+          fileAttributes: payload.attributes.fileAttributes,
         },
       },
       {
@@ -557,6 +556,7 @@ describe('analyticsProcessing middleware', () => {
       'foo',
     );
     delete payload.attributes.fileAttributes.fileMimetype;
+    payload.attributes.fileAttributes.fileId = testFile1.id;
     verifyAnalyticsCall(
       fileUploadError({
         file: {
