@@ -16,7 +16,7 @@
     "build:typescript": "                    yarn build:typescript:cjs && yarn build:typescript:esm && yarn build:typescript:cli",
     "build:typescript:cli": "                NODE_ENV=production bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js typescriptcli)\" -- bash -c 'tsc --project ./build/cli || true'",
     "build:typescript:cjs": "                NODE_ENV=production bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js typescript)\" -- bash -c 'tsc --project ./build/tsconfig.json --outDir ./dist/cjs --module commonjs || true'",
-    "build:typescript:esm": "                NODE_ENV=production bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js typescript)\" -- bash -c 'tsc --project ./build/tsconfig.json --outDir ./dist/esm --module esnext --target ES2019 || true'",
+    "build:typescript:esm": "                NODE_ENV=production bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js typescript)\" -- bash -c 'tsc --project ./build/tsconfig.json --outDir ./dist/esm --module esnext --target ES2018 || true'",
     "build:create:folder:entry-points": "    node build/ci-scripts/create.entry.points.directories.js",
     "build:flowtypes": "                     run-p build:flowtypes:cjs build:flowtypes:esm ",
     "build:flowtypes:cjs": "                 bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js babel flow)\" -- flow-copy-source -v -i '**/__tests__/**' src dist/cjs",
