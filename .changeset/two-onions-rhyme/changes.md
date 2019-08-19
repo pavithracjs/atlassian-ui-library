@@ -1,0 +1,1 @@
+Add a custom build to copy `json-data` in the dist.
