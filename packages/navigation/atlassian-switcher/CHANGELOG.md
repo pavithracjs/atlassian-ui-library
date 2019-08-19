@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.21.0
+
+### Minor Changes
+
+- [minor][0e43bd0082](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e43bd0082):
+
+  Use with width theming property now provided by Item
+
 ## 3.20.1
 
 ### Patch Changes
