@@ -1,0 +1,1 @@
+Update Global navigation to accept both string and component as tooltip for the icons it displays.
