@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 7.5.0
+
+### Minor Changes
+
+- [minor][f1a055975a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f1a055975a):
+
+  Update Global navigation to accept both string and component as tooltip for the icons it displays.
+
 ## 7.4.1
 
 - Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
