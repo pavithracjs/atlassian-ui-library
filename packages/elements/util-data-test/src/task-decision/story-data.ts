@@ -3,23 +3,21 @@ import {
   MockTaskDecisionResourceConfig,
 } from './MockTaskDecisionResource';
 
-import { getServiceDecisionsResponse } from '../../json-data/sample-decisions.json';
-import { getServiceTasksResponse } from '../../json-data/sample-tasks.json';
-import { getServiceItemsResponse } from '../../json-data/sample-elements.json';
-
 declare var require: {
   <T>(path: string): T;
 };
 
 // ServiceDecisionResponse
 export const getServiceDecisionsResponse = () =>
-  getServiceDecisionsResponse as any;
+  require('../../json-data/sample-decisions.json') as any;
 
 // ServiceTaskResponse
-export const getServiceTasksResponse = () => getServiceTasksResponse as any;
+export const getServiceTasksResponse = () =>
+  require('../../json-data/sample-tasks.json') as any;
 
 // ServiceItemResponse
-export const getServiceItemsResponse = () => getServiceItemsResponse as any;
+export const getServiceItemsResponse = () =>
+  require('../../json-data/sample-elements.json') as any;
 
 export const getMockTaskDecisionResource = (
   config?: MockTaskDecisionResourceConfig,
