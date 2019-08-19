@@ -1,0 +1,1 @@
+ED-7335: fix table controls being cut off in comment editor
