@@ -410,6 +410,13 @@ export const setProseMirrorTextSelection = async (
   );
 };
 
+export const getProseMirrorPos = async (page: any): Promise<number> => {
+  return await page.browser.execute(() => {
+    var view = (window as any).__editorView;
+    return view.state.selection.from;
+  });
+};
+
 export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   await page.browser.execute(
     (
