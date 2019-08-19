@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tag-group",
-  "version": "8.0.2",
+  "version": "9.0.0",
   "description": "A React component used for grouping and controlling @atlskit/tag components",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

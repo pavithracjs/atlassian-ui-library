@@ -1,5 +1,13 @@
 # @atlaskit/tag-group
 
+## 9.0.0
+
+### Major Changes
+
+- [major][cc461c0022](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc461c0022):
+
+  @atlaskit/tag-group has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 8.0.2
 
 - Updated dependencies [1adb8727e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1adb8727e3):
