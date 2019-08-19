@@ -1,10 +1,13 @@
 jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
-import { Auth } from '@atlaskit/media-core';
+import {
+  Auth,
+  ProcessedFileState,
+  ProcessingFileState,
+} from '@atlaskit/media-core';
 import { getFileStreamsCache, FileState } from '@atlaskit/media-client';
 import {
   mockStore,
-  mockFetcher,
   expectFunctionToHaveBeenCalledWith,
   asMock,
   fakeMediaClient,
@@ -44,19 +47,16 @@ describe('finalizeUploadMiddleware', () => {
   };
   const setup = (state: Partial<State> = {}) => {
     const store = mockStore(state);
-    const { userMediaClient } = store.getState();
+    const { userMediaClient, tenantMediaClient } = store.getState();
     (userMediaClient.config.authProvider as jest.Mock<any>).mockReturnValue(
       Promise.resolve(auth),
     );
 
-    const fetcher = mockFetcher();
     (MediaStore as any).mockImplementation(() => ({
       copyFileWithToken: () => Promise.resolve({ data: copiedFile }),
     }));
-    fetcher.pollFile.mockImplementation(() => Promise.resolve(copiedFile));
 
     return {
-      fetcher,
       store,
       next: jest.fn(),
       action: {
@@ -65,44 +65,63 @@ describe('finalizeUploadMiddleware', () => {
         uploadId,
         source,
       } as FinalizeUploadAction,
+      tenantMediaClient,
     };
   };
 
   it('should do nothing given unknown action', () => {
-    const { fetcher, store, next } = setup();
+    const { store, next } = setup();
     const action = {
       type: 'UNKNOWN',
     };
 
-    finalizeUploadMiddleware(fetcher)(store)(next)(action);
+    finalizeUploadMiddleware()(store)(next)(action);
 
     expect(store.dispatch).not.toBeCalled();
     expect(next).toBeCalledWith(action);
   });
 
-  it('should send upload end event with metadata', () => {
-    const { fetcher, store, action } = setup();
+  it('should send upload end event with metadata', async () => {
+    const { store, action, tenantMediaClient } = setup();
+    const processedFileState: ProcessedFileState = {
+      ...copiedFile,
+      artifacts: {},
+      mediaType: 'image',
+      mimeType: 'image/png',
+      status: 'processed',
+    };
+    const fileStateObservable = new ReplaySubject(1);
+    fileStateObservable.next(processedFileState);
+    tenantMediaClient.file.getFileState = jest.fn(() => fileStateObservable);
 
-    return finalizeUpload(fetcher, store, action).then(action => {
-      expect(action).toEqual(
-        sendUploadEvent({
-          event: {
-            name: 'upload-end',
-            data: {
-              file,
-              public: copiedFile,
-            },
+    await finalizeUpload(store, action);
+    expect(store.dispatch).toBeCalledWith(
+      sendUploadEvent({
+        event: {
+          name: 'upload-end',
+          data: {
+            file,
           },
-          uploadId,
-        }),
-      );
-    });
+        },
+        uploadId,
+      }),
+    );
   });
 
   it('should send upload processing event with metadata', () => {
-    const { fetcher, store, action } = setup();
+    const { store, action, tenantMediaClient } = setup();
+    const processingFileState: ProcessingFileState = {
+      ...copiedFile,
+      artifacts: {},
+      mediaType: 'image',
+      mimeType: 'image/png',
+      status: 'processing',
+    };
+    const fileStateObservable = new ReplaySubject(1);
+    fileStateObservable.next(processingFileState);
+    tenantMediaClient.file.getFileState = jest.fn(() => fileStateObservable);
 
-    return finalizeUpload(fetcher, store, action).then(() => {
+    return finalizeUpload(store, action).then(() => {
       expect(store.dispatch).toBeCalledWith(
         sendUploadEvent({
           event: {
@@ -118,7 +137,7 @@ describe('finalizeUploadMiddleware', () => {
   });
 
   it('should send upload error event given some error happens', () => {
-    const { fetcher, store, action } = setup();
+    const { store, action } = setup();
     const error = {
       message: 'some-error-message',
     };
@@ -127,7 +146,7 @@ describe('finalizeUploadMiddleware', () => {
       copyFileWithToken: () => Promise.reject(error),
     }));
 
-    return finalizeUpload(fetcher, store, action).then(() => {
+    return finalizeUpload(store, action).then(() => {
       expect(store.dispatch).toBeCalledWith(
         sendUploadEvent({
           event: {
@@ -148,7 +167,7 @@ describe('finalizeUploadMiddleware', () => {
 
   it('should call copyFileWithToken with the right params', async () => {
     const tenantMediaClient = fakeMediaClient();
-    const { fetcher, store, action } = setup({
+    const { store, action } = setup({
       config: { uploadParams: { collection: 'some-tenant-collection' } },
       tenantMediaClient,
     });
@@ -161,7 +180,7 @@ describe('finalizeUploadMiddleware', () => {
       copyFileWithToken,
     }));
 
-    await finalizeUpload(fetcher, store, action);
+    await finalizeUpload(store, action);
 
     expect(copyFileWithToken).toBeCalledTimes(1);
     expectFunctionToHaveBeenCalledWith(copyFileWithToken, [
@@ -182,13 +201,10 @@ describe('finalizeUploadMiddleware', () => {
         replaceFileId: undefined,
       },
     ]);
-    expect(tenantMediaClient.config.authProvider).toBeCalledWith({
-      collectionName: 'some-tenant-collection',
-    });
   });
 
   it('should populate cache with processed state', async () => {
-    const { fetcher, store, action } = setup();
+    const { store, action } = setup();
     const subject = new ReplaySubject<Partial<FileState>>(1);
     const next = jest.fn();
     subject.next({
@@ -196,7 +212,7 @@ describe('finalizeUploadMiddleware', () => {
     });
     getFileStreamsCache().set(copiedFile.id, subject as Observable<FileState>);
 
-    await finalizeUpload(fetcher, store, action);
+    await finalizeUpload(store, action);
 
     const observable = getFileStreamsCache().get(copiedFile.id);
     observable!.subscribe({ next });
@@ -206,19 +222,13 @@ describe('finalizeUploadMiddleware', () => {
 
     expect(next).toBeCalledWith({
       id: 'some-copied-file-id',
-      status: 'processed',
-      artifacts: undefined,
-      mediaType: undefined,
-      mimeType: undefined,
-      name: 'some-file-name',
-      size: 12345,
     });
   });
 
   it('should call reset view', async () => {
-    const { fetcher, store, action } = setup();
+    const { store, action } = setup();
 
-    await finalizeUpload(fetcher, store, action);
+    await finalizeUpload(store, action);
 
     expect(store.dispatch).toHaveBeenCalledWith(resetView());
   });

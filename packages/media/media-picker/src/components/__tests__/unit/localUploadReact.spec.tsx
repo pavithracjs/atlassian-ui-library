@@ -135,15 +135,9 @@ describe('LocalUploadReact', () => {
   it('should call uploadComponent.emitUploadEnd with proper arguments', () => {
     const file: UploadEndEventPayload = {
       file: imageFile,
-      public: {
-        id: '123',
-      },
     };
     (localUploadComponentInstance as any).onFileConverted(file);
-    expect(uploadComponent.emitUploadEnd).toBeCalledWith(
-      file.file,
-      file.public,
-    );
+    expect(uploadComponent.emitUploadEnd).toBeCalledWith(file.file);
   });
 
   it('should call uploadComponent.emitUploadError with proper arguments', () => {
