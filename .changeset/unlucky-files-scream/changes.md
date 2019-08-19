@@ -1,0 +1,1 @@
+Remove following API members: `fakeContext()`, `getDefaultContextConfig()`, `createStorybookContext()`, `createUploadContext()`. You can use new methods introduced earlier: `fakeMediaClientConfig()`, `getDefaultMediaClientConfig()`, etc
