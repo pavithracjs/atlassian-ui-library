@@ -122,10 +122,10 @@ export class MediaNodeUpdater {
   };
 
   uploadExternalMedia = async (pos: number) => {
-    const { firstChild } = this.props.node;
+    const { node } = this.props;
     const mediaProvider = await this.props.mediaProvider;
 
-    if (firstChild && mediaProvider) {
+    if (node && mediaProvider) {
       const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
         mediaProvider,
       );
@@ -143,10 +143,7 @@ export class MediaNodeUpdater {
         const {
           uploadableFileUpfrontIds,
           dimensions,
-        } = await mediaClient.file.uploadExternal(
-          firstChild.attrs.url,
-          collection,
-        );
+        } = await mediaClient.file.uploadExternal(node.attrs.url, collection);
 
         replaceExternalMedia(pos, {
           id: uploadableFileUpfrontIds.id,
