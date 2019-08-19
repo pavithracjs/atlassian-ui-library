@@ -20,7 +20,9 @@ const AppSwitcherComponent = props => (
   />
 );
 
-const SearchTooltip = () => <div>Search Tooltip</div>;
+const SearchTooltip = () => (
+  <div css={{ background: 'red' }}> Search Tooltip</div>
+);
 
 // TODO: make onClicks targets show up on page instead of console.logs
 const Global = () => (
