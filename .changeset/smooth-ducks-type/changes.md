@@ -1,1 +1,0 @@
-Allows the width to be customised via theme

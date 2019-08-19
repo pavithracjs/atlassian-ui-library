@@ -1,5 +1,13 @@
 # @atlaskit/item
 
+## 10.1.0
+
+### Minor Changes
+
+- [minor][2580f7493e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2580f7493e):
+
+  Allows the width to be customised via theme
+
 ## 10.0.6
 
 ### Patch Changes
