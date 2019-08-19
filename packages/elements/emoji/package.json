@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/emoji",
-  "version": "62.2.10",
+  "version": "62.2.11",
   "config": {
     "access": "public"
   },
@@ -11,14 +11,14 @@
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.3.0",
-    "@atlaskit/button": "^13.1.1",
+    "@atlaskit/analytics-next": "^6.0.0",
+    "@atlaskit/button": "^13.1.2",
     "@atlaskit/field-base": "^13.0.7",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/media-client": "^2.0.1",
     "@atlaskit/spinner": "^12.0.5",
     "@atlaskit/theme": "^9.0.2",
-    "@atlaskit/tooltip": "^15.0.8",
+    "@atlaskit/tooltip": "^15.0.9",
     "@atlaskit/util-service-support": "^4.0.5",
     "@babel/runtime": "^7.0.0",
     "classnames": "^2.2.5",
@@ -53,14 +53,14 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/docs": "^8.1.3",
-    "@atlaskit/editor-test-helpers": "^9.11.6",
+    "@atlaskit/editor-test-helpers": "^9.11.7",
     "@atlaskit/elements-test-helpers": "^0.6.2",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/layer": "^7.0.0",
     "@atlaskit/media-core": "^30.0.10",
     "@atlaskit/section-message": "^4.0.8",
     "@atlaskit/util-common-test": "^2.4.2",
-    "@atlaskit/util-data-test": "^12.6.3",
+    "@atlaskit/util-data-test": "^12.9.1",
     "@atlaskit/visual-regression": "^0.1.0",
     "@types/js-search": "^1.4.0",
     "@types/react-virtualized": "^9.18.12",

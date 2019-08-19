@@ -1,5 +1,13 @@
 # @atlaskit/comment
 
+## 8.0.8
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/avatar@16.0.10
+  - @atlaskit/button@13.1.2
+  - @atlaskit/editor-core@112.41.7
+
 ## 8.0.7
 
 ### Patch Changes

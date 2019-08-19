@@ -1,5 +1,13 @@
 # @atlaskit/onboarding
 
+## 8.0.12
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/progress-indicator@7.0.3
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/button@13.1.2
+  - @atlaskit/modal-dialog@10.1.3
+
 ## 8.0.11
 
 ### Patch Changes
@@ -18,6 +26,7 @@
   Adding a condition to check if the component are referenced in tests running in CI. It reduces the noise and help reading the CI log.
 
 ## 8.0.9
+
 - BROKEN RELEASE. DO NOT USE.
 
 ### Patch Changes

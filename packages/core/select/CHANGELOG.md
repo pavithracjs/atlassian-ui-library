@@ -1,5 +1,14 @@
 # @atlaskit/select
 
+## 10.0.3
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/button@13.1.2
+  - @atlaskit/checkbox@9.0.5
+  - @atlaskit/modal-dialog@10.1.3
+  - @atlaskit/tooltip@15.0.9
+
 ## 10.0.2
 
 ### Patch Changes

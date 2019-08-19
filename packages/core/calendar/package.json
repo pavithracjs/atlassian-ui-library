@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/calendar",
-  "version": "8.0.5",
+  "version": "8.0.6",
   "description": "A React component for displaying a calendar.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -21,8 +21,8 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/button": "^13.0.16",
+    "@atlaskit/analytics-next": "^6.0.0",
+    "@atlaskit/button": "^13.1.2",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
