@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer';
-import { snapshot, animationFrame, initRendererWithADF } from './_utils';
+import { snapshot, initRendererWithADF } from './_utils';
 import * as wideTableResized from '../__fixtures__/table-wide-resized.adf.json';
 import * as tableWithShadowAdf from '../__fixtures__/table-with-shadow.adf.json';
 
