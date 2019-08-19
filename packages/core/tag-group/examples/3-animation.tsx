@@ -1,15 +1,14 @@
-// @flow
 import React from 'react';
 import Tag from '@atlaskit/tag';
 import TagGroup from '../src';
 
-type Props = {
-  alignment: 'start' | 'end',
-};
+interface Props {
+  alignment: 'start' | 'end';
+}
 
-type State = {
-  tags: Array<string>,
-};
+interface State {
+  tags: Array<string>;
+}
 
 class MyTagGroup extends React.Component<Props, State> {
   state = {

@@ -1,13 +1,12 @@
-// @flow
-import React, { PureComponent, type Node } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { Container } from './styled';
 
-type Props = {
+interface Props {
   /** Whether the tags should be left-aligned or right-aligned. */
-  alignment?: 'start' | 'end',
+  alignment?: 'start' | 'end';
   /** Tags to render within the tag group. */
-  children: Node,
-};
+  children: ReactNode;
+}
 
 export default class TagGroup extends PureComponent<Props> {
   static defaultProps = {
@@ -17,6 +16,6 @@ export default class TagGroup extends PureComponent<Props> {
   render() {
     const { alignment, children } = this.props;
 
-    return <Container justify={alignment}>{children}</Container>;
+    return <Container justify={alignment!}>{children}</Container>;
   }
 }

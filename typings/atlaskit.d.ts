@@ -40,7 +40,6 @@ declare module '@atlaskit/select';
 declare module '@atlaskit/single-select';
 declare module '@atlaskit/size-detector';
 declare module '@atlaskit/table-tree';
-declare module '@atlaskit/tag-group';
 declare module '@atlaskit/textfield';
 declare module '@atlaskit/theme/colors';
 declare module '@atlaskit/tree';

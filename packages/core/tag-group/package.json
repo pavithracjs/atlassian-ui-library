@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tags",
   "author": "Atlassian Pty Ltd",
@@ -21,7 +22,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@babel/runtime": "^7.0.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
