@@ -1,7 +1,7 @@
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { browser } from '../../utils';
-import WidthDetector from '../../../../../core/width-detector/src';
+import WidthDetector from '@atlaskit/width-detector';
 
 export const shadowClassNames = {
   RIGHT_SHADOW: 'right-shadow',
