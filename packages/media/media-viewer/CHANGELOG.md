@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.3.0
+
+### Minor Changes
+
+- [minor][97768e61e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97768e61e2):
+
+  Adding Error Boundary for MediaViewer component
+
 ## 43.2.11
 
 ### Patch Changes
