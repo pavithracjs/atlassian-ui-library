@@ -9,7 +9,14 @@ import {
 
 import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
+import { css } from '@emotion/core';
 
+const targetEdgeAndIE11 = styles => {
+  return {
+    '@media screen and (-ms-high-contrast: none)': styles,
+    '@supports (-ms-ime-align:auto)': styles,
+  };
+};
 const gridSize = gridSizeFn();
 
 /**
@@ -61,14 +68,19 @@ const baseStyles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    lineHeight: 18 / fontSize(),
+    ...targetEdgeAndIE11({
+      lineHeight: 18 / fontSize(),
+    }),
+    lineHeight: 16 / fontSize(),
   },
   subTextWrapper: {
     flex: '1 1 auto',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    marginTop: '-2px',
+    ...targetEdgeAndIE11({
+      marginTop: '-2px',
+    }),
   },
   afterWrapper: {
     alignItems: 'center',
@@ -77,6 +89,11 @@ const baseStyles = {
   },
 };
 
+console.log(
+  targetEdgeAndIE11({
+    marginTop: '-2px',
+  }),
+);
 // These are styles which switch on the spacing prop
 const layoutStyles = {
   compact: {
@@ -105,7 +122,10 @@ const layoutStyles = {
     },
     subTextWrapper: {
       fontSize: '12px',
-      lineHeight: 16 / 12,
+      ...targetEdgeAndIE11({
+        lineHeight: 16 / 12,
+      }),
+      lineHeight: 14 / 12,
     },
     afterWrapper: {
       marginLeft: gridSize * 2,
