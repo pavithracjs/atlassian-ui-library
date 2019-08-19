@@ -76,4 +76,6 @@ if (typeof window !== 'undefined') {
       return uiEvent;
     }
   };
+
+  window.scrollBy = () => {};
 }

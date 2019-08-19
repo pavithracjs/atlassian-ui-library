@@ -38,7 +38,7 @@ export type MediaGroupProps = {
   allowLazyLoading?: boolean;
   editorAppearance: EditorAppearance;
   mediaProvider: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
 };
 
 export interface MediaGroupState {

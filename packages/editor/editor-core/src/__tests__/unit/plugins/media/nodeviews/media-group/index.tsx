@@ -8,11 +8,9 @@ import {
   mediaGroup,
   media,
   fakeMediaProvider,
-  randomId,
 } from '@atlaskit/editor-test-helpers';
 import { nextTick } from '@atlaskit/media-test-helpers';
 import { defaultSchema } from '@atlaskit/adf-schema';
-import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import {
   MediaPluginState,
   stateKey as mediaStateKey,
@@ -23,17 +21,9 @@ import { EditorAppearance } from '../../../../../../types';
 import { MediaNodeUpdater } from '../../../../../../plugins/media/nodeviews/mediaNodeUpdater';
 const MockMediaNodeUpdater = MediaNodeUpdater as jest.Mock<MediaNodeUpdater>;
 
-const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
-
-const getFreshMediaProvider = () =>
-  fakeMediaProvider({
-    collectionName: testCollectionName,
-  });
-
 describe('nodeviews/mediaGroup', () => {
   let pluginState: MediaPluginState;
   let mediaProvider: Promise<MediaProvider>;
-  let contextIdentifierProvider: Promise<ContextIdentifierProvider>;
 
   const mediaNode = media({
     id: 'foo',
@@ -49,11 +39,7 @@ describe('nodeviews/mediaGroup', () => {
   const view = {} as EditorView;
 
   beforeEach(() => {
-    mediaProvider = getFreshMediaProvider();
-    contextIdentifierProvider = Promise.resolve({
-      containerId: '',
-      objectId: '',
-    });
+    mediaProvider = fakeMediaProvider();
     pluginState = {} as MediaPluginState;
     pluginState.getMediaOptions = () => ({} as any);
     pluginState.mediaGroupNodes = {};
@@ -73,7 +59,6 @@ describe('nodeviews/mediaGroup', () => {
       selected: null,
       editorAppearance: 'full-page' as EditorAppearance,
       mediaProvider,
-      contextIdentifierProvider,
     };
 
     const wrapper = mount(<MediaGroup {...props} />);
@@ -95,7 +80,6 @@ describe('nodeviews/mediaGroup', () => {
         selected: null,
         editorAppearance: 'full-page' as EditorAppearance,
         mediaProvider,
-        contextIdentifierProvider,
       };
 
       const wrapper = mount(<MediaGroup {...props} />);
