@@ -32,7 +32,9 @@ describe('paste plugin: third-party', () => {
         allowCodeBlocks: true,
         allowLists: true,
         allowTextColor: true,
-        allowTables: true,
+        allowTables: {
+          advanced: true,
+        },
       },
     });
   it('should handle pasting content from Apple Pages', () => {

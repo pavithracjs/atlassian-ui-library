@@ -1246,6 +1246,41 @@ describe('paste plugins', () => {
         ),
       );
     });
+    describe('cell with background color', () => {
+      const html = `<meta charset='utf-8'><table data-number-column="false" data-layout="default" data-autosize="false" data-pm-slice="1 1 []"><tbody><tr><th class="pm-table-header-content-wrap"><p></p></th></tr><tr><td style="background-color: #ffebe6;" class="pm-table-cell-content-wrap"><p></p></td></tr></tbody></table>`;
+
+      it('should keep cell background on paste when allow background color is enabled', () => {
+        const { editorView } = editor(doc(p('{<>}')), {
+          allowTables: { advanced: true },
+        });
+
+        dispatchPasteEvent(editorView, { html });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            table({})(
+              tr(th()(p(''))),
+              tr(
+                td({
+                  background: '#ffebe6',
+                })(p('')),
+              ),
+            ),
+          ),
+        );
+      });
+
+      it('should remove cell background on paste when allow background color is disabled', () => {
+        const { editorView } = editor(doc(p('{<>}')), {
+          allowTables: { advanced: true, allowBackgroundColor: false },
+        });
+
+        dispatchPasteEvent(editorView, { html });
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(table({})(tr(th()(p(''))), tr(td()(p(''))))),
+        );
+      });
+    });
 
     describe('cell with colWidth', () => {
       const cellWithColWidthHtml = `<meta charset='utf-8'><table data-pm-slice="1 1 []"><tbody><tr><td data-colwidth="96" style="" class="pm-table-cell-content-wrap"><div class="pm-table-cell-nodeview-wrapper"><div class="pm-table-cell-nodeview-content-dom"><p></p></div></div></td><td data-colwidth="122" style="" class="pm-table-cell-content-wrap"><div class="pm-table-cell-nodeview-wrapper"><div class="pm-table-cell-nodeview-content-dom"><p></p></div></div></td></tr></tbody></table>`;
