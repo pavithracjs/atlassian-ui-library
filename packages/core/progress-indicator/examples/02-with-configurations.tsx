@@ -1,19 +1,21 @@
-// @flow
-
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import Lorem from 'react-lorem-component';
-import Button, { ButtonGroup } from '@atlaskit/button';
-import { AtlasKitThemeProvider, colors, themed } from '@atlaskit/theme';
+import Button, { ButtonGroup, ButtonAppearances } from '@atlaskit/button';
+import { AtlaskitThemeProvider, colors, themed } from '@atlaskit/theme';
 import { ProgressDots } from '../src';
 
-const appearances = ['default', 'primary', 'help', 'inverted'];
+type Appearances = 'default' | 'help' | 'inverted' | 'primary';
+type Sizes = 'small' | 'default' | 'large';
+type Spacing = 'comfortable' | 'cozy' | 'compact';
+
+const appearances: Appearances[] = ['default', 'primary', 'help', 'inverted'];
 const themes = ['light', 'dark'];
-const sizes = ['small', 'default', 'large'];
-const spacing = ['comfortable', 'cozy', 'compact'];
+const sizes: Sizes[] = ['small', 'default', 'large'];
+const spacing: Spacing[] = ['comfortable', 'cozy', 'compact'];
 const values = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth'];
 
-const Footer = styled.div`
+const Footer = styled.div<{ appearance: string }>`
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -53,22 +55,22 @@ const Panels = styled.div`
   justify-content: space-between;
 `;
 
-type State = {
-  isInteractive: boolean,
-  selectedIndex: number,
-  selectedAppearance: 'default' | 'help' | 'inverted' | 'primary',
-  selectedSize: 'small' | 'default' | 'large',
-  selectedSpacing: 'comfortable' | 'cozy' | 'compact',
-  themeIndex: number,
-};
+interface State {
+  isInteractive: boolean;
+  selectedIndex: number;
+  selectedAppearance: Appearances;
+  selectedSize: Sizes;
+  selectedSpacing: 'comfortable' | 'cozy' | 'compact';
+  themeIndex: number;
+}
 
 export default class ProgressIndicatorDots extends Component<{}, State> {
   state = {
     isInteractive: true,
     selectedIndex: 0,
-    selectedAppearance: appearances[1],
-    selectedSize: sizes[1],
-    selectedSpacing: spacing[0],
+    selectedAppearance: 'primary' as Appearances,
+    selectedSize: 'default' as Sizes,
+    selectedSpacing: 'comfortable' as Spacing,
     themeIndex: 0,
   };
 
@@ -84,8 +86,8 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
     event,
     index: selectedIndex,
   }: {
-    event: Event,
-    index: number,
+    event: React.MouseEvent<HTMLButtonElement>;
+    index: number;
   }): void => {
     this.setState({ selectedIndex });
   };
@@ -104,7 +106,7 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
   toggleSpacing = (selectedSpacing: 'comfortable' | 'cozy' | 'compact') =>
     this.setState({ selectedSpacing });
 
-  toggleInteractivity = (event: SyntheticInputEvent<HTMLElement>) =>
+  toggleInteractivity = (event: ChangeEvent<HTMLInputElement>) =>
     this.setState({ isInteractive: event.target.checked });
 
   render() {
@@ -120,7 +122,7 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
     const buttonAppearance =
       selectedAppearance === 'inverted' ? 'primary' : selectedAppearance;
     return (
-      <AtlasKitThemeProvider mode={selectedTheme}>
+      <AtlaskitThemeProvider mode={selectedTheme}>
         <Page>
           <Header>
             <div>
@@ -204,7 +206,7 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
           <Footer appearance={selectedAppearance}>
             <Button
               isDisabled={selectedIndex === 0}
-              appearance={buttonAppearance}
+              appearance={buttonAppearance as ButtonAppearances}
               onClick={this.handlePrev}
             >
               Prev
@@ -219,14 +221,14 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
             />
             <Button
               isDisabled={selectedIndex === values.length - 1}
-              appearance={buttonAppearance}
+              appearance={buttonAppearance as ButtonAppearances}
               onClick={this.handleNext}
             >
               Next
             </Button>
           </Footer>
         </Page>
-      </AtlasKitThemeProvider>
+      </AtlaskitThemeProvider>
     );
   }
 }

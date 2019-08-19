@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import styled from 'styled-components';
@@ -11,14 +9,14 @@ const Footer = styled.div`
   align-items: center;
 `;
 
-type Props = {
-  selectedIndex: number,
-  values: Array<string>,
-};
+interface Props {
+  selectedIndex: number;
+  values: Array<string>;
+}
 
-type State = {
-  selectedIndex: number,
-};
+interface State {
+  selectedIndex: number;
+}
 
 export default class extends Component<Props, State> {
   static defaultProps = {

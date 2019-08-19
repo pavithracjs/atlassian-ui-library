@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
 
@@ -28,6 +26,4 @@ export default md`
       props={require('!!extract-react-types-loader!../src/components/Dots')}
     />
   )}
-
-
 `;

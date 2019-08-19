@@ -1,7 +1,6 @@
-// @flow
-
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
+import { DotsAppearance, Spacing, Size } from '../components/Dots';
 
 const colorMap = {
   default: themed({ light: colors.N50, dark: colors.DN70 }),
@@ -32,7 +31,7 @@ const spacingDivision = {
   compact: 8,
 };
 
-const getDimensions = ({ gutter, size }) => {
+const getDimensions = ({ gutter, size }: IndicatorButtonProps) => {
   const val = sizes[size];
   const margin = val / spacingDivision[gutter];
   const hitslop = val + margin * 2;
@@ -55,9 +54,10 @@ const getDimensions = ({ gutter, size }) => {
     }
   `;
 };
-const getColor = ({ appearance, selected }) =>
+const getColor = ({ appearance, selected }: IndicatorButtonProps) =>
   selected ? selectedColorMap[appearance] : colorMap[appearance];
-const commonRules = css`
+
+const commonRules = css<IndicatorButtonProps>`
   ${getDimensions} background-color: ${getColor};
   border-radius: 50%;
 `;
@@ -67,7 +67,14 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
-export const IndicatorButton = styled.button`
+interface IndicatorButtonProps {
+  selected: boolean;
+  appearance: DotsAppearance;
+  gutter: Spacing;
+  size: Size;
+}
+
+export const IndicatorButton = styled.button<IndicatorButtonProps>`
   ${commonRules} border: 0;
   cursor: pointer;
   outline: 0;
@@ -82,6 +89,6 @@ export const IndicatorButton = styled.button`
         `
       : null};
 `;
-export const IndicatorDiv = styled.div`
+export const IndicatorDiv = styled.div<IndicatorButtonProps>`
   ${commonRules};
 `;
