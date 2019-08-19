@@ -1,1 +1,1 @@
-Use with width themeing property now provided by Item
+Use with width theming property now provided by Item
