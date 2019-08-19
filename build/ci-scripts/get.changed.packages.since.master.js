@@ -46,12 +46,17 @@ const cli = meow(
 
 const displayChangedPackagesSinceMaster = async () => {
   const cwd = process.cwd();
-  const allPackages = await bolt.getWorkspaces({ cwd });
+  const allPackages = (await bolt.getWorkspaces({ cwd })).map(pkg => ({
+    ...pkg,
+    relativeDir: pkg.dir.replace(
+      '/Users/mdejongh/Projects/Atlassian/atlaskit-mk-2/',
+      '',
+    ),
+  }));
+
   // Changed packages that have been worked on since master.
-  const changedPackages = await packages.getChangedPackagesSinceMaster();
-  let changedPackagesRelativePaths = changedPackages.map(
-    pkg => pkg.relativeDir,
-  );
+  // const changedPackages = await packages.getChangedPackagesSinceMaster();
+  let changedPackagesRelativePaths = allPackages.map(pkg => pkg.relativeDir);
   // Packages that are dependent on the changed packages.
   // If dependencies flag is passed, CHANGED_PACKAGES will return packages that are dependent on the changed packages.
   if (cli.flags.dependents) {
