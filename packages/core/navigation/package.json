@@ -9,9 +9,10 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Jed W",
-    "Jared C",
-    "Joss M"
+    "Sean C",
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Navigation",

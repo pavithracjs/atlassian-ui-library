@@ -10,9 +10,10 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "John VDL",
-    "Peter G",
-    "Vito BZ"
+    "Sean C",
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Width Detector",

@@ -5,8 +5,10 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Harsha Ivaturi",
-    "Ajay M"
+    "Sean C",
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Drawer",
