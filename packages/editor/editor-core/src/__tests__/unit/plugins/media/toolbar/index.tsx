@@ -20,6 +20,7 @@ import * as MediaClientModule from '@atlaskit/media-client';
 import { FileState, MediaClient } from '@atlaskit/media-client';
 import {
   asMockReturnValue,
+  expectFunctionToHaveBeenCalledWith,
   fakeMediaClient,
   getDefaultMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
@@ -298,6 +299,22 @@ describe('media', () => {
 
       afterEach(() => {
         jest.resetAllMocks();
+      });
+
+      it('should call getCurrentState for current state', () => {
+        shallow(
+          <AnnotationToolbar
+            viewMediaClientConfig={mockMediaClient.config}
+            id="1234"
+            collection="some-collection"
+            intl={intl}
+          />,
+        );
+
+        expectFunctionToHaveBeenCalledWith(
+          mockMediaClient.file.getCurrentState,
+          ['1234', { collectionName: 'some-collection' }],
+        );
       });
 
       it('has an AnnotationToolbar custom toolbar element', async () => {
