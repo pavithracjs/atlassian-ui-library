@@ -47,7 +47,23 @@ module.exports = {
         '@babel/transform-runtime',
         ['styled-components', { minify: false }],
       ],
-      presets: [['@babel/env', { modules: false }]],
+      presets: [
+        [
+          '@babel/env',
+          {
+            modules: false,
+            targets: {
+              browsers: [
+                'Chrome >= 60',
+                'Safari >= 10.1',
+                'iOS >= 10.3',
+                'Firefox >= 54',
+                'Edge >= 15',
+              ],
+            },
+          },
+        ],
+      ],
       ignore: [
         '**/__mocks__',
         '**/__tests__',
