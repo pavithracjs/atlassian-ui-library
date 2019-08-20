@@ -40,6 +40,7 @@ import {
   transformSliceToCorrectMediaWrapper,
   unwrapNestedMediaElements,
 } from '../../media/utils/media-common';
+import { upgradeTextToLists, splitParagraphs } from '../../lists/transforms';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -282,6 +283,11 @@ export function createPlugin(
         slice = transformSliceToCorrectMediaWrapper(slice, schema);
 
         slice = transformSliceToCorrectEmptyTableCells(slice, schema);
+
+        // this must happen before upgrading text to lists
+        slice = splitParagraphs(slice, schema);
+
+        slice = upgradeTextToLists(slice, schema);
 
         if (
           slice.content.childCount &&
