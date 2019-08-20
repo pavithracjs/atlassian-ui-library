@@ -189,8 +189,20 @@ exports[`GoToItemBase should render a ConnectedItem 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1.2857142857142858;
+  line-height: 1.1428571428571428;
   color: #42526E;
+}
+
+@media screen and (-ms-high-contrast:none) {
+  .emotion-0 {
+    line-height: 1.2857142857142858;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .emotion-0 {
+    line-height: 1.2857142857142858;
+  }
 }
 
 .emotion-2 {

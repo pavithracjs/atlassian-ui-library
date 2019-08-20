@@ -9,7 +9,6 @@ import {
 
 import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
-import { css } from '@emotion/core';
 
 const targetEdgeAndIE11 = styles => {
   return {
@@ -89,11 +88,6 @@ const baseStyles = {
   },
 };
 
-console.log(
-  targetEdgeAndIE11({
-    marginTop: '-2px',
-  }),
-);
 // These are styles which switch on the spacing prop
 const layoutStyles = {
   compact: {
