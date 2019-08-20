@@ -1,5 +1,13 @@
 # @atlaskit/util-data-test
 
+## 12.9.2
+
+### Patch Changes
+
+- [patch][d5f37039ad](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5f37039ad):
+
+  Add a custom build to copy `json-data` in the dist.
+
 ## 12.9.1
 
 ### Patch Changes
