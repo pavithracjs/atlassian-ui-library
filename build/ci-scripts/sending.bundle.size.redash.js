@@ -1,7 +1,18 @@
 // @flow
 const fs = require('fs');
 const path = require('path');
-const sendLogs = require('@atlaskit/analytics-reporting');
+const fetch = require('node-fetch');
+
+function sendToRedash(body) {
+  return fetch('https://analytics.atlassian.com/analytics/events', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json, */*',
+      'Content-Type': 'application/json',
+    },
+    body,
+  });
+}
 
 const buildEventPayload = (properties, eventName) => {
   return {
@@ -36,7 +47,7 @@ const prepareData = pathToFolder => {
   const bundleSizeData = prepareData(
     path.join(process.cwd(), '.masterBundleSize'),
   );
-  return sendLogs(
+  return sendToRedash(
     JSON.stringify({
       events: bundleSizeData.map(data =>
         buildEventPayload(
