@@ -138,12 +138,17 @@ export interface SpaceFilter {
   spaceKeys: string[];
 }
 
+export interface QueryBasedSpaceFilter extends SpaceFilter {
+  spaceTitle: string;
+  spaceAvatar: string;
+}
+
 export interface ContributorsFilter {
   '@type': FilterType.Contributors;
   accountIds: string[];
 }
 
-export type Filter = SpaceFilter | ContributorsFilter;
+export type Filter = SpaceFilter | ContributorsFilter | QueryBasedSpaceFilter;
 
 export interface SearchParams {
   query: string;

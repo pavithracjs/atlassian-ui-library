@@ -13,6 +13,8 @@ import {
   CrossProductSearchResults,
   Filter,
   SpaceFilter,
+  QueryBasedSpaceFilter,
+  FilterType,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
@@ -509,7 +511,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  getFilterComponent = ({
+  getFilterComponent = (searchResults: ConfluenceResultsMap | null) => ({
     latestSearchQuery,
     searchResultsTotalSize,
     isLoading,
@@ -517,15 +519,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     currentFilters,
     onFilterChanged,
   }: FilterComponentProps) => {
-    const {
-      onAdvancedSearch = () => {},
-      referralContextIdentifiers,
-      modelContext,
-      features,
-      confluenceUrl,
-    } = this.props;
+    const { onAdvancedSearch = () => {}, features } = this.props;
 
-    if (!features.complexSearchExtensionsEnabled) {
+    if (!features.spaceballsExperimentEnabled || searchResults === null) {
       return;
     }
 
@@ -538,28 +534,39 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       return;
     }
 
-    function instanceOfSpaceFilter(filter: Filter): filter is SpaceFilter {
+    function instanceOfSpaceFilter(
+      filter: Filter,
+    ): filter is QueryBasedSpaceFilter {
       return filter['@type'] === 'spaces';
     }
 
-    if (
-      referralContextIdentifiers &&
-      referralContextIdentifiers.currentContainerIcon &&
-      referralContextIdentifiers.currentContainerName &&
-      modelContext &&
-      modelContext.spaceKey
-    ) {
-      const spaceFilter = currentFilters.find(instanceOfSpaceFilter);
+    function createSpaceFilter({ spaces }: ConfluenceResultsMap) {
+      const space = spaces.items[0];
+
+      return space && space.key && space.avatarUrl
+        ? {
+            '@type': FilterType.Spaces,
+            spaceKeys: [space.key],
+            spaceAvatar: space.avatarUrl,
+            spaceTitle: space.name,
+          }
+        : undefined;
+    }
+
+    const existingSpaceFilter = currentFilters.find(instanceOfSpaceFilter);
+    const spaceFilter = existingSpaceFilter
+      ? existingSpaceFilter
+      : createSpaceFilter(searchResults);
+
+    if (spaceFilter && spaceFilter.spaceKeys[0]) {
       const spaces = spaceFilter ? spaceFilter.spaceKeys : [];
       return (
         <ConfluenceFilterGroup
           onFilterChanged={onFilterChanged}
           isDisabled={isLoading}
-          spaceTitle={referralContextIdentifiers.currentContainerName}
-          spaceAvatar={`${confluenceUrl}${
-            referralContextIdentifiers.currentContainerIcon
-          }`}
-          spaceKey={modelContext.spaceKey}
+          spaceTitle={spaceFilter.spaceTitle}
+          spaceAvatar={spaceFilter.spaceAvatar}
+          spaceKey={spaceFilter.spaceKeys[0]}
           isFilterOn={currentFilters.length !== 0}
           searchSessionId={searchSessionId}
           onAdvancedSearch={(event: CancelableEvent) =>
@@ -604,7 +611,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isPreQuery={!latestSearchQuery}
         isError={isError}
         onFilterChanged={onFilterChanged}
-        getFilterComponent={this.getFilterComponent}
+        getFilterComponent={this.getFilterComponent(searchResults)}
         isLoading={isLoading}
         retrySearch={retrySearch}
         searchMore={searchMore}

@@ -33,12 +33,15 @@ export class ConfluenceSpaceFilter extends React.Component<Props, State> {
 
   generateFilter = (): Filter[] => {
     const { isChecked } = this.state;
+    const { spaceAvatar, spaceTitle, spaceKey } = this.props;
     return isChecked
       ? []
       : [
           {
             '@type': FilterType.Spaces,
-            spaceKeys: [this.props.spaceKey],
+            spaceKeys: [spaceKey],
+            spaceTitle,
+            spaceAvatar,
           },
         ];
   };
