@@ -11,7 +11,6 @@ import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
 
 const targetEdgeAndIE11 = styles => {
-  // From https://browserstrangeness.github.io/css_hacks.html
   return {
     '@media screen and (-ms-high-contrast: none)': styles,
     '@supports (-ms-ime-align:auto)': styles,
@@ -121,6 +120,7 @@ const layoutStyles = {
       fontSize: '12px',
       ...targetEdgeAndIE11({
         lineHeight: 16 / 12,
+        marginTop: '-2px',
       }),
       lineHeight: 14 / 12,
     },
