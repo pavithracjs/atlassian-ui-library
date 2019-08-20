@@ -1,1 +1,0 @@
-Fix Item styles for IE11 and Edge

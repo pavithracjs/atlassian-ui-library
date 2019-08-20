@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.5.3
+
+### Patch Changes
+
+- [patch][a417c7e117](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a417c7e117):
+
+  Fix Item styles for IE11 and Edge
+
 ## 6.5.2
 
 ### Patch Changes
