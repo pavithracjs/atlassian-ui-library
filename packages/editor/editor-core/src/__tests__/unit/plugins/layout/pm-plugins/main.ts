@@ -22,10 +22,10 @@ import {
   PresetLayout,
 } from '../../../../../plugins/layout/actions';
 import { layouts, buildLayoutForWidths } from '../_utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('layout', () => {
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let editorView: EditorView;
   const createEditor = createEditorFactory();
   const layoutPlugin = createLayoutPlugin({

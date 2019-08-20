@@ -22,12 +22,12 @@ import {
 } from '../../../../plugins/hyperlink/pm-plugins/main';
 import { pluginKey as cardPluginKey } from '../../../../plugins/card/pm-plugins/main';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('hyperlink commands', () => {
   const createEditor = createEditorFactory();
   const cardProvider = new EditorTestCardProvider();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire: () => {} }));
     return createEditor({

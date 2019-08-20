@@ -4,7 +4,7 @@ import {
   p,
   status,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { pluginKey } from '../../../../plugins/status/plugin';
 import {
   commitStatusPicker,
@@ -18,7 +18,7 @@ import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('status plugin: actions', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));

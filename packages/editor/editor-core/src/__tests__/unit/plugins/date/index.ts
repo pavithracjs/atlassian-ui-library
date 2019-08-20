@@ -15,13 +15,13 @@ import {
   closeDatePicker,
 } from '../../../../plugins/date/actions';
 import { pluginKey } from '../../../../plugins/date/plugin';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 import { EditorView } from 'prosemirror-view';
 
 describe('date plugin', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let editorView: EditorView;
 
   const editor = (doc: any) => {

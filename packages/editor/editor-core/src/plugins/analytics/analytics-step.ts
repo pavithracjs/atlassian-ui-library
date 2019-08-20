@@ -1,4 +1,4 @@
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { Node as PMNode } from 'prosemirror-model';
 import { Step, StepResult, StepMap, ReplaceStep } from 'prosemirror-transform';
 import { Slice } from 'prosemirror-model';
@@ -53,10 +53,10 @@ const toggleEventAction = (analyticsEvent: AnalyticsEventPayloadWithChannel) =>
  */
 export class AnalyticsStep extends Step {
   analyticsEvents: AnalyticsEventPayloadWithChannel[] = [];
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   constructor(
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
     analyticsEvents: AnalyticsEventPayloadWithChannel[],
   ) {
     super();

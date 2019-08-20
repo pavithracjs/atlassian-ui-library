@@ -8,15 +8,7 @@ export interface CardProps extends WithAnalyticsEventsProps {
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   importer?: (target: any) => void;
   container?: HTMLElement;
+  data?: any;
+  url?: string;
   onResolve?: (data: { url?: string; title?: string }) => void;
 }
-
-export type CardWithData = BaseCardProps & {
-  data?: any;
-};
-
-export type CardWithUrl = BaseCardProps & {
-  url?: string;
-};
-
-export type CardProps = CardWithUrl | CardWithData;

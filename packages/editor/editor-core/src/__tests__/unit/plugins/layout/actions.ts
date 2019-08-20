@@ -5,7 +5,7 @@ import {
   p,
   createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
   deleteActiveLayoutNode,
@@ -19,7 +19,7 @@ import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('layout actions', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let editorView: EditorView;
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));

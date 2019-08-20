@@ -16,7 +16,7 @@ import {
 } from '../../../../plugins/status/actions';
 import { setNodeSelectionNearPos } from '../../../../plugins/status/utils';
 import { pluginKey } from '../../../../plugins/status/plugin';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 export const setSelectionAndPickerAt = (pos: number) => (
   editorView: EditorView,
@@ -52,7 +52,7 @@ export const getStatusesInDocument = (
 
 describe('status plugin: plugin', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let editorView: EditorView;
 
   const editorFactory = (doc: any) => {
