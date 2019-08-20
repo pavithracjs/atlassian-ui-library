@@ -181,6 +181,18 @@ exports[`GoToItemBase should render a ConnectedItem 1`] = `
   overflow-x: hidden;
 }
 
+@media screen and (-ms-high-contrast:none) {
+  .emotion-1 {
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .emotion-1 {
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+  }
+}
+
 .emotion-0 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
@@ -190,6 +202,18 @@ exports[`GoToItemBase should render a ConnectedItem 1`] = `
   white-space: nowrap;
   line-height: 1.1428571428571428;
   color: #42526E;
+}
+
+@media screen and (-ms-high-contrast:none) {
+  .emotion-0 {
+    line-height: 1.2857142857142858;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .emotion-0 {
+    line-height: 1.2857142857142858;
+  }
 }
 
 .emotion-2 {
