@@ -12,10 +12,7 @@ import { shallow, mount } from 'enzyme';
 import { FileDetails } from '@atlaskit/media-client';
 
 import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
-import {
-  mountWithIntlContext,
-  expectToEqual,
-} from '@atlaskit/media-test-helpers';
+import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
   CardView,
   CardViewBase,
@@ -51,7 +48,6 @@ describe('CardView', () => {
   ) =>
     shallow(
       <CardViewBase
-        mediaItemType={'file'}
         createAnalyticsEvent={createAnalyticsEventMock}
         status="loading"
         {...props}
@@ -250,7 +246,6 @@ describe('CardView', () => {
       const element = shallowCardViewBaseElement(
         {
           status: 'complete',
-          mediaItemType: 'file',
           metadata: file,
           disableOverlay: true,
         },
@@ -308,7 +303,6 @@ describe('CardView', () => {
       expect(actualContext.packageVersion).toEqual(
         require('../../version.json').version,
       );
-      expect(actualContext.type).toEqual('file');
       expect(actualContext.actionSubjectId).toEqual('abcd');
     }
   });
@@ -347,7 +341,6 @@ describe('CardView', () => {
       expect(actualContext.packageVersion).toEqual(
         require('../../version.json').version,
       );
-      expect(actualContext.type).toEqual('file');
       expect(actualContext.actionSubjectId).toEqual(null);
     }
   });
@@ -372,14 +365,5 @@ describe('CardView', () => {
     expect(actualReturnedEvent.hasFired).toEqual(false);
     expect(actualReturnedEvent.payload.action).toEqual('clicked');
     expect(actualReturnedEvent.context).toEqual(actualFiredEvent.context);
-  });
-
-  it('should not use pointer cursor for external images', () => {
-    const card = shallowCardViewBaseElement({
-      dataURI: 'a',
-      mediaItemType: 'external-image',
-    });
-
-    expectToEqual(card.find(Wrapper).props().shouldUsePointerCursor, false);
   });
 });
