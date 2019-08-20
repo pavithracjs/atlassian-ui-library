@@ -11,6 +11,7 @@
   "author": "Atlassian Pty Ltd",
   "license": "Apache-2.0",
   "dependencies": {
+    "@atlaskit/analytics-reporting": "0.1.0",
     "@atlaskit/build-utils": "^2.2.1",
     "adf-builder": "^3.2.0",
     "axios": "^0.18.0",

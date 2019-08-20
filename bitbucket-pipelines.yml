@@ -543,9 +543,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-1| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -555,9 +556,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-2| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -567,9 +569,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js core| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -579,9 +582,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js media| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -592,9 +596,10 @@ pipelines:
                 - bolt install --frozen-lockfile
                 - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
     # A pipeline to update a package's i18n translation messages.
