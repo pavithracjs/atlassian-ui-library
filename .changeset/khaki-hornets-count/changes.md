@@ -1,0 +1,1 @@
+ED-7503 Add path for inserting leaf blocks nodes when there is a caret selection
