@@ -52,6 +52,7 @@ interface Props extends OuterProps {
     Whether or not the dialog is visible
   */
   isOpen: boolean;
+  testId?: string;
 }
 
 interface State {

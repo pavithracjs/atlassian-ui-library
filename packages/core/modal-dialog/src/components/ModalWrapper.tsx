@@ -115,6 +115,7 @@ export interface WrapperProps {
     Several size options are also recognised.
   */
   width?: number | string | WidthNames;
+  testId?: string;
 }
 
 interface State {

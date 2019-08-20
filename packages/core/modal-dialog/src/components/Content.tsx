@@ -94,6 +94,7 @@ interface Props {
    * If false and heading is longer than one line overflow will be not displayed.
    */
   isHeadingMultiline?: boolean;
+  testId?: string;
 }
 
 interface State {
@@ -247,6 +248,7 @@ export default class Content extends React.Component<Props, State> {
       isHeadingMultiline,
       onClose,
       shouldScroll,
+      testId,
     } = this.props;
 
     const { showFooterKeyline, showHeaderKeyline } = this.state;
@@ -255,7 +257,7 @@ export default class Content extends React.Component<Props, State> {
     const Body = CustomBody || DeprecatedBody || DefaultBody;
 
     return (
-      <Container css={wrapperStyles}>
+      <Container css={wrapperStyles} data-testid={testId}>
         {isChromeless ? (
           children
         ) : (

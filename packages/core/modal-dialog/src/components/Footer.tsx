@@ -46,10 +46,14 @@ export default class ModalFooter extends React.Component<FooterProps, {}> {
         <Actions>
           {actions
             ? actions.map(({ text, ...rest }, idx) => {
-                const variant = idx ? 'subtle' : appearance || 'primary';
+                const variant = idx !== 0 ? 'subtle' : appearance || 'primary';
                 return (
                   <ActionItem key={text || idx}>
-                    <Button appearance={variant} {...rest}>
+                    <Button
+                      appearance={variant}
+                      testId={`button-${variant}`}
+                      {...rest}
+                    >
                       {text}
                     </Button>
                   </ActionItem>
