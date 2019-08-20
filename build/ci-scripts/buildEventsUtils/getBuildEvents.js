@@ -31,10 +31,7 @@ type IStepsDataType = {
 */
 /* This function strip logs from the pipeline. */
 function stripLogs(logs /*: string */, command /*: string */) {
-  if (logs.indexOf(command) >= 0) {
-    // The logs are displayed with colors and style, using stripAnsi() will clean its.
-    return stripAnsi(logs.split(command)[1]);
-  }
+  return stripAnsi(logs);
 }
 
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
@@ -220,7 +217,7 @@ async function getStepNamePerBuildType(buildId /*: string */) {
     if (buildType === 'default') {
       return createPayloadPerBuildType(
         indentedJson.pipelines.default[0].parallel[
-          process.env.BITBUCKET_PARALLEL_STEP || '3' || 3
+          process.env.BITBUCKET_PARALLEL_STEP
         ].step.name,
         'default',
         res.data.target.ref_name ||
@@ -268,6 +265,12 @@ async function getStepEvents(buildId /*: string*/) {
           : 'FAILED'
         : stepObject.state.result.name;
       const stepTime = await getStepTime(stepObject, stepObject.length);
+      const stepLogs = await getStepFailedLogs(
+        buildId,
+        stepObject.uuid,
+        buildStatus,
+      );
+      console.log('stepLogs:', stepLogs);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
@@ -277,13 +280,7 @@ async function getStepEvents(buildId /*: string*/) {
             step_duration: stepTime,
             step_status: buildStatus,
             step_name: stepObject.name || stepPayload.build_type, // if there is one step and no step name, we can refer to the build type.
-            step_logs: getStepFailedLogs(
-              buildId,
-              stepObject.uuid,
-              buildStatus,
-              stepObject.script_commands[stepObject.script_commands.length - 1]
-                .command,
-            ),
+            step_logs: stepLogs,
           },
         ],
       };
@@ -299,14 +296,14 @@ async function getStepFailedLogs(
   buildId /*: string */,
   stepUuid /*: string */,
   status /*: string */,
-  command /*: string */,
+  // command /*: string */,
 ) {
   let logs = '';
-  if (status === 'FAILED' && buildId && command) {
+  if (status === 'FAILED' && buildId) {
     const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepUuid}/log`;
     try {
       const resp = await axios.get(url);
-      logs = stripLogs(resp.data, command);
+      logs = stripLogs(resp.data);
     } catch (err) {
       // Sometimes some logs are not found,
       logs = `${err}`;
