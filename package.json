@@ -71,7 +71,7 @@
     "website:start": "                       cd website && yarn start",
     "send:buildEvents": "                    node build/ci-scripts/sending.build.events.payload.js",
     "send:stepFailureEvents": "              node build/ci-scripts/sending.step.failure.events.payload.js",
-    "send:bundleSize": "                     node build/ci-scripts/sending.bundle.size.redash.js",
+    "send:bundleSize": "                     node build/ci-scripts/sending.bundle.size.analytics.js",
     "start": "                               yarn run website:start",
     "start:bitbucket": "                     yarn run website:start **/packages/bitbucket/**",
     "start:core": "                          yarn run website:start **/packages/core/**",

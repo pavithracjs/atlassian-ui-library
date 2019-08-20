@@ -18,20 +18,24 @@ const buildEventPayload = (properties, eventName) => {
   return {
     name: eventName,
     properties,
-    server: process.env.CI ? 'master' : 'test',
+    server: 'master',
     product: 'atlaskit',
-    user: process.env.CI ? '-' : process.env.USER, // On CI we send as an anonymous user
+    user: '-', // we send as an anonymous user.
     serverTime: Date.now(),
   };
 };
 
 const prepareData = pathToFolder => {
+  if (!pathToFolder || pathToFolder === '') {
+    return;
+  }
   const files = fs.readdirSync(pathToFolder);
   if (files.length > 0 && files) {
     let properties = [];
-    for (file of files) {
+    for (const file of files) {
       try {
         const content = JSON.parse(
+          // $FlowFixMe - issue between buffer and string.
           fs.readFileSync(path.join(pathToFolder, file)),
         );
         properties.push(content);
@@ -44,9 +48,8 @@ const prepareData = pathToFolder => {
 };
 
 (async () => {
-  const bundleSizeData = prepareData(
-    path.join(process.cwd(), '.masterBundleSize'),
-  );
+  const bundleSizeData =
+    prepareData(path.join(process.cwd(), '.masterBundleSize')) || []; // By default, it will be an empty array to avoid Flow issues.
   return sendToRedash(
     JSON.stringify({
       events: bundleSizeData.map(data =>
