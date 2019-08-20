@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import React, { FC } from 'react';
 import { mount, shallow } from 'enzyme';
 
 import { ProgressDots as ProgressDotsWithAnalytics } from '../../..';
@@ -8,7 +6,7 @@ import { ProgressDotsWithoutAnalytics as ProgressDots } from '../../Dots';
 import { IndicatorButton, IndicatorDiv } from '../../../styled/Dots';
 
 // NOTE: "StubComponent" saves duplicating required props; avoids errors in the logs
-const StubComponent = props => (
+const StubComponent: FC<{ onSelect?: () => unknown }> = props => (
   <ProgressDots selectedIndex={0} values={['one', 'two', 'three']} {...props} />
 );
 
@@ -93,8 +91,8 @@ describe('ProgressDotsWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    global.console.warn.mockRestore();
-    global.console.error.mockRestore();
+    (global.console.warn as jest.Mock).mockRestore();
+    (global.console.error as jest.Mock).mockRestore();
   });
 
   it('should mount without errors', () => {

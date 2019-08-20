@@ -1,10 +1,9 @@
-// @flow
-
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -12,30 +11,36 @@ import {
 } from '../version.json';
 import { Container, IndicatorButton, IndicatorDiv } from '../styled/Dots';
 
-type Props = {
+export type DotsAppearance = 'default' | 'help' | 'inverted' | 'primary';
+export type Spacing = 'comfortable' | 'cozy' | 'compact';
+export type Size = 'small' | 'default' | 'large';
+
+interface Props extends WithAnalyticsEventsProps {
   /** The color of the indicators */
-  appearance?: 'default' | 'help' | 'inverted' | 'primary',
+  appearance?: DotsAppearance;
   /** The aria-controls text applied to each indicator, appended by the index */
-  ariaControls?: string,
+  ariaControls?: string;
   /** The aria-label text applied to each indicator, appended by the index */
-  ariaLabel?: string,
+  ariaLabel?: string;
   /** Function called when an indicator is selected */
-  onSelect?: ({ event: Event, index: number }) => void,
+  onSelect?: (
+    eventData: {
+      event: React.MouseEvent<HTMLButtonElement>;
+      index: number;
+    },
+  ) => unknown;
   /** Which indicator is currently selected */
-  selectedIndex: number,
+  selectedIndex: number;
   /** Corresponds to the width & height of each indicator */
-  size?: 'small' | 'default' | 'large',
+  size?: Size;
   /** How much of a gutter is desired between indicators */
-  spacing?: 'comfortable' | 'cozy' | 'compact',
+  spacing?: Spacing;
   /** An array of values mapped over to create the indicators */
-  values: Array<any>,
-};
+  values: Array<any>;
+}
 
 class ProgressDots extends Component<Props, {}> {
-  props: Props;
-
-  // eslint-disable-line react/sort-comp
-  tablist: { children: Array<HTMLElement> };
+  tablist: { children: HTMLElement[] } = { children: [] };
 
   static defaultProps = {
     appearance: 'default',
@@ -62,7 +67,7 @@ class ProgressDots extends Component<Props, {}> {
     const indicators = Array.from(this.tablist.children);
 
     // bail if the target isn't an indicator
-    if (!indicators.includes(event.target)) return;
+    if (!indicators.includes(event.target as HTMLElement)) return;
 
     // bail if not valid arrow key
     const isLeft = event.key === 'ArrowLeft';
@@ -78,7 +83,10 @@ class ProgressDots extends Component<Props, {}> {
 
     // call the consumer's select method and focus the applicable indicator
     if (onSelect) {
-      onSelect({ event, index });
+      onSelect({
+        event: (event as unknown) as React.MouseEvent<HTMLButtonElement>,
+        index,
+      });
     }
 
     if (typeof indicators[index].focus === 'function') {
@@ -109,11 +117,15 @@ class ProgressDots extends Component<Props, {}> {
       >
         {values.map((val, index) => {
           const selected = selectedIndex === index;
-          const common = { appearance, key: index, selected, size, gutter };
-          // did an || to avoid flow error of ariaLabel being undefined|null
-          const tabId = `${ariaLabel || 'tab'}${index}`;
-          // did an || to avoid flow error of ariaControls being undefined|null
-          const panelId = `${ariaControls || 'panel'}${index}`;
+          const common = {
+            appearance: appearance!,
+            key: index,
+            selected,
+            size: size!,
+            gutter: gutter!,
+          };
+          const tabId = `${ariaLabel}${index}`;
+          const panelId = `${ariaControls}${index}`;
 
           return onSelect ? (
             <IndicatorButton
@@ -148,7 +160,6 @@ export default withAnalyticsContext({
     onSelect: createAndFireEventOnAtlaskit({
       action: 'selected',
       actionSubject: 'progressIndicator',
-
       attributes: {
         componentName: 'progressIndicator',
         packageName,
