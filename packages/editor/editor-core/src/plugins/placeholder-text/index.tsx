@@ -12,7 +12,6 @@ import WithPluginState from '../../ui/WithPluginState';
 import { Dispatch } from '../../event-dispatcher';
 import { isNodeEmpty } from '../../utils';
 import { FakeTextCursorSelection } from '../fake-text-cursor/cursor';
-import PlaceholderTextNodeView from './nodeviews/placeholder-text';
 import PlaceholderFloatingToolbar from './ui/PlaceholderFloatingToolbar';
 import {
   hidePlaceholderFloatingToolbar,
@@ -62,13 +61,6 @@ export function createPlugin(
           return newState;
         }
         return state;
-      },
-    },
-    props: {
-      nodeViews: {
-        placeholder(node, view, getPos) {
-          return new PlaceholderTextNodeView(node, view, getPos);
-        },
       },
     },
     appendTransaction(transactions, oldState, newState) {
