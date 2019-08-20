@@ -1,7 +1,7 @@
 import { MiddlewareAPI, Dispatch, Action } from 'redux';
 import {
   UIAnalyticsEvent,
-  UIAnalyticsEventHandlerSignature,
+  UIAnalyticsEventHandler,
 } from '@atlaskit/analytics-next';
 
 import { State } from '../domain';
@@ -14,7 +14,7 @@ import { ANALYTICS_MEDIA_CHANNEL } from '../../components/media-picker-analytics
 
 const createAndFire = (
   payload: Payload,
-  handlers: UIAnalyticsEventHandlerSignature[],
+  handlers: UIAnalyticsEventHandler[],
 ) => {
   new UIAnalyticsEvent({
     context: [{}],

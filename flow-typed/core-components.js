@@ -5,6 +5,10 @@
 // If you are importing a typescript package into a flow package,
 // you will have to add a definition here.
 
+declare module '@atlaskit/analytics-next' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/atlassian-switcher' {
   declare module.exports: any;
 }
@@ -97,6 +101,10 @@ declare module '@atlaskit/portal' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/progress-indicator' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/radio' {
   declare module.exports: any;
 }
@@ -110,6 +118,10 @@ declare module '@atlaskit/spinner' {
 }
 
 declare module '@atlaskit/tag' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/tag-group' {
   declare module.exports: any;
 }
 

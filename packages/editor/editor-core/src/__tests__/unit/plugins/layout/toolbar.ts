@@ -1,5 +1,5 @@
 import { doc, createEditorFactory } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { IntlProvider } from 'react-intl';
 import { buildToolbar, messages } from '../../../../plugins/layout/toolbar';
 import { EditorView } from 'prosemirror-view';
@@ -14,7 +14,7 @@ import { LAYOUT_TYPE } from '../../../../plugins/analytics/types/node-events';
 import { getToolbarItems, findToolbarBtn } from '../floating-toolbar/_helpers';
 
 describe('layout toolbar', () => {
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const createEditor = createEditorFactory();
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));

@@ -38,7 +38,7 @@ import {
   shouldReplace,
 } from '../../../../plugins/card/pm-plugins/doc';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { createCardRequest, setupProvider, ProviderWrapper } from './_helpers';
 
 const inlineCardAdf = {
@@ -58,7 +58,7 @@ const googleUrl = 'http://www.google.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
   const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const editorWrapper = createEditor({

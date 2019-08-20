@@ -4,7 +4,7 @@ import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   ProviderFactory,
   Transformer,
@@ -58,36 +58,30 @@ import { getNodesCount } from '../utils/document';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
-  render?: (
-    props: {
-      editor: JSX.Element;
-      view?: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-      dispatchAnalyticsEvent: DispatchAnalyticsEvent;
-    },
-  ) => JSX.Element;
-  onEditorCreated: (
-    instance: {
-      view: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-    },
-  ) => void;
-  onEditorDestroyed: (
-    instance: {
-      view: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-    },
-  ) => void;
+  render?: (props: {
+    editor: JSX.Element;
+    view?: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+    dispatchAnalyticsEvent: DispatchAnalyticsEvent;
+  }) => JSX.Element;
+  onEditorCreated: (instance: {
+    view: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+  }) => void;
+  onEditorDestroyed: (instance: {
+    view: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+  }) => void;
 }
 
 function handleEditorFocus(view: EditorView) {
@@ -110,9 +104,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
   editorState: EditorState;
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
-  analyticsEventHandler!: (
-    payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
-  ) => void;
+  analyticsEventHandler!: (payloadChannel: {
+    payload: AnalyticsEventPayload;
+    channel?: string;
+  }) => void;
 
   static contextTypes = {
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
@@ -277,7 +272,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
    * Create analytics event handler, if createAnalyticsEvent exist
    * @param createAnalyticsEvent
    */
-  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEventSignature) {
+  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEvent) {
     if (createAnalyticsEvent) {
       this.analyticsEventHandler = fireAnalyticsEvent(createAnalyticsEvent);
       this.eventDispatcher.on(analyticsEventKey, this.analyticsEventHandler);
@@ -307,7 +302,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
   getPlugins(
     editorProps: EditorProps,
     prevEditorProps?: EditorProps,
-    createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent?: CreateUIAnalyticsEvent,
   ): EditorPlugin[] {
     return createPluginList(editorProps, prevEditorProps, createAnalyticsEvent);
   }

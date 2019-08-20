@@ -7,7 +7,7 @@ import {
   mountWithIntl,
   createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
 
 import {
@@ -72,7 +72,7 @@ function getColorFromPalette(palette: Map<string, string>, position: number) {
 
 describe('ToolbarTextColor', () => {
   const createEditor = createEditorFactory<TextColorPluginState>();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
   let analyticsHandler: jest.MockInstance<AnalyticsHandler>;
   let toolbarTextColor: ReactWrapper<ToolbarTextColorProps>;
 

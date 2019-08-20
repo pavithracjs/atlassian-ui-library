@@ -1,7 +1,6 @@
 import {
   createAndFireEvent,
   AnalyticsEventPayload,
-  CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next';
 import uuid from 'uuid/v4';
 import { name as packageName, version as packageVersion } from './version.json';
@@ -31,7 +30,7 @@ export const startSession = (): UserPickerSession => ({
   lastKey: undefined,
 });
 
-export const createAndFireEventInElementsChannel: CreateAndFireEventFunction = createAndFireEvent(
+export const createAndFireEventInElementsChannel = createAndFireEvent(
   'fabric-elements',
 );
 

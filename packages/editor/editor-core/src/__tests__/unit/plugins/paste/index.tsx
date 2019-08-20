@@ -42,7 +42,7 @@ import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
 import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
@@ -55,8 +55,8 @@ import { __serializeForClipboard } from 'prosemirror-view';
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
   let providerFactory: ProviderFactory;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
 
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
   const editor = (doc: any, props: Partial<EditorProps> = {}) => {
     const contextIdentifierProvider = storyContextIdentifierProviderFactory();
     providerFactory = ProviderFactory.create({

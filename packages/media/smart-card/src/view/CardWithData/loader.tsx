@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import React from 'react';
 
-import { CardWithData } from '../Card/types';
+import { CardProps } from '../Card/types';
 import { CardWithDataContent as CardWithDataContentType } from './component';
 
-export class CardWithDataRenderer extends React.PureComponent<
-  CardWithData & WithAnalyticsEventProps
-> {
+export class CardWithDataRenderer extends React.PureComponent<CardProps> {
   static CardContent: typeof CardWithDataContentType | null = null;
 
   static moduleImporter(target: CardWithDataRenderer) {

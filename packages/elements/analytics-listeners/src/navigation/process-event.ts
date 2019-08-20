@@ -23,7 +23,7 @@ import {
 } from './extract-data-from-event';
 import Logger from '../helpers/logger';
 import { version as listenerVersion } from '../version.json';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 const NAVIGATION_TAG = 'navigation';
 
@@ -55,7 +55,7 @@ const NAVIGATION_TAG = 'navigation';
  */
 
 export default (
-  event: UIAnalyticsEventInterface,
+  event: UIAnalyticsEvent,
   logger: Logger,
 ): GasPayload | GasScreenEventPayload | null => {
   const sources = getSources(event);

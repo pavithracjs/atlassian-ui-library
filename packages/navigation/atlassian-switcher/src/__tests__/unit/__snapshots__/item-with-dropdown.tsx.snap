@@ -142,10 +142,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
   overflow: hidden;
 }
 
-.c2.c2.c2 > * {
-  max-width: 100%;
-}
-
 .c2:hover {
   background-color: rgba(9,30,66,0.08);
 }
@@ -171,6 +167,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -315,6 +312,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -715,10 +715,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   overflow: hidden;
 }
 
-.c2.c2.c2 > * {
-  max-width: 100%;
-}
-
 .c2:hover {
   background-color: rgba(9,30,66,0.08);
 }
@@ -761,6 +757,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -818,6 +815,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -1005,6 +1003,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -1250,6 +1251,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "right": 8,
                                   "top": 8,
                                 },
+                              },
+                              "width": Object {
+                                "default": "100%",
                               },
                             },
                           }
@@ -1607,10 +1611,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   overflow: hidden;
 }
 
-.c2.c2.c2 > * {
-  max-width: 100%;
-}
-
 .c2:hover {
   background-color: rgba(9,30,66,0.08);
 }
@@ -1659,6 +1659,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -1716,6 +1717,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -1773,6 +1775,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c16.c16:focus {
@@ -1830,6 +1833,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c18.c18:focus {
@@ -1887,6 +1891,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c19.c19:focus {
@@ -2074,6 +2079,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -2315,6 +2323,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "right": 8,
                                   "top": 8,
                                 },
+                              },
+                              "width": Object {
+                                "default": "100%",
                               },
                             },
                           }
@@ -3191,10 +3202,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   overflow: hidden;
 }
 
-.c2.c2.c2 > * {
-  max-width: 100%;
-}
-
 .c2:hover {
   background-color: rgba(9,30,66,0.08);
 }
@@ -3237,6 +3244,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -3294,6 +3302,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -3481,6 +3490,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -3726,6 +3738,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "right": 8,
                                   "top": 8,
                                 },
+                              },
+                              "width": Object {
+                                "default": "100%",
                               },
                             },
                           }
@@ -3985,10 +4000,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   overflow: hidden;
 }
 
-.c2.c2.c2 > * {
-  max-width: 100%;
-}
-
 .c2:hover {
   background-color: rgba(9,30,66,0.08);
 }
@@ -4014,6 +4025,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -4158,6 +4170,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }

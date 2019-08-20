@@ -23,7 +23,7 @@ import {
 } from './extract-data-from-event';
 import Logger from '../helpers/logger';
 import { version as listenerVersion } from '../version.json';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 const ATLASKIT_TAG = 'atlaskit';
 
@@ -54,10 +54,7 @@ const ATLASKIT_TAG = 'atlaskit';
  *  }
  */
 
-export default (
-  event: UIAnalyticsEventInterface,
-  logger: Logger,
-): GasPayload | null => {
+export default (event: UIAnalyticsEvent, logger: Logger): GasPayload | null => {
   const sources = getSources(event);
   const source = last(sources) || DEFAULT_SOURCE;
   const extraAttributes = getExtraAttributes(event);

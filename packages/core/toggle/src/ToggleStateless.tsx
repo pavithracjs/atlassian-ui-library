@@ -100,12 +100,12 @@ class ToggleStateless extends Component<StatelessProps, State> {
 export { ToggleStateless as ToggleStatelessWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<StatelessProps>({
+export default withAnalyticsContext({
   componentName: 'toggle',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<StatelessProps>({
+  withAnalyticsEvents({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'toggle',

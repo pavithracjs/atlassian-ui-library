@@ -4,7 +4,7 @@ import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
@@ -66,7 +66,7 @@ export interface TeamInfoAttrAnalytics {
 }
 
 export interface MentionPluginOptions {
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
   sanitizePrivateContent?: boolean;
   mentionInsertDisplayName?: boolean;
   useInlineWrapper?: boolean;

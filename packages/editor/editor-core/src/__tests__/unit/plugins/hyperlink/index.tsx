@@ -7,14 +7,14 @@ import {
   insertText,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import * as Toolbar from '../../../../plugins/hyperlink/Toolbar';
 import { FloatingToolbarHandler } from '../../../../plugins/floating-toolbar/types';
 import { EditorProps } from '../../../../types';
 
 describe('hyperlink', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any, editorProps: EditorProps = {}) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });

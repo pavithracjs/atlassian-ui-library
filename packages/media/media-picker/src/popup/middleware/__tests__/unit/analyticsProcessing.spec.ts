@@ -26,7 +26,7 @@ import { GET_PREVIEW } from '../../../actions/getPreview';
 import { MediaFile } from '../../../../domain/file';
 import { buttonClickPayload, Payload } from '../../analyticsHandlers';
 import { fileUploadError } from '../../../actions/fileUploadError';
-import { UIAnalyticsEventHandlerSignature } from '@atlaskit/analytics-next';
+import { UIAnalyticsEventHandler } from '@atlaskit/analytics-next';
 
 type TestPayload = GasCorePayload & { action: string; attributes: {} };
 type UploadType = 'cloudMedia' | 'localMedia';
@@ -101,7 +101,7 @@ const makePayloadForTrackFileConversion = (
 
 describe('analyticsProcessing middleware', () => {
   let oldDateNowFn: () => number;
-  let mockAnalyticsHandler: UIAnalyticsEventHandlerSignature;
+  let mockAnalyticsHandler: UIAnalyticsEventHandler;
   let next: Dispatch<State>;
 
   const setupStore = (state: Partial<State> = {}) =>

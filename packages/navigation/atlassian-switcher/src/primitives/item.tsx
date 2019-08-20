@@ -5,6 +5,7 @@ import { gridSize } from '@atlaskit/theme';
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
+  WithAnalyticsEventsProps,
   UI_EVENT_TYPE,
   SWITCHER_ITEM_SUBJECT,
 } from '../utils/analytics';
@@ -21,14 +22,14 @@ const itemTheme = {
   },
 };
 
-type SwitcherItemProps = {
+interface SwitcherItemProps extends WithAnalyticsEventsProps {
   children: React.ReactNode;
   icon: React.ReactNode;
   description?: React.ReactNode;
   onClick?: Function;
   href?: string;
   isDisabled?: boolean;
-};
+}
 
 class SwitcherItem extends React.Component<SwitcherItemProps> {
   render() {
@@ -43,7 +44,7 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
   }
 }
 
-const SwitcherItemWithEvents = withAnalyticsEvents<SwitcherItemProps>({
+const SwitcherItemWithEvents = withAnalyticsEvents({
   onClick: createAndFireNavigationEvent({
     eventType: UI_EVENT_TYPE,
     action: 'clicked',

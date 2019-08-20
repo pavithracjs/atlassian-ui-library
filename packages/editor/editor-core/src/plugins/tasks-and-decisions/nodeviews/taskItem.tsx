@@ -4,7 +4,7 @@ import { NodeView, Decoration } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   AnalyticsListener,
-  UIAnalyticsEventInterface,
+  UIAnalyticsEvent,
   AnalyticsEventPayload,
 } from '@atlaskit/analytics-next';
 import { ReactNodeView, ForwardRef } from '../../../nodeviews';
@@ -50,7 +50,7 @@ class Task extends ReactNodeView<Props> {
    * cannot render the position and listSize into the
    * AnalyticsContext at initial render time.
    */
-  private addListAnalyticsData = (event: UIAnalyticsEventInterface) => {
+  private addListAnalyticsData = (event: UIAnalyticsEvent) => {
     try {
       const resolvedPos = this.view.state.doc.resolve(this.getPos());
       const position = resolvedPos.index();

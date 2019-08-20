@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   LocalUploadComponentReact,
   LocalUploadComponentBaseProps,
@@ -14,7 +13,7 @@ import {
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 
 import {
@@ -25,8 +24,7 @@ import {
 import { ANALYTICS_MEDIA_CHANNEL } from '../media-picker-analytics-error-boundary';
 
 export type DropzoneProps = LocalUploadComponentBaseProps &
-  WithAnalyticsEventProps &
-  React.RefAttributes<DropzoneBase> & {
+  WithAnalyticsEventsProps & {
     config: DropzoneConfig;
     onDrop?: () => void;
     onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
@@ -222,8 +220,8 @@ export class DropzoneBase extends LocalUploadComponentReact<
   }
 }
 
-export const Dropzone = withAnalyticsContext<DropzoneProps>({
+export const Dropzone = withAnalyticsContext({
   componentName: 'dropzone',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<DropzoneProps>()(DropzoneBase));
+})(withAnalyticsEvents()(DropzoneBase));

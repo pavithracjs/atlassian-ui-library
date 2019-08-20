@@ -24,8 +24,10 @@ import {
   firePostQueryShownEvent,
   fireExperimentExposureEvent,
 } from '../../util/analytics-event-helper';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { CreateAnalyticsEventFn } from '../analytics/types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 import deepEqual from 'deep-equal';
 import {
   JiraFeatures,
@@ -59,7 +61,8 @@ export interface PartiallyLoadedRecentItems<
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
-export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
+export interface Props<T extends ConfluenceResultsMap | JiraResultsMap>
+  extends WithAnalyticsEventsProps {
   logger: Logger;
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
@@ -101,7 +104,6 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
     searchSessionId: string,
   ): ResultsGroup[];
 
-  createAnalyticsEvent?: CreateAnalyticsEventFn;
   handleSearchSubmit?(
     event: React.KeyboardEvent<HTMLInputElement>,
     searchSessionId: string,
@@ -573,11 +575,15 @@ export class QuickSearchContainer<
 }
 
 export const BaseConfluenceQuickSearchContainer = injectSearchSession(
-  withAnalyticsEvents<CompleteProps<ConfluenceResultsMap>>()(
-    QuickSearchContainer,
-  ),
+  withAnalyticsEvents()<
+    CompleteProps<ConfluenceResultsMap>,
+    React.ComponentType<CompleteProps<ConfluenceResultsMap>>
+  >(QuickSearchContainer),
 );
 
 export const BaseJiraQuickSearchContainerJira = injectSearchSession(
-  withAnalyticsEvents<CompleteProps<JiraResultsMap>>()(QuickSearchContainer),
+  withAnalyticsEvents()<
+    CompleteProps<JiraResultsMap>,
+    React.ComponentType<CompleteProps<JiraResultsMap>>
+  >(QuickSearchContainer),
 );

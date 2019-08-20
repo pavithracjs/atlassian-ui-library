@@ -3,7 +3,8 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import {
   createAndFireEvent,
   withAnalyticsEvents,
-  CreateUIAnalyticsEventSignature,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   UI_EVENT_TYPE,
@@ -44,15 +45,15 @@ export const withAnalyticsContextData = function<P, C>(
   };
 };
 
-type RenderTrackerProps = {
+interface RenderTrackerProps extends WithAnalyticsEventsProps {
   subject: string;
   data?: object;
   onRender?: any;
-};
+}
 
-export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
+export const RenderTracker = withAnalyticsEvents({
   onRender: (
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
     props: RenderTrackerProps,
   ) => {
     return createAnalyticsEvent({
@@ -74,9 +75,9 @@ export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
   },
 );
 
-export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
+export const ViewedTracker = withAnalyticsEvents({
   onRender: (
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
     props: RenderTrackerProps,
   ) => {
     return createAnalyticsEvent({
@@ -100,6 +101,7 @@ export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
 
 export {
   withAnalyticsEvents,
+  WithAnalyticsEventsProps,
   NavigationAnalyticsContext,
   OPERATIONAL_EVENT_TYPE,
   UI_EVENT_TYPE,

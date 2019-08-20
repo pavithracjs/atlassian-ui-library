@@ -8,8 +8,9 @@ import { AppearanceType, KeyboardOrMouseEvent, ButtonOnClick } from '../types';
 
 import Modal from './Modal';
 import { WidthNames } from '../shared-variables';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
-export interface WrapperProps {
+export interface WrapperProps extends WithAnalyticsEventsProps {
   /**
     Buttons to render in the footer
   */

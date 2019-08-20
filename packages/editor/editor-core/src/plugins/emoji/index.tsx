@@ -11,6 +11,7 @@ import {
 import { EditorPlugin, Command } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { inputRulePlugin as asciiInputRulePlugin } from './pm-plugins/ascii-input-rules';
 import {
@@ -26,7 +27,6 @@ import emojiNodeView from './nodeviews/emoji';
 import { typeAheadPluginKey, TypeAheadPluginState } from '../type-ahead';
 import { analyticsService } from '../../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 export const defaultListLimit = 50;
 const isFullShortName = (query?: string) =>
@@ -36,7 +36,7 @@ const isFullShortName = (query?: string) =>
   query.charAt(query.length - 1) === ':';
 
 export interface EmojiPluginOptions {
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
   allowZeroWidthSpaceAfter?: boolean;
   useInlineWrapper?: boolean;
 }

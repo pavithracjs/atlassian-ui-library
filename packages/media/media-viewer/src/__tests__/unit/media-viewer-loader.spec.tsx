@@ -9,6 +9,8 @@ import AsyncMediaViewer, {
   AsyncMediaViewerState,
 } from '../../components/media-viewer-loader';
 
+import MediaViewerAnalyticsErrorBoundary from '../../components/media-viewer-analytics-error-boundary';
+
 const mediaClient = fakeMediaClient();
 
 const identifier: Identifier = {
@@ -65,7 +67,18 @@ describe('Async Media Viewer Loader', () => {
 
       await nextTick();
 
-      expect(wrapper.state().MediaViewer).not.toBeUndefined();
+      expect(wrapper.state().MediaViewer).toBeDefined();
+    });
+
+    it('should render Error boundary component', async () => {
+      const wrapper = await mount<
+        MediaViewerWithContextMediaClientConfigProps,
+        AsyncMediaViewerState
+      >(<AsyncMediaViewer {...props} />);
+
+      await nextTick();
+
+      expect(wrapper.find(MediaViewerAnalyticsErrorBoundary)).toBeDefined();
     });
   });
 });

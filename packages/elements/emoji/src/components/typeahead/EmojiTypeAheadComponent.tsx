@@ -26,7 +26,7 @@ import EmojiList from './EmojiTypeAheadList';
 import * as styles from './styles';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
 export interface OnLifecycle {
@@ -40,7 +40,7 @@ export interface EmojiTypeAheadBaseProps {
 
   onOpen?: OnLifecycle;
   onClose?: OnLifecycle;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface Props extends EmojiTypeAheadBaseProps {

@@ -22,7 +22,7 @@ import {
   layoutColumn,
   breakout,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
   toggleOrderedList,
@@ -35,7 +35,7 @@ import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('lists', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let analyticsHandler: AnalyticsHandler;
 
   const editor = (doc: any, trackEvent?: () => {}) => {

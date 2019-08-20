@@ -99,7 +99,9 @@ describe('Jira Quick Search Container', () => {
   ) => {
     const quickSearch = wrapper.find(BaseJiraQuickSearchContainerJira);
     const quickSearchProps = quickSearch.props();
-    return quickSearchProps[property] as any;
+
+    // @ts-ignore
+    return quickSearchProps[property];
   };
 
   beforeEach(() => {
@@ -455,7 +457,7 @@ describe('Jira Quick Search Container', () => {
         expect(redirectSpy).toHaveBeenCalledTimes(1);
       });
 
-      it('should not call redriect', () => {
+      it('should not call redirect', () => {
         const spy = jest.fn(e => e.preventDefault());
         const handleSearchSubmit = mountComponent(spy);
         const mockedEvent = mockEvent();

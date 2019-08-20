@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 export type Placement =
   | 'auto-start'
@@ -17,7 +18,7 @@ export type Placement =
   | 'left'
   | 'left-start';
 
-export interface Props {
+export interface Props extends WithAnalyticsEventsProps {
   /** The elements that the InlineDialog will be positioned relative to. */
   children: ReactNode;
   /** The elements to be displayed within the InlineDialog. */

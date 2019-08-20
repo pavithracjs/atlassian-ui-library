@@ -14,6 +14,7 @@ import {
   SWITCHER_CHILD_ITEM_SUBJECT,
   SWITCHER_ITEM_SUBJECT,
   SWITCHER_ITEM_EXPAND_SUBJECT,
+  WithAnalyticsEventsProps,
 } from '../utils/analytics';
 import { createIcon } from '../utils/icon-themes';
 
@@ -33,6 +34,9 @@ const itemTheme = {
     background: 'transparent',
     text: colors.text,
     secondaryText: colors.N200,
+  },
+  width: {
+    default: '100%',
   },
 };
 
@@ -71,12 +75,6 @@ const ItemWrapper = styled.div<ToggleProps>`
   width: 100%;
   overflow: hidden;
 
-  // limit the width of the Item component to make sure long labels and descriptions are ellipsed properly
-  // remove this once the Item allows width theming
-  &&& > * {
-    max-width: 100%;
-  }
-
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
 
@@ -111,7 +109,7 @@ interface ToggleProps {
   isParentHovered?: boolean;
 }
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   children: React.ReactNode;
   icon: React.ReactNode;
   tooltipContent: React.ReactNode;
@@ -246,7 +244,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
   private onMouseLeave = () => this.setItemHovered(false);
 }
 
-const SwitcherItemWithDropDownWithEvents = withAnalyticsEvents<Props>({
+const SwitcherItemWithDropDownWithEvents = withAnalyticsEvents({
   onChildItemClick: createAndFireNavigationEvent({
     eventType: UI_EVENT_TYPE,
     action: 'clicked',

@@ -14,7 +14,7 @@ import {
   ul,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { emojiPluginKey } from '../../../../plugins/emoji';
 import { insertEmoji } from '../../../../plugins/emoji/commands/insert-emoji';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
@@ -41,7 +41,7 @@ describe('emojis', () => {
   const createEditor = createEditorFactory();
 
   const providerFactory = ProviderFactory.create({ emojiProvider });
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
