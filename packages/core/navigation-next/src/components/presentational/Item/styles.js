@@ -11,6 +11,7 @@ import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
 
 const targetEdgeAndIE11 = styles => {
+  // From https://browserstrangeness.github.io/css_hacks.html
   return {
     '@media screen and (-ms-high-contrast: none)': styles,
     '@supports (-ms-ime-align:auto)': styles,
