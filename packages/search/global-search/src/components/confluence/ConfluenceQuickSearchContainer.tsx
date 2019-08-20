@@ -12,7 +12,6 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   Filter,
-  SpaceFilter,
   QueryBasedSpaceFilter,
   FilterType,
 } from '../../api/CrossProductSearchClient';

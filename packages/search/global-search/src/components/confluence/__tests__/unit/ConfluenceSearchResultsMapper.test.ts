@@ -32,6 +32,7 @@ const features: ConfluenceFeatures = {
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  spaceballsExperimentEnabled: false,
   isNavAutocompleteEnabled: false,
 };
 
