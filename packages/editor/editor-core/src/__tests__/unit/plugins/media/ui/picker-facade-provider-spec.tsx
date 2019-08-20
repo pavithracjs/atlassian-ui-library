@@ -89,12 +89,8 @@ describe('PickerFacadeProvider', () => {
           expect(picker.init).toBeCalled();
 
           expect(picker.onNewMedia).toBeCalledWith(pluginState.insertFile);
-          expect(pluginState.trackNewMediaEvent).toBeCalledWith(
-            'analyticsNameTest',
-          );
-          expect(picker.onNewMedia).toBeCalledWith(sendAnalyticsSpy);
           expect(picker.setUploadParams).toBeCalledWith(provider.uploadParams);
-          expect.assertions(10);
+          expect.assertions(8);
           done();
           return null;
         }}
