@@ -33,9 +33,8 @@ if (!global.WEBSITE_ENV) {
 }
 
 // Node promise rejection are now logged for debbugging
-process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
-  console.log(reason.stack);
+process.on('unhandledRejection', reason => {
+  console.log('REJECTION', reason);
 });
 
 // We need to ensure that each test has at least one assertion.
@@ -434,16 +433,6 @@ if (typeof document !== 'undefined') {
     },
   });
 }
-
-const oldParse = JSON.parse;
-JSON.parse = jest.fn((...args) => {
-  console.log('parse', ...args);
-  try {
-    return oldParse(...args);
-  } catch (ex) {
-    return;
-  }
-});
 
 // Setting initial viewport
 // Need to set clientWidth and clientHeight as jsdom does not set these properties
