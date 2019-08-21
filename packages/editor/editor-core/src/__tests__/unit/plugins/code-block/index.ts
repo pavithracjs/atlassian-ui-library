@@ -10,7 +10,7 @@ import {
   createEvent,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import { pluginKey as codeBlockPluginKey } from '../../../../plugins/code-block/pm-plugins/main';
 import {
@@ -23,7 +23,7 @@ describe('code-block', () => {
   const createEditor = createEditorFactory();
 
   const event = createEvent('event');
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));

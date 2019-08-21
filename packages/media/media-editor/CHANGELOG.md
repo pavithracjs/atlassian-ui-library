@@ -1,5 +1,22 @@
 # @atlaskit/media-editor
 
+## 36.2.9
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-store@12.0.8
+  - @atlaskit/media-ui@11.5.2
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 36.2.8
+
+### Patch Changes
+
+- [patch][6ad542fe85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ad542fe85):
+
+  Adding try/catch in async imports for @atlaskit/media-avatar-picker, @atlaskit/media-card, @atlaskit/media-editor, @atlaskit/media-viewer
+
 ## 36.2.7
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

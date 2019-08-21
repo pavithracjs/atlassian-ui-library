@@ -20,6 +20,7 @@ export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
         actionSubjectId: 'localMedia',
         attributes: {
           fileAttributes: {
+            fileId: uploadFile.id,
             fileSize: uploadFile.size,
             fileSource: 'mediapicker',
           },

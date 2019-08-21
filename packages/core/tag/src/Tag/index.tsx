@@ -2,6 +2,7 @@ import React, { Component, ReactNode, ComponentType } from 'react';
 
 import {
   withAnalyticsEvents,
+  WithAnalyticsEventsProps,
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
@@ -37,7 +38,7 @@ const colorList: TagColor[] = [
   'yellowLight',
 ];
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   /** Set whether tags should be rounded. */
   appearance?: AppearanceType;
   /** The color theme to apply, setting both background and text color. */
@@ -161,12 +162,12 @@ class Tag extends Component<Props, State> {
 export { Tag as TagWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'tag',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onAfterRemoveAction: createAndFireEventOnAtlaskit({
       action: 'removed',
       actionSubject: 'tag',

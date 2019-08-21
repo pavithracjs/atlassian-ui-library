@@ -11,9 +11,7 @@ import {
 } from '../../domain';
 
 import { mapAuthToAuthHeaders } from '../../domain/auth';
-import { MediaStore, MediaFile } from '@atlaskit/media-store';
 
-const METADATA_POLL_INTERVAL_MS = 2000;
 const giphyApiKey = 'lBOxhhz1BM62Y3JsK0iQv1pRYyOGUjR8';
 const toJson = (response: Response) => response.json();
 type Method = 'GET' | 'POST' | 'DELETE';
@@ -63,7 +61,6 @@ export interface Fetcher {
     folderId: string,
     cursor?: string,
   ): Promise<ServiceFolder>;
-  pollFile(auth: Auth, fileId: string, collection?: string): Promise<MediaFile>;
   getServiceList(auth: Auth): Promise<ServiceAccountWithType[]>;
   unlinkCloudAccount(auth: Auth, accountId: string): Promise<void>;
   fetchTrendingGifs(offset?: number): Promise<GiphyData>;
@@ -101,35 +98,6 @@ export class MediaApiFetcher implements Fetcher {
           return serviceFolder;
         }
       });
-  }
-
-  // TODO [MS-725]: remove
-  pollFile(
-    auth: Auth,
-    fileId: string,
-    collection?: string,
-  ): Promise<MediaFile> {
-    const store = new MediaStore({
-      authProvider: () => Promise.resolve(auth),
-    });
-
-    return new Promise(async (resolve, reject) => {
-      try {
-        const file = (await store.getFile(fileId, { collection })).data;
-        if (
-          file.processingStatus === 'succeeded' ||
-          file.processingStatus === 'failed'
-        ) {
-          resolve(file);
-        } else {
-          window.setTimeout(() => {
-            this.pollFile(auth, fileId, collection).then(resolve, reject);
-          }, METADATA_POLL_INTERVAL_MS);
-        }
-      } catch (e) {
-        reject('metadata_fetch_fail');
-      }
-    });
   }
 
   getServiceList(auth: Auth): Promise<ServiceAccountWithType[]> {

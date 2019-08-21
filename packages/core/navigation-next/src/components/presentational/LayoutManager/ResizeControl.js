@@ -8,10 +8,7 @@ import React, {
   type ElementRef,
 } from 'react';
 import raf from 'raf-schd';
-import {
-  withAnalyticsEvents,
-  type WithAnalyticsEventsProps,
-} from '@atlaskit/analytics-next';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { colors } from '@atlaskit/theme';
 import ChevronLeft from '@atlaskit/icon/glyph/chevron-left';
 import ChevronRight from '@atlaskit/icon/glyph/chevron-right';
@@ -191,7 +188,7 @@ function makeTooltipNode({ text, char }: { text: string, char: string }) {
 }
 
 type Props = {
-  ...WithAnalyticsEventsProps,
+  createAnalyticsEvent: Function,
   children: State => any,
   collapseToggleTooltipContent?: CollapseToggleTooltipContent,
   expandCollapseAffordanceRef: Ref<'button'>,

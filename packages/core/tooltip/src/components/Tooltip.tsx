@@ -11,6 +11,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -52,7 +53,7 @@ function getMousePosition(
   };
 }
 
-export interface TooltipProps {
+export interface TooltipProps extends WithAnalyticsEventsProps {
   /** The content of the tooltip */
   content: React.ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
@@ -353,12 +354,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export type TooltipType = Tooltip;
 
-export default withAnalyticsContext<TooltipProps>({
+export default withAnalyticsContext({
   componentName: 'tooltip',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<TooltipProps>({
+  withAnalyticsEvents({
     onHide: unhoveredPayload,
     onShow: createAndFireEventOnAtlaskit({ ...hoveredPayload }),
   })(Tooltip),

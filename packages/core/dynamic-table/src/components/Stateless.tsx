@@ -257,12 +257,12 @@ class DynamicTable extends React.Component<Props, State> {
 export { DynamicTable as DynamicTableWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'dynamicTable',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onSort: createAndFireEventOnAtlaskit({
       action: 'sorted',
       actionSubject: 'dynamicTable',

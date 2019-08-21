@@ -138,6 +138,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .c2:hover {
@@ -165,6 +167,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -309,6 +312,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders Bitbucket snapshot correc
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -705,6 +711,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .c2:hover {
@@ -749,6 +757,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -806,6 +815,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -993,6 +1003,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -1238,6 +1251,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "right": 8,
                                   "top": 8,
                                 },
+                              },
+                              "width": Object {
+                                "default": "100%",
                               },
                             },
                           }
@@ -1591,6 +1607,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .c2:hover {
@@ -1641,6 +1659,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -1698,6 +1717,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -1755,6 +1775,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c16.c16:focus {
@@ -1812,6 +1833,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c18.c18:focus {
@@ -1869,6 +1891,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 4px 8px 3px 8px;
+  width: auto;
 }
 
 .c19.c19:focus {
@@ -2056,6 +2079,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -2297,6 +2323,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "right": 8,
                                   "top": 8,
                                 },
+                              },
+                              "width": Object {
+                                "default": "100%",
                               },
                             },
                           }
@@ -3169,6 +3198,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .c2:hover {
@@ -3213,6 +3244,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 7px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -3270,6 +3302,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   -webkit-text-decoration: none;
   text-decoration: none;
   padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c12.c12:focus {
@@ -3457,6 +3490,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                               "right": 8,
                               "top": 8,
                             },
+                          },
+                          "width": Object {
+                            "default": "100%",
                           },
                         },
                       }
@@ -3703,6 +3739,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                   "top": 8,
                                 },
                               },
+                              "width": Object {
+                                "default": "100%",
+                              },
                             },
                           }
                         }
@@ -3902,27 +3941,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   padding-bottom: 1px;
 }
 
-.c10 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #6B778C;
-  font-size: 11px;
-  line-height: 1.2727272727272727;
-  padding-bottom: 1px;
-}
-
-*:hover > * > .c10 {
-  color: #6B778C;
-}
-
-*:active > * > .c10 {
-  color: #6B778C;
-}
-
 .c0 {
   -webkit-animation: ljGnjM 500ms ease forwards;
   animation: ljGnjM 500ms ease forwards;
@@ -3978,6 +3996,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   flex-grow: 1;
   border-radius: 3px;
   padding-top: 1px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .c2:hover {
@@ -4004,7 +4024,8 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
   fill: transparent;
   -webkit-text-decoration: none;
   text-decoration: none;
-  padding: 7px 8px 7px 8px;
+  padding: 8px 8px 7px 8px;
+  width: 100%;
 }
 
 .c3.c3:focus {
@@ -4150,6 +4171,9 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                               "top": 8,
                             },
                           },
+                          "width": Object {
+                            "default": "100%",
+                          },
                         },
                       }
                     }
@@ -4157,7 +4181,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                     <Item
                       autoFocus={false}
                       createAnalyticsEvent={[Function]}
-                      description="some-instance"
+                      description={null}
                       elemBefore={
                         <Unknown
                           theme="product"
@@ -4181,7 +4205,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                         aria-disabled={false}
                         autoFocus={false}
                         createAnalyticsEvent={[Function]}
-                        description="some-instance"
+                        description={null}
                         elemBefore={
                           <Unknown
                             theme="product"
@@ -4359,16 +4383,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders single site item correctl
                                   className="c9"
                                 >
                                   Opsgenie
-                                </span>
-                              </styled.span>
-                              <styled.span
-                                isCompact={false}
-                                isDisabled={false}
-                              >
-                                <span
-                                  className="c10"
-                                >
-                                  some-instance
                                 </span>
                               </styled.span>
                             </span>

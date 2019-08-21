@@ -1,5 +1,21 @@
 # @atlaskit/logo
 
+## 12.1.6
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 12.1.5
+
+### Patch Changes
+
+- [patch][6260319597](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6260319597):
+
+  Updates OpsGenie logo width
+
 ## 12.1.4
 
 ### Patch Changes

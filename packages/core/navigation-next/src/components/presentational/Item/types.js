@@ -2,7 +2,6 @@
 
 import type { ComponentType, Node, Ref } from 'react';
 import type { DraggableProps, DragHandleProps } from 'react-beautiful-dnd';
-import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 import type { AfterComponentProps } from '../../connected/GoToItem/types';
 import type { StyleReducerWithState, ProductTheme } from '../../../theme/types';
@@ -91,7 +90,7 @@ export type ExternalItemProps = {
 /** Item props from item's perspective */
 export type ItemProps = {
   ...$Exact<ExternalItemProps>,
-  ...$Exact<WithAnalyticsEventsProps>,
+  createAnalyticsEvent: Function,
 };
 
 export type ItemPrimitiveProps = {

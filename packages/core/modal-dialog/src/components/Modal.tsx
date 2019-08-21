@@ -209,12 +209,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export const ModalDialogWithoutAnalytics = Modal;
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'modalDialog',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClose: createAndFireEventOnAtlaskit({
       action: 'closed',
       actionSubject: 'modalDialog',

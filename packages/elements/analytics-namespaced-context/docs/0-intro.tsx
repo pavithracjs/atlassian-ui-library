@@ -6,7 +6,7 @@ export default md`
   The main purpose of this component is to provide a namespace for Fabric Elements contextual data related to @atlaskit/analytics-next framework.
   Rather than AnalyticsContext from @atlaskit/analytics-next, please use FabricElementsAnalyticsContext.
 
-  
+
   ## Installation
 
 ${code`
@@ -21,15 +21,15 @@ ${code`
 
 ${code`
 import * as React from 'react';
-import { 
-  withAnalyticsEvents, 
-  createAndFireEvent, 
+import {
+  withAnalyticsEvents,
+  createAndFireEvent,
   AnalyticsListener,
-  WithAnalyticsEventProps 
+  WithAnalyticsEventsProps
 } from '@atlaskit/analytics-next';
 import { FabricElementsAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 
-export type Props = WithAnalyticsEventProps & {
+export type Props = WithAnalyticsEventsProps & {
   onClick: (e) => void;
 };
 

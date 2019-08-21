@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -93,7 +93,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
   triggerXFlow = (key: string) => (
     event: any,
-    analyticsEvent: UIAnalyticsEventInterface,
+    analyticsEvent: UIAnalyticsEvent,
   ) => {
     const { triggerXFlow } = this.props;
     triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
@@ -112,10 +112,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
    *  href is not valid for this case the item will instead call the onClick callback provided.
    *  */
 
-  onDiscoverMoreClicked = (
-    event: any,
-    analyticsEvent: UIAnalyticsEventInterface,
-  ) => {
+  onDiscoverMoreClicked = (event: any, analyticsEvent: UIAnalyticsEvent) => {
     const { onDiscoverMoreClicked } = this.props;
     onDiscoverMoreClicked(event, analyticsEvent);
   };

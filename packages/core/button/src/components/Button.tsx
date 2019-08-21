@@ -27,7 +27,7 @@ export type ButtonState = {
 };
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
-  static defaultProps: ButtonProps = {
+  static defaultProps = {
     appearance: 'default',
     autoFocus: false,
     isDisabled: false,
@@ -35,7 +35,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     isSelected: false,
     shouldFitContainer: false,
     spacing: 'default',
-    theme: (current, props) => current(props),
     type: 'button',
   };
 
@@ -241,14 +240,12 @@ const ButtonWithRef = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 ButtonWithRef.displayName = 'Button';
 
-export default withAnalyticsContext<
-  ButtonProps & { ref?: React.Ref<HTMLButtonElement> }
->({
+export default withAnalyticsContext({
   componentName: 'button',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<ButtonProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'button',

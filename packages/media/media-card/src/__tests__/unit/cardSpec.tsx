@@ -16,10 +16,7 @@ import {
   ExternalImageIdentifier,
   Identifier,
 } from '@atlaskit/media-client';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { MediaViewer } from '@atlaskit/media-viewer';
 import { CardAction, CardProps, CardDimensions } from '../..';
 import { Card } from '../../root/card';
@@ -360,7 +357,7 @@ describe('Card', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualFiredEvent: UIAnalyticsEventInterface =
+    const actualFiredEvent: UIAnalyticsEvent =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualFiredEvent.context[0]).toEqual(
       expect.objectContaining({

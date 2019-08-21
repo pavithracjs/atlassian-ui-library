@@ -3,7 +3,7 @@ import { emoji, emojiQuery } from '@atlaskit/adf-schema';
 import { WithProviders, Providers } from '@atlaskit/editor-common';
 
 import { EditorPlugin } from '../../types';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { createPlugin, emojiPluginKey } from './pm-plugins/main';
 import inputRulePlugin from './pm-plugins/input-rules';
@@ -22,7 +22,7 @@ import {
 import { IconEmoji } from '../quick-insert/assets';
 
 const emojiPlugin = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
 ): EditorPlugin => ({
   nodes() {
     return [{ name: 'emoji', node: emoji }];

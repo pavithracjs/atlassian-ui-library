@@ -78,6 +78,10 @@ const BeforePreQueryStateContainer = styled.div`
   margin-top: ${gridSize()}px;
 `;
 
+const containsQuery = (string: string, query: string) => {
+  return string.toLowerCase().indexOf(query.toLowerCase()) > -1;
+};
+
 const getRecentItemMatches = (
   query: string,
   recentItems: JiraResultsMap | null,
@@ -86,10 +90,15 @@ const getRecentItemMatches = (
     return [];
   }
 
-  return recentItems.objects
-    .filter(result => {
-      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-    })
+  const issueKeyMatches = recentItems.objects.filter(
+    result => result.objectKey && containsQuery(result.objectKey, query),
+  );
+  const titleMatches = recentItems.objects.filter(result =>
+    containsQuery(result.name, query),
+  );
+
+  return issueKeyMatches
+    .concat(titleMatches)
     .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
 };
 
@@ -625,6 +634,7 @@ export class JiraQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         handleSearchSubmit={this.handleSearchSubmit}
+        // @ts-ignore this prop should not be accessed by consumers
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}
@@ -645,5 +655,5 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
 );
 
 export default injectFeatures(
-  withAnalyticsEvents<Props>()(JiraQuickSearchContainerWithIntl),
+  withAnalyticsEvents()(JiraQuickSearchContainerWithIntl),
 );

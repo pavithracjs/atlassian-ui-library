@@ -14,6 +14,7 @@ const commonPayload = {
 };
 
 const fileAttributes = (file: MediaFile) => ({
+  fileId: file.id,
   fileSize: file.size,
   fileMimetype: file.type,
   fileSource: 'mediapicker',

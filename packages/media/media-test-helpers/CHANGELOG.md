@@ -1,5 +1,18 @@
 # @atlaskit/media-test-helpers
 
+## 25.0.1
+
+- Updated dependencies [6879d7d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6879d7d01e):
+  - @atlaskit/media-picker@47.0.0
+
+## 25.0.0
+
+### Major Changes
+
+- [major][69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+
+  Remove following API members: `fakeContext()`, `getDefaultContextConfig()`, `createStorybookContext()`, `createUploadContext()`. You can use new methods introduced earlier: `fakeMediaClientConfig()`, `getDefaultMediaClientConfig()`, etc
+
 ## 24.3.5
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

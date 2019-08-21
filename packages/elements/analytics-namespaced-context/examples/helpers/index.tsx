@@ -1,11 +1,11 @@
 import {
   createAndFireEvent,
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import * as React from 'react';
 
-export type Props = WithAnalyticsEventProps & {
+export type Props = WithAnalyticsEventsProps & {
   text?: string;
   onClick: (e: React.SyntheticEvent) => void;
 };
@@ -22,7 +22,7 @@ class DummyComponent extends React.Component<Props> {
 }
 
 export const createDummyComponentWithAnalytics = (channel?: string) =>
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',

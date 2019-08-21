@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
@@ -20,7 +20,7 @@ import { withHelp, HelpContextInterface } from '../../HelpContext';
 export interface Props {
   onClick?: () => void;
   isSelected?: boolean;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 const ArticleWasHelpfulNoButton = (
@@ -56,10 +56,8 @@ const ArticleWasHelpfulNoButton = (
   );
 };
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'ArticleWasHelpfulNoButton',
   packageName,
   packageVersion,
-})(
-  withAnalyticsEvents<Props>()(withHelp(injectIntl(ArticleWasHelpfulNoButton))),
-);
+})(withAnalyticsEvents()(withHelp(injectIntl(ArticleWasHelpfulNoButton))));

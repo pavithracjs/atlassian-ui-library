@@ -2,9 +2,9 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import Lozenge, { ThemeAppearance } from '@atlaskit/lozenge';
 import {
-  WithAnalyticsEventProps,
-  CreateUIAnalyticsEventSignature,
-  UIAnalyticsEventInterface,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import { createStatusAnalyticsAndFire } from './analytics';
@@ -34,7 +34,7 @@ export interface OwnProps {
   onHover?: () => void;
 }
 
-export type Props = OwnProps & WithAnalyticsEventProps;
+export type Props = OwnProps & WithAnalyticsEventsProps;
 
 class StatusInternal extends PureComponent<Props, any> {
   private hoverStartTime: number = 0;
@@ -83,11 +83,11 @@ class StatusInternal extends PureComponent<Props, any> {
   }
 }
 
-export const Status = withAnalyticsEvents<OwnProps>({
+export const Status = withAnalyticsEvents({
   onClick: (
-    createEvent: CreateUIAnalyticsEventSignature,
+    createEvent: CreateUIAnalyticsEvent,
     props: Props,
-  ): UIAnalyticsEventInterface => {
+  ): UIAnalyticsEvent => {
     const { localId } = props;
     return createStatusAnalyticsAndFire(createEvent)({
       action: 'clicked',
@@ -98,9 +98,9 @@ export const Status = withAnalyticsEvents<OwnProps>({
     });
   },
   onHover: (
-    createEvent: CreateUIAnalyticsEventSignature,
+    createEvent: CreateUIAnalyticsEvent,
     props: Props,
-  ): UIAnalyticsEventInterface => {
+  ): UIAnalyticsEvent => {
     const { localId } = props;
     return createStatusAnalyticsAndFire(createEvent)({
       action: 'hovered',

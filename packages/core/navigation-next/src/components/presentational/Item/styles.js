@@ -1,10 +1,22 @@
 // @flow
 
-import { colors, fontSize, gridSize as gridSizeFn } from '@atlaskit/theme';
+import {
+  colors,
+  fontSize,
+  fontFamily,
+  gridSize as gridSizeFn,
+} from '@atlaskit/theme';
 
 import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';
 
+const targetEdgeAndIE11 = styles => {
+  // From https://browserstrangeness.github.io/css_hacks.html
+  return {
+    '@media screen and (-ms-high-contrast: none)': styles,
+    '@supports (-ms-ime-align:auto)': styles,
+  };
+};
 const gridSize = gridSizeFn();
 
 /**
@@ -49,12 +61,18 @@ const baseStyles = {
     flexDirection: 'column',
     flexGrow: 1,
     overflowX: 'hidden',
+    ...targetEdgeAndIE11({
+      fontFamily: fontFamily(),
+    }),
   },
   textWrapper: {
     flex: '1 1 auto',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    ...targetEdgeAndIE11({
+      lineHeight: 18 / fontSize(),
+    }),
     lineHeight: 16 / fontSize(),
   },
   subTextWrapper: {
@@ -62,6 +80,9 @@ const baseStyles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    ...targetEdgeAndIE11({
+      marginTop: '-2px',
+    }),
   },
   afterWrapper: {
     alignItems: 'center',
@@ -98,6 +119,10 @@ const layoutStyles = {
     },
     subTextWrapper: {
       fontSize: '12px',
+      ...targetEdgeAndIE11({
+        lineHeight: 16 / 12,
+        marginTop: '-2px',
+      }),
       lineHeight: 14 / 12,
     },
     afterWrapper: {

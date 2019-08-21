@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {
   withAnalyticsEvents,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import AKTooltip from '@atlaskit/tooltip';
 import {
@@ -13,7 +14,7 @@ import ItemWrapper from '../styled/BreadcrumbsItem';
 import Button from '../styled/Button';
 import Separator from '../styled/Separator';
 
-interface IProps {
+interface IProps extends WithAnalyticsEventsProps {
   /** Whether this item will be followed by a separator. */
   hasSeparator?: boolean;
   /** The url or path which the breadcrumb should act as a link to. */
@@ -152,7 +153,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
 export { BreadcrumbsItem as BreadcrumbsItemWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsEvents<IProps>({
+export default withAnalyticsEvents({
   onClick: createAndFireEventOnAtlaskit({
     action: 'clicked',
     actionSubject: 'breadcrumbsItem',

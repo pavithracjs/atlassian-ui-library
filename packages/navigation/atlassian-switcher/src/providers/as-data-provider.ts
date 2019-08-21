@@ -6,7 +6,7 @@ import {
 } from '../utils/analytics';
 import {
   AnalyticsEventPayload,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { errorToReason } from '../utils/error-to-reason';
 
@@ -85,7 +85,7 @@ export default function<P, D>(
   };
 
   const DataProvider = class extends React.Component<
-    P & DataProviderProps<D> & WithAnalyticsEventProps
+    P & DataProviderProps<D> & WithAnalyticsEventsProps
   > {
     acceptResults = true;
     state = getInitialState(this.props);
@@ -162,5 +162,5 @@ export default function<P, D>(
     }
   };
 
-  return withAnalyticsEvents<P & DataProviderProps<D>>()(DataProvider);
+  return withAnalyticsEvents()(DataProvider);
 }

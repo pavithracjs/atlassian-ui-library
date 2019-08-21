@@ -2,11 +2,9 @@ import * as React from 'react';
 import Loadable from 'react-loadable';
 
 import { CardProps } from '../view/Card';
-import { CardWithData } from '../view/Card/types';
 import { CardState } from '../state/types';
 
-export const isCardWithData = (props: CardProps): props is CardWithData =>
-  !!(props as CardWithData).data;
+export const isCardWithData = (props: CardProps) => !!props.data;
 
 export const isSpecialEvent = (evt: React.MouseEvent | React.KeyboardEvent) =>
   evt.isDefaultPrevented() &&
