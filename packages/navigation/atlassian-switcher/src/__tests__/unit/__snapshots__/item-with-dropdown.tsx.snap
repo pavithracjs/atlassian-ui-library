@@ -1403,7 +1403,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   stop-color: currentColor;
 }
 
-.c17 {
+.c18 {
   color: inherit;
   display: inline-block;
   fill: currentColor;
@@ -1415,7 +1415,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   user-select: none;
 }
 
-.c17 > svg {
+.c18 > svg {
   fill: inherit;
   height: 100%;
   left: 0;
@@ -1424,13 +1424,13 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   width: 100%;
 }
 
-.c17 > canvas {
+.c18 > canvas {
   display: block;
   height: 100%;
   visibility: hidden;
 }
 
-.c17 stop {
+.c18 stop {
   stop-color: currentColor;
 }
 
@@ -1536,6 +1536,10 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
 
 .c14 stop {
   stop-color: currentColor;
+}
+
+.c17 {
+  position: relative;
 }
 
 .c6 {
@@ -1812,64 +1816,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   position: relative;
 }
 
-.c18.c18 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border-radius: 3px;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-  background-color: transparent;
-  color: #253858;
-  fill: transparent;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  padding: 4px 8px 3px 8px;
-  width: auto;
-}
-
-.c18.c18:focus {
-  color: #253858;
-}
-
-.c18.c18:hover {
-  background-color: rgba(9,30,66,0.04);
-  fill: rgba(9,30,66,0.04);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c18.c18:active {
-  background-color: #DEEBFF;
-  color: #0052CC;
-  fill: #DEEBFF;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c18.c18:active:focus {
-  color: #0052CC;
-}
-
-.c18.c18:focus {
-  box-shadow: 0 0 0 2px #4C9AFF inset;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c18.c18:focus {
-  outline: none;
-  position: relative;
-}
-
 .c19.c19 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1924,6 +1870,64 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
 }
 
 .c19.c19:focus {
+  outline: none;
+  position: relative;
+}
+
+.c20.c20 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  background-color: transparent;
+  color: #253858;
+  fill: transparent;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding: 4px 8px 3px 8px;
+  width: auto;
+}
+
+.c20.c20:focus {
+  color: #253858;
+}
+
+.c20.c20:hover {
+  background-color: rgba(9,30,66,0.04);
+  fill: rgba(9,30,66,0.04);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c20.c20:active {
+  background-color: #DEEBFF;
+  color: #0052CC;
+  fill: #DEEBFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c20.c20:active:focus {
+  color: #0052CC;
+}
+
+.c20.c20:focus {
+  box-shadow: 0 0 0 2px #4C9AFF inset;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c20.c20:focus {
   outline: none;
   position: relative;
 }
@@ -2469,8 +2473,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   data-test-id="switcher-child-item"
                   description=""
                   elemBefore={
-                    <Unknown
-                      theme="subtle"
+                    <Avatar
+                      fallbackComponent={
+                        <Unknown
+                          theme="subtle"
+                        />
+                      }
                     />
                   }
                   href="https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2488,8 +2496,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     data-test-id="switcher-child-item"
                     description=""
                     elemBefore={
-                      <Unknown
-                        theme="subtle"
+                      <Avatar
+                        fallbackComponent={
+                          <Unknown
+                            theme="subtle"
+                          />
+                        }
                       />
                     }
                     href="https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2526,69 +2538,49 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                           <span
                             className="c4 c5"
                           >
-                            <Component
-                              theme="subtle"
+                            <Avatar
+                              fallbackComponent={
+                                <Unknown
+                                  theme="subtle"
+                                />
+                              }
                             >
-                              <styled.div
-                                bgColor="transparent"
-                              >
+                              <styled.div>
                                 <div
-                                  className="c13"
+                                  className="c17"
                                 >
-                                  <JiraSoftwareIcon
-                                    iconColor="inherit"
-                                    iconGradientStart="inherit"
-                                    iconGradientStop="inherit"
-                                    label=""
-                                    primaryColor={[Function]}
-                                    size="small"
-                                    textColor="currentColor"
+                                  <Component
+                                    theme="subtle"
                                   >
-                                    <Wrapper
-                                      iconColor="inherit"
-                                      iconGradientStart="inherit"
-                                      iconGradientStop="inherit"
-                                      label=""
-                                      primaryColor={[Function]}
-                                      size="small"
-                                      svg={[Function]}
-                                      textColor="currentColor"
+                                    <styled.div
+                                      bgColor="transparent"
                                     >
-                                      <styled.span
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
-  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
-    <defs>
-      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid5-1\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid5-2\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-    </defs>
-    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
-      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
-      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid5-1\\"/>
-      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid5-2\\"/>
-    </g>
-  </svg>",
-                                          }
-                                        }
-                                        iconColor="inherit"
-                                        iconGradientStart="inherit"
-                                        iconGradientStop="inherit"
-                                        primaryColor={[Function]}
-                                        size="small"
-                                        textColor="currentColor"
+                                      <div
+                                        className="c13"
                                       >
-                                        <span
-                                          className="c17"
-                                          dangerouslySetInnerHTML={
-                                            Object {
-                                              "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+                                        <JiraSoftwareIcon
+                                          iconColor="inherit"
+                                          iconGradientStart="inherit"
+                                          iconGradientStop="inherit"
+                                          label=""
+                                          primaryColor={[Function]}
+                                          size="small"
+                                          textColor="currentColor"
+                                        >
+                                          <Wrapper
+                                            iconColor="inherit"
+                                            iconGradientStart="inherit"
+                                            iconGradientStop="inherit"
+                                            label=""
+                                            primaryColor={[Function]}
+                                            size="small"
+                                            svg={[Function]}
+                                            textColor="currentColor"
+                                          >
+                                            <styled.span
+                                              dangerouslySetInnerHTML={
+                                                Object {
+                                                  "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
   <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
     <defs>
       <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid5-1\\">
@@ -2606,16 +2598,50 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid5-2\\"/>
     </g>
   </svg>",
-                                            }
-                                          }
-                                          size="small"
-                                        />
-                                      </styled.span>
-                                    </Wrapper>
-                                  </JiraSoftwareIcon>
+                                                }
+                                              }
+                                              iconColor="inherit"
+                                              iconGradientStart="inherit"
+                                              iconGradientStop="inherit"
+                                              primaryColor={[Function]}
+                                              size="small"
+                                              textColor="currentColor"
+                                            >
+                                              <span
+                                                className="c18"
+                                                dangerouslySetInnerHTML={
+                                                  Object {
+                                                    "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
+    <defs>
+      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid5-1\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid5-2\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+    </defs>
+    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
+      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
+      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid5-1\\"/>
+      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid5-2\\"/>
+    </g>
+  </svg>",
+                                                  }
+                                                }
+                                                size="small"
+                                              />
+                                            </styled.span>
+                                          </Wrapper>
+                                        </JiraSoftwareIcon>
+                                      </div>
+                                    </styled.div>
+                                  </Component>
                                 </div>
                               </styled.div>
-                            </Component>
+                            </Avatar>
                           </span>
                         </styled.span>
                       </Styled(styled.span)>
@@ -2642,8 +2668,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   data-test-id="switcher-child-item"
                   description=""
                   elemBefore={
-                    <Unknown
-                      theme="subtle"
+                    <Avatar
+                      fallbackComponent={
+                        <Unknown
+                          theme="subtle"
+                        />
+                      }
                     />
                   }
                   href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2661,8 +2691,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     data-test-id="switcher-child-item"
                     description=""
                     elemBefore={
-                      <Unknown
-                        theme="subtle"
+                      <Avatar
+                        fallbackComponent={
+                          <Unknown
+                            theme="subtle"
+                          />
+                        }
                       />
                     }
                     href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2680,7 +2714,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     <a
                       aria-disabled={false}
                       autoFocus={false}
-                      className="c18"
+                      className="c19"
                       data-test-id="switcher-child-item"
                       href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
                       onClick={[Function]}
@@ -2699,69 +2733,49 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                           <span
                             className="c4 c5"
                           >
-                            <Component
-                              theme="subtle"
+                            <Avatar
+                              fallbackComponent={
+                                <Unknown
+                                  theme="subtle"
+                                />
+                              }
                             >
-                              <styled.div
-                                bgColor="transparent"
-                              >
+                              <styled.div>
                                 <div
-                                  className="c13"
+                                  className="c17"
                                 >
-                                  <JiraSoftwareIcon
-                                    iconColor="inherit"
-                                    iconGradientStart="inherit"
-                                    iconGradientStop="inherit"
-                                    label=""
-                                    primaryColor={[Function]}
-                                    size="small"
-                                    textColor="currentColor"
+                                  <Component
+                                    theme="subtle"
                                   >
-                                    <Wrapper
-                                      iconColor="inherit"
-                                      iconGradientStart="inherit"
-                                      iconGradientStop="inherit"
-                                      label=""
-                                      primaryColor={[Function]}
-                                      size="small"
-                                      svg={[Function]}
-                                      textColor="currentColor"
+                                    <styled.div
+                                      bgColor="transparent"
                                     >
-                                      <styled.span
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
-  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
-    <defs>
-      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid6-1\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid6-2\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-    </defs>
-    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
-      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
-      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid6-1\\"/>
-      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid6-2\\"/>
-    </g>
-  </svg>",
-                                          }
-                                        }
-                                        iconColor="inherit"
-                                        iconGradientStart="inherit"
-                                        iconGradientStop="inherit"
-                                        primaryColor={[Function]}
-                                        size="small"
-                                        textColor="currentColor"
+                                      <div
+                                        className="c13"
                                       >
-                                        <span
-                                          className="c17"
-                                          dangerouslySetInnerHTML={
-                                            Object {
-                                              "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+                                        <JiraSoftwareIcon
+                                          iconColor="inherit"
+                                          iconGradientStart="inherit"
+                                          iconGradientStop="inherit"
+                                          label=""
+                                          primaryColor={[Function]}
+                                          size="small"
+                                          textColor="currentColor"
+                                        >
+                                          <Wrapper
+                                            iconColor="inherit"
+                                            iconGradientStart="inherit"
+                                            iconGradientStop="inherit"
+                                            label=""
+                                            primaryColor={[Function]}
+                                            size="small"
+                                            svg={[Function]}
+                                            textColor="currentColor"
+                                          >
+                                            <styled.span
+                                              dangerouslySetInnerHTML={
+                                                Object {
+                                                  "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
   <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
     <defs>
       <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid6-1\\">
@@ -2779,16 +2793,50 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid6-2\\"/>
     </g>
   </svg>",
-                                            }
-                                          }
-                                          size="small"
-                                        />
-                                      </styled.span>
-                                    </Wrapper>
-                                  </JiraSoftwareIcon>
+                                                }
+                                              }
+                                              iconColor="inherit"
+                                              iconGradientStart="inherit"
+                                              iconGradientStop="inherit"
+                                              primaryColor={[Function]}
+                                              size="small"
+                                              textColor="currentColor"
+                                            >
+                                              <span
+                                                className="c18"
+                                                dangerouslySetInnerHTML={
+                                                  Object {
+                                                    "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
+    <defs>
+      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid6-1\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid6-2\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+    </defs>
+    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
+      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
+      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid6-1\\"/>
+      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid6-2\\"/>
+    </g>
+  </svg>",
+                                                  }
+                                                }
+                                                size="small"
+                                              />
+                                            </styled.span>
+                                          </Wrapper>
+                                        </JiraSoftwareIcon>
+                                      </div>
+                                    </styled.div>
+                                  </Component>
                                 </div>
                               </styled.div>
-                            </Component>
+                            </Avatar>
                           </span>
                         </styled.span>
                       </Styled(styled.span)>
@@ -2815,8 +2863,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   data-test-id="switcher-child-item"
                   description=""
                   elemBefore={
-                    <Unknown
-                      theme="subtle"
+                    <Avatar
+                      fallbackComponent={
+                        <Unknown
+                          theme="subtle"
+                        />
+                      }
                     />
                   }
                   href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2834,8 +2886,12 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     data-test-id="switcher-child-item"
                     description=""
                     elemBefore={
-                      <Unknown
-                        theme="subtle"
+                      <Avatar
+                        fallbackComponent={
+                          <Unknown
+                            theme="subtle"
+                          />
+                        }
                       />
                     }
                     href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
@@ -2853,7 +2909,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     <a
                       aria-disabled={false}
                       autoFocus={false}
-                      className="c19"
+                      className="c20"
                       data-test-id="switcher-child-item"
                       href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
                       onClick={[Function]}
@@ -2872,69 +2928,49 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                           <span
                             className="c4 c5"
                           >
-                            <Component
-                              theme="subtle"
+                            <Avatar
+                              fallbackComponent={
+                                <Unknown
+                                  theme="subtle"
+                                />
+                              }
                             >
-                              <styled.div
-                                bgColor="transparent"
-                              >
+                              <styled.div>
                                 <div
-                                  className="c13"
+                                  className="c17"
                                 >
-                                  <JiraSoftwareIcon
-                                    iconColor="inherit"
-                                    iconGradientStart="inherit"
-                                    iconGradientStop="inherit"
-                                    label=""
-                                    primaryColor={[Function]}
-                                    size="small"
-                                    textColor="currentColor"
+                                  <Component
+                                    theme="subtle"
                                   >
-                                    <Wrapper
-                                      iconColor="inherit"
-                                      iconGradientStart="inherit"
-                                      iconGradientStop="inherit"
-                                      label=""
-                                      primaryColor={[Function]}
-                                      size="small"
-                                      svg={[Function]}
-                                      textColor="currentColor"
+                                    <styled.div
+                                      bgColor="transparent"
                                     >
-                                      <styled.span
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
-  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
-    <defs>
-      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid7-1\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid7-2\\">
-        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
-        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
-      </linearGradient>
-    </defs>
-    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
-      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
-      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid7-1\\"/>
-      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid7-2\\"/>
-    </g>
-  </svg>",
-                                          }
-                                        }
-                                        iconColor="inherit"
-                                        iconGradientStart="inherit"
-                                        iconGradientStop="inherit"
-                                        primaryColor={[Function]}
-                                        size="small"
-                                        textColor="currentColor"
+                                      <div
+                                        className="c13"
                                       >
-                                        <span
-                                          className="c17"
-                                          dangerouslySetInnerHTML={
-                                            Object {
-                                              "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+                                        <JiraSoftwareIcon
+                                          iconColor="inherit"
+                                          iconGradientStart="inherit"
+                                          iconGradientStop="inherit"
+                                          label=""
+                                          primaryColor={[Function]}
+                                          size="small"
+                                          textColor="currentColor"
+                                        >
+                                          <Wrapper
+                                            iconColor="inherit"
+                                            iconGradientStart="inherit"
+                                            iconGradientStop="inherit"
+                                            label=""
+                                            primaryColor={[Function]}
+                                            size="small"
+                                            svg={[Function]}
+                                            textColor="currentColor"
+                                          >
+                                            <styled.span
+                                              dangerouslySetInnerHTML={
+                                                Object {
+                                                  "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
   <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
     <defs>
       <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid7-1\\">
@@ -2952,16 +2988,50 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid7-2\\"/>
     </g>
   </svg>",
-                                            }
-                                          }
-                                          size="small"
-                                        />
-                                      </styled.span>
-                                    </Wrapper>
-                                  </JiraSoftwareIcon>
+                                                }
+                                              }
+                                              iconColor="inherit"
+                                              iconGradientStart="inherit"
+                                              iconGradientStop="inherit"
+                                              primaryColor={[Function]}
+                                              size="small"
+                                              textColor="currentColor"
+                                            >
+                                              <span
+                                                className="c18"
+                                                dangerouslySetInnerHTML={
+                                                  Object {
+                                                    "__html": "<canvas height=\\"32\\" width=\\"32\\" aria-hidden=\\"true\\"></canvas>
+  <svg viewBox=\\"0 0 32 32\\" xmlns=\\"http://www.w3.org/2000/svg\\" focusable=\\"false\\" aria-hidden=\\"true\\">
+    <defs>
+      <linearGradient x1=\\"108.695%\\" x2=\\"12.439%\\" y1=\\"-14.936%\\" y2=\\"45.215%\\" id=\\"uid7-1\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+      <linearGradient x1=\\"0%\\" x2=\\"91.029%\\" y1=\\"118.55%\\" y2=\\"63.971%\\" id=\\"uid7-2\\">
+        <stop stop-color=\\"inherit\\" stop-opacity=\\"0.4\\" offset=\\"0%\\"></stop>
+        <stop stop-color=\\"inherit\\" offset=\\"100%\\"></stop>
+      </linearGradient>
+    </defs>
+    <g stroke=\\"none\\" stroke-width=\\"1\\" fill-rule=\\"nonzero\\">
+      <path d=\\"M15.9669691 29.3616152C17.2195568 28.1097726 17.9233158 26.4114623 17.9233158 24.6405626 17.9233158 22.8696629 17.2195568 21.1713527 15.9669691 19.91951L7.26805808 11.2489111 3.31143376 15.2055354C2.89743442 15.6200502 2.89743442 16.291565 3.31143376 16.7060799L15.9669691 29.3616152zM28.6225045 15.2055354L15.9669691 2.55 15.9280399 2.58892922C13.3485687 5.19994003 13.3612164 9.40374108 15.9563521 11.9991833L24.6623412 20.6662432 28.6225045 16.7060799C29.0365039 16.291565 29.0365039 15.6200502 28.6225045 15.2055354z\\" fill=\\"currentColor\\"/>
+      <path d=\\"M15.9669691,11.9921053 C13.3718335,9.39666304 13.3591857,5.19286199 15.938657,2.58185118 L6.91061706,11.6063521 L11.6316697,16.3274047 L15.9669691,11.9921053 Z\\" fill=\\"url(#uid7-1\\"/>
+      <path d=\\"M20.2951906,15.5912886 L15.9669691,19.91951 C17.2195568,21.1713527 17.9233158,22.8696629 17.9233158,24.6405626 C17.9233158,26.4114623 17.2195568,28.1097726 15.9669691,29.3616152 L25.0162432,20.3123412 L20.2951906,15.5912886 Z\\" fill=\\"url(#uid7-2\\"/>
+    </g>
+  </svg>",
+                                                  }
+                                                }
+                                                size="small"
+                                              />
+                                            </styled.span>
+                                          </Wrapper>
+                                        </JiraSoftwareIcon>
+                                      </div>
+                                    </styled.div>
+                                  </Component>
                                 </div>
                               </styled.div>
-                            </Component>
+                            </Avatar>
                           </span>
                         </styled.span>
                       </Styled(styled.span)>
