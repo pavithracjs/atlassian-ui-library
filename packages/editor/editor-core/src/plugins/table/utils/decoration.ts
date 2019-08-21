@@ -131,6 +131,7 @@ export const createColumnSelectedDecorations = (
 
 export const createColumnControlsDecoration = (
   selection: Selection,
+  allowColumnResizing?: boolean,
 ): Decoration[] => {
   const cells: ContentNodeWithPos[] = getCellsInRow(0)(selection) || [];
   let index = 0;
@@ -141,7 +142,10 @@ export const createColumnControlsDecoration = (
     element.dataset.startIndex = `${index}`;
     index += colspan;
     element.dataset.endIndex = `${index}`;
-    element.appendChild(createResizeHandleNode());
+
+    if (allowColumnResizing) {
+      element.appendChild(createResizeHandleNode());
+    }
 
     return Decoration.widget(
       cell.pos + 1,
