@@ -428,6 +428,7 @@ function generateSite(
   return {
     adminAccess: false,
     availableProducts,
+    avatar: null,
     cloudId: siteName,
     displayName: siteName,
     url: `https://${siteName}.atlassian.net`,
