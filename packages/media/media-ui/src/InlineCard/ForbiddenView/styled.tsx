@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { N500 } from '@atlaskit/theme/colors';
 
 export const ForbiddenWrapper = styled.span`
-  color: ${colors.N500}
+  color: ${N500}
   hyphens: auto;
   overflow-wrap: break-word;
 `;

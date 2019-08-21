@@ -3,7 +3,7 @@ import { Component } from 'react';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import Tooltip from '@atlaskit/tooltip';
 import Button from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
+import { N0 } from '@atlaskit/theme/colors';
 import {
   ColorSample,
   DropdownRightIconWrapper,
@@ -30,7 +30,7 @@ export class ColorButton extends Component<
       intl: { formatMessage },
     } = this.props;
 
-    const iconPrimaryColor = isActive ? colors.N0 : undefined;
+    const iconPrimaryColor = isActive ? N0 : undefined;
     const style = { backgroundColor: color, borderColor: PICKER_COLORS[color] };
 
     const iconBefore = (

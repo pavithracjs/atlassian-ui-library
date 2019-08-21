@@ -1,7 +1,7 @@
 import styled, { ThemedOuterStyledProps } from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, LiHTMLAttributes } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20, N40, B400, B50 } from '@atlaskit/theme/colors';
 
 export const FilmStripViewWrapper: ComponentClass<
   HTMLAttributes<{}>
@@ -54,7 +54,7 @@ export const ArrowWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: ${colors.N20};
+  background-color: ${N20};
   border-radius: 100%;
   display: flex;
   cursor: pointer;
@@ -68,12 +68,12 @@ export const ArrowWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
 
   &:hover {
     color: black;
-    background-color: ${colors.N40};
+    background-color: ${N40};
   }
 
   &:active {
-    color: ${colors.B400};
-    background-color: ${colors.B50};
+    color: ${B400};
+    background-color: ${B50};
   }
 
   svg {

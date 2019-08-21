@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
-import { colors } from '@atlaskit/theme';
+import { Y300 } from '@atlaskit/theme/colors';
 import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
 import { CollapsedIconTitleDescriptionLayout } from '../CollapsedIconTitleDescriptionLayout';
@@ -43,13 +43,7 @@ export class BlockCardErroredView extends React.Component<
         onClick={onClick}
       >
         <CollapsedIconTitleDescriptionLayout
-          icon={
-            <WarningIcon
-              label="error"
-              size="medium"
-              primaryColor={colors.Y300}
-            />
-          }
+          icon={<WarningIcon label="error" size="medium" primaryColor={Y300} />}
           title={url}
           description={
             <>

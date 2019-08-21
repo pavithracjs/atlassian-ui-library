@@ -4,7 +4,7 @@ import {
   LozengeViewModel,
 } from '@atlaskit/media-ui';
 import ChatIcon from '@atlaskit/icon/glyph/comment';
-import { colors } from '@atlaskit/theme';
+import { N600 } from '@atlaskit/theme/colors';
 import { FormattedRelative } from 'react-intl';
 
 export const buildTaskTitle = (json: any) => {
@@ -80,7 +80,7 @@ export const buildTaskCommentCount = (json: any) => {
           label=""
           key="comments-count-icon"
           size="medium"
-          primaryColor={colors.N600}
+          primaryColor={N600}
         />
       ),
       text: String(json.commentCount),

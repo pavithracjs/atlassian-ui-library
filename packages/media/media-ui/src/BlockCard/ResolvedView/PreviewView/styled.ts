@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N40A, N30 } from '@atlaskit/theme/colors';
 import { fadeIn } from '../../../mixins';
 
 const borderRadius = `border-radius: 3px 3px 0 0;`;
@@ -10,8 +10,8 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: relative;
   height: 0;
   padding-bottom: 56.25%;
-  color: ${colors.N40A};
-  ${borderRadius} background-color: ${colors.N30};
+  color: ${N40A};
+  ${borderRadius} background-color: ${N30};
   ${fadeIn};
 `;
 

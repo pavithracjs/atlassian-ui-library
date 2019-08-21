@@ -4,7 +4,7 @@ import { FormattedRelative } from 'react-intl';
 import { BlockCardResolvedViewProps } from '@atlaskit/media-ui';
 import { extractPropsFromObject } from './extractPropsFromObject';
 import ChatIcon from '@atlaskit/icon/glyph/comment';
-import { colors } from '@atlaskit/theme';
+import { N600 } from '@atlaskit/theme/colors';
 import { getIconForFileType, getLabelForFileType } from '../../utils';
 
 type Person = {
@@ -34,7 +34,7 @@ export function extractPropsFromDocument(
             label=""
             key="comments-count-icon"
             size="medium"
-            primaryColor={colors.N600}
+            primaryColor={N600}
           />
         ),
         text: `${json.commentCount}`,

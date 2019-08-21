@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors, borderRadius } from '@atlaskit/theme';
+import { borderRadius } from '@atlaskit/theme/constants';
+import { N0 } from '@atlaskit/theme/colors';
 
 export const ColorSample: ComponentClass<HTMLAttributes<{}>> = styled.div`
   cursor: pointer;
@@ -14,5 +15,5 @@ export const ColorSample: ComponentClass<HTMLAttributes<{}>> = styled.div`
 `;
 
 export const CheckArea: ComponentClass<HTMLAttributes<{}>> = styled.div`
-  color: ${colors.N0};
+  color: ${N0};
 `;

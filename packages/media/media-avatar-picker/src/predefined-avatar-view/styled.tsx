@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, ImgHTMLAttributes } from 'react';
-import { colors, borderRadius, gridSize } from '@atlaskit/theme';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import { B200 } from '@atlaskit/theme/colors';
 
 export interface AvatarImageProps {
   isSelected: boolean;
@@ -15,7 +16,7 @@ const AvatarImage: ComponentClass<
   ${({ isSelected }: AvatarImageProps) =>
     isSelected
       ? `
-    box-shadow: 0px 0px 0px 1px white, 0px 0px 0px 3px ${colors.B200};
+    box-shadow: 0px 0px 0px 1px white, 0px 0px 0px 3px ${B200};
   `
       : ''};
 `;

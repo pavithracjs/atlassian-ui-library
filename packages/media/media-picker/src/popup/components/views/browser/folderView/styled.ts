@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, LiHTMLAttributes } from 'react';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 
 export const FolderViewerWrapper: ComponentClass<
   HTMLAttributes<{}>

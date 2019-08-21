@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N300, N800 } from '@atlaskit/theme/colors';
 import { ellipsis } from '../../../mixins';
 
 const widgetHeight = 24;
@@ -42,14 +42,14 @@ export const WidgetDetails: ComponentClass<HTMLAttributes<{}>> = styled.div`
 `;
 
 export const Title: ComponentClass<HTMLAttributes<{}>> = styled.div`
-  color: ${colors.N300};
+  color: ${N300};
   font-size: 12px;
   line-height: ${16 / 12};
 `;
 
 export const Text: ComponentClass<HTMLAttributes<{}>> = styled.div`
   ${ellipsis('none')};
-  color: ${colors.N800};
+  color: ${N800};
   font-size: 12px;
   line-height: ${16 / 12};
 `;

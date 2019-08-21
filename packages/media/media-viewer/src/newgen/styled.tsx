@@ -7,20 +7,21 @@ import { MediaType } from '@atlaskit/media-client';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, VideoHTMLAttributes, AudioHTMLAttributes, ImgHTMLAttributes, ComponentClass, ClassAttributes } from 'react';
-import { colors, layers, borderRadius } from '@atlaskit/theme';
+import { layers, borderRadius } from '@atlaskit/theme/constants';
+import { Y200, P200, B300, DN30, DN400 } from '@atlaskit/theme/colors';
 import { ellipsis } from '@atlaskit/media-ui';
 
 const overlayZindex = layers.modal() + 10;
 
 export const mediaTypeIconColors = {
-  image: colors.Y200,
-  audio: colors.P200,
+  image: Y200,
+  audio: P200,
   video: '#ff7143',
-  doc: colors.B300,
+  doc: B300,
   unknown: '#3dc7dc',
 };
 
-export const blanketColor = colors.DN30;
+export const blanketColor = DN30;
 
 export const Blanket = styled.div`
   position: fixed;
@@ -243,7 +244,7 @@ export const MetadataFileName = styled.div`
 `;
 
 export const MetadataSubText = styled.div`
-  color: ${colors.DN400};
+  color: ${DN400};
   ${ellipsis()};
 `;
 

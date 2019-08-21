@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { fontFamily } from '@atlaskit/theme';
+import { fontFamily } from '@atlaskit/theme/constants';
 import { fadeIn } from '@atlaskit/media-ui';
 
 export * from './config';

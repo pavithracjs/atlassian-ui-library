@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N800, N300 } from '@atlaskit/theme/colors';
 import { ellipsis } from '../../mixins';
 
 export const Title: ComponentClass<HTMLAttributes<{}>> = styled.div`
-  color: ${colors.N800};
+  color: ${N800};
   font-size: 14px;
   font-weight: 500;
   line-height: ${16 / 14};
@@ -13,7 +13,7 @@ export const Title: ComponentClass<HTMLAttributes<{}>> = styled.div`
 `;
 
 export const Description: ComponentClass<HTMLAttributes<{}>> = styled.div`
-  color: ${colors.N300};
+  color: ${N300};
   font-size: 12px;
   font-weight: normal;
   line-height: ${16 / 12};

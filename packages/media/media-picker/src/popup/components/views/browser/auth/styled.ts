@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N30, N500, N100 } from '@atlaskit/theme/colors';
 
 export const IconWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
-  color: ${colors.N30};
+  color: ${N30};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +26,7 @@ export const ButtonWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
 
 export const TextDescription: ComponentClass<HTMLAttributes<{}>> = styled.div`
   margin-top: 18px;
-  color: ${colors.N500};
+  color: ${N500};
   opacity: 0.7;
   font-size: 12px;
   text-align: center;
@@ -35,7 +35,7 @@ export const TextDescription: ComponentClass<HTMLAttributes<{}>> = styled.div`
 export const Title: ComponentClass<HTMLAttributes<{}>> = styled.div`
   text-align: center;
   font-size: 16px;
-  color: ${colors.N100};
+  color: ${N100};
 `;
 
 export const ConnectWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`

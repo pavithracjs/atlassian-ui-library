@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { colors } from '@atlaskit/theme';
+import { B400, N500 } from '@atlaskit/theme/colors';
 import LockIcon from '@atlaskit/icon/glyph/lock-filled';
 import Button from '@atlaskit/button';
 import { Frame } from '../Frame';
@@ -37,11 +37,11 @@ export class InlineCardForbiddenView extends React.Component<
         <IconAndTitleLayout
           icon={
             <AKIconWrapper>
-              <LockIcon label="error" size="small" primaryColor={colors.B400} />
+              <LockIcon label="error" size="small" primaryColor={B400} />
             </AKIconWrapper>
           }
           title={url}
-          titleColor={colors.N500}
+          titleColor={N500}
         />
         {!onAuthorise ? (
           ''

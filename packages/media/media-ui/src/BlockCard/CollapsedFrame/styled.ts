@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { fontFamily, colors } from '@atlaskit/theme';
+import { fontFamily } from '@atlaskit/theme/constants';
+import { B50, B100, N300, N20A } from '@atlaskit/theme/colors';
 import { borderRadius } from '../../mixins';
 
 export interface FrameProps {
@@ -31,7 +32,7 @@ function interactive({ isInteractive }: FrameProps) {
     return `
       cursor: pointer;
       :hover {
-        background-color: ${colors.B50};
+        background-color: ${B50};
       }
     `;
   } else {
@@ -43,7 +44,7 @@ function selected({ isSelected }: FrameProps) {
   return isSelected
     ? `&::after {
         cursor: pointer;
-        box-shadow: 0 0 0 2px ${colors.B100};
+        box-shadow: 0 0 0 2px ${B100};
         content: '';
         outline: none;
         position: absolute;
@@ -61,12 +62,12 @@ export const Wrapper: React.ComponentClass<
   display: flex;
   align-items: center;
   height: 40px;
-  color: ${colors.N300};
+  color: ${N300};
   font-family: ${fontFamily};
   font-size: 12px;
   font-weight: 500;
   border-radius: 3px;
-  background-color: ${colors.N20A};
+  background-color: ${N20A};
   position: relative;
   ${borderRadius} ${minWidth} ${maxWidth} ${interactive};
   ${selected}

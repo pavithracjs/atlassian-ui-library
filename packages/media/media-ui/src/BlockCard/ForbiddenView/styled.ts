@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { B200 } from '@atlaskit/theme/colors';
 import { borderRadius, size } from '../../mixins';
 
 export const IconBackground: ComponentClass<HTMLAttributes<{}>> = styled.div`
   ${borderRadius}
   ${size(24)}
-  background-color: ${colors.B200};
+  background-color: ${B200};
 `;

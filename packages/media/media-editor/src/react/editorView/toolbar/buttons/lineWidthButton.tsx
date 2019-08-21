@@ -5,7 +5,7 @@ import Button from '@atlaskit/button';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import Tooltip from '@atlaskit/tooltip';
 import { messages } from '@atlaskit/media-ui';
-import { colors } from '@atlaskit/theme';
+import { N0 } from '@atlaskit/theme/colors';
 import { DropdownRightIconWrapper, DropdownLeftIconWrapper } from './styles';
 import { LineWidthIcon } from './lineWidthIcon';
 
@@ -25,7 +25,7 @@ export class LineWidthButton extends Component<
       onClick,
       intl: { formatMessage },
     } = this.props;
-    const iconPrimaryColor = isActive ? colors.N0 : undefined;
+    const iconPrimaryColor = isActive ? N0 : undefined;
 
     const iconBefore = (
       <DropdownLeftIconWrapper>

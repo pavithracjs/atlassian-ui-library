@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ModalSpinner } from '@atlaskit/media-ui';
-import { colors } from '@atlaskit/theme';
+import { N700A } from '@atlaskit/theme/colors';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { SmartMediaEditorProps } from './smartMediaEditor';
 
@@ -57,9 +57,7 @@ export default class AsyncSmartMediaEditor extends React.PureComponent<
       return null;
     }
     if (!this.state.SmartMediaEditor) {
-      return (
-        <ModalSpinner blankedColor={colors.N700A} invertSpinnerColor={true} />
-      );
+      return <ModalSpinner blankedColor={N700A} invertSpinnerColor={true} />;
     }
 
     return <this.state.SmartMediaEditor {...this.props} />;

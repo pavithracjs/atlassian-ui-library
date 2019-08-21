@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, ButtonHTMLAttributes } from 'react';
-import { borderRadius, colors } from '@atlaskit/theme';
+import { borderRadius } from '@atlaskit/theme/constants';
+import { N50A } from '@atlaskit/theme/colors';
 
 // Using module augmentation to add crossOrigin attribute as it does not exist yet, PR has been opened in
 // DefinitelyTyped for it
@@ -86,6 +87,6 @@ export const RemoveImageButton: ComponentClass<
   }
 
   &:hover {
-    background-color: ${colors.N50A};
+    background-color: ${N50A};
   }
 `;

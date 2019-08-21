@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
+import { N0 } from '@atlaskit/theme/colors';
 import LockFilledIcon from '@atlaskit/icon/glyph/lock-filled';
 import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
@@ -47,7 +47,7 @@ export class BlockCardForbiddenView extends React.Component<
               <LockFilledIcon
                 label="forbidden"
                 size="medium"
-                primaryColor={colors.N0}
+                primaryColor={N0}
               />
             </IconBackground>
           }

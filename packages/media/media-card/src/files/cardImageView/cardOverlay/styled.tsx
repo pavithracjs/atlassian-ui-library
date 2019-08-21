@@ -16,7 +16,8 @@ import {
   antialiased,
 } from '../../../styles';
 import { borderRadius, size, ellipsis, absolute } from '@atlaskit/media-ui';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 
 export interface OverlayProps {
   hasError?: boolean;

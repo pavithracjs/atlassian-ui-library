@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 
 import { ColorButton } from './colorButton';
 import { ColorPopupContentWrapper } from './popupStyles';

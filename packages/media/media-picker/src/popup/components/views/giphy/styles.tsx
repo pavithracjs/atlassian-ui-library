@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, ImgHTMLAttributes } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N300 } from '@atlaskit/theme/colors';
 
 export const Container: ComponentClass<HTMLAttributes<{}>> = styled.div`
   height: 100%;
@@ -58,7 +58,7 @@ export const WarningHeading: ComponentClass<HTMLAttributes<{}>> = styled.p`
 `;
 
 export const WarningSuggestion: ComponentClass<HTMLAttributes<{}>> = styled.p`
-  color: ${colors.N300};
+  color: ${N300};
   font-size: 14px;
   margin-top: 5px;
 `;

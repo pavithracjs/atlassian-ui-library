@@ -1,4 +1,4 @@
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 import { Rectangle } from '@atlaskit/media-ui';
 
 export const DEFAULT_VISIBLE_PREDEFINED_AVATARS = 5;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 
 import Button from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
+import { N0 } from '@atlaskit/theme/colors';
 import ArrowIcon from '@atlaskit/icon/glyph/media-services/arrow';
 import BrushIcon from '@atlaskit/icon/glyph/media-services/brush';
 import LineIcon from '@atlaskit/icon/glyph/media-services/line';
@@ -34,7 +34,7 @@ export class ToolButton extends Component<ToolButtonProps> {
     const { tool, activeTool, onToolClick } = this.props;
     const Icon = toolIcons[tool];
     const isActive = tool === activeTool;
-    const iconPrimaryColor = isActive ? colors.N0 : undefined;
+    const iconPrimaryColor = isActive ? N0 : undefined;
     const onClick = () => {
       onToolClick(tool);
     };

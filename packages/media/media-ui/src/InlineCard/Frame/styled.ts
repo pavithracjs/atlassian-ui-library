@@ -1,7 +1,8 @@
 import { AnchorHTMLAttributes, ComponentClass } from 'react';
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
-import { borderRadius as akBorderRadius, elevation } from '@atlaskit/theme';
+import { B100, N20, B50 } from '@atlaskit/theme/colors';
+import { borderRadius as akBorderRadius } from '@atlaskit/theme/constants';
+import { e100 } from '@atlaskit/theme/elevation';
 
 export interface WrapperProps {
   isSelected?: boolean;
@@ -11,7 +12,7 @@ export interface WrapperProps {
 
 const selected = `
   cursor: pointer;
-  box-shadow: 0 0 0 2px ${colors.B100};
+  box-shadow: 0 0 0 2px ${B100};
   outline: none;
   user-select: none;
   &, :hover, :focus, :active {
@@ -24,11 +25,11 @@ const isInteractive = ({ isInteractive }: WrapperProps) => {
     return `
       cursor: pointer;
       :hover {
-        background-color: ${colors.N20};
+        background-color: ${N20};
         text-decoration: none;
       }
       :active {
-        background-color: ${colors.B50};
+        background-color: ${B50};
         text-decoration: none;
       }
       :focus {
@@ -46,7 +47,7 @@ const background = ({ withoutBackground }: WrapperProps) => {
     ? ``
     : `
     background-color: white; 
-    ${elevation.e100()}
+    ${e100()}
   `;
 };
 

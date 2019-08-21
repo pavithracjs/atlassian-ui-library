@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import Spinner from '@atlaskit/spinner';
 import styled from 'styled-components';
 

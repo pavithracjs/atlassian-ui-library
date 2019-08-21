@@ -1,7 +1,7 @@
 import styled, { ThemedOuterStyledProps } from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N600, Y300, N0, G300 } from '@atlaskit/theme/colors';
 import { borderRadiusBottom } from '../../../mixins';
 
 export interface WrapperProps {
@@ -24,13 +24,13 @@ export const Wrapper: ComponentClass<
   ${borderRadiusBottom} ${({ type }: WrapperProps) => {
     if (type === 'failure') {
       return `
-        color: ${colors.N600};
-        background-color: ${colors.Y300};
+        color: ${N600};
+        background-color: ${Y300};
       `;
     } else {
       return `
-        color: ${colors.N0};
-        background-color: ${colors.G300};
+        color: ${N0};
+        background-color: ${G300};
       `;
     }
   }};

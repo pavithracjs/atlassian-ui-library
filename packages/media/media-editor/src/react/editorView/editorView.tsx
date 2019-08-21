@@ -7,7 +7,7 @@ import { MediaEditor, LoadParameters } from '../mediaEditor';
 import { Tool, Dimensions, ShapeParameters } from '../../common';
 import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
-import { colors } from '@atlaskit/theme';
+import { R300 } from '@atlaskit/theme/colors';
 import { Theme as ButtonTheme } from '@atlaskit/button';
 import { rgbToHex } from '../../util';
 import { DEFAULT_COLOR } from './toolbar/popups/colorPopup';
@@ -48,7 +48,7 @@ class EditorView extends Component<
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT - TOOLBAR_HEIGHT,
     },
-    color: colors.R300,
+    color: R300,
     lineWidth: 8,
     tool: 'arrow',
   };
