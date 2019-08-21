@@ -29,8 +29,11 @@ const prepareData = pathToFolder => {
   if (!pathToFolder || pathToFolder === '') {
     return;
   }
-  const files = fs.readdirSync(pathToFolder);
-  if (files.length > 0 && files) {
+  try {
+    const files = fs.readdirSync(pathToFolder);
+    if (files.length === 0 || !files) {
+      return;
+    }
     let properties = [];
     for (const file of files) {
       try {
@@ -44,28 +47,30 @@ const prepareData = pathToFolder => {
       }
     }
     return properties;
+  } catch (err) {
+    console.log(`${err}`);
   }
 };
 
 (async () => {
   const bundleSizeData =
     prepareData(path.join(process.cwd(), '.masterBundleSize')) || []; // By default, it will be an empty array to avoid Flow issues.
-  return sendToRedash(
-    JSON.stringify({
-      events: bundleSizeData.map(data =>
-        buildEventPayload(
-          data.map(obj => {
-            return {
-              name: obj.packageName,
-              version: obj.version,
-              size: obj.stats,
-            };
-          }),
-          `atlaskit.bundle.size.${data.id}`,
-        ),
+  const bundleSizeDataEvents = JSON.stringify({
+    events: bundleSizeData.map(data =>
+      buildEventPayload(
+        data.map(obj => {
+          return {
+            id: obj.id,
+            package: obj.package,
+            version: obj.version,
+            size: obj.stats,
+          };
+        }),
+        'atlaskit.computed.bundle.size.per.package',
       ),
-    }),
-  ).then(res => {
+    ),
+  });
+  return sendToRedash(bundleSizeDataEvents).then(res => {
     console.log(`Sent bundle size data to Redash`);
   });
 })();
