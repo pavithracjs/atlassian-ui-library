@@ -16,7 +16,6 @@ const HelpBadge = () => (
       position: 'relative',
       top: 4,
       left: -3,
-      boxShadow: '2px 2px rgba(216, 191, 216, 0.5)',
     }}
   />
 );
