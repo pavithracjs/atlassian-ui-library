@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { Schema } from 'prosemirror-model';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { reduce } from '@atlaskit/adf-utils';
+import rafSchedule from 'raf-schd';
 import {
   ADFStage,
   UnsupportedBlock,
@@ -74,6 +75,9 @@ export class Renderer extends PureComponent<Props, {}> {
       document.getElementById(window.location.hash.slice(1));
 
     if (anchorLinkAttributeHit) {
+      rafSchedule(() => {
+        anchorLinkAttributeHit.scrollIntoView();
+      })();
       this.fireAnalyticsEvent({
         action: ACTION.VIEWED,
         actionSubject: ACTION_SUBJECT.ANCHOR_LINK,
