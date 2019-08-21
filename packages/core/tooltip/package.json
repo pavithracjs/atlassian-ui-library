@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tooltip",
-  "version": "15.0.10",
+  "version": "15.0.11",
   "description": "A React Component for displaying Tooltips",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",

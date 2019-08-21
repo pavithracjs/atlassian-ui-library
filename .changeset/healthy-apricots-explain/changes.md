@@ -1,1 +1,0 @@
-Children has now been added to Tooltip's prop-types
