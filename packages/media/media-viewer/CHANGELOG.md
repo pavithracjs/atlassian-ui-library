@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.3.1
+
+### Patch Changes
+
+- [patch][adeb756c78](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/adeb756c78):
+
+  Changing async import to check for AnalyticsErrorBoundary integration
+
 ## 43.3.0
 
 ### Minor Changes

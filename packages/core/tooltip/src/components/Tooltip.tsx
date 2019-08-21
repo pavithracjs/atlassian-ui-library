@@ -56,7 +56,7 @@ function getMousePosition(
 export interface TooltipProps extends WithAnalyticsEventsProps {
   /** The content of the tooltip */
   content: React.ReactNode;
-  /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
+  /** Extend `TooltipPrimitive` to create your own tooltip and pass it as component */
   component?: StyledComponentClass<
     { truncate?: boolean; style?: any; className?: any },
     any
@@ -65,13 +65,13 @@ export interface TooltipProps extends WithAnalyticsEventsProps {
   delay?: number;
   /**
     Hide the tooltip when the click event is triggered. This should be
-    used when tooltip should be hiden if `onClick` react synthetic event
+    used when tooltip should be hidden if `onClick` react synthetic event
     is triggered, which happens after `onMouseDown` event
   */
   hideTooltipOnClick?: boolean;
   /**
     Hide the tooltip when the mousedown event is triggered. This should be
-    used when tooltip should be hiden if `onMouseDown` react synthetic event
+    used when tooltip should be hidden if `onMouseDown` react synthetic event
     is triggered, which happens before `onClick` event
   */
   hideTooltipOnMouseDown?: boolean;
@@ -102,6 +102,8 @@ export interface TooltipProps extends WithAnalyticsEventsProps {
   tag?: React.ElementType;
   /** Show only one line of text, and truncate when too long */
   truncate?: boolean;
+  /** Elements to be wrapped by the tooltip */
+  children: React.ReactNode;
 }
 
 interface State {

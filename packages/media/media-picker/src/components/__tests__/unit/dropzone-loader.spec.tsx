@@ -7,7 +7,6 @@ import {
   DropzoneWithMediaClientConfigProps,
   State,
 } from '../../dropzone';
-import MediaPickerAnalyticsErrorBoundary from '../../media-picker-analytics-error-boundary';
 
 const mediaClient = fakeMediaClient();
 const container = document.createElement('div');
@@ -40,9 +39,38 @@ describe('Dropzone Async Loader', () => {
     });
   });
 
-  describe('When the async import returns with success', () => {
+  describe('When the async import for Error Boundary returns with error', () => {
     beforeEach(() => {
       jest.unmock('../../dropzone/dropzone');
+      jest.mock('../../../service/uploadServiceImpl');
+      jest.mock('../../media-picker-analytics-error-boundary', () => {
+        throw new Error('Forcing error boundary async import error');
+      });
+    });
+
+    it('should NOT render Dropzone component', async () => {
+      const wrapper = mount<DropzoneWithMediaClientConfigProps, State>(
+        <DropzoneLoader
+          mediaClientConfig={mediaClient.config}
+          config={config}
+        />,
+      );
+
+      await nextTick();
+
+      expect(wrapper.state().Dropzone).toBeUndefined();
+    });
+  });
+
+  describe('When the async import returns with success', () => {
+    let MediaPickerAnalyticsErrorBoundary: React.ReactComponentElement<any>;
+    beforeEach(() => {
+      jest.unmock('../../dropzone/dropzone');
+      jest.unmock('../../media-picker-analytics-error-boundary');
+      MediaPickerAnalyticsErrorBoundary = jest.requireActual(
+        '../../media-picker-analytics-error-boundary',
+      ).default;
+
       jest.mock('../../../service/uploadServiceImpl');
     });
 

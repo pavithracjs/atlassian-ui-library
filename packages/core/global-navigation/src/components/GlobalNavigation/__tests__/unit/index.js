@@ -1026,19 +1026,28 @@ describe('GlobalNavigation', () => {
   });
 
   describe('Help', () => {
-    xit('should render help menu when "helpItems" is passed', () => {
+    it('should render help menu when "helpItems" is passed', () => {
       const HelpItems = () => <div />;
       HelpItems.displayName = 'HelpItems';
       const wrapper = mount(<GlobalNavigation helpItems={HelpItems} />);
 
       expect(wrapper.find('[id="help"]').exists()).toBeTruthy();
-      expect(wrapper.children().exists(HelpItems)).toBeTruthy();
       expect(wrapper.children().exists('DropdownItem')).toBeTruthy();
     });
 
     it('should not render help menu when "helpItems" is not passed', () => {
-      const wrapper = mount(<GlobalNavigation helpTooltip="help tooltip" />);
+      const wrapper = shallow(<GlobalNavigation helpTooltip="help tooltip" />);
       expect(wrapper.find('[id="help"]').exists()).toBeFalsy();
+    });
+
+    it('should render helpBadge when passed in', () => {
+      const HelpBadge = () => <div />;
+      const HelpItems = () => <div />;
+      const wrapper = mount(
+        <GlobalNavigation helpItems={HelpItems} helpBadge={HelpBadge} />,
+      );
+
+      expect(wrapper.find(HelpBadge).exists()).toBeTruthy();
     });
   });
 
