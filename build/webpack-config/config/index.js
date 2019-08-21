@@ -279,7 +279,6 @@ function getPlugins(
       generateStatsFile: true,
       openAnalyzer: report,
       logLevel: 'error',
-      statsOptions: statsOptions,
       defaultSizes: 'gzip',
     }),
   );
