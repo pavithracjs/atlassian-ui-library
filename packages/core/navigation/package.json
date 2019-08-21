@@ -36,7 +36,7 @@
     "chromatism": "^2.6.0",
     "es6-object-assign": "^1.1.0",
     "lodash.clonedeep": "^4.5.0",
-    "memoize-one": "^3.0.1",
+    "memoize-one": "^5.1.0",
     "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",
     "react-scrolllock": "^3.0.2",
