@@ -282,6 +282,8 @@ export type GlobalNavigationProps = {
   enableHelpDrawer?: boolean,
   /** A component to render into the help menu dropdown. */
   helpItems?: ComponentType<{}>,
+  /** A component displayed over the help icon which can be used to convey a notification*/
+  helpBadge?: ComponentType<{}>,
 
   /** The text to display as the label for the profile item. */
   profileLabel?: string,
