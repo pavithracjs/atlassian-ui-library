@@ -13,7 +13,6 @@ let emojisSets: Map<string, any[]>;
 declare var require: {
   <T>(path: string): T;
 };
--m;
 
 export const getStandardEmojiData = (): EmojiServiceResponse =>
   require('../json-data/service-data-standard.json') as EmojiServiceResponse;
