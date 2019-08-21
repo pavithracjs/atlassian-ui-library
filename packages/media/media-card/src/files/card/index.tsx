@@ -52,7 +52,7 @@ export class FileCard extends Component<FileCardProps, {}> {
     const errorMessage = this.isError && (
       <FormattedMessage {...messages.failed_to_load} />
     );
-    const fileSize = toHumanReadableMediaSize(size || 0);
+    const fileSize = size ? toHumanReadableMediaSize(size) : '';
 
     return (
       <FileCardImageView
