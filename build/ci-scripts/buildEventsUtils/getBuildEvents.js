@@ -30,7 +30,7 @@ type IStepsDataType = {
 }
 */
 /* This function strip logs from the pipeline. */
-function stripLogs(logs /*: string */, command /*: string */) {
+function stripLogs(logs /*: string */) {
   return stripAnsi(logs);
 }
 
@@ -270,7 +270,6 @@ async function getStepEvents(buildId /*: string*/) {
         stepObject.uuid,
         buildStatus,
       );
-      console.log('stepLogs:', stepLogs);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
