@@ -1,7 +1,8 @@
 // @flow
 /* eslint-disable no-mixed-operators */
 import styled, { css } from 'styled-components';
-import { colors, elevation } from '@atlaskit/theme';
+import { B200, N60A, N30A } from '@atlaskit/theme/colors';
+import { e200 } from '@atlaskit/theme/elevation';
 import { thumb, track } from './theme';
 
 const sliderThumbSize = 16;
@@ -17,16 +18,16 @@ const sliderThumbStyle = css`
   height: ${sliderThumbSize}px;
   width: ${sliderThumbSize}px;
   box-sizing: border-box;
-  ${elevation.e200};
+  ${e200};
 `;
 
 const sliderThumbFocusedStyle = css`
-  border-color: ${colors.B200};
+  border-color: ${B200};
 `;
 
 const sliderThumbDisabledStyle = css`
   cursor: not-allowed;
-  box-shadow: 0 0 1px ${colors.N60A};
+  box-shadow: 0 0 1px ${N60A};
 `;
 
 const sliderDefaultBackground = css`
@@ -37,7 +38,7 @@ const sliderDefaultBackground = css`
 `;
 
 const sliderTrackStyle = css`
-  background: ${colors.N30A};
+  background: ${N30A};
   border-radius: ${sliderLineThickness / 2}px;
   border: 0;
   cursor: pointer;

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type ElementRef } from 'react';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 
 export const LayoutContainer = ({ topOffset = 0, ...props }: *) => {
   return (

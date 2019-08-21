@@ -1,12 +1,14 @@
 // @flow
 import styled from 'styled-components';
-import { colors, layers, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { layers } from '@atlaskit/theme/constants';
+import { N100A, DN90A } from '@atlaskit/theme/colors';
 
 // NOTE:
 // we can't use @atlaskit/blanket
 // because it has to sit on top of other layered elements (i.e. Modal).
 
-const backgroundColor = themed({ light: colors.N100A, dark: colors.DN90A });
+const backgroundColor = themed({ light: N100A, dark: DN90A });
 
 // IE11 and Edge: z-index needed because fixed position calculates z-index relative
 // to body insteadof nearest stacking context (Portal in our case).

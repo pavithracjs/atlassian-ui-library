@@ -1,6 +1,7 @@
 //@flow
 import styled from 'styled-components';
-import { gridSize, colors } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { subtleText } from '@atlaskit/theme/colors';
 
 export const ScoreContainer = styled.section`
   display: flex;
@@ -10,7 +11,7 @@ export const ScoreContainer = styled.section`
 export const Scale = styled.span`
   padding: 0 ${gridSize()}px;
   font-size: 12px;
-  color: ${colors.subtleText};
+  color: ${subtleText};
 `;
 
 export const Comment = styled.div`

@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import raf from 'raf-schd';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import ChevronLeft from '@atlaskit/icon/glyph/chevron-left';
 import ChevronRight from '@atlaskit/icon/glyph/chevron-right';
 import MenuExpandIcon from '@atlaskit/icon/glyph/menu-expand';

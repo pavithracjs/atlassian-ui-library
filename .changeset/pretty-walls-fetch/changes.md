@@ -1,0 +1,1 @@
+Change all the imports to theme in Core to use multi entry points

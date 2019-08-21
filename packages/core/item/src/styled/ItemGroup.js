@@ -1,7 +1,7 @@
 // @flow
 
 import styled, { css } from 'styled-components';
-import { fontSizeSmall } from '@atlaskit/theme';
+import { fontSizeSmall } from '@atlaskit/theme/constants';
 import { getThemeStyle, gridSize, themeNamespace } from '../util/theme';
 
 const getPadding = ({ isCompact, theme }): Array<any> => {

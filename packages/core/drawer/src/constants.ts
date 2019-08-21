@@ -1,4 +1,4 @@
-import { gridSize as akGridSize } from '@atlaskit/theme';
+import { gridSize as akGridSize } from '@atlaskit/theme/constants';
 
 export const transitionDuration = '0.22s';
 export const transitionDurationMs = 220;

@@ -1,6 +1,9 @@
 // @flow
 
-import { colors, createTheme, gridSize } from '@atlaskit/theme';
+import { createTheme } from '@atlaskit/theme/components';
+
+import { gridSize } from '@atlaskit/theme/constants';
+import { N40, DN50 } from '@atlaskit/theme/colors';
 import type { AppearanceType, PresenceType, SizeType } from '../types';
 
 type Dimensions = {
@@ -111,8 +114,8 @@ function getBackgroundColor(props: {
   mode: ThemeMode,
 }): string {
   const backgroundColors = {
-    light: colors.N40,
-    dark: colors.DN50,
+    light: N40,
+    dark: DN50,
   };
   return props.isLoading ? backgroundColors[props.mode] : 'transparent';
 }

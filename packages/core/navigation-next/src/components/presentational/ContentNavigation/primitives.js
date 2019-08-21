@@ -2,7 +2,7 @@
 
 import React, { Fragment, type Node } from 'react';
 import { css, keyframes } from '@emotion/core';
-import { colors } from '@atlaskit/theme';
+import { N70A } from '@atlaskit/theme/colors';
 
 import {
   transitionDuration,
@@ -178,7 +178,7 @@ export const ContainerOverlay = ({
 }: ContainerOverlayProps) => (
   <div
     css={{
-      backgroundColor: colors.N70A,
+      backgroundColor: N70A,
       cursor: isVisible ? 'pointer' : 'default',
       height: '100%',
       left: 0,

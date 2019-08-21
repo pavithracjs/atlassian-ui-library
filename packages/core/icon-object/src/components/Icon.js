@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { background } from '@atlaskit/theme/colors';
 
 const sizes = {
   small: { height: '16px', width: '16px' },
@@ -20,7 +20,7 @@ const getSize = props => {
 export const IconWrapper = styled.span`
   ${getSize} color: ${p => p.primaryColor || 'currentColor'};
   display: inline-block;
-  fill: ${p => p.secondaryColor || colors.background};
+  fill: ${p => p.secondaryColor || background};
   flex-shrink: 0;
   line-height: 1;
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { B100, N0 } from '@atlaskit/theme/colors';
 
 const EditButton = styled.button`
   appearance: none;
@@ -12,8 +12,8 @@ const EditButton = styled.button`
   outline: 0;
 
   &:focus + div {
-    border: 2px solid ${colors.B100};
-    background: ${colors.N0};
+    border: 2px solid ${B100};
+    background: ${N0};
   }
 `;
 
