@@ -88,7 +88,7 @@ export const createFeatures: (
       complexSearchExtensionsEnabled: isInSearchExtensionsComplexExperiment(
         abTest,
       ),
-      spaceballsExperimentEnabled: isInSpaceballsExperiment(abTest) || true,
+      spaceballsExperimentEnabled: isInSpaceballsExperiment(abTest),
     };
   },
   deepEqual,
