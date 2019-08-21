@@ -53,6 +53,7 @@ async function runDevServer() {
     .filter(arg => !arg.startsWith('--')) // in case we ever pass other flags to this script
     .map(arg => arg.replace(/["']/g, '')); // remove all quotes (users add them to prevent early glob expansion)
   const report = !!process.argv.find(arg => arg.startsWith('--report'));
+  const quiet = !!process.argv.find(arg => arg.startsWith('--quiet'));
 
   const mode = 'development';
   const websiteEnv = 'local';
@@ -136,7 +137,7 @@ async function runDevServer() {
     disableHostCheck,
 
     overlay: true,
-    stats,
+    stats: quiet ? { ...stats, assets: false, modules: false } : stats,
   });
 
   return new Promise((resolve, reject) => {
