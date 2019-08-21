@@ -2,7 +2,7 @@
 
 import { P300, N0, N50A, N60A } from '@atlaskit/theme/colors';
 
-import * as ThemeProp from '@atlaskit/theme/ThemeProp';
+import type { ThemeProp } from '@atlaskit/theme/components';
 import React, { type Node, type ComponentType } from 'react';
 import { Theme as ButtonTheme } from '@atlaskit/button';
 import Card, { type CardTokens } from './Card';
