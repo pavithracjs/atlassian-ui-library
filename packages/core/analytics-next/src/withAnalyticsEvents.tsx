@@ -43,9 +43,9 @@ const withAnalyticsEvents = (createEventMap?: CreateEventMap) => <
     ),
   );
 
-  WithAnalyticsEvents.displayName = `WithAnalyticsEvents(${
-    WrappedComponent.name
-  })`;
+  // @ts-ignore
+  WithAnalyticsEvents.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
+    WrappedComponent.name})`;
 
   return WithAnalyticsEvents;
 };

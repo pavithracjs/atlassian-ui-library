@@ -30,9 +30,9 @@ const withAnalyticsContext = (defaultData?: any) => <Props, Component>(
     },
   );
 
-  WithAnalyticsContext.displayName = `WithAnalyticsContext(${
-    WrappedComponent.name
-  })`;
+  // @ts-ignore
+  WithAnalyticsContext.displayName = `WithAnalyticsContext(${WrappedComponent.displayName ||
+    WrappedComponent.name})`;
 
   return WithAnalyticsContext;
 };
