@@ -13,11 +13,12 @@ let emojisSets: Map<string, any[]>;
 declare var require: {
   <T>(path: string): T;
 };
+-m;
 
 export const getStandardEmojiData = (): EmojiServiceResponse =>
-  require('../../json-data/service-data-standard.json') as EmojiServiceResponse;
+  require('../json-data/service-data-standard.json') as EmojiServiceResponse;
 export const getAtlassianEmojiData = (): EmojiServiceResponse =>
-  require('../../json-data/service-data-atlassian.json') as EmojiServiceResponse;
+  require('../json-data/service-data-atlassian.json') as EmojiServiceResponse;
 
 const siteEmojis = {
   emojis: [siteEmojiWtf],
