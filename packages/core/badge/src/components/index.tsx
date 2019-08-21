@@ -1,4 +1,7 @@
-import GlobalTheme, { ThemeProp, GlobalThemeTokens } from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
+import GlobalTheme from '@atlaskit/theme/constants';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
+import * as GlobalThemeTokens from '@atlaskit/theme/GlobalThemeTokens';
 import React from 'react';
 
 import Container from './Container';

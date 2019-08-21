@@ -1,13 +1,14 @@
 // @flow
 
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N500, Y500 } from '@atlaskit/theme/colors';
 import { actionsPadding } from './constants';
 
 const ThemeColor = {
   text: {
-    default: colors.N500,
-    error: colors.Y500,
+    default: N500,
+    error: Y500,
   },
 };
 

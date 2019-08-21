@@ -1,6 +1,9 @@
 // @flow
 
-import GlobalTheme, { type ThemeProp } from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
+
+import GlobalTheme from '@atlaskit/theme/constants';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import React, {
   cloneElement,
   Component,

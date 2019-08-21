@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, Fragment, type ComponentType } from 'react';
 import deepEqual from 'react-fast-compare';
-import { colors } from '@atlaskit/theme';
+import { N30, N40A } from '@atlaskit/theme/colors';
 
 import RenderBlocker from '../../common/RenderBlocker';
 import { ContentNavigationWrapper } from '../ContentNavigation/primitives';
@@ -92,11 +92,11 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
 
               ':hover': {
                 backgroundColor: containerNavigation
-                  ? colors.N30
+                  ? N30
                   : 'rgba(255, 255, 255, 0.08)',
               },
               ':active': {
-                backgroundColor: colors.N40A,
+                backgroundColor: N40A,
               },
             }}
             tabIndex={-1}

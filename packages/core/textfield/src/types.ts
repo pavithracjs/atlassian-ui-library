@@ -1,5 +1,5 @@
 import React, { AllHTMLAttributes } from 'react';
-import { ThemeProp } from '@atlaskit/theme';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 import { ThemeProps, ThemeTokens } from './theme';
 

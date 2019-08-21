@@ -1,7 +1,7 @@
 // @flow
 import styled from 'styled-components';
 
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 const SkeletonGlobalTopItemsInner = styled.div`
   margin-bottom: ${gridSize() * 3}px;

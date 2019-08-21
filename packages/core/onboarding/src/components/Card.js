@@ -3,15 +3,11 @@
 import React, { type Node, type ComponentType } from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
-import {
-  borderRadius,
-  gridSize,
-  layers,
-  math,
-  typography,
-  createTheme,
-  type ThemeProp,
-} from '@atlaskit/theme';
+import { createTheme } from '@atlaskit/theme/components';
+import { borderRadius, gridSize, layers } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
+import { h600 } from '@atlaskit/theme/typography';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import { ActionItems, ActionItem } from '../styled/Dialog';
 import type { ActionsType } from '../types';
 
@@ -51,11 +47,11 @@ const Container = styled.div`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${math.multiply(gridSize, 2)}px ${math.multiply(gridSize, 2.5)}px;
+  padding: ${multiply(gridSize, 2)}px ${multiply(gridSize, 2.5)}px;
 `;
 
 const Heading = styled.h4`
-  ${typography.h600};
+  ${h600};
   color: inherit;
 `;
 

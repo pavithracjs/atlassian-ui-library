@@ -1,4 +1,4 @@
-import { ThemeProp } from '@atlaskit/theme';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import React, { Component } from 'react';
 import { Input } from './styled';
 import { Theme, ThemeTokens } from './theme';

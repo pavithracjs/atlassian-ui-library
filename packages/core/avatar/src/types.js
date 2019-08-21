@@ -1,7 +1,7 @@
 // @flow
 
 import type { AnalyticsEvent } from '@atlaskit/analytics-next';
-import type { ThemeProp } from '@atlaskit/theme';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import type { Node, ComponentType } from 'react';
 import type { ThemeProps, ThemeTokens } from './theme';
 

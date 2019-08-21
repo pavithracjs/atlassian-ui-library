@@ -1,6 +1,7 @@
 // @flow
 import chromatism from 'chromatism';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 import type { Provided, ItemTheme, Background, ScrollBarTheme } from './types';
 // the following colors have been added at request of Venn. These should either
 // be added to theme.colors or moved to specific AK colors. They are using a new

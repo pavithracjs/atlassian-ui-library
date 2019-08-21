@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { borderRadius, gridSize, math } from '@atlaskit/theme';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
 
 import {
   flagBackgroundColor,
@@ -28,7 +29,7 @@ export default styled.div<{ appearance?: AppearanceTypes }>`
   box-sizing: border-box;
   box-shadow: ${getBoxShadow};
   color: ${flagTextColor};
-  padding: ${math.multiply(gridSize, 2)}px;
+  padding: ${multiply(gridSize, 2)}px;
   transition: background-color 200ms;
   width: 100%;
   z-index: 600;
@@ -43,12 +44,12 @@ export default styled.div<{ appearance?: AppearanceTypes }>`
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  height: ${math.multiply(gridSize, 4)}px;
+  height: ${multiply(gridSize, 4)}px;
 `;
 
 export const Icon = styled.div`
   flex: 0 0 auto;
-  width: ${math.multiply(gridSize, 5)}px;
+  width: ${multiply(gridSize, 5)}px;
 `;
 
 export const Title = styled.span<{ appearance?: AppearanceTypes }>`
@@ -90,7 +91,7 @@ export const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding: 0 0 0 ${math.multiply(gridSize, 5)}px;
+  padding: 0 0 0 ${multiply(gridSize, 5)}px;
 `;
 
 interface ExpanderProps {

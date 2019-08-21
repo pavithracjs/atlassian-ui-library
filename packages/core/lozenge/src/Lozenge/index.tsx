@@ -1,4 +1,4 @@
-import { ThemeProp } from '@atlaskit/theme';
+import * as ThemeProp from '@atlaskit/theme/ThemeProp';
 import React, { PureComponent, ReactNode } from 'react';
 import Container from './Container';
 import Content from './Content';

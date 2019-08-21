@@ -7,7 +7,7 @@ import React, {
   type Element,
   type ElementRef,
 } from 'react';
-import { getTheme } from '@atlaskit/theme';
+import { getTheme } from '@atlaskit/theme/components';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,

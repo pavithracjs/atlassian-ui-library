@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export const Container = styled.div`
   margin-bottom: ${gridSize() * 3}px;
