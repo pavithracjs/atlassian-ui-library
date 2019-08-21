@@ -1,0 +1,17 @@
+{
+  "releases": [
+    { "name": "@atlaskit/button", "type": "patch" },
+    { "name": "@atlaskit/code", "type": "patch" },
+    { "name": "@atlaskit/form", "type": "patch" },
+    { "name": "@atlaskit/navigation", "type": "patch" },
+    { "name": "@atlaskit/onboarding", "type": "patch" },
+    { "name": "@atlaskit/popper", "type": "patch" },
+    { "name": "@atlaskit/select", "type": "patch" },
+    { "name": "@atlaskit/share", "type": "patch" },
+    { "name": "@atlaskit/user-picker", "type": "patch" },
+    { "name": "@atlaskit/color-picker", "type": "patch" },
+    { "name": "@atlaskit/refinement-bar", "type": "patch" },
+    { "name": "@atlaskit/global-search", "type": "patch" }
+  ],
+  "dependents": []
+}
