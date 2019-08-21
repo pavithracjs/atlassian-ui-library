@@ -1,5 +1,13 @@
 # @atlaskit/dynamic-table
 
+## 13.1.11
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
 ## 13.1.10
 
 ### Patch Changes

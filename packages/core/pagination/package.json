@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/pagination",
-  "version": "12.0.11",
+  "version": "12.0.12",
   "description": "A react component to be used for pagination in components like tables.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^6.0.1",
     "@atlaskit/button": "^13.1.3",
-    "@atlaskit/icon": "^19.0.3",
+    "@atlaskit/icon": "^19.0.4",
     "@atlaskit/theme": "^9.1.3",
     "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3"
@@ -36,8 +36,8 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.2.3",
     "@atlaskit/docs": "^8.1.3",
-    "@atlaskit/dynamic-table": "^13.1.10",
-    "@atlaskit/section-message": "^4.0.9",
+    "@atlaskit/dynamic-table": "^13.1.11",
+    "@atlaskit/section-message": "^4.0.10",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",

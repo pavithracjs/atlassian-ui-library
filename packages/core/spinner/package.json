@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/spinner",
-  "version": "12.0.6",
+  "version": "12.0.7",
   "description": "A React component that displays a spinning icon to show a loading state",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
