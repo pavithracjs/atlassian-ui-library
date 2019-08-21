@@ -12,14 +12,26 @@ import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
 import { CardLoading } from '../utils/lightCards/cardLoading';
 
-export interface InlinePlayerProps {
+import {
+  withAnalyticsEvents,
+  createAndFireEvent,
+  WithAnalyticsEventsProps,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
+
+export interface InlinePlayerOwnProps {
   identifier: FileIdentifier;
   mediaClient: MediaClient;
   dimensions: CardDimensions;
   selected?: boolean;
   onError?: (error: Error) => void;
-  onClick?: () => void;
+  readonly onClick?: (
+    event: React.MouseEvent<HTMLDivElement>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ) => void;
 }
+
+export type InlinePlayerProps = InlinePlayerOwnProps & WithAnalyticsEventsProps;
 
 export interface InlinePlayerState {
   fileSrc?: string;
@@ -44,10 +56,7 @@ export const getPreferredVideoArtifact = (
   return undefined;
 };
 
-export class InlinePlayer extends Component<
-  InlinePlayerProps,
-  InlinePlayerState
-> {
+class InlinePlayerBase extends Component<InlinePlayerProps, InlinePlayerState> {
   subscription?: Subscription;
   state: InlinePlayerState = {};
 
@@ -194,3 +203,9 @@ export class InlinePlayer extends Component<
     );
   }
 }
+
+const createAndFireEventOnMedia = createAndFireEvent('media');
+
+export const InlinePlayer = withAnalyticsEvents({
+  onClick: createAndFireEventOnMedia({ action: 'clicked' }),
+})(InlinePlayerBase);
