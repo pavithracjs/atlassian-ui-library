@@ -1,6 +1,5 @@
 import GlobalTheme from '@atlaskit/theme/components';
-import GlobalTheme from '@atlaskit/theme/constants';
-import * as GlobalThemeTokens from '@atlaskit/theme/GlobalThemeTokens';
+import { GlobalThemeTokens } from '@atlaskit/theme/components';
 import React from 'react';
 import {
   withAnalyticsEvents,

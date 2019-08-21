@@ -7,7 +7,7 @@ import { createTheme } from '@atlaskit/theme/components';
 import { borderRadius, gridSize, layers } from '@atlaskit/theme/constants';
 import { multiply } from '@atlaskit/theme/math';
 import { h600 } from '@atlaskit/theme/typography';
-import * as ThemeProp from '@atlaskit/theme/ThemeProp';
+import type { ThemeProp } from '@atlaskit/theme/components';
 import { ActionItems, ActionItem } from '../styled/Dialog';
 import type { ActionsType } from '../types';
 

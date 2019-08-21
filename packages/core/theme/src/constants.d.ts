@@ -14,4 +14,7 @@ declare module '@atlaskit/theme/constants' {
   export const math: any;
   export const themed: any;
   export const typography: any;
+
+  const GlobalTheme: Theme<GlobalThemeTokens, any>;
+  export default GlobalTheme;
 }

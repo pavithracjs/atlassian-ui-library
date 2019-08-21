@@ -34,7 +34,4 @@ declare module '@atlaskit/theme/components' {
   export class AtlaskitThemeProvider<ThemeProps> extends React.Component<
     ThemeProps
   > {}
-
-  const GlobalTheme: Theme<GlobalThemeTokens, any>;
-  export default GlobalTheme;
 }

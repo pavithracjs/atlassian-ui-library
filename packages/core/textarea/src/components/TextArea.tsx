@@ -6,7 +6,6 @@ import {
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
 import GlobalTheme from '@atlaskit/theme/components';
-import GlobalTheme from '@atlaskit/theme/constants';
 import {
   name as packageName,
   version as packageVersion,
