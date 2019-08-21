@@ -44,16 +44,23 @@ const releasedPackagesMessage = releases => {
   </div>`;
 };
 
-const { user, repo, pullrequestid, repoid } = queryString.parse(
-  window.location.search,
-);
+const {
+  user,
+  repo,
+  pullrequestid,
+  repoid,
+  sourcehash,
+  destinationhash,
+} = queryString.parse(window.location.search);
 
 // Only retrieve one type of changesets. Legacy commit changesets are only supported in repos
 // defined in config.js
-const changesetRetriever =
-  legacyChangesetRepos.indexOf(repoid) >= 0 ? getCommits : getFSChangesets;
+const changesetPromise =
+  legacyChangesetRepos.indexOf(repoid) >= 0
+    ? getCommits(user, repo, pullrequestid)
+    : getFSChangesets(user, repo, sourcehash, destinationhash);
 
-changesetRetriever(user, repo, pullrequestid)
+changesetPromise
   .then(changesets => {
     if (!changesets || changesets.length === 0) {
       document.body.innerHTML = noChangesetMessage;
