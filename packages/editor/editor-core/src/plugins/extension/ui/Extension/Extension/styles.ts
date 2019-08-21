@@ -23,6 +23,7 @@ export const Header = styled.div`
   cursor: pointer;
   padding: ${padding / 2}px ${padding / 2}px ${padding / 4}px;
   vertical-align: middle;
+  user-select: text;
 
   &.with-children {
     padding: 4px 8px 8px;
