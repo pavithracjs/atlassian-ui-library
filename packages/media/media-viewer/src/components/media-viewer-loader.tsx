@@ -37,7 +37,7 @@ export default class AsyncMediaViewer extends React.PureComponent<
   };
 
   async componentWillMount() {
-    if (!this.state.MediaViewer) {
+    if (!this.state.MediaViewer || !this.state.MediaViewerErrorBoundary) {
       try {
         const [
           mediaClient,
