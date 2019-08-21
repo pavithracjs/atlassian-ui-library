@@ -861,14 +861,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   childItems={
     Array [
       Object {
+        "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site00",
       },
       Object {
+        "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site10",
       },
       Object {
+        "avatar": null,
         "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site30",
       },
@@ -902,14 +905,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         />,
         "childItems": Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },
@@ -935,14 +941,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       childItems={
         Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },
@@ -1538,6 +1547,15 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   stop-color: currentColor;
 }
 
+.c19 {
+  height: 24px;
+  width: 24px;
+  margin: 4px;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+}
+
 .c17 {
   position: relative;
 }
@@ -1816,64 +1834,6 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   position: relative;
 }
 
-.c19.c19 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border-radius: 3px;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-  background-color: transparent;
-  color: #253858;
-  fill: transparent;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  padding: 4px 8px 3px 8px;
-  width: auto;
-}
-
-.c19.c19:focus {
-  color: #253858;
-}
-
-.c19.c19:hover {
-  background-color: rgba(9,30,66,0.04);
-  fill: rgba(9,30,66,0.04);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c19.c19:active {
-  background-color: #DEEBFF;
-  color: #0052CC;
-  fill: #DEEBFF;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c19.c19:active:focus {
-  color: #0052CC;
-}
-
-.c19.c19:focus {
-  box-shadow: 0 0 0 2px #4C9AFF inset;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c19.c19:focus {
-  outline: none;
-  position: relative;
-}
-
 .c20.c20 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1932,6 +1892,64 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   position: relative;
 }
 
+.c21.c21 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  background-color: transparent;
+  color: #253858;
+  fill: transparent;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding: 4px 8px 3px 8px;
+  width: auto;
+}
+
+.c21.c21:focus {
+  color: #253858;
+}
+
+.c21.c21:hover {
+  background-color: rgba(9,30,66,0.04);
+  fill: rgba(9,30,66,0.04);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c21.c21:active {
+  background-color: #DEEBFF;
+  color: #0052CC;
+  fill: #DEEBFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c21.c21:active:focus {
+  color: #0052CC;
+}
+
+.c21.c21:focus {
+  box-shadow: 0 0 0 2px #4C9AFF inset;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c21.c21:focus {
+  outline: none;
+  position: relative;
+}
+
 <WithAnalyticsEvents(SwitcherItemWithDropDown)
   childIcon={
     <Unknown
@@ -1941,14 +1959,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   childItems={
     Array [
       Object {
+        "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site00",
       },
       Object {
+        "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site10",
       },
       Object {
+        "avatar": null,
         "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site30",
       },
@@ -1982,14 +2003,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         />,
         "childItems": Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },
@@ -2015,14 +2039,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       childItems={
         Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },
@@ -2474,6 +2501,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   description=""
                   elemBefore={
                     <Avatar
+                      avatarUrl="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
                       fallbackComponent={
                         <Unknown
                           theme="subtle"
@@ -2497,6 +2525,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     description=""
                     elemBefore={
                       <Avatar
+                        avatarUrl="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
                         fallbackComponent={
                           <Unknown
                             theme="subtle"
@@ -2539,6 +2568,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                             className="c4 c5"
                           >
                             <Avatar
+                              avatarUrl="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
                               fallbackComponent={
                                 <Unknown
                                   theme="subtle"
@@ -2639,6 +2669,16 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                       </div>
                                     </styled.div>
                                   </Component>
+                                  <styled.img
+                                    onError={[Function]}
+                                    src="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
+                                  >
+                                    <img
+                                      className="c19"
+                                      onError={[Function]}
+                                      src="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
+                                    />
+                                  </styled.img>
                                 </div>
                               </styled.div>
                             </Avatar>
@@ -2669,6 +2709,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   description=""
                   elemBefore={
                     <Avatar
+                      avatarUrl="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
                       fallbackComponent={
                         <Unknown
                           theme="subtle"
@@ -2692,6 +2733,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     description=""
                     elemBefore={
                       <Avatar
+                        avatarUrl="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
                         fallbackComponent={
                           <Unknown
                             theme="subtle"
@@ -2714,7 +2756,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     <a
                       aria-disabled={false}
                       autoFocus={false}
-                      className="c19"
+                      className="c20"
                       data-test-id="switcher-child-item"
                       href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
                       onClick={[Function]}
@@ -2734,6 +2776,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                             className="c4 c5"
                           >
                             <Avatar
+                              avatarUrl="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
                               fallbackComponent={
                                 <Unknown
                                   theme="subtle"
@@ -2834,6 +2877,16 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                                       </div>
                                     </styled.div>
                                   </Component>
+                                  <styled.img
+                                    onError={[Function]}
+                                    src="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
+                                  >
+                                    <img
+                                      className="c19"
+                                      onError={[Function]}
+                                      src="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
+                                    />
+                                  </styled.img>
                                 </div>
                               </styled.div>
                             </Avatar>
@@ -2864,6 +2917,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                   description=""
                   elemBefore={
                     <Avatar
+                      avatarUrl={null}
                       fallbackComponent={
                         <Unknown
                           theme="subtle"
@@ -2887,6 +2941,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     description=""
                     elemBefore={
                       <Avatar
+                        avatarUrl={null}
                         fallbackComponent={
                           <Unknown
                             theme="subtle"
@@ -2909,7 +2964,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                     <a
                       aria-disabled={false}
                       autoFocus={false}
-                      className="c20"
+                      className="c21"
                       data-test-id="switcher-child-item"
                       href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
                       onClick={[Function]}
@@ -2929,6 +2984,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
                             className="c4 c5"
                           >
                             <Avatar
+                              avatarUrl={null}
                               fallbackComponent={
                                 <Unknown
                                   theme="subtle"
@@ -3418,14 +3474,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
   childItems={
     Array [
       Object {
+        "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site00",
       },
       Object {
+        "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
         "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site10",
       },
       Object {
+        "avatar": null,
         "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
         "label": "site30",
       },
@@ -3459,14 +3518,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         />,
         "childItems": Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },
@@ -3492,14 +3554,17 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       childItems={
         Array [
           Object {
+            "avatar": "https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site00",
           },
           Object {
+            "avatar": "https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png",
             "href": "https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site10",
           },
           Object {
+            "avatar": null,
             "href": "https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software",
             "label": "site30",
           },

@@ -53,17 +53,22 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
           label: 'site00',
           href:
             'https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar:
+            'https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png',
         },
         {
           label: 'site10',
           href:
             'https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar:
+            'https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png',
         },
 
         {
           label: 'site30',
           href:
             'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar: null,
         },
       ],
       tooltipContent: <span>Show more sites</span>,
