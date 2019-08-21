@@ -4,7 +4,6 @@ import {
   WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { InterpolationWithTheme } from '@emotion/core';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { Omit } from '@atlaskit/type-helpers';
 
 export type ButtonAppearances =
