@@ -28,7 +28,7 @@
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/select": "^10.0.3",
     "@atlaskit/theme": "^9.0.2",
-    "memoize-one": "^3.0.1",
+    "memoize-one": "^5.1.0",
     "styled-components": "^3.2.6"
   },
   "peerDependencies": {

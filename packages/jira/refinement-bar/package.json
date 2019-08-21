@@ -34,7 +34,7 @@
     "@atlaskit/tooltip": "^15.0.9",
     "@emotion/core": "^10.0.9",
     "apply-ref": "^0.2.0",
-    "memoize-one": "^3.0.1",
+    "memoize-one": "^5.1.0",
     "react-popper": "1.0.2",
     "tabbable": "^4.0.0"
   },
