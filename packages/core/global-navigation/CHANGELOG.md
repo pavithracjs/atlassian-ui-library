@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 7.6.0
+
+### Minor Changes
+
+- [minor][baed6938cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/baed6938cc):
+
+  Adds helpBadge prop to global navigation
+
 ## 7.5.1
 
 ### Patch Changes

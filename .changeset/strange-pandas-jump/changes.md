@@ -1,1 +1,0 @@
-Adds helpBadge prop to global navigation
