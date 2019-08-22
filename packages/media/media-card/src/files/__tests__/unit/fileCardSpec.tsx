@@ -71,7 +71,7 @@ describe('FileCard', () => {
     expect(card.find(FileCardImageView).props().disableOverlay).toEqual(true);
   });
 
-  describe.only('should hide file size', () => {
+  describe('should hide file size', () => {
     it('when size it is set to cero', () => {
       const details: FileDetails = {
         id: 'id',
