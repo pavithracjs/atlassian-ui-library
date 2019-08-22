@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declaration": true,
     "target": "es5",
-    "paths": {}
+    "baseUrl": "./"
   },
   "include": [
     "../src/**/*.ts",
