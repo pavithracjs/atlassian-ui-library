@@ -1,0 +1,1 @@
+Move json-data into src to fix the issue when the package is built.
