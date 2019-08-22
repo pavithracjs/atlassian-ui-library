@@ -1,1 +1,0 @@
-Refactor emoji to use typeahead plugin

@@ -1,1 +1,0 @@
-Increasing the typing input time considering synchrony adds an overhead in typing

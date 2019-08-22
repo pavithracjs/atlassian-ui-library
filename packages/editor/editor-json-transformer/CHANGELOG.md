@@ -1,5 +1,13 @@
 # @atlaskit/editor-json-transformer
 
+## 6.3.0
+
+### Minor Changes
+
+- [minor][66c5c88f4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66c5c88f4a):
+
+  Refactor emoji to use typeahead plugin
+
 ## 6.2.4
 
 ### Patch Changes

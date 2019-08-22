@@ -1,1 +1,0 @@
-prevent infinite loop while trying to render smart link

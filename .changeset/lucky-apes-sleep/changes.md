@@ -1,1 +1,0 @@
-ED-7343: improve performance of calculating resizeState

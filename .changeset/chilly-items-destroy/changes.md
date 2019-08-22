@@ -1,1 +1,0 @@
-add missing attrs to MediaSingle node for copy and paste

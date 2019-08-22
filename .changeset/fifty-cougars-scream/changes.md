@@ -1,1 +1,0 @@
-BENTO-4437 allow ToolbarHelp position and title to be customised

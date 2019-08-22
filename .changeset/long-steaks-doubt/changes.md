@@ -1,1 +1,0 @@
-[ED-7398] Fix floating insert button position when first columns has rowSpan

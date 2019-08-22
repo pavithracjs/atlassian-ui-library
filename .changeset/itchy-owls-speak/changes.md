@@ -1,1 +1,0 @@
-ED-7328 Handle pasting a list inside an empty panel, previously the panel would be deleted

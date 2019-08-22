@@ -1,1 +1,0 @@
-ED-7474: update resize handle on resize

@@ -1,1 +1,0 @@
-ED-7149: Report the jankiness in the Editor

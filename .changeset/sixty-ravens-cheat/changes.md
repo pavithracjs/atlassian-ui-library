@@ -1,1 +1,0 @@
-SL-359: pass onClick props to pending and error states

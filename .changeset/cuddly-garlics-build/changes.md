@@ -1,1 +1,0 @@
-ED-7031: prevent table plugin from appending unnecessary transactions

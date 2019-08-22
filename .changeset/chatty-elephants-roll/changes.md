@@ -1,1 +1,0 @@
-Update i18n translations for editor-core

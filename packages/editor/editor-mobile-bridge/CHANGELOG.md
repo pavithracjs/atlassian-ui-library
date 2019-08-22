@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.18
+
+### Patch Changes
+
+- [patch][14ee438465](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14ee438465):
+
+  ED-6714: Re-enable editorActions.replaceDocument for mobile-bridge with better tolerance of invalid nodes
+
 ## 8.8.17
 
 - Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):

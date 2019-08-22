@@ -1,1 +1,0 @@
-ED-7342: when handling mouse events, make sure table is in focus and event handlers are debounced

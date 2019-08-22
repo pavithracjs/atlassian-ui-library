@@ -1,1 +1,0 @@
-Ensure mediagroup nodes are copied to destination collection when pasted in different documents

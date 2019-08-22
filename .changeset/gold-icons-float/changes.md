@@ -1,1 +1,0 @@
-Delay MutationObserver in tables
