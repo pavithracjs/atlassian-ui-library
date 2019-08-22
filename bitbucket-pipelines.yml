@@ -93,10 +93,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --frozen-lockfile
-              # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
-              - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
-              # Run the editor tests (runInBand is required or it fails in CI)
-              - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
+              - yarn test:changed --maxWorkers=50% --passWithNoTests
               # Run platform-specific tests of the editor bridge
               - yarn test:editor-mobile-bridge:ios
               - yarn test:editor-mobile-bridge:android
@@ -303,10 +300,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - bolt install --frozen-lockfile
-                # Run the non-editor tests.
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test
-                # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
+                - yarn test --maxWorkers=50%
                 # Run platform-specific tests of the editor bridge
                 - yarn test:editor-mobile-bridge:ios
                 - yarn test:editor-mobile-bridge:android
@@ -434,15 +428,6 @@ pipelines:
                 - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
-          # - step:
-          #     name: Running Non Editor Unit tests
-          #     script:
-          #       - source ./build-setup.sh
-          #       - git merge master --no-edit
-          #       - bolt install --frozen-lockfile
-          #       - TEST_ONLY_PATTERN='!packages/editor' yarn test
-          #     after-script:
-          #       - yarn send:stepFailureEvents
           - step:
               name: Running Browser Integration tests
               script:

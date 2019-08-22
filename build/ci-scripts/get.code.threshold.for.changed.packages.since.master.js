@@ -22,22 +22,10 @@ const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN || '';
   const cwd = process.cwd();
   const allPackages = await bolt.getWorkspaces({ cwd });
   const changedPackages = await packages.getChangedPackagesSinceMaster();
-  const testOnlyIsRemovingPattern = TEST_ONLY_PATTERN.startsWith('!');
 
-  const changedPackagesName = changedPackages
-    .map(pkg => pkg.relativeDir)
-    // Because jest.config.js relies on `TEST_ONLY_PATTERN` logic
-    // We need to add a filter to check if
-    // - `TEST_ONLY_PATTERN` does not exists OR
-    // - `TEST_ONLY_PATTERN` is used ignoring a directory OR
-    // - `TEST_ONLY_PATTERN` is used to check a specific directory only
-    .filter(
-      pkg =>
-        !TEST_ONLY_PATTERN ||
-        pkg.startsWith(TEST_ONLY_PATTERN) ||
-        (testOnlyIsRemovingPattern && !pkg.startsWith(TEST_ONLY_PATTERN)),
-    )
-    .map(changedPkg => changedPkg.split('/').pop());
+  const changedPackagesName = changedPackages.map(
+    pkg => pkg.relativeDir && pkg.split('/').pop(),
+  );
 
   const atlaskitCoverageReducer = (result, { coverage, pkg }) => ({
     ...result,
