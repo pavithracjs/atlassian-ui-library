@@ -1,0 +1,1 @@
+ED-7447: Fixes issue in Firefox where navigating lists would cause you to immediately jump outside the list on first keystroke.

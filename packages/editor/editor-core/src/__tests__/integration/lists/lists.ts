@@ -1,11 +1,18 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import { getDocFromElement, fullpage, editable } from '../_helpers';
+import {
+  getDocFromElement,
+  fullpage,
+  editable,
+  getProseMirrorPos,
+} from '../_helpers';
 import {
   goToEditorTestingExample,
   mountEditor,
 } from '../../__helpers/testing-example-helpers';
 import { KEY } from '../../__helpers/page-objects/_keyboard';
+
+import floatsAdf from './__fixtures__/lists-adjacent-floats.adf.json';
 
 const PM_FOCUS_SELECTOR = '.ProseMirror-focused';
 
@@ -72,5 +79,55 @@ BrowserTestCase(
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+/**
+ * An example of what our page looks like
+ * We use the arrow keys to navigate this list
+ * In Firefox we want to ensure our cursor doesnt
+ * jump outside the list on the first navigation
+ * movement, but goes up and down the list as expected.
+ *
+ * +-----------------+   This is text
+ * |                 |   1. One
+ * |                 |     2. Two
+ * |   float:left;   |       3. Three
+ * |                 |     4. Four
+ * |                 |   5. Five
+ * +-----------------+
+ */
+BrowserTestCase(
+  'list: should be able to navigate lists correctly in firefox',
+  { skip: ['ie', 'edge', 'chrome', 'safari'] },
+  async (client: any) => {
+    const page = await goToEditorTestingExample(client);
+    await mountEditor(page, {
+      appearance: 'full-page',
+      media: {
+        allowMediaSingle: true,
+      },
+      allowLists: true,
+      defaultValue: floatsAdf,
+      shouldFocus: true,
+    });
+
+    // These loops navigate up and down the lists
+    // We want to ensure we remain in the list.
+    for (let i = 0; i < 11; i++) {
+      await page.keys('ArrowDown');
+    }
+
+    for (let i = 0; i < 5; i++) {
+      await page.keys('ArrowRight');
+    }
+
+    for (let i = 0; i < 3; i++) {
+      await page.keys('ArrowUp');
+    }
+
+    const pos = await getProseMirrorPos(page);
+    // Start of the word Six
+    expect(pos).toEqual(81);
   },
 );
