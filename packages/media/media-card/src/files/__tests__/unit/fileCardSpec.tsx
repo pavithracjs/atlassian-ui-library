@@ -71,26 +71,24 @@ describe('FileCard', () => {
     expect(card.find(FileCardImageView).props().disableOverlay).toEqual(true);
   });
 
-  describe('should hide file size', () => {
-    it('when size it is set to zero', () => {
-      const details: FileDetails = {
-        id: 'id',
-        size: 0,
-      };
-      const card = shallow(<FileCard status="complete" details={details} />);
+  it('should hide file size when size it is set to zero', () => {
+    const details: FileDetails = {
+      id: 'id',
+      size: 0,
+    };
+    const card = shallow(<FileCard status="complete" details={details} />);
 
-      const fileCardView = card.find(FileCardImageView);
-      expect(fileCardView.props().fileSize).toEqual('');
-    });
+    const fileCardView = card.find(FileCardImageView);
+    expect(fileCardView.props().fileSize).toEqual('');
+  });
 
-    it('when size it is unset', () => {
-      const details: FileDetails = {
-        id: 'id',
-      };
-      const card = shallow(<FileCard status="complete" details={details} />);
+  it('should hide file size when size it is unset', () => {
+    const details: FileDetails = {
+      id: 'id',
+    };
+    const card = shallow(<FileCard status="complete" details={details} />);
 
-      const fileCardView = card.find(FileCardImageView);
-      expect(fileCardView.props().fileSize).toEqual('');
-    });
+    const fileCardView = card.find(FileCardImageView);
+    expect(fileCardView.props().fileSize).toEqual('');
   });
 });
