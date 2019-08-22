@@ -12,7 +12,7 @@ import {
 } from '../domain/uploadEvent';
 import { UploadComponent } from './component';
 import { UploadParams } from '../domain/config';
-import { NewUploadServiceImpl } from '../service/newUploadServiceImpl';
+import { UploadServiceImpl } from '../service/uploadServiceImpl';
 import { LocalUploadConfig } from './types';
 
 export type LocalUploadComponentBaseProps = {
@@ -68,7 +68,7 @@ export class LocalUploadComponentReact<
       this.uploadComponent.on('upload-error', onError!);
     }
 
-    this.uploadService = new NewUploadServiceImpl(
+    this.uploadService = new UploadServiceImpl(
       mediaClient,
       tenantUploadParams,
       shouldCopyFileToRecents,
@@ -112,7 +112,7 @@ export class LocalUploadComponentReact<
   };
 
   private onFileConverted = (payload: UploadEndEventPayload): void => {
-    this.uploadComponent.emitUploadEnd(payload.file, payload.public);
+    this.uploadComponent.emitUploadEnd(payload.file);
   };
 
   private onUploadError = ({ file, error }: UploadErrorEventPayload): void => {

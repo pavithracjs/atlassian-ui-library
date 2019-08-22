@@ -1,13 +1,15 @@
 import styled, { css } from 'styled-components';
-import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { borderRadius, layers } from '@atlaskit/theme/constants';
+import { N800, DN0, N0, DN600 } from '@atlaskit/theme/colors';
 
 const backgroundColor = themed({
-  light: colors.N800,
-  dark: colors.DN0,
+  light: N800,
+  dark: DN0,
 });
 const textColor = themed({
-  light: colors.N0,
-  dark: colors.DN600,
+  light: N0,
+  dark: DN600,
 });
 
 const truncate = (p: { truncate?: boolean }) =>

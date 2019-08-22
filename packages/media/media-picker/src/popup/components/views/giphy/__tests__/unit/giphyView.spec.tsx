@@ -43,9 +43,6 @@ const createConnectedComponent = () => {
 };
 
 describe('<ConnectedGiphyView />', () => {
-  const setUpfrontIdDeferred = jest.fn();
-  const upfrontId = Promise.resolve('1');
-
   it('should deliver all required props to stateless component', () => {
     const { component } = createConnectedComponent();
     const props = component.props();
@@ -79,9 +76,9 @@ describe('<ConnectedGiphyView />', () => {
 
     const cardModel = { metadata: { id, name, size } };
 
-    component.props().onCardClick(cardModel as any, upfrontId);
+    component.props().onCardClick(cardModel as any);
     expect(dispatch).toBeCalledWith(
-      fileClick({ id, name, size, mimeType, upfrontId, date: 10 }, 'giphy'),
+      fileClick({ id, name, size, mimeType, date: 10 }, 'giphy'),
     );
     (Date.now as any).mockClear();
   });
@@ -130,7 +127,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
           intl={fakeIntl}
         />,
       );
@@ -153,7 +149,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -186,7 +181,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -208,7 +202,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -227,7 +220,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -252,7 +244,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -275,7 +266,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -298,7 +288,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -317,7 +306,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -338,7 +326,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -357,7 +344,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -379,7 +365,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -405,7 +390,6 @@ describe('<ConnectedGiphyView />', () => {
           onSearchQueryChange={onSearchQueryChange}
           onLoadMoreButtonClick={onLoadMoreButtonClick}
           onCardClick={onCardClick}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
         />,
       );
 
@@ -415,10 +399,10 @@ describe('<ConnectedGiphyView />', () => {
         .simulate('click');
 
       expect(onCardClick).toHaveBeenCalledTimes(1);
-      expect(onCardClick).toHaveBeenCalledWith(
-        { dimensions: {}, metadata: { id: 'id-1' } },
-        expect.anything(),
-      );
+      expect(onCardClick).toHaveBeenCalledWith({
+        dimensions: {},
+        metadata: { id: 'id-1' },
+      });
     });
   });
 });

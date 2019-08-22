@@ -136,6 +136,13 @@ type State = {
   droplistWidth?: number,
 };
 
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/single-select has been deprecated. Please use the @atlaskit/select package instead.',
+  );
+}
+
 export default class StatelessSelect extends PureComponent<Props, State> {
   containerNode: HTMLElement | null;
 

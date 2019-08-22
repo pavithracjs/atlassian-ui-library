@@ -8,11 +8,8 @@ import React, {
   type ElementRef,
 } from 'react';
 import raf from 'raf-schd';
-import {
-  withAnalyticsEvents,
-  type WithAnalyticsEventsProps,
-} from '@atlaskit/analytics-next';
-import { colors } from '@atlaskit/theme';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
+import * as colors from '@atlaskit/theme/colors';
 import ChevronLeft from '@atlaskit/icon/glyph/chevron-left';
 import ChevronRight from '@atlaskit/icon/glyph/chevron-right';
 import MenuExpandIcon from '@atlaskit/icon/glyph/menu-expand';
@@ -126,6 +123,11 @@ const Button = ({
         backgroundColor: colors.B200,
         color: 'white',
       },
+      ':focus': {
+        opacity: 1,
+        backgroundColor: colors.B200,
+        color: 'white',
+      },
     }}
     {...props}
   >
@@ -186,7 +188,7 @@ function makeTooltipNode({ text, char }: { text: string, char: string }) {
 }
 
 type Props = {
-  ...WithAnalyticsEventsProps,
+  createAnalyticsEvent: Function,
   children: State => any,
   collapseToggleTooltipContent?: CollapseToggleTooltipContent,
   expandCollapseAffordanceRef: Ref<'button'>,
@@ -461,6 +463,8 @@ class ResizeControl extends PureComponent<Props, State> {
         isVisible={isCollapsed || mouseIsDown || mouseIsOverNavigation}
         hasHighlight={mouseIsDown || mouseIsOverGrabArea}
         innerRef={expandCollapseAffordanceRef}
+        aria-expanded={!isCollapsed}
+        aria-label="Toggle navigation"
       >
         <ButtonIcon />
       </Button>

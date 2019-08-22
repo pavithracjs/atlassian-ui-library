@@ -6,7 +6,7 @@
  */
 // Japanese
 export default {
-  'fabric.mention.unknow.user.error': '不明なユーザー : {id}',
+  'fabric.mention.unknow.user.error': '不明なユーザー: {userId}',
   'fabric.mention.noAccess.warning':
     '{name} さんはアクセス権限がないため、通知されません',
   'fabric.mention.noAccess.label': 'アクセス権限がありません',
@@ -22,4 +22,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50 人以上のメンバー',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50 人以上のメンバー (あなたを含む)',
+  'fabric.elements.mentions.team.mention.highlight.title': 'チームをメンション',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'ワンクリックで全員をページに連れてきましょう。チームがなければ、',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    '作りましょう。',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    '閉じる',
 };

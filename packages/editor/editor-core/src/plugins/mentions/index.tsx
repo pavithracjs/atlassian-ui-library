@@ -4,7 +4,7 @@ import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
@@ -15,9 +15,9 @@ import {
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
 import {
-  MentionSpotlight,
-  MentionSpotlightController,
-} from '@atlaskit/mention';
+  TeamMentionHighlight,
+  TeamMentionHighlightController,
+} from '@atlaskit/mention/spotlight';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -66,7 +66,7 @@ export interface TeamInfoAttrAnalytics {
 }
 
 const mentionsPlugin = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
   sanitizePrivateContent?: boolean,
   mentionInsertDisplayName?: boolean,
 ): EditorPlugin => {
@@ -156,22 +156,21 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
-        getSpotlight: (state: EditorState) => {
+        getHighlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
           const provider = pluginState.mentionProvider;
-          if (
-            provider &&
-            (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
-          ) {
-            const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
+          if (provider) {
+            const teamMentionProvider = provider as TeamMentionProvider;
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled() &&
-              enabledViaLocalStorage
+              isTeamMentionProvider(teamMentionProvider) &&
+              teamMentionProvider.mentionTypeaheadHighlightEnabled()
             ) {
               return (
-                <MentionSpotlight
-                  createTeamLink="/people/search#createTeam"
-                  onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - use a proper function here which sends both analytics and register the close as well
+                <TeamMentionHighlight
+                  createTeamLink={teamMentionProvider.mentionTypeaheadCreateTeamPath()}
+                  onClose={() =>
+                    TeamMentionHighlightController.registerClosed()
+                  }
                 />
               );
             }
@@ -290,7 +289,7 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            MentionSpotlightController.registerTeamMention();
+            TeamMentionHighlightController.registerTeamMention();
 
             return insert(
               buildNodesForTeamMention(
@@ -648,3 +647,9 @@ function buildNodesForTeamMention(
   inlineNodes.push(closeBracketText);
   return Fragment.fromArray(inlineNodes);
 }
+
+const isTeamMentionProvider = (p: any): p is TeamMentionProvider =>
+  !!(
+    (p as TeamMentionProvider).mentionTypeaheadHighlightEnabled &&
+    (p as TeamMentionProvider).mentionTypeaheadCreateTeamPath
+  );

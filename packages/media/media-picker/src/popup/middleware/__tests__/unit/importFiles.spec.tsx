@@ -55,13 +55,11 @@ describe('importFiles middleware', () => {
   const defaultOptions: SetupOptions = {
     withSelectedItems: true,
   };
-  const upfrontId = Promise.resolve('1');
   const makeFileData = (index: number) => ({
     id: `some-selected-item-id-${index}`,
     name: `picture${index}.jpg`,
     mimeType: 'image/jpg',
     size: 42 + index,
-    upfrontId,
     occurrenceKey: `occurrence-key-${index}`,
   });
 
@@ -93,20 +91,14 @@ describe('importFiles middleware', () => {
       // Each LocalUpload will have a list of events with one of them being uploads-start,
       // and each of those events will contain all UploadFiles.
       for (let i = 1; i <= total; i++) {
-        const {
-          id,
-          name,
-          mimeType: type,
-          size,
-          upfrontId,
-          occurrenceKey,
-        } = makeFileData(i);
+        const { id, name, mimeType: type, size, occurrenceKey } = makeFileData(
+          i,
+        );
         files.push({
           id,
           name,
           type,
           size,
-          upfrontId,
           creationDate: todayDate,
           occurrenceKey,
         });
@@ -139,9 +131,6 @@ describe('importFiles middleware', () => {
         name: 'upload-end',
         data: {
           file,
-          public: {
-            id: `some-public-id-${index}`,
-          },
         },
       };
 
@@ -149,8 +138,6 @@ describe('importFiles middleware', () => {
         file: {
           metadata: {
             ...makeFileData(index),
-            userUpfrontId: Promise.resolve(''),
-            userOccurrenceKey: Promise.resolve(''),
           },
         },
         events: [
@@ -264,7 +251,6 @@ describe('importFiles middleware', () => {
             type: 'image/jpg',
             size: 43,
             creationDate: todayDate,
-            upfrontId,
             occurrenceKey: 'occurrence-key-1',
           },
           {
@@ -273,7 +259,6 @@ describe('importFiles middleware', () => {
             type: 'image/jpg',
             size: 45,
             creationDate: todayDate,
-            upfrontId,
             occurrenceKey: 'occurrence-key-3',
           },
           {
@@ -282,7 +267,6 @@ describe('importFiles middleware', () => {
             type: 'image/jpg',
             size: 46,
             creationDate: todayDate,
-            upfrontId,
             occurrenceKey: 'occurrence-key-4',
           },
           {
@@ -291,7 +275,6 @@ describe('importFiles middleware', () => {
             type: 'image/jpg',
             size: 47,
             creationDate: expect.any(Number),
-            upfrontId,
             occurrenceKey: 'occurrence-key-5',
           },
         ]);
@@ -321,7 +304,6 @@ describe('importFiles middleware', () => {
                 type: 'image/jpg',
                 size: 46,
                 creationDate: todayDate,
-                upfrontId,
                 occurrenceKey: 'occurrence-key-4',
               },
               RECENTS_COLLECTION,
@@ -369,7 +351,6 @@ describe('importFiles middleware', () => {
                 type: 'image/jpg',
                 size: 46,
                 creationDate: todayDate,
-                upfrontId,
                 occurrenceKey: 'occurrence-key-4',
               },
               expectUUID,
@@ -569,7 +550,6 @@ describe('importFiles middleware', () => {
       name: '',
       size: 1,
       type: 'image/png',
-      upfrontId: Promise.resolve(''),
     };
     it('should add file preview for Giphy files', done => {
       const selectedFiles: SelectedUploadFile[] = [
@@ -713,7 +693,6 @@ describe('importFiles middleware', () => {
         name: 'some_file_name',
         size: 1,
         type: 'image/png',
-        upfrontId: Promise.resolve(''),
       };
       const selectedFiles: SelectedUploadFile[] = [
         {

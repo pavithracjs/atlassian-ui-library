@@ -16,8 +16,8 @@ beforeEach(() => {
 afterEach(() => {
   jest.resetAllMocks();
 });
-
-test('should ssr then hydrate toggle correctly', async () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('should ssr then hydrate toggle correctly', async () => {
   const [example] = await getExamplesFor('toggle');
   const Example = await require(example.filePath).default;
 
@@ -38,7 +38,6 @@ test('should ssr then hydrate toggle correctly', async () => {
           s === 'style'
         ),
     );
-
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0);
   });
 });

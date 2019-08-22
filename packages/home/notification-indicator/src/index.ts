@@ -1,7 +1,7 @@
-import NotificationIndicator, { Props } from './NotificationIndicator';
+import NotificationIndicator from './NotificationIndicator';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 
-const NotificationIndicatorWithAnalytics = withAnalyticsEvents<Props>()(
+const NotificationIndicatorWithAnalytics = withAnalyticsEvents()(
   NotificationIndicator,
 );
 export { NotificationIndicatorWithAnalytics as NotificationIndicator };

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/analytics",
-  "version": "6.0.1",
+  "version": "6.0.4",
   "description": "The Atlaskit Component Analytics Framework",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -11,9 +11,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Analytics",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/section-message": "^4.0.9",
     "@atlaskit/ssr": "^0.1.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0",

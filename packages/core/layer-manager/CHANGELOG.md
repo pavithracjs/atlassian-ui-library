@@ -1,5 +1,30 @@
 # @atlaskit/layer-manager
 
+## 7.0.12
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 7.0.11
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/onboarding@8.0.12
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/button@13.1.2
+  - @atlaskit/modal-dialog@10.1.3
+  - @atlaskit/tooltip@15.0.9
+
+## 7.0.10
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
 ## 7.0.9
 
 ### Patch Changes

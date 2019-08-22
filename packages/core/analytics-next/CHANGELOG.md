@@ -1,5 +1,110 @@
 # @atlaskit/analytics-next
 
+## 6.0.1
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 6.0.0
+
+### Major Changes
+
+- [major][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 5.4.1
+
+### Patch Changes
+
+- [patch][1439241943](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1439241943):
+
+  Adding error boundary in media picker dropzone
+
+## 5.4.0
+
+### Minor Changes
+
+- [minor][e1f8aaf33b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1f8aaf33b):
+
+  - Adding entry point for `AnalyticsErrorBoundary` package
+
+  ```
+  // How to use
+
+  // Import via entry point
+  import AnalyticsListener from '@atlaskit/analytics-next/AnalyticsListener';
+  import AnalyticsErrorBoundary from '@atlaskit/analytics-next/AnalyticsErrorBoundary';
+
+  // Wrapping your component with the component
+  class ButtonWithAnalyticsErrorBoundary extends React.Component {
+    handleEvent = (analyticsEvent) => {
+      const { payload, context } = analyticsEvent;
+      console.log('Received event:', analyticsEvent, { payload, context });
+    };
+
+    render() {
+      return (
+        <AnalyticsListener channel="atlaskit" onEvent={this.handleEvent}>
+          <AnalyticsErrorBoundary
+            channel="atlaskit"
+            data={{
+              componentName: 'button',
+              packageName: '@atlaskit/button',
+              componentVersion: '999.9.9',
+            }}
+          >
+            <Button>Click me</Button>
+          </AnalyticsErrorBoundary>
+        </AnalyticsListener>
+      )
+    }
+  }
+  ```
+
+  Notes on new API:
+
+  - Plug-and-play component. As soon and it's wrapping a component it's fully integrated.
+  - It has Analytics context and events integrated already. Keep in mind it requires `AnalyticsListener` as a top level component to work properly, otherwise it won't trigger analytics events.
+
+## 5.3.1
+
+### Patch Changes
+
+- [patch][281451e6dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/281451e6dc):
+
+  Republishing package to export AnalyticsErrorBoundaryProps
+
+## 5.3.0
+
+### Minor Changes
+
+- [minor][ed9ae90c94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed9ae90c94):
+
+  Adding Analytics Error Boundary component
+
 ## 5.2.0
 
 ### Minor Changes

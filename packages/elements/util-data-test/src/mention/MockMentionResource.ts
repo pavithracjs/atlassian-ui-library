@@ -13,7 +13,7 @@ import {
 } from '@atlaskit/mention/resource';
 import {
   UIAnalyticsEvent,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
@@ -31,11 +31,11 @@ export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
   mentionNameResolver?: MentionNameResolver;
-  enableSpotlight?: boolean;
+  enableTeamMentionHighlight?: boolean;
 }
 
 export const createMockMentionNameResolver = () => {
-  const analyticsProps: WithAnalyticsEventProps = {
+  const analyticsProps: WithAnalyticsEventsProps = {
     createAnalyticsEvent: payload => {
       // eslint-disable-next-line no-console
       console.log('analytics event', payload);
@@ -143,5 +143,8 @@ export class MockMentionResource extends AbstractMentionResource
     return mention.id === 'oscar';
   }
 
-  mentionTypeaheadSpotlightEnabled = () => this.config.enableSpotlight || false;
+  mentionTypeaheadHighlightEnabled = () =>
+    this.config.enableTeamMentionHighlight || false;
+
+  mentionTypeaheadCreateTeamPath = () => '/people/search#createTeam';
 }

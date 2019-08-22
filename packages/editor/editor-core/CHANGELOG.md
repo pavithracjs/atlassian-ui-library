@@ -1,5 +1,158 @@
 # @atlaskit/editor-core
 
+## 112.41.8
+
+- Updated dependencies [6879d7d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6879d7d01e):
+  - @atlaskit/media-test-helpers@25.0.1
+  - @atlaskit/media-picker@47.0.0
+
+## 112.41.7
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 112.41.6
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/editor-test-helpers@9.11.6
+  - @atlaskit/renderer@49.7.8
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-editor@36.2.9
+  - @atlaskit/media-filmstrip@34.3.2
+  - @atlaskit/media-picker@46.0.9
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 112.41.5
+
+### Patch Changes
+
+- [patch][98dc5f3a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98dc5f3a6a):
+
+  CEMS-201: Fix gadget name in block header extension
+
+## 112.41.4
+
+### Patch Changes
+
+- [patch][c3618f9775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3618f9775):
+
+  CEMS-201: Remove image for block extenions
+
+## 112.41.3
+
+### Patch Changes
+
+- [patch][af9fb044da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af9fb044da):
+
+  CEMS-201: Fix icon sizes in block extension headers
+
+## 112.41.2
+
+- Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+  - @atlaskit/editor-common@39.17.2
+  - @atlaskit/renderer@49.7.7
+  - @atlaskit/media-card@63.3.9
+  - @atlaskit/media-core@30.0.9
+  - @atlaskit/media-editor@36.2.7
+  - @atlaskit/media-filmstrip@34.3.1
+  - @atlaskit/media-picker@46.0.3
+  - @atlaskit/media-test-helpers@24.3.5
+  - @atlaskit/media-client@2.0.0
+
+## 112.41.1
+
+- Updated dependencies [4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+  - @atlaskit/media-picker@46.0.0
+  - @atlaskit/media-test-helpers@24.3.4
+
+## 112.41.0
+
+### Minor Changes
+
+- [minor][9b83fdea35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b83fdea35):
+
+  TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight
+
+## 112.40.2
+
+### Patch Changes
+
+- [patch][fe1a882fbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe1a882fbb):
+
+  TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
+
+## 112.40.1
+
+### Patch Changes
+
+- [patch][7515b0b50f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7515b0b50f):
+
+  ED-7054: Adding border to block extension
+
+## 112.40.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
+## 112.39.16
+
+### Patch Changes
+
+- [patch][2703a8e39e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2703a8e39e):
+
+  ED-7310: Add work-around for Russian keyboard layouts where undo wouldn't fire correctly.
+
+## 112.39.15
+
+### Patch Changes
+
+- [patch][696c032471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/696c032471):
+
+  Import editor-core dependencies via module name
+
+## 112.39.14
+
+### Patch Changes
+
+- [patch][ce4419f491](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4419f491):
+
+  ED-7142: Prevent block extensions from being re-mounted during a layout change.
+
+## 112.39.13
+
+### Patch Changes
+
+- [patch][64874a4740](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64874a4740):
+
+  Update i18n strings with latest translations
+
 ## 112.39.12
 
 ### Patch Changes

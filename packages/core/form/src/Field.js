@@ -134,7 +134,7 @@ class FieldInner extends React.Component<InnerProps, State> {
   register = () => {
     const { defaultValue, name, registerField, validate } = this.props;
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
       invariant(
         name,
         '@atlaskit/form: Field components have a required name prop',

@@ -1,6 +1,6 @@
 import React, { FC, SyntheticEvent } from 'react';
 import Button, { ButtonProps } from '@atlaskit/button';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export type NavigatorPropsType = {
   /** This will be passed in as aria-label to button. This is what screen reader will read */

@@ -15,7 +15,7 @@ import {
   MentionNameResolver,
 } from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
 import collabPlugin from '../../../../plugins/collab-edit';
@@ -23,9 +23,9 @@ import mentionPlugin from '../../../../plugins/mentions';
 
 let mockRegisterTeamMention = jest.fn();
 
-jest.mock('@atlaskit/mention', () => ({
+jest.mock('@atlaskit/mention/spotlight', () => ({
   __esModule: true,
-  MentionSpotlightController: {
+  TeamMentionHighlightController: {
     registerTeamMention: () => mockRegisterTeamMention(),
   },
 }));
@@ -47,7 +47,7 @@ describe('mentionTypeahead', () => {
     editorView: EditorView;
     sel: number;
     mentionProvider: MentionProvider;
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+    createAnalyticsEvent: CreateUIAnalyticsEvent;
     event: any;
     mockMentionNameResolver?: MentionNameResolver;
   };

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedMessage as FormattedMessageNamespace } from 'react-intl';
 
 import DiscoverFilledGlyph from '@atlaskit/icon/glyph/discover-filled';
+import AddIcon from '@atlaskit/icon/glyph/add';
 import SettingsGlyph from '@atlaskit/icon/glyph/settings';
 
 import {
@@ -12,6 +13,7 @@ import {
   JiraServiceDeskIcon,
   JiraCoreIcon,
   OpsGenieIcon,
+  StatuspageIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
 import {
@@ -19,21 +21,18 @@ import {
   ProductLicenseInformation,
   RecentContainerType,
   AvailableProductsResponse,
-  AvailableSite,
   AvailableProduct,
   WorklensProductType,
   ProductKey,
   RecommendationsEngineResponse,
+  ProductTopItemVariation,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
 import PeopleLogo from './assets/people';
-import { CustomLink, RecentContainer } from '../types';
+import { CustomLink, RecentContainer, SwitcherChildItem } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-
-// Show a maximum of this many produts (only used in user-centric mode)
-export const MAX_PRODUCT_COUNT = 5;
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
@@ -52,6 +51,8 @@ export type SwitcherItemType = {
   description?: React.ReactNode;
   Icon: IconType;
   href: string;
+  childItems?: SwitcherChildItem[];
+  productType?: WorklensProductType;
 };
 
 export type RecentItemType = SwitcherItemType & {
@@ -116,14 +117,29 @@ export const getObjectTypeLabel = (type: string): React.ReactNode => {
   );
 };
 
-export const getFixedProductLinks = (): SwitcherItemType[] => [
-  {
-    key: 'people',
-    label: <FormattedMessage {...messages.people} />,
-    Icon: createIcon(PeopleLogo, { size: 'small' }),
-    href: `/people`,
-  },
-];
+export const getFixedProductLinks = (
+  isDiscoverMoreForEveryoneEnabled: boolean,
+): SwitcherItemType[] => {
+  const fixedLinks = [
+    {
+      key: 'people',
+      label: <FormattedMessage {...messages.people} />,
+      Icon: createIcon(PeopleLogo, { size: 'small' }),
+      href: `/people`,
+    },
+  ];
+  if (isDiscoverMoreForEveryoneEnabled) {
+    // The discover more link href is intentionally empty to prioritise the onDiscoverMoreClicked callback
+    fixedLinks.push({
+      key: 'discover-more',
+      label: <FormattedMessage {...messages.discoverMore} />,
+      Icon: createIcon(AddIcon, { size: 'medium' }),
+      href: '',
+    });
+  }
+
+  return fixedLinks;
+};
 
 type AvailableProductDetails = Pick<
   SwitcherItemType,
@@ -163,57 +179,113 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
     Icon: createIcon(OpsGenieIcon, { size: 'small' }),
     href: 'https://app.opsgenie.com',
   },
+  [WorklensProductType.STATUSPAGE]: {
+    label: 'Statuspage',
+    Icon: createIcon(StatuspageIcon, { size: 'small' }),
+    href: '#',
+  },
 };
 
-const getAvailableProductLink = (
-  site: AvailableSite,
-  product: AvailableProduct,
-): SwitcherItemType => {
-  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product.productType];
+const PRODUCT_ORDER = [
+  WorklensProductType.JIRA_SOFTWARE,
+  WorklensProductType.JIRA_SERVICE_DESK,
+  WorklensProductType.JIRA_BUSINESS,
+  WorklensProductType.CONFLUENCE,
+  WorklensProductType.OPSGENIE,
+  WorklensProductType.BITBUCKET,
+  WorklensProductType.STATUSPAGE,
+];
+
+interface ConnectedSite {
+  product: AvailableProduct;
+  isCurrentSite: boolean;
+  siteName: string;
+  siteUrl: string;
+}
+
+const getProductSiteUrl = (connectedSite: ConnectedSite): string => {
+  const { product, siteUrl } = connectedSite;
 
   if (
     product.productType === WorklensProductType.OPSGENIE ||
     product.productType === WorklensProductType.BITBUCKET
   ) {
-    // Prefer applicationUrl provided by license information (TCS)
-    // Fallback to hard-coded URL
-    return {
-      key: product.productType + site.displayName,
-      ...productLinkProperties,
-      description: site.displayName,
-      href: product.url,
-    };
+    return product.url;
   }
 
+  return siteUrl + AVAILABLE_PRODUCT_DATA_MAP[product.productType].href;
+};
+
+const getAvailableProductLinkFromSiteProduct = (
+  connectedSites: ConnectedSite[],
+  productTopItemVariation?: string,
+): SwitcherItemType => {
+  // if productTopItemVariation is 'most-frequent-site', we show most frequently visited site at the top
+  const shouldEnableMostFrequentSortForTopItem =
+    productTopItemVariation === ProductTopItemVariation.mostFrequentSite;
+
+  const topSite =
+    (!shouldEnableMostFrequentSortForTopItem &&
+      connectedSites.find(site => site.isCurrentSite)) ||
+    connectedSites.sort(
+      (a, b) => b.product.activityCount - a.product.activityCount,
+    )[0];
+  const productType = topSite.product.productType;
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[productType];
+
   return {
-    key: product.productType + site.displayName,
     ...productLinkProperties,
-    description: site.displayName,
-    href: site.url + productLinkProperties.href,
+    key: productType + topSite.siteName,
+    href: getProductSiteUrl(topSite),
+    description: topSite.siteName,
+    productType,
+    childItems:
+      connectedSites.length > 1
+        ? connectedSites
+            .map(site => ({
+              href: getProductSiteUrl(site),
+              label: site.siteName,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label))
+        : [],
   };
 };
 
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
+  cloudId: string | null | undefined,
+  productTopItemVariation?: string,
 ): SwitcherItemType[] => {
-  const productLinks: SwitcherItemType[] = [];
-  const activityCounts: { [key: string]: number } = {};
+  const productsMap: { [key: string]: ConnectedSite[] } = {};
 
   availableProducts.sites.forEach(site => {
-    site.availableProducts.forEach(product => {
-      const availableProductLink = getAvailableProductLink(site, product);
-      productLinks.push(availableProductLink);
-      activityCounts[availableProductLink.key] = product.activityCount;
+    const { availableProducts, displayName, url } = site;
+    availableProducts.forEach(product => {
+      const { productType } = product;
+
+      if (!productsMap[productType]) {
+        productsMap[productType] = [];
+      }
+
+      productsMap[productType].push({
+        product,
+        isCurrentSite: Boolean(cloudId) && site.cloudId === cloudId,
+        siteName: displayName,
+        siteUrl: url,
+      });
     });
   });
 
-  productLinks.sort((a, b) => {
-    const aCount = activityCounts[a.key] || 0;
-    const bCount = activityCounts[b.key] || 0;
-    return bCount - aCount; // most frequently accessed first
-  });
-
-  return productLinks.slice(0, MAX_PRODUCT_COUNT);
+  return PRODUCT_ORDER.map(productType => {
+    const connectedSites = productsMap[productType];
+    return (
+      connectedSites &&
+      getAvailableProductLinkFromSiteProduct(
+        connectedSites,
+        productTopItemVariation,
+      )
+    );
+  }).filter(link => !!link);
 };
 
 export const getProductLink = (
@@ -273,15 +345,10 @@ export const getLicensedProductLinks = (
 
 export const getAdministrationLinks = (
   isAdmin: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ): SwitcherItemType[] => {
   const adminBaseUrl = isAdmin ? `/admin` : '/trusted-admin';
-  return [
-    {
-      key: 'discover-applications',
-      label: <FormattedMessage {...messages.discoverMore} />,
-      Icon: createIcon(DiscoverFilledGlyph, { size: 'medium' }),
-      href: `${adminBaseUrl}/billing/addapplication`,
-    },
+  const adminLinks = [
     {
       key: 'administration',
       label: <FormattedMessage {...messages.administration} />,
@@ -289,6 +356,15 @@ export const getAdministrationLinks = (
       href: adminBaseUrl,
     },
   ];
+  if (!isDiscoverMoreForEveryoneEnabled) {
+    adminLinks.unshift({
+      key: 'discover-applications',
+      label: <FormattedMessage {...messages.discoverMore} />,
+      Icon: createIcon(DiscoverFilledGlyph, { size: 'medium' }),
+      href: `${adminBaseUrl}/billing/addapplication`,
+    });
+  }
+  return adminLinks;
 };
 
 const PRODUCT_RECOMMENDATION_LIMIT = 2;

@@ -40,7 +40,7 @@ import {
   insertMediaAsMediaSingle,
   alignAttributes,
 } from '../../../../plugins/media/utils/media-single';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   Clipboard,
   UploadPreviewUpdateEventPayload,
@@ -78,7 +78,7 @@ describe('Media plugin', () => {
     contextIdentifierProvider,
   });
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const mediaPluginOptions = (dropzoneContainer: HTMLElement) => ({
     provider: mediaProvider,
     allowMediaSingle: true,
@@ -1138,7 +1138,6 @@ describe('Media plugin', () => {
           name: 'test.png',
           size: 1,
           type: 'file/test',
-          upfrontId: Promise.resolve('test'),
           creationDate: 1,
         },
         preview: {

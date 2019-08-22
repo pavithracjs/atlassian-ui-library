@@ -2,6 +2,7 @@ import {
   ServiceConfig,
   utils as serviceUtils,
 } from '@atlaskit/util-service-support';
+import { getMediaClient } from '@atlaskit/media-client';
 import {
   EmojiDescription,
   EmojiId,
@@ -28,7 +29,6 @@ import {
 import TokenManager from './TokenManager';
 
 import debug from '../../util/logger';
-import { ContextFactory } from '@atlaskit/media-core';
 
 export interface EmojiUploadResponse {
   emojis: EmojiServiceDescription[];
@@ -98,16 +98,18 @@ export default class SiteEmojiResource {
       debug('upload token load time', tokenLoadTime);
       return new Promise<EmojiDescription>((resolve, reject) => {
         const { url, clientId, collectionName } = uploadToken;
-        const context = ContextFactory.create({
-          authProvider: () =>
-            Promise.resolve({
-              clientId,
-              token: uploadToken.jwt,
-              baseUrl: url,
-            }),
+        const mediaClient = getMediaClient({
+          mediaClientConfig: {
+            authProvider: () =>
+              Promise.resolve({
+                clientId,
+                token: uploadToken.jwt,
+                baseUrl: url,
+              }),
+          },
         });
 
-        const subscription = context.file
+        const subscription = mediaClient.file
           .upload({
             content: upload.dataURL,
             name: upload.filename,

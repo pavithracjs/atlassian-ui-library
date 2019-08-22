@@ -1,6 +1,5 @@
 // @flow
 
-import type { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { NAVIGATION_CHANNEL } from '../../constants';
 import type { DrawerName } from './types';
 
@@ -17,7 +16,7 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
 
 export const fireDrawerDismissedEvents = (
   drawerName: DrawerName,
-  analyticsEvent: UIAnalyticsEvent,
+  analyticsEvent: any,
   trigger?: string,
 ): void => {
   if (

@@ -24,6 +24,13 @@ type Props = {
   isFirstChild?: boolean,
 };
 
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    'The @atlaskit/field-base package has been deprecated. Please use the Form/Textfield/Textarea/etc packages instead.',
+  );
+}
+
 export default class Label extends Component<Props, void> {
   static defaultProps = {
     appearance: 'default',

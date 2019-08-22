@@ -63,6 +63,14 @@
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsContext",
         "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsContext"
       ],
+      "@atlaskit/analytics-next/AnalyticsContextConsumer": [
+        "../../core/analytics-next/src/AnalyticsContextConsumer",
+        "./packages/core/analytics-next/src/AnalyticsContextConsumer"
+      ],
+      "@atlaskit/analytics-next/AnalyticsErrorBoundary": [
+        "../../core/analytics-next/src/AnalyticsErrorBoundary",
+        "./packages/core/analytics-next/src/AnalyticsErrorBoundary"
+      ],
       "@atlaskit/analytics-next/AnalyticsEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEvent",
         "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEvent"
@@ -1506,6 +1514,10 @@
       "@atlaskit/mention/shared-styles": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/shared-styles",
         "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/shared-styles"
+      ],
+      "@atlaskit/mention/spotlight": [
+        "../../elements/mention/src/spotlight",
+        "./packages/elements/mention/src/spotlight"
       ],
       "@atlaskit/mention/team-resource": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/team-resource",

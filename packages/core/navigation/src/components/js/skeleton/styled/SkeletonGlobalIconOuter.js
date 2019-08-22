@@ -1,10 +1,11 @@
 // @flow
 import styled from 'styled-components';
 
-import { gridSize, math } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { divide } from '@atlaskit/theme/math';
 
 const SkeletonGlobalIconOuter = styled.div`
-  margin-bottom: ${math.divide(gridSize, 2)}px;
+  margin-bottom: ${divide(gridSize, 2)}px;
 
   &:last-child {
     margin-bottom: 0;

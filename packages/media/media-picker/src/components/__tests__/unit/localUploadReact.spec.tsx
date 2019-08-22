@@ -15,7 +15,7 @@ import {
   UploadsStartEventPayload,
 } from '../../../domain/uploadEvent';
 
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 jest.mock('../../component');
 
 import { SCALE_FACTOR_DEFAULT } from '../../../util/getPreviewFromImage';
@@ -28,7 +28,6 @@ const imageFile: MediaFile = {
   size: 12345,
   creationDate: Date.now(),
   type: 'image/jpg',
-  upfrontId: Promise.resolve('some-public-id'),
 };
 
 class DummyLocalUploadComponent extends LocalUploadComponentReact<
@@ -136,15 +135,9 @@ describe('LocalUploadReact', () => {
   it('should call uploadComponent.emitUploadEnd with proper arguments', () => {
     const file: UploadEndEventPayload = {
       file: imageFile,
-      public: {
-        id: '123',
-      },
     };
     (localUploadComponentInstance as any).onFileConverted(file);
-    expect(uploadComponent.emitUploadEnd).toBeCalledWith(
-      file.file,
-      file.public,
-    );
+    expect(uploadComponent.emitUploadEnd).toBeCalledWith(file.file);
   });
 
   it('should call uploadComponent.emitUploadError with proper arguments', () => {

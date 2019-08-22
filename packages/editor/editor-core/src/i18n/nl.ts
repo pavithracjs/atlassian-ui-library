@@ -104,6 +104,9 @@ export default {
   'fabric.editor.decision': 'Beslissing',
   'fabric.editor.decision.description':
     'Beslissingen vastleggen zodat deze eenvoudig te traceren zijn',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Scheidingslijn',
   'fabric.editor.horizontalRule.description':
     'Inhoud scheiden met een horizontale lijn',

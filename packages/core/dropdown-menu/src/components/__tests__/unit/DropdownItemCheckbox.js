@@ -4,7 +4,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import PropTypes from 'prop-types';
 import CheckboxIcon from '@atlaskit/icon/glyph/checkbox';
-import { colors } from '@atlaskit/theme';
+import { B400, N40 } from '@atlaskit/theme/colors';
 import Item from '@atlaskit/item';
 import { KEY_ENTER, KEY_SPACE } from '../../../util/keys';
 
@@ -14,16 +14,13 @@ import DropdownMenu, {
   DropdownItemGroupCheckbox,
 } from '../../..';
 
-test('Skipped tests', () => {});
 /**
  * TODO: replace these tests - AK-5183
  */
-/*
 
-describe('dropdown menu - DropdownItemCheckbox', () => {
+describe.skip('dropdown menu - DropdownItemCheckbox', () => {
   const isIconSelected = icon =>
-    icon.prop('primaryColor') === colors.B400 &&
-    icon.prop('secondaryColor') === colors.N40;
+    icon.prop('primaryColor') === B400 && icon.prop('secondaryColor') === N40;
 
   describe('common use cases', () => {
     let wrapper;
@@ -254,4 +251,3 @@ describe('dropdown menu - DropdownItemCheckbox', () => {
     });
   });
 });
-*/

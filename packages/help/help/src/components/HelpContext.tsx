@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import { withAnalyticsEvents } from '../analytics';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
@@ -64,6 +64,7 @@ export interface State {
 export interface HelpContextInterface {
   help: {
     view: VIEW;
+    isDefaultContent(): boolean;
     isSearchVisible(): boolean;
     loadArticle(id?: string): void;
     isArticleVisible(): boolean;
@@ -115,7 +116,7 @@ const initialiseHelpData = (data: State) => {
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 class HelpContextProviderImplementation extends React.Component<
-  Props & { createAnalyticsEvent?: CreateUIAnalyticsEventSignature },
+  Props & { createAnalyticsEvent?: CreateUIAnalyticsEvent },
   State
 > {
   requestLoadingTimeout: any;
@@ -126,11 +127,14 @@ class HelpContextProviderImplementation extends React.Component<
     this.state = initialiseHelpData({
       ...defaultValues,
       articleId: this.props.articleId ? this.props.articleId : '',
+      defaultContent: this.props.defaultContent,
     });
   }
 
   componentDidMount() {
-    this.loadArticle();
+    if (this.props.articleId !== '') {
+      this.loadArticle();
+    }
   }
 
   componentWillUnmount() {
@@ -142,23 +146,14 @@ class HelpContextProviderImplementation extends React.Component<
     if (this.props.articleId !== prevProps.articleId) {
       this.setState({
         articleId: this.props.articleId ? this.props.articleId : '',
+        view: VIEW.ARTICLE,
       });
     }
 
     if (
-      this.state.view === prevState.view &&
-      this.state.view === VIEW.DEFAULT_CONTENT &&
-      this.props.articleId === prevProps.articleId &&
-      this.state.hasNavigatedToDefaultContent
+      this.state.articleId !== prevState.articleId &&
+      this.state.view !== VIEW.ARTICLE_NAVIGATION
     ) {
-      this.setState({
-        view: VIEW.ARTICLE,
-        hasNavigatedToDefaultContent: false,
-      });
-    }
-
-    // When the articleId changes, get the content of that article
-    if (this.state.articleId !== prevState.articleId) {
       this.loadArticle();
     }
   }
@@ -306,13 +301,19 @@ class HelpContextProviderImplementation extends React.Component<
 
     // If the history isn't empty, navigate back through the history
     if (history.length > 1) {
-      this.setState(prevState => {
-        return { history: [...prevState.history.slice(0, -1)] };
+      await this.setState(prevState => {
+        const newHistory = [...prevState.history.slice(0, -1)];
+        return {
+          articleId: newHistory[newHistory.length - 1].id,
+          history: newHistory,
+          view: VIEW.ARTICLE_NAVIGATION,
+        };
       });
     } else if (history.length === 1) {
-      this.setState({
+      await this.setState({
+        articleId: '',
         history: [],
-        view: VIEW.DEFAULT_CONTENT,
+        view: VIEW.ARTICLE_NAVIGATION,
         hasNavigatedToDefaultContent: true,
       });
     }
@@ -322,6 +323,7 @@ class HelpContextProviderImplementation extends React.Component<
     if (this.props.onSearch) {
       return (
         this.state.view === VIEW.ARTICLE ||
+        this.state.view === VIEW.ARTICLE_NAVIGATION ||
         this.state.view === VIEW.DEFAULT_CONTENT
       );
     }
@@ -331,9 +333,15 @@ class HelpContextProviderImplementation extends React.Component<
 
   isArticleVisible = (): boolean => {
     return (
-      this.state.view === VIEW.ARTICLE &&
+      (this.state.view === VIEW.ARTICLE ||
+        this.state.view === VIEW.ARTICLE_NAVIGATION) &&
+      this.state.history.length > 0 &&
       this.state.searchValue.length <= MIN_CHARACTERS_FOR_SEARCH
     );
+  };
+
+  isDefaultContent = (): boolean => {
+    return this.state.defaultContent !== undefined;
   };
 
   getCurrentArticle = () => {
@@ -351,6 +359,7 @@ class HelpContextProviderImplementation extends React.Component<
           help: {
             ...restState,
             loadArticle: this.loadArticle,
+            isDefaultContent: this.isDefaultContent,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,
             navigateBack: this.navigateBack,
@@ -370,7 +379,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 }
 
-export const HelpContextProvider = withAnalyticsEvents<Props>()(
+export const HelpContextProvider = withAnalyticsEvents()(
   HelpContextProviderImplementation,
 );
 

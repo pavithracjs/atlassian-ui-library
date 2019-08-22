@@ -1,8 +1,9 @@
 import * as React from 'react';
-jest.mock('../../../service/newUploadServiceImpl');
-import { Dropzone } from '../../dropzone/dropzone';
+jest.mock('../../../service/uploadServiceImpl');
+import { Dropzone, DropzoneBase } from '../../dropzone/dropzone';
 import { mount, ReactWrapper } from 'enzyme';
 import { DropzoneDragEnterEventPayload } from '../../types';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 const files = [new File([], '')];
@@ -49,7 +50,7 @@ const container = document.createElement('div');
     expectedContainer: document.body,
   },
 ].forEach(data => {
-  describe(`Dropzone with config: ${data.config}`, () => {
+  describe(`Dropzone with config: ${JSON.stringify(data.config)}`, () => {
     let component: ReactWrapper;
     const { config, expectedContainer } = data;
 
@@ -105,11 +106,13 @@ const container = document.createElement('div');
           mediaClient={mediaClient}
           config={config}
           onDragEnter={() => {
-            done(new Error('drag-enter should not be emitted'));
+            expect(
+              done(new Error('drag-enter should not be emitted')),
+            ).not.toThrowError();
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragOverEvent('Not Files'));
       done();
     });
@@ -124,7 +127,7 @@ const container = document.createElement('div');
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragOverEvent());
       expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
@@ -139,12 +142,14 @@ const container = document.createElement('div');
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
 
     it('should upload files when files are dropped', () => {
-      component = mount(<Dropzone mediaClient={mediaClient} config={config} />);
+      component = mount(
+        <DropzoneBase mediaClient={mediaClient} config={config} />,
+      );
 
       const componentInstance = component.instance() as any;
       componentInstance.uploadService.addFiles = jest.fn();
@@ -158,13 +163,13 @@ const container = document.createElement('div');
     it('should provide a function to onCancelFn callback property and call uploadService.cancel', () => {
       const onCancelFnMock = jest.fn();
       component = mount(
-        <Dropzone
+        <DropzoneBase
           mediaClient={mediaClient}
           config={config}
           onCancelFn={onCancelFnMock}
         />,
       );
-      const instance = component.instance() as Dropzone;
+      const instance = component.instance() as DropzoneBase;
       expect(onCancelFnMock).toBeCalled();
       onCancelFnMock.mock.calls[0][0]();
       expect((instance as any).uploadService.cancel).toBeCalled();
@@ -202,6 +207,106 @@ const container = document.createElement('div');
 
       expect(removeEventListenerSpyOverOldContainer).toBeCalledTimes(3);
       expect(addEventListenerSpyOverNewContainer).toBeCalledTimes(3);
+    });
+
+    describe('Analytics', () => {
+      const expectedChannel = 'media';
+      const expectedContext = [
+        {
+          componentName: 'dropzone',
+          packageName: '@atlaskit/media-picker',
+          packageVersion: '999.9.9',
+        },
+      ];
+      it('should fire a draggedInto event when a file is dragged over dropzone', async () => {
+        const expectedPayload = {
+          eventType: 'ui',
+          action: 'draggedInto',
+          actionSubject: 'dropzone',
+          attributes: {
+            fileCount: 1,
+          },
+        };
+        const handleAnalyticsEvent = jest.fn();
+
+        component = mount(
+          <AnalyticsListener channel="media" onEvent={handleAnalyticsEvent}>
+            <Dropzone mediaClient={mediaClient} config={config} />,
+          </AnalyticsListener>,
+        );
+
+        expectedContainer.dispatchEvent(createDragOverEvent());
+
+        expect(handleAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(handleAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: expectedPayload,
+            context: expectedContext,
+          }),
+          expectedChannel,
+        );
+      });
+
+      it('should fire a draggedOut event when mouse leaves dropzone', async () => {
+        const expectedPayload = {
+          eventType: 'ui',
+          action: 'draggedOut',
+          actionSubject: 'dropzone',
+          attributes: { fileCount: 1 },
+        };
+        const handleAnalyticsEvent = jest.fn();
+
+        component = mount(
+          <AnalyticsListener channel="media" onEvent={handleAnalyticsEvent}>
+            <Dropzone mediaClient={mediaClient} config={config} />,
+          </AnalyticsListener>,
+        );
+
+        expectedContainer.dispatchEvent(createDragOverEvent());
+        expectedContainer.dispatchEvent(createDragLeaveEvent());
+
+        // Drag leave has a setTimeout before firing the event we need to offset here
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        expect(handleAnalyticsEvent).toHaveBeenCalledTimes(2);
+        expect(handleAnalyticsEvent).toHaveBeenNthCalledWith(
+          2,
+          expect.objectContaining({
+            payload: expectedPayload,
+            context: expectedContext,
+          }),
+          expectedChannel,
+        );
+      });
+
+      it('should fire a droppedInto event when a file is dropped in dropzone', async () => {
+        const expectedPayload = {
+          eventType: 'ui',
+          action: 'droppedInto',
+          actionSubject: 'dropzone',
+          attributes: { fileCount: 1 },
+        };
+        const handleAnalyticsEvent = jest.fn();
+
+        component = mount(
+          <AnalyticsListener channel="media" onEvent={handleAnalyticsEvent}>
+            <Dropzone mediaClient={mediaClient} config={config} />,
+          </AnalyticsListener>,
+        );
+
+        expectedContainer.dispatchEvent(createDragOverEvent());
+        expectedContainer.dispatchEvent(createDragOverOrDropEvent('drop'));
+
+        expect(handleAnalyticsEvent).toHaveBeenCalledTimes(2);
+        expect(handleAnalyticsEvent).toHaveBeenNthCalledWith(
+          2,
+          expect.objectContaining({
+            payload: expectedPayload,
+            context: expectedContext,
+          }),
+          expectedChannel,
+        );
+      });
     });
   });
 });

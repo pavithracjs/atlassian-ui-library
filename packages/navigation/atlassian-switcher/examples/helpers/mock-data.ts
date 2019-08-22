@@ -71,7 +71,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
             url: null,
           },
           {
-            activityCount: 2,
+            activityCount: 200,
             productType: 'JIRA_SOFTWARE',
             url: null,
           },
@@ -136,7 +136,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
           },
         ],
         cloudId: 'some-cloud-id',
-        displayName: 'some-random-instance',
+        displayName: 'some-random-instance-some-random-instance',
         url: 'https://some-random-instance.atlassian.net',
       },
       {

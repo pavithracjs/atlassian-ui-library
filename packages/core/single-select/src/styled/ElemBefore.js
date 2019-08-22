@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 const ElemBefore = styled.div`
   display: flex;

@@ -20,6 +20,8 @@ export interface Props {
   placement: Placement;
   /** Replacement reference element to position popper relative to */
   referenceElement?: HTMLElement;
+  /** Additional modifiers and modifier overwrites */
+  modifiers?: PopperProps['modifiers'];
 }
 
 type Position = 'top' | 'right' | 'bottom' | 'left';
@@ -63,6 +65,10 @@ export class Popper extends React.Component<Props, State> {
           boundariesElement: 'window',
         },
       };
+
+      if (this.props.modifiers) {
+        return { ...modifiers, ...this.props.modifiers };
+      }
 
       return modifiers;
     },

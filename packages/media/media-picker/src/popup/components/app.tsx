@@ -5,10 +5,7 @@ import { connect, Provider } from 'react-redux';
 import { IntlShape } from 'react-intl';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import { MediaClient } from '@atlaskit/media-client';
-import {
-  UIAnalyticsEventHandlerSignature,
-  ObjectType,
-} from '@atlaskit/analytics-next';
+import { UIAnalyticsEventHandler } from '@atlaskit/analytics-next';
 
 import { ServiceName, State } from '../domain';
 import { UploadParams, PopupConfig } from '../..';
@@ -55,7 +52,7 @@ import {
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
-import { Dropzone } from '../../components/dropzone/dropzone';
+import { Dropzone, DropzoneBase } from '../../components/dropzone/dropzone';
 import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 import { resetView } from '../actions/resetView';
@@ -87,8 +84,8 @@ export interface AppDispatchProps {
 }
 
 export interface AppProxyReactContext {
-  getAtlaskitAnalyticsEventHandlers: () => UIAnalyticsEventHandlerSignature[];
-  getAtlaskitAnalyticsContext?: () => ObjectType[];
+  getAtlaskitAnalyticsEventHandlers: () => UIAnalyticsEventHandler[];
+  getAtlaskitAnalyticsContext?: () => Record<string, any>[];
   intl?: IntlShape;
 }
 
@@ -107,7 +104,7 @@ export interface AppState {
 export class App extends Component<AppProps, AppState> {
   private readonly componentMediaClient: MediaClient;
   private browserRef = React.createRef<BrowserComponent>();
-  private dropzoneRef = React.createRef<Dropzone>();
+  private dropzoneRef = React.createRef<DropzoneBase>();
   private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {

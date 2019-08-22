@@ -1,5 +1,31 @@
 # @atlaskit/datetime-picker
 
+## 8.0.14
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 8.0.13
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 8.0.12
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/calendar@8.0.6
+  - @atlaskit/field-text@9.0.7
+  - @atlaskit/select@10.0.3
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/button@13.1.2
+  - @atlaskit/modal-dialog@10.1.3
+
 ## 8.0.11
 
 - Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):

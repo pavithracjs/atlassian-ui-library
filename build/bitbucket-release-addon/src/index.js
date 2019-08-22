@@ -3,6 +3,7 @@ import flattenChangesets from '@atlaskit/build-releases/version/flattenChangeset
 
 import getCommits from './get-commits';
 import getFSChangesets from './get-fs-changesets';
+import { legacyChangesetRepos } from './config';
 
 const noChangesetMessage = `<div style="border: 2px solid red; padding: 10px; border-radius: 10px; display: inline-block;">
   <p><strong>Warning:</strong> No packages will be released with this PR</p>
@@ -43,15 +44,25 @@ const releasedPackagesMessage = releases => {
   </div>`;
 };
 
-const { user, repo, pullrequestid } = queryString.parse(window.location.search);
+const {
+  user,
+  repo,
+  pullrequestid,
+  repoid,
+  sourcehash,
+  destinationhash,
+} = queryString.parse(window.location.search);
 
-Promise.all([
-  getCommits(user, repo, pullrequestid),
-  getFSChangesets(user, repo, pullrequestid),
-])
-  .then(([changesetsFromCommits, changesetsFromFS]) => {
-    let changesets = [...changesetsFromCommits, ...changesetsFromFS];
-    if (changesets.length === 0) {
+// Only retrieve one type of changesets. Legacy commit changesets are only supported in repos
+// defined in config.js
+const changesetPromise =
+  legacyChangesetRepos.indexOf(repoid) >= 0
+    ? getCommits(user, repo, pullrequestid)
+    : getFSChangesets(user, repo, sourcehash, destinationhash);
+
+changesetPromise
+  .then(changesets => {
+    if (!changesets || changesets.length === 0) {
       document.body.innerHTML = noChangesetMessage;
       return;
     }

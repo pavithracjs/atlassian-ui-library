@@ -198,15 +198,19 @@ describe(name, () => {
 
     it('should pass down extra props', () => {
       const theadOnClick = () => {};
+      const theadOnKeyDown = () => {};
       const thOnClick = () => {};
+      const thOnKeyDown = () => {};
       const trOnClick = () => {};
       const tdOnClick = () => {};
 
       const newHead = {
         onClick: theadOnClick,
+        onKeyDown: theadOnKeyDown,
         cells: head.cells.map(cell => ({
           ...cell,
           onClick: thOnClick,
+          onKeyDown: thOnKeyDown,
         })),
       };
       const newRows = rows.map((row: RowType) => ({
@@ -222,8 +226,12 @@ describe(name, () => {
         <DynamicTableStateless head={newHead} rows={newRows} />,
       );
       expect(wrapper.find('thead').prop('onClick')).toBe(theadOnClick);
+      expect(wrapper.find('thead').prop('onKeyDown')).toBe(theadOnKeyDown);
       wrapper.find('th').forEach(headCell => {
         expect(headCell.prop('onClick')).toBe(thOnClick);
+      });
+      wrapper.find('th').forEach(headCell => {
+        expect(headCell.prop('onKeyDown')).toBe(thOnKeyDown);
       });
       wrapper.find('tbody tr').forEach(bodyRow => {
         expect(bodyRow.prop('onClick')).toBe(trOnClick);
@@ -378,6 +386,32 @@ describe(name, () => {
         );
         expect(onSetPage).toHaveBeenCalledWith(1, undefined);
         expect(onSetPage).toHaveBeenCalledTimes(1);
+      });
+
+      it('should run onSort with enter key pressed & onSetPage', () => {
+        const headCells = wrapper.find('th');
+        headCells.at(0).simulate('keyDown', { key: 'Enter' });
+        expect(onSort).toHaveBeenCalledTimes(1);
+        expect(onSort).toHaveBeenCalledWith(
+          {
+            key: 'first_name',
+            sortOrder: 'ASC',
+            item: {
+              key: 'first_name',
+              content: 'First name',
+              isSortable: true,
+            },
+          },
+          expect.anything(),
+        );
+        expect(onSetPage).toHaveBeenCalledWith(1, undefined);
+        expect(onSetPage).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not run onSort with enter key pressed when th is not sortable', () => {
+        const headCells = wrapper.find('th');
+        headCells.at(1).simulate('keyDown', { key: 'Enter' });
+        expect(onSort).toHaveBeenCalledTimes(0);
       });
 
       it('onSetPage', () => {

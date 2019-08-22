@@ -1,8 +1,7 @@
 import {
   createAndFireEvent,
   AnalyticsEventPayload,
-  CreateAndFireEventFunction,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   UI_EVENT_TYPE,
@@ -17,7 +16,7 @@ import { ReactionSummary, ReactionSource } from '../types';
 
 export type PreviousState = 'new' | 'existingNotReacted' | 'existingReacted';
 
-export const createAndFireEventInElementsChannel: CreateAndFireEventFunction = createAndFireEvent(
+export const createAndFireEventInElementsChannel = createAndFireEvent(
   'fabric-elements',
 );
 
@@ -25,7 +24,7 @@ export const createAndFireSafe = <
   U extends any[],
   T extends (...args: U) => AnalyticsEventPayload
 >(
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature | void,
+  createAnalyticsEvent: CreateUIAnalyticsEvent | void,
   creator: T,
   ...args: U
 ) => {

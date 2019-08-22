@@ -93,3 +93,21 @@ test('should ensure key is set correctly on spotlight action', () => {
     ),
   ).not.toThrowError();
 });
+
+test('should set "fixed" position for the clone if the target a "fixed" position', () => {
+  const ref = jest.fn();
+  const wrapper = mount(
+    <SpotlightManager>
+      <SpotlightTarget name="target">
+        <div style={{ position: 'fixed' }} ref={ref}>
+          target
+        </div>
+      </SpotlightTarget>
+      <Spotlight target="target">Check this out</Spotlight>
+    </SpotlightManager>,
+  );
+  const clone = wrapper.find(Clone);
+  expect(clone).toHaveLength(1);
+  const { position } = clone.prop('style');
+  expect(position).toBe('fixed');
+});

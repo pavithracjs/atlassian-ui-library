@@ -63,13 +63,13 @@ export default class LayoutManager extends Component<
     collapseToggleTooltipContent: defaultTooltipContent,
     datasets: {
       contextualNavigation: {
-        'data-test-id': 'ContextualNavigation',
+        'data-testid': 'ContextualNavigation',
       },
       globalNavigation: {
-        'data-test-id': 'GlobalNavigation',
+        'data-testid': 'GlobalNavigation',
       },
       navigation: {
-        'data-test-id': 'Navigation',
+        'data-testid': 'Navigation',
       },
     },
     topOffset: 0,

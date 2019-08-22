@@ -1,6 +1,8 @@
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
+
 export type Sizes = 'regular' | 'large';
 
-export interface BaseProps {
+export interface BaseProps extends WithAnalyticsEventsProps {
   /** Whether the toggle is disabled or not. This will prevent any interaction with the user */
   isDisabled?: boolean;
   /** Label to be set for accessibility */

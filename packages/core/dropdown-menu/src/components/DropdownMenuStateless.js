@@ -78,7 +78,8 @@ class DropdownMenuStateless extends Component<
     if (this.isUsingDeprecatedAPI()) {
       if (
         process.env.NODE_ENV !== 'test' &&
-        process.env.NODE_ENV !== 'production'
+        process.env.NODE_ENV !== 'production' &&
+        !process.env.CI
       ) {
         // eslint-disable-next-line no-console
         console.log(

@@ -3,7 +3,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import RadioIcon from '@atlaskit/icon/glyph/radio';
-import { colors } from '@atlaskit/theme';
+import { B400, N40 } from '@atlaskit/theme/colors';
 import Item from '@atlaskit/item';
 
 import { KEY_ENTER, KEY_SPACE } from '../../../util/keys';
@@ -13,13 +13,10 @@ import DropdownMenu, {
   DropdownMenuStateless,
 } from '../../..';
 
-test('Skipped tests', () => {});
-
-/* TODO: create integration tests to replace these See https://ecosystem.atlassian.net/browse/AK-5183
-describe('dropdown menu - DropdownItemRadio', () => {
+/* TODO: create integration tests to replace these See https://ecosystem.atlassian.net/browse/AK-5183 */
+describe.skip('dropdown menu - DropdownItemRadio', () => {
   const isIconSelected = icon =>
-    icon.prop('primaryColor') === colors.B400 &&
-    icon.prop('secondaryColor') === colors.N40;
+    icon.prop('primaryColor') === B400 && icon.prop('secondaryColor') === N40;
 
   describe('common use cases', () => {
     let wrapper;
@@ -30,7 +27,7 @@ describe('dropdown menu - DropdownItemRadio', () => {
         .first()
         .simulate('click');
     };
-    
+
     beforeEach(() => {
       wrapper = mount(
         <DropdownMenuStateless isOpen>
@@ -228,4 +225,3 @@ describe('dropdown menu - DropdownItemRadio', () => {
     });
   });
 });
-*/

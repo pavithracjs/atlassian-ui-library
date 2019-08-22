@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import memoizeOne from 'memoize-one';
 import Portal from '@atlaskit/portal';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 
 import { Fade } from './Animation';
 import Blanket from '../styled/Blanket';
@@ -63,7 +63,7 @@ export default class SpotlightManager extends PureComponent<
   };
 
   componentDidMount() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
       if (this.props.component) {
         // eslint-disable-next-line no-console
         console.warn(

@@ -6,7 +6,7 @@
  */
 // Norwegian Bokmål
 export default {
-  'fabric.mention.unknow.user.error': 'Ukjent bruker {id}',
+  'fabric.mention.unknow.user.error': 'Ukjent bruker {userId}',
   'fabric.mention.noAccess.warning':
     '{name} blir ikke varslet, da de ikke har tilgang',
   'fabric.mention.noAccess.label': 'Ingen tilgang',
@@ -21,4 +21,10 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50 medlemmer eller mer',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50 medlemmer eller mer, medregnet deg',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Nevn laget ditt',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Få alle på siden med ett trykk. Inget lag?',
+  'fabric.elements.mentions.team.mention.highlight.description.link': 'Lag et.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Avvis',
 };

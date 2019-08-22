@@ -101,6 +101,9 @@ export default {
   'fabric.editor.decision': 'Ákvörðun',
   'fabric.editor.decision.description':
     'Fangaðu ákvarðanir svo auðvelt sé að fylgjast með þeim',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Divider',
   'fabric.editor.horizontalRule.description':
     'Aðskildu innihald með láréttri stiku',

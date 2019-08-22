@@ -1,5 +1,10 @@
 # @nachos/textfield
 
+## 0.1.3
+
+- Updated dependencies [84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+  - @atlaskit/textfield@3.0.0
+
 ## 0.1.2
 
 ### Patch Changes

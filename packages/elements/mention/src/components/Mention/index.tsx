@@ -7,9 +7,9 @@ import { fireAnalyticsMentionEvent } from '../../util/analytics';
 
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
-  CreateUIAnalyticsEventSignature,
-  UIAnalyticsEventInterface,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import { messages } from '../i18n';
 
@@ -27,7 +27,7 @@ export type OwnProps = {
   onHover?: () => void;
 };
 
-export type Props = OwnProps & WithAnalyticsEventProps;
+export type Props = OwnProps & WithAnalyticsEventsProps;
 
 export class MentionInternal extends React.PureComponent<Props, {}> {
   private hoverTimeout?: number;
@@ -129,11 +129,11 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
   }
 }
 
-const MentionWithAnalytics = withAnalyticsEvents<OwnProps>({
+const MentionWithAnalytics = withAnalyticsEvents({
   onClick: (
-    createEvent: CreateUIAnalyticsEventSignature,
+    createEvent: CreateUIAnalyticsEvent,
     props: Props,
-  ): UIAnalyticsEventInterface => {
+  ): UIAnalyticsEvent => {
     const { id, text, accessLevel } = props;
 
     const event = fireAnalyticsMentionEvent(createEvent)(
@@ -147,9 +147,9 @@ const MentionWithAnalytics = withAnalyticsEvents<OwnProps>({
   },
 
   onHover: (
-    createEvent: CreateUIAnalyticsEventSignature,
+    createEvent: CreateUIAnalyticsEvent,
     props: Props,
-  ): UIAnalyticsEventInterface => {
+  ): UIAnalyticsEvent => {
     const { id, text, accessLevel } = props;
 
     const event = fireAnalyticsMentionEvent(createEvent)(
@@ -161,7 +161,7 @@ const MentionWithAnalytics = withAnalyticsEvents<OwnProps>({
     );
     return event;
   },
-})(MentionInternal) as React.ComponentClass<OwnProps>;
+})(MentionInternal);
 
 const Mention = MentionWithAnalytics;
 type Mention = MentionInternal;

@@ -35,7 +35,6 @@ import {
 import showPopup from './showPopup';
 import hidePopup from './hidePopup';
 import startApp from './startApp';
-import setUpfrontIdDeferred from './setUpfrontIdDeferred';
 import saveCollectionItemsSubscription from './saveCollectionItemsSubscription';
 import removeFileFromRecents from './removeFileFromRecents';
 
@@ -74,7 +73,6 @@ const reducers = combineReducers([
   showPopup,
   hidePopup,
   startApp,
-  setUpfrontIdDeferred,
   saveCollectionItemsSubscription,
 ]);
 

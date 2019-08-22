@@ -10,10 +10,12 @@ import {
 
 import { JiraItem, JiraItemV1, JiraItemV2, JiraItemAttributes } from './types';
 
-export const mapJiraItemToResult = (item: JiraItem): JiraResult =>
+export const mapJiraItemToResult = (analyticsType: AnalyticsType) => (
+  item: JiraItem,
+): JiraResult =>
   (<JiraItemV2>item).attributes && (<JiraItemV2>item).attributes['@type']
-    ? mapJiraItemToResultV2(item as JiraItemV2)
-    : mapJiraItemToResultV1(item as JiraItemV1);
+    ? mapJiraItemToResultV2(item as JiraItemV2, analyticsType)
+    : mapJiraItemToResultV1(item as JiraItemV1, analyticsType);
 
 const extractSpecificAttributes = (
   attributes: JiraItemAttributes,
@@ -27,7 +29,8 @@ const extractSpecificAttributes = (
       };
     case 'board':
       return {
-        containerName: attributes.container && attributes.container.title,
+        containerName: attributes.containerName,
+        containerId: attributes.containerId,
       };
     case 'filter':
       return {
@@ -59,7 +62,10 @@ const JIRA_TYPE_TO_CONTENT_TYPE = {
   project: ContentType.JiraProject,
 };
 
-const mapJiraItemToResultV2 = (item: JiraItemV2): JiraResult => {
+const mapJiraItemToResultV2 = (
+  item: JiraItemV2,
+  analyticsType: AnalyticsType,
+): JiraResult => {
   const { id, name, url, attributes } = item;
   const contentType = JIRA_TYPE_TO_CONTENT_TYPE[attributes['@type']];
 
@@ -75,14 +81,18 @@ const mapJiraItemToResultV2 = (item: JiraItemV2): JiraResult => {
     href: url,
     resultType: resultType,
     containerId: attributes.container && attributes.container.id,
-    analyticsType: AnalyticsType.ResultJira,
+    analyticsType,
     ...extractSpecificAttributes(attributes),
     avatarUrl: attributes.avatar && extractAvatarUrl(attributes.avatar),
     contentType,
+    isRecentResult: mapAnalyticsTypeToRecentResult(analyticsType),
   };
 };
 
-const mapJiraItemToResultV1 = (item: JiraItemV1): JiraResult => {
+const mapJiraItemToResultV1 = (
+  item: JiraItemV1,
+  analyticsType: AnalyticsType,
+): JiraResult => {
   return {
     resultId: item.key,
     avatarUrl: item.fields.issuetype.iconUrl,
@@ -90,8 +100,15 @@ const mapJiraItemToResultV1 = (item: JiraItemV1): JiraResult => {
     href: `/browse/${item.key}`,
     containerName: item.fields.project.name,
     objectKey: item.key,
-    analyticsType: AnalyticsType.ResultJira,
+    analyticsType,
     resultType: ResultType.JiraObjectResult,
     contentType: ContentType.JiraIssue,
+    isRecentResult: mapAnalyticsTypeToRecentResult(analyticsType),
   };
+};
+
+const mapAnalyticsTypeToRecentResult = (
+  analyticsType: AnalyticsType,
+): boolean => {
+  return analyticsType.startsWith('recent');
 };

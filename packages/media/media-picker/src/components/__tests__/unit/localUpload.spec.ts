@@ -1,5 +1,5 @@
 import { LocalUploadComponent } from '../../localUpload';
-import { NewUploadServiceImpl } from '../../../service/newUploadServiceImpl';
+import { UploadServiceImpl } from '../../../service/uploadServiceImpl';
 import { MediaFile } from '../../../domain/file';
 import { SCALE_FACTOR_DEFAULT } from '../../../util/getPreviewFromImage';
 import { fakeMediaClient } from '@atlaskit/media-test-helpers';
@@ -11,7 +11,6 @@ describe('MediaLocalUpload', () => {
     size: 12345,
     creationDate: Date.now(),
     type: 'image/jpg',
-    upfrontId: Promise.resolve('some-public-id'),
   };
   const setup = (options: { shouldCopyFileToRecents?: boolean } = {}) => {
     const mediaClient = fakeMediaClient();
@@ -22,7 +21,7 @@ describe('MediaLocalUpload', () => {
       shouldCopyFileToRecents: options.shouldCopyFileToRecents,
     };
     const localUpload = new LocalUploadComponent(mediaClient, config);
-    const uploadService = localUpload['uploadService'] as NewUploadServiceImpl;
+    const uploadService = localUpload['uploadService'] as UploadServiceImpl;
     const emitUploadServiceEvent = uploadService['emit'];
     const emitter = localUpload['emitter'];
 
@@ -38,7 +37,7 @@ describe('MediaLocalUpload', () => {
   const extractShouldCopyFileToRecents = (
     localUpload: LocalUploadComponent,
   ) => {
-    const uploadService: NewUploadServiceImpl = localUpload[
+    const uploadService: UploadServiceImpl = localUpload[
       'uploadService'
     ] as any;
     return uploadService['shouldCopyFileToRecents'];
@@ -87,13 +86,11 @@ describe('MediaLocalUpload', () => {
 
     emitUploadServiceEvent('file-converted', {
       file: imageFile,
-      public: { id: 'some-id' },
     });
 
     expect(emitter.emit).toHaveBeenCalledTimes(1);
     expect(emitter.emit).toBeCalledWith('upload-end', {
       file: { ...imageFile },
-      public: { id: 'some-id' },
     });
   });
 

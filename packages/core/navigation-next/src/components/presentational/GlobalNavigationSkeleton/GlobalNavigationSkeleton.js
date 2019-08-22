@@ -39,7 +39,7 @@ const GlobalNavigationSkeleton = (props: GlobalNavigationSkeletonBaseProps) => {
 
 GlobalNavigationSkeleton.defaultProps = {
   dataset: {
-    'data-test-id': 'GlobalNavigationSkeleton',
+    'data-testid': 'GlobalNavigationSkeleton',
   },
 };
 

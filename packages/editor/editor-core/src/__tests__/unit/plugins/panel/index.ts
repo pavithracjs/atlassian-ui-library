@@ -17,7 +17,7 @@ import {
   li,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   removePanel,
   changePanelType,
@@ -27,7 +27,7 @@ describe('@atlaskit/editor-core ui/PanelPlugin', () => {
   const createEditor = createEditorFactory<PanelState>();
 
   const event = createEvent('event');
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));

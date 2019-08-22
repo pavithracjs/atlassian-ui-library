@@ -1,7 +1,6 @@
 {
   "name": "@atlaskit/measure",
-  "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Tool for measuring bundle size of an individual package in Atlaskit",
   "main": "./cli.js",
   "bin": {
@@ -14,13 +13,13 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@atlaskit/webpack-config": "^2.0.5",
-    "axios":"^0.18.0",
-    "bolt": "^0.23.1",
+    "axios": "^0.18.0",
+    "bolt": "^0.23.6",
     "chalk": "^2.1.0",
     "gzip-size": "^5.0.0",
     "meow": "^5.0.0",
     "minimatch": "^3.0.4",
-    "npm-run":"^4.1.2",
+    "npm-run": "^4.1.2",
     "ora": "^3.0.0",
     "pretty-bytes": "^5.1.0",
     "webpack": "^4.16.1"

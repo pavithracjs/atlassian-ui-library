@@ -1,5 +1,50 @@
 # @atlaskit/media-client
 
+## 2.0.1
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 2.0.0
+
+### Major Changes
+
+- [major][ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+
+  Remove getCurrentState method from FileStreamCache
+
+  Before you could do:
+
+  ```
+  import {getFileStreamsCache} from '@atlaskit/media-client'
+
+  const currentFileState = await getFileStreamsCache().getCurrentState('some-uuid');
+  ```
+
+  That will return the last state from that fileState in a promise rather than having to
+  use Observables to subscribe and get the last event.
+
+  Now you could just use the already existing method getCurrentState from mediaClient:
+
+  ```
+  import {getMediaClient} from '@atlaskit/media-client';
+
+  const mediaClient = getMediaClient({
+    mediaClientConfig: {} // Some MediaClientConfig
+  });
+  const state = await mediaClient.file.getCurrentState('some-uuid');
+  ```
+
+## 1.5.3
+
+### Patch Changes
+
+- [patch][13eed9b89c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13eed9b89c):
+
+  populate media cache when using FileFetcher:copyFile
+
 ## 1.5.2
 
 ### Patch Changes

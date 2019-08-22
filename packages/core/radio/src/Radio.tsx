@@ -139,12 +139,12 @@ class Radio extends Component<RadioProps, State> {
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 export { Radio as RadioWithoutAnalytics };
 
-export default withAnalyticsContext<RadioProps>({
+export default withAnalyticsContext({
   componentName: 'radio',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<RadioProps>({
+  withAnalyticsEvents({
     onChange: createAndFireEventOnAtlaskit({
       action: 'changed',
       actionSubject: 'radio',

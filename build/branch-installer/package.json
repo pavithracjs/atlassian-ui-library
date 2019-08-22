@@ -1,11 +1,8 @@
 {
   "name": "@atlaskit/branch-installer",
-  "version": "0.0.8",
-  "description": "Installs the Atlaskit dependency versions from the given branch.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "version": "0.1.1",
+  "description": "Installs the Atlaskit dependency versions from the given commit.",
+  "main": "src/index.js",
   "bin": {
     "atlaskit-branch-installer": "index.js"
   },
@@ -28,6 +25,7 @@
     "chalk": "^2.1.0",
     "meow": "^5.0.0",
     "node-fetch": "^2.2.0",
+    "p-wait-for": "^3.1.0",
     "prettyjson": "^1.2.1",
     "spawndamnit": "^1.0.0"
   }

@@ -49,6 +49,7 @@ describe('Lists', () => {
 
   afterEach(async () => {
     await animationFrame(page);
+    await snapshot(page);
   });
 
   it('should render card toolbar on click when its nested inside lists', async () => {

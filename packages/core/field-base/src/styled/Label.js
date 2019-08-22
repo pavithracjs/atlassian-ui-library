@@ -1,6 +1,8 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { colors, themed, gridSize } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N200, DN90, N60, DN300, red } from '@atlaskit/theme/colors';
 
 const spacing = gridSize();
 const fontSize = 12;
@@ -31,8 +33,8 @@ export const LabelWrapper = styled.label`
   display: block;
 `;
 
-const getColor = themed({ light: colors.N200, dark: colors.DN90 });
-const getDisabledColor = themed({ light: colors.N60, dark: colors.DN300 });
+const getColor = themed({ light: N200, dark: DN90 });
+const getDisabledColor = themed({ light: N60, dark: DN300 });
 
 export const LabelInner = styled.div`
   color: ${props =>
@@ -46,6 +48,6 @@ export const LabelInner = styled.div`
 `;
 
 export const RequiredIndicator = styled.span`
-  color: ${colors.red};
+  color: ${red};
   padding-left: 2px;
 `;

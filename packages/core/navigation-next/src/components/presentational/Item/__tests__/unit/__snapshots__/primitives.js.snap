@@ -30,7 +30,7 @@ exports[`ItemPrimitiveBase should allow applying custom styles 1`] = `
   before={[Function]}
   dataset={
     Object {
-      "data-test-id": "NavigationItem",
+      "data-testid": "NavigationItem",
     }
   }
   isActive={false}
@@ -77,13 +77,13 @@ exports[`ItemPrimitiveBase should allow applying custom styles 1`] = `
     className="emotion-5"
     dataset={
       Object {
-        "data-test-id": "NavigationItem",
+        "data-testid": "NavigationItem",
       }
     }
   >
     <div
       className="emotion-5"
-      data-test-id="NavigationItem"
+      data-testid="NavigationItem"
     >
       <div
         className="emotion-0"

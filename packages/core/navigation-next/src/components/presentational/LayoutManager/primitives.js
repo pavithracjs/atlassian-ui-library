@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type ElementRef } from 'react';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 
 export const LayoutContainer = ({ topOffset = 0, ...props }: *) => {
   return (
@@ -10,7 +10,7 @@ export const LayoutContainer = ({ topOffset = 0, ...props }: *) => {
         display: 'flex',
         flexDirection: 'row',
         height: `calc(100vh - ${topOffset}px)`,
-        overflow: 'auto',
+        marginTop: `${topOffset}px`,
       }}
       {...props}
     />

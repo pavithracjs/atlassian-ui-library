@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 
-interface CommonProps {
+interface CommonProps extends WithAnalyticsEventsProps {
   /** Label above the input. */
   label?: string;
   /** Validation function handled by final-form. */

@@ -1,5 +1,27 @@
 # @atlaskit/website
 
+## 5.1.18
+
+- Updated dependencies [cc461c0022](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc461c0022):
+  - @atlaskit/tag-group@9.0.0
+
+## 5.1.17
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-filmstrip@34.3.2
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 5.1.16
+
+### Patch Changes
+
+- [patch][a73580e138](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a73580e138):
+
+  BUILDTOOLS-260/BUILDTOOLS-261: Replace data-test-id by data-testid to be consistent with react-testing-library.
+  **Products**, you may require to update your integration and end to end tests if they are based on `data-test-id` please replace by `data-testid`.
+
 ## 5.1.15
 
 ### Patch Changes

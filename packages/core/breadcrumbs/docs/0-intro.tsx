@@ -41,14 +41,14 @@ export default md`
 
   ${(
     <Props
-      heading="Breadcumbs Props"
+      heading="Breadcrumbs Props"
       props={require('!!extract-react-types-loader!../src/components/Breadcrumbs')}
     />
   )}
 
   ${(
     <Props
-      heading="BreadcumbsStateless Props"
+      heading="BreadcrumbsStateless Props"
       props={require('!!extract-react-types-loader!../src/components/BreadcrumbsStateless')}
     />
   )}

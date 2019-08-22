@@ -7,6 +7,8 @@ import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import Drawer from '@atlaskit/drawer';
 import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
+import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left';
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
@@ -209,6 +211,36 @@ describe('GlobalNavigation', () => {
           const wrapper = shallow(<GlobalNavigation {...props} />);
           expect(wrapper.find(Drawer).props()).toMatchObject({
             onCloseComplete,
+          });
+        });
+
+        describe('BackIcon', () => {
+          it(`should render correct backIcon`, () => {
+            // Testing XDrawerContents positive
+            const props = {
+              drawerBackIcon: CrossIcon,
+              [`${name}DrawerContents`]: DrawerContents,
+            };
+            const wrapper = mount(<GlobalNavigation {...props} />);
+            expect(wrapper.find(CrossIcon).exists()).toBeFalsy();
+
+            const icon = wrapper.find(akIcon);
+            icon.simulate('click');
+
+            expect(wrapper.find(CrossIcon).exists()).toBeTruthy();
+          });
+          it(`should render correct default backIcon`, () => {
+            // Testing XDrawerContents positive
+            const props = {
+              [`${name}DrawerContents`]: DrawerContents,
+            };
+            const wrapper = mount(<GlobalNavigation {...props} />);
+            expect(wrapper.find(ArrowLeftIcon).exists()).toBeFalsy();
+
+            const icon = wrapper.find(akIcon);
+            icon.simulate('click');
+
+            expect(wrapper.find(ArrowLeftIcon).exists()).toBeTruthy();
           });
         });
 
@@ -420,14 +452,15 @@ describe('GlobalNavigation', () => {
 
     navItems.forEach(({ icon, name }) => {
       it(`should render a custom tooltip for "${name}" item`, () => {
+        const customTooltip = `${name} tooltip`;
         expect(
           customTooltipWrapper
             .find(icon)
             .parents('Tooltip')
             .prop('content'),
-        ).toBe(`${name} tooltip`);
+        ).toBe(`${customTooltip}`);
         expect(customTooltipWrapper.find(icon).prop('label')).toBe(
-          `${name} tooltip`,
+          `${customTooltip}`,
         );
       });
     });
@@ -993,19 +1026,28 @@ describe('GlobalNavigation', () => {
   });
 
   describe('Help', () => {
-    xit('should render help menu when "helpItems" is passed', () => {
+    it('should render help menu when "helpItems" is passed', () => {
       const HelpItems = () => <div />;
       HelpItems.displayName = 'HelpItems';
       const wrapper = mount(<GlobalNavigation helpItems={HelpItems} />);
 
       expect(wrapper.find('[id="help"]').exists()).toBeTruthy();
-      expect(wrapper.children().exists(HelpItems)).toBeTruthy();
       expect(wrapper.children().exists('DropdownItem')).toBeTruthy();
     });
 
     it('should not render help menu when "helpItems" is not passed', () => {
-      const wrapper = mount(<GlobalNavigation helpTooltip="help tooltip" />);
+      const wrapper = shallow(<GlobalNavigation helpTooltip="help tooltip" />);
       expect(wrapper.find('[id="help"]').exists()).toBeFalsy();
+    });
+
+    it('should render helpBadge when passed in', () => {
+      const HelpBadge = () => <div />;
+      const HelpItems = () => <div />;
+      const wrapper = mount(
+        <GlobalNavigation helpItems={HelpItems} helpBadge={HelpBadge} />,
+      );
+
+      expect(wrapper.find(HelpBadge).exists()).toBeTruthy();
     });
   });
 

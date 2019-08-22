@@ -1,5 +1,5 @@
-import { Auth, AuthProvider } from '@atlaskit/media-core';
-import { ResponseFileItem } from '../..';
+import { Auth, AuthProvider, getFileStreamsCache } from '@atlaskit/media-core';
+import { ResponseFileItem, MediaFile } from '../..';
 import * as MediaClientModule from '../..';
 import uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../client/file-fetcher';
@@ -7,6 +7,7 @@ import {
   expectFunctionToHaveBeenCalledWith,
   asMock,
 } from '@atlaskit/media-test-helpers';
+import { observableToPromise } from '../../utils/observableToPromise';
 
 describe('FileFetcher', () => {
   const fileId = 'some-file-id';
@@ -56,6 +57,7 @@ describe('FileFetcher', () => {
   };
 
   afterEach(() => {
+    getFileStreamsCache().removeAll();
     jest.restoreAllMocks();
   });
 
@@ -217,6 +219,55 @@ describe('FileFetcher', () => {
       ]);
       expect(MediaStoreSpy).toHaveBeenCalledWith({
         authProvider: destination.authProvider,
+      });
+    });
+
+    it('should populate cache with the copied file', async () => {
+      const MediaStoreSpy = jest.spyOn(MediaClientModule, 'MediaStore');
+      const copiedFile: MediaFile = {
+        id: 'copied-file-id',
+        name: 'copied-file-name',
+        artifacts: {},
+        mediaType: 'audio',
+        mimeType: '',
+        representations: {},
+        size: 1,
+      };
+      const { items, fileFetcher } = setup();
+      const copyFileWithTokenMock = jest
+        .fn()
+        .mockResolvedValue({ data: copiedFile });
+      MediaStoreSpy.mockImplementation(
+        () =>
+          ({
+            copyFileWithToken: copyFileWithTokenMock,
+          } as any),
+      );
+
+      const owner: Auth = {
+        asapIssuer: 'asapIssuer',
+        token: 'sometoken',
+        baseUrl: 'somebaseurl',
+      };
+      const authProvider: AuthProvider = () => Promise.resolve(owner);
+      const userAuthProvider = jest.fn();
+
+      const source = {
+        id: items[0].id,
+        collection: 'someCollectionName',
+        authProvider,
+      };
+      const destination = {
+        collection: 'recents',
+        authProvider: userAuthProvider,
+      };
+      await fileFetcher.copyFile(source, destination);
+      const copiedFileObservable = getFileStreamsCache().get('copied-file-id');
+      const copiedFileState = await observableToPromise(copiedFileObservable!);
+
+      expect(copiedFileState).toEqual({
+        ...copiedFile,
+        status: 'processing',
       });
     });
   });

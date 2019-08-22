@@ -4,6 +4,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
+import * as PropTypes from 'prop-types';
 import Button from '@atlaskit/button';
 import {
   defaultMediaPickerCollectionName,
@@ -26,22 +27,31 @@ import {
 const mediaClientConfig = createUploadMediaClientConfig();
 
 export interface PopupWrapperState {
-  files: Promise<string>[];
-  uploadingFiles: Promise<string>[];
+  fileIds: string[];
+  uploadingFileIds: string[];
   popup?: Popup;
 }
 
 class PopupWrapper extends Component<{}, PopupWrapperState> {
   state: PopupWrapperState = {
-    files: [],
-    uploadingFiles: [],
+    fileIds: [],
+    uploadingFileIds: [],
+  };
+
+  static contextTypes = {
+    // Required context in order to integrate analytics in media picker
+    getAtlaskitAnalyticsEventHandlers: PropTypes.func,
   };
 
   async componentDidMount() {
     const popup = await MediaPicker(mediaClientConfig, {
+      container: document.body,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
+      // Media picker requires `proxyReactContext` to enable analytics
+      // otherwise, analytics Gasv3 integrations won't work
+      proxyReactContext: this.context,
     });
 
     popup.on(
@@ -68,25 +78,25 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   }
 
   onUploadsStart = (data: UploadsStartEventPayload) => {
-    const { files } = this.state;
+    const { fileIds } = this.state;
     const { files: newFiles } = data;
-    const ids = newFiles.map(file => file.upfrontId);
+    const ids = newFiles.map(file => file.id);
 
     this.setState({
-      uploadingFiles: ids,
-      files: [...files, ...ids],
+      uploadingFileIds: ids,
+      fileIds: [...fileIds, ...ids],
     });
   };
 
   onUploadEnd = (data: UploadEndEventPayload) => {
-    const { uploadingFiles } = this.state;
+    const { uploadingFileIds } = this.state;
     const { file } = data;
-    const index = uploadingFiles.indexOf(file.upfrontId);
+    const index = uploadingFileIds.indexOf(file.id);
 
     if (index > -1) {
-      uploadingFiles.splice(index, 1);
+      uploadingFileIds.splice(index, 1);
 
-      this.setState({ uploadingFiles });
+      this.setState({ uploadingFileIds });
     }
   };
 
@@ -97,11 +107,9 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   renderCards = () => {
-    const { files } = this.state;
-    const cards = files.map((upfrontId, key) => {
-      upfrontId.then(id => {
-        console.log(`<Card id="${id}" />`);
-      });
+    const { fileIds } = this.state;
+    const cards = fileIds.map((id, key) => {
+      console.log(`<Card id="${id}" />`);
 
       return (
         <CardItemWrapper key={key}>
@@ -109,7 +117,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
             mediaClientConfig={mediaClientConfig}
             isLazy={false}
             identifier={{
-              id: upfrontId,
+              id,
               mediaItemType: 'file',
             }}
           />
@@ -121,8 +129,8 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   render() {
-    const { uploadingFiles } = this.state;
-    const length = uploadingFiles.length;
+    const { uploadingFileIds } = this.state;
+    const length = uploadingFileIds.length;
     const isUploadFinished = !length;
 
     return (

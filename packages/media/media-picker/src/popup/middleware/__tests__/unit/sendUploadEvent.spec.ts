@@ -14,16 +14,12 @@ let consoleError = console.error;
 
 describe('sendUploadEvent middleware', () => {
   const uploadId = 'some-upload-id';
-  const upfrontId = Promise.resolve('1');
-  const userUpfrontId = Promise.resolve('');
   const file: MediaFile = {
     id: 'some-file-id',
     name: 'some-file-name',
     size: 12345,
     creationDate: Date.now(),
     type: 'image/jpg',
-    upfrontId,
-    userUpfrontId,
   };
   const setup = () => ({
     eventEmitter: mockPopupUploadEventEmitter(),
@@ -139,9 +135,6 @@ describe('sendUploadEvent middleware', () => {
 
   it('should emit upload end event', () => {
     const { eventEmitter, store, next } = setup();
-    const mediaApiData = {
-      id: file.id,
-    };
 
     sendUploadEventMiddleware(eventEmitter)(store)(next)(
       sendUploadEvent({
@@ -149,20 +142,16 @@ describe('sendUploadEvent middleware', () => {
           name: 'upload-end',
           data: {
             file,
-            public: mediaApiData,
           },
         },
         uploadId,
       }),
     );
 
-    expect(eventEmitter.emitUploadEnd).toBeCalledWith(
-      {
-        ...file,
-        id: uploadId,
-      },
-      mediaApiData,
-    );
+    expect(eventEmitter.emitUploadEnd).toBeCalledWith({
+      ...file,
+      id: uploadId,
+    });
   });
 
   it('should emit upload error event', () => {

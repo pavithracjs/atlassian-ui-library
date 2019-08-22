@@ -28,4 +28,10 @@ declare module '@atlaskit/theme/components' {
   export const createTheme: <ThemeTokens, ThemeProps>(
     theme: (props: ThemeProps) => ThemeTokens,
   ) => Theme<ThemeTokens, ThemeProps>;
+
+  export const themed: any;
+
+  export class AtlaskitThemeProvider<ThemeProps> extends React.Component<
+    ThemeProps
+  > {}
 }
