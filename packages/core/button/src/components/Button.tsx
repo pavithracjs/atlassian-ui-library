@@ -38,7 +38,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     type: 'button',
   };
 
-  // ref can be a range of things because we render button, a, span or other React components
+  // ref can be a range of things because we render button, a, span or other React components.
   button = React.createRef<HTMLElement>();
 
   // Makes sure we don't call ref every render.

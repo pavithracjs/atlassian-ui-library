@@ -48,7 +48,7 @@ export interface ContextConfig {
 }
 
 export interface MediaClientConfig extends ContextConfig {
-  // TODO remove cacheSize
+  // TODO remove cacheSize.
 }
 
 export interface AuthContext {

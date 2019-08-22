@@ -39,7 +39,7 @@ const linkify = (state: any) => {
     let htmlLinkLevel = 0;
 
     // We scan from the end, to keep position when new tags added.
-    // Use reversed logic in links start/end match
+    // Use reversed logic in links start/end match.
     for (let i = tokens.length - 1; i >= 0; i--) {
       const currentToken = tokens[i];
 
