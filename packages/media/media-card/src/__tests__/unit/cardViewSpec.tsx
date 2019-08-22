@@ -11,10 +11,7 @@ import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import { FileDetails } from '@atlaskit/media-client';
 
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   mountWithIntlContext,
   expectToEqual,
@@ -285,7 +282,7 @@ describe('CardView', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEventInterface> =
+    const actualEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualEvent.payload).toEqual({ action: 'clicked' });
     expect(actualEvent.context && actualEvent.context.length).toEqual(1);
@@ -328,7 +325,7 @@ describe('CardView', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEventInterface> =
+    const actualEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualEvent.payload).toEqual({ action: 'clicked' });
     expect(actualEvent.context && actualEvent.context.length).toEqual(1);
@@ -368,10 +365,9 @@ describe('CardView', () => {
 
     expect(clickHandler).toHaveBeenCalledTimes(1);
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualFiredEvent: Partial<UIAnalyticsEventInterface> =
+    const actualFiredEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
-    const actualReturnedEvent: UIAnalyticsEventInterface =
-      clickHandler.mock.calls[0][1];
+    const actualReturnedEvent: UIAnalyticsEvent = clickHandler.mock.calls[0][1];
     expect(actualFiredEvent.hasFired).toEqual(true);
     expect(actualReturnedEvent.hasFired).toEqual(false);
     expect(actualReturnedEvent.payload.action).toEqual('clicked');

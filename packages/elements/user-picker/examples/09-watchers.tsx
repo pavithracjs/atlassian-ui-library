@@ -5,7 +5,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { ExampleWrapper } from '../example-helpers/ExampleWrapper';
 import { OptionData, Value } from '../src';
-import { UserPicker } from '../src/components/UserPicker';
+import UserPicker from '../src';
 import { isTeam, isUser } from '../src/components/utils';
 
 type State = {

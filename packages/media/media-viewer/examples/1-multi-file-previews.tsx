@@ -24,17 +24,14 @@ import {
 import { MediaViewer } from '../src';
 import { videoFileId } from '@atlaskit/media-test-helpers';
 import { MediaViewerDataSource } from '..';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
 import { Identifier, FileIdentifier, MediaStore } from '@atlaskit/media-client';
 import { Card } from '@atlaskit/media-card';
 
 const mediaClient = createStorybookMediaClient();
 
-const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
+const handleEvent = (analyticsEvent: UIAnalyticsEvent) => {
   const { payload } = analyticsEvent;
   console.log('EVENT:', payload);
 };

@@ -28,13 +28,13 @@ import {
 } from '../../../../plugins/lists/commands';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 import { EditorView } from 'prosemirror-view';
 
 describe('lists', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let analyticsHandler: AnalyticsHandler;
 
   const editor = (doc: any, trackEvent?: () => {}) => {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 const ErrorIconContainer = styled.div`
   line-height: 100%;

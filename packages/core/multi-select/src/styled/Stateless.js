@@ -1,6 +1,7 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { colors, gridSize, fontSize } from '@atlaskit/theme';
+import { gridSize, fontSize } from '@atlaskit/theme/constants';
+import { placeholderText } from '@atlaskit/theme/colors';
 
 const lineHeightDefault = (gridSize() * 2) / fontSize();
 
@@ -27,7 +28,7 @@ const getPlaceholderStyle = style => css`
   }
 `;
 const getPlaceholderColor = css`
-  color: ${colors.placeholderText};
+  color: ${placeholderText};
 `;
 
 const Input = styled.input`

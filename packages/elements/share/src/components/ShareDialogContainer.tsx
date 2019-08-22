@@ -1,6 +1,6 @@
 import {
   AnalyticsEventPayload,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
@@ -152,7 +152,7 @@ function getCurrentPageUrl(): string {
  * to ShareDialogTrigger component
  */
 export class ShareDialogContainerInternal extends React.Component<
-  WithAnalyticsEventProps & Props,
+  WithAnalyticsEventsProps & Props,
   State
 > {
   private shareClient: ShareClient;
@@ -483,6 +483,6 @@ export class ShareDialogContainerInternal extends React.Component<
   }
 }
 
-export const ShareDialogContainer = withAnalyticsEvents<Props>()(
+export const ShareDialogContainer = withAnalyticsEvents()(
   ShareDialogContainerInternal,
 );

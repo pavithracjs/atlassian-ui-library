@@ -163,8 +163,8 @@ declare var require: {
 };
 
 export const standardServiceEmojis = require('../../json-data/test-emoji-standard.json') as any; // EmojiServiceResponse
-
 export const atlassianServiceEmojis = require('../../json-data/test-emoji-atlassian.json') as any; // EmojiServiceResponse
+
 export const siteServiceEmojis = () => ({
   emojis: [mediaServiceEmoji],
   meta: {

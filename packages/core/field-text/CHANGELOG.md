@@ -1,5 +1,27 @@
 # @atlaskit/field-text
 
+## 9.0.9
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 9.0.8
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 9.0.7
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/button@13.1.2
+
 ## 9.0.6
 
 ### Patch Changes

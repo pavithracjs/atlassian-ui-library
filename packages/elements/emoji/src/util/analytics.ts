@@ -1,7 +1,6 @@
 import {
   createAndFireEvent,
   AnalyticsEventPayload,
-  CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next';
 import { EmojiDescription } from '../types';
 import {
@@ -9,7 +8,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-export const createAndFireEventInElementsChannel: CreateAndFireEventFunction = createAndFireEvent(
+export const createAndFireEventInElementsChannel = createAndFireEvent(
   'fabric-elements',
 );
 

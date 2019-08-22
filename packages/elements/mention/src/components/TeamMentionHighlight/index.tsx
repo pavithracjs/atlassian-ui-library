@@ -1,8 +1,8 @@
 import React, { RefObject } from 'react';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
-  CreateUIAnalyticsEventSignature,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close';
@@ -35,7 +35,7 @@ export interface State {
   isHighlightHidden: boolean;
 }
 
-export type Props = OwnProps & WithAnalyticsEventProps;
+export type Props = OwnProps & WithAnalyticsEventsProps;
 
 const ICON_URL =
   'data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHdpZHRoPSIxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiBmaWxsPSIjNTI0M2FhIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHI9IjY0Ii8+PHBhdGggZD0ibTgwIDY0Yy02LjYyNzQxNyAwLTEyLTUuMzcyNTgzLTEyLTEyczUuMzcyNTgzLTEyIDEyLTEyIDEyIDUuMzcyNTgzIDEyIDEyLTUuMzcyNTgzIDEyLTEyIDEyem0tMzItMTJjLTYuNjI3NDE3IDAtMTItNS4zNzI1ODMtMTItMTJzNS4zNzI1ODMtMTIgMTItMTIgMTIgNS4zNzI1ODMgMTIgMTItNS4zNzI1ODMgMTItMTIgMTJ6bTEyIDI0YzAtNC40MiAzLjU0OC04IDgtOGgyNGM0LjQyIDAgOCAzLjU0IDggOHYxNC45MmMwIDEyLjEwOC00MCAxMi4xMDgtNDAgMHptOC0xMmgtLjAxMmMtMy4xODQzNTM3LjAwNDI0LTYuMjM2NTQxIDEuMjczNTYxNS04LjQ4NDg0MjcgMy41Mjg2MTQ5LTIuMjQ4MzAxOCAyLjI1NTA1MzQtMy41MDg0NjU2IDUuMzExMDMzLTMuNTAzMTU3MyA4LjQ5NTM4NTF2MTEuMjI4Yy0xMS43ODQgMi4xMzYtMjgtLjI1Mi0yOC03LjkzNnYtMTUuMzA0YzAtNC40MjQgMy41NDgtOC4wMTIgOC04LjAxMmgyNGMyLjEyMjcwODYtLjAwMzE5MTIgNC4xNTkzOTQ2LjgzODYzODYgNS42NjAzNzggMi4zMzk2MjJzMi4zNDI4MTMyIDMuNTM3NjY5NCAyLjMzOTYyMiA1LjY2MDM3OHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjk1Ii8+PC9nPjwvc3ZnPg==';
@@ -206,8 +206,8 @@ export class TeamMentionHighlightInternal extends React.Component<
   }
 }
 
-const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
-  onClose: (createEvent: CreateUIAnalyticsEventSignature) => {
+const TeamMentionHighlightWithAnalytics = withAnalyticsEvents({
+  onClose: (createEvent: CreateUIAnalyticsEvent) => {
     fireAnalyticsTeamMentionHighlightEvent(createEvent)(
       ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.CLOSED,
@@ -216,7 +216,7 @@ const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
     );
   },
 
-  onCreateTeamLinkClick: (createEvent: CreateUIAnalyticsEventSignature) => {
+  onCreateTeamLinkClick: (createEvent: CreateUIAnalyticsEvent) => {
     fireAnalyticsTeamMentionHighlightEvent(createEvent)(
       ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.CLICKED,
@@ -225,7 +225,7 @@ const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
     );
   },
 
-  onViewed: (createEvent: CreateUIAnalyticsEventSignature) => {
+  onViewed: (createEvent: CreateUIAnalyticsEvent) => {
     fireAnalyticsTeamMentionHighlightEvent(createEvent)(
       ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.VIEWED,
@@ -234,7 +234,7 @@ const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       TeamMentionHighlightController.getSeenCount(),
     );
   },
-})(TeamMentionHighlightInternal) as React.ComponentClass<OwnProps, State>;
+})(TeamMentionHighlightInternal);
 
 const TeamMentionHighlight = TeamMentionHighlightWithAnalytics;
 type TeamMentionHighlight = TeamMentionHighlightInternal;

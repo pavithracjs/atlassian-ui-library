@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+
+import { N40 } from '@atlaskit/theme/colors';
 import type { ModeColors } from '../../../theme/types';
 
 const gridSize = gridSizeFn();
@@ -36,11 +38,11 @@ export default ({ product }: ModeColors) => () => ({
     wrapper: baseStyles.wrapper,
     before: {
       ...baseStyles.before,
-      backgroundColor: colors.N40,
+      backgroundColor: N40,
     },
     content: {
       ...baseStyles.content,
-      backgroundColor: colors.N40,
+      backgroundColor: N40,
     },
   },
   product: {

@@ -23,7 +23,7 @@ import ErrorMessage, {
 import { ErrorViewDownloadButton } from './download';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   ViewerLoadPayload,
@@ -45,7 +45,7 @@ export type Props = Readonly<{
   onClose?: () => void;
   previewCount: number;
 }> &
-  WithAnalyticsEventProps &
+  WithAnalyticsEventsProps &
   WithShowControlMethodProp;
 
 export type State = {
@@ -284,4 +284,4 @@ export class ItemViewerBase extends React.Component<Props, State> {
   }
 }
 
-export const ItemViewer = withAnalyticsEvents<Props>()(ItemViewerBase);
+export const ItemViewer = withAnalyticsEvents()(ItemViewerBase);

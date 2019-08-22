@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+
+import { N30A, N20 } from '@atlaskit/theme/colors';
 
 import type { ModeColors } from '../../../theme/types';
 import type { SectionPresentationProps } from './types';
@@ -103,22 +105,22 @@ export default ({ product }: ModeColors) => (
         ...baseStyles.wrapper,
         '&::before': {
           ...baseStyles.wrapper['&::before'],
-          backgroundColor: colors.N30A,
+          backgroundColor: N30A,
         },
         '&::after': {
           ...baseStyles.wrapper['&::after'],
-          backgroundColor: colors.N30A,
+          backgroundColor: N30A,
         },
       },
       inner: {
         ...baseStyles.inner,
         '&::before': {
           ...baseStyles.inner['&::before'],
-          backgroundColor: colors.N20,
+          backgroundColor: N20,
         },
         '&::after': {
           ...baseStyles.inner['&::after'],
-          backgroundColor: colors.N20,
+          backgroundColor: N20,
         },
       },
     },

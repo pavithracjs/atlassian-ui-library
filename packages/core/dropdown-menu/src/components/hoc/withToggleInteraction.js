@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, type Node, type ComponentType } from 'react';
-import { colors } from '@atlaskit/theme';
+import { B400, N40 } from '@atlaskit/theme/colors';
 import PropTypes from 'prop-types';
 import getDisplayName from '../../util/getDisplayName';
 import safeContextCall from '../../util/safeContextCall';
@@ -57,9 +57,9 @@ const withToggleInteraction = (
 
     getIconColors = (isSelected: boolean = false) => {
       if (isSelected) {
-        return { primary: colors.B400, secondary: colors.N40 };
+        return { primary: B400, secondary: N40 };
       }
-      return { primary: colors.N40, secondary: colors.N40 };
+      return { primary: N40, secondary: N40 };
     };
 
     warnIfUseControlledAndUncontrolledState = () => {

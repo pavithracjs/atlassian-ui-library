@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { N0, DN600, N70, DN30 } from '@atlaskit/theme/colors';
 import { transition } from './constants';
 import { StyledProps } from '../types';
 
-const color = themed({ light: colors.N0, dark: colors.DN600 });
-const disabledColor = themed({ light: colors.N70, dark: colors.DN30 });
+const color = themed({ light: N0, dark: DN600 });
+const disabledColor = themed({ light: N70, dark: DN30 });
 
 const getFlexDirection = ({ isChecked }: StyledProps) =>
   isChecked ? 'row' : 'row-reverse';

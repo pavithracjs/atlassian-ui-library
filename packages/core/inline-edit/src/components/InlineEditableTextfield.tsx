@@ -1,7 +1,7 @@
 import React from 'react';
 import Textfield from '@atlaskit/textfield';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
-import { colors } from '@atlaskit/theme';
+import { R400 } from '@atlaskit/theme/colors';
 
 import InlineEdit from './InlineEdit';
 import ReadViewContainer from '../styled/ReadViewContainer';
@@ -28,7 +28,7 @@ class InlineEditableTextfield extends React.Component<
             elemAfterInput={
               fieldProps.isInvalid && (
                 <ErrorIconContainer>
-                  <ErrorIcon label="error" primaryColor={colors.R400} />
+                  <ErrorIcon label="error" primaryColor={R400} />
                 </ErrorIconContainer>
               )
             }

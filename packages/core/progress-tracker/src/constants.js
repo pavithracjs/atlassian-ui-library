@@ -1,6 +1,6 @@
 // @flow
 
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export const defaultGridSize = gridSize();
 

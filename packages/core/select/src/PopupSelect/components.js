@@ -3,7 +3,8 @@
 import { jsx } from '@emotion/core';
 import { components } from 'react-select';
 
-import { colors, layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
+import { N40A } from '@atlaskit/theme/colors';
 import SearchIcon from '@atlaskit/icon/glyph/editor/search';
 
 // ==============================
@@ -13,7 +14,7 @@ import SearchIcon from '@atlaskit/icon/glyph/editor/search';
 type MenuProps = { maxWidth: number, minWidth: number };
 
 export const MenuDialog = ({ maxWidth, minWidth, ...props }: MenuProps) => {
-  const shadow = colors.N40A;
+  const shadow = N40A;
   return (
     <div
       css={{

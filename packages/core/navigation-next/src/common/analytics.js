@@ -1,18 +1,15 @@
 // @flow
 
-import type { ComponentType } from 'react';
+import type { ComponentType, ElementConfig } from 'react';
 
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
-  type WithAnalyticsEventsProps,
-  type AnalyticsContextWrappedComp,
-  type AnalyticsEventsWrappedComp,
 } from '@atlaskit/analytics-next';
 import type { ViewLayer } from '../view-controller/types';
 
 type BaseItemClicked = {
-  action: 'clicked',
+  action: string,
   actionSubject: 'navigationItem',
   attributes: {
     componentName: string,
@@ -32,6 +29,15 @@ type ContainerItemClicked = {
     itemId: string,
   },
 };
+
+type AnalyticsContextWrappedComp<C> = ComponentType<{
+  analyticsContext?: {},
+  ...$Exact<ElementConfig<$Supertype<C>>>,
+}>;
+
+type AnalyticsEventsWrappedComp<C> = ComponentType<
+  $Diff<ElementConfig<$Supertype<C>>, { createAnalyticsEvent: any }>,
+>;
 
 export const navigationChannel = 'navigation';
 
@@ -80,6 +86,7 @@ export const navigationItemClicked = <P: {}, C: ComponentType<P>>(
 
         event.fire(navigationChannel);
 
+        // $FlowFixMe - analytics-next no longer supports flow
         return null;
       },
     })(Component),
@@ -87,10 +94,7 @@ export const navigationItemClicked = <P: {}, C: ComponentType<P>>(
 };
 
 export const navigationUILoaded = (
-  createAnalyticsEvent: $PropertyType<
-    WithAnalyticsEventsProps,
-    'createAnalyticsEvent',
-  >,
+  createAnalyticsEvent: Function,
   { layer }: { layer: ViewLayer },
 ) =>
   createAnalyticsEvent({
@@ -101,10 +105,7 @@ export const navigationUILoaded = (
   }).fire(navigationChannel);
 
 export const navigationExpandedCollapsed = (
-  createAnalyticsEvent: $PropertyType<
-    WithAnalyticsEventsProps,
-    'createAnalyticsEvent',
-  >,
+  createAnalyticsEvent: Function,
   { isCollapsed, trigger }: { isCollapsed: boolean, trigger: string },
 ) =>
   createAnalyticsEvent({

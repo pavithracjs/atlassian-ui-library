@@ -1,10 +1,12 @@
-import React from 'react';
-import { ThemeProp } from '@atlaskit/theme';
+import React, { AllHTMLAttributes } from 'react';
+import { ThemeProp } from '@atlaskit/theme/components';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 import { ThemeProps, ThemeTokens } from './theme';
 
 // External component
 export interface PublicProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends WithAnalyticsEventsProps,
+    AllHTMLAttributes<HTMLInputElement> {
   appearance?: 'standard' | 'none' | 'subtle';
   /** Applies compact styling, making the field smaller */
   isCompact?: boolean;
@@ -34,5 +36,5 @@ export interface InternalProps extends PublicProps {
   /** forwardedRef is not a public prop.
   It is being picked up due to an issue with `extract-react-types`
   */
-  forwardedRef: React.Ref<HTMLInputElement>;
+  forwardedRef?: React.Ref<HTMLInputElement>;
 }

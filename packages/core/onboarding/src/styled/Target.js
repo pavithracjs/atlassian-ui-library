@@ -1,11 +1,12 @@
 // @flow
 import styled, { css, keyframes } from 'styled-components';
-import { colors, layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
+import { P300 } from '@atlaskit/theme/colors';
 
 // NOTE:
 // Pulse color "rgb(101, 84, 192)" derived from "colors.P300"
 
-const baseShadow = `0 0 0 2px ${colors.P300}`;
+const baseShadow = `0 0 0 2px ${P300}`;
 const easing = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
 const pulseKeframes = keyframes`
   0%, 33% { box-shadow: ${baseShadow}, 0 0 0 rgba(101, 84, 192, 1) }

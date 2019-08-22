@@ -1,6 +1,6 @@
 // @flow
 
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 const externalContent = (hasIframeLoaded: boolean) => ({
   visibility: hasIframeLoaded ? 'visible' : 'hidden',

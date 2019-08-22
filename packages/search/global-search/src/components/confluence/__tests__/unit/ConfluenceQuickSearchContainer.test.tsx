@@ -636,7 +636,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       expect(redirectSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('should not call redriect', () => {
+    it('should not call redirect', () => {
       const spy = jest.fn(e => e.preventDefault());
       const handleSearchSubmit = mountComponent(spy);
       const mockedEvent = mockEvent();

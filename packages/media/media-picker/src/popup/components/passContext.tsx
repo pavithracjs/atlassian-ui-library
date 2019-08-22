@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { AppProxyReactContext } from './app';
 import { Store } from 'redux';
 import { State } from '../domain';
-import { UIAnalyticsEventHandlerSignature } from '@atlaskit/analytics-next';
+import { UIAnalyticsEventHandler } from '@atlaskit/analytics-next';
 import { intlShape, IntlProvider } from 'react-intl';
 
 export interface PassContextProps {
@@ -22,7 +22,7 @@ export default class PassContext extends Component<PassContextProps, any> {
 
   getChildContext() {
     const { store, proxyReactContext } = this.props;
-    const getAtlaskitAnalyticsEventHandlers: UIAnalyticsEventHandlerSignature =
+    const getAtlaskitAnalyticsEventHandlers: UIAnalyticsEventHandler =
       proxyReactContext && proxyReactContext.getAtlaskitAnalyticsEventHandlers
         ? proxyReactContext.getAtlaskitAnalyticsEventHandlers
         : () => [];

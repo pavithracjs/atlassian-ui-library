@@ -1,17 +1,20 @@
 // @flow
 import styled from 'styled-components';
-import { borderRadius, colors, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import { N60A, DN60A, N50A, DN50A, P300, N0 } from '@atlaskit/theme/colors';
+import { multiply, divide } from '@atlaskit/theme/math';
 
 // dialog may not be smaller than 160px or larger than 600px
 const dialogWidth = ({ width }) => `${Math.min(Math.max(width, 160), 600)}px`;
 
 const borderColor = themed({
-  light: colors.N60A,
-  dark: colors.DN60A,
+  light: N60A,
+  dark: DN60A,
 });
 const shadowColor = themed({
-  light: colors.N50A,
-  dark: colors.DN50A,
+  light: N50A,
+  dark: DN50A,
 });
 const boxShadow = props => {
   const border = `0 0 1px ${borderColor(props)}`;
@@ -30,19 +33,18 @@ export const FillScreen = styled.div`
 `;
 
 export const Dialog = styled.div`
-  background: ${colors.P300};
+  background: ${P300};
   border-radius: ${borderRadius}px;
   box-shadow: ${boxShadow};
   box-sizing: border-box;
-  color: ${colors.N0};
+  color: ${N0};
   display: flex;
   flex-direction: column;
   width: ${dialogWidth};
 `;
 export const DialogBody = styled.div`
   flex: 1 1 auto;
-  padding: ${math.multiply(gridSize, 2)}px ${math.multiply(gridSize, 3)}px
-    ${gridSize}px;
+  padding: ${multiply(gridSize, 2)}px ${multiply(gridSize, 3)}px ${gridSize}px;
 
   p:last-child,
   ul:last-child,
@@ -70,12 +72,12 @@ export const Image = styled.img`
 export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 ${math.multiply(gridSize, 3)}px ${math.multiply(gridSize, 2)}px;
+  padding: 0 ${multiply(gridSize, 3)}px ${multiply(gridSize, 2)}px;
 `;
 export const ActionItems = styled.div`
   display: flex;
-  margin: 0 -${math.divide(gridSize, 2)}px;
+  margin: 0 -${divide(gridSize, 2)}px;
 `;
 export const ActionItem = styled.div`
-  margin: 0 ${math.divide(gridSize, 2)}px;
+  margin: 0 ${divide(gridSize, 2)}px;
 `;

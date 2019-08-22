@@ -112,7 +112,7 @@ export class LocalUploadComponentReact<
   };
 
   private onFileConverted = (payload: UploadEndEventPayload): void => {
-    this.uploadComponent.emitUploadEnd(payload.file, payload.public);
+    this.uploadComponent.emitUploadEnd(payload.file);
   };
 
   private onUploadError = ({ file, error }: UploadErrorEventPayload): void => {

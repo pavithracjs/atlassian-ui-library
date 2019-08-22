@@ -201,12 +201,12 @@ class Checkbox extends Component<CheckboxProps, State> {
 export { Checkbox as CheckboxWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<CheckboxProps>({
+export default withAnalyticsContext({
   componentName: 'checkbox',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<CheckboxProps>({
+  withAnalyticsEvents({
     onChange: createAndFireEventOnAtlaskit({
       action: 'changed',
       actionSubject: 'checkbox',

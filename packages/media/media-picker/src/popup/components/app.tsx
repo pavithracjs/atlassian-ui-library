@@ -5,10 +5,7 @@ import { connect, Provider } from 'react-redux';
 import { IntlShape } from 'react-intl';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import { MediaClient } from '@atlaskit/media-client';
-import {
-  UIAnalyticsEventHandlerSignature,
-  ObjectType,
-} from '@atlaskit/analytics-next';
+import { UIAnalyticsEventHandler } from '@atlaskit/analytics-next';
 
 import { ServiceName, State } from '../domain';
 import { UploadParams, PopupConfig } from '../..';
@@ -87,8 +84,8 @@ export interface AppDispatchProps {
 }
 
 export interface AppProxyReactContext {
-  getAtlaskitAnalyticsEventHandlers: () => UIAnalyticsEventHandlerSignature[];
-  getAtlaskitAnalyticsContext?: () => ObjectType[];
+  getAtlaskitAnalyticsEventHandlers: () => UIAnalyticsEventHandler[];
+  getAtlaskitAnalyticsContext?: () => Record<string, any>[];
   intl?: IntlShape;
 }
 

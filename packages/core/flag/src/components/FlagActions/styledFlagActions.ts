@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { gridSize, math } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
 
 import { DEFAULT_APPEARANCE } from '../Flag';
 import { flagTextColor } from '../../theme';
@@ -15,7 +16,7 @@ const getDivider = ({
 }) => css`
   display: ${hasDivider ? 'inline-block' : 'none'};
   content: "${useMidDot ? '\u00B7' : ''}";
-  width: ${useMidDot ? math.multiply(gridSize, 2) : gridSize}px;
+  width: ${useMidDot ? multiply(gridSize, 2) : gridSize}px;
 `;
 
 export default styled.div`

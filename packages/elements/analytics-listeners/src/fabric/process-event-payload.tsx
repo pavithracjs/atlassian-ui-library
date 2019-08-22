@@ -7,16 +7,13 @@ import {
   ELEMENTS_CONTEXT,
   EDITOR_CONTEXT,
 } from '@atlaskit/analytics-namespaced-context';
-import {
-  ObjectType,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import merge from 'lodash.merge';
 import { ELEMENTS_TAG } from './FabricElementsListener';
 import { EDITOR_TAG } from './FabricEditorListener';
 
 const extractFieldsFromContext = (fieldsToPick: string[]) => (
-  contexts: Array<ObjectType>,
+  contexts: Record<string, any>[],
 ) =>
   contexts
     .map(ctx =>
@@ -51,7 +48,7 @@ const getContextKey = (tag: string): string => {
 
 const updatePayloadWithContext = (
   tag: string,
-  event: UIAnalyticsEventInterface,
+  event: UIAnalyticsEvent,
 ): GasPayload | GasScreenEventPayload => {
   if (event.context.length === 0) {
     return { source: DEFAULT_SOURCE, ...event.payload } as
@@ -60,9 +57,10 @@ const updatePayloadWithContext = (
   }
 
   const contextKey = getContextKey(tag) || 'attributes';
-  const { [contextKey]: attributes, ...fields }: ObjectType = fieldExtractor(
-    contextKey,
-  )(event.context);
+  const {
+    [contextKey]: attributes,
+    ...fields
+  }: Record<string, any> = fieldExtractor(contextKey)(event.context);
 
   if (attributes) {
     event.payload.attributes = merge(
@@ -82,7 +80,7 @@ const addTag = (tag: string, originalTags?: string[]): string[] => {
 };
 
 export const processEventPayload = (
-  event: UIAnalyticsEventInterface,
+  event: UIAnalyticsEvent,
   tag: string,
 ): GasPayload | GasScreenEventPayload => {
   return {

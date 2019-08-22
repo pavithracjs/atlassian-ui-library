@@ -1,4 +1,5 @@
 import React from 'react';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
@@ -30,7 +31,7 @@ export interface CheckboxIconProps {
   label: any;
 }
 
-export interface CheckboxProps {
+export interface CheckboxProps extends WithAnalyticsEventsProps {
   /** Sets whether the checkbox begins checked. */
   defaultChecked?: boolean;
   /** id assigned to input */

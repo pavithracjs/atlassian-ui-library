@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-operators */
 import styled, { css } from 'styled-components';
-import { elevation } from '@atlaskit/theme';
+import { e200 } from '@atlaskit/theme/elevation';
 import { ThemeTokensTrack, ThemeTokens } from './theme';
 
 const sliderThumbSize = 16;
@@ -32,7 +32,7 @@ const sliderThumbStyle = css<TrackProps>`
   height: ${sliderThumbSize}px;
   width: ${sliderThumbSize}px;
   box-sizing: border-box;
-  ${elevation.e200};
+  ${e200};
 `;
 
 const sliderThumbFocusedStyle = css<ThemeTokens>`

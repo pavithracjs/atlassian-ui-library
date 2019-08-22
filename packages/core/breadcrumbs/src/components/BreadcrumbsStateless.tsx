@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -15,7 +16,7 @@ const defaultMaxItems = 8;
 
 const { toArray } = React.Children;
 
-export interface BreadcrumbsStatelessProps {
+export interface BreadcrumbsStatelessProps extends WithAnalyticsEventsProps {
   /** Override collapsing of the nav when there are more than maxItems */
   isExpanded?: boolean;
   /** Set the maximum number of breadcrumbs to display. When there are more
@@ -23,7 +24,7 @@ export interface BreadcrumbsStatelessProps {
   ellipsis in between. */
   maxItems?: number;
   /** A function to be called when you are in the collapsed view and click
-   the ellpisis. */
+   the ellipsis. */
   onExpand?: (event: React.MouseEvent) => any;
   /** If max items is exceeded, the number of items to show before the ellipsis */
   itemsBeforeCollapse?: number;
@@ -54,7 +55,7 @@ class BreadcrumbsStateless extends React.Component<
   renderItemsBeforeAndAfter() {
     const { itemsBeforeCollapse, itemsAfterCollapse } = this.props;
 
-    // Not a chance this will trigger, but TS is complaining about items* possibly beign undefined.
+    // Not a chance this will trigger, but TS is complaining about items* possibly being undefined.
     if (itemsBeforeCollapse === undefined || itemsAfterCollapse === undefined) {
       return;
     }
@@ -99,12 +100,12 @@ class BreadcrumbsStateless extends React.Component<
 export { BreadcrumbsStateless as BreadcrumbsStatelessWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<BreadcrumbsStatelessProps>({
+export default withAnalyticsContext({
   componentName: 'breadcrumbs',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<BreadcrumbsStatelessProps>({
+  withAnalyticsEvents({
     onExpand: createAndFireEventOnAtlaskit({
       action: 'expanded',
       actionSubject: 'breadcrumbs',

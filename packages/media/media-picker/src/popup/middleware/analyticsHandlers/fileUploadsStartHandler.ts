@@ -14,6 +14,7 @@ export default (action: Action): HandlerResult => {
           actionSubjectId: 'localMedia',
           attributes: {
             fileAttributes: {
+              fileId: file.id,
               fileSize: file.size,
               fileMimetype: file.type,
               fileSource: 'mediapicker',

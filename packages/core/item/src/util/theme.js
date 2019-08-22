@@ -1,5 +1,10 @@
 // @flow
-import { colors, gridSize as akGridSize, borderRadius } from '@atlaskit/theme';
+import {
+  gridSize as akGridSize,
+  borderRadius,
+} from '@atlaskit/theme/constants';
+
+import * as colors from '@atlaskit/theme/colors';
 
 import type { ItemTheme } from '../types';
 
@@ -26,6 +31,10 @@ export const defaultTheme: ItemTheme = {
   height: {
     compact: 0,
     default: 0,
+  },
+  width: {
+    compact: 'auto',
+    default: 'auto',
   },
   padding: {
     default: {

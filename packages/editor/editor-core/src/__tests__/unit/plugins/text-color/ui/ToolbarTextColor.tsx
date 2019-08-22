@@ -19,7 +19,7 @@ import ToolbarTextColor, {
 } from '../../../../../plugins/text-color/ui/ToolbarTextColor';
 import { ReactWrapper } from 'enzyme';
 import { AnalyticsHandler } from '../../../../../analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 /**
  * Simulate a click color
@@ -72,7 +72,7 @@ function getColorFromPalette(palette: Map<string, string>, position: number) {
 
 describe('ToolbarTextColor', () => {
   const createEditor = createEditorFactory<TextColorPluginState>();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
   let analyticsHandler: jest.MockInstance<AnalyticsHandler>;
   let toolbarTextColor: ReactWrapper<ToolbarTextColorProps>;
 
