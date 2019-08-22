@@ -1,1 +1,2 @@
-Remove "type" from CardViewAnalyticsContext. Attribute no longer used
+Property `type` was removed from `CardViewAnalyticsContext` interface
+File size won't be displayed if it was set to cero or not obtained
