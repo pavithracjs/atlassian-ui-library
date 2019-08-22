@@ -1,7 +1,7 @@
 {
   "name": "@atlaskit/util-data-test",
   "description": "Shared test and story data",
-  "version": "12.9.2",
+  "version": "12.9.3",
   "config": {
     "access": "public"
   },
