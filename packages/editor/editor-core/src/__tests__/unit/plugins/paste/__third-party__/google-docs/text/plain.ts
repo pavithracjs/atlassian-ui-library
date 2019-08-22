@@ -8,8 +8,7 @@ Ordered list item
 Ordered list item
 Nested ordered list item
 
-Bold BoldUnderline Underline Emphasis
-
+Bold BoldUnderline Underline Emphasis SuperscriptSubscript
 RED TEXT
 
 Link to: GoogleLink
