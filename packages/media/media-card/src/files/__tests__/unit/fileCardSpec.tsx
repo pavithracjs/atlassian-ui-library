@@ -72,7 +72,7 @@ describe('FileCard', () => {
   });
 
   describe('should hide file size', () => {
-    it('when size it is set to cero', () => {
+    it('when size it is set to zero', () => {
       const details: FileDetails = {
         id: 'id',
         size: 0,
