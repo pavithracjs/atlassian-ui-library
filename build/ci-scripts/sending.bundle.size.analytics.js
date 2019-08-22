@@ -1,4 +1,5 @@
 // @flow
+/* Script to send bundle size data to Redash through Analytics pipeline. */
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
@@ -46,7 +47,10 @@ const prepareData = pathToFolder => {
         console.log(`${err}`);
       }
     }
-    return properties;
+    // We flatten the data to one dimension array of bundle size object data per package.
+    // See measure tool for the output or the bundle size doc on the website:
+    // https://atlaskit.atlassian.com/docs/guides/bundle-size#what-is-the-most-important-information-in-a-bundle-size-measurement.
+    return properties.reduce((acc, val) => acc.concat(val), []);
   } catch (err) {
     console.log(`${err}`);
   }
@@ -56,21 +60,11 @@ const prepareData = pathToFolder => {
   const bundleSizeData =
     prepareData(path.join(process.cwd(), '.masterBundleSize')) || []; // By default, it will be an empty array to avoid Flow issues.
   const bundleSizeDataEvents = JSON.stringify({
-    events: bundleSizeData.map(data =>
-      buildEventPayload(
-        data.map(obj => {
-          return {
-            id: obj.id,
-            package: obj.package,
-            version: obj.version,
-            size: obj.stats,
-          };
-        }),
-        'atlaskit.computed.bundle.size.per.package',
-      ),
+    events: bundleSizeData.map(pkgData =>
+      buildEventPayload(pkgData, 'atlaskit.computed.bundle.size.per.package'),
     ),
   });
-  return sendToRedash(bundleSizeDataEvents).then(res => {
+  sendToRedash(bundleSizeDataEvents).then(res => {
     console.log(`Sent bundle size data to Redash`);
   });
 })();
