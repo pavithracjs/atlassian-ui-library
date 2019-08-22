@@ -1,0 +1,1 @@
+Use generic types instead of type annotations for styles-components
