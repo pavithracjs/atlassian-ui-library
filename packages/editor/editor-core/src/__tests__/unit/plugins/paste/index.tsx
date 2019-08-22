@@ -1,3 +1,5 @@
+import React from 'react';
+import { mount } from 'enzyme';
 import {
   code_block,
   strong,
@@ -37,12 +39,12 @@ import {
   inlineCard,
   storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
-import { ProviderFactory } from '@atlaskit/editor-common';
+import { ProviderFactory, MediaSingle } from '@atlaskit/editor-common';
 import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
-import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
@@ -380,6 +382,51 @@ describe('paste plugins', () => {
               })(),
             ),
             p('And this is some more text'),
+          ),
+        );
+      });
+    });
+
+    describe('pasting media from the renderer', () => {
+      it('should insert a media single markup as a media single node', () => {
+        // Couldnt get media to load properly, we're inlining the media node.
+        // We only really care about the media single markup here.
+        const wrapper = mount(
+          <MediaSingle
+            layout="center"
+            width={1333}
+            height={1019}
+            lineLength={680}
+            pctWidth={80}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<div class="sc-eetwQk ddqWZS" data-context-id="414734770" data-type="file" data-node-type="media" data-width="1105" data-height="844" data-id="ade9cc46-35a9-49b1-b4ff-477670463481" data-collection="contentId-414734770"><div class="sc-gkfylT VGelR"><div class="sc-cgThhu bCBaed"><div class="sc-fPCuyW jeMDuK sc-frudsx gquFtT"><div class="wrapper"><div class="img-wrapper"><img class="sc-fIIFii bZNNp" draggable="false" style="transform: translate(-50%, -50%); height: 100%;" src="blob:https://hello.atlassian.net/9faf6f4c-994b-ca4e-b391-c00caa808b6f"></div></div></div></div></div></div>',
+              }}
+            />
+          </MediaSingle>,
+        );
+
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: `<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>${wrapper.html()}</body></html>`,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            mediaSingle({
+              layout: 'center',
+              width: 80,
+            })(
+              media({
+                __contextId: '414734770',
+                collection: 'contentId-414734770',
+                height: 844,
+                id: 'ade9cc46-35a9-49b1-b4ff-477670463481',
+                type: 'file',
+                width: 1105,
+              })(),
+            ),
           ),
         );
       });
