@@ -70,4 +70,27 @@ describe('FileCard', () => {
 
     expect(card.find(FileCardImageView).props().disableOverlay).toEqual(true);
   });
+
+  describe.only('should hide file size', () => {
+    it('when size it is set to cero', () => {
+      const details: FileDetails = {
+        id: 'id',
+        size: 0,
+      };
+      const card = shallow(<FileCard status="complete" details={details} />);
+
+      const fileCardView = card.find(FileCardImageView);
+      expect(fileCardView.props().fileSize).toEqual('');
+    });
+
+    it('when size it is unset', () => {
+      const details: FileDetails = {
+        id: 'id',
+      };
+      const card = shallow(<FileCard status="complete" details={details} />);
+
+      const fileCardView = card.find(FileCardImageView);
+      expect(fileCardView.props().fileSize).toEqual('');
+    });
+  });
 });
