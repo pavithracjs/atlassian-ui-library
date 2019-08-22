@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 64.0.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 64.0.0
 
 ### Major Changes

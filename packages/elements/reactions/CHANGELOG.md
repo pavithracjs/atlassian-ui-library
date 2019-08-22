@@ -1,5 +1,13 @@
 # @atlaskit/reactions
 
+## 17.1.9
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 17.1.8
 
 ### Patch Changes
