@@ -1,0 +1,1 @@
+Remove "type" from CardViewAnalyticsContext. Attribute no longer used
