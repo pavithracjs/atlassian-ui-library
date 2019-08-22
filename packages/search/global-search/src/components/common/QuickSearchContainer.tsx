@@ -118,7 +118,8 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap>
 }
 
 type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
-  SearchSessionProps;
+  SearchSessionProps &
+  WithAnalyticsEventsProps;
 
 export interface State<T> {
   latestSearchQuery: string;

@@ -3,7 +3,7 @@
 import React from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
-import { Popper } from '@atlaskit/popper';
+import { Popper, Placement } from '@atlaskit/popper';
 import Portal from '@atlaskit/portal';
 import { layers } from '@atlaskit/theme/constants';
 
@@ -317,7 +317,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
               }: {
                 ref: (elm: HTMLElement) => void;
                 style: Object;
-                placement: PositionTypeBase;
+                placement: Placement;
               }) =>
                 TooltipContainer && (
                   <Animation
@@ -331,7 +331,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
                         innerRef={ref}
                         className="Tooltip"
                         style={{
-                          ...getAnimationStyles(placement),
+                          ...getAnimationStyles(placement as PositionTypeBase),
                           ...style,
                         }}
                         truncate={truncate || false}

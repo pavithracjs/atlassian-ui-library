@@ -37,6 +37,7 @@ import {
   isTypeAliasDeclaration,
   isUnionType,
   getPmName,
+  LiteralType,
 } from './utils';
 
 export default (
@@ -186,7 +187,7 @@ export default (
       const isEnum = type.types.every(t => isStringLiteralType(t));
       if (isEnum) {
         return new EnumSchemaNode(
-          type.types.map(t => (t as ts.LiteralType).value),
+          type.types.map(t => (t as LiteralType).value),
         );
       } else {
         return new AnyOfSchemaNode(

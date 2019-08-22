@@ -24,7 +24,10 @@ export function injectSearchSession<T>(
   return (props: Pick<T, Exclude<keyof T, keyof SearchSessionProps>>) => (
     <SearchSessionContext.Consumer>
       {({ searchSessionId }) => (
-        <Component {...props} searchSessionId={searchSessionId || uuid()} />
+        <Component
+          {...props as T}
+          searchSessionId={searchSessionId || uuid()}
+        />
       )}
     </SearchSessionContext.Consumer>
   );
