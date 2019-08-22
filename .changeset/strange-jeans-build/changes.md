@@ -1,0 +1,1 @@
+ED-7533: Fixes issue where in certain scenarios selecting text wouldnt populate the hyperlink toolbar
