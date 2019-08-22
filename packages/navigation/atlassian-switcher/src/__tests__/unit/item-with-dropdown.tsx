@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BitbucketIcon, JiraSoftwareIcon, OpsGenieIcon } from '@atlaskit/logo';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { SwitcherItemWithDropdown } from '../../primitives';
 import { createIcon } from '../../utils/icon-themes';
 
@@ -16,9 +16,9 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>Bitbucket</SwitcherItemWithDropdown>,
-    );
+    ).dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -34,10 +34,10 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>Opsgenie</SwitcherItemWithDropdown>,
     );
-
+    wrapper.dive();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -74,11 +74,13 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>
         Jira Software
       </SwitcherItemWithDropdown>,
-    );
+    )
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
 
