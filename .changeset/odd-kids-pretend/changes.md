@@ -1,0 +1,1 @@
+Moves typescript declaration files to the root of theme
