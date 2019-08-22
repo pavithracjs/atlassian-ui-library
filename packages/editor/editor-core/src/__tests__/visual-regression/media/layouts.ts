@@ -5,40 +5,46 @@ import {
   waitForMediaToBeLoaded,
   clickMediaInPosition,
   mediaSingleLayouts,
+  MediaLayout,
 } from '../../__helpers/page-objects/_media';
-import { typeInEditor } from '../../__helpers/page-objects/_editor';
+import {
+  typeInEditor,
+  clickEditableContent,
+} from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import * as singleCellTable from './__fixtures__/single-cell-table-adf.json';
+import { Page } from '../../__helpers/page-objects/_types';
 
-// add some comment
 describe('Snapshot Test: Media', () => {
-  let page: any;
-  beforeEach(async () => {
-    // @ts-ignore
-    page = global.page;
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      editorProps: {
-        media: {
-          allowMediaSingle: true,
-          allowMediaGroup: true,
-          allowResizing: false,
+  let page: Page;
+
+  describe('layouts', () => {
+    beforeEach(async () => {
+      // @ts-ignore
+      page = global.page;
+      await initEditorWithAdf(page, {
+        appearance: Appearance.fullPage,
+        editorProps: {
+          media: {
+            allowMediaSingle: true,
+            allowMediaGroup: true,
+            allowResizing: false,
+          },
         },
-      },
-      viewport: { width: 1280, height: 800 },
+        viewport: { width: 1280, height: 800 },
+      });
+
+      // type some text
+      await typeInEditor(page, 'some text');
+      await pressKey(page, [
+        // Go left 3 times to insert image in the middle of the text
+        'ArrowLeft',
+        'ArrowLeft',
+        'ArrowLeft',
+        'ArrowLeft',
+      ]);
     });
 
-    // type some text
-    await typeInEditor(page, 'some text');
-    await pressKey(page, [
-      // Go left 3 times to insert image in the middle of the text
-      'ArrowLeft',
-      'ArrowLeft',
-      'ArrowLeft',
-      'ArrowLeft',
-    ]);
-  });
-
-  describe('Layouts', () => {
     it('can switch layouts on media', async () => {
       // now we can insert media as necessary
       await insertMedia(page);
@@ -75,5 +81,40 @@ describe('Snapshot Test: Media', () => {
         await snapshot(page);
       }
     });
+  });
+
+  describe('within a table', () => {
+    beforeAll(async () => {
+      // @ts-ignore
+      page = global.page;
+      await initEditorWithAdf(page, {
+        appearance: Appearance.fullPage,
+        adf: singleCellTable,
+        editorProps: {
+          media: {
+            allowMediaSingle: true,
+            allowResizing: true,
+          },
+        },
+      });
+
+      await clickEditableContent(page);
+      await insertMedia(page);
+      await waitForMediaToBeLoaded(page);
+      await clickMediaInPosition(page, 0);
+    });
+
+    for (const layout of [
+      MediaLayout.center,
+      MediaLayout.alignEnd,
+      MediaLayout.alignStart,
+      MediaLayout.wrapLeft,
+      MediaLayout.wrapRight,
+    ]) {
+      it(`using layout ${MediaLayout[layout]}`, async () => {
+        await changeMediaLayout(page, layout);
+        await snapshot(page);
+      });
+    }
   });
 });

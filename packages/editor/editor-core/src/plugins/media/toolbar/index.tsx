@@ -35,6 +35,7 @@ export type MediaFloatingToolbarOptions = {
   allowAnnotation?: boolean;
   allowLinking?: boolean;
   allowAdvancedToolBarOptions?: boolean;
+  allowResizingInTables?: boolean;
 };
 
 export const floatingToolbar = (
@@ -48,6 +49,7 @@ export const floatingToolbar = (
     allowAnnotation,
     allowLinking,
     allowAdvancedToolBarOptions,
+    allowResizingInTables,
   } = options;
   const { mediaSingle } = state.schema.nodes;
   const pluginState: MediaPluginState | undefined = stateKey.getState(state);
@@ -82,7 +84,12 @@ export const floatingToolbar = (
 
   let toolbarButtons: FloatingToolbarItem<Command>[] = [];
   if (allowAdvancedToolBarOptions) {
-    toolbarButtons = buildLayoutButtons(state, intl, allowResizing);
+    toolbarButtons = buildLayoutButtons(
+      state,
+      intl,
+      allowResizing,
+      allowResizingInTables,
+    );
     if (toolbarButtons.length) {
       if (allowAnnotation) {
         toolbarButtons.push({

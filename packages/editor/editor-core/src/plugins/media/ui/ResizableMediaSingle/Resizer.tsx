@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { RefObject } from 'react';
 import classnames from 'classnames';
+import { Resizable, ResizeDirection } from 're-resizable';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
+import { gridTypeForLayout } from '../../../grid';
+import { snapTo, handleSides } from './utils';
 import { Props as ResizableMediaSingleProps, EnabledHandles } from './types';
 
-import Resizable from 're-resizable';
-import { ResizableDirection, NumberSize } from 're-resizable';
-
-import { gridTypeForLayout } from '../../../grid';
-
-import { snapTo, handleSides } from './utils';
+interface ReResizableNumberSize {
+  width: number;
+  height: number;
+}
 
 type ResizerProps = ResizableMediaSingleProps & {
   selected: boolean;
@@ -21,6 +22,9 @@ type ResizerProps = ResizableMediaSingleProps & {
   snapPoints: number[];
   scaleFactor?: number;
   highlights: (width: number, snapPoints: number[]) => number[] | string[];
+  handleResizeStart?: (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+  ) => boolean;
 };
 
 type ResizerState = {
@@ -34,6 +38,7 @@ export default class Resizer extends React.Component<
   state = {
     isResizing: false,
   };
+
   constructor(props: ResizerProps) {
     super(props);
     this.resizable = React.createRef();
@@ -42,76 +47,114 @@ export default class Resizer extends React.Component<
   handleResizeStart = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
+    const {
+      handleResizeStart,
+      highlights,
+      displayGrid,
+      layout,
+      width,
+      snapPoints,
+    } = this.props;
+
     // prevent creating a drag event on Firefox
     event.preventDefault();
+
+    if (handleResizeStart && !handleResizeStart(event)) {
+      return false;
+    }
+
     this.setState({ isResizing: true }, () => {
-      this.props.displayGrid(
-        true,
-        gridTypeForLayout(this.props.layout),
-        this.props.highlights(this.props.width, this.props.snapPoints),
+      const newHighlights = highlights(width, snapPoints);
+      displayGrid(
+        newHighlights.length > 0,
+        gridTypeForLayout(layout),
+        newHighlights,
       );
     });
   };
 
   handleResize = (
     _event: MouseEvent | TouchEvent,
-    _direction: ResizableDirection,
+    _direction: ResizeDirection,
     _elementRef: HTMLDivElement,
-    delta: NumberSize,
+    delta: ReResizableNumberSize,
   ) => {
+    const {
+      highlights,
+      calcNewSize,
+      scaleFactor,
+      snapPoints,
+      displayGrid,
+      layout,
+      updateSize,
+    } = this.props;
+
     const resizable = this.resizable.current;
-    if (!resizable || !resizable.state.original) {
+    if (!resizable || !resizable.state.original || !this.state.isResizing) {
       return;
     }
 
-    const newWidth = Math.max(
-      resizable.state.original.width +
-        delta.width * (this.props.scaleFactor || 1),
-      this.props.snapPoints[0],
+    let newWidth = Math.max(
+      resizable.state.original.width + delta.width * (scaleFactor || 1),
+      snapPoints[0],
     );
+    newWidth = Math.min(newWidth, snapPoints[snapPoints.length - 1]);
 
-    const newSize = this.props.calcNewSize(newWidth, false);
-    if (newSize.layout !== this.props.layout) {
-      this.props.updateSize(newSize.width, newSize.layout);
+    const newSize = calcNewSize(newWidth, false);
+    if (newSize.layout !== layout) {
+      updateSize(newSize.width, newSize.layout);
     }
 
-    this.props.displayGrid(
-      true,
+    const newHighlights = highlights(newWidth, snapPoints);
+    displayGrid(
+      newHighlights.length > 0,
       gridTypeForLayout(newSize.layout),
-      this.props.highlights(newWidth, this.props.snapPoints),
+      newHighlights,
     );
     resizable.updateSize({ width: newWidth, height: 'auto' });
+    resizable.setState({ isResizing: true });
   };
 
   handleResizeStop = (
     _event: MouseEvent | TouchEvent,
-    _direction: string,
-    _refToElement: HTMLElement,
-    delta: { width: number; height: number },
+    _direction: ResizeDirection,
+    _elementRef: HTMLElement,
+    delta: ReResizableNumberSize,
   ) => {
+    const {
+      highlights,
+      calcNewSize,
+      snapPoints,
+      displayGrid,
+      layout,
+      updateSize,
+    } = this.props;
+
     const resizable = this.resizable.current;
-    if (!resizable || !resizable.state.original) {
+    if (!resizable || !resizable.state.original || !this.state.isResizing) {
       return;
     }
 
-    const newWidth = Math.max(
+    let newWidth = Math.max(
       resizable.state.original.width + delta.width,
-      this.props.snapPoints[0],
+      snapPoints[0],
     );
+    newWidth = Math.min(newWidth, snapPoints[snapPoints.length - 1]);
 
-    const snapWidth = snapTo(newWidth, this.props.snapPoints);
-    const newSize = this.props.calcNewSize(snapWidth, true);
+    const snapWidth = snapTo(newWidth, snapPoints);
+    const newSize = calcNewSize(snapWidth, true);
+    const newHighlights = highlights(newWidth, snapPoints);
 
     // show committed grid size
-    this.props.displayGrid(
-      true,
+    displayGrid(
+      newHighlights.length > 0,
       gridTypeForLayout(newSize.layout),
-      this.props.highlights(newWidth, this.props.snapPoints),
+      newHighlights,
     );
 
     this.setState({ isResizing: false }, () => {
-      this.props.updateSize(newSize.width, newSize.layout);
-      this.props.displayGrid(false, gridTypeForLayout(this.props.layout));
+      updateSize(newSize.width, newSize.layout);
+      displayGrid(false, gridTypeForLayout(layout));
     });
   };
 
@@ -132,9 +175,9 @@ export default class Resizer extends React.Component<
     return (
       <Resizable
         ref={this.resizable}
-        onResize={this.handleResize}
         size={{
           width: this.props.width,
+          height: 'auto',
         }}
         className={classnames(
           'media-single',
@@ -153,6 +196,7 @@ export default class Resizer extends React.Component<
         handleClasses={handles}
         handleStyles={handleStyles}
         enable={this.props.enable}
+        onResize={this.handleResize}
         onResizeStop={this.handleResizeStop}
         onResizeStart={this.handleResizeStart}
       >

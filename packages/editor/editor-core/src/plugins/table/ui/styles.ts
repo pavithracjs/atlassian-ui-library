@@ -706,10 +706,7 @@ export const tableStyles = css`
       .${ClassName.SELECTED_CELL}::after {
         background: ${tableCellSelectedColor};
       }
-      .${ClassName.HOVERED_CELL_IN_DANGER} {
-        border: 1px solid ${tableBorderDeleteColor};
-      }
-      .${ClassName.HOVERED_CELL_IN_DANGER}::after {
+      th.${ClassName.HOVERED_CELL_IN_DANGER}::after, td.${ClassName.HOVERED_CELL_IN_DANGER}::after {
         background: ${tableCellDeleteColor};
       }
     }

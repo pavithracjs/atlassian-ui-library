@@ -79,6 +79,7 @@ export default function createEditorFactoryForTests<T = any>() {
     sel: number;
     plugin: any;
     pluginState: T;
+    editorProps: EditorProps;
   } => {
     let portalProviderAPI: PortalProviderAPI | undefined;
     const plugins = editorPlugins
@@ -225,6 +226,7 @@ export default function createEditorFactoryForTests<T = any>() {
       sel: refs ? refs['<>'] : 0,
       plugin,
       pluginState,
+      editorProps,
     };
   };
 }

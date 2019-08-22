@@ -93,7 +93,7 @@
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.9.12",
     "raf-schd": "^2.1.0",
-    "re-resizable": "^4.9.0",
+    "re-resizable": "^6.0.0",
     "react-loadable": "^5.1.0",
     "tslib": "^1.9.3",
     "uuid": "^3.1.0",

@@ -106,18 +106,24 @@ const mapIconsToToolbarItem = (
     };
   });
 
-const shouldHideLayoutToolbar = (selection: NodeSelection, { nodes }: Schema) =>
-  hasParentNodeOfType([
+const shouldHideLayoutToolbar = (
+  selection: NodeSelection,
+  { nodes }: Schema,
+  allowResizingInTables?: boolean,
+) => {
+  return hasParentNodeOfType([
     nodes.bodiedExtension,
     nodes.layoutSection,
     nodes.listItem,
-    nodes.table,
+    ...(allowResizingInTables ? [] : [nodes.table]),
   ])(selection);
+};
 
 const buildLayoutButtons = (
   state: EditorState,
   intl: InjectedIntl,
   allowResizing?: boolean,
+  allowResizingInTables?: boolean,
 ) => {
   const { selection } = state;
   const { mediaSingle } = state.schema.nodes;
@@ -126,7 +132,7 @@ const buildLayoutButtons = (
     !(selection instanceof NodeSelection) ||
     !selection.node ||
     !mediaSingle ||
-    shouldHideLayoutToolbar(selection, state.schema)
+    shouldHideLayoutToolbar(selection, state.schema, allowResizingInTables)
   ) {
     return [];
   }

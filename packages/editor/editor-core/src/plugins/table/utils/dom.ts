@@ -3,7 +3,12 @@ import { closestElement } from '../../../utils';
 import { tableToolbarSize } from '../ui/styles';
 
 export const isCell = (node: HTMLElement): boolean => {
-  return node && ['TH', 'TD'].indexOf(node.tagName) > -1;
+  return (
+    node &&
+    (['TH', 'TD'].indexOf(node.tagName) > -1 ||
+      !!closestElement(node, `.${ClassName.TABLE_HEADER_CELL}`) ||
+      !!closestElement(node, `.${ClassName.TABLE_CELL}`))
+  );
 };
 
 export const isCornerButton = (node: HTMLElement): boolean => {

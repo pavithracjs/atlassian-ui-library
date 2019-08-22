@@ -222,7 +222,25 @@ describe('media', () => {
       expect(toolbar!.items.length).toEqual(1);
     });
 
-    it('should not render any layout buttons when inside a table', () => {
+    it('should render layout buttons when inside a table and allowResizingInTable is enabled', () => {
+      const { editorView } = editor(
+        doc(table()(tr(td()(temporaryMediaSingle)))),
+        {
+          allowResizing: true,
+          allowResizingInTables: true,
+        },
+      );
+
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        allowAdvancedToolBarOptions: true,
+        allowResizingInTables: true,
+      });
+      expect(toolbar).toBeDefined();
+      expect(toolbar!.items.length).toEqual(8);
+    });
+
+    it('should not render layout buttons when inside a table and allowResizingInTable is disabled', () => {
       const { editorView } = editor(
         doc(table()(tr(td()(temporaryMediaSingle)))),
       );
