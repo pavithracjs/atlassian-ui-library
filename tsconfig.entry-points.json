@@ -2,6 +2,7 @@
 /* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@atlaskit/codemod-util-shared-styles-to-theme": [
         "../../bitbucket/codemod-util-shared-styles-to-theme/src/",
