@@ -74,6 +74,7 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
+    // doing a double .dive() here to render the toggle and child items
     const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>
         Jira Software
