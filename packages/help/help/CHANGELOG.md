@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.14.3
+
+### Patch Changes
+
+- [patch][9e23c34ccb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9e23c34ccb):
+
+  Use generic types instead of type annotations for styles-components
+
 ## 0.14.2
 
 ### Patch Changes
