@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/smart-card",
-  "version": "12.4.4",
+  "version": "12.5.0",
   "description": "Smart card component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",

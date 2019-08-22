@@ -41,7 +41,7 @@ export const removeExtraneousColumnWidths = (
   node: PMNode,
   basePos: number,
   tr: Transaction,
-) => {
+): boolean => {
   let hasProblems = false;
 
   tr = replaceCells(tr, node, basePos, cell => {
@@ -64,19 +64,24 @@ export const removeExtraneousColumnWidths = (
 
   if (hasProblems) {
     fireAnalytics({ message: 'removeExtraneousColumnWidths' });
+    return true;
   }
 
-  return tr;
+  return false;
 };
 
-export const fixTables = (tr: Transaction): Transaction => {
+export const fixTables = (tr: Transaction): Transaction | undefined => {
+  let hasProblems = false;
   tr.doc.descendants((node, pos) => {
     if (node.type.name === 'table') {
       // in the unlikely event of having to fix multiple tables at the same time
-      tr = removeExtraneousColumnWidths(node, tr.mapping.map(pos), tr);
+      hasProblems = removeExtraneousColumnWidths(node, tr.mapping.map(pos), tr);
     }
   });
-  return tr;
+
+  if (hasProblems) {
+    return tr;
+  }
 };
 
 // When we get a table with an 'auto' attribute, we want to:

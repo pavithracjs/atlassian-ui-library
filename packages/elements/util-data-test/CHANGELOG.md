@@ -1,5 +1,13 @@
 # @atlaskit/util-data-test
 
+## 12.9.3
+
+### Patch Changes
+
+- [patch][6b237d8a3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b237d8a3e):
+
+  Move json-data into src to fix the issue when the package is built.
+
 ## 12.9.2
 
 ### Patch Changes

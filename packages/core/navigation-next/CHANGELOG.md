@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.5.4
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
 ## 6.5.3
 
 ### Patch Changes

@@ -14,7 +14,6 @@ describe('composition events on mobile', () => {
   const editor = (doc: any): EditorViewWithComposition => {
     const { editorView } = createEditor({
       doc,
-      editorPlugins: [],
       editorProps: {
         analyticsHandler: () => {},
       },

@@ -1,6 +1,7 @@
 // @flow
 import styled from 'styled-components';
-import { borderRadius, gridSize, math } from '@atlaskit/theme';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import { divide } from '@atlaskit/theme/math';
 
 export const Body = styled.div`
   padding: 40px 20px;
@@ -32,5 +33,5 @@ export const Actions = styled.div`
   padding: 0 40px 40px;
 `;
 export const ActionItem = styled.div`
-  margin: 0 ${math.divide(gridSize, 2)}px;
+  margin: 0 ${divide(gridSize, 2)}px;
 `;

@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 11.3.0
+
+### Minor Changes
+
+- [minor][2ebd907504](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ebd907504):
+
+  Simple experiment with faster search is now default behaviour and can no longer be toggled
+
+## 11.2.5
+
+### Patch Changes
+
+- [patch][abee1a5f4f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abee1a5f4f):
+
+  Bumping internal dependency (memoize-one) to latest version (5.1.0). memoize-one@5.1.0 has full typescript support so it is recommended that typescript consumers use it also.
+
 ## 11.2.4
 
 ### Patch Changes

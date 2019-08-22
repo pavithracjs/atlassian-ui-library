@@ -1,6 +1,7 @@
 // @flow
 import styled from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { N500, DN500 } from '@atlaskit/theme/colors';
 import { drawerBackIconSize } from '../../utils/drawer-style-variables';
 
 const DrawerPrimaryIcon = styled.div`
@@ -9,7 +10,7 @@ const DrawerPrimaryIcon = styled.div`
   height: ${drawerBackIconSize}px;
   justify-content: center;
   width: ${drawerBackIconSize}px;
-  color: ${themed({ light: colors.N500, dark: colors.DN500 })};
+  color: ${themed({ light: N500, dark: DN500 })};
 `;
 
 DrawerPrimaryIcon.displayName = 'DrawerPrimaryIcon';

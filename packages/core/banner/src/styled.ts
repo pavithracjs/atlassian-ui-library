@@ -1,5 +1,8 @@
 import styled, { css } from 'styled-components';
-import { colors, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import * as colors from '@atlaskit/theme/colors';
+import { multiply, divide } from '@atlaskit/theme/math';
 
 const TRANSITION_DURATION = '0.25s ease-in-out';
 
@@ -43,7 +46,7 @@ export const Content = styled.div`
   fill: ${backgroundColor};
   font-weight: 500;
   justify-content: center;
-  padding: ${math.multiply(gridSize, 1.5)}px;
+  padding: ${multiply(gridSize, 1.5)}px;
   text-align: center;
   ${'' /* transition: color ${TRANSITION_DURATION}; */}
 
@@ -87,7 +90,7 @@ export const Visibility = styled.div`
 
 export const Text = styled.span`
   flex: 0 1 auto;
-  padding: ${math.divide(gridSize, 2)}px;
+  padding: ${divide(gridSize, 2)}px;
   ${textOverflow};
   overflow: hidden;
 `;

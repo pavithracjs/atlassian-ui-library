@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FileDetails, MediaItemType } from '@atlaskit/media-client';
+import { FileDetails } from '@atlaskit/media-client';
 
 import { AnalyticsContext } from '@atlaskit/analytics-next';
 
@@ -24,22 +24,16 @@ const mapStatusToAnalyticsLoadStatus = (status: CardStatus) => {
   }
 };
 
-export type WithCardViewAnalyticsContextProps = CardViewOwnProps & {
-  readonly mediaItemType: MediaItemType;
-};
-
 export class WithCardViewAnalyticsContext extends React.Component<
-  WithCardViewAnalyticsContextProps
+  CardViewOwnProps
 > {
   private getBaseAnalyticsContext(): CardViewAnalyticsContext {
-    const mediaItemType = this.props.mediaItemType;
     const { status, appearance, actions } = this.props;
     const loadStatus = mapStatusToAnalyticsLoadStatus(status);
     const hasActionMenuItems = !!(actions && actions.length > 0);
 
     return {
       ...getBaseAnalyticsContext('CardView', null),
-      type: mediaItemType,
       loadStatus,
       viewAttributes: {
         viewPreview: false,

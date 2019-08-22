@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { gridSize, colors } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N800 } from '@atlaskit/theme/colors';
 
 const Description = styled.p`
-  color: ${colors.N800};
+  color: ${N800};
   margin-top: 0;
   margin-bottom: ${gridSize() * 3}px;
 `;

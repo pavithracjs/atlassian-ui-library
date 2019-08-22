@@ -308,10 +308,9 @@ describe('Card', () => {
       />,
     );
     const filePlaceholder = fileCard.find(CardView);
-    const { status, mediaItemType, dimensions } = filePlaceholder.props();
+    const { status, dimensions } = filePlaceholder.props();
 
     expect(status).toBe('loading');
-    expect(mediaItemType).toBe('file');
     expect(dimensions).toEqual({ width: 100, height: 50 });
   });
 
@@ -689,7 +688,6 @@ describe('Card', () => {
         dataURI: 'mock result of URL.createObjectURL()',
         dimensions: { width: 10, height: 20 },
         disableOverlay: true,
-        mediaItemType: 'file',
         progress: undefined,
         resizeMode: 'fit',
         selectable: true,

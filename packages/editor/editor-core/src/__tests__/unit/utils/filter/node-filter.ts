@@ -50,48 +50,6 @@ describe(name, () => {
         });
       });
 
-      it('should filter out emojiQuery marks from json document', () => {
-        const jsonDoc = {
-          version: 1,
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [
-                {
-                  type: 'text',
-                  text: ':',
-                  marks: [
-                    {
-                      type: 'emojiQuery',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        } as JSONDocNode;
-
-        const sanitizedJSON = sanitizeNode(jsonDoc);
-
-        expect(sanitizedJSON).toEqual({
-          version: 1,
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [
-                {
-                  type: 'text',
-                  text: ':',
-                  marks: [],
-                },
-              ],
-            },
-          ],
-        });
-      });
-
       it('should filter out typeAheadQuery marks from json document', () => {
         const jsonDoc = {
           version: 1,

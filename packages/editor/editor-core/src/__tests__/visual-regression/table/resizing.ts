@@ -1,4 +1,10 @@
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { waitForTooltip } from '@atlaskit/visual-regression/helper';
+import {
+  snapshot,
+  initFullPageEditorWithAdf,
+  initEditorWithAdf,
+  Appearance,
+} from '../_utils';
 import adf from '../common/__fixtures__/noData-adf.json';
 import {
   deleteColumn,
@@ -11,14 +17,19 @@ import {
   unselectTable,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: table resizing', () => {
   describe('Re-sizing', () => {
-    let page: any;
-    beforeEach(async () => {
+    let page: Page;
+
+    beforeAll(() => {
       // @ts-ignore
       page = global.page;
-      await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+    });
+
+    beforeEach(async () => {
+      await initFullPageEditorWithAdf(page, adf);
       await insertTable(page);
     });
 
@@ -35,7 +46,8 @@ describe('Snapshot Test: table resizing', () => {
 
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
-      await animationFrame(page);
+      // after deleting the middle column the cursor will land exactly on an insert col btn
+      await waitForTooltip(page);
       await snapshot(page);
     });
 
@@ -84,11 +96,11 @@ describe('Snapshot Test: table resizing', () => {
 });
 
 describe('Snapshot Test: table resize handle', () => {
-  let page: any;
+  let page: Page;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
+    await initFullPageEditorWithAdf(page, adf);
     await insertTable(page);
   });
 
@@ -101,12 +113,17 @@ describe('Snapshot Test: table resize handle', () => {
 });
 
 describe('Snapshot Test: table scale', () => {
-  let page: any;
+  let page: Page;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI, undefined, {
-      allowDynamicTextSizing: true,
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      viewport: { width: 1280, height: 500 },
+      editorProps: {
+        allowDynamicTextSizing: true,
+      },
     });
     await insertTable(page);
     await clickFirstCell(page);

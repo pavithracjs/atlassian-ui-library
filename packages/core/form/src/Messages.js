@@ -1,23 +1,26 @@
 // @flow
 import React, { type Node } from 'react';
 import styled from 'styled-components';
-import { typography, gridSize, math, colors } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { h200 } from '@atlaskit/theme/typography';
+import { multiply } from '@atlaskit/theme/math';
+import { R400, G400, N200 } from '@atlaskit/theme/colors';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import SuccessIcon from '@atlaskit/icon/glyph/editor/success';
 import { FieldId } from './Field';
 
 const Message = styled.div`
-  ${typography.h200} font-weight: normal;
+  ${h200} font-weight: normal;
   color: ${props => {
     if (props.error) {
-      return colors.R400;
+      return R400;
     }
     if (props.valid) {
-      return colors.G400;
+      return G400;
     }
-    return colors.N200;
+    return N200;
   }};
-  margin-top: ${math.multiply(gridSize, 0.5)}px;
+  margin-top: ${multiply(gridSize, 0.5)}px;
   display: flex;
   justify-content: baseline;
 `;

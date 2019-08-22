@@ -107,7 +107,6 @@ export interface CardAnalyticsContext extends BaseAnalyticsContext {}
 
 export interface CardViewAnalyticsContext extends BaseAnalyticsContext {
   loadStatus: 'fail' | 'loading_metadata' | 'uploading' | 'complete';
-  type: 'file' | 'link' | 'smart' | 'external-image';
   viewAttributes: AnalyticsViewAttributes;
   fileAttributes?: AnalyticsFileAttributes;
   linkAttributes?: AnalyticsLinkAttributes;

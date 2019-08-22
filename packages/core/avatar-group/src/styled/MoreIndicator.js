@@ -1,7 +1,8 @@
 // @flow
 
 import styled from 'styled-components';
-import { colors, themed, withTheme } from '@atlaskit/theme';
+import { themed, withTheme } from '@atlaskit/theme/components';
+import { N40, DN70, B200, N500, DN400 } from '@atlaskit/theme/colors';
 import {
   getBorderRadius,
   getInnerStyles,
@@ -28,11 +29,11 @@ export const Outer = withTheme(styled.button`
 `);
 
 export const Inner = withTheme(styled.span`
-  background-color: ${themed({ light: colors.N40, dark: colors.DN70 })};
+  background-color: ${themed({ light: N40, dark: DN70 })};
   border-radius: ${getBorderRadius};
   align-items: center;
-  box-shadow: 0 0 0 ${getBorderWidth} ${colors.B200};
-  color: ${themed({ light: colors.N500, dark: colors.DN400 })};
+  box-shadow: 0 0 0 ${getBorderWidth} ${B200};
+  color: ${themed({ light: N500, dark: DN400 })};
   cursor: pointer;
   display: flex;
   flex-basis: 100%;

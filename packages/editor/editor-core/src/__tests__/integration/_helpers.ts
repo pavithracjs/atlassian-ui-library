@@ -335,7 +335,7 @@ export const insertMenuItem = async (browser: any, title: string) => {
 };
 
 export const currentSelectedEmoji = '.emoji-typeahead-selected';
-export const typeahead = '.ak-emoji-typeahead-list';
+export const typeahead = 'span[data-type-ahead-query]';
 
 export const insertEmoji = async (browser: any, query: string) => {
   await browser.type(editable, ':');

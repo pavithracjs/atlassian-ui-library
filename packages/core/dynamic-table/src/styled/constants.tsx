@@ -1,5 +1,7 @@
 import { css } from 'styled-components';
-import { colors, gridSize, math } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N30A } from '@atlaskit/theme/colors';
+import { divide } from '@atlaskit/theme/math';
 import { ASC, DESC } from '../internal/constants';
 import { arrow } from '../theme';
 import { SortOrderType } from '../types';
@@ -37,7 +39,7 @@ export const onClickStyle = ({ onClick }: { onClick?: boolean }) =>
   css`
     &:hover {
       cursor: pointer;
-      background-color: ${colors.N30A};
+      background-color: ${N30A};
     }
   `;
 
@@ -102,7 +104,7 @@ export const arrowsStyle = (props: {
 
 export const cellStyle = css`
   border: none;
-  padding: ${math.divide(gridSize, 2)}px ${gridSize}px;
+  padding: ${divide(gridSize, 2)}px ${gridSize}px;
   text-align: left;
 
   &:first-child {

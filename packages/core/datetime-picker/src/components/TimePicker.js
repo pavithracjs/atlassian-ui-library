@@ -13,7 +13,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { colors } from '@atlaskit/theme';
+import { B100 } from '@atlaskit/theme/colors';
 
 import {
   name as packageName,
@@ -221,7 +221,7 @@ class TimePicker extends Component<Props, State> {
     if (selectStyles.control) return {};
     return {
       border: `2px solid ${
-        this.getState().isFocused ? `${colors.B100}` : `transparent`
+        this.getState().isFocused ? `${B100}` : `transparent`
       }`,
       backgroundColor: 'transparent',
       padding: '1px',

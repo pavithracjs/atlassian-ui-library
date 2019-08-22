@@ -22,15 +22,16 @@ import {
   layoutColumn,
   breakout,
 } from '@atlaskit/editor-test-helpers';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { EditorView } from 'prosemirror-view';
 import {
   toggleOrderedList,
   toggleBulletList,
 } from '../../../../plugins/lists/commands';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
-import { EditorView } from 'prosemirror-view';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('lists', () => {
   const createEditor = createEditorFactory();
@@ -1460,6 +1461,7 @@ describe('lists', () => {
             collection: testCollectionName,
             __fileMimeType: 'image/png',
           })()(editorView.state.schema),
+          INPUT_METHOD.PICKER_CLOUD,
         );
 
         expect(editorView.state.doc).toEqualDocument(
@@ -1496,6 +1498,7 @@ describe('lists', () => {
             collection: testCollectionName,
             __fileMimeType: 'pdf',
           })()(editorView.state.schema),
+          INPUT_METHOD.PICKER_CLOUD,
         );
 
         expect(editorView.state.doc).toEqualDocument(

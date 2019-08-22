@@ -7,6 +7,8 @@ import {
   mountWithIntl,
   createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { ReactWrapper } from 'enzyme';
 
 import {
   TextColorPluginState,
@@ -17,9 +19,7 @@ import ToolbarButton from '../../../../../ui/ToolbarButton';
 import ToolbarTextColor, {
   Props as ToolbarTextColorProps,
 } from '../../../../../plugins/text-color/ui/ToolbarTextColor';
-import { ReactWrapper } from 'enzyme';
 import { AnalyticsHandler } from '../../../../../analytics';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 /**
  * Simulate a click color
@@ -125,6 +125,16 @@ describe('ToolbarTextColor', () => {
 
     it('should make isOpen false when a color is clicked', () => {
       clickColor(toolbarTextColor, getColorFromPalette(pluginState.palette, 1)); // click on second color from palette
+
+      expect(toolbarTextColor.state('isOpen')).toBe(false);
+    });
+
+    it('should make isOpen false when toolbar textColor button is clicked again', () => {
+      toolbarTextColor.find('button').simulate('click');
+      toolbarTextColor
+        .find('button')
+        .at(0)
+        .simulate('click');
 
       expect(toolbarTextColor.state('isOpen')).toBe(false);
     });

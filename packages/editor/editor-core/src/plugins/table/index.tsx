@@ -34,9 +34,7 @@ import FloatingInsertButton from './ui/FloatingInsertButton';
 import LayoutButton from './ui/LayoutButton';
 import { isLayoutSupported } from './utils';
 
-export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
-  const config =
-    !tablesConfig || typeof tablesConfig === 'boolean' ? {} : tablesConfig;
+export const pluginConfig = (config: PluginConfig = {}) => {
   return config.advanced
     ? {
         allowBackgroundColor: true,
@@ -53,7 +51,17 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
+interface TablePluginOptions {
+  tableOptions: PluginConfig;
+  dynamicSizingEnabled?: boolean;
+  breakoutEnabled?: boolean;
+  allowContextualMenu?: boolean;
+  // TODO these two need to be rethought
+  fullWidthEnabled?: boolean;
+  wasFullWidthEnabled?: boolean;
+}
+
+const tablesPlugin = (options?: TablePluginOptions): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -67,35 +75,35 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({ props, prevProps, dispatch, portalProviderAPI }) => {
-          const { allowTables, appearance, allowDynamicTextSizing } = props;
-          const isBreakoutEnabled = appearance === 'full-page';
-          const isFullWidthModeEnabled = appearance === 'full-width';
-          const wasFullWidthModeEnabled =
-            prevProps && prevProps.appearance === 'full-width';
+        plugin: ({ dispatch, portalProviderAPI }) => {
+          const {
+            dynamicSizingEnabled,
+            fullWidthEnabled,
+            wasFullWidthEnabled,
+            breakoutEnabled,
+            tableOptions,
+          } = options || ({} as TablePluginOptions);
           return createPlugin(
             dispatch,
             portalProviderAPI,
-            pluginConfig(allowTables),
-            isBreakoutEnabled && allowDynamicTextSizing,
-            isBreakoutEnabled,
-            isFullWidthModeEnabled,
-            wasFullWidthModeEnabled,
+            pluginConfig(tableOptions),
+            breakoutEnabled && dynamicSizingEnabled,
+            breakoutEnabled,
+            fullWidthEnabled,
+            wasFullWidthEnabled,
           );
         },
       },
       {
         name: 'tablePMColResizing',
-        plugin: ({
-          dispatch,
-          props: { appearance, allowTables, allowDynamicTextSizing },
-        }) => {
-          const { allowColumnResizing } = pluginConfig(allowTables);
+        plugin: ({ dispatch }) => {
+          const { dynamicSizingEnabled, fullWidthEnabled, tableOptions } =
+            options || ({} as TablePluginOptions);
+          const { allowColumnResizing } = pluginConfig(tableOptions);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
-                dynamicTextSizing:
-                  allowDynamicTextSizing && appearance !== 'full-width',
-                lastColumnResizable: appearance !== 'full-width',
+                dynamicTextSizing: dynamicSizingEnabled && !fullWidthEnabled,
+                lastColumnResizable: !fullWidthEnabled,
               } as ColumnResizingPluginState)
             : undefined;
         },
@@ -112,7 +120,6 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
     popupsMountPoint,
     popupsBoundariesElement,
     popupsScrollableElement,
-    appearance,
   }) {
     return (
       <WithPluginState
@@ -128,7 +135,6 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
           );
           const isDragging =
             tableResizingPluginState && tableResizingPluginState.dragging;
-          const isMobile = appearance === 'mobile';
           const allowControls =
             pluginState &&
             pluginState.pluginConfig &&
@@ -136,16 +142,19 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
 
           return (
             <>
-              {pluginState.targetCellPosition && !isDragging && !isMobile && (
-                <FloatingContextualButton
-                  editorView={editorView}
-                  mountPoint={popupsMountPoint}
-                  targetCellPosition={pluginState.targetCellPosition}
-                  scrollableElement={popupsScrollableElement}
-                  isContextualMenuOpen={pluginState.isContextualMenuOpen}
-                  layout={pluginState.layout}
-                />
-              )}
+              {pluginState.targetCellPosition &&
+                !isDragging &&
+                options &&
+                options.allowContextualMenu && (
+                  <FloatingContextualButton
+                    editorView={editorView}
+                    mountPoint={popupsMountPoint}
+                    targetCellPosition={pluginState.targetCellPosition}
+                    scrollableElement={popupsScrollableElement}
+                    isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                    layout={pluginState.layout}
+                  />
+                )}
               {allowControls && (
                 <FloatingInsertButton
                   tableNode={pluginState.tableNode}
@@ -178,9 +187,9 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                   scrollableElement={popupsScrollableElement}
                 />
               )}
-              {appearance === 'full-page' &&
-                isLayoutSupported(state) &&
-                !disableBreakoutUI && (
+              {isLayoutSupported(state) &&
+                options &&
+                options.breakoutEnabled && (
                   <LayoutButton
                     editorView={editorView}
                     mountPoint={popupsMountPoint}

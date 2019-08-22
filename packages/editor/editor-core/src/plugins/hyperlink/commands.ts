@@ -15,8 +15,11 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
+  withAnalytics,
 } from '../analytics';
 import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { LinkInputType } from './ui/HyperlinkAddToolbar/HyperlinkAddToolbar';
+import { getLinkCreationAnalyticsEvent } from './analytics';
 
 export function isTextAtPos(pos: number): Predicate {
   return (state: EditorState) => {
@@ -144,16 +147,17 @@ export function insertLink(
     const link = state.schema.marks.link;
     if (href.trim()) {
       const { tr } = state;
+      const normalizedUrl = normalizeUrl(href);
       if (from === to) {
         const textContent = text || href;
         tr.insertText(textContent, from, to);
         tr.addMark(
           from,
           from + textContent.length,
-          link.create({ href: normalizeUrl(href) }),
+          link.create({ href: normalizedUrl }),
         );
       } else {
-        tr.addMark(from, to, link.create({ href: normalizeUrl(href) }));
+        tr.addMark(from, to, link.create({ href: normalizedUrl }));
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
@@ -168,6 +172,17 @@ export function insertLink(
     return false;
   });
 }
+
+export const insertLinkWithAnalytics = (
+  inputMethod: LinkInputType,
+  from: number,
+  to: number,
+  href: string,
+  text?: string,
+) =>
+  withAnalytics(getLinkCreationAnalyticsEvent(inputMethod, href))(
+    insertLink(from, to, href, text, inputMethod),
+  );
 
 export function removeLink(pos: number): Command {
   return setLinkHref('', pos);
