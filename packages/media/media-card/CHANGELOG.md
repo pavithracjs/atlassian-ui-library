@@ -1,5 +1,14 @@
 # @atlaskit/media-card
 
+## 64.0.0
+
+### Major Changes
+
+- [major][3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+
+  Property `type` was removed from `CardViewAnalyticsContext` interface
+  File size won't be displayed if it was set to zero or not obtained
+
 ## 63.3.12
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @atlaskit/editor-core
 
+## 112.41.9
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/editor-common@39.17.4
+  - @atlaskit/renderer@49.7.10
+  - @atlaskit/media-client@2.0.2
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-editor@36.2.10
+  - @atlaskit/media-filmstrip@34.3.3
+  - @atlaskit/media-picker@47.0.2
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-card@64.0.0
+
 ## 112.41.8
 
 - Updated dependencies [6879d7d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6879d7d01e):
