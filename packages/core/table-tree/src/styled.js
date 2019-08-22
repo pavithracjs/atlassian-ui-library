@@ -1,6 +1,6 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { N800, N30, N300 } from '@atlaskit/theme/colors';
 
 // Future-proofing: Styled Component 2.x no longer tolerate unitless values for CSS length.
 // See:
@@ -17,10 +17,10 @@ function defaultToPx(length) {
   return `${number}px`;
 }
 
-export const iconColor = colors.N800;
+export const iconColor = N800;
 
 export const TreeRowContainer = styled.div`
-  border-bottom: 1px solid ${colors.N30};
+  border-bottom: 1px solid ${N30};
   display: flex;
 `;
 
@@ -66,7 +66,7 @@ const commonCell = css`
   box-sizing: border-box;
   min-height: 40px;
   padding: 8px ${defaultToPx(indentWidth)};
-  color: ${colors.N800};
+  color: ${N800};
   line-height: 20px;
   ${props =>
     props.width &&
@@ -98,7 +98,7 @@ export const Header = styled.div`
   font-size: 12px;
   line-height: 1.67;
   letter-spacing: -0.1px;
-  color: ${colors.N300};
+  color: ${N300};
 `;
 
 export const TableTreeContainer = styled.div``;

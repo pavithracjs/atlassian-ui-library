@@ -25,8 +25,7 @@ export const Header = styled.div`
   vertical-align: middle;
 
   &.with-children {
-    padding: 0;
-    background: white;
+    padding: 4px 8px 8px;
   }
 `;
 

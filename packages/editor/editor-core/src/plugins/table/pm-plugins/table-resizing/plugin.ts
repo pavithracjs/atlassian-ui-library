@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import classnames from 'classnames';
-import { updateResizeHandle, getResizeCellPos } from './utils';
+import { getResizeCellPos } from './utils';
 import {
   ColumnResizingPluginState,
   TableCssClassName as ClassName,
@@ -56,18 +56,12 @@ export function createPlugin(
 
           const { dragging } = getPluginState(state);
           if (resizeHandlePos !== null && !dragging) {
-            const domAtPos = view.domAtPos.bind(view);
-            if (
-              handleMouseDown(
-                view,
-                event as MouseEvent,
-                resizeHandlePos,
-                dynamicTextSizing,
-              )
-            ) {
-              updateResizeHandle(state, domAtPos, resizeHandlePos);
-              return true;
-            }
+            return handleMouseDown(
+              view,
+              event as MouseEvent,
+              resizeHandlePos,
+              dynamicTextSizing,
+            );
           }
 
           return false;

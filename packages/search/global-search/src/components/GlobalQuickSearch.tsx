@@ -23,10 +23,7 @@ import {
 } from '../util/analytics-event-helper';
 
 import { CreateAnalyticsEventFn } from './analytics/types';
-import {
-  isAdvancedSearchResult,
-  ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
-} from './SearchResultsUtil';
+import { isAdvancedSearchResult } from './SearchResultsUtil';
 import { getAutocompleteText } from '../util/autocomplete';
 import { Filter } from './../api/CrossProductSearchClient';
 
@@ -52,6 +49,7 @@ export interface Props {
   autocompleteSuggestions?: string[];
   referralContextIdentifiers?: ReferralContextIdentifiers;
   filters?: Filter[];
+  advancedSearchId: string;
 }
 
 export interface State {
@@ -115,11 +113,12 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       createAnalyticsEvent,
       searchSessionId,
       referralContextIdentifiers,
+      advancedSearchId,
     } = this.props;
     this.resultSelected = true;
     const resultId =
       eventData.resultCount && eventData.method === 'shortcut'
-        ? ADVANCED_CONFLUENCE_SEARCH_RESULT_ID
+        ? advancedSearchId
         : eventData.resultId;
     if (isAdvancedSearchResult(resultId)) {
       fireSelectedAdvancedSearch(
@@ -220,4 +219,4 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   }
 }
 
-export default withAnalyticsEvents<Props>()(GlobalQuickSearch);
+export default withAnalyticsEvents()(GlobalQuickSearch);

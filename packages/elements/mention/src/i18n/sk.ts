@@ -6,7 +6,7 @@
  */
 // Slovak
 export default {
-  'fabric.mention.unknow.user.error': 'Neznámy používateľ {id}',
+  'fabric.mention.unknow.user.error': 'Neznámy používateľ {userId}',
   'fabric.mention.noAccess.warning':
     'Používateľ {name} sa neupozorní. pretože nemá prístup',
   'fabric.mention.noAccess.label': 'Žiadny prístup',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': 'Viac ako 50 členov',
   'fabric.elements.mentions.team.member.50plus.including.you':
     'Viac ako 50 členov vrátane vás',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Spomenúť tím',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Informujte každého jedným kliknutím. Nemáte tím?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Vytvoriť.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Zrušiť',
 };

@@ -1,5 +1,5 @@
 import {
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import debounce from 'lodash.debounce';
@@ -40,7 +40,7 @@ import {
 } from './utils';
 
 type Props = UserPickerProps &
-  WithAnalyticsEventProps & {
+  WithAnalyticsEventsProps & {
     SelectComponent: React.ComponentClass<any>;
     pickerProps?: any;
     styles: any;
@@ -512,4 +512,4 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   }
 }
 
-export const BaseUserPicker = withAnalyticsEvents<Props>()(UserPickerInternal);
+export const BaseUserPicker = withAnalyticsEvents()(UserPickerInternal);

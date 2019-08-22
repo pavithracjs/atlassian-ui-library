@@ -1,4 +1,5 @@
-import { colors, createTheme } from '@atlaskit/theme';
+import { createTheme } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 
 /** Note:
  * Lozenge does not support dark mode at the moment.

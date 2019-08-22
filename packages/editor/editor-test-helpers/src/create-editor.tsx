@@ -21,7 +21,7 @@ import { RefsNode, Refs } from './schema-builder';
 import { Schema } from 'prosemirror-model';
 import { PluginKey, NodeSelection } from 'prosemirror-state';
 import patchEditorViewForJSDOM from './jsdom-fixtures';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 class TestReactEditorView extends ReactEditorView<{
   plugins?: EditorPlugin[];
@@ -29,7 +29,7 @@ class TestReactEditorView extends ReactEditorView<{
   getPlugins(editorProps: EditorProps): EditorPlugin[] {
     return (
       this.props.plugins ||
-      super.getPlugins(editorProps, this.props.createAnalyticsEvent)
+      super.getPlugins(editorProps, undefined, this.props.createAnalyticsEvent)
     );
   }
 }
@@ -46,7 +46,7 @@ export type Options = {
   editorProps?: EditorProps;
   providerFactory?: ProviderFactory;
   pluginKey?: PluginKey;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 };
 
 export default function createEditorFactoryForTests<T = any>() {

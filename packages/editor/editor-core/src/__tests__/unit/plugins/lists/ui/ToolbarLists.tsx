@@ -15,9 +15,8 @@ import { messages } from '../../../../../plugins/lists/messages';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenu from '../../../../../ui/DropdownMenu';
 import ToolbarLists from '../../../../../plugins/lists/ui/ToolbarLists';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
-import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
 
 function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
   toolbarOption
@@ -35,7 +34,7 @@ function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
 describe('ToolbarLists', () => {
   const createEditor = createEditorFactory<ListsPluginState>();
   let toolBarListsWrapper: ReactWrapper;
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
   let analyticsHandler: AnalyticsHandler;
 
   afterEach(() => {
@@ -90,10 +89,8 @@ describe('ToolbarLists', () => {
 
   describe('analytics', () => {
     let toolbarLists: ReactWrapper;
-    let dispatchAnalyticsEvent: jest.MockInstance<DispatchAnalyticsEvent>;
     beforeEach(() => {
-      dispatchAnalyticsEvent = jest.fn();
-      ({ toolbarLists } = setup({ dispatchAnalyticsEvent }));
+      ({ toolbarLists } = setup());
     });
 
     it('should trigger analyticsService.trackEvent when bulleted list button is clicked', () => {
@@ -107,7 +104,7 @@ describe('ToolbarLists', () => {
     it('should dispatch analytics event when bulleted list button is clicked', () => {
       clickToolbarOption(toolbarLists, messages.unorderedList.defaultMessage);
 
-      expect(dispatchAnalyticsEvent).toHaveBeenCalledWith({
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'formatted',
         actionSubject: 'text',
         eventType: 'track',
@@ -129,7 +126,7 @@ describe('ToolbarLists', () => {
     it('should dispatch analytics event when numbered list button is clicked', () => {
       clickToolbarOption(toolbarLists, messages.orderedList.defaultMessage);
 
-      expect(dispatchAnalyticsEvent).toHaveBeenCalledWith({
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'formatted',
         actionSubject: 'text',
         eventType: 'track',

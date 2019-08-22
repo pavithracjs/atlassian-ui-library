@@ -28,7 +28,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { AnalyticsHandler } from '../../../../analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 const createProductPayload = (product: string, originalSpelling: string) => ({
   action: 'autoSubstituted',
@@ -114,7 +114,7 @@ describe('text-formatting input rules', () => {
   const createEditor = createEditorFactory();
 
   let trackEvent: AnalyticsHandler;
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
 
   const editor = (doc: any, disableCode = false) => {
     createAnalyticsEvent = createAnalyticsEventMock();

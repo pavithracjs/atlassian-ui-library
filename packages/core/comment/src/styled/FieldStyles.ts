@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { N500 } from '@atlaskit/theme/colors';
 
 const ThemeColor = {
-  text: colors.N500,
+  text: N500,
 };
 
 interface CommonProps {

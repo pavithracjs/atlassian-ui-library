@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { N0, DN600, DN0 } from '@atlaskit/theme/colors';
 import { getHeight, paddingUnitless, transition } from './constants';
 import { StyledProps } from '../types';
 
-const backgroundColor = themed({ light: colors.N0, dark: colors.DN600 });
-const backgroundColorChecked = themed({ light: colors.N0, dark: colors.DN0 });
-const backgroundColorDisabled = themed({ light: colors.N0, dark: colors.DN0 });
+const backgroundColor = themed({ light: N0, dark: DN600 });
+const backgroundColorChecked = themed({ light: N0, dark: DN0 });
+const backgroundColorDisabled = themed({ light: N0, dark: DN0 });
 
 const getTransform = ({ isChecked, size }: StyledProps) =>
   isChecked ? `translateX(${getHeight({ size })}px)` : 'initial';

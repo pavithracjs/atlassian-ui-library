@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/atlaskid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Atlaskit specific implementation of Landkid for hosting on micros",
   "scripts": {
@@ -23,6 +23,6 @@
     "execa": "^0.10.0",
     "landkid": "^0.2.10",
     "node-yaml": "^3.1.1",
-    "p-wait-for": "^1.0.0"
+    "p-wait-for": "^3.1.0"
   }
 }

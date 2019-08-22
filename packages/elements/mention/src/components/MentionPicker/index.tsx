@@ -1,6 +1,6 @@
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import * as React from 'react';
 import {
@@ -44,6 +44,7 @@ export interface Props {
   offsetY?: number;
 
   showTeamMentionsHighlight?: boolean;
+  createTeamPath?: string;
 }
 
 export interface State {
@@ -55,7 +56,7 @@ export interface State {
  * @class MentionPicker
  */
 export class MentionPicker extends React.PureComponent<
-  Props & WithAnalyticsEventProps,
+  Props & WithAnalyticsEventsProps,
   State
 > {
   private subscriberKey: string;
@@ -67,7 +68,7 @@ export class MentionPicker extends React.PureComponent<
     onClose: () => {},
   };
 
-  constructor(props: Props & WithAnalyticsEventProps) {
+  constructor(props: Props & WithAnalyticsEventsProps) {
     super(props);
     this.subscriberKey = uniqueId('ak-mention-picker');
     this.state = {
@@ -80,7 +81,7 @@ export class MentionPicker extends React.PureComponent<
     this.subscribeResourceProvider(this.props.resourceProvider);
   }
 
-  componentWillReceiveProps(nextProps: Props & WithAnalyticsEventProps) {
+  componentWillReceiveProps(nextProps: Props & WithAnalyticsEventsProps) {
     this.applyPropChanges(this.props, nextProps);
   }
 
@@ -228,6 +229,7 @@ export class MentionPicker extends React.PureComponent<
 
   render() {
     const {
+      createTeamPath,
       resourceProvider,
       presenceProvider,
       onSelection,
@@ -249,6 +251,7 @@ export class MentionPicker extends React.PureComponent<
         query={query}
         ref={this.handleMentionListRef}
         isTeamMentionHighlightEnabled={!!showTeamMentionsHighlight}
+        createTeamPath={createTeamPath}
       />
     );
 
@@ -303,7 +306,7 @@ export class MentionPicker extends React.PureComponent<
   }
 }
 
-export const MentionPickerWithAnalytics = withAnalyticsEvents<Props>({})(
+export const MentionPickerWithAnalytics = withAnalyticsEvents({})(
   MentionPicker,
 );
 

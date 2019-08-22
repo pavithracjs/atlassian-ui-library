@@ -99,25 +99,20 @@ const LightSubtextWrapper = styled.span`
 const getI18nConfluenceContainerSubtext = (
   containerName: string,
   friendlyLastModified: string | undefined,
-  isComplexSearchExtensionsEnabled: boolean,
 ) => {
-  if (isComplexSearchExtensionsEnabled) {
-    const containerText = friendlyLastModified ? (
-      <FormattedMessage
-        {...messages.confluence_container_subtext_with_modified_date}
-        values={{
-          containerName,
-          friendlyLastModified,
-        }}
-      />
-    ) : (
-      containerName
-    );
+  const containerText = friendlyLastModified ? (
+    <FormattedMessage
+      {...messages.confluence_container_subtext_with_modified_date}
+      values={{
+        containerName,
+        friendlyLastModified,
+      }}
+    />
+  ) : (
+    containerName
+  );
 
-    return <LightSubtextWrapper>{containerText}</LightSubtextWrapper>;
-  } else {
-    return containerName;
-  }
+  return <LightSubtextWrapper>{containerText}</LightSubtextWrapper>;
 };
 
 export const getUniqueResultId = (result: Result): string =>
@@ -147,12 +142,10 @@ class ResultList extends React.Component<Props> {
       switch (resultType) {
         case ResultType.ConfluenceObjectResult: {
           const confluenceResult = result as ConfluenceObjectResult;
-          const confluenceFeatures: ConfluenceFeatures = features as ConfluenceFeatures;
 
           const subText = getI18nConfluenceContainerSubtext(
             confluenceResult.containerName,
             confluenceResult.friendlyLastModified,
-            confluenceFeatures.complexSearchExtensionsEnabled,
           );
 
           return (

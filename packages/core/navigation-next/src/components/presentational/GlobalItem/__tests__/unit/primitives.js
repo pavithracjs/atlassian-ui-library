@@ -19,7 +19,7 @@ describe('GlobalNavigationItemPrimitive', () => {
       isFocused: false,
     };
     defaultDataset = {
-      'data-test-id': 'GlobalNavigationItem',
+      'data-testid': 'GlobalNavigationItem',
     };
   });
 

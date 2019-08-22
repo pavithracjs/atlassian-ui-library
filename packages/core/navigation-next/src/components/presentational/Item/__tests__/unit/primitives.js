@@ -81,7 +81,7 @@ describe('ItemPrimitiveBase', () => {
     expect(componentWrapper.props()).toMatchObject({
       innerRef,
       dataset: {
-        'data-test-id': 'NavigationItem',
+        'data-testid': 'NavigationItem',
       },
       ...props,
     });
@@ -240,7 +240,7 @@ describe('ItemPrimitiveBase', () => {
     it(`should apply a default dataset to ${subject} when dataset is not provided`, () => {
       expect(
         render(<ItemPrimitiveBase {...defaultProps} {...props} />).data(),
-      ).toEqual({ testId: 'NavigationItem' });
+      ).toEqual({ testid: 'NavigationItem' });
     });
 
     it(`should apply a custom dataset to ${subject} when dataset is provided`, () => {

@@ -10,6 +10,8 @@ import { isMentionItemSelected } from '../_test-helpers';
 
 const { mentionDataSize } = mention.mentionData;
 const mentions = mention.mentionData.mentionResult;
+// TODO: After updating to expect.hasAssertions(), it identified some tests that are not correctly written.
+// Please refer to: https://product-fabric.atlassian.net/browse/FS-4183
 describe('MentionList', () => {
   describe('MentionList without initial element', () => {
     let component: ReactWrapper<Props & InjectedIntlProps, State>;
@@ -30,6 +32,7 @@ describe('MentionList', () => {
     });
 
     it('should have first item selected by default', () => {
+      expect(component).toBeDefined();
       const firstItemSelected = () =>
         isMentionItemSelected(component, mentions[0].id);
 
@@ -39,6 +42,7 @@ describe('MentionList', () => {
     });
 
     it('selectIndex selects correct item', () => {
+      expect(component).toBeDefined();
       const thirdItemSelected = () => {
         return isMentionItemSelected(component, mentions[2].id);
       };
@@ -52,6 +56,7 @@ describe('MentionList', () => {
     });
 
     it('selectId selects correct item', () => {
+      expect(component).toBeDefined();
       const thirdItemSelected = () =>
         isMentionItemSelected(component, mentions[2].id);
 
@@ -64,6 +69,7 @@ describe('MentionList', () => {
     });
 
     it('mentionsCount returns the number of mentions in the list', () => {
+      expect(component).toBeDefined();
       return waitUntil(defaultMentionItemsShow).then(() => {
         const mentionList = component.instance() as MentionList;
         expect(mentionList.mentionsCount()).toEqual(mentionDataSize);
@@ -71,6 +77,7 @@ describe('MentionList', () => {
     });
 
     it('should retain a deliberate selection across changing list of mentions', () => {
+      expect(component).toBeDefined();
       return waitUntil(defaultMentionItemsShow).then(() => {
         const mentionList = component.instance() as MentionList;
 
@@ -105,6 +112,7 @@ describe('MentionList', () => {
     });
 
     it('should select first item for each changing set of mentions if no deliberate selection is made', () => {
+      expect(component).toBeDefined();
       return waitUntil(defaultMentionItemsShow).then(() => {
         const firstItemSelected = () =>
           isMentionItemSelected(component, mentions[0].id);
@@ -163,6 +171,7 @@ describe('MentionList', () => {
     });
 
     it('should have first item selected by default', () => {
+      expect(component).toBeDefined();
       const firstItemSelected = () =>
         isMentionItemSelected(component, mentions[0].id);
 
@@ -172,6 +181,7 @@ describe('MentionList', () => {
     });
 
     it('should render intitialHighlight', () => {
+      expect(component).toBeDefined();
       const elementAppears = () => {
         return component.find('#highlight').length === 1;
       };

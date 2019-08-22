@@ -1,14 +1,10 @@
 // @flow
 
 import styled, { css } from 'styled-components';
-import {
-  borderRadius,
-  colors,
-  gridSize,
-  math,
-  themed,
-  withTheme,
-} from '@atlaskit/theme';
+import { themed, withTheme } from '@atlaskit/theme/components';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import * as colors from '@atlaskit/theme/colors';
+import { divide } from '@atlaskit/theme/math';
 import type { AvatarClickType } from '../types';
 
 const focusBorderColor = themed({ light: colors.B200, dark: colors.B75 });
@@ -107,7 +103,7 @@ export function getStyles({
     opacity: ${opacity};
     outline: ${outline};
     margin: 0;
-    padding: ${math.divide(gridSize, 2)}px;
+    padding: ${divide(gridSize, 2)}px;
     pointer-events: ${pointerEvents};
     text-align: left;
     text-decoration: none;

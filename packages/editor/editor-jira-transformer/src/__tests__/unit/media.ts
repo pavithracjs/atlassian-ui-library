@@ -287,6 +287,7 @@ describe('JIRATransformer', () => {
           () => transformer.parse(`<p>${fragment1}</p>`),
           'JIRATransformer.parse() should not throw exception',
         );
+        expect(() => transformer.parse(`<p>${fragment1}</p>`)).not.toThrow();
       });
 
       it('should not throw error when trying to parse media groups within non-media schema', () => {
@@ -300,6 +301,7 @@ describe('JIRATransformer', () => {
             ),
           'JIRATransformer.parse() should not throw exception',
         );
+        expect(() => transformer.parse(`<p>${fragment1}</p>`)).not.toThrow();
       });
     });
 

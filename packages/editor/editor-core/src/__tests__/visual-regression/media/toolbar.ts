@@ -8,9 +8,10 @@ import {
   waitForActivityItems,
 } from '../../__helpers/page-objects/_media';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: Media', () => {
-  let page: any;
+  let page: Page;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;

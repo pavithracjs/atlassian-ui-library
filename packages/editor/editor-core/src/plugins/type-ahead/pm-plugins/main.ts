@@ -18,6 +18,7 @@ import { itemsListUpdated } from '../commands/items-list-updated';
 import { updateQueryCommand } from '../commands/update-query';
 import { isQueryActive } from '../utils/is-query-active';
 import { findTypeAheadQuery } from '../utils/find-query-mark';
+import { selectCurrentItem } from '../commands/select-item';
 
 export const pluginKey = new PluginKey('typeAheadPlugin');
 
@@ -35,7 +36,7 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
-  spotlight?: JSX.Element | null;
+  highlight?: JSX.Element | null;
 };
 
 export const ACTIONS = {
@@ -188,6 +189,25 @@ export function createPlugin(
         },
       };
     },
+    appendTransaction(_trs, _oldState, newState) {
+      const pluginState = pluginKey.getState(newState) as PluginState;
+      if (
+        pluginState.active &&
+        pluginState.query &&
+        pluginState.typeAheadHandler &&
+        pluginState.typeAheadHandler.forceSelect &&
+        pluginState.typeAheadHandler.forceSelect(
+          pluginState.query,
+          pluginState.items,
+        )
+      ) {
+        let newTr;
+        selectCurrentItem()(newState, tr => (newTr = tr));
+        return newTr;
+      }
+
+      return null;
+    },
     props: {
       handleDOMEvents: {
         input(view, event: any) {
@@ -333,7 +353,7 @@ export function defaultActionHandler({
   const typeAheadHandler = typeAhead.find(t => t.trigger === trigger)!;
   let typeAheadItems: Array<TypeAheadItem> | Promise<Array<TypeAheadItem>> = [];
   let itemsLoader: TypeAheadItemsLoader = null;
-  let spotlight: JSX.Element | null = null;
+  let highlight: JSX.Element | null = null;
 
   try {
     const { intl } = reactContext();
@@ -349,8 +369,8 @@ export function defaultActionHandler({
       dispatch,
     );
 
-    if (typeAheadHandler.getSpotlight) {
-      spotlight = typeAheadHandler.getSpotlight(state);
+    if (typeAheadHandler.getHighlight) {
+      highlight = typeAheadHandler.getHighlight(state);
     }
 
     if (pluginState.itemsLoader) {
@@ -381,7 +401,7 @@ export function defaultActionHandler({
     queryStarted: Date.now(),
     upKeyCount: 0,
     downKeyCount: 0,
-    spotlight,
+    highlight,
   };
 
   dispatch(pluginKey, newPluginState);

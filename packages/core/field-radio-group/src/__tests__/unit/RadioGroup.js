@@ -83,20 +83,19 @@ describe(name, () => {
           );
           expect(wrapper.find(Base).prop('isRequired')).toBe(isRequired);
         });
-
         it('is reflected to each Radio item', () => {
           const isRequired = true;
-          const wrapper = shallow(
+          const wrapper = mount(
             <AkFieldRadioGroup
               onRadioChange={() => {}}
               isRequired={isRequired}
+              items={sampleItems}
             />,
           );
-          wrapper
-            .find(Radio)
-            .forEach(radio =>
-              expect(radio.prop('isRequired', isRequired)).not.toBe(undefined),
-            );
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
+          wrapper.find(Radio).forEach(radio => {
+            expect(radio.prop('isRequired', isRequired)).not.toBe(undefined);
+          });
         });
       });
 
@@ -137,6 +136,7 @@ describe(name, () => {
         const wrapper = shallow(
           <AkFieldRadioGroup onRadioChange={() => {}} items={items} />,
         );
+        expect(wrapper).toBeDefined();
         expectRadioSelected(wrapper, 2);
       });
       it('does not select an item if not specified', () => {
@@ -148,6 +148,7 @@ describe(name, () => {
         const wrapper = shallow(
           <AkFieldRadioGroup onRadioChange={() => {}} items={items} />,
         );
+        expect(wrapper).toBeDefined();
         expectNoRadioSelected(wrapper);
       });
       it('can select a radio which is disabled', () => {
@@ -159,6 +160,7 @@ describe(name, () => {
         const wrapper = shallow(
           <AkFieldRadioGroup onRadioChange={() => {}} items={items} />,
         );
+        expect(wrapper).toBeDefined();
         expectRadioSelected(wrapper, 2);
       });
     });

@@ -1,6 +1,8 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { borderRadius, colors, gridSize, math } from '@atlaskit/theme';
+import { borderRadius, gridSize } from '@atlaskit/theme/constants';
+import { backgroundOnLayer, N50A, N60A } from '@atlaskit/theme/colors';
+import { divide, multiply } from '@atlaskit/theme/math';
 
 /* When dropdown contains more than 9 elements (droplist items, droplist groups),
  * it should have scroll and cut off half of the 10th item to indicate that there are more
@@ -27,13 +29,11 @@ export default styled.div`
   `};
 `;
 
-const backgroundColor = colors.backgroundOnLayer;
+const backgroundColor = backgroundOnLayer;
 const boxShadow = css`
-  box-shadow: 0 ${math.divide(gridSize, 2)}px ${gridSize}px -${math.divide(
-        gridSize,
-        4,
-      )}px ${colors.N50A},
-    0 0 1px ${colors.N60A};
+  box-shadow: 0 ${divide(gridSize, 2)}px ${gridSize}px -${divide(gridSize, 4)}px
+      ${N50A},
+    0 0 1px ${N60A};
 `;
 
 export const Content = styled.div`
@@ -42,15 +42,15 @@ export const Content = styled.div`
   ${boxShadow};
   box-sizing: border-box;
   overflow: auto;
-  padding: ${math.divide(gridSize, 2)}px 0;
+  padding: ${divide(gridSize, 2)}px 0;
   max-height: ${getMaxHeight};
 `;
 
 export const SpinnerContainer = styled.div`
   display: flex;
   justify-content: center;
-  min-width: ${math.multiply(gridSize, 20)}px;
-  padding: ${math.multiply(gridSize, 2.5)}px;
+  min-width: ${multiply(gridSize, 20)}px;
+  padding: ${multiply(gridSize, 2.5)}px;
 `;
 
 export const Trigger = styled.div`

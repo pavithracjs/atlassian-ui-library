@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, type Node } from 'react';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import ScrollLock from 'react-scrolllock';
 import { Popper, Manager, Reference } from '@atlaskit/popper';
 

@@ -1,6 +1,8 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { gridSize, fontSize, colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize, fontSize } from '@atlaskit/theme/constants';
+import { N70, DN90, N900, DN600 } from '@atlaskit/theme/colors';
 import {
   getBackgroundColor,
   getBackgroundColorFocus,
@@ -40,7 +42,7 @@ const getLineHeight = props => {
   return currentLineHeight / fontSize();
 };
 
-const getDisabledColor = themed({ light: colors.N70, dark: colors.DN90 });
+const getDisabledColor = themed({ light: N70, dark: DN90 });
 
 const getDisabledState = props =>
   props.disabled &&
@@ -79,7 +81,7 @@ export const ChildWrapper = styled.div`
   ${p => getMinHeight(p)};
 `;
 
-const getColor = themed({ light: colors.N900, dark: colors.DN600 });
+const getColor = themed({ light: N900, dark: DN600 });
 
 export const Content = styled.div`
   align-items: center;

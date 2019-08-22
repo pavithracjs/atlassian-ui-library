@@ -4,7 +4,7 @@ import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
@@ -15,9 +15,9 @@ import {
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
 import {
-  MentionSpotlight,
-  MentionSpotlightController,
-} from '@atlaskit/mention';
+  TeamMentionHighlight,
+  TeamMentionHighlightController,
+} from '@atlaskit/mention/spotlight';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -27,7 +27,7 @@ import {
 } from '@atlaskit/editor-common';
 
 import { analyticsService } from '../../analytics';
-import { EditorPlugin, Command, EditorAppearance } from '../../types';
+import { EditorPlugin, Command } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
 import WithPluginState from '../../ui/WithPluginState';
@@ -65,18 +65,22 @@ export interface TeamInfoAttrAnalytics {
   memberCount: number;
 }
 
-const mentionsPlugin = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-  sanitizePrivateContent?: boolean,
-  mentionInsertDisplayName?: boolean,
-): EditorPlugin => {
+export interface MentionPluginOptions {
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
+  sanitizePrivateContent?: boolean;
+  mentionInsertDisplayName?: boolean;
+  useInlineWrapper?: boolean;
+  allowZeroWidthSpaceAfter?: boolean;
+}
+
+const mentionsPlugin = (options?: MentionPluginOptions): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
-    if (createAnalyticsEvent) {
+    if (options && options.createAnalyticsEvent) {
       if (payload.attributes && !payload.attributes.sessionId) {
         payload.attributes.sessionId = sessionId;
       }
-      createAnalyticsEvent(payload).fire(ELEMENTS_CHANNEL);
+      options.createAnalyticsEvent(payload).fire(ELEMENTS_CHANNEL);
     }
   };
 
@@ -89,13 +93,13 @@ const mentionsPlugin = (
       return [
         {
           name: 'mention',
-          plugin: ({ providerFactory, dispatch, portalProviderAPI, props }) =>
+          plugin: ({ providerFactory, dispatch, portalProviderAPI }) =>
             mentionPluginFactory(
               dispatch,
               providerFactory,
               portalProviderAPI,
               fireEvent,
-              props.appearance,
+              options,
             ),
         },
       ];
@@ -156,22 +160,21 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
-        getSpotlight: (state: EditorState) => {
+        getHighlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
           const provider = pluginState.mentionProvider;
-          if (
-            provider &&
-            (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
-          ) {
-            const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
+          if (provider) {
+            const teamMentionProvider = provider as TeamMentionProvider;
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled() &&
-              enabledViaLocalStorage
+              isTeamMentionProvider(teamMentionProvider) &&
+              teamMentionProvider.mentionTypeaheadHighlightEnabled()
             ) {
               return (
-                <MentionSpotlight
-                  createTeamLink="/people/search#createTeam"
-                  onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - use a proper function here which sends both analytics and register the close as well
+                <TeamMentionHighlight
+                  createTeamLink={teamMentionProvider.mentionTypeaheadCreateTeamPath()}
+                  onClose={() =>
+                    TeamMentionHighlightController.registerClosed()
+                  }
                 />
               );
             }
@@ -231,6 +234,11 @@ const mentionsPlugin = (
           );
         },
         selectItem(state, item, insert, { mode }) {
+          const sanitizePrivateContent =
+            options && options.sanitizePrivateContent;
+          const mentionInsertDisplayName =
+            options && options.mentionInsertDisplayName;
+
           const { schema } = state;
 
           const pluginState = getMentionPluginState(state);
@@ -290,7 +298,7 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            MentionSpotlightController.registerTeamMention();
+            TeamMentionHighlightController.registerTeamMention();
 
             return insert(
               buildNodesForTeamMention(
@@ -427,7 +435,7 @@ function mentionPluginFactory(
   providerFactory: ProviderFactory,
   portalProviderAPI: PortalProviderAPI,
   fireEvent: (payload: any) => void,
-  editorAppearance?: EditorAppearance,
+  options?: MentionPluginOptions,
 ) {
   let mentionProvider: MentionProvider;
 
@@ -477,11 +485,7 @@ function mentionPluginFactory(
     } as StateField<MentionPluginState>,
     props: {
       nodeViews: {
-        mention: mentionNodeView(
-          portalProviderAPI,
-          providerFactory,
-          editorAppearance,
-        ),
+        mention: mentionNodeView(portalProviderAPI, providerFactory, options),
       },
     },
     view(editorView) {
@@ -648,3 +652,9 @@ function buildNodesForTeamMention(
   inlineNodes.push(closeBracketText);
   return Fragment.fromArray(inlineNodes);
 }
+
+const isTeamMentionProvider = (p: any): p is TeamMentionProvider =>
+  !!(
+    (p as TeamMentionProvider).mentionTypeaheadHighlightEnabled &&
+    (p as TeamMentionProvider).mentionTypeaheadCreateTeamPath
+  );

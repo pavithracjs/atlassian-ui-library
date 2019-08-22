@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+
+import { N30A, N20 } from '@atlaskit/theme/colors';
 
 import type { ModeColors } from '../../../theme/types';
 import type { SectionPresentationProps } from './types';
@@ -37,13 +39,27 @@ const getBaseStyles = ({ alwaysShowScrollHint }: SectionPresentationProps) => ({
       top: 0,
       zIndex: 1,
     },
+
+    '&::after': {
+      borderRadius: 1,
+      content: "''",
+      display: 'block',
+      flex: 0,
+      height: `${scrollHintHeight}px`,
+      left: `${scrollHintSpacing}px`,
+      position: 'absolute',
+      right: `${scrollHintSpacing + scrollBarSize}px`,
+      bottom: 0,
+      zIndex: 1,
+    },
   },
   inner: {
+    display: 'flex',
+    flexDirection: 'column',
     flexBasis: '100%',
     height: '100%',
     justifyContent: 'flex-start',
     overflowY: 'auto',
-    paddingTop: 2,
     position: 'relative',
 
     '&::before': {
@@ -52,10 +68,20 @@ const getBaseStyles = ({ alwaysShowScrollHint }: SectionPresentationProps) => ({
       display: alwaysShowScrollHint ? 'none' : 'block',
       flexShrink: 0,
       height: `${scrollHintHeight}px`,
-      left: `${scrollHintSpacing}px`,
-      position: 'absolute',
-      right: `${scrollHintSpacing}px`,
-      top: 0,
+      marginLeft: `${scrollHintSpacing}px`,
+      position: 'relative',
+      zIndex: 2,
+    },
+
+    '&::after': {
+      borderRadius: 1,
+      content: "''",
+      display: 'block',
+      flexShrink: 0,
+      height: `${scrollHintHeight}px`,
+      marginLeft: `${scrollHintSpacing}px`,
+      marginTop: 'auto',
+      position: 'relative',
       zIndex: 2,
     },
   },
@@ -79,14 +105,22 @@ export default ({ product }: ModeColors) => (
         ...baseStyles.wrapper,
         '&::before': {
           ...baseStyles.wrapper['&::before'],
-          backgroundColor: colors.N30A,
+          backgroundColor: N30A,
+        },
+        '&::after': {
+          ...baseStyles.wrapper['&::after'],
+          backgroundColor: N30A,
         },
       },
       inner: {
         ...baseStyles.inner,
         '&::before': {
           ...baseStyles.inner['&::before'],
-          backgroundColor: colors.N20,
+          backgroundColor: N20,
+        },
+        '&::after': {
+          ...baseStyles.inner['&::after'],
+          backgroundColor: N20,
         },
       },
     },
@@ -98,11 +132,19 @@ export default ({ product }: ModeColors) => (
           ...baseStyles.wrapper['&::before'],
           backgroundColor: product.background.static,
         },
+        '&::after': {
+          ...baseStyles.wrapper['&::after'],
+          backgroundColor: product.background.static,
+        },
       },
       inner: {
         ...baseStyles.inner,
         '&::before': {
           ...baseStyles.inner['&::before'],
+          backgroundColor: product.background.default,
+        },
+        '&::after': {
+          ...baseStyles.inner['&::after'],
           backgroundColor: product.background.default,
         },
       },

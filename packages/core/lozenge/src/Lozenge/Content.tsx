@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 import { ThemeTokens } from '../theme';
 
 const HORIZONTAL_SPACING = `${gridSize() / 2}px`;

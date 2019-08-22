@@ -1,10 +1,14 @@
 import {
-  UIAnalyticsEventInterface,
-  WithAnalyticsEventProps,
-  CreateUIAnalyticsEventSignature,
+  UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
-import { GasPayload } from '@atlaskit/analytics-gas-types';
 
+import {
+  GasPayload,
+  OPERATIONAL_EVENT_TYPE,
+  UI_EVENT_TYPE,
+} from '@atlaskit/analytics-gas-types';
 import { ELEMENTS_CHANNEL } from '../_constants';
 import {
   name as packageName,
@@ -13,8 +17,20 @@ import {
 
 import { isSpecialMentionText } from '../types';
 
+export enum ComponentNames {
+  TYPEAHEAD = 'mentionTypeahead',
+  MENTION = 'mention',
+  TEAM_MENTION_HIGHLIGHT = 'teamMentionHighlight',
+}
+
+export enum Actions {
+  VIEWED = 'viewed',
+  CLICKED = 'clicked',
+  CLOSED = 'closed',
+}
+
 export const fireAnalyticsMentionTypeaheadEvent = (
-  props: WithAnalyticsEventProps,
+  props: WithAnalyticsEventsProps,
 ) => (
   action: string,
   duration: number,
@@ -24,41 +40,69 @@ export const fireAnalyticsMentionTypeaheadEvent = (
   if (props.createAnalyticsEvent) {
     const eventPayload: GasPayload = {
       action,
-      actionSubject: 'mentionTypeahead',
+      actionSubject: ComponentNames.TYPEAHEAD,
       attributes: {
         packageName,
         packageVersion,
-        componentName: 'mention',
+        componentName: ComponentNames.MENTION,
         duration: Math.round(duration),
         userIds,
         queryLength: query ? query.length : 0,
       },
-      eventType: 'operational',
+      eventType: OPERATIONAL_EVENT_TYPE,
     };
-    const analyticsEvent: UIAnalyticsEventInterface = props.createAnalyticsEvent(
+    const analyticsEvent: UIAnalyticsEvent = props.createAnalyticsEvent(
       eventPayload,
     );
     analyticsEvent.fire(ELEMENTS_CHANNEL);
   }
 };
 
+export const fireAnalyticsTeamMentionHighlightEvent = (
+  createEvent: CreateUIAnalyticsEvent,
+) => (
+  actionSubject: string,
+  action: string,
+  source: string,
+  actionSubjectId?: string,
+  viewedCount?: number,
+): void => {
+  if (createEvent) {
+    const eventPayload: GasPayload = {
+      action,
+      actionSubject,
+      actionSubjectId,
+      eventType: UI_EVENT_TYPE,
+      attributes: {
+        source,
+        packageName,
+        packageVersion,
+        componentName: ComponentNames.TEAM_MENTION_HIGHLIGHT,
+        viewedCount,
+      },
+    };
+    const analyticsEvent: UIAnalyticsEvent = createEvent(eventPayload);
+    analyticsEvent.fire(ELEMENTS_CHANNEL);
+  }
+};
+
 export const fireAnalyticsMentionEvent = (
-  createEvent: CreateUIAnalyticsEventSignature,
+  createEvent: CreateUIAnalyticsEvent,
 ) => (
   actionSubject: string,
   action: string,
   text: string,
   id: string,
   accessLevel?: string,
-): UIAnalyticsEventInterface => {
+): UIAnalyticsEvent => {
   const payload: GasPayload = {
     action,
     actionSubject,
-    eventType: 'ui',
+    eventType: UI_EVENT_TYPE,
     attributes: {
       packageName,
       packageVersion,
-      componentName: 'mention',
+      componentName: ComponentNames.MENTION,
       accessLevel,
       isSpecial: isSpecialMentionText(text),
       userId: id,
@@ -70,7 +114,7 @@ export const fireAnalyticsMentionEvent = (
 };
 
 export const fireAnalyticsMentionHydrationEvent = (
-  props: WithAnalyticsEventProps,
+  props: WithAnalyticsEventsProps,
 ) => (
   action: string,
   userId: string,
@@ -80,19 +124,19 @@ export const fireAnalyticsMentionHydrationEvent = (
   if (props.createAnalyticsEvent) {
     const eventPayload: GasPayload = {
       action,
-      actionSubject: 'mention',
+      actionSubject: ComponentNames.MENTION,
       actionSubjectId: 'hydration',
       attributes: {
         packageName,
         packageVersion,
-        componentName: 'mention',
+        componentName: ComponentNames.MENTION,
         userId,
         fromCache,
         duration: Math.round(duration),
       },
-      eventType: 'operational',
+      eventType: OPERATIONAL_EVENT_TYPE,
     };
-    const analyticsEvent: UIAnalyticsEventInterface = props.createAnalyticsEvent(
+    const analyticsEvent: UIAnalyticsEvent = props.createAnalyticsEvent(
       eventPayload,
     );
     analyticsEvent.fire(ELEMENTS_CHANNEL);

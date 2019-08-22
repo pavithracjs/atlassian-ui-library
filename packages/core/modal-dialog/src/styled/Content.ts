@@ -1,14 +1,17 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
-import { colors, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N30, DN30, R400, Y400 } from '@atlaskit/theme/colors';
+import { divide } from '@atlaskit/theme/math';
 import { flexMaxHeightIEFix } from '../utils/flex-max-height-ie-fix';
 import { AppearanceType } from '../types';
 
 // Constants
 // ==============================
 const modalPadding = gridSize() * 3;
-const keylineColor = themed({ light: colors.N30, dark: colors.DN30 });
+const keylineColor = themed({ light: N30, dark: DN30 });
 export const keylineHeight = 2;
 
 // Wrapper
@@ -72,8 +75,8 @@ export const TitleText = styled.span`
 
 type iconColorType = { [key in AppearanceType]: string };
 const iconColor: iconColorType = {
-  danger: colors.R400,
-  warning: colors.Y400,
+  danger: R400,
+  warning: Y400,
 };
 
 export const titleIconWrapperStyles = (appearance: AppearanceType) => css`
@@ -137,10 +140,10 @@ export const Footer = styled.footer`
 
 export const Actions = styled.div`
   display: inline-flex;
-  margin: 0 -${math.divide(gridSize, 2)}px;
+  margin: 0 -${divide(gridSize, 2)}px;
 `;
 
 export const ActionItem = styled.div`
   flex: 1 0 auto;
-  margin: 0 ${math.divide(gridSize, 2)}px;
+  margin: 0 ${divide(gridSize, 2)}px;
 `;

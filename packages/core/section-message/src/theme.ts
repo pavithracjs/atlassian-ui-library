@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';

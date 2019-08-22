@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N100A } from '@atlaskit/theme/colors';
 
 const ThemeColor = {
   Restricted: {
-    text: colors.N100A,
+    text: N100A,
   },
 };
 

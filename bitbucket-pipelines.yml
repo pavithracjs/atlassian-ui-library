@@ -1,5 +1,5 @@
 # Note: This image can be found in build/pipelines/docker-image
-image: atlassianlabs/atlaskit-mk-2:1.0.12
+image: atlassianlabs/atlaskit-mk-2:1.0.13
 # This ensures we do a full clone on each build which prevents issues when cross referencing
 # changesets and releases
 clone:
@@ -14,7 +14,8 @@ pipelines:
           script:
             # Note: in master, this script will rebase you onto latest origin/master.
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - ([[ "$BITBUCKET_BRANCH" == "master" ]]) || (echo "This build should only be run on master" && exit 1)
+            - bolt install --frozen-lockfile
             - (cd build/ci-scripts && yarn stop-if-older-build)
             - yarn build
             # Bump all packages and their dependents using saved changesets.
@@ -45,7 +46,7 @@ pipelines:
             name: Building dists
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               - yarn build
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
             after-script:
@@ -56,7 +57,7 @@ pipelines:
             name: Lint + Typecheck
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               - node build/ci-scripts/run.tool.if.changed.js eslint -- yarn lint:eslint
               - node build/ci-scripts/run.tool.if.changed.js stylelint -- yarn lint:stylelint
               - node build/ci-scripts/run.tool.if.changed.js flow -- yarn typecheck:flow
@@ -76,8 +77,13 @@ pipelines:
             name: Check bundle sizes
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
-              - bolt measure:dependents
+              - bolt install --frozen-lockfile
+              - bolt measure:dependents:s3
+              - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize
+              - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
+            artifacts:
+              # Remove this adding for debugging
+              - .currentBundleSize/**
             after-script:
               - yarn send:stepFailureEvents
             caches:
@@ -86,7 +92,7 @@ pipelines:
             name: Unit Testing
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
               # Run the editor tests (runInBand is required or it fails in CI)
@@ -105,7 +111,7 @@ pipelines:
         #     name: Browser Unit Testing
         #     script:
         #       - source ./build-setup.sh
-        #       - bolt install --pure-lockfile
+        #       - bolt install --frozen-lockfile
         #       - echo "Run browser unit tests using Karma + Browserstack"
         #       - node build/ci-scripts/run.tool.if.changed.js karma -- yarn test:browser:browserstack
         #     after-script:
@@ -116,7 +122,7 @@ pipelines:
             name: Browser Integration Testing
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               - echo "Run browser integration tests using Webdriver + Browserstack"
               # If we have changed any packages with webdriver tests, we wait until browserstack has free resources, then run our tests.
               # BS_SESSIONS_ALLOWED represents the percentage of sessions allowed.
@@ -127,11 +133,11 @@ pipelines:
               - node
         - step:
             name: Visual Regression Tests
-            image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.13
             script:
               - source ./build-setup.sh
               - git lfs pull
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               - yarn run test:vr:changed
             after-script:
               # Extract all the diff images and store them into a folder for download.
@@ -146,7 +152,7 @@ pipelines:
             name: Building website
             script:
               - source ./build-setup.sh
-              - bolt install --pure-lockfile
+              - bolt install --frozen-lockfile
               - cd website
               # This next line just makes it so we can skip website builds by having a branch name that starts with "skip-website/".
               - if [[ "$BITBUCKET_BRANCH" == skip-website/* ]]; then echo "Skipping website build" && mkdir dist && echo "Build skipped" > dist/index.html; else WEBSITE_ENV=staging yarn build:no-minimize; fi
@@ -179,7 +185,8 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - ([[ "$BITBUCKET_BRANCH" == "master" ]]) || (echo "This build should only be run on master" && exit 1)
+            - bolt install --frozen-lockfile
             - cd website
             - WEBSITE_ENV=production yarn build
             - yarn build:copy
@@ -194,7 +201,7 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - cd website
             - WEBSITE_ENV=staging yarn build:no-minimize
             - yarn build:copy
@@ -207,27 +214,14 @@ pipelines:
             - yarn send:buildEvents
           caches:
             - node
-
-    # This should only be called by a scheduled build to check the bundle-size after a merge to master and on dependent packages.
-    bundle-size-master-check:
-      - step:
-          script:
-            - source ./build-setup.sh
-            - git merge master --no-edit
-            - bolt install --pure-lockfile
-            - yarn measure:dependents
-          after-script:
-            - yarn send:buildEvents
-          caches:
-            - node
-
+            
     # This should only be called by a scheduled or manual build from master.
     # It builds the website and send the data to redash.
     send-website-build-analytics:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - cd website
             - yarn build:report
             # We could optionally upload these to s3 if we wanted, leaving this here as an example:
@@ -244,7 +238,7 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - yarn test:webdriver:browserstack
           after-script:
             - yarn send:buildEvents
@@ -254,11 +248,11 @@ pipelines:
     # This will run the full suite of the visual regression tests using Docker.
     build-visual-regression:
       - step:
-          image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
+          image: atlassianlabs/atlaskit-mk-2-vr:1.0.13
           script:
             - source ./build-setup.sh
             - git lfs pull
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - yarn run test:vr
           after-script:
             # Extract all the diff images and store them into a folder for download.
@@ -278,7 +272,7 @@ pipelines:
               name: Building packages
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn build
               after-script:
                 - yarn send:stepFailureEvents
@@ -286,7 +280,7 @@ pipelines:
               name: Lint + Typecheck
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn lint
                 - yarn typecheck
               after-script:
@@ -295,7 +289,7 @@ pipelines:
               name: Running All Unit tests
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 # Run the non-editor tests.
                 - TEST_ONLY_PATTERN='!packages/editor' yarn test
                 # Run the editor tests (runInBand is required or it fails in CI)
@@ -309,7 +303,7 @@ pipelines:
           #     name: Running All Browser Unit tests
           #     script:
           #       - source ./build-setup.sh
-          #       - bolt install --pure-lockfile
+          #       - bolt install --frozen-lockfile
           #       - yarn test:browser:browserstack
           #     after-script:
           #       - yarn send:stepFailureEvents
@@ -317,16 +311,16 @@ pipelines:
               name: Running All Browser Integration tests
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn test:webdriver:browserstack
               after-script:
                 - yarn send:stepFailureEvents
           - step:
               name: Running All Visual Regression tests
-              image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
+              image: atlassianlabs/atlaskit-mk-2-vr:1.0.13
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
@@ -339,7 +333,7 @@ pipelines:
               name: Building the website
               script:
                 - source ./build-setup.sh
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - cd website
                 # don't worry about deploying, this build will always be run alongside a branch build
                 - yarn build
@@ -351,7 +345,7 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - yarn build
             - yarn build:bundle-analysis
           after-script:
@@ -366,7 +360,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn build
               after-script:
                 - yarn send:stepFailureEvents
@@ -375,7 +369,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn lint
               after-script:
                 - yarn send:stepFailureEvents
@@ -384,7 +378,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn typecheck
                 - echo "We are now about to run the `version` command which will read changesets and bump packages"
                 - echo "We do this so that we know if the repo will be in an inconsistent state when this branch hits master"
@@ -401,7 +395,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
                 # This script acts like a unit test to check changes to @atlaskit/adf-schema.
@@ -413,7 +407,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
                 - yarn test:editor-mobile-bridge:ios
@@ -425,7 +419,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - TEST_ONLY_PATTERN='!packages/editor' yarn test
               after-script:
                 - yarn send:stepFailureEvents
@@ -434,18 +428,18 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - LANDKID=true yarn test:webdriver:browserstack:changed
               after-script:
                 - yarn send:stepFailureEvents
           - step:
               name: Running Visual Regression tests
-              image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
+              image: atlassianlabs/atlaskit-mk-2-vr:1.0.13
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - git lfs pull
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
@@ -474,13 +468,13 @@ pipelines:
           script:
             - ([[ "$BITBUCKET_BRANCH" == "master" ]]) || (echo "This build should only be run on master" && exit 1)
             - cd build/ci-scripts
-            - yarn install --pure-lockfile
+            - yarn install --frozen-lockfile
             - node clear.pipelines.node.cache.js
       - step:
           name: Creating new cache
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             # We re-clear the cache here in case any other builds have managed to start and finish in between us starting.
             # (our build will only upload a cache if there is none when the build finishes).
             - node build/ci-scripts/clear.pipelines.node.cache.js
@@ -493,7 +487,7 @@ pipelines:
           name: Deploy branch build dists
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - yarn build
             - export CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js)
             # Change into a glob pattern (removing brackets, spaces and quotes).
@@ -515,7 +509,7 @@ pipelines:
           name: Bundle size check step upload commit to S3
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
+            - bolt install --frozen-lockfile
             - yarn measure:dependents:s3
             - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize
             - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
@@ -534,7 +528,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-1| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:
@@ -546,7 +540,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-2| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:
@@ -558,7 +552,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js core| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:
@@ -570,7 +564,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
+                - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js media| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:
@@ -582,11 +576,23 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
-                - bolt install --pure-lockfile
-                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform
+                - bolt install --frozen-lockfile
+                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
               caches:
                 - node
+    # A pipeline to update a package's i18n translation messages.
+    # Per package, it will push i18n messages and pull translations. This is based on the package.json (i18n:push, i18n:pull)
+    # A pull request is created and assigned to defined reviewers.
+    # Each package can be configured within update.i18n.translations.js
+    update-i18n-translations:
+      - step:
+          name: Push and pull translations and create pull request
+          script:
+            - source ./build-setup.sh
+            - bolt install --frozen-lockfile
+            - echo 'Pushing'; node build/ci-scripts/update.i18n.translations push
+            - echo 'Pulling'; node build/ci-scripts/update.i18n.translations pull

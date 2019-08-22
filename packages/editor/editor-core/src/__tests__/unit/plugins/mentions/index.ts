@@ -15,17 +15,16 @@ import {
   MentionNameResolver,
 } from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
-import collabPlugin from '../../../../plugins/collab-edit';
-import mentionPlugin from '../../../../plugins/mentions';
+import { EditorProps } from '../../../../types';
 
 let mockRegisterTeamMention = jest.fn();
 
-jest.mock('@atlaskit/mention', () => ({
+jest.mock('@atlaskit/mention/spotlight', () => ({
   __esModule: true,
-  MentionSpotlightController: {
+  TeamMentionHighlightController: {
     registerTeamMention: () => mockRegisterTeamMention(),
   },
 }));
@@ -47,7 +46,7 @@ describe('mentionTypeahead', () => {
     editorView: EditorView;
     sel: number;
     mentionProvider: MentionProvider;
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+    createAnalyticsEvent: CreateUIAnalyticsEvent;
     event: any;
     mockMentionNameResolver?: MentionNameResolver;
   };
@@ -74,23 +73,14 @@ describe('mentionTypeahead', () => {
       cacheName: jest.fn(),
       lookupName: jest.fn(),
     };
-    let editorProps: any = {};
+    let editorProps: EditorProps = {};
     let mentionProviderConfig: MockMentionConfig = {};
-    let editorPlugins;
     if (options && options.sanitizePrivateContent) {
       editorProps = {
-        collabEdit: {
-          sanitizePrivateContent: true,
-        },
+        collabEdit: {},
+        sanitizePrivateContent: true,
+        mentionInsertDisplayName: options.mentionInsertDisplayName,
       };
-      editorPlugins = [
-        collabPlugin,
-        mentionPlugin(
-          undefined,
-          editorProps.collabEdit,
-          options.mentionInsertDisplayName,
-        ),
-      ];
       mentionProviderConfig = {
         mentionNameResolver,
       };
@@ -106,7 +96,6 @@ describe('mentionTypeahead', () => {
     const { editorView, sel, mentionProvider } = await editor(
       {
         createAnalyticsEvent,
-        editorPlugins,
       },
       editorProps,
       mentionProviderConfig,

@@ -1,5 +1,29 @@
 # @atlaskit/empty-state
 
+## 6.0.2
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 6.0.1
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 6.0.0
+
+### Major Changes
+
+- [major][433311c16a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/433311c16a):
+
+  @atlaskit/empty-state has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 5.0.3
 
 ### Patch Changes

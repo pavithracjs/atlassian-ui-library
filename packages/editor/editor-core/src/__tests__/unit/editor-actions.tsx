@@ -38,7 +38,7 @@ describe('Editor Actions', () => {
       const content = view.state.schema.nodeFromJSON({
         type: 'paragraph',
         content: [
-          { type: 'text', marks: [{ type: 'emojiQuery' }], text: ':smile' },
+          { type: 'text', marks: [{ type: 'typeAheadQuery' }], text: ':smile' },
         ],
       });
 

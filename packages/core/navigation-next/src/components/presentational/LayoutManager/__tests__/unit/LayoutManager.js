@@ -51,30 +51,30 @@ describe('LayoutManager', () => {
   it('should apply a default dataset to the navigation container when datasets is not provided', () => {
     expect(
       render(<LayoutManager {...defaultProps} />)
-        .find('[data-test-id="Navigation"]')
+        .find('[data-testid="Navigation"]')
         .data(),
     ).toEqual({
-      testId: 'Navigation',
+      testid: 'Navigation',
     });
   });
 
   it('should apply a default dataset to the global navigation container when datasets is not provided', () => {
     expect(
       render(<LayoutManager {...defaultProps} />)
-        .find('[data-test-id="GlobalNavigation"]')
+        .find('[data-testid="GlobalNavigation"]')
         .data(),
     ).toEqual({
-      testId: 'GlobalNavigation',
+      testid: 'GlobalNavigation',
     });
   });
 
   it('should apply a default dataset to the contextual navigation container element when datasets is not provided', () => {
     expect(
       render(<LayoutManager {...defaultProps} />)
-        .find('[data-test-id="ContextualNavigation"]')
+        .find('[data-testid="ContextualNavigation"]')
         .data(),
     ).toEqual({
-      testId: 'ContextualNavigation',
+      testid: 'ContextualNavigation',
     });
   });
 

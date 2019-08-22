@@ -27,12 +27,12 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { taskDecision } from '@atlaskit/util-data-test';
 import { uuid } from '@atlaskit/adf-schema';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('tasks and decisions - input rules', () => {
   const createEditor = createEditorFactory();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   beforeEach(() => {
     uuid.setStatic('local-uuid');

@@ -3,7 +3,8 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import {
   createAndFireEvent,
   withAnalyticsEvents,
-  CreateUIAnalyticsEventSignature,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   UI_EVENT_TYPE,
@@ -15,6 +16,8 @@ type PropsToContextMapper<P, C> = (props: P) => C;
 export const NAVIGATION_CHANNEL = 'navigation';
 export const SWITCHER_SUBJECT = 'atlassianSwitcher';
 export const SWITCHER_ITEM_SUBJECT = 'atlassianSwitcherItem';
+export const SWITCHER_CHILD_ITEM_SUBJECT = 'atlassianSwitcherChildItem';
+export const SWITCHER_ITEM_EXPAND_SUBJECT = 'atlassianSwitcherItemExpand';
 export const SWITCHER_COMPONENT = 'atlassianSwitcher';
 export const SWITCHER_SOURCE = 'atlassianSwitcher';
 export const TRIGGER_COMPONENT = 'atlassianSwitcherPrefetch';
@@ -42,15 +45,15 @@ export const withAnalyticsContextData = function<P, C>(
   };
 };
 
-type RenderTrackerProps = {
+interface RenderTrackerProps extends WithAnalyticsEventsProps {
   subject: string;
   data?: object;
   onRender?: any;
-};
+}
 
-export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
+export const RenderTracker = withAnalyticsEvents({
   onRender: (
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
     props: RenderTrackerProps,
   ) => {
     return createAnalyticsEvent({
@@ -72,9 +75,9 @@ export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
   },
 );
 
-export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
+export const ViewedTracker = withAnalyticsEvents({
   onRender: (
-    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
     props: RenderTrackerProps,
   ) => {
     return createAnalyticsEvent({
@@ -98,6 +101,7 @@ export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
 
 export {
   withAnalyticsEvents,
+  WithAnalyticsEventsProps,
   NavigationAnalyticsContext,
   OPERATIONAL_EVENT_TYPE,
   UI_EVENT_TYPE,

@@ -6,7 +6,7 @@
  */
 // Icelandic
 export default {
-  'fabric.mention.unknow.user.error': 'Óþekktur notandi {id}',
+  'fabric.mention.unknow.user.error': 'Óþekktur notandi {userId}',
   'fabric.mention.noAccess.warning':
     '{name} mun ekki fá tilkynningu þar sem þeir hafa ekki aðgang',
   'fabric.mention.noAccess.label': 'Enginn aðgangur',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ meðlimir',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ meðlimir, að þér meðtöldum/meðtalinni',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Nefna teymi þinn',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Fáðu alla til að koma á síðuna með einum smelli. Ekkert teymi?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Hefja eina.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Hafna',
 };

@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import React from 'react';
 
-import { CardWithData } from '../Card/types';
+import { CardProps } from '../Card/types';
 import { CardWithDataContent as CardWithDataContentType } from './component';
 
-export class CardWithDataRenderer extends React.PureComponent<
-  CardWithData & WithAnalyticsEventProps
-> {
+export class CardWithDataRenderer extends React.PureComponent<CardProps> {
   static CardContent: typeof CardWithDataContentType | null = null;
 
   static moduleImporter(target: CardWithDataRenderer) {
@@ -25,7 +22,7 @@ export class CardWithDataRenderer extends React.PureComponent<
   }
 
   render() {
-    const { appearance, data, isSelected, onClick } = this.props;
+    const { appearance, data, isSelected, onClick, onResolve } = this.props;
     if (!data) {
       throw new Error(
         '@atlaskit/smart-cards: you are trying to render a card with data, but does not provide any',
@@ -38,6 +35,7 @@ export class CardWithDataRenderer extends React.PureComponent<
           data={data}
           isSelected={isSelected}
           onClick={onClick}
+          onResolve={onResolve}
         />
       );
     }

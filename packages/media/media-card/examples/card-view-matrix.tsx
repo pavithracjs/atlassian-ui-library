@@ -194,7 +194,6 @@ class Example extends React.Component<{}, State> {
         <CardView
           status={status}
           metadata={metadata}
-          mediaItemType={isExternalImage ? 'external-image' : 'file'}
           onClick={(e: CardEvent) =>
             console.log(
               'mouse click!',

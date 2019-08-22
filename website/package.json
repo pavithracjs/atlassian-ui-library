@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@atlaskit/website",
-  "version": "5.1.15",
+  "version": "5.1.19",
   "description": "",
   "license": "Apache-2.0",
   "author": "Atlassian Pty Ltd",
@@ -27,7 +27,7 @@
     "@types/react-router": "^4.4.1",
     "bolt-query": "^1.1.4",
     "chalk": "^2.1.0",
-    "extract-react-types-loader": "^0.3.5",
+    "extract-react-types-loader": "^0.3.9",
     "netlify-cli": "^2.8.3",
     "node-fetch": "^2.2.0",
     "tty-table": "^2.6.8"
@@ -47,10 +47,10 @@
     "@atlaskit/inline-dialog": "^12.0.10",
     "@atlaskit/logo": "^12.1.1",
     "@atlaskit/lozenge": "^9.0.0",
-    "@atlaskit/media-card": "^63.3.1",
-    "@atlaskit/media-core": "^30.0.4",
-    "@atlaskit/media-filmstrip": "^34.2.2",
-    "@atlaskit/media-test-helpers": "^24.3.1",
+    "@atlaskit/media-card": "^64.0.0",
+    "@atlaskit/media-core": "^30.0.11",
+    "@atlaskit/media-filmstrip": "^34.3.3",
+    "@atlaskit/media-test-helpers": "^25.0.2",
     "@atlaskit/mobile-header": "^3.1.2",
     "@atlaskit/modal-dialog": "^10.1.1",
     "@atlaskit/navigation": "^35.1.8",
@@ -59,7 +59,7 @@
     "@atlaskit/select": "^10.0.0",
     "@atlaskit/spinner": "^12.0.1",
     "@atlaskit/tag": "^9.0.0",
-    "@atlaskit/tag-group": "^8.0.2",
+    "@atlaskit/tag-group": "^9.0.0",
     "@atlaskit/theme": "^9.0.3",
     "@atlaskit/tooltip": "^15.0.8",
     "@atlaskit/webpack-config": "^2.0.11",
@@ -74,7 +74,7 @@
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.3",
     "connect-history-api-fallback": "^1.5.0",
-    "extract-react-types-loader": "^0.3.5",
+    "extract-react-types-loader": "^0.3.9",
     "happypack": "^5.0.0",
     "ldclient-js": "^2.3.1",
     "lodash.debounce": "^4.0.8",
@@ -102,5 +102,8 @@
     "tti-polyfill": "^0.2.2",
     "uglify-js": "^3.1.7",
     "uuid": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@atlassiansox/analytics-web-client": "^1.7.1"
   }
 }

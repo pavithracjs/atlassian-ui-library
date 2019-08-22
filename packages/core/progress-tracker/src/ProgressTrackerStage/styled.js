@@ -1,5 +1,7 @@
 // @flow
-import { colors, gridSize, fontSize } from '@atlaskit/theme';
+import { gridSize, fontSize } from '@atlaskit/theme/constants';
+
+import { B300 } from '@atlaskit/theme/colors';
 import styled from 'styled-components';
 import { spacing } from '../constants';
 
@@ -48,7 +50,7 @@ export const ProgressTrackerStageBar = styled.div`
   position: absolute;
   left: 50%;
   transform: translate(0, -${labelTopSpacing}px);
-  background-color: ${colors.B300};
+  background-color: ${B300};
   height: ${progressBarHeight}px;
   width: calc(
     ${props => props.percentageComplete}% + ${props => props.percentageComplete} /

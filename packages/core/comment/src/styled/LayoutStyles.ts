@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N20A } from '@atlaskit/theme/colors';
 import { verticalPadding } from './constants';
 
 const ThemeColor = {
   Highlight: {
-    background: colors.N20A,
+    background: N20A,
   },
 };
 

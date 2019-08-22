@@ -1,8 +1,17 @@
 // @flow
 import React from 'react';
 import { code, md, Props } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+${(
+  <SectionMessage
+    appearance="warning"
+    title="Note: @atlaskit/input is deprecated."
+  >
+    This is an internal component and should not be used directly.
+  </SectionMessage>
+)}
 
   # This package is for internal consumption only. Use at your own risk.
 

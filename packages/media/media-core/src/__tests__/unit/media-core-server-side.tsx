@@ -22,7 +22,7 @@ class Example extends Component {
     return <div />;
   }
 }
-
-test('media-core context server side rendering', async () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('media-core context server side rendering', async () => {
   expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });

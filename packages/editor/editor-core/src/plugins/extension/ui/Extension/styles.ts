@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 // @ts-ignore: unused variable
 // prettier-ignore
-import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
+import { HTMLAttributes, ClassAttributes, ComponentClass, ImgHTMLAttributes } from 'react';
 import { fontSize, gridSize } from '@atlaskit/theme';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
 
@@ -69,4 +69,9 @@ export const PlaceholderFallbackParams: ComponentClass<
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+`;
+
+export const StyledImage: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
+  max-height: 16px;
+  max-width: 16px;
 `;

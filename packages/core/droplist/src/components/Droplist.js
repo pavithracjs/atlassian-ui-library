@@ -10,7 +10,7 @@ import {
 import Layer from '@atlaskit/layer';
 import Spinner from '@atlaskit/spinner';
 import { ThemeProvider } from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 import {
   name as packageName,
   version as packageVersion,
@@ -64,6 +64,13 @@ type Props = {
   /** Callback to know when the list is first correctly positioned within it's Layer */
   onPositioned?: Function,
 };
+
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/droplist has been deprecated. It is an internal component and should not be used directly.',
+  );
+}
 
 class Droplist extends Component<Props, void> {
   static defaultProps = {

@@ -4,9 +4,6 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
-import { getFileStreamsCache, FileState } from '@atlaskit/media-client';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Fetcher } from '../tools/fetcher/fetcher';
 import {
   FinalizeUploadAction,
   isFinalizeUploadAction,
@@ -14,25 +11,23 @@ import {
 import { State, SourceFile } from '../domain';
 import { mapAuthToSourceFileOwner } from '../domain/source-file';
 import { MediaFile } from '../../domain/file';
-import {
-  sendUploadEvent,
-  SendUploadEventAction,
-} from '../actions/sendUploadEvent';
+import { sendUploadEvent } from '../actions/sendUploadEvent';
+import { resetView } from '../actions';
+import { UploadEndEvent } from '../../domain/uploadEvent';
 
-export default function(fetcher: Fetcher): Middleware {
+export default function(): Middleware {
   return store => (next: Dispatch<State>) => (action: any) => {
     if (isFinalizeUploadAction(action)) {
-      finalizeUpload(fetcher, store as any, action);
+      finalizeUpload(store as any, action);
     }
     return next(action);
   };
 }
 
 export function finalizeUpload(
-  fetcher: Fetcher,
   store: Store<State>,
   { file, uploadId, source, replaceFileId }: FinalizeUploadAction,
-): Promise<SendUploadEventAction> {
+) {
   const { userMediaClient } = store.getState();
   return userMediaClient.config
     .authProvider()
@@ -44,7 +39,6 @@ export function finalizeUpload(
       };
       const copyFileParams: CopyFileParams = {
         store,
-        fetcher,
         file,
         uploadId,
         sourceFile,
@@ -57,7 +51,6 @@ export function finalizeUpload(
 
 type CopyFileParams = {
   store: Store<State>;
-  fetcher: Fetcher;
   file: MediaFile;
   uploadId: string;
   sourceFile: SourceFile;
@@ -66,15 +59,13 @@ type CopyFileParams = {
 
 async function copyFile({
   store,
-  fetcher,
   file,
   uploadId,
   sourceFile,
   replaceFileId,
-}: CopyFileParams): Promise<SendUploadEventAction> {
-  const { deferredIdUpfronts, tenantMediaClient, config } = store.getState();
+}: CopyFileParams) {
+  const { tenantMediaClient, config } = store.getState();
   const collection = config.uploadParams && config.uploadParams.collection;
-  const deferred = deferredIdUpfronts[sourceFile.id];
   const mediaStore = new MediaStore({
     authProvider: tenantMediaClient.config.authProvider,
   });
@@ -87,99 +78,77 @@ async function copyFile({
     occurrenceKey: file.occurrenceKey,
   };
 
-  return mediaStore
-    .copyFileWithToken(body, params)
-    .then(async destinationFile => {
-      const { id: publicId } = destinationFile.data;
-      if (deferred) {
-        const { resolver } = deferred;
+  try {
+    const destinationFile = await mediaStore.copyFileWithToken(body, params);
+    const tenantSubject = tenantMediaClient.file.getFileState(
+      destinationFile.data.id,
+    );
 
-        resolver(publicId);
-      }
-
-      store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-processing',
-            data: {
-              file,
-            },
-          },
-          uploadId,
-        }),
-      );
-      const auth = await tenantMediaClient.config.authProvider({
-        collectionName: collection,
-      });
-      // TODO [MS-725]: replace by context.getFile
-      return fetcher.pollFile(auth, publicId, collection);
-    })
-    .then(processedDestinationFile => {
-      const subject = getFileStreamsCache().get(
-        processedDestinationFile.id,
-      ) as ReplaySubject<FileState>;
-      // We need to cast to ReplaySubject and check for "next" method since the current
-      if (subject && subject.next) {
-        const subscription = subject.subscribe({
-          next(currentState) {
-            setTimeout(() => subscription.unsubscribe(), 0);
-            setTimeout(() => {
-              const {
-                artifacts,
-                mediaType,
-                mimeType,
-                name,
-                size,
-                representations,
-              } = processedDestinationFile;
-              subject.next({
-                ...currentState,
-                status: 'processed',
-                artifacts,
-                mediaType,
-                mimeType,
-                name,
-                size,
-                representations,
-              });
-            }, 0);
-          },
-        });
-      }
-      return store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-end',
-            data: {
-              file,
-              public: processedDestinationFile,
-            },
-          },
-          uploadId,
-        }),
-      );
-    })
-    .catch(error => {
-      if (deferred) {
-        const { rejecter } = deferred;
-
-        rejecter();
-      }
-
-      return store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-error',
-            data: {
-              file,
-              error: {
-                name: 'object_create_fail',
-                description: error.message,
+    tenantSubject.subscribe({
+      next: fileState => {
+        if (fileState.status === 'processing') {
+          store.dispatch(
+            sendUploadEvent({
+              event: {
+                name: 'upload-processing',
+                data: {
+                  file,
+                },
               },
+              uploadId,
+            }),
+          );
+        } else if (fileState.status === 'processed') {
+          store.dispatch(
+            sendUploadEvent({
+              event: {
+                name: 'upload-end',
+                data: {
+                  file,
+                },
+              } as UploadEndEvent,
+              uploadId,
+            }),
+          );
+        } else if (
+          fileState.status === 'failed-processing' ||
+          fileState.status === 'error'
+        ) {
+          store.dispatch(
+            sendUploadEvent({
+              event: {
+                name: 'upload-error',
+                data: {
+                  file,
+                  error: {
+                    name: 'object_create_fail',
+                    description: 'There was an error while uploading a file',
+                  },
+                },
+              },
+              uploadId,
+            }),
+          );
+        }
+      },
+    });
+  } catch (error) {
+    store.dispatch(
+      sendUploadEvent({
+        event: {
+          name: 'upload-error',
+          data: {
+            file,
+            error: {
+              name: 'object_create_fail',
+              description: error.message,
             },
           },
-          uploadId,
-        }),
-      );
-    });
+        },
+        uploadId,
+      }),
+    );
+  } finally {
+    store.dispatch(resetView());
+  }
 }

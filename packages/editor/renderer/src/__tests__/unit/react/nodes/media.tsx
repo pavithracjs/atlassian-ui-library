@@ -3,12 +3,17 @@ import { mount } from 'enzyme';
 
 import { MediaType } from '@atlaskit/adf-schema';
 import { Card, CardEvent } from '@atlaskit/media-card';
-import { sleep } from '@atlaskit/media-test-helpers';
+import { sleep, nextTick, fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 import {
   FileIdentifier,
   ExternalImageIdentifier,
+  // @ts-ignore
+  getMediaClient,
 } from '@atlaskit/media-client';
+let mediaClient = fakeMediaClient();
+// @ts-ignore
+getMediaClient = jest.fn().mockReturnValue(mediaClient);
 
 import Media from '../../../../react/nodes/media';
 import {
@@ -48,6 +53,9 @@ describe('Media', () => {
   });
 
   const mountFileCard = async (identifier: FileIdentifier) => {
+    mediaClient = fakeMediaClient();
+    // @ts-ignore
+    getMediaClient = jest.fn().mockReturnValue(mediaClient);
     const card = mount(
       <MediaCard
         type="file"
@@ -196,6 +204,42 @@ describe('Media', () => {
       };
       cardComponent.props().onClick!(event);
       expect(onClick).not.toHaveBeenCalled();
+    });
+
+    it('should save fileState as a component state', async () => {
+      const fileIdentifier = createFileIdentifier();
+      const component = await mountFileCard(fileIdentifier);
+
+      await nextTick();
+      component.update();
+      expect(mediaClient.file.getCurrentState).toBeCalled();
+      expect(mediaClient.file.getCurrentState).toBeCalledWith(
+        fileIdentifier.id,
+        {
+          collectionName: fileIdentifier.collectionName,
+        },
+      );
+      await nextTick();
+      component.update();
+      expect(component.find(MediaCardInternal).state('fileState')).toEqual({
+        id: 'file-id',
+      });
+    });
+
+    it('should save fileState when id changes', async () => {
+      const fileIdentifier = createFileIdentifier();
+      const component = await mountFileCard(fileIdentifier);
+
+      await nextTick();
+      component.update();
+
+      component.setProps({
+        id: '123',
+      });
+
+      await nextTick();
+      component.update();
+      expect(mediaClient.file.getCurrentState).toBeCalledTimes(2);
     });
 
     describe('populates identifier cache for the page mediaClientConfig', () => {
@@ -354,6 +398,9 @@ describe('Media', () => {
         'data-height': undefined,
         'data-id': '1',
         'data-collection': 'collection',
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
       });
     });
 
@@ -371,6 +418,9 @@ describe('Media', () => {
         'data-height': 40,
         'data-id': '1',
         'data-collection': undefined,
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
       });
     });
 
@@ -391,6 +441,40 @@ describe('Media', () => {
         'data-height': undefined,
         'data-id': '1',
         'data-collection': undefined,
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
+      });
+    });
+
+    it('should use fileState fields', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          contextIdentifierProvider: {
+            objectId: 'object-id',
+            containerId: 'container',
+          },
+          fileState: {
+            status: 'processing',
+            id: '1',
+            mediaType: 'image',
+            mimeType: 'image/png',
+            name: 'some_name',
+            size: 5,
+          },
+        }),
+      ).toEqual({
+        'data-context-id': 'object-id',
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': undefined,
+        'data-file-name': 'some_name',
+        'data-file-size': 5,
+        'data-file-mime-type': 'image/png',
       });
     });
   });

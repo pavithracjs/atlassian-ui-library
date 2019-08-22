@@ -17,14 +17,14 @@ import {
 } from './analytics/download';
 import { channel } from './analytics';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { MediaViewerError } from './error';
 
 const downloadIcon = <DownloadIcon label="Download" />;
 
 // TODO: MS-1556
 export const DownloadButton: any = withAnalyticsEvents({
-  onClick: (createEvent: CreateUIAnalyticsEventSignature, props: any) => {
+  onClick: (createEvent: CreateUIAnalyticsEvent, props: any) => {
     const ev = createEvent(props.analyticsPayload);
     ev.fire(channel);
   },

@@ -2,7 +2,6 @@
 
 import type { ComponentType, Node, Ref } from 'react';
 import type { DraggableProps, DragHandleProps } from 'react-beautiful-dnd';
-import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 import type { AfterComponentProps } from '../../connected/GoToItem/types';
 import type { StyleReducerWithState, ProductTheme } from '../../../theme/types';
@@ -55,7 +54,7 @@ export type ItemBaseProps = {|
   /** Whether this Item should display as being selected. */
   isSelected: boolean,
   /** A handler which will be called when the Item is clicked. */
-  onClick?: (SyntheticMouseEvent<*>) => void,
+  onClick?: (SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>) => void,
   /** How tight the spacing between the elements inside the Item should be. */
   spacing: Spacing,
   /** A function which will be passed the default styles object for the Item as
@@ -91,7 +90,7 @@ export type ExternalItemProps = {
 /** Item props from item's perspective */
 export type ItemProps = {
   ...$Exact<ExternalItemProps>,
-  ...$Exact<WithAnalyticsEventsProps>,
+  createAnalyticsEvent: Function,
 };
 
 export type ItemPrimitiveProps = {

@@ -4,14 +4,11 @@ import { code, md, Example, Props } from '@atlaskit/docs';
 import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-
   ${(
-    <SectionMessage appearance="warning">
-      <p>
-        <strong>
-          @atlaskit/layer-manager is not needed anymore and has been deprecated.
-        </strong>
-      </p>
+    <SectionMessage
+      appearance="warning"
+      title="Note: @atlaskit/layer-manager is deprecated."
+    >
       {md`
         As of component versions:
 

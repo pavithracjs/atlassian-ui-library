@@ -306,12 +306,12 @@ class InlineEditUncontrolled extends React.Component<
 
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<InlineEditUncontrolledProps>({
+export default withAnalyticsContext({
   componentName: 'inlineEdit',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<InlineEditUncontrolledProps>({
+  withAnalyticsEvents({
     onConfirm: createAndFireEventOnAtlaskit({
       action: 'confirmed',
       actionSubject: 'inlineEdit',

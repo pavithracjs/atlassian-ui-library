@@ -7,7 +7,7 @@ Object {
       "content": Array [
         Object {
           "attrs": Object {
-            "__contextId": null,
+            "__contextId": "DUMMY-OBJECT-ID",
             "__displayType": null,
             "__fileMimeType": null,
             "__fileName": "example.png",
@@ -38,7 +38,7 @@ Object {
       "content": Array [
         Object {
           "attrs": Object {
-            "__contextId": null,
+            "__contextId": "DUMMY-OBJECT-ID",
             "__displayType": null,
             "__fileMimeType": null,
             "__fileName": "example.png",

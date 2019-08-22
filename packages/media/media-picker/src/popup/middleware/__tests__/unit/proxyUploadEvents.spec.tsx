@@ -14,14 +14,12 @@ describe('proxyUploadEvents middleware', () => {
     'third-id': { proxy: [firstUploadId, secondUploadId] },
   };
   const state = { uploads, client };
-  const upfrontId = Promise.resolve('1');
   const file = {
     id: 'third-id',
     name: 'some-name',
     size: 12345,
     creationDate: Date.now(),
     type: 'image/jpg',
-    upfrontId,
   };
 
   const setup = () => {

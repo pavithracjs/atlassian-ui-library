@@ -13,10 +13,7 @@ import {
   isImageRepresentationReady,
 } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
-import {
-  AnalyticsContext,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsContext, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { Subscription } from 'rxjs/Subscription';
 import { IntlProvider } from 'react-intl';
 import { MediaViewer, MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -42,7 +39,7 @@ export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
   private onClickPayload?: {
     result: CardEvent;
-    analyticsEvent?: UIAnalyticsEventInterface;
+    analyticsEvent?: UIAnalyticsEvent;
   };
 
   subscription?: Subscription;
@@ -290,10 +287,7 @@ export class Card extends Component<CardProps, CardState> {
     return actions;
   }
 
-  onClick = async (
-    result: CardEvent,
-    analyticsEvent?: UIAnalyticsEventInterface,
-  ) => {
+  onClick = async (result: CardEvent, analyticsEvent?: UIAnalyticsEvent) => {
     const {
       identifier,
       onClick,
@@ -416,7 +410,6 @@ export class Card extends Component<CardProps, CardState> {
       onMouseEnter,
       onSelectChange,
       disableOverlay,
-      identifier,
     } = this.props;
     const { progress, metadata, dataURI, previewOrientation } = this.state;
     const { analyticsContext, onRetry, onClick, actions } = this;
@@ -427,7 +420,6 @@ export class Card extends Component<CardProps, CardState> {
           status={status}
           metadata={metadata}
           dataURI={dataURI}
-          mediaItemType={identifier.mediaItemType}
           appearance={appearance}
           resizeMode={resizeMode}
           dimensions={dimensions}

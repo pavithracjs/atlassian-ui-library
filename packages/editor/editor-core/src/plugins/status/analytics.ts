@@ -3,14 +3,14 @@ import {
   version as packageVersion,
 } from '../../version.json';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   AnalyticsEventPayload,
 } from '@atlaskit/analytics-next';
 
 export const FABRIC_CHANNEL = 'fabric-elements';
 
 export const createStatusAnalyticsAndFire = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
 ) => (payload: AnalyticsEventPayload) => {
   if (createAnalyticsEvent && payload) {
     const statusPayload: AnalyticsEventPayload = {

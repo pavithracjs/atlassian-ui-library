@@ -11,6 +11,8 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationsFeatureFlags,
+  DiscoverMoreCallback,
+  TriggerXFlowCallback,
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
@@ -19,7 +21,8 @@ type ConfluenceSwitcherProps = {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  triggerXFlow: TriggerXFlowCallback;
+  onDiscoverMoreClicked: DiscoverMoreCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 

@@ -20,7 +20,7 @@ import {
 } from '../../../../plugins/text-formatting/pm-plugins/main';
 import * as commands from '../../../../plugins/text-formatting/commands/text-formatting';
 import { anyMarkActive } from '../../../../plugins/text-formatting/utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION,
@@ -35,7 +35,7 @@ describe('text-formatting', () => {
   const createEditor = createEditorFactory<TextFormattingState>();
 
   let trackEvent: AnalyticsHandler;
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({

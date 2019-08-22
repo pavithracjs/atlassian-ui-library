@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import { CHANNEL_ID, errorEncountered } from './analytics';
 
-type Props = WithAnalyticsEventProps;
+type Props = WithAnalyticsEventsProps;
 type State = {
   hasError: boolean;
 };

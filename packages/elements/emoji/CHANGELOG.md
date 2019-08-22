@@ -1,5 +1,72 @@
 # @atlaskit/emoji
 
+## 62.3.0
+
+### Minor Changes
+
+- [minor][66c5c88f4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66c5c88f4a):
+
+  Refactor emoji to use typeahead plugin
+
+## 62.2.11
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 62.2.10
+
+### Patch Changes
+
+- [patch][f171f08d59](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f171f08d59):
+
+  Switch from Media's Context to Media's MediaClient
+
+## 62.2.9
+
+### Patch Changes
+
+- [patch][af6787c63d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af6787c63d):
+
+  Export EmojiTypeAheadList from @atlaskit/emoji/typeahead
+
+## 62.2.8
+
+### Patch Changes
+
+- [patch][6785d8d4e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6785d8d4e4):
+
+  Move @types/js-search from dependencies to devDependencies.
+
+## 62.2.7
+
+### Patch Changes
+
+- [patch][43f66019ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43f66019ee):
+
+  Updates dependency on p-wait-for
+
 ## 62.2.6
 
 ### Patch Changes

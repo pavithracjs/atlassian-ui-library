@@ -279,17 +279,17 @@ describe('TeamMentionResourceSpec', () => {
 
   describe('#spotlightEnable', () => {
     it('should return false by default', () => {
-      expect(resource.mentionTypeaheadSpotlightEnabled()).toBe(false);
+      expect(resource.mentionTypeaheadHighlightEnabled()).toBe(false);
     });
     it('should return true when enabled', () => {
       const withSpotlightResource = new TeamMentionResource(
         apiUserMentionConfig,
         {
           ...apiTeamMentionConfig,
-          teamSpotlightEnabled: true,
+          teamHighlightEnabled: true,
         },
       );
-      expect(withSpotlightResource.mentionTypeaheadSpotlightEnabled()).toBe(
+      expect(withSpotlightResource.mentionTypeaheadHighlightEnabled()).toBe(
         true,
       );
     });

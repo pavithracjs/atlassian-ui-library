@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import { CardLinkView } from '@atlaskit/media-ui';
 
-import { CardWithUrl } from '../Card/types';
+import { CardProps } from '../Card/types';
 import { LazyCardWithUrlContent as CardWithUrlContentType } from './component';
 import { fireSmartLinkEvent } from '../../utils/analytics';
 import { AnalyticsHandler } from '../../utils/types';
 
-export class CardWithURLRenderer extends React.PureComponent<
-  CardWithUrl & WithAnalyticsEventProps
-> {
+export class CardWithURLRenderer extends React.PureComponent<CardProps> {
   static CardContent: typeof CardWithUrlContentType | null = null;
 
   static moduleImporter(target: CardWithURLRenderer) {
@@ -35,6 +32,7 @@ export class CardWithURLRenderer extends React.PureComponent<
       onClick,
       createAnalyticsEvent,
       container,
+      onResolve,
     } = this.props;
 
     // Wrapper around analytics.
@@ -53,6 +51,7 @@ export class CardWithURLRenderer extends React.PureComponent<
         isSelected={isSelected}
         dispatchAnalytics={dispatchAnalytics}
         container={container}
+        onResolve={onResolve}
       />
     ) : (
       <CardLinkView key={'chunk-placeholder'} link={url} />

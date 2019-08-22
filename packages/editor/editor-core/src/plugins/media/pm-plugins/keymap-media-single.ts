@@ -7,7 +7,7 @@ import {
   atTheEndOfDoc,
   isSelectionInsideLastNodeInDocument,
 } from '../../../utils';
-import { Command, CommandDispatch, EditorAppearance } from '../../../types';
+import { Command, CommandDispatch } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
 
@@ -199,10 +199,7 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
   };
 };
 
-export default function keymapPlugin(
-  schema: Schema,
-  appearance?: EditorAppearance,
-): Plugin {
+export default function keymapPlugin(schema: Schema): Plugin {
   const list = {};
   const removeMediaSingleCommand = maybeRemoveMediaSingleNode(schema);
 

@@ -1,5 +1,21 @@
 # @atlaskit/tree
 
+## 6.0.7
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 6.0.6
+
+### Patch Changes
+
+- [patch][b7c0cddc30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7c0cddc30):
+
+  Removed unused dependencies from package.json for tree: memoize-one was unused.
+
 ## 6.0.5
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

@@ -1,5 +1,120 @@
 # @atlaskit/atlassian-switcher
 
+## 3.22.0
+
+### Minor Changes
+
+- [minor][66d7234386](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66d7234386):
+
+  Bumped up item version to pick up themable item width support
+
+## 3.21.0
+
+### Minor Changes
+
+- [minor][0e43bd0082](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e43bd0082):
+
+  Use with width theming property now provided by Item
+
+## 3.20.1
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 3.20.0
+
+### Minor Changes
+
+- [minor][a055fbda01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a055fbda01):
+
+  yRemove description from items that don't have multiple sites
+
+## 3.19.0
+
+### Minor Changes
+
+- [minor][d700e692be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d700e692be):
+
+  Fix ellipsis on item with dropdown
+
+## 3.18.0
+
+### Minor Changes
+
+- [minor][bdbe90c48b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdbe90c48b):
+
+  FIND-133: Allow switcher to be rendered standalone (outside a drawer)
+
+## 3.17.1
+
+### Patch Changes
+
+- [patch][04388187f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04388187f4):
+
+  Added docs and details about i18n
+
+## 3.17.0
+
+### Minor Changes
+
+- [minor][520e77bd9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/520e77bd9c):
+
+  Fixed analytics bug for A/B testing product sorting algorithm for account-centric products
+
+## 3.16.0
+
+### Minor Changes
+
+- [minor][74501ba0ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74501ba0ea):
+
+  Accept a feature flag to AB test which site to show at the top of the product (efault being the current site, and variation being the most frequently visited)
+
+## 3.15.0
+
+### Minor Changes
+
+- [minor][aac9ae7ee8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aac9ae7ee8):
+
+  Licensed links in switcher are now grouped by product, with a dropdown that containing individual site options for sited products
+
+## 3.14.0
+
+### Minor Changes
+
+- [minor][d4e8e68bf1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4e8e68bf1):
+
+  Added adminLinks to switcher viewed event, so we could know when we show try discover more links to users. Fixed suggestedProductLinks that used to be empty on mount due to race conditions"
+
+## 3.13.0
+
+### Minor Changes
+
+- [minor][43a5cd1e3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43a5cd1e3c):
+
+  Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API
+
 ## 3.12.0
 
 ### Minor Changes

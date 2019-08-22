@@ -16,7 +16,7 @@ import { taskDecision } from '@atlaskit/util-data-test';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { uuid } from '@atlaskit/adf-schema';
 import Button from '@atlaskit/button';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import { pluginKey as blockTypePluginKey } from '../../../../../plugins/block-type/pm-plugins/main';
 import {
@@ -109,7 +109,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
   let pluginState: any;
   let toolbarOption: ReactWrapper;
   let analyticsHandlerSpy: jest.Mock<AnalyticsHandler>;
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let dispatchAnalyticsSpy: jest.SpyInstance<DispatchAnalyticsEvent>;
   let dispatchSpy: jest.SpyInstance;
 
@@ -126,6 +126,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
         allowPanel: true,
         allowRule: true,
         allowTables: true,
+        allowStatus: true,
         allowAnalyticsGASV3: true,
         taskDecisionProvider: Promise.resolve(
           taskDecision.getMockTaskDecisionResource(),
@@ -262,8 +263,8 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
         beforeEach(() => {
           buildToolbarForMenu({
             emojiDisabled: false,
+            isTypeAheadAllowed: true,
             emojiProvider,
-            insertEmoji: jest.fn(),
           });
           clickEmojiOption();
         });
@@ -288,21 +289,6 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
             actionSubjectId: 'emojiPicker',
             attributes: { inputMethod: menu.name },
             eventType: 'ui',
-          });
-        });
-
-        it('should fire analytics event when emoji selected in picker', () => {
-          const onSelection = toolbarOption
-            .find(AkEmojiPicker)
-            .prop('onSelection');
-          onSelection!({ id: '1f603', shortName: ':smiley:' }, undefined);
-
-          expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
-            action: 'inserted',
-            actionSubject: 'document',
-            actionSubjectId: 'emoji',
-            attributes: { inputMethod: 'picker' },
-            eventType: 'track',
           });
         });
       });
@@ -569,30 +555,51 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
             'atlassian.editor.format.layout.button',
           );
         });
+
+        it('should fire v3 analytics event', () => {
+          expect(createAnalyticsEvent).toHaveBeenCalledWith({
+            action: 'inserted',
+            actionSubject: 'document',
+            actionSubjectId: 'layout',
+            attributes: expect.objectContaining({ inputMethod: menu.name }),
+            eventType: 'track',
+          });
+        });
+      });
+
+      describe('click status option', () => {
+        beforeEach(() => {
+          buildToolbarForMenu({ nativeStatusSupported: true });
+          menu.clickButton(messages.status.defaultMessage, toolbarOption);
+        });
+
+        it('should fire v3 analytics event', () => {
+          expect(createAnalyticsEvent).toHaveBeenCalledWith({
+            action: 'inserted',
+            actionSubject: 'document',
+            actionSubjectId: 'status',
+            attributes: expect.objectContaining({ inputMethod: menu.name }),
+            eventType: 'track',
+          });
+        });
       });
 
       const blockTypes = [
         {
           type: PANEL,
           title: blockTypeMessages.infoPanel.defaultMessage,
-          analyticsV3: {
-            actionSubjectId: 'panel',
-            attributes: { inputMethod: menu.name, panelType: 'info' },
-          },
         },
         {
           type: CODE_BLOCK,
           title: blockTypeMessages.codeblock.defaultMessage,
-          analyticsV3: { actionSubjectId: 'codeBlock' },
         },
         {
           type: BLOCK_QUOTE,
           title: blockTypeMessages.blockquote.defaultMessage,
-          analyticsV3: { actionSubjectId: 'blockQuote' },
         },
       ];
       blockTypes.forEach(blockType => {
-        const { type, title, analyticsV3 } = blockType;
+        const { type, title } = blockType;
         describe(`click ${type.name} option`, () => {
           let insertBlockTypeSpy: jest.Mock;
 
@@ -614,18 +621,6 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
             expect(analyticsHandlerSpy).toHaveBeenCalledWith(
               `atlassian.editor.format.${type.name}.button`,
             );
-          });
-
-          it('should fire v3 analytics event', () => {
-            expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
-              action: 'inserted',
-              actionSubject: 'document',
-              actionSubjectId: analyticsV3.actionSubjectId,
-              attributes: analyticsV3.attributes || {
-                inputMethod: menu.name,
-              },
-              eventType: 'track',
-            });
           });
         });
       });

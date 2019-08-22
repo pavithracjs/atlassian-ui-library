@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import Portal from '@atlaskit/portal';
 import ScrollLock from 'react-scrolllock';
 import NodeResovler from 'react-node-resolver';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { canUseDOM } from 'exenv';
 import { Fade } from './Animation';
 import Clone from './Clone';
 import SpotlightDialog from './SpotlightDialog';
@@ -56,6 +57,53 @@ class SpotlightInner extends React.Component<
     this.props.onClosed();
   }
 
+  isPositionFixed = (element: HTMLElement) =>
+    window.getComputedStyle(element).position === 'fixed';
+
+  hasPositionFixedParent = (element: HTMLElement) => {
+    // Cast to to any - offsetParent should be of type "HTMLElement" instead of "Element"
+    const { offsetParent } = (element: any);
+    if (!offsetParent) {
+      return false;
+    }
+
+    if (this.isPositionFixed(offsetParent)) {
+      return true;
+    }
+
+    return this.hasPositionFixedParent(offsetParent);
+  };
+
+  getTargetNodeStyle = () => {
+    if (!canUseDOM) {
+      return {};
+    }
+    const { targetNode } = this.props;
+    const { height, left, top, width } = targetNode.getBoundingClientRect();
+
+    if (
+      this.isPositionFixed(targetNode) ||
+      this.hasPositionFixedParent(targetNode)
+    ) {
+      return {
+        height,
+        left,
+        top,
+        width,
+        // fixed position holds the target in place if overflow/scroll is necessary
+        position: 'fixed',
+      };
+    }
+
+    return {
+      height,
+      left: left + window.pageXOffset,
+      top: top + window.pageYOffset,
+      width,
+      position: 'absolute',
+    };
+  };
+
   render() {
     const {
       pulse,
@@ -67,13 +115,6 @@ class SpotlightInner extends React.Component<
       targetReplacement: TargetReplacement,
     } = this.props;
     const { replacementElement } = this.state;
-    const { height, left, top, width } = targetNode.getBoundingClientRect();
-    const rect = {
-      height,
-      left: left + window.pageXOffset,
-      top: top + window.pageYOffset,
-      width,
-    };
 
     return (
       <SpotlightTransitionConsumer>
@@ -83,13 +124,13 @@ class SpotlightInner extends React.Component<
               <NodeResovler
                 innerRef={elem => this.setState({ replacementElement: elem })}
               >
-                <TargetReplacement {...rect} />
+                <TargetReplacement {...this.getTargetNodeStyle()} />
               </NodeResovler>
             ) : (
               <Clone
                 pulse={pulse}
                 target={target}
-                rect={rect}
+                style={this.getTargetNodeStyle()}
                 targetBgColor={targetBgColor}
                 targetNode={targetNode}
                 targetOnClick={targetOnClick}

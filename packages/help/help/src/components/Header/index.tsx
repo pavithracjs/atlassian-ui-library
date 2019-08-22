@@ -7,7 +7,7 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 
 import { messages } from '../../messages';
-import { TRANSITION_DURATION_MS, TRANSITION_STATUS, VIEW } from '../constants';
+import { TRANSITION_DURATION_MS, TRANSITION_STATUS } from '../constants';
 
 import { withHelp, HelpContextInterface } from '../HelpContext';
 import CloseButton from './CloseButton';
@@ -39,10 +39,18 @@ export const HelpContent = (
     intl: { formatMessage },
   } = props;
 
+  const isBackButtonVisible: () => boolean = () => {
+    if (help.history.length === 1 && !help.isDefaultContent()) {
+      return false;
+    }
+
+    return help.isArticleVisible();
+  };
+
   return (
     <HeaderContainer>
       <Transition
-        in={help.view === VIEW.ARTICLE}
+        in={isBackButtonVisible()}
         timeout={TRANSITION_DURATION_MS}
         mountOnEnter
         unmountOnExit

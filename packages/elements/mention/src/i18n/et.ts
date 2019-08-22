@@ -6,7 +6,7 @@
  */
 // Estonian
 export default {
-  'fabric.mention.unknow.user.error': 'Tundmatu kasutaja: {id}',
+  'fabric.mention.unknow.user.error': 'Tundmatu kasutaja: {userId}',
   'fabric.mention.noAccess.warning':
     'Kasutajat {name} ei teavitata, kuna tal puudub juurdepääs',
   'fabric.mention.noAccess.label': 'Juurdepääs puudub',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': 'Vähemalt 50 liiget',
   'fabric.elements.mentions.team.member.50plus.including.you':
     'Vähemalt 50 liiget, sealhulgas sina',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Maini meeskonda',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Kaasa kõik lehele ühe klõpsuga. Pole meeskonda?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Loo üks.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Loobu',
 };

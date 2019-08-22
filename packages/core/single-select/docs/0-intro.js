@@ -4,19 +4,16 @@ import { md, Example, Props } from '@atlaskit/docs';
 import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-  React component which allows selection of a single item from a dropdown list. Substitute for the native select element
-
   ${(
-    <SectionMessage appearance="error">
-      <p>
-        <strong>Note: @atlaskit/single-select is now deprecated.</strong>
-      </p>
-      <p>
-        Please upgrade to @atlaskit/select, for any upgrade concerns please ping
-        the Select Upgrade room on stride.
-      </p>
+    <SectionMessage
+      appearance="warning"
+      title="Note: @atlaskit/multi-select is deprecated."
+    >
+      Please use @atlaskit/select instead.
     </SectionMessage>
   )}
+
+  React component which allows selection of a single item from a dropdown list. Substitute for the native select element.
 
   ${(
     <Example

@@ -1,5 +1,29 @@
 # @atlaskit/progress-tracker
 
+## 6.0.5
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 6.0.4
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 6.0.3
+
+### Patch Changes
+
+- [patch][202fda1d9e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/202fda1d9e):
+
+  Moved dependencies to devDependencies in progress-tracker: move 'react-dom' to devDependencies.
+
 ## 6.0.2
 
 ### Patch Changes

@@ -1,5 +1,104 @@
 # @atlaskit/mention
 
+## 18.14.2
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 18.14.1
+
+### Patch Changes
+
+- [patch][84b795279d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84b795279d):
+
+  TEAMS-626 : Adding translations for team mention spotlight
+
+## 18.14.0
+
+### Minor Changes
+
+- [minor][a22fc8004f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a22fc8004f):
+
+  TEAMS-618 : Exporting Team mention spotlight with correct name
+
+## 18.13.0
+
+### Minor Changes
+
+- [minor][9b83fdea35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b83fdea35):
+
+  TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight
+
+## 18.12.0
+
+### Minor Changes
+
+- [minor][fe1a882fbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe1a882fbb):
+
+  TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
+
+## 18.11.4
+
+### Patch Changes
+
+- [patch][2f62d55150](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f62d55150):
+
+  The mention spotlight can take a context path, and fixing a bug with on-click for the create team link
+
+## 18.11.3
+
+### Patch Changes
+
+- [patch][c72cca2853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c72cca2853):
+
+  Added analytics when user clicks the create team link
+
+## 18.11.2
+
+### Patch Changes
+
+- [patch][b4d2284e01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4d2284e01):
+
+  Added analytics on spotlight viewed.
+
+## 18.11.1
+
+### Patch Changes
+
+- [patch][23f9c8ff08](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23f9c8ff08):
+
+  Added analytics on closing team mention spotlight
+
+## 18.11.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
 ## 18.10.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 import {
   AnalyticsContext,
   AnalyticsEventPayload,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
@@ -100,7 +100,7 @@ export const defaultShareContentState: DialogContentState = {
 };
 
 export class ShareDialogWithTriggerInternal extends React.PureComponent<
-  Props & InjectedIntlProps & WithAnalyticsEventProps,
+  Props & InjectedIntlProps & WithAnalyticsEventsProps,
   State
 > {
   static defaultProps: Partial<Props> = {
@@ -406,6 +406,6 @@ export class ShareDialogWithTriggerInternal extends React.PureComponent<
   }
 }
 
-export const ShareDialogWithTrigger = withAnalyticsEvents<Props>()(
-  injectIntl<Props>(ShareDialogWithTriggerInternal),
+export const ShareDialogWithTrigger = withAnalyticsEvents()(
+  injectIntl(ShareDialogWithTriggerInternal),
 );

@@ -1,5 +1,66 @@
 # @atlaskit/navigation
 
+## 35.1.19
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 35.1.18
+
+### Patch Changes
+
+- [patch][abee1a5f4f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abee1a5f4f):
+
+  Bumping internal dependency (memoize-one) to latest version (5.1.0). memoize-one@5.1.0 has full typescript support so it is recommended that typescript consumers use it also.
+
+## 35.1.17
+
+### Patch Changes
+
+- [patch][de35ce8c67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de35ce8c67):
+
+  Updates component maintainers
+
+## 35.1.16
+
+- Updated dependencies [926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+  - @atlaskit/dropdown-menu@8.0.13
+  - @atlaskit/field-text@9.0.7
+  - @atlaskit/analytics-next@6.0.0
+  - @atlaskit/avatar@16.0.10
+  - @atlaskit/blanket@10.0.8
+  - @atlaskit/button@13.1.2
+  - @atlaskit/checkbox@9.0.5
+  - @atlaskit/toggle@8.0.1
+  - @atlaskit/tooltip@15.0.9
+
+## 35.1.15
+
+### Patch Changes
+
+- [patch][d905cbc0ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d905cbc0ac):
+
+  Adding a condition to check if the component are referenced in tests running in CI. It reduces the noise and help reading the CI log.
+
+## 35.1.14
+
+### Patch Changes
+
+- [patch][226a5fece8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/226a5fece8):
+
+  Upating deprecation messages and adding console warning to improve visibility
+
+## 35.1.13
+
+### Patch Changes
+
+- [patch][2e70d856a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e70d856a3):
+
+  Removed unused dependencies from package.json for packages: atlaskit-navigation: keycode was unused.
+
 ## 35.1.12
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):

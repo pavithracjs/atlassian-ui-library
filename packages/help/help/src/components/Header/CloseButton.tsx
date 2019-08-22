@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import Tooltip from '@atlaskit/tooltip';
@@ -20,7 +20,7 @@ import { CloseButtonContainer } from './styled';
 import { withHelp, HelpContextInterface } from '../HelpContext';
 
 export interface Props {
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent: CreateUIAnalyticsEvent;
 }
 
 const iconBefore = <CrossIcon label="" size="medium" />;
@@ -68,8 +68,8 @@ const CloseButton = (
   ) : null;
 };
 
-export default withAnalyticsContext<Partial<Props>>({
+export default withAnalyticsContext({
   componentName: 'closeButton',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<Partial<Props>>()(withHelp(injectIntl(CloseButton))));
+})(withAnalyticsEvents()(withHelp(injectIntl(CloseButton))));
