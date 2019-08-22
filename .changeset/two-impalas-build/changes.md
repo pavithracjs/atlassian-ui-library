@@ -1,0 +1,1 @@
+[ED-6897] Add new rows do not expand the previous rowspan anymore, but we are copying the background-color from previous cells

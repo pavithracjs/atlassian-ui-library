@@ -141,7 +141,8 @@ class ToolbarTextColor extends React.Component<
           boundariesElement={popupsBoundariesElement}
           scrollableElement={popupsScrollableElement}
           isOpen={isOpen && !pluginState.disabled}
-          onOpenChange={this.handleOpenChange}
+          handleClickOutside={this.hide}
+          handleEscapeKeydown={this.hide}
           fitWidth={242}
           fitHeight={80}
           zIndex={akEditorMenuZIndex}
@@ -204,6 +205,12 @@ class ToolbarTextColor extends React.Component<
 
   private handleOpenChange = ({ isOpen }: { isOpen: boolean }) => {
     this.setState({ isOpen });
+  };
+
+  private hide = () => {
+    if (this.state.isOpen === true) {
+      this.setState({ isOpen: false });
+    }
   };
 }
 

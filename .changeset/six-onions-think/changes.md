@@ -1,0 +1,1 @@
+[ED-7448] Mention will be case insensitive for sorting in table columns

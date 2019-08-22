@@ -10,4 +10,5 @@ export interface CardProps extends WithAnalyticsEventsProps {
   container?: HTMLElement;
   data?: any;
   url?: string;
+  onResolve?: (data: { url?: string; title?: string }) => void;
 }

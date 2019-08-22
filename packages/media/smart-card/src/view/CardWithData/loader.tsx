@@ -22,7 +22,7 @@ export class CardWithDataRenderer extends React.PureComponent<CardProps> {
   }
 
   render() {
-    const { appearance, data, isSelected, onClick } = this.props;
+    const { appearance, data, isSelected, onClick, onResolve } = this.props;
     if (!data) {
       throw new Error(
         '@atlaskit/smart-cards: you are trying to render a card with data, but does not provide any',
@@ -35,6 +35,7 @@ export class CardWithDataRenderer extends React.PureComponent<CardProps> {
           data={data}
           isSelected={isSelected}
           onClick={onClick}
+          onResolve={onResolve}
         />
       );
     }

@@ -1,0 +1,1 @@
+ED-7217: Remove references to editor appearance from plugins in favor of plugin options

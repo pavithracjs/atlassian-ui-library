@@ -11,12 +11,13 @@ import {
 import { canMergeCells } from '../../transforms';
 import { getPluginState } from '../../pm-plugins/main';
 import {
+  hoverMergedCells,
   hoverColumns,
   hoverRows,
   clearHoverSelection,
   toggleContextualMenu,
 } from '../../commands';
-import { TableCssClassName as ClassName } from '../../types';
+import { TableCssClassName as ClassName, SortOrder } from '../../types';
 import { contextualMenuDropdownWidth } from '../styles';
 import { Shortcut } from '../../../../ui/styles';
 import DropdownMenu from '../../../../ui/DropdownMenu';
@@ -32,15 +33,21 @@ import {
   splitCellWithAnalytics,
   emptyMultipleCellsWithAnalytics,
   insertColumnWithAnalytics,
+  sortColumnWithAnalytics,
 } from '../../commands-with-analytics';
 import { closestElement } from '../../../../utils';
-import { getSelectedColumnIndexes, getSelectedRowIndexes } from '../../utils';
+import {
+  getMergedCellsPositions,
+  getSelectedColumnIndexes,
+  getSelectedRowIndexes,
+} from '../../utils';
 import {
   tooltip,
   addColumnAfter,
   addRowAfter,
   backspace,
 } from '../../../../keymaps';
+import { DropdownItem } from '../../../block-type/ui/ToolbarBlockType';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -64,6 +71,21 @@ export const messages = defineMessages({
     description:
       'Clears the contents of the selected cells (this does not delete the cells themselves).',
   },
+  sortColumnASC: {
+    id: 'fabric.editor.sortColumnASC',
+    defaultMessage: 'Sort column A → Z',
+    description: 'Sort column in ascending order',
+  },
+  sortColumnDESC: {
+    id: 'fabric.editor.sortColumnDESC',
+    defaultMessage: 'Sort column Z → A',
+    description: 'Sort column in descending order',
+  },
+  canNotSortTable: {
+    id: 'fabric.editor.canNotSortTable',
+    defaultMessage: `⚠️ You can't sort a table with merged cells`,
+    description: `Split your cells to enable this feature`,
+  },
 });
 
 export interface Props {
@@ -73,6 +95,7 @@ export interface Props {
   targetCellPosition?: number;
   mountPoint?: HTMLElement;
   allowMergeCells?: boolean;
+  allowColumnSorting?: boolean;
   allowBackgroundColor?: boolean;
   boundariesElement?: HTMLElement;
   offset?: Array<number>;
@@ -135,6 +158,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
   private createItems = () => {
     const {
       allowMergeCells,
+      allowColumnSorting,
       allowBackgroundColor,
       editorView: { state },
       targetCellPosition,
@@ -222,6 +246,29 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       });
     }
 
+    if (allowColumnSorting) {
+      const hasMergedCellsInTable =
+        getMergedCellsPositions(state.tr).length > 0;
+      const warning = hasMergedCellsInTable
+        ? {
+            tooltipDescription: formatMessage(messages.canNotSortTable),
+            isDisabled: true,
+          }
+        : {};
+
+      items.push({
+        content: formatMessage(messages.sortColumnASC),
+        value: { name: 'sort_column_asc' },
+        ...warning,
+      });
+
+      items.push({
+        content: formatMessage(messages.sortColumnDESC),
+        value: { name: 'sort_column_desc' },
+        ...warning,
+      });
+    }
+
     items.push({
       content: formatMessage(messages.clearCells, {
         0: Math.max(noOfColumns, noOfRows),
@@ -233,11 +280,27 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     return items.length ? [{ items }] : null;
   };
 
-  private onMenuItemActivated = ({ item }: { item: any }) => {
+  private onMenuItemActivated = ({ item }: { item: DropdownItem }) => {
     const { editorView, selectionRect, targetCellPosition } = this.props;
     const { state, dispatch } = editorView;
 
     switch (item.value.name) {
+      case 'sort_column_desc':
+        sortColumnWithAnalytics(
+          INPUT_METHOD.CONTEXT_MENU,
+          selectionRect.left,
+          SortOrder.DESC,
+        )(state, dispatch);
+        this.toggleOpen();
+        break;
+      case 'sort_column_asc':
+        sortColumnWithAnalytics(
+          INPUT_METHOD.CONTEXT_MENU,
+          selectionRect.left,
+          SortOrder.ASC,
+        )(state, dispatch);
+        this.toggleOpen();
+        break;
       case 'merge':
         mergeCellsWithAnalytics()(state, dispatch);
         this.toggleOpen();
@@ -328,8 +391,16 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
         dispatch,
       );
     }
+
     if (item.value.name === 'delete_row') {
       hoverRows(getSelectedRowIndexes(selectionRect), true)(state, dispatch);
+    }
+
+    if (
+      ['sort_column_asc', 'sort_column_desc'].indexOf(item.value.name) > -1 &&
+      getMergedCellsPositions(state.tr).length !== 0
+    ) {
+      hoverMergedCells()(state, dispatch);
     }
   };
 
@@ -339,8 +410,12 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       this.closeSubmenu();
     }
     if (
-      item.value.name === 'delete_column' ||
-      item.value.name === 'delete_row'
+      [
+        'sort_column_asc',
+        'sort_column_desc',
+        'delete_column',
+        'delete_row',
+      ].indexOf(item.value.name) > -1
     ) {
       clearHoverSelection()(state, dispatch);
     }

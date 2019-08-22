@@ -1,16 +1,25 @@
-import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import gapcursor from './__fixtures__/gap-cursor-adf.json';
 import paragraph from './__fixtures__/paragraph-of-text.adf.json';
 import { selectors } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { Page } from '../../__helpers/page-objects/_types';
+
+let page: Page;
+
+const initEditor = async (adf?: Object) => {
+  await initEditorWithAdf(page, {
+    adf,
+    viewport: { width: 1040, height: 600 },
+    appearance: Appearance.fullPage,
+  });
+};
 
 describe('Gap cursor:', () => {
-  let page: any;
-
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, gapcursor, Device.LaptopMDPI);
+    await initEditor(gapcursor);
   });
 
   afterEach(async () => {
@@ -45,12 +54,10 @@ describe('Gap cursor:', () => {
 });
 
 describe('Gap cursor: selection', () => {
-  let page: any;
-
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, paragraph, Device.LaptopMDPI);
+    await initEditor(paragraph);
   });
 
   afterEach(async () => {

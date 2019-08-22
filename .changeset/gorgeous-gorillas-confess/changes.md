@@ -1,0 +1,1 @@
+ED-6714: Re-enable editorActions.replaceDocument for mobile-bridge with better tolerance of invalid nodes

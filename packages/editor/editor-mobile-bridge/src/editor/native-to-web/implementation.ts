@@ -36,7 +36,7 @@ import {
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
 import { EditorViewWithComposition } from '../../types';
-import { EditorState, Selection } from 'prosemirror-state';
+import { EditorState } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 import { Color as StatusColor } from '@atlaskit/status/element';
 
@@ -118,7 +118,7 @@ export default class WebBridgeImpl extends WebBridge
         text,
         color,
         localId: uuid,
-      })(this.editorView);
+      })(this.editorView.state, this.editorView.dispatch);
     }
   }
 
@@ -129,39 +129,8 @@ export default class WebBridgeImpl extends WebBridge
   }
 
   setContent(content: string) {
-    // TODO: Re-enable (https://product-fabric.atlassian.net/browse/ED-6714)
-    // Prevent deletion of invalid marks. Temporary fix for inline comments being removed in the document.
-    // This is to prevent the validator running (which deletes invalid marks).
-    // Waiting on Confluence to change from confluenceInlineComment to annotation mark
-
-    // if (this.editorActions) {
-    //   this.editorActions.replaceDocument(content, false);
-    // }
-
-    if (this.editorView) {
-      const { state, dispatch } = this.editorView;
-      const tr = state.tr;
-      let parsedContent;
-      try {
-        parsedContent = JSON.parse(content);
-      } catch (e) {
-        return;
-      }
-
-      parsedContent = (parsedContent.content || []).map((child: any) => {
-        try {
-          return state.schema.nodeFromJSON(child);
-        } catch (e) {
-          return state.schema.nodes.unsupportedBlock.createChecked({
-            originalValue: child,
-          });
-        }
-      });
-
-      tr.setMeta('addToHistory', false);
-      tr.replaceWith(0, state.doc.nodeSize - 2, parsedContent);
-      tr.setSelection(Selection.atStart(tr.doc));
-      dispatch(tr);
+    if (this.editorActions) {
+      this.editorActions.replaceDocument(content, false);
     }
   }
 

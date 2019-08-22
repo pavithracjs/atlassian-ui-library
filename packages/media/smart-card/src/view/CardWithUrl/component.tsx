@@ -37,6 +37,7 @@ export function CardWithUrlContent({
   onClick,
   appearance,
   dispatchAnalytics,
+  onResolve,
 }: CardWithUrlContentProps) {
   // Get state, actions for this card.
   const { state, actions } = useSmartLink(url, dispatchAnalytics);
@@ -66,6 +67,7 @@ export function CardWithUrlContent({
       handleAuthorize={(services.length && handleAuthorize) || undefined}
       handleFrameClick={handleClickWrapper}
       isSelected={isSelected}
+      onResolve={onResolve}
     />
   ) : (
     <BlockCard
@@ -75,6 +77,7 @@ export function CardWithUrlContent({
       handleErrorRetry={actions.reload}
       handleFrameClick={handleClickWrapper}
       isSelected={isSelected}
+      onResolve={onResolve}
     />
   );
 }
