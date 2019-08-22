@@ -158,6 +158,7 @@ export default function<P, D>(
     }
 
     render() {
+      // @ts-ignore https://product-fabric.atlassian.net/browse/FIND-269 - Ignoring issue with children's return type
       return this.props.children(this.state);
     }
   };

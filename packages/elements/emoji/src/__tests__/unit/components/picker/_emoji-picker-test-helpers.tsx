@@ -76,7 +76,7 @@ export const findEmoji = (list: ReactWrapper) => list.find(Emoji);
  */
 export const emojisVisible = (
   picker: ReactWrapper,
-  list: ReactWrapper<any, any>,
+  list: ReactWrapper<any, any, any>,
 ) => hasSelector(picker, Emoji, list);
 
 const nodeIsCategory = (category: CategoryGroupKey, n: ReactWrapper<Props>) =>

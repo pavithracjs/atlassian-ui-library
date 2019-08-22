@@ -3,7 +3,9 @@ import { NativeFetchResponse } from '../types';
 
 const globalFetch = window.fetch;
 export const mockFetchFor = (urls: Array<string> = []) => {
-  window.fetch = (url: string, options) => {
+  window.fetch = (request, options) => {
+    let url = typeof request === 'string' ? request : request.url;
+
     // Determine whether its a URL we want native to handle, otherwise continue as normal.
     const shouldMock = urls.find(u => url.startsWith(u));
     if (!shouldMock) {
