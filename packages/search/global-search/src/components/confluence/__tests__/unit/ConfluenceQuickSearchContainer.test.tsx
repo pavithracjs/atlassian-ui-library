@@ -534,7 +534,9 @@ describe('ConfluenceQuickSearchContainer', () => {
         latestSearchQuery: 'a',
         searchResultsTotalSize: results.objects.totalSize,
         currentFilters: [
-          { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
+          {
+            filter: { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
+          },
         ],
         searchSessionId: mockSearchSessionId,
       });
@@ -567,10 +569,14 @@ describe('ConfluenceQuickSearchContainer', () => {
         searchResultsTotalSize: results.objects.totalSize,
         currentFilters: [
           {
-            '@type': FilterType.Spaces,
-            spaceKeys: [spaceKey],
-            spaceAvatar,
-            spaceTitle,
+            filter: {
+              '@type': FilterType.Spaces,
+              spaceKeys: [spaceKey],
+            },
+            metadata: {
+              spaceAvatar,
+              spaceTitle,
+            },
           },
         ],
         searchSessionId: mockSearchSessionId,

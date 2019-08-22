@@ -138,7 +138,7 @@ export interface SpaceFilter {
   spaceKeys: string[];
 }
 
-export interface QueryBasedSpaceFilter extends SpaceFilter {
+export interface QueryBasedSpaceFilterMetadata {
   spaceTitle: string;
   spaceAvatar: string;
 }
@@ -148,7 +148,13 @@ export interface ContributorsFilter {
   accountIds: string[];
 }
 
-export type Filter = SpaceFilter | ContributorsFilter | QueryBasedSpaceFilter;
+export type FilterMetadata = QueryBasedSpaceFilterMetadata;
+export type Filter = SpaceFilter | ContributorsFilter;
+
+export interface FilterWithMetadata<T = Filter, W = FilterMetadata> {
+  filter: T;
+  metadata?: W;
+}
 
 export interface SearchParams {
   query: string;
