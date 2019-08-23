@@ -344,6 +344,20 @@ const columnControlsDecoration = `
     }
   }
 
+
+  .${ClassName.TABLE_CONTAINER} {
+    td, th {
+      overflow: hidden;
+    }
+
+    &.${ClassName.WITH_CONTROLS} tr:first-child {
+      td, th {
+        overflow: visible;
+      }
+    }
+  }
+
+
   .${ClassName.WITH_CONTROLS} .${ClassName.COLUMN_CONTROLS_DECORATIONS} {
     display: block;
   }
