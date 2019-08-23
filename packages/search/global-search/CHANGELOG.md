@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.3.2
+
+### Patch Changes
+
+- [patch][c0a65fcf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0a65fcf70):
+
+  Create spaceballs experiment
+
 ## 11.3.1
 
 ### Patch Changes
