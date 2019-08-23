@@ -1,166 +1,165 @@
 import { keymap } from 'prosemirror-keymap';
-import { ResolvedPos, Schema } from 'prosemirror-model';
-import { EditorState, Selection, Transaction, Plugin } from 'prosemirror-state';
+import {
+  Node,
+  Schema,
+  NodeType,
+  Fragment,
+  Slice,
+  ResolvedPos,
+} from 'prosemirror-model';
+import {
+  EditorState,
+  Transaction,
+  Plugin,
+  TextSelection,
+} from 'prosemirror-state';
 import { hasParentNodeOfType } from 'prosemirror-utils';
 import {
-  isSupportedSourceNode,
   splitListAtSelection,
   insertTaskDecisionWithAnalytics,
 } from '../commands';
 import { INPUT_METHOD } from '../../analytics';
 import { TaskDecisionListType } from '../types';
-
-// tries to find a valid cursor position
-const setTextSelection = (pos: number) => (tr: Transaction) => {
-  const newSelection = Selection.findFrom(tr.doc.resolve(pos), -1, true);
-  if (newSelection) {
-    tr.setSelection(newSelection);
-  }
-  return tr;
-};
+import { Command } from '../../../types';
+import { canSplit, findWrapping } from 'prosemirror-transform';
+import { liftListItem } from 'prosemirror-schema-list';
 
 const isInsideTaskOrDecisionItem = (state: EditorState) => {
   const { decisionItem, taskItem } = state.schema.nodes;
   return hasParentNodeOfType([decisionItem, taskItem])(state.selection);
 };
 
-export function keymapPlugin(schema: Schema): Plugin | undefined {
-  const deleteCurrentItem = ($from: ResolvedPos, tr: Transaction) => {
-    return tr.delete($from.before($from.depth) - 1, $from.end($from.depth) + 1);
-  };
+// node.depth < 2 check if to see if we're being called towards document level
+function splitListItem(itemType: NodeType): Command {
+  return function(state, dispatch) {
+    let { $from, $to, from } = state.selection;
+    const node = state.doc.nodeAt(from);
 
-  /*
-   * Since the DecisionItem and TaskItem only accepts inline-content, we won't get any of the default behaviour from ProseMirror
-   * eg. behaviour for backspace and enter etc. So we need to implement it.
-   */
-  const keymaps = {
-    Backspace: (state: EditorState, dispatch: (tr: Transaction) => void) => {
-      const {
-        selection,
-        schema: { nodes },
-        tr,
-      } = state;
-      const { decisionList, decisionItem, taskList, taskItem } = nodes;
+    if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
+      return false;
+    }
 
-      if ((!decisionItem || !decisionList) && (!taskList || !taskItem)) {
+    let parent = $from.node(); // -1 for inline
+    if (parent.type != itemType) return false;
+    const grandParentItems: Node[] = [];
+    $from.node(-1).content.forEach(listChild => {
+      if (listChild.type.name === 'taskItem') {
+        grandParentItems.push(listChild);
+      }
+    });
+
+    if ($from.parent.content.size !== 0) {
+      return false;
+    }
+
+    // In an empty block. If this is a nested list, the wrapping
+    // list item should be split. Otherwise, bail out and let next
+    // command handle lifting.
+    if (
+      $from.depth == 2 ||
+      $from.node(-1).type.name != 'taskList' || // -1 for inline
+      grandParentItems.indexOf(parent) != grandParentItems.length - 1 // -1 for inline
+    ) {
+      // debugger;
+      return false;
+    }
+    if (dispatch) {
+      const blockRange = $from.blockRange(state.doc.resolve($from.end(-1)));
+      if (!blockRange) {
         return false;
       }
 
-      const { $from, $to } = selection;
-
-      // Don't do anything if selection is a range
-      if ($from.pos !== $to.pos) {
-        return false;
-      }
-
-      // Don't do anything if the cursor isn't at the beginning of the node.
-      if ($from.parentOffset !== 0) {
-        return false;
-      }
-
-      const previousPos = tr.doc.resolve(
-        Math.max(0, $from.before($from.depth) - 1),
+      dispatch(
+        state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
       );
+    }
 
-      const previousNodeType =
-        previousPos.pos > 0 && previousPos.node(1) && previousPos.node(1).type;
-      const parentNodeType = $from.node(1).type;
-      const previousNodeIsList =
-        previousNodeType === decisionList || previousNodeType === taskList;
-      const parentNodeIsList =
-        parentNodeType === decisionList || parentNodeType === taskList;
+    return true;
+  };
+}
 
-      if (previousNodeIsList && !parentNodeIsList) {
-        const content = $from.node($from.depth).content;
-        const insertPos = previousPos.pos - 1;
-        deleteCurrentItem($from, tr).insert(insertPos, content);
-        dispatch(setTextSelection(insertPos)(tr).scrollIntoView());
-        return true;
-      }
+const getBlockRange = ($from: ResolvedPos) => {
+  const { taskList } = $from.doc.type.schema.nodes;
 
-      const nodeType = $from.node().type;
-      if (nodeType !== decisionItem && nodeType !== taskItem) {
+  let end = $from.end();
+  const after = $from.doc.resolve(end + 1).nodeAfter;
+  console.log('after', after);
+
+  // TODO: ensure they have the same depth
+  if (after && after.type === taskList) {
+    end += after.nodeSize;
+  }
+
+  return $from.blockRange($from.doc.resolve(end));
+};
+
+export function keymapPlugin(schema: Schema): Plugin | undefined {
+  const keymaps = {
+    'Shift-Tab': (state: EditorState, dispatch: (tr: Transaction) => void) => {
+      if (!isInsideTaskOrDecisionItem(state)) {
         return false;
       }
 
-      dispatch(splitListAtSelection(tr, schema));
+      const { $from } = state.selection;
+      if (dispatch) {
+        // TODO: check that there's a taskItem preceeding it
 
-      return true;
-    },
-    Delete: (state: EditorState, dispatch: (tr: Transaction) => void) => {
-      const {
-        selection,
-        schema: { nodes },
-        tr,
-      } = state;
-      const nodeIsTaskOrDecisionItem = isInsideTaskOrDecisionItem(state);
-      const { decisionList, decisionItem, taskList, taskItem } = nodes;
+        const blockRange = getBlockRange($from);
+        if (!blockRange) {
+          return false;
+        }
 
-      if (
-        ((!decisionItem || !decisionList) && (!taskList || !taskItem)) ||
-        !nodeIsTaskOrDecisionItem
-      ) {
-        return false;
+        dispatch(
+          state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
+        );
       }
-
-      const { $from, $to } = selection;
-
-      // Don't do anything if selection is a range
-      if ($from.pos !== $to.pos) {
-        return false;
-      }
-
-      // Don't do anything if the cursor isn't at the end of the node.
-      const endOfItem = $from.end();
-      const isAtEndOfItem = $from.pos === endOfItem;
-
-      if (!isAtEndOfItem) {
-        return false;
-      }
-
-      const list = $from.node($from.depth - 1);
-      const isAtEndOfList = list.lastChild === $from.node();
-
-      // split list, converted next item to a paragraph when not at end
-      if (!isAtEndOfList) {
-        setTextSelection(endOfItem + 2)(tr);
-        splitListAtSelection(tr, schema);
-        setTextSelection($from.pos)(tr);
-        tr.scrollIntoView();
-        dispatch(tr);
-        return true;
-      }
-
-      const listPos = tr.doc.resolve($from.after($from.depth - 1));
-      const nodeAfterList = listPos.nodeAfter;
-
-      if (!nodeAfterList) {
-        // nothing after - default to prosemirror
-        return false;
-      }
-
-      if (!isSupportedSourceNode(schema, selection)) {
-        // Unsupported content in following node, do nothing.
-        return true;
-      }
-
-      const nodeAfterPos = tr.doc.resolve(listPos.pos + 1);
-      const nodeAfterType = nodeAfterList.type;
-      if (nodeAfterType === decisionList || nodeAfterType === taskList) {
-        // Do nothing until FS-2896 is implemented
-        return true;
-      }
-
-      const newContent = nodeAfterList.content;
-      tr.delete(nodeAfterPos.before(), nodeAfterPos.after());
-      tr.insert($from.pos, newContent);
-      setTextSelection($from.pos)(tr);
-      tr.scrollIntoView();
-      dispatch(tr);
 
       return true;
     },
 
+    Tab: (state: EditorState, dispatch: (tr: Transaction) => void) => {
+      if (!isInsideTaskOrDecisionItem(state)) {
+        return false;
+      }
+
+      const { $from } = state.selection;
+      if (dispatch) {
+        // if we're the first taskItem in a taskList, we want to move the taskItem up to the preceeding taskList
+        // --------------------------------------
+        if ($from.index(-1) === 0) {
+          console.warn('first taskItem');
+          const blockRange = getBlockRange($from);
+          if (!blockRange) {
+            console.warn('no block range');
+            return false;
+          }
+
+          dispatch(state.tr.join($from.start() - 1));
+          // state.tr.join
+
+          return true;
+        }
+
+        // TODO: until end of next taskList
+        const blockRange = getBlockRange($from);
+        if (!blockRange) {
+          return false;
+        }
+
+        console.log('block range', blockRange);
+
+        const wrapping = findWrapping(blockRange, state.schema.nodes.taskList);
+        if (!wrapping) {
+          console.error('no wrapping');
+          // move as child
+          return false;
+        }
+
+        dispatch(state.tr.wrap(blockRange, wrapping).scrollIntoView());
+      }
+
+      return true;
+    },
     Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const { selection, tr } = state;
       const { $from } = selection;
@@ -172,36 +171,47 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
         nodeType === state.schema.nodes.taskItem ? 'taskList' : 'decisionList';
 
       if (nodeIsTaskOrDecisionItem) {
-        if (!isEmpty) {
-          const addItem = ({
-            tr,
-            itemLocalId,
-          }: {
-            tr: Transaction;
-            itemLocalId?: string;
-          }) =>
-            tr.split($from.pos, 1, [
-              { type: nodeType, attrs: { localId: itemLocalId } },
-            ]);
-          const insertTr = insertTaskDecisionWithAnalytics(
-            state,
-            listType,
-            INPUT_METHOD.KEYBOARD,
-            addItem,
-          );
+        // only do this if nested and non-empty
+        // console.log('uh', $from.node(-2).type, 'empty?', isEmpty)
+        // if (isEmpty && ($from.depth == 2 || $from.node(-1).type.name != 'taskList' || $from.node(-2).type.name != 'taskList')) {
+        //   console.warn('trying to exit node');
+        //   liftListItem(state.schema.nodes.taskItem)(state, dispatch);
+        //   // dispatch(tr.split($from.pos, 1));
+        //   return true;
+        // }
 
-          if (insertTr) {
-            insertTr.scrollIntoView();
-            dispatch(insertTr);
-          }
+        if (splitListItem(nodeType)(state, dispatch)) {
           return true;
         }
 
-        // Otherwise, split list
-        splitListAtSelection(tr, schema);
-        dispatch(tr);
+        // if (!isEmpty) {
+        const addItem = ({
+          tr,
+          itemLocalId,
+        }: {
+          tr: Transaction;
+          itemLocalId?: string;
+        }) => {
+          console.log('insert item');
+          return tr.split($from.pos, 1, [
+            { type: nodeType, attrs: { localId: itemLocalId } },
+          ]);
+        };
+
+        const insertTr = insertTaskDecisionWithAnalytics(
+          state,
+          listType,
+          INPUT_METHOD.KEYBOARD,
+          addItem,
+        );
+
+        if (insertTr) {
+          insertTr.scrollIntoView();
+          dispatch(insertTr);
+        }
         return true;
       }
+
       return false;
     },
   };

@@ -207,20 +207,23 @@ const canOutdent = (state: EditorState): boolean => {
 };
 
 export const enterKeyCommand: Command = (state, dispatch): boolean => {
+  console.log('hello');
   const { selection } = state;
   if (selection.empty) {
     const { $from } = selection;
-    const { listItem, codeBlock } = state.schema.nodes;
+    const { listItem, codeBlock, taskItem } = state.schema.nodes;
     const node = $from.node($from.depth);
     const wrapper = $from.node($from.depth - 1);
 
-    if (wrapper && wrapper.type === listItem) {
+    if (wrapper && (wrapper.type === listItem || wrapper.type === taskItem)) {
       /** Check if the wrapper has any visible content */
       const wrapperHasContent = hasVisibleContent(wrapper);
       if (isNodeEmpty(node) && !wrapperHasContent) {
+        console.warn('outdent');
         return outdentList()(state, dispatch);
       } else if (!hasParentNodeOfType(codeBlock)(selection)) {
-        return splitListItem(listItem)(state, dispatch);
+        console.warn('split');
+        return splitListItem(wrapper.type)(state, dispatch);
       }
     }
   }

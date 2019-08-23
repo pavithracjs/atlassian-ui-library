@@ -23,7 +23,7 @@ export const taskListSelector = `[data-node-type="${name}"]`;
 export const taskList: NodeSpec = {
   group: 'block',
   defining: true,
-  content: '(taskItem|taskList|decisionList)+',
+  content: 'taskItem+ (taskItem|taskList)*',
   attrs: {
     localId: { default: '' },
   },
@@ -45,7 +45,7 @@ export const taskList: NodeSpec = {
     const attrs = {
       'data-node-type': name,
       'data-task-list-local-id': localId || 'local-task-list',
-      style: 'list-style: none; padding-left: 0',
+      style: 'list-style: none; padding-left: 0; border: 1px dashed silver',
     };
 
     return ['div', attrs, 0];
