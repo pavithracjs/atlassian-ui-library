@@ -34,7 +34,7 @@ const baseADF = {
 };
 
 BrowserTestCase(
-  'copy-mediaSingle-replacement.ts: Copies and pastes mediaSingle on fullpage',
+  'upload-external-media.ts: Uploads external media to media services',
   { skip: ['edge', 'ie', 'safari'] },
   async (client: any, testCase: string) => {
     const page = await goToEditorTestingExample(client);

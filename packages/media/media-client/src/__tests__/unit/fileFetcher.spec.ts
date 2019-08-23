@@ -362,7 +362,7 @@ describe('FileFetcher', () => {
       );
     });
 
-    it('should set the right mediaType and mimeType', async () => {
+    it('should set the right mediaType', async () => {
       const { fileFetcher } = setup();
       const collection = 'destination-collection';
       await fileFetcher.uploadExternal(url, collection);
@@ -373,7 +373,6 @@ describe('FileFetcher', () => {
       expect(fileState).toEqual(
         expect.objectContaining({
           mediaType: 'image',
-          mimeType: '',
         }),
       );
     });

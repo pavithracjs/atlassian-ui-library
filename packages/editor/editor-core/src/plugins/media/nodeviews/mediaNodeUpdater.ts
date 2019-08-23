@@ -129,7 +129,7 @@ export class MediaNodeUpdater {
       const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
         mediaProvider,
       );
-      if (!uploadMediaClientConfig) {
+      if (!uploadMediaClientConfig || !node.attrs.url) {
         return;
       }
       const mediaClient = getMediaClient({
