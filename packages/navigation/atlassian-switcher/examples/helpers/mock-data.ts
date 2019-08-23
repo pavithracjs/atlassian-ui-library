@@ -33,6 +33,8 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: '0706eddc-00d7-4e1c-9268-ee3c1d2408cc',
         displayName: 'sre-ehlo',
         url: 'https://sre-ehlo.jira-dev.com',
+        avatar:
+          'https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rings.png',
       },
       {
         adminAccess: false,
@@ -51,6 +53,8 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: '536e586b-06fe-4550-b084-4e5b12ede8c5',
         displayName: 'atl-vertigo-product-fabric-testing',
         url: 'https://atl-vertigo-product-fabric-testing.jira-dev.com',
+        avatar:
+          'https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/site.png',
       },
       {
         adminAccess: false,
@@ -79,6 +83,8 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: 'DUMMY-43cb9cad-e4b1-407a-a727-1c40e9314f04',
         displayName: 'growth',
         url: 'https://growth.jira-dev.com',
+        avatar:
+          'https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png',
       },
       {
         adminAccess: false,
@@ -102,6 +108,8 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: 'DUMMY-7c8a2b74-595a-41c7-960c-fd32f8572cea',
         displayName: 'sdog',
         url: 'https://sdog.jira-dev.com',
+        avatar:
+          'https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png',
       },
       {
         adminAccess: false,
@@ -115,6 +123,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5',
         displayName: 'Atlassian Pug',
         url: 'https://pug.jira-dev.com',
+        avatar: null,
       },
       {
         adminAccess: true,
@@ -138,6 +147,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: 'some-cloud-id',
         displayName: 'some-random-instance-some-random-instance',
         url: 'https://some-random-instance.atlassian.net',
+        avatar: null,
       },
       {
         adminAccess: false,
@@ -161,6 +171,8 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: '497ea592-beb4-43c3-9137-a6e5fa301088',
         displayName: 'jdog',
         url: 'https://jdog.jira-dev.com',
+        avatar:
+          'https://wac-cdn.atlassian.com/dam/jcr:d9db9a6f-b514-44d0-9d29-f97d0879e5ee/icon-charlie-white.svg',
       },
       {
         adminAccess: false,
@@ -174,6 +186,7 @@ const ORIGINAL_MOCK_DATA: MockData = {
         cloudId: 'bitbucket',
         displayName: 'Bitbucket',
         url: 'https://bitbucket.org',
+        avatar: null,
       },
     ],
   },

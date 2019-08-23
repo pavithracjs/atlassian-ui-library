@@ -134,6 +134,7 @@ interface AvailableProductWithUrl {
 export interface AvailableSite {
   adminAccess: boolean;
   availableProducts: AvailableProduct[];
+  avatar: string | null;
   cloudId: string;
   displayName: string;
   url: string;
@@ -165,4 +166,5 @@ export type RecommendationsFeatureFlags = {
 export interface SwitcherChildItem {
   href: string;
   label: string;
+  avatar: string | null;
 }
