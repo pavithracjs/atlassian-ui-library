@@ -206,7 +206,10 @@ export const queueCardsFromChangedTr = (
   return queueCards(requests)(tr);
 };
 
-export const changeSelectedCardToLink: Command = (state, dispatch) => {
+export const changeSelectedCardToLink = (
+  text?: string,
+  href?: string,
+): Command => (state, dispatch) => {
   const selectedNode =
     state.selection instanceof NodeSelection && state.selection.node;
   if (!selectedNode) {
@@ -214,13 +217,31 @@ export const changeSelectedCardToLink: Command = (state, dispatch) => {
   }
 
   const { link } = state.schema.marks;
+  const url = selectedNode.attrs.url || selectedNode.attrs.data.url;
 
   const tr = state.tr.replaceSelectionWith(
-    state.schema.text(selectedNode.attrs.url, [
-      link.create({ href: selectedNode.attrs.url }),
-    ]),
+    state.schema.text(text || url, [link.create({ href: href || url })]),
     false,
   );
+
+  if (dispatch) {
+    dispatch(tr.scrollIntoView());
+  }
+
+  return true;
+};
+
+export const changeSelectedCardToText = (text: string): Command => (
+  state,
+  dispatch,
+) => {
+  const selectedNode =
+    state.selection instanceof NodeSelection && state.selection.node;
+  if (!selectedNode) {
+    return false;
+  }
+
+  const tr = state.tr.replaceSelectionWith(state.schema.text(text), false);
 
   if (dispatch) {
     dispatch(tr.scrollIntoView());

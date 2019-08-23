@@ -5,9 +5,10 @@ import { tableSelectors } from '../../__helpers/page-objects/_table';
 import { panelSelectors } from '../../__helpers/page-objects/_panel';
 import { decisionSelectors } from '../../__helpers/page-objects/_decision';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Gutter:', () => {
-  let page: any;
+  let page: Page;
 
   beforeEach(async () => {
     // @ts-ignore

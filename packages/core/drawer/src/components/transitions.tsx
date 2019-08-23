@@ -36,6 +36,7 @@ const defaultTransitionProps = {
   mountOnEnter: true,
   unmountOnExit: true,
 };
+
 class TransitionHandler extends Component<TransitionProps & HandlerProps> {
   static defaultProps = {
     component: 'div',
@@ -76,7 +77,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
   }
 }
 
-export const Fade = ({ ...props }: TransitionProps) => (
+export const Fade: React.ComponentType<TransitionProps> = ({ ...props }) => (
   <TransitionHandler
     defaultStyles={{
       transition: `opacity ${transitionDurationMs}ms ${transitionTimingFunction}`,
@@ -92,10 +93,10 @@ export const Fade = ({ ...props }: TransitionProps) => (
   />
 );
 
-export const Slide = ({
+export const Slide: React.ComponentType<TransitionProps> = ({
   shouldUnmountOnExit = true,
   ...props
-}: TransitionProps) => (
+}) => (
   <TransitionHandler
     defaultStyles={{
       transition:

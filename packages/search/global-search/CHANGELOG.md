@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 11.3.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 11.3.0
+
+### Minor Changes
+
+- [minor][2ebd907504](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ebd907504):
+
+  Simple experiment with faster search is now default behaviour and can no longer be toggled
+
 ## 11.2.5
 
 ### Patch Changes

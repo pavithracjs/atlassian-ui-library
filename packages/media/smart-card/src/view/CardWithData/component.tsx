@@ -9,19 +9,36 @@ import { extractBlockPropsFromJSONLD } from '../../extractors/block';
 
 export class CardWithDataContent extends React.Component<Props> {
   render() {
-    const { data: details, isSelected, appearance, onClick } = this.props;
+    const {
+      data: details,
+      isSelected,
+      appearance,
+      onClick,
+      onResolve,
+    } = this.props;
+
     if (appearance === 'inline') {
+      const props = extractInlinePropsFromJSONLD(details || {});
+      if (onResolve) {
+        onResolve({ title: props.title });
+      }
+
       return (
         <InlineCardResolvedView
-          {...extractInlinePropsFromJSONLD(details || {})}
+          {...props}
           isSelected={isSelected}
           onClick={onClick}
         />
       );
     } else {
+      const props = extractBlockPropsFromJSONLD(details || {});
+      if (onResolve) {
+        onResolve({ title: props.title && props.title.text });
+      }
+
       return (
         <BlockCardResolvedView
-          {...extractBlockPropsFromJSONLD(details || {})}
+          {...props}
           isSelected={isSelected}
           onClick={onClick}
         />

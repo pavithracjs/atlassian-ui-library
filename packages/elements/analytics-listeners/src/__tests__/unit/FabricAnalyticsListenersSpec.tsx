@@ -80,6 +80,8 @@ describe('<FabricAnalyticsListeners />', () => {
       const promiseLikeClient: Promise<AnalyticsWebClient> = {
         then: jest.fn(() => promiseLikeClient),
         catch: jest.fn(() => done()),
+        finally: jest.fn(() => promiseLikeClient),
+        [Symbol.toStringTag]: '',
       };
 
       const compOnClick = jest.fn();

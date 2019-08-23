@@ -1,12 +1,6 @@
 import { Page } from '../../__helpers/page-objects/_types';
-import {
-  initEditorWithAdf,
-  Appearance,
-  snapshot,
-  editorSelector,
-} from '../_utils';
-
-const helpDialogSelector = '[role="dialog"]';
+import { initEditorWithAdf, Appearance, snapshot, pmSelector } from '../_utils';
+import { helpDialogSelector } from '../../__helpers/page-objects/_help-dialog';
 
 describe('Help Dialog', () => {
   it('displays help dialog', async () => {
@@ -16,10 +10,10 @@ describe('Help Dialog', () => {
       appearance: Appearance.fullPage,
       viewport: { width: 800, height: 1400 },
     });
-    await page.click(editorSelector);
+    await page.click(pmSelector);
     await page.keyboard.down('Control');
     await page.keyboard.down('/');
     await page.waitForSelector(helpDialogSelector);
-    await snapshot(page);
+    await snapshot(page, undefined, helpDialogSelector);
   });
 });

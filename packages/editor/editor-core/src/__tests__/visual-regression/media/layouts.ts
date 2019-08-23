@@ -24,6 +24,7 @@ describe('Snapshot Test: Media', () => {
           allowResizing: false,
         },
       },
+      viewport: { width: 1280, height: 800 },
     });
 
     // type some text
@@ -37,7 +38,7 @@ describe('Snapshot Test: Media', () => {
     ]);
   });
 
-  describe('Layouts', async () => {
+  describe('Layouts', () => {
     it('can switch layouts on media', async () => {
       // now we can insert media as necessary
       await insertMedia(page);

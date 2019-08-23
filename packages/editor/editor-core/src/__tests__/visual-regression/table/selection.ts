@@ -10,9 +10,10 @@ import {
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 import { selectors } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: Table selection', () => {
-  let page: any;
+  let page: Page;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
@@ -27,7 +28,7 @@ describe('Snapshot Test: Table selection', () => {
       await initFullPageEditorWithAdf(
         page,
         complexTableWithMergedCells,
-        Device.LaptopHiDPI,
+        Device.LaptopMDPI,
       );
       await clickFirstCell(page);
     });
@@ -43,6 +44,10 @@ describe('Snapshot Test: Table selection', () => {
 
     it('should be able select the fifth row', async () => {
       await selectRow(5);
+    });
+
+    it('should be able select the sixth row', async () => {
+      await selectRow(6);
     });
 
     it('should be able select the seventh row', async () => {
@@ -111,7 +116,7 @@ describe('Snapshot Test: Table selection', () => {
       await initFullPageEditorWithAdf(
         page,
         lastColumnMergedTable,
-        Device.LaptopHiDPI,
+        Device.LaptopMDPI,
       );
       await clickFirstCell(page);
     });
@@ -127,7 +132,7 @@ describe('Snapshot Test: Table selection', () => {
       await initFullPageEditorWithAdf(
         page,
         tableWithNumberedColumn,
-        Device.LaptopHiDPI,
+        Device.LaptopMDPI,
       );
     });
 

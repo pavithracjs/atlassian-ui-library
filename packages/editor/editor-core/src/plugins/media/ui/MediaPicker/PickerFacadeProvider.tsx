@@ -4,6 +4,7 @@ import {
   ClipboardConfig,
   BrowserConfig,
   DropzoneConfig,
+  MediaPicker,
 } from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
@@ -82,6 +83,8 @@ export default class PickerFacadeProvider extends React.Component<
       'customMediaPicker',
       pickerFacadeConfig,
       dummyMediaPickerObject,
+      MediaPicker,
+      analyticsName,
     ).init();
 
     /**
@@ -90,9 +93,7 @@ export default class PickerFacadeProvider extends React.Component<
      * Second one in order to track all analytics as before.
      */
     pickerFacadeInstance.onNewMedia(mediaState.insertFile);
-    pickerFacadeInstance.onNewMedia(
-      mediaState.trackNewMediaEvent(analyticsName),
-    );
+    pickerFacadeInstance.onNewMedia(mediaState.trackNewMediaEvent);
     pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
 
     const config = {

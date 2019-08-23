@@ -1,5 +1,13 @@
 # @atlaskit/progress-indicator
 
+## 7.0.7
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 7.0.6
 
 ### Patch Changes

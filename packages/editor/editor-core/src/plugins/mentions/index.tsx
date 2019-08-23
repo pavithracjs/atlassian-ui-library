@@ -27,7 +27,7 @@ import {
 } from '@atlaskit/editor-common';
 
 import { analyticsService } from '../../analytics';
-import { EditorPlugin, Command, EditorAppearance } from '../../types';
+import { EditorPlugin, Command } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
 import WithPluginState from '../../ui/WithPluginState';
@@ -65,18 +65,22 @@ export interface TeamInfoAttrAnalytics {
   memberCount: number;
 }
 
-const mentionsPlugin = (
-  createAnalyticsEvent?: CreateUIAnalyticsEvent,
-  sanitizePrivateContent?: boolean,
-  mentionInsertDisplayName?: boolean,
-): EditorPlugin => {
+export interface MentionPluginOptions {
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
+  sanitizePrivateContent?: boolean;
+  mentionInsertDisplayName?: boolean;
+  useInlineWrapper?: boolean;
+  allowZeroWidthSpaceAfter?: boolean;
+}
+
+const mentionsPlugin = (options?: MentionPluginOptions): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
-    if (createAnalyticsEvent) {
+    if (options && options.createAnalyticsEvent) {
       if (payload.attributes && !payload.attributes.sessionId) {
         payload.attributes.sessionId = sessionId;
       }
-      createAnalyticsEvent(payload).fire(ELEMENTS_CHANNEL);
+      options.createAnalyticsEvent(payload).fire(ELEMENTS_CHANNEL);
     }
   };
 
@@ -89,13 +93,13 @@ const mentionsPlugin = (
       return [
         {
           name: 'mention',
-          plugin: ({ providerFactory, dispatch, portalProviderAPI, props }) =>
+          plugin: ({ providerFactory, dispatch, portalProviderAPI }) =>
             mentionPluginFactory(
               dispatch,
               providerFactory,
               portalProviderAPI,
               fireEvent,
-              props.appearance,
+              options,
             ),
         },
       ];
@@ -230,6 +234,11 @@ const mentionsPlugin = (
           );
         },
         selectItem(state, item, insert, { mode }) {
+          const sanitizePrivateContent =
+            options && options.sanitizePrivateContent;
+          const mentionInsertDisplayName =
+            options && options.mentionInsertDisplayName;
+
           const { schema } = state;
 
           const pluginState = getMentionPluginState(state);
@@ -426,7 +435,7 @@ function mentionPluginFactory(
   providerFactory: ProviderFactory,
   portalProviderAPI: PortalProviderAPI,
   fireEvent: (payload: any) => void,
-  editorAppearance?: EditorAppearance,
+  options?: MentionPluginOptions,
 ) {
   let mentionProvider: MentionProvider;
 
@@ -476,11 +485,7 @@ function mentionPluginFactory(
     } as StateField<MentionPluginState>,
     props: {
       nodeViews: {
-        mention: mentionNodeView(
-          portalProviderAPI,
-          providerFactory,
-          editorAppearance,
-        ),
+        mention: mentionNodeView(portalProviderAPI, providerFactory, options),
       },
     },
     view(editorView) {

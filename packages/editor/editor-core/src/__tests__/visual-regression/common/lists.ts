@@ -1,4 +1,10 @@
-import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
+import {
+  snapshot,
+  Device,
+  initEditorWithAdf,
+  Appearance,
+  deviceViewPorts,
+} from '../_utils';
 import { traverse } from '@atlaskit/adf-utils/traverse';
 import smartLinksAdf from './__fixtures__/smart-link-nested-in-list.adf.json';
 import extensionAdf from './__fixtures__/inline-extension-inside-lists.adf.json';
@@ -34,11 +40,18 @@ describe('Lists', () => {
   let page: Page;
   const cardProvider = new EditorTestCardProvider();
 
-  const initEditor = async (page: Page, adf: any, editorProps = {}) =>
+  const initEditor = async (
+    page: Page,
+    adf: any,
+    viewport: { width: number; height: number } = deviceViewPorts[
+      Device.Default
+    ],
+    editorProps = {},
+  ) =>
     await initEditorWithAdf(page, {
       appearance: Appearance.fullPage,
       adf,
-      device: Device.LaptopMDPI,
+      viewport,
       editorProps,
     });
 
@@ -53,15 +66,20 @@ describe('Lists', () => {
   });
 
   it('should render card toolbar on click when its nested inside lists', async () => {
-    await initEditor(page, smartLinksAdf, {
-      UNSAFE_cards: { provider: Promise.resolve(cardProvider) },
-    });
+    await initEditor(
+      page,
+      smartLinksAdf,
+      { width: 800, height: 300 },
+      {
+        UNSAFE_cards: { provider: Promise.resolve(cardProvider) },
+      },
+    );
     await clickOnCard(page);
     await waitForCardToolbar(page);
   });
 
   it('should render extension toolbar on click when its nested inside lists', async () => {
-    await initEditor(page, extensionAdf);
+    await initEditor(page, extensionAdf, { width: 800, height: 300 });
     await clickOnExtension(
       page,
       'com.atlassian.confluence.macro.core',
@@ -71,7 +89,7 @@ describe('Lists', () => {
   });
 
   it('should render status toolbar on click when its nested inside lists', async () => {
-    await initEditor(page, statusAdf);
+    await initEditor(page, statusAdf, { width: 800, height: 400 });
     await clickOnStatus(page);
     await waitForStatusToolbar(page);
   });

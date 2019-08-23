@@ -1,4 +1,4 @@
-import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import {
   getSelectorForTableCell,
   tableSelectors,
@@ -9,13 +9,18 @@ import {
   clickOnExtension,
   waitForExtensionToolbar,
 } from '../../__helpers/page-objects/_extensions';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Floating toolbars:', () => {
-  let page: any;
+  let page: Page;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, toolbarAdf, Device.LaptopMDPI);
+    await initEditorWithAdf(page, {
+      adf: toolbarAdf,
+      appearance: Appearance.fullPage,
+      viewport: { width: 1280, height: 700 },
+    });
   });
 
   afterEach(async () => {

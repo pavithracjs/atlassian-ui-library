@@ -1,5 +1,13 @@
 # @atlaskit/button
 
+## 13.1.5
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 13.1.4
 
 ### Patch Changes

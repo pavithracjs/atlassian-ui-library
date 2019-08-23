@@ -117,7 +117,7 @@ const detectCursorPositions = (
 
 // Gets the array for cursor position filled with zeros
 const initCursorsArray = (length: number, value = 0) =>
-  Array.apply(null, { length }).map(() => value);
+  Array.from({ length }).map(() => value);
 
 // Extracting groups from the text
 

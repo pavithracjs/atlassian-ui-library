@@ -56,8 +56,8 @@ import {
 } from './_utils';
 import { MediaAttributes, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
-
 import { ClipboardWrapper } from '../../../../plugins/media/ui/MediaPicker/ClipboardWrapper';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -214,6 +214,7 @@ describe('Media plugin', () => {
               collection: testCollectionName,
               __fileMimeType: 'image/png',
             })()(editorView.state.schema),
+            INPUT_METHOD.CLIPBOARD,
           );
 
           insertMediaAsMediaSingle(
@@ -224,6 +225,7 @@ describe('Media plugin', () => {
               collection: testCollectionName,
               __fileMimeType: 'image/png',
             })()(editorView.state.schema),
+            INPUT_METHOD.CLIPBOARD,
           );
 
           expect(editorView.state.doc).toEqualDocument(
@@ -270,6 +272,7 @@ describe('Media plugin', () => {
               collection: testCollectionName,
               __fileMimeType: 'image/png',
             })()(editorView.state.schema),
+            INPUT_METHOD.CLIPBOARD,
           );
 
           // Different from media single that those optional properties are copied over only when the thumbnail is ready in media group.
