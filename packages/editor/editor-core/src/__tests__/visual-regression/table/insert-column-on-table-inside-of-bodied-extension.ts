@@ -1,20 +1,25 @@
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import adf from './__fixtures__/table-inside-bodied-extension.adf.json';
 import {
   insertRow,
   insertColumn,
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: table insert/delete', () => {
-  let page: any;
+  let page: Page;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
   });
 
   beforeEach(async () => {
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      viewport: { width: 1040, height: 500 },
+    });
     await clickFirstCell(page);
   });
 

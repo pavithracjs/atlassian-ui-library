@@ -1,5 +1,21 @@
 # @atlaskit/theme
 
+## 9.1.5
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 9.1.4
+
+### Patch Changes
+
+- [patch][9eceb8379f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9eceb8379f):
+
+  Moves typescript declaration files to the root of theme
+
 ## 9.1.3
 
 ### Patch Changes

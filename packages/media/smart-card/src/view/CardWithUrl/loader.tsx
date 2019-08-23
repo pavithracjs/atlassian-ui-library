@@ -32,6 +32,7 @@ export class CardWithURLRenderer extends React.PureComponent<CardProps> {
       onClick,
       createAnalyticsEvent,
       container,
+      onResolve,
     } = this.props;
 
     // Wrapper around analytics.
@@ -50,6 +51,7 @@ export class CardWithURLRenderer extends React.PureComponent<CardProps> {
         isSelected={isSelected}
         dispatchAnalytics={dispatchAnalytics}
         container={container}
+        onResolve={onResolve}
       />
     ) : (
       <CardLinkView key={'chunk-placeholder'} link={url} />

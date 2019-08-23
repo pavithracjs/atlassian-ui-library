@@ -35,9 +35,11 @@ describe('card', () => {
     describe('#state.init', () => {
       it('creates an empty state', () => {
         expect(initialState).toEqual({
+          cards: [],
           requests: [],
           provider: null,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
       });
     });
 
@@ -51,8 +53,10 @@ describe('card', () => {
               requests: [item],
             }),
           ).toEqual({
+            cards: [],
             requests: [item],
             provider: null,
+            showLinkingToolbar: false,
           } as CardPluginState);
         });
 
@@ -77,7 +81,7 @@ describe('card', () => {
         });
       });
 
-      it('should sets provider', () => {
+      it('should set provider', () => {
         const expectedState = expect.objectContaining({
           provider: cardProvider,
         });

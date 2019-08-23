@@ -2,6 +2,7 @@ export {
   hoverColumns,
   hoverRows,
   hoverTable,
+  hoverMergedCells,
   clearHoverSelection,
 } from './hover';
 export { insertColumn, insertRow, createTable } from './insert';
@@ -33,3 +34,4 @@ export {
   triggerUnlessTableHeader,
   addBoldInEmptyHeaderCells,
 } from './misc';
+export { sortByColumn } from './sort';

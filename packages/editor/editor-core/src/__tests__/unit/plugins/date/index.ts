@@ -5,6 +5,7 @@ import {
   p as paragraph,
   date,
   sendKeyToPm,
+  insertText,
 } from '@atlaskit/editor-test-helpers';
 
 import {
@@ -14,18 +15,26 @@ import {
   closeDatePicker,
 } from '../../../../plugins/date/actions';
 import { pluginKey } from '../../../../plugins/date/plugin';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
+import { EditorView } from 'prosemirror-view';
 
 describe('date plugin', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
+  let editorView: EditorView;
 
   const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorProps: { allowDate: true },
+      editorProps: { allowDate: true, allowAnalyticsGASV3: true },
+      createAnalyticsEvent,
     });
   };
 
-  const attrs = { timestamp: '1515639075805' };
+  const timestamp = '1515639075805';
+  const attrs = { timestamp };
 
   describe('actions', () => {
     describe('setDatePickerAt', () => {
@@ -77,6 +86,18 @@ describe('date plugin', () => {
         const pluginState = pluginKey.getState(view.state);
         expect(pluginState.showDatePickerAt).toEqual(12);
       });
+
+      it('should fire analytics event', () => {
+        const { editorView: view } = editor(doc(paragraph('{<>}')));
+        insertDate(undefined, INPUT_METHOD.TOOLBAR)(view.state, view.dispatch);
+        expect(createAnalyticsEvent).toHaveBeenCalledWith({
+          action: 'inserted',
+          actionSubject: 'document',
+          actionSubjectId: 'date',
+          eventType: 'track',
+          attributes: { inputMethod: 'toolbar' },
+        });
+      });
     });
 
     describe('openDatePicker', () => {
@@ -115,6 +136,38 @@ describe('date plugin', () => {
         expect(newPluginState.showDatePickerAt).toBeFalsy();
         expect(view.state.selection instanceof NodeSelection).toEqual(false);
         expect(view.state.selection.from).toEqual(7);
+      });
+    });
+  });
+
+  describe('quick insert', () => {
+    let _UTC: (year: number, month: number) => number;
+
+    beforeEach(() => {
+      _UTC = Date.UTC;
+      Date.UTC = jest.fn(() => +timestamp);
+      ({ editorView } = editor(doc(paragraph('{<>}'))));
+      insertText(editorView, `/date`);
+      sendKeyToPm(editorView, 'Enter');
+    });
+
+    afterEach(() => {
+      Date.UTC = _UTC;
+    });
+
+    it('inserts date', () => {
+      expect(editorView.state.doc).toEqualDocument(
+        doc(paragraph(date(attrs), ' ')),
+      );
+    });
+
+    it('fires analytics event', () => {
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'date',
+        eventType: 'track',
+        attributes: { inputMethod: 'quickInsert' },
       });
     });
   });

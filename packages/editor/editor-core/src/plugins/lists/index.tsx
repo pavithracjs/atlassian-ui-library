@@ -106,7 +106,6 @@ const listPlugin = (): EditorPlugin => ({
 
   primaryToolbarComponent({
     editorView,
-    dispatchAnalyticsEvent,
     popupsMountPoint,
     popupsBoundariesElement,
     popupsScrollableElement,
@@ -127,7 +126,6 @@ const listPlugin = (): EditorPlugin => ({
             isReducedSpacing={isToolbarReducedSpacing}
             disabled={disabled}
             editorView={editorView}
-            dispatchAnalyticsEvent={dispatchAnalyticsEvent}
             popupsMountPoint={popupsMountPoint}
             popupsBoundariesElement={popupsBoundariesElement}
             popupsScrollableElement={popupsScrollableElement}

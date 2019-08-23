@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, type ThemeProp } from '@atlaskit/theme';
+import { P300, N0, N50A, N60A } from '@atlaskit/theme/colors';
+
+import type { ThemeProp } from '@atlaskit/theme/components';
 import React, { type Node, type ComponentType } from 'react';
 import { Theme as ButtonTheme } from '@atlaskit/button';
 import Card, { type CardTokens } from './Card';
@@ -71,12 +73,12 @@ class SpotlightCard extends React.Component<Props> {
             return theme(() => ({
               ...others,
               container: {
-                background: colors.P300,
-                color: colors.N0,
+                background: P300,
+                color: N0,
                 width: `${Math.min(Math.max(width, 160), 600)}px`,
                 boxShadow: isFlat
                   ? undefined
-                  : `0 4px 8px -2px ${colors.N50A}, 0 0 1px ${colors.N60A}`, // AK-5598
+                  : `0 4px 8px -2px ${N50A}, 0 0 1px ${N60A}`, // AK-5598
                 ...container,
               },
             }));

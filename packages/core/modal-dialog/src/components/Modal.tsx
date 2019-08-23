@@ -31,12 +31,14 @@ interface PositionerProps {
   widthName?: WidthNames;
   widthValue?: string | number;
 }
-export function Positioner({ scrollBehavior, ...props }: PositionerProps) {
+export const Positioner: React.ComponentType<
+  PositionerProps
+> = function Positioner({ scrollBehavior, ...props }: PositionerProps) {
   const PositionComponent =
     scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
 
   return <PositionComponent {...props} />;
-}
+};
 
 function getScrollDistance() {
   return (

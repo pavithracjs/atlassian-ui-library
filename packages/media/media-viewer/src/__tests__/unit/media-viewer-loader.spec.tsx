@@ -9,8 +9,6 @@ import AsyncMediaViewer, {
   AsyncMediaViewerState,
 } from '../../components/media-viewer-loader';
 
-import MediaViewerAnalyticsErrorBoundary from '../../components/media-viewer-analytics-error-boundary';
-
 const mediaClient = fakeMediaClient();
 
 const identifier: Identifier = {
@@ -53,10 +51,41 @@ describe('Async Media Viewer Loader', () => {
       expect(wrapper.state().MediaViewer).toBeUndefined();
     });
   });
-
-  describe('When the async import returns with success', () => {
+  describe('When the async import for Error Boundary returns with error', () => {
     beforeEach(() => {
       jest.unmock('../../components/media-viewer');
+      jest.mock(
+        '../../components/media-viewer-analytics-error-boundary',
+        () => {
+          throw new Error('Forcing error boundary async import error');
+        },
+      );
+    });
+
+    it('should render ModalSpinner with invertSpinnerColor if the async components were NOT resolved', async () => {
+      const wrapper = mount<
+        MediaViewerWithContextMediaClientConfigProps,
+        AsyncMediaViewerState
+      >(<AsyncMediaViewer {...props} />);
+
+      await nextTick();
+
+      expect(
+        wrapper.find(ModalSpinner).prop('invertSpinnerColor'),
+      ).toBeTruthy();
+
+      expect(wrapper.state().MediaViewer).toBeUndefined();
+    });
+  });
+
+  describe('When the async import returns with success', () => {
+    let MediaViewerAnalyticsErrorBoundary: React.ReactComponentElement<any>;
+    beforeEach(() => {
+      jest.unmock('../../components/media-viewer');
+      jest.unmock('../../components/media-viewer-analytics-error-boundary');
+      MediaViewerAnalyticsErrorBoundary = jest.requireActual(
+        '../../components/media-viewer-analytics-error-boundary',
+      ).default;
     });
 
     it('should render MediaViewer component', async () => {

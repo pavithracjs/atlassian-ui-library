@@ -56,8 +56,6 @@ export const defaultSchema: Schema = createSchema({
     'subsup',
     'underline',
     'code',
-    'mentionQuery',
-    'emojiQuery',
     'textColor',
     'confluenceInlineComment',
     'breakout',

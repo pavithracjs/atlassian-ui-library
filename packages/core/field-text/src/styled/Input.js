@@ -1,12 +1,14 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { codeFontFamily, colors, fontSize, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { codeFontFamily, fontSize } from '@atlaskit/theme/constants';
+import { N70, DN90, N100 } from '@atlaskit/theme/colors';
 
 const getPlaceholderColor = ({ disabled }) => {
   if (disabled) {
-    return themed({ light: colors.N70, dark: colors.DN90 });
+    return themed({ light: N70, dark: DN90 });
   }
-  return themed({ light: colors.N100, dark: colors.DN90 });
+  return themed({ light: N100, dark: DN90 });
 };
 
 // can't group these placeholder styles into one block because browsers drop

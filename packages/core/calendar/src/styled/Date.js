@@ -3,7 +3,8 @@
 /* eslint no-confusing-arrow: 0 */
 
 import styled, { css } from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 
 const getTransparent = themed({ light: 'transparent', dark: 'transparent' });
 const selectedBackground = themed({ light: colors.N500, dark: colors.N0 });

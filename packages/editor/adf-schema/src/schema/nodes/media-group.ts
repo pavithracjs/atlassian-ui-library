@@ -21,6 +21,9 @@ export const mediaGroup: NodeSpec = {
     {
       tag: 'div[data-node-type="mediaGroup"]',
     },
+    {
+      tag: 'div[class="MediaGroup"]',
+    },
   ],
 
   toDOM() {

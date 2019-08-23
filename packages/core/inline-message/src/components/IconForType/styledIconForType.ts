@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 import { itemSpacing } from '../../constants';
 import { IconType } from '../../types';
 

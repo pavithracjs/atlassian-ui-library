@@ -1,11 +1,12 @@
 // @flow
 
 import {
-  colors,
   fontSize,
   fontFamily,
   gridSize as gridSizeFn,
-} from '@atlaskit/theme';
+} from '@atlaskit/theme/constants';
+
+import * as colors from '@atlaskit/theme/colors';
 
 import type { ItemPresentationProps } from './types';
 import type { ModeColors } from '../../../theme/types';

@@ -1,4 +1,4 @@
-import { Device, initFullPageEditorWithAdf, snapshot } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import {
   clickCellOptions,
   getSelectorForTableCell,
@@ -11,9 +11,10 @@ import {
   pressKeyUp,
 } from '../../__helpers/page-objects/_keyboard';
 import adf from './__fixtures__/default-table.adf.json';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Table context menu: merge-split cells', () => {
-  let page: any;
+  let page: Page;
 
   const tableMergeAndSplitCells = async (
     firstCell: string,
@@ -42,7 +43,11 @@ describe('Table context menu: merge-split cells', () => {
   });
 
   beforeEach(async () => {
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+    await initEditorWithAdf(page, {
+      adf,
+      appearance: Appearance.fullPage,
+      viewport: { width: 1280, height: 600 },
+    });
     await clickFirstCell(page);
   });
 

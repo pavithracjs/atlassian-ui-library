@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CopyIcon from '@atlaskit/icon/glyph/copy';
 import TextArea from '@atlaskit/textarea';
 import { colors } from '@atlaskit/theme';
+import { disableZooming } from './utils/viewport';
 
 import {
   cardProvider,
@@ -41,6 +42,10 @@ window.logBridge = window.logBridge || [];
 
 export default class Example extends React.Component {
   private textAreaRef?: HTMLTextAreaElement | null;
+
+  componentDidMount() {
+    disableZooming();
+  }
 
   copyToClipboard = () => {
     if (!this.textAreaRef) {

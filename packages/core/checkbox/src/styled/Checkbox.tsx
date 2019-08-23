@@ -1,6 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { colors, themed, math, gridSize } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import * as colors from '@atlaskit/theme/colors';
+import { multiply } from '@atlaskit/theme/math';
 import React from 'react';
 
 export const HiddenCheckbox = React.forwardRef((
@@ -188,11 +191,15 @@ export const IconWrapper = ({ children, ...props }: IconProps) => (
   />
 );
 
-export const RequiredIndicator = (props: Props) => (
+export type RequiredIndicatorProps = {
+  'aria-hidden'?: boolean | 'true' | 'false';
+} & React.AllHTMLAttributes<HTMLSpanElement>;
+
+export const RequiredIndicator = (props: RequiredIndicatorProps) => (
   <span
     css={css`
       color: ${colors.R400};
-      padding-left: ${math.multiply(gridSize, 0.25)}px;
+      padding-left: ${multiply(gridSize, 0.25)}px;
     `}
     {...props}
   />

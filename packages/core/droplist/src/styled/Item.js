@@ -1,6 +1,9 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { colors, fontSize, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { fontSize, gridSize } from '@atlaskit/theme/constants';
+import * as colors from '@atlaskit/theme/colors';
+import { multiply, divide } from '@atlaskit/theme/math';
 
 const activeBackgroundColor = themed({ light: colors.B75, dark: colors.DN30 });
 const hoverBackgroundColor = themed({ light: colors.N20, dark: colors.DN60 });
@@ -57,7 +60,7 @@ const sharedStyles = props => css`
   flex-wrap: nowrap;
   font-size: ${fontSize}px;
   font-weight: normal;
-  padding: 0 ${math.multiply(gridSize, 1.5)}px;
+  padding: 0 ${multiply(gridSize, 1.5)}px;
   text-decoration: none;
 
   &:hover {
@@ -135,7 +138,7 @@ export const Description = styled.span`
   flex: 1 1 auto;
   font-size: 12px;
   line-height: 16 / 12;
-  margin-top: ${math.divide(gridSize, 2)}px;
+  margin-top: ${divide(gridSize, 2)}px;
 `;
 
 // NOTE: Exposed as a named export for this package

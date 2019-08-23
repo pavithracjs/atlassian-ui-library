@@ -1,5 +1,29 @@
 # @atlaskit/tooltip
 
+## 15.0.13
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 15.0.12
+
+### Patch Changes
+
+- [patch][708028db86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/708028db86):
+
+  Change all the imports to theme in Core to use multi entry points
+
+## 15.0.11
+
+### Patch Changes
+
+- [patch][b8e9a6c5a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8e9a6c5a3):
+
+  Children has now been added to Tooltip's prop-types
+
 ## 15.0.10
 
 ### Patch Changes

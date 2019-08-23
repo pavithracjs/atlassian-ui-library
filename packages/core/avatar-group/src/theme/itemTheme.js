@@ -1,11 +1,17 @@
 // @flow
 import { itemThemeNamespace } from '@atlaskit/item';
-import { gridSize, math, colors } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
+import {
+  backgroundOnLayer,
+  N900,
+  backgroundActive,
+} from '@atlaskit/theme/colors';
 
 const dropdownPadding = {
   bottom: 1,
-  left: math.multiply(gridSize, 1.5),
-  right: math.multiply(gridSize, 1.5),
+  left: multiply(gridSize, 1.5),
+  right: multiply(gridSize, 1.5),
   top: 1,
 };
 
@@ -13,12 +19,12 @@ const dropdownPadding = {
 const avatarItemTheme: Object = {
   borderRadius: '0px',
   default: {
-    background: colors.backgroundOnLayer,
-    text: colors.N900,
+    background: backgroundOnLayer,
+    text: N900,
   },
   active: {
-    text: colors.N900,
-    background: colors.backgroundActive,
+    text: N900,
+    background: backgroundActive,
   },
   padding: {
     default: dropdownPadding,

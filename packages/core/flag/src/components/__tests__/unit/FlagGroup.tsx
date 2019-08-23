@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Portal from '@atlaskit/portal';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import { Transition } from 'react-transition-group';
 import Flag from '../../..';
 import Container, { DismissButton } from '../../Flag/styledFlag';

@@ -197,6 +197,7 @@ const PRODUCT_ORDER = [
 ];
 
 interface ConnectedSite {
+  avatar: string | null;
   product: AvailableProduct;
   isCurrentSite: boolean;
   siteName: string;
@@ -245,6 +246,7 @@ const getAvailableProductLinkFromSiteProduct = (
             .map(site => ({
               href: getProductSiteUrl(site),
               label: site.siteName,
+              avatar: site.avatar,
             }))
             .sort((a, b) => a.label.localeCompare(b.label))
         : [],
@@ -259,7 +261,7 @@ export const getAvailableProductLinks = (
   const productsMap: { [key: string]: ConnectedSite[] } = {};
 
   availableProducts.sites.forEach(site => {
-    const { availableProducts, displayName, url } = site;
+    const { availableProducts, avatar, displayName, url } = site;
     availableProducts.forEach(product => {
       const { productType } = product;
 
@@ -272,6 +274,7 @@ export const getAvailableProductLinks = (
         isCurrentSite: Boolean(cloudId) && site.cloudId === cloudId,
         siteName: displayName,
         siteUrl: url,
+        avatar,
       });
     });
   });

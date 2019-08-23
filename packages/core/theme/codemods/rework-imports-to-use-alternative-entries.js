@@ -9,6 +9,8 @@ const themeIndexImports = [
   'AtlaskitThemeProvider',
   'getTheme',
   'createTheme',
+  'GlobalThemeTokens',
+  'ThemeProp',
 ];
 
 const constants = [

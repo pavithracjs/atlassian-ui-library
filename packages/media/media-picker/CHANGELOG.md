@@ -1,5 +1,32 @@
 # @atlaskit/media-picker
 
+## 47.0.3
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 47.0.2
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/media-client@2.0.2
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-editor@36.2.10
+  - @atlaskit/media-store@12.0.9
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-viewer@43.3.2
+  - @atlaskit/media-card@64.0.0
+
+## 47.0.1
+
+### Patch Changes
+
+- [patch][adeb756c78](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/adeb756c78):
+
+  Changing async import to check for AnalyticsErrorBoundary integration
+
 ## 47.0.0
 
 ### Major Changes

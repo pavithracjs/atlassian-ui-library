@@ -1,6 +1,8 @@
-import { gridSize, themed, colors } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import { B100, B75 } from '@atlaskit/theme/colors';
 
-export const focusRingColor = themed({ light: colors.B100, dark: colors.B75 });
+export const focusRingColor = themed({ light: B100, dark: B75 });
 export const tagHeightUnitless = 2.5 * gridSize();
 export const tagHeight = `${tagHeightUnitless}px`;
 export const buttonWidthUnitless = tagHeightUnitless; // button should be square

@@ -2,7 +2,7 @@
 
 import { jsx } from '@emotion/core';
 import { Skeleton as SkeletonAvatar } from '@atlaskit/avatar';
-import { gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
 
 interface WrapperProps {
   isAvatarHidden?: boolean;
@@ -26,7 +26,11 @@ interface SkeletonTextProps {
 const gridSize = gridSizeFn();
 
 /* Primitives */
-const Wrapper = ({ isAvatarHidden, isHeader, ...props }: WrapperProps) => (
+const Wrapper: React.ComponentType<WrapperProps> = ({
+  isAvatarHidden,
+  isHeader,
+  ...props
+}) => (
   <div
     css={{
       display: 'flex',

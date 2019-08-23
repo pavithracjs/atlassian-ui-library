@@ -1,7 +1,7 @@
 import React, { Component, ReactElement } from 'react';
 import styled from 'styled-components';
 import uuid from 'uuid';
-import { colors } from '@atlaskit/theme';
+import { background } from '@atlaskit/theme/colors';
 
 import { sizeOpts } from '../types';
 import { sizes } from '../constants';
@@ -18,7 +18,7 @@ const getSize = ({ size }: WrapperProps) =>
 export const IconWrapper = styled.span<WrapperProps>`
   ${getSize} color: ${p => p.primaryColor || 'currentColor'};
   display: inline-block;
-  fill: ${p => p.secondaryColor || colors.background};
+  fill: ${p => p.secondaryColor || background};
   flex-shrink: 0;
   line-height: 1;
 

@@ -1,5 +1,13 @@
 # @atlaskit/tag-group
 
+## 9.0.2
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 9.0.1
 
 ### Patch Changes
