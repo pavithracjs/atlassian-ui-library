@@ -28,3 +28,4 @@ export * from './mockLoadImage';
 export * from './mediaPickerMocks';
 export * from './clipboardEventMocks';
 export { getAuthFromContextProvider } from './getAuthFromContextProvider';
+export { addGlobalEventEmitterListeners } from './globalEventEmitterListeners';

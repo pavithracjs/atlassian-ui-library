@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Component } from 'react';
 import { messages } from '@atlaskit/media-ui';
 import { FormattedMessage } from 'react-intl';
-import { FileDetails, ImageResizeMode } from '@atlaskit/media-client';
+import {
+  FileDetails,
+  globalMediaEventEmitter,
+  ImageResizeMode,
+} from '@atlaskit/media-client';
 import { SharedCardProps, CardStatus } from '../..';
 import { CardAction } from '../../actions';
 import { FileCardImageView } from '../cardImageView';
@@ -68,14 +72,23 @@ export class FileCard extends Component<FileCardProps, {}> {
         progress={progress}
         resizeMode={resizeMode}
         onRetry={onRetry}
-        actions={this._getActions()}
+        onDisplayImage={this.onDisplayImage}
+        actions={this.getActions()}
         disableOverlay={disableOverlay}
         previewOrientation={previewOrientation}
       />
     );
   }
 
-  private _getActions(): Array<CardAction> {
+  private onDisplayImage = () => {
+    const { details } = this.props;
+    globalMediaEventEmitter.emit('attachment-viewed', {
+      fileId: (details && details.id) || '',
+      viewingExperience: 'minimal',
+    });
+  };
+
+  private getActions(): Array<CardAction> {
     const { details, actions = [] } = this.props;
     if (!details) {
       return [];

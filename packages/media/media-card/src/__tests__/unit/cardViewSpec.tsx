@@ -9,10 +9,13 @@ jest.mock('../../../src/utils/shouldDisplayImageThumbnail', () => ({
 import * as React from 'react';
 
 import { shallow, mount } from 'enzyme';
-import { FileDetails } from '@atlaskit/media-client';
+import { globalMediaEventEmitter, FileDetails } from '@atlaskit/media-client';
 
 import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  expectFunctionToHaveBeenCalledWith,
+  mountWithIntlContext,
+} from '@atlaskit/media-test-helpers';
 import {
   CardView,
   CardViewBase,
@@ -37,9 +40,16 @@ describe('CardView', () => {
   };
 
   let createAnalyticsEventMock: any;
+  // let globalEmitSpy: typeof globalMediaEventEmitter['emit'];
+
   beforeEach(() => {
+    jest.spyOn(globalMediaEventEmitter, 'emit');
     createAnalyticsEventMock = jest.fn();
     (shouldDisplayImageThumbnail as any).mockReturnValue(true);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   const shallowCardViewBaseElement = (
@@ -365,5 +375,25 @@ describe('CardView', () => {
     expect(actualReturnedEvent.hasFired).toEqual(false);
     expect(actualReturnedEvent.payload.action).toEqual('clicked');
     expect(actualReturnedEvent.context).toEqual(actualFiredEvent.context);
+  });
+
+  it('should trigger "attachment-viewed" in globalMediaEventEmitter when image card is rendered', () => {
+    mount(
+      <CardView
+        status="complete"
+        dataURI="a"
+        metadata={file}
+        resizeMode="stretchy-fit"
+      />,
+    );
+
+    expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(1);
+    expectFunctionToHaveBeenCalledWith(globalMediaEventEmitter.emit, [
+      'attachment-viewed',
+      {
+        fileId: file.id,
+        viewingExperience: 'minimal',
+      },
+    ]);
   });
 });

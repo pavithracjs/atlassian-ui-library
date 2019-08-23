@@ -120,7 +120,11 @@ export {
   isDifferentIdentifier,
 } from './identifier';
 
-export { EventPayloadListener, UploadEventPayloadMap } from './client/events';
+export {
+  EventPayloadListener,
+  UploadEventPayloadMap,
+  AttachmentViewedEventPayload,
+} from './client/events';
 
 export {
   withMediaClient,
