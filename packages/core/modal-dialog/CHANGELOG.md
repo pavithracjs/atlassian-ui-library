@@ -1,5 +1,13 @@
 # @atlaskit/modal-dialog
 
+## 10.1.7
+
+### Patch Changes
+
+- [patch][f4ba40109f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f4ba40109f):
+
+  Refactors modal-dialog's styled component props
+
 ## 10.1.6
 
 ### Patch Changes
