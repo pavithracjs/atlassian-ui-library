@@ -1,1 +1,0 @@
-Fix copy script for json-data to resolve path issues in codesandbox.

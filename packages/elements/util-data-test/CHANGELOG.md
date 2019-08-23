@@ -1,5 +1,13 @@
 # @atlaskit/util-data-test
 
+## 12.9.5
+
+### Patch Changes
+
+- [patch][1fdbf04bcd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1fdbf04bcd):
+
+  Fix copy script for json-data to resolve path issues in codesandbox.
+
 ## 12.9.4
 
 ### Patch Changes
