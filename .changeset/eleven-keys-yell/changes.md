@@ -1,0 +1,1 @@
+Refactors modal-dialog's styled component props
