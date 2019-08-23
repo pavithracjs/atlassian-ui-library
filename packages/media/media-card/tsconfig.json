@@ -11,9 +11,5 @@
   ],
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@atlaskit/dropdown-menu": ["typings/@atlaskit/dropdown-menu"],
-      "@atlaskit/item": ["typings/@atlaskit/item"]
-    }
   }
 }
