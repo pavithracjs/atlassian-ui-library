@@ -1,0 +1,1 @@
+ED-7347 Fix paste col widths when we allowColumnResizig is disabled
