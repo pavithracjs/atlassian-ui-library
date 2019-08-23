@@ -45,4 +45,6 @@ export {
   annotation,
   AnnotationMarkDefinition,
   AnnotationMarkAttributes,
+  INLINE_COMMENT,
+  AnnotationType,
 } from './annotation';

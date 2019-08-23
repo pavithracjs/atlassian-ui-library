@@ -31,6 +31,7 @@ import {
   pipe,
   closestElement,
   isSelectionInsideLastNodeInDocument,
+  shallowEqual,
 } from '../../../utils';
 import { Node, Schema } from 'prosemirror-model';
 
@@ -518,6 +519,36 @@ describe('@atlaskit/editore-core/utils', () => {
       expect(
         isSelectionInsideLastNodeInDocument(editorView.state.selection),
       ).toBe(false);
+    });
+  });
+
+  describe('#shallowEqual', () => {
+    it('should return true if all props from obj1 equals obj2', () => {
+      const objA = { test: 'ok', num: 2, prop: 'xx' };
+      const objB = { test: 'ok', num: 2, prop: 'xx' };
+
+      expect(shallowEqual(objA, objB)).toBe(true);
+    });
+
+    it('should return false if one prop from obj2 differs from obj1', () => {
+      const objA = { test: 'ok', num: 2, prop: 'xx' };
+      const objB = { test: 'ok', num: 2, prop: 'xx2' };
+
+      expect(shallowEqual(objA, objB)).toBe(false);
+    });
+
+    it('should return false if obj2 has nested properties', () => {
+      const objA = { test: 'ok', num: 2, prop: { sub: 'ok' } };
+      const objB = { test: 'ok', num: 2, prop: { sub: 'ok' } };
+
+      expect(shallowEqual(objA, objB)).toBe(false);
+    });
+
+    it('should return false if obj2 has different number of keys', () => {
+      const objA = { test: 'ok' };
+      const objB = { test: 'ok', num: 2, prop: { sub: 'ok' } };
+
+      expect(shallowEqual(objA, objB)).toBe(false);
     });
   });
 });
