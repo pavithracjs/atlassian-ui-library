@@ -1,1 +1,0 @@
-yShow site avatars on switcher child items

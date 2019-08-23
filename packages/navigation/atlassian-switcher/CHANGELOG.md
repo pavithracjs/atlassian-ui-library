@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.23.0
+
+### Minor Changes
+
+- [minor][c0f0ae12ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0f0ae12ce):
+
+  yShow site avatars on switcher child items
+
 ## 3.22.1
 
 ### Patch Changes
