@@ -63,7 +63,7 @@
     "lint:checkPrettier": "                  eslint --print-config .eslintrc.json | eslint-config-prettier-check",
     "typecheck": "                           yarn run typecheck:flow && yarn run typecheck:typescript",
     "typecheck:flow": "                      flow check --max-warnings=0",
-    "typecheck:typescript": "                tsc --noEmit --project ./tsconfig.typecheck.json",
+    "typecheck:typescript": "                NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit --project ./tsconfig.typecheck.json",
     "measure": "                             measure",
     "measure:dependents:s3": "               CHANGED_MAIN_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) yarn measure:dependents --s3",
     "measure:changed": "                     node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --lint",
