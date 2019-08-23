@@ -10,6 +10,10 @@ import {
   createEditorFactory,
   p,
   insertText,
+  layoutSection,
+  layoutColumn,
+  ul,
+  li,
 } from '@atlaskit/editor-test-helpers';
 import { setTextSelection } from '../../../../../utils';
 
@@ -20,6 +24,10 @@ describe('hyperlink', () => {
     return createEditor({
       doc,
       pluginKey: hyperlinkStateKey,
+      editorProps: {
+        allowLists: true,
+        allowLayouts: true,
+      },
     });
   };
 
@@ -132,6 +140,28 @@ describe('hyperlink', () => {
               } as HyperlinkState),
             );
           });
+        });
+      });
+
+      describe.only('plugin state should store active text', () => {
+        it('on paragraph', () => {
+          const { pluginState } = editor(doc(p('{<}The link text{>}')));
+          expect(pluginState.activeText).toEqual('The link text');
+        });
+        it('on layouts', () => {
+          const { pluginState } = editor(
+            doc(
+              layoutSection(
+                layoutColumn({ width: 50 })(p('{<}The link text{>}')),
+                layoutColumn({ width: 50 })(p()),
+              ),
+            ),
+          );
+          expect(pluginState.activeText).toEqual('The link text');
+        });
+        it('on lists', () => {
+          const { pluginState } = editor(doc(ul(li(p('{<}The link text{>}')))));
+          expect(pluginState.activeText).toEqual('The link text');
         });
       });
 
