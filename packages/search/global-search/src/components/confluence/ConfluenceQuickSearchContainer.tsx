@@ -580,7 +580,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       SpaceFilter,
       QueryBasedSpaceFilterMetadata
     > {
-      return filter.filter['@type'] === 'spaces';
+      return filter.filter['@type'] === FilterType.Spaces;
     }
 
     function createSpaceFilter({
