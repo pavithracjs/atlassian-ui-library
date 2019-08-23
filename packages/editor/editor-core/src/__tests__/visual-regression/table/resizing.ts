@@ -15,9 +15,11 @@ import {
   toggleBreakout,
   scrollTable,
   unselectTable,
+  tableSelectors,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { Page } from '../../__helpers/page-objects/_types';
+import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 
 describe('Snapshot Test: table resizing', () => {
   describe('Re-sizing', () => {
@@ -91,6 +93,22 @@ describe('Snapshot Test: table resizing', () => {
           await snapshot(page);
         });
       });
+    });
+
+    it('should preserve the selection after resizing', async () => {
+      await clickFirstCell(page);
+
+      const controlSelector = `.${
+        ClassName.COLUMN_CONTROLS_DECORATIONS
+      }[data-start-index="0"]`;
+
+      await page.waitForSelector(controlSelector);
+      await page.click(controlSelector);
+      await page.waitForSelector(tableSelectors.selectedCell);
+      await resizeColumn(page, { colIdx: 1, amount: -100, row: 2 });
+      await animationFrame(page);
+      await animationFrame(page);
+      await snapshot(page);
     });
   });
 });
