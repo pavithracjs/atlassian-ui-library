@@ -282,8 +282,7 @@ pipelines:
                 - source ./build-setup.sh
                 - bolt install --frozen-lockfile
                 - yarn lint
-                - yarn typecheck:flow
-                - yarn typecheck:typescript
+                - yarn typecheck
               after-script:
                 - yarn send:stepFailureEvents
           - step:
