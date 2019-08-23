@@ -47,6 +47,7 @@ function mapConfluenceItemToResultSpace(
     resultType: ResultType.GenericContainerResult,
     contentType: ContentType.ConfluenceSpace,
     experimentId: experimentId,
+    key: spaceItem.space!.key,
   };
 }
 

@@ -4,6 +4,7 @@ import deepEqual from 'deep-equal';
 
 const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT = 'search-extensions-complex';
+const SPACEBALLS_EXPERIMENT = 'spaceballs';
 
 const isInFasterSearchExperiment = (abTest: ABTest): boolean => {
   return abTest.experimentId === FASTER_SEARCH_EXPERIMENT;
@@ -13,9 +14,14 @@ const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
   return abTest.experimentId === SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT;
 };
 
+const isInSpaceballsExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === SPACEBALLS_EXPERIMENT;
+};
+
 export interface CommonFeatures {
   abTest: ABTest;
   complexSearchExtensionsEnabled: boolean;
+  spaceballsExperimentEnabled: boolean;
 }
 
 export interface ConfluenceFeatures extends CommonFeatures {
@@ -36,6 +42,7 @@ export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
   complexSearchExtensionsEnabled: false,
   disableJiraPreQueryPeopleSearch: false,
   isInFasterSearchExperiment: false,
+  spaceballsExperimentEnabled: false,
   abTest: DEFAULT_AB_TEST,
 };
 
@@ -70,6 +77,7 @@ export const createFeatures: (
       complexSearchExtensionsEnabled: isInSearchExtensionsComplexExperiment(
         abTest,
       ),
+      spaceballsExperimentEnabled: isInSpaceballsExperiment(abTest),
     };
   },
   deepEqual,

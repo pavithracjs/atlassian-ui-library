@@ -85,6 +85,8 @@ export default class PickerFacade {
 
     (picker as any).on('upload-preview-update', this.handleUploadPreviewUpdate);
     (picker as any).on('upload-processing', this.handleReady);
+    // media picker not always fires upload-processing but always fires upload-end, and since handleReady() is idempotent it can be treated the same
+    (picker as any).on('upload-end', this.handleReady);
     (picker as any).on('upload-error', this.handleUploadError);
     (picker as any).on('mobile-upload-end', this.handleMobileUploadEnd);
 
@@ -108,6 +110,7 @@ export default class PickerFacade {
 
     (picker as any).removeAllListeners('upload-preview-update');
     (picker as any).removeAllListeners('upload-processing');
+    (picker as any).removeAllListeners('upload-end');
     (picker as any).removeAllListeners('upload-error');
 
     this.onStartListeners = [];

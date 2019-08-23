@@ -7,7 +7,10 @@ import GlobalQuickSearchWithAnalytics, {
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import { CreateAnalyticsEventFn } from '../../analytics/types';
 import { ReferralContextIdentifiers } from '../../GlobalQuickSearchWrapper';
-import { FilterType, Filter } from '../../../api/CrossProductSearchClient';
+import {
+  FilterType,
+  FilterWithMetadata,
+} from '../../../api/CrossProductSearchClient';
 
 const noop = () => {};
 const DEFAULT_PROPS = {
@@ -62,8 +65,8 @@ describe('GlobalQuickSearch', () => {
 
   it('should handle searching with filter applied', () => {
     const searchMock = jest.fn();
-    const filters: Filter[] = [
-      { '@type': FilterType.Spaces, spaceKeys: ['TEST'] },
+    const filters: FilterWithMetadata[] = [
+      { filter: { '@type': FilterType.Spaces, spaceKeys: ['TEST'] } },
     ];
     const wrapper = render({ onSearch: searchMock, filters });
 
