@@ -1,1 +1,0 @@
-Editor now listens to Media Picker upload-end events and treats them the same as upload-processing finishing the insert progress and enabling Save

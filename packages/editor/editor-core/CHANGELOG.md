@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.42.2
+
+### Patch Changes
+
+- [patch][9cafd2de3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cafd2de3c):
+
+  Editor now listens to Media Picker upload-end events and treats them the same as upload-processing finishing the insert progress and enabling Save
+
 ## 112.42.1
 
 ### Patch Changes
