@@ -1,1 +1,0 @@
-ED-7531: Fixes copy and paste issue for mediaSingle from renderer to editor

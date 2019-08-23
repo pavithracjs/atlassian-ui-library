@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.18.2
+
+### Patch Changes
+
+- [patch][22291c2373](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22291c2373):
+
+  ED-7531: Fixes copy and paste issue for mediaSingle from renderer to editor
+
 ## 39.18.1
 
 ### Patch Changes
