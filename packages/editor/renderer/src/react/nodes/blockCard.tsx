@@ -13,7 +13,10 @@ export default function BlockCard(props: {
 }) {
   const { url, data, eventHandlers, portal } = props;
   const handler = getEventHandler(eventHandlers, 'smartCard');
-  const onClick = url && handler ? () => handler(url) : undefined;
+  const onClick =
+    url && handler
+      ? (e: React.MouseEvent<HTMLElement>) => handler(e, url)
+      : undefined;
 
   const cardProps = { url, data, onClick, container: portal };
   return (

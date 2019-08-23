@@ -69,11 +69,14 @@ export default class MobileRenderer extends React.Component<
     });
   };
 
-  private onLinkClick(url?: string) {
+  private onLinkClick(event: React.SyntheticEvent<HTMLElement>, url?: string) {
+    // Prevent redirection within the WebView
+    event.preventDefault();
+
     if (!url) {
       return;
     }
-
+    // Relay the URL through the bridge for handling
     toNativeBridge.call('linkBridge', 'onLinkClick', { url });
   }
 
@@ -120,10 +123,7 @@ export default class MobileRenderer extends React.Component<
             }}
             eventHandlers={{
               link: {
-                onClick: (event, url) => {
-                  event.preventDefault();
-                  this.onLinkClick(url);
-                },
+                onClick: this.onLinkClick,
               },
               media: {
                 onClick: (result: any, analyticsEvent?: any) => {
