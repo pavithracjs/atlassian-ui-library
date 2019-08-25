@@ -157,7 +157,7 @@ export default function withSortedPageRows<
         <WrappedComponent
           pageRows={this.state.pageRows}
           head={head}
-          {...restProps}
+          {...restProps as WrappedComponentProps}
         />
       );
     }

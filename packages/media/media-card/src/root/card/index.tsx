@@ -410,7 +410,6 @@ export class Card extends Component<CardProps, CardState> {
       onMouseEnter,
       onSelectChange,
       disableOverlay,
-      identifier,
     } = this.props;
     const { progress, metadata, dataURI, previewOrientation } = this.state;
     const { analyticsContext, onRetry, onClick, actions } = this;
@@ -421,7 +420,6 @@ export class Card extends Component<CardProps, CardState> {
           status={status}
           metadata={metadata}
           dataURI={dataURI}
-          mediaItemType={identifier.mediaItemType}
           appearance={appearance}
           resizeMode={resizeMode}
           dimensions={dimensions}

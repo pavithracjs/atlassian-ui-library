@@ -23,7 +23,8 @@ type FormatAEP<ActionSubjectID, Attributes> = TrackAEP<
   ACTION.FORMATTED,
   ACTION_SUBJECT.TEXT,
   ActionSubjectID,
-  Attributes
+  Attributes,
+  undefined
 >;
 
 type FormatBasicAEP = FormatAEP<

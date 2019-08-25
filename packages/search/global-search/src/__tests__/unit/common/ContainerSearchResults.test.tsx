@@ -356,7 +356,7 @@ const getConfluencePostQueryResults: (
     items: [],
     key: 'objects',
     title: messages.confluence_confluence_objects_heading,
-    showTotalSize: false,
+    showTotalSize: true,
     totalSize: 0,
   },
   {

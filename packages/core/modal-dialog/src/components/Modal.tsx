@@ -14,29 +14,12 @@ import {
 
 import { WIDTH_ENUM, WidthNames } from '../shared-variables';
 
-import {
-  PositionerAbsolute,
-  PositionerRelative,
-  Dialog,
-  FillScreen as StyledFillScreen,
-} from '../styled/Modal';
+import { Dialog, FillScreen as StyledFillScreen } from '../styled/Modal';
 import { Animation } from './Animation';
 import Content from './Content';
 import FocusLock from './FocusLock';
 import { WrapperProps as OuterProps } from './ModalWrapper';
-
-interface PositionerProps {
-  scrollBehavior: void | 'inside' | 'outside';
-  style: Object;
-  widthName?: WidthNames;
-  widthValue?: string | number;
-}
-export function Positioner({ scrollBehavior, ...props }: PositionerProps) {
-  const PositionComponent =
-    scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
-
-  return <PositionComponent {...props} />;
-}
+import Positioner from './Positioner';
 
 function getScrollDistance() {
   return (

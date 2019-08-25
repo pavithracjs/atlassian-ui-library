@@ -620,6 +620,7 @@ export class JiraQuickSearchContainer extends React.Component<
     const { selectedResultId } = this.state;
 
     return (
+      // @ts-ignore
       <BaseJiraQuickSearchContainerJira
         placeholder={this.props.intl.formatMessage(
           messages.jira_search_placeholder,
@@ -634,7 +635,6 @@ export class JiraQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         handleSearchSubmit={this.handleSearchSubmit}
-        // @ts-ignore this prop should not be accessed by consumers
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}

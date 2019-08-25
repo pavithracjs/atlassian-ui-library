@@ -211,20 +211,7 @@ pipelines:
             - yarn send:buildEvents
           caches:
             - node
-
-    # This should only be called by a scheduled build to check the bundle-size after a merge to master and on dependent packages.
-    bundle-size-master-check:
-      - step:
-          script:
-            - source ./build-setup.sh
-            - git merge master --no-edit
-            - bolt install --frozen-lockfile
-            - yarn measure:dependents
-          after-script:
-            - yarn send:buildEvents
-          caches:
-            - node
-
+            
     # This should only be called by a scheduled or manual build from master.
     # It builds the website and send the data to redash.
     send-website-build-analytics:

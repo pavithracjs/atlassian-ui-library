@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/code",
-  "version": "11.0.9",
+  "version": "11.0.10",
   "config": {
     "access": "public"
   },
@@ -11,17 +11,17 @@
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/theme": "^9.1.3",
+    "@atlaskit/theme": "^9.1.5",
     "@babel/runtime": "^7.0.0",
     "memoize-one": "^5.1.0",
     "react-syntax-highlighter": "^10.0.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.2.3",
-    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/build-utils": "^2.2.4",
+    "@atlaskit/docs": "^8.1.4",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.2",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
   },

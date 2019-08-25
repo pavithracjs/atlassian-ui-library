@@ -1,25 +1,43 @@
-import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
+import {
+  snapshot,
+  Appearance,
+  initEditorWithAdf,
+  editorCommentContentSelector,
+} from '../_utils';
 import {
   insertMedia,
   scrollToMedia,
 } from '../../__helpers/page-objects/_media';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { Page } from '../../__helpers/page-objects/_types';
+import { EditorProps } from '../../../types';
 
 describe('Snapshot Test: Media', () => {
+  let page: Page;
+  const initEditor = async (
+    appearance: Appearance,
+    viewport: { width: number; height: number },
+    editorProps?: Partial<EditorProps>,
+  ) => {
+    await initEditorWithAdf(page, {
+      appearance,
+      viewport,
+      editorProps,
+    });
+
+    // click into the editor
+    await clickEditableContent(page);
+  };
+
+  beforeAll(async () => {
+    // @ts-ignore
+    page = global.page;
+  });
+
   describe('full page editor', () => {
-    let page: any;
     beforeEach(async () => {
-      // @ts-ignore
-      page = global.page;
-
-      await initEditorWithAdf(page, {
-        appearance: Appearance.fullPage,
-        device: Device.LaptopHiDPI,
-      });
-
-      // click into the editor
-      await clickEditableContent(page);
+      await initEditor(Appearance.fullPage, { width: 800, height: 700 });
 
       // insert single media item
       await insertMedia(page);
@@ -50,58 +68,52 @@ describe('Snapshot Test: Media', () => {
   });
 
   describe('comment editor', () => {
-    let page: any;
-    const editorTestOptions = {
-      appearance: Appearance.comment,
-      device: Device.LaptopHiDPI,
-    };
+    const takeCommentSnapshot = async (page: Page) =>
+      snapshot(page, undefined, editorCommentContentSelector);
 
     describe('media group', () => {
       beforeEach(async () => {
-        // @ts-ignore
-        page = global.page;
-        await initEditorWithAdf(page, editorTestOptions);
-
-        // click into the editor
-        await clickEditableContent(page);
+        await initEditor(Appearance.comment, { width: 600, height: 400 });
 
         // insert 3 media items
         await insertMedia(page, ['one.svg', 'two.svg', 'three.svg']);
       });
 
       it('renders selection ring around last media group item (via up)', async () => {
-        await snapshot(page);
-
         await pressKey(page, 'ArrowUp');
-        await snapshot(page);
+        await takeCommentSnapshot(page);
       });
 
-      it('renders selection ring around media group items', async () => {
-        await snapshot(page);
-
+      it('renders selection ring around media group items (via left)', async () => {
         await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-        await snapshot(page);
+        await takeCommentSnapshot(page);
 
         await pressKey(page, 'ArrowLeft');
-        await snapshot(page);
+        await takeCommentSnapshot(page);
 
         await pressKey(page, 'ArrowLeft');
-        await snapshot(page);
+        await takeCommentSnapshot(page);
+      });
+
+      it('renders left side gap cursor', async () => {
+        await pressKey(page, [
+          'ArrowLeft',
+          'ArrowLeft',
+          'ArrowLeft',
+          'ArrowLeft',
+          'ArrowLeft',
+        ]);
+        await takeCommentSnapshot(page);
       });
     });
 
     describe('media single', () => {
       beforeEach(async () => {
-        // @ts-ignore
-        page = global.page;
-        await initEditorWithAdf(page, {
-          ...editorTestOptions,
-          editorProps: {
-            media: {
-              allowMediaSingle: true,
-            },
-          },
-        });
+        await initEditor(
+          Appearance.comment,
+          { width: 600, height: 400 },
+          { media: { allowMediaSingle: true } },
+        );
 
         // insert single media item
         await insertMedia(page);
@@ -112,7 +124,7 @@ describe('Snapshot Test: Media', () => {
 
       afterEach(async () => {
         await scrollToMedia(page);
-        await snapshot(page);
+        await takeCommentSnapshot(page);
       });
 
       it('should renders selection ring around media (via up)', async () => {

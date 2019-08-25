@@ -41,9 +41,7 @@ const sliceResults = (
         objects.items,
         getConfluenceMaxObjects(
           features.abTest,
-          features.searchExtensionsEnabled
-            ? objects.numberOfCurrentItems || CONF_OBJECTS_ITEMS_PER_PAGE
-            : DEFAULT_MAX_OBJECTS,
+          objects.numberOfCurrentItems || CONF_OBJECTS_ITEMS_PER_PAGE,
         ),
       ),
       numberOfCurrentItems:
@@ -117,7 +115,7 @@ export const mapSearchResultsToUIGroups = (
       key: 'objects',
       title: messages.confluence_confluence_objects_heading,
       totalSize: objects.totalSize,
-      showTotalSize: !hideAllSizeLozenge && features.searchExtensionsEnabled,
+      showTotalSize: !hideAllSizeLozenge,
     },
     {
       items: spaces.items,

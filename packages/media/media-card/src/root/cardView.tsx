@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { MouseEvent } from 'react';
-import {
-  MediaItemType,
-  FileDetails,
-  ImageResizeMode,
-} from '@atlaskit/media-client';
+import { FileDetails, ImageResizeMode } from '@atlaskit/media-client';
 import {
   withAnalyticsEvents,
   createAndFireEvent,
@@ -34,7 +30,6 @@ import { WithCardViewAnalyticsContext } from './withCardViewAnalyticsContext';
 
 export interface CardViewOwnProps extends SharedCardProps {
   readonly status: CardStatus;
-  readonly mediaItemType?: MediaItemType;
   readonly metadata?: FileDetails;
   readonly resizeMode?: ImageResizeMode;
 
@@ -54,10 +49,7 @@ export interface CardViewState {
   elementWidth?: number;
 }
 
-export type CardViewBaseProps = CardViewOwnProps &
-  WithAnalyticsEventsProps & {
-    readonly mediaItemType: MediaItemType;
-  };
+export type CardViewBaseProps = CardViewOwnProps & WithAnalyticsEventsProps;
 
 /**
  * This is classic vanilla CardView class. To create an instance of class one would need to supply
@@ -133,15 +125,14 @@ export class CardViewBase extends React.Component<
 
   render() {
     const { onClick, onMouseEnter } = this;
-    const { dimensions, appearance, mediaItemType } = this.props;
-    const shouldUsePointerCursor = mediaItemType === 'file';
+    const { dimensions, appearance } = this.props;
     const wrapperDimensions = dimensions
       ? dimensions
       : getDefaultCardDimensions(appearance);
 
     return (
       <Wrapper
-        shouldUsePointerCursor={shouldUsePointerCursor}
+        shouldUsePointerCursor={true}
         breakpointSize={breakpointSize(this.width)}
         appearance={appearance}
         dimensions={wrapperDimensions}
@@ -167,7 +158,6 @@ export class CardViewBase extends React.Component<
       selectable,
       selected,
       disableOverlay,
-      mediaItemType,
       previewOrientation,
     } = this.props;
 
@@ -185,7 +175,6 @@ export class CardViewBase extends React.Component<
         selectable={selectable}
         selected={selected}
         disableOverlay={disableOverlay}
-        mediaItemType={mediaItemType}
         previewOrientation={previewOrientation}
       />
     );
@@ -225,22 +214,10 @@ export class CardView extends React.Component<CardViewOwnProps, CardViewState> {
     appearance: 'auto',
   };
 
-  private get mediaItemType(): MediaItemType {
-    return 'file';
-  }
-
   render() {
-    const mediaItemType = this.mediaItemType;
-
     return (
-      <WithCardViewAnalyticsContext
-        {...this.props}
-        mediaItemType={mediaItemType}
-      >
-        <CardViewWithAnalyticsEvents
-          {...this.props}
-          mediaItemType={mediaItemType}
-        />
+      <WithCardViewAnalyticsContext {...this.props}>
+        <CardViewWithAnalyticsEvents {...this.props} />
       </WithCardViewAnalyticsContext>
     );
   }

@@ -11,6 +11,7 @@ interface ButtonBaseProps extends WithAnalyticsEventsProps {
     e: MouseEvent<HTMLButtonElement>,
     analyticsEvent?: UIAnalyticsEvent,
   ) => void;
+  children: React.ReactNode;
 }
 
 class ManualButtonBase extends Component<ButtonBaseProps> {

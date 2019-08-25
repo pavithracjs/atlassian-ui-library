@@ -69,7 +69,7 @@ export function withFeedbackButton<P extends InjectedInputControlProps>(
       return (
         <>
           <WrappedComponent
-            {...this.props}
+            {...this.props as any}
             inputControls={this.renderFeedbackButton()}
           />
           {isOpen && (

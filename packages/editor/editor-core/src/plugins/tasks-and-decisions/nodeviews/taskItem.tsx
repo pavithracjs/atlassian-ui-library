@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView, NodeView, Decoration } from 'prosemirror-view';
+import { NodeView, Decoration } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   AnalyticsListener,
   UIAnalyticsEvent,
   AnalyticsEventPayload,
 } from '@atlaskit/analytics-next';
-import { ReactNodeView, ReactComponentProps } from '../../../nodeviews';
+import { ReactNodeView, ForwardRef } from '../../../nodeviews';
 import TaskItem from '../ui/Task';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import WithPluginState from '../../../ui/WithPluginState';
@@ -21,12 +21,10 @@ import {
 } from '../../editor-disabled';
 
 export interface Props {
-  children?: React.ReactNode;
-  view: EditorView;
-  node: PMNode;
+  providerFactory: ProviderFactory;
 }
 
-class Task extends ReactNodeView {
+class Task extends ReactNodeView<Props> {
   private isContentEmpty(node: PMNode) {
     return node.content.childCount === 0;
   }
@@ -92,9 +90,8 @@ class Task extends ReactNodeView {
     return { dom: document.createElement('div') };
   }
 
-  render(props: ReactComponentProps, forwardRef: any) {
+  render(props: Props, forwardRef: ForwardRef) {
     const { localId, state } = this.node.attrs;
-
     return (
       <AnalyticsListener
         channel="fabric-elements"
@@ -107,30 +104,17 @@ class Task extends ReactNodeView {
           }}
           render={({
             editorDisabledPlugin,
-            taskDecisionPlugin,
           }: {
             editorDisabledPlugin: EditorDisabledPluginState;
             taskDecisionPlugin: TaskDecisionPluginState;
           }) => {
-            let insideCurrentNode = false;
-            if (
-              taskDecisionPlugin &&
-              taskDecisionPlugin.currentTaskDecisionItem
-            ) {
-              insideCurrentNode = this.node.eq(
-                taskDecisionPlugin.currentTaskDecisionItem,
-              );
-            }
-
             return (
               <TaskItem
                 taskId={localId}
                 contentRef={forwardRef}
                 isDone={state === 'DONE'}
                 onChange={this.handleOnChange}
-                showPlaceholder={
-                  !insideCurrentNode && this.isContentEmpty(this.node)
-                }
+                showPlaceholder={this.isContentEmpty(this.node)}
                 providers={props.providerFactory}
                 disabled={(editorDisabledPlugin || {}).editorDisabled}
               />
@@ -147,7 +131,7 @@ class Task extends ReactNodeView {
      * on first character insertion.
      * Note: last character deletion is handled externally and automatically re-renders.
      */
-    return this.isContentEmpty(this.node) && nextNode.content.childCount === 1;
+    return this.isContentEmpty(this.node) && !!nextNode.content.childCount;
   }
 
   update(node: PMNode, decorations: Decoration[]) {

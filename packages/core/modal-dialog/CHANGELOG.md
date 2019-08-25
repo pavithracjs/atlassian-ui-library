@@ -1,5 +1,21 @@
 # @atlaskit/modal-dialog
 
+## 10.1.7
+
+### Patch Changes
+
+- [patch][f4ba40109f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f4ba40109f):
+
+  Refactors modal-dialog's styled component props
+
+## 10.1.6
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 10.1.5
 
 ### Patch Changes

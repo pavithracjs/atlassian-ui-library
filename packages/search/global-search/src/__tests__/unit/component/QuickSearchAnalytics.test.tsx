@@ -44,6 +44,7 @@ const spyOnComponentDidUpdate = () => {
         snapshot: any,
       ) {
         spy(prevProps, prevState, snapshot);
+        // @ts-ignore there's some complex typing around `this` here
         return baseComponentDidUpdateImplementation.apply(this, [
           prevProps,
           prevState,

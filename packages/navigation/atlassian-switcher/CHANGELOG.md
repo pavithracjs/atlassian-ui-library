@@ -1,5 +1,21 @@
 # @atlaskit/atlassian-switcher
 
+## 3.23.0
+
+### Minor Changes
+
+- [minor][c0f0ae12ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0f0ae12ce):
+
+  yShow site avatars on switcher child items
+
+## 3.22.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 3.22.0
 
 ### Minor Changes

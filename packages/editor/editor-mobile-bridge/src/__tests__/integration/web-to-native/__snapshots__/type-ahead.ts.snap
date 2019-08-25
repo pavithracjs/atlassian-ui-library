@@ -7,19 +7,7 @@ Array [
     "trigger": "@",
   },
   Object {
-    "query": "",
-    "trigger": "@",
-  },
-  Object {
     "query": "i",
-    "trigger": "@",
-  },
-  Object {
-    "query": "i",
-    "trigger": "@",
-  },
-  Object {
-    "query": "id",
     "trigger": "@",
   },
   Object {
@@ -31,19 +19,7 @@ Array [
     "trigger": "@",
   },
   Object {
-    "query": "ido",
-    "trigger": "@",
-  },
-  Object {
     "query": "idon",
-    "trigger": "@",
-  },
-  Object {
-    "query": "idon",
-    "trigger": "@",
-  },
-  Object {
-    "query": "idont",
     "trigger": "@",
   },
   Object {
@@ -55,14 +31,6 @@ Array [
     "trigger": "@",
   },
   Object {
-    "query": "idonte",
-    "trigger": "@",
-  },
-  Object {
-    "query": "idontex",
-    "trigger": "@",
-  },
-  Object {
     "query": "idontex",
     "trigger": "@",
   },
@@ -71,19 +39,7 @@ Array [
     "trigger": "@",
   },
   Object {
-    "query": "idontexi",
-    "trigger": "@",
-  },
-  Object {
     "query": "idontexis",
-    "trigger": "@",
-  },
-  Object {
-    "query": "idontexis",
-    "trigger": "@",
-  },
-  Object {
-    "query": "idontexist",
     "trigger": "@",
   },
   Object {

@@ -20,6 +20,7 @@ import {
   temporaryMedia,
 } from './_utils';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 const createMediaState = (
   id: string,
@@ -58,6 +59,7 @@ describe('media-single', () => {
         insertMediaAsMediaSingle(
           editorView,
           p('world')(editorView.state.schema),
+          INPUT_METHOD.PICKER_CLOUD,
         );
 
         expect(editorView.state.doc).toEqualDocument(doc(p('text')));
@@ -76,6 +78,7 @@ describe('media-single', () => {
               collection: testCollectionName,
               __fileMimeType: 'pdf',
             })()(editorView.state.schema),
+            INPUT_METHOD.PICKER_CLOUD,
           );
 
           expect(editorView.state.doc).toEqualDocument(doc(p('text')));
@@ -93,6 +96,7 @@ describe('media-single', () => {
               collection: testCollectionName,
               __fileMimeType: 'image/png',
             })()(editorView.state.schema),
+            INPUT_METHOD.PICKER_CLOUD,
           );
 
           expect(editorView.state.doc).toEqualDocument(
@@ -122,6 +126,7 @@ describe('media-single', () => {
         insertMediaSingleNode(
           editorView,
           createMediaState(temporaryFileId),
+          INPUT_METHOD.PICKER_CLOUD,
           testCollectionName,
         );
 
@@ -144,7 +149,12 @@ describe('media-single', () => {
           createMediaState(temporaryFileId + '1'),
           createMediaState(temporaryFileId + '2'),
         ] as Array<MediaState>).forEach(state =>
-          insertMediaSingleNode(editorView, state, testCollectionName),
+          insertMediaSingleNode(
+            editorView,
+            state,
+            INPUT_METHOD.PICKER_CLOUD,
+            testCollectionName,
+          ),
         );
 
         expect(editorView.state.doc).toEqualDocument(
@@ -191,6 +201,7 @@ describe('media-single', () => {
           insertMediaSingleNode(
             editorView,
             createMediaState(temporaryFileId),
+            INPUT_METHOD.PICKER_CLOUD,
             testCollectionName,
           );
 
@@ -210,6 +221,7 @@ describe('media-single', () => {
           insertMediaSingleNode(
             editorView,
             createMediaState(temporaryFileId),
+            INPUT_METHOD.PICKER_CLOUD,
             testCollectionName,
           );
 
@@ -232,6 +244,7 @@ describe('media-single', () => {
           insertMediaSingleNode(
             editorView,
             createMediaState(temporaryFileId),
+            INPUT_METHOD.PICKER_CLOUD,
             testCollectionName,
           );
 
@@ -259,6 +272,7 @@ describe('media-single', () => {
           insertMediaSingleNode(
             editorView,
             createMediaState(temporaryFileId),
+            INPUT_METHOD.PICKER_CLOUD,
             testCollectionName,
           );
 
@@ -279,6 +293,7 @@ describe('media-single', () => {
       insertMediaSingleNode(
         editorView,
         { ...createMediaState(temporaryFileId), scaleFactor: 2 },
+        INPUT_METHOD.PICKER_CLOUD,
         testCollectionName,
       );
 
@@ -299,6 +314,7 @@ describe('media-single', () => {
       insertMediaSingleNode(
         editorView,
         { ...createMediaState(temporaryFileId), scaleFactor: 2.2 },
+        INPUT_METHOD.PICKER_CLOUD,
         testCollectionName,
       );
 
@@ -322,6 +338,7 @@ describe('media-single', () => {
           id: temporaryFileId,
           status: 'preview',
         },
+        INPUT_METHOD.PICKER_CLOUD,
         testCollectionName,
       );
 

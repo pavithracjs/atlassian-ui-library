@@ -9,7 +9,7 @@ import {
   createTable as createTableNode,
 } from 'prosemirror-utils';
 import { getPluginState } from '../pm-plugins/main';
-import { checkIfHeaderRowEnabled } from '../utils';
+import { checkIfHeaderRowEnabled, copyPreviousRow } from '../utils';
 import { Command } from '../../../types';
 // #endregion
 
@@ -31,9 +31,11 @@ export const insertRow = (row: number): Command => (state, dispatch) => {
   // Don't clone the header row
   const headerRowEnabled = checkIfHeaderRowEnabled(state);
   const clonePreviousRow =
-    (headerRowEnabled && row > 1) || (!headerRowEnabled && row >= 0);
+    (headerRowEnabled && row > 1) || (!headerRowEnabled && row > 0);
 
-  const tr = addRowAt(row, clonePreviousRow)(state.tr);
+  const tr = clonePreviousRow
+    ? copyPreviousRow(state.schema)(row)(state.tr)
+    : addRowAt(row)(state.tr);
 
   const table = findTable(tr.selection)!;
   // move the cursor to the newly created row

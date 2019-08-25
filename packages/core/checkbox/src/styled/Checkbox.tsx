@@ -191,7 +191,11 @@ export const IconWrapper = ({ children, ...props }: IconProps) => (
   />
 );
 
-export const RequiredIndicator = (props: Props) => (
+export type RequiredIndicatorProps = {
+  'aria-hidden'?: boolean | 'true' | 'false';
+} & React.AllHTMLAttributes<HTMLSpanElement>;
+
+export const RequiredIndicator = (props: RequiredIndicatorProps) => (
   <span
     css={css`
       color: ${colors.R400};

@@ -1,5 +1,13 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.16
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 8.0.15
 
 ### Patch Changes

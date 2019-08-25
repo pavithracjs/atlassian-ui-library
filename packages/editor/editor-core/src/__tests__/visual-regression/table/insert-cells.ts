@@ -1,6 +1,6 @@
 import { waitForTooltip } from '@atlaskit/visual-regression/helper';
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from './__fixtures__/default-table.adf.json';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import tableMergedColumnsADF from './__fixtures__/table-with-first-column-merged.json';
 import {
   insertRow,
@@ -9,21 +9,26 @@ import {
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
+
+let page: Page;
+const initEditor = async (adf: Object) => {
+  await initEditorWithAdf(page, {
+    appearance: Appearance.fullPage,
+    adf,
+    viewport: { width: 1040, height: 500 },
+  });
+  await clickFirstCell(page);
+};
 
 describe('Snapshot Test: table insert/delete with merged columns', () => {
-  let page: any;
   beforeAll(() => {
     // @ts-ignore
     page = global.page;
   });
 
   beforeEach(async () => {
-    await initFullPageEditorWithAdf(
-      page,
-      tableMergedColumnsADF,
-      Device.LaptopHiDPI,
-    );
-    await clickFirstCell(page);
+    await initEditor(tableMergedColumnsADF);
   });
 
   test('should be able to insert a column at the end of the table', async () => {
@@ -33,15 +38,13 @@ describe('Snapshot Test: table insert/delete with merged columns', () => {
 });
 
 describe('Snapshot Test: table insert/delete', () => {
-  let page: any;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
   });
 
   beforeEach(async () => {
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
-    await clickFirstCell(page);
+    await initEditor(adf);
   });
 
   afterEach(async () => {
