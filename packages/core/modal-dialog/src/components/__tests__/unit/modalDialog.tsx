@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import Blanket from '@atlaskit/blanket';
 
 import ModalDialog, { ModalTransition } from '../../..';
-import { Positioner } from '../../Modal';
+import Positioner from '../../Positioner';
 import Content from '../../Content';
 import Header from '../../Header';
 import Footer from '../../Footer';

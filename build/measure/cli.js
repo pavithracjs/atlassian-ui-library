@@ -111,6 +111,13 @@ function handleMeasureResult({ errors, results }) {
     logInvalidUse();
     process.exit(1);
   } else {
+    if (!c.flags.s3) {
+      console.warn(
+        chalk.yellow(
+          'The measure tool now stores s3 ratchet in s3, you can still run it locally, but the data maybe inaccurate.',
+        ),
+      );
+    }
     if (c.flags.updateSnapshot) {
       console.log(chalk.green('Updated bundle size snapshots'));
     } else if (allPassed) {

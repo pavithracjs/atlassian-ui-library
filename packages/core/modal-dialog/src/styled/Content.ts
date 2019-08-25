@@ -29,7 +29,7 @@ export const wrapperStyles = css`
 interface HeaderProps {
   showKeyline?: boolean;
 }
-export const Header = styled.header`
+export const Header = styled.header<HeaderProps>`
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -38,7 +38,7 @@ export const Header = styled.header`
   z-index: 1;
   padding: ${modalPadding}px ${modalPadding}px ${modalPadding - keylineHeight}px
     ${modalPadding}px;
-  box-shadow: ${(props: HeaderProps) =>
+  box-shadow: ${props =>
     props.showKeyline
       ? `0 ${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};
@@ -59,12 +59,12 @@ export const Title = styled.h4`
 interface TitleTextProps {
   isHeadingMultiline?: boolean;
 }
-export const TitleText = styled.span`
+export const TitleText = styled.span<TitleTextProps>`
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
   width: 100%;
-  ${(props: TitleTextProps) =>
+  ${props =>
     !props.isHeadingMultiline &&
     `
       white-space: nowrap;
@@ -114,8 +114,8 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
 interface BodyProps {
   shouldScroll?: boolean;
 }
-export const Body = styled.div`
-  ${(props: BodyProps) => bodyStyles(props.shouldScroll)}
+export const Body = styled.div<BodyProps>`
+  ${props => bodyStyles(props.shouldScroll)}
 `;
 
 // Footer
@@ -123,7 +123,7 @@ export const Body = styled.div`
 interface FooterProps {
   showKeyline?: boolean;
 }
-export const Footer = styled.footer`
+export const Footer = styled.footer<FooterProps>`
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -132,7 +132,7 @@ export const Footer = styled.footer`
   z-index: 1;
   padding: ${modalPadding - keylineHeight}px ${modalPadding}px ${modalPadding}px
     ${modalPadding}px;
-  box-shadow: ${(props: FooterProps) =>
+  box-shadow: ${props =>
     props.showKeyline
       ? `0 -${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};

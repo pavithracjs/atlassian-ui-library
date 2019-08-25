@@ -31,7 +31,7 @@
     "build:email-renderer": "                bolt w @atlaskit/email-renderer run build",
     "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code",
     "build:multi-entry-point-tsconfig": "    node ./build/multi-entry-tools/typescript-paths-tsconfig-builder.js > tsconfig.entry-points.json",
-    "build:util-data-test": "                cd packages/elements/util-data-test && mkdir dist/cjs/json-data && mkdir dist/esm/json-data && cp -r src/json-data dist/esm/json-data && cp -r src/json-data dist/cjs/json-data",
+    "build:util-data-test": "                cd packages/elements/util-data-test && cp -r src/json-data dist/esm/json-data && cp -r src/json-data dist/cjs/json-data",
     "check:typescript-dists": "              NODE_ENV=production bolt workspaces exec --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js typescript)\" -- node ../../../build/utils/sanity-check-file-structure-dist.js",
     "check:dists": "                         node ./build/utils/sanity-check-file-structure-dist.js && yarn check:typescript-dists",
     "check:media-editor": "                  cd packages/media/media-editor/dist/esm/engine/core/binaries && cd - && cd packages/media/media-editor/dist/cjs/engine/core/binaries",
