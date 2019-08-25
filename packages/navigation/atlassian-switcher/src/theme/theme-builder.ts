@@ -1,3 +1,4 @@
+import memoizeOne from 'memoize-one';
 import get from 'lodash.get';
 import pickBy from 'lodash.pickby';
 import {
@@ -24,39 +25,39 @@ function getThemedTokens(
   });
 }
 
-export const createCustomTheme = (
-  customThemeProps: Partial<CustomTheme>,
-): CustomThemeResult => {
-  const mainBackgroundColor = {
-    background: customThemeProps.mainBackgroundColor,
-  };
-  const itemTheme = (theme: any, props: ThemeProps) => ({
-    ...theme(props),
-    hover: {
-      ...theme(props).hover,
-      ...getThemedTokens(customThemeProps, 'item', 'hover'),
-    },
-    default: {
-      ...theme(props).default,
-      ...getThemedTokens(customThemeProps, 'item', 'default'),
-      ...pickBy(mainBackgroundColor, key => key),
-    },
-  });
+export const createCustomTheme = memoizeOne(
+  (customThemeProps: Partial<CustomTheme>): CustomThemeResult => {
+    const mainBackgroundColor = {
+      background: customThemeProps.mainBackgroundColor,
+    };
+    const itemTheme = (theme: any, props: ThemeProps) => ({
+      ...theme(props),
+      hover: {
+        ...theme(props).hover,
+        ...getThemedTokens(customThemeProps, 'item', 'hover'),
+      },
+      default: {
+        ...theme(props).default,
+        ...getThemedTokens(customThemeProps, 'item', 'default'),
+        ...pickBy(mainBackgroundColor, key => key),
+      },
+    });
 
-  const childItemTheme = (theme: any, props: ThemeProps) => ({
-    ...theme(props),
-    hover: {
-      ...theme(props).hover,
-      ...getThemedTokens(customThemeProps, 'childItem', 'hover'),
-    },
-    default: {
-      ...theme(props).default,
-      ...getThemedTokens(customThemeProps, 'childItem', 'default'),
-    },
-  });
+    const childItemTheme = (theme: any, props: ThemeProps) => ({
+      ...theme(props),
+      hover: {
+        ...theme(props).hover,
+        ...getThemedTokens(customThemeProps, 'childItem', 'hover'),
+      },
+      default: {
+        ...theme(props).default,
+        ...getThemedTokens(customThemeProps, 'childItem', 'default'),
+      },
+    });
 
-  return {
-    itemTheme,
-    childItemTheme,
-  };
-};
+    return {
+      itemTheme,
+      childItemTheme,
+    };
+  },
+);
