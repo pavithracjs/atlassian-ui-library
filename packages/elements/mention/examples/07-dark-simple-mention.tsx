@@ -1,7 +1,4 @@
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import * as React from 'react';
@@ -14,7 +11,7 @@ import { IntlProvider } from 'react-intl';
 
 const padding = { padding: '10px' };
 
-const listenerHandler = (e: UIAnalyticsEventInterface) => {
+const listenerHandler = (e: UIAnalyticsEvent) => {
   debug(
     'Analytics Next handler - payload:',
     e.payload,

@@ -36,7 +36,7 @@ export async function parsePNGChunks(chunks: PNGChunk[]): Promise<PNGMetaData> {
      * iTXt contains the useful XMP/XML string data of meta tags
      */
     if (chunk.name === 'iTXt') {
-      iTXt = String.fromCharCode.apply(null, chunk.data);
+      iTXt = String.fromCharCode.apply(null, Array.from(chunk.data));
     }
     /**
      * http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html#C.pHYs

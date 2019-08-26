@@ -1,7 +1,8 @@
 // @flow
 import styled, { css } from 'styled-components';
 
-import { fontSize, gridSize, colors } from '@atlaskit/theme';
+import { fontSize, gridSize } from '@atlaskit/theme/constants';
+import { placeholderText, text } from '@atlaskit/theme/colors';
 
 const gridSizeUnitless = gridSize();
 
@@ -30,7 +31,7 @@ const getPlaceholderStyle = style => css`
   }
 `;
 const getPlaceholderColor = css`
-  color: ${colors.placeholderText};
+  color: ${placeholderText};
 `;
 
 const Content = styled.div`
@@ -59,7 +60,7 @@ const Input = styled.input`
   align-self: center;
   font-size: ${fontSize}px;
   line-height: ${lineHeightDefault};
-  color: ${colors.text};
+  color: ${text};
 
   ${getPlaceholderStyle(getPlaceholderColor)};
 `;

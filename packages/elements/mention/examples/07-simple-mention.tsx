@@ -1,7 +1,4 @@
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import * as React from 'react';
 import { onMentionEvent } from '../example-helpers/index';
 import Mention from '../src/components/Mention';
@@ -12,7 +9,7 @@ import { IntlProvider } from 'react-intl';
 
 const padding = { padding: '10px' };
 
-const listenerHandler = (e: UIAnalyticsEventInterface) => {
+const listenerHandler = (e: UIAnalyticsEvent) => {
   debug(
     'Analytics Next handler - payload:',
     e.payload,

@@ -16,13 +16,13 @@ import {
   tr,
 } from '@atlaskit/editor-test-helpers';
 import { uuid } from '@atlaskit/adf-schema';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { MockMentionResource } from '@atlaskit/util-data-test';
 
 describe('tasks and decisions - keymaps', () => {
   const createEditor = createEditorFactory();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   beforeEach(() => {
     uuid.setStatic('local-uuid');

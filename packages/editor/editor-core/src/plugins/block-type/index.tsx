@@ -72,7 +72,11 @@ const headingPluginOptions = ({
     };
   });
 
-const blockTypePlugin = (): EditorPlugin => ({
+interface BlockTypePluginOptions {
+  lastNodeMustBeParagraph?: boolean;
+}
+
+const blockTypePlugin = (options?: BlockTypePluginOptions): EditorPlugin => ({
   nodes({ allowBlockType }) {
     const nodes: BlockTypeNode[] = [
       { name: 'heading', node: heading },
@@ -92,8 +96,8 @@ const blockTypePlugin = (): EditorPlugin => ({
     return [
       {
         name: 'blockType',
-        plugin: ({ props, dispatch }) =>
-          createPlugin(dispatch, props.appearance),
+        plugin: ({ dispatch }) =>
+          createPlugin(dispatch, options && options.lastNodeMustBeParagraph),
       },
       {
         name: 'blockTypeInputRule',

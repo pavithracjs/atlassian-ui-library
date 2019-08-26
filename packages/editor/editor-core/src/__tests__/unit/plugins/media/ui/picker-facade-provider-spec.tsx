@@ -50,7 +50,7 @@ describe('PickerFacadeProvider', () => {
     providerFactory.unsubscribe = jest.fn();
 
     pluginState.insertFile = jest.fn();
-    pluginState.trackNewMediaEvent = jest.fn(() => sendAnalyticsSpy);
+    pluginState.trackNewMediaEvent = jest.fn(sendAnalyticsSpy);
     pluginState.options = {
       providerFactory,
       nodeViews: {},

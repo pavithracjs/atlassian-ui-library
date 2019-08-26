@@ -3,7 +3,7 @@ import { sleep } from '@atlaskit/media-test-helpers';
 import { observableToPromise } from '../../observableToPromise';
 
 describe('observableToPromise()', () => {
-  const createFakeSubject = (unsubscribe: jest.Mock): any => ({
+  const createFakeSubject = (unsubscribe: jest.Mock<() => void>): any => ({
     subscribe({ next }: any) {
       setTimeout(next, 0);
       return { unsubscribe };
@@ -21,7 +21,7 @@ describe('observableToPromise()', () => {
   });
 
   it('should unsubscribe after getting the value', async () => {
-    const unsubscribe = jest.fn();
+    const unsubscribe = jest.fn<() => void>();
     const subject = createFakeSubject(unsubscribe);
 
     await observableToPromise(subject);

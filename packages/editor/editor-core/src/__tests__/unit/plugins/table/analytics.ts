@@ -12,7 +12,7 @@ import {
   tdCursor,
   td,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { colors } from '@atlaskit/theme';
 
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
@@ -50,7 +50,7 @@ const secondColumn: Rect = { left: 1, top: 0, bottom: 3, right: 2 };
 
 describe('Table analytic events', () => {
   const createEditor = createEditorFactory<TablePluginState>();
-  let createAnalyticsEvent: jest.Mock<CreateUIAnalyticsEventSignature>;
+  let createAnalyticsEvent: jest.Mock<CreateUIAnalyticsEvent>;
   let trackEvent: jest.Mock<AnalyticsHandler>;
 
   const editor = (doc: any) => {
@@ -64,9 +64,7 @@ describe('Table analytic events', () => {
     trackEvent = jest.fn();
     createAnalyticsEvent = jest
       .fn()
-      .mockReturnValue({ fire() {} }) as jest.Mock<
-      CreateUIAnalyticsEventSignature
-    >;
+      .mockReturnValue({ fire() {} }) as jest.Mock<CreateUIAnalyticsEvent>;
 
     const _editor = createEditor({
       doc,

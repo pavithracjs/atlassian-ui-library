@@ -1,3 +1,5 @@
+import React from 'react';
+import { mount } from 'enzyme';
 import {
   code_block,
   strong,
@@ -35,26 +37,38 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   inlineCard,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
+import { ProviderFactory, MediaSingle } from '@atlaskit/editor-common';
 import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
-import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
 import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { EditorProps } from '../../../..';
 
+// @ts-ignore
+import { __serializeForClipboard } from 'prosemirror-view';
+
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let providerFactory: ProviderFactory;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+
   const editor = (doc: any, props: Partial<EditorProps> = {}) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+    providerFactory = ProviderFactory.create({
+      contextIdentifierProvider,
+    });
     createAnalyticsEvent = createAnalyticsEventMock();
     const wrapper = createEditor({
       doc,
       createAnalyticsEvent: createAnalyticsEvent as any,
+      providerFactory,
       editorProps: {
         allowAnalyticsGASV3: true,
         allowExtension: true,
@@ -69,6 +83,7 @@ describe('paste plugins', () => {
         macroProvider: Promise.resolve(new MockMacroProvider({})),
         UNSAFE_cards: {},
         media: { allowMediaSingle: true },
+        contextIdentifierProvider,
         ...props,
       },
     });
@@ -247,6 +262,7 @@ describe('paste plugins', () => {
       const multipleNestedMediaHTML = `<meta charset='utf-8'><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">, front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.</p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Interestingly, using npm package</p>`;
       const mediaHTML = `<meta charset='utf-8'><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; padding-top: 20px; padding-bottom: 20px;"><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; font-size: 18px; line-height: 34px;">ulum stress. These signaling pathways regulate a variety of cellular activities including proliferation, differentiation, survival, and death.</p></div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><img src="https://www.biorbyt.com/pub/media/wysiwyg/MAPK_signaling_pathway.jpg" alt="MAPK Signaling Pathway" style="box-sizing: border-box; border: 0px; height: 854px; max-width: 100%; width: 982px; background-size: cover;"></div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; margin-bottom: 3rem;"> </div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; font-size: 18px; line-height: 34px;">Six subfamilies of MAPKs have been extensively characterized in mammalian cells: ERK1/2, JNKs, ERK 3, p38s, ERK5 and ERK 7/8. Transmission of signals</p></div>`;
       const hiddenMediaHTML = `<meta charset='utf-8'><p class="ia ib at bv ic b id ie if ig ih ii ij ik il im in" data-selectable-paragraph="" style="box-sizing: inherit; margin: 2em 0px -0.46em; font-weight: 400; color: rgba(0, 0, 0, 0.84); font-style: normal; line-height: 1.58; letter-spacing: -0.004em; font-family: medium-content-serif-font, Georgia, Cambria, &quot;Times New Roman&quot;, Times, serif; font-size: 21px; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">ening after learning my tech is about 35% useful? bourbon, of course! After a couple of silky smooth glasses with ice (sorry purists), I begin researching a solution.</p><figure class="io ip iq ir is dv jd iu iv paragraph-image" style="box-sizing: inherit; margin: 56px 24px 0px; clear: both; max-width: 544px; color: rgba(0, 0, 0, 0.8); font-family: medium-content-sans-serif-font, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><div class="iy n di iz" style="box-sizing: inherit; display: block; position: relative; margin: auto; background-color: rgba(0, 0, 0, 0.05);"><div class="je n" style="box-sizing: inherit; display: block; padding-bottom: 360px;"><div class="cv iw fd p q fc ab ay v ix" style="box-sizing: inherit; top: 0px; left: 0px; will-change: transform; width: 544px; overflow: hidden; opacity: 0; height: 360px; position: absolute; transition: opacity 100ms ease 400ms; transform: translateZ(0px);"><img alt="" src="https://miro.medium.com/max/60/1*Ul-CDqf6wi-Ee8FQgmBUhQ@2x.jpeg?q=20" class="fd p q fc ab jb jc" width="544" height="360" style="box-sizing: inherit; vertical-align: middle; top: 0px; left: 0px; width: 544px; height: 360px; position: absolute; filter: blur(20px); transform: scale(1.1);"></div><img alt="" class="ln lo fd p q fc ab" width="544" height="360" src="https://miro.medium.com/max/1088/1*Ul-CDqf6wi-Ee8FQgmBUhQ@2x.jpeg" style="box-sizing: inherit; vertical-align: middle; top: 0px; left: 0px; width: 544px; height: 360px; position: absolute; opacity: 1; transition: opacity 400ms ease 0ms;"></div></div></figure><p class="ia ib at bv ic b id ie if ig ih ii ij ik il im in" data-selectable-paragraph="" style="box-sizing: inherit; margin: 2em 0px -0.46em; font-weight: 400; color: rgba(0, 0, 0, 0.84); font-style: normal; line-height: 1.58; letter-spacing: -0.004em; font-family: medium-content-serif-font, Georgia, Cambria, &quot;Times New Roman&quot;, Times, serif; font-size: 21px; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">So to downgrade the iOS devices (phone and tablet), I must connect them to the MacBook and restore via iTunes.</p>`;
+      const wrappedMediaHTML = `<meta charset='utf-8'><meta charset="utf-8"><b style="font-weight:normal;" id="docs-internal-guid-36f8577a-7fff-ef0c-fd08-949e2fc1b66b"><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Hello this is some text</span></p><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;"><span style="border: none; display: inline-block; overflow: hidden; width: 604px; height: 398px"><img src="https://lh5.googleusercontent.com/dnPAozzy3eYppgqEafLiZl3zzWYCrrzfwKCZiQ8nyYGeB9us9npuOVj48tM1VotqVlGriXQG2x2iYnbOVxsE54vkFErZs3n-6yYlZA8nRpu3Bt2DWhEoa8pFOkiMJHHGYrYhfLkg" width="604" height="398" style="margin-left: 0px; margin-top: 0px;" /></span></span></p><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">And this is some more text</span></p></b><br class="Apple-interchange-newline">`;
 
       // dev.to nested structure
       it('hoists nested media nodes in the clipboard html', () => {
@@ -259,8 +275,6 @@ describe('paste plugins', () => {
             p(
               ', front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.',
             ),
-            // Left over parent that held the image tag previously
-            p(),
             mediaSingle()(
               media({
                 type: 'external',
@@ -282,24 +296,18 @@ describe('paste plugins', () => {
             p(
               ', front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.',
             ),
-            // Left over parent that held the image tag previously
-            p(),
             mediaSingle()(
               media({
                 type: 'external',
                 url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
               })(),
             ),
-            // Left over parent that held the image tag previously
-            p(),
             mediaSingle()(
               media({
                 type: 'external',
                 url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
               })(),
             ),
-            // Left over parent that held the image tag previously
-            p(),
             mediaSingle()(
               media({
                 type: 'external',
@@ -357,6 +365,71 @@ describe('paste plugins', () => {
           ),
         );
       });
+
+      // Google Docs use case
+      it('should hoist media preserving order of media and text when wrapped in google docs container', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: wrappedMediaHTML,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p('Hello this is some text'),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://lh5.googleusercontent.com/dnPAozzy3eYppgqEafLiZl3zzWYCrrzfwKCZiQ8nyYGeB9us9npuOVj48tM1VotqVlGriXQG2x2iYnbOVxsE54vkFErZs3n-6yYlZA8nRpu3Bt2DWhEoa8pFOkiMJHHGYrYhfLkg`,
+              })(),
+            ),
+            p('And this is some more text'),
+          ),
+        );
+      });
+    });
+
+    describe('pasting media from the renderer', () => {
+      it('should insert a media single markup as a media single node', () => {
+        // Couldnt get media to load properly, we're inlining the media node.
+        // We only really care about the media single markup here.
+        const wrapper = mount(
+          <MediaSingle
+            layout="center"
+            width={1333}
+            height={1019}
+            lineLength={680}
+            pctWidth={80}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<div class="sc-eetwQk ddqWZS" data-context-id="414734770" data-type="file" data-node-type="media" data-width="1105" data-height="844" data-id="ade9cc46-35a9-49b1-b4ff-477670463481" data-collection="contentId-414734770"><div class="sc-gkfylT VGelR"><div class="sc-cgThhu bCBaed"><div class="sc-fPCuyW jeMDuK sc-frudsx gquFtT"><div class="wrapper"><div class="img-wrapper"><img class="sc-fIIFii bZNNp" draggable="false" style="transform: translate(-50%, -50%); height: 100%;" src="blob:https://hello.atlassian.net/9faf6f4c-994b-ca4e-b391-c00caa808b6f"></div></div></div></div></div></div>',
+              }}
+            />
+          </MediaSingle>,
+        );
+
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: `<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>${wrapper.html()}</body></html>`,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            mediaSingle({
+              layout: 'center',
+              width: 80,
+            })(
+              media({
+                __contextId: '414734770',
+                collection: 'contentId-414734770',
+                height: 844,
+                id: 'ade9cc46-35a9-49b1-b4ff-477670463481',
+                type: 'file',
+                width: 1105,
+              })(),
+            ),
+          ),
+        );
+      });
     });
 
     describe('paste in code-block', () => {
@@ -381,6 +454,22 @@ describe('paste plugins', () => {
 
         const tr = dispatchSpy.mock.calls[0][0];
         expect(tr.scrolledIntoView).toBe(true);
+      });
+    });
+
+    describe('paste in panel', () => {
+      it('should paste list inside empty panel', () => {
+        const listHtml = `<meta charset='utf-8'><p data-pm-slice="1 1 [&quot;bulletList&quot;,null,&quot;listItem&quot;,null]">hello</p>`;
+
+        const { editorView } = editor(
+          doc(panel({ panelType: 'info' })(p('{<>}'))),
+        );
+        dispatchPasteEvent(editorView, {
+          html: listHtml,
+        });
+        expect(editorView.state).toEqualDocumentAndSelection(
+          doc(panel({ panelType: 'info' })(ul(li(p('hello{<>}'))))),
+        );
       });
     });
 
@@ -1203,6 +1292,29 @@ describe('paste plugins', () => {
           ),
         ),
       );
+    });
+  });
+
+  describe('code-block copy-paste', () => {
+    it('should persist selected language from clipboard', () => {
+      const content = doc(
+        '{<}',
+        code_block({ language: 'javascript' })(
+          'Shiver me timbers quarterdeck.',
+        ),
+        p('{>}'),
+      );
+      const { editorView } = editor(content);
+
+      // Copy code block
+      const { dom, text } = __serializeForClipboard(
+        editorView,
+        editorView.state.selection.content(),
+      );
+
+      // Paste code block
+      dispatchPasteEvent(editorView, { html: dom.innerHTML, plain: text });
+      expect(editorView.state.doc).toEqualDocument(content);
     });
   });
 

@@ -2,17 +2,18 @@
 
 import React, { type Node } from 'react';
 import styled from 'styled-components';
-import { colors, themed, withTheme } from '@atlaskit/theme';
+import { themed, withTheme } from '@atlaskit/theme/components';
+import { N50, DN100, background } from '@atlaskit/theme/colors';
 import { Theme } from '../theme';
 import type { AppearanceType, SizeType } from '../types';
 
 export const ShapeGroup = withTheme(styled.g`
   & circle,
   & rect {
-    fill: ${themed({ light: colors.N50, dark: colors.DN100 })};
+    fill: ${themed({ light: N50, dark: DN100 })};
   }
   & g {
-    fill: ${colors.background};
+    fill: ${background};
   }
 `);
 

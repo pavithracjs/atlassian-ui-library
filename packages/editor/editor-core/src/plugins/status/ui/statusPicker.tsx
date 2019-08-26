@@ -13,7 +13,7 @@ import { DEFAULT_STATUS } from '../actions';
 import { StatusType } from '../plugin';
 import {
   withAnalyticsEvents,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import { analyticsState, createStatusAnalyticsAndFire } from '../analytics';
 
@@ -35,7 +35,7 @@ export interface Props {
   defaultText?: string;
   defaultColor?: Color;
   defaultLocalId?: string;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface State {
@@ -239,4 +239,4 @@ export class StatusPickerWithoutAnalytcs extends React.Component<Props, State> {
     event.nativeEvent.stopImmediatePropagation();
 }
 
-export default withAnalyticsEvents<Props>()(StatusPickerWithoutAnalytcs);
+export default withAnalyticsEvents()(StatusPickerWithoutAnalytcs);

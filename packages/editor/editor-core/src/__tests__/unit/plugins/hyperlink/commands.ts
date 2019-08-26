@@ -14,6 +14,7 @@ import {
   insertLink,
   hideLinkToolbar,
   removeLink,
+  insertLinkWithAnalytics,
 } from '../../../../plugins/hyperlink/commands';
 import {
   stateKey as hyperlinkStateKey,
@@ -21,20 +22,26 @@ import {
 } from '../../../../plugins/hyperlink/pm-plugins/main';
 import { pluginKey as cardPluginKey } from '../../../../plugins/card/pm-plugins/main';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('hyperlink commands', () => {
   const createEditor = createEditorFactory();
   const cardProvider = new EditorTestCardProvider();
-  const editor = (doc: any) =>
-    createEditor({
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
+  const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire: () => {} }));
+    return createEditor({
       doc,
       editorProps: {
         allowCodeBlocks: true,
+        allowAnalyticsGASV3: true,
         UNSAFE_cards: {
           provider: Promise.resolve(cardProvider),
         },
       },
+      createAnalyticsEvent,
     });
+  };
 
   describe('#setLinkHref', () => {
     it('should not set the link href when pos is not inside existing text node', () => {
@@ -219,6 +226,7 @@ describe('hyperlink commands', () => {
         )(view.state, view.dispatch),
       ).toBe(true);
       expect(cardPluginKey.getState(view.state)).toEqual({
+        cards: [],
         requests: [
           {
             url: 'http://www.atlassian.com/',
@@ -229,6 +237,7 @@ describe('hyperlink commands', () => {
           },
         ],
         provider: null, // cardProvider would have been set yet
+        showLinkingToolbar: false,
       });
     });
     it('should not insert a href which contains XSS', () => {
@@ -241,6 +250,26 @@ describe('hyperlink commands', () => {
       expect(view.state.doc).toEqualDocument(
         doc(p(a({ href: '' })('javascript:alert(1)'))),
       );
+    });
+  });
+  describe('#insertLinkWithAnalytics', () => {
+    it('should fire analytics event', () => {
+      const { editorView: view, sel } = editor(doc(p('{<>}')));
+      insertLinkWithAnalytics(
+        INPUT_METHOD.TYPEAHEAD,
+        sel,
+        sel,
+        'google.com',
+        'Google',
+      )(view.state, view.dispatch);
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        eventType: 'track',
+        attributes: { inputMethod: 'typeAhead' },
+        nonPrivacySafeAttributes: { linkDomain: 'google.com' },
+      });
     });
   });
   describe('#removeLink', () => {

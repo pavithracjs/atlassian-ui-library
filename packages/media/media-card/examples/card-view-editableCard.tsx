@@ -15,7 +15,7 @@ import {
   wideImage,
   wideTransparentImage,
 } from '@atlaskit/media-test-helpers';
-import { ImageResizeMode, MediaItemType } from '@atlaskit/media-client';
+import { ImageResizeMode } from '@atlaskit/media-client';
 import Toggle from '@atlaskit/toggle';
 import Slider from '@atlaskit/field-range';
 import * as exenv from 'exenv';
@@ -60,10 +60,7 @@ const metadataOptions = [
   { value: 'emptyLink', label: 'Link empty' },
   { value: 'erroredLink', label: 'Link errored' },
 ];
-const mediaItemTypeOptions = [
-  { value: 'file', label: 'File' },
-  { value: 'link', label: 'Link' },
-];
+
 const dataURIOptions = [
   { value: smallImage, label: 'Small' },
   { value: smallTransparentImage, label: 'Small transparent' },
@@ -134,7 +131,6 @@ export const generateStoriesForEditableCards = () => {
     selectable: boolean;
     selected: boolean;
     resizeMode: ImageResizeMode;
-    mediaItemType: MediaItemType;
     isMouseEnterHandlerActive: boolean;
     isClickHandlerActive: boolean;
     isParentInlineBlock: boolean;
@@ -167,7 +163,6 @@ export const generateStoriesForEditableCards = () => {
         selectable: false,
         selected: false,
         resizeMode: 'crop',
-        mediaItemType: 'file',
         isMouseEnterHandlerActive: true,
         isClickHandlerActive: true,
         isParentInlineBlock: false,
@@ -199,7 +194,6 @@ export const generateStoriesForEditableCards = () => {
         selectable,
         selected,
         resizeMode,
-        mediaItemType,
         isClickHandlerActive,
         isMouseEnterHandlerActive,
         isParentInlineBlock,
@@ -248,7 +242,6 @@ export const generateStoriesForEditableCards = () => {
                 appearance={appearance}
                 status={status}
                 metadata={metadata}
-                mediaItemType={mediaItemType}
                 dataURI={dataURI}
                 dimensions={useDimensions ? newDimensions : undefined}
                 actions={menuActions}
@@ -413,14 +406,6 @@ export const generateStoriesForEditableCards = () => {
                 onRadioChange={this.onMetadataChange}
               />
               <FieldRadioGroup
-                label="MediaItemType"
-                items={getOptionsWithDefaultValue(
-                  mediaItemTypeOptions,
-                  mediaItemType,
-                )}
-                onRadioChange={this.onMediaItemTypeChange}
-              />
-              <FieldRadioGroup
                 label="URI"
                 items={getOptionsWithDefaultValue(dataURIOptions, dataURI)}
                 onRadioChange={this.onDataURIChange}
@@ -501,11 +486,6 @@ export const generateStoriesForEditableCards = () => {
     onAppearanceChange = (e: any) => {
       const appearance = e.target.value;
       this.setState({ appearance });
-    };
-
-    onMediaItemTypeChange = (e: any) => {
-      const mediaItemType = e.target.value;
-      this.setState({ mediaItemType });
     };
 
     onMetadataChange = (e: any) => {

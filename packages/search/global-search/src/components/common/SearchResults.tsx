@@ -12,7 +12,7 @@ import SearchError from '../SearchError';
 import deepEqual from 'deep-equal';
 import { Scope } from '../../api/types';
 import { CancelableEvent } from '../../../../quick-search';
-import { Filter } from '../../api/CrossProductSearchClient';
+import { FilterWithMetadata } from '../../api/CrossProductSearchClient';
 
 export interface Props {
   isPreQuery: boolean;
@@ -34,8 +34,8 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
   onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
   getFilterComponent(props: FilterComponentProps): React.ReactNode;
-  currentFilters: Filter[];
-  onFilterChanged(filter: Filter[]): void;
+  currentFilters: FilterWithMetadata[];
+  onFilterChanged(filter: FilterWithMetadata[]): void;
 }
 
 export interface FilterComponentProps {
@@ -43,8 +43,8 @@ export interface FilterComponentProps {
   searchResultsTotalSize: number;
   isLoading: boolean;
   searchSessionId: string;
-  currentFilters: Filter[];
-  onFilterChanged(filter: Filter[]): void;
+  currentFilters: FilterWithMetadata[];
+  onFilterChanged(filter: FilterWithMetadata[]): void;
 }
 
 export enum SearchResultsState {

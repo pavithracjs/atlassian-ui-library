@@ -195,8 +195,10 @@ export type GlobalNavigationProps = {
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onProductClick?: () => void,
+  /** The text to display as the label for the product logo item. */
+  productLabel?: string,
   /** The text to display in the tooltip for the product logo item. */
-  productTooltip?: string,
+  productTooltip?: string | Node,
   /** An href attribute for the product logo item. */
   productHref?: string,
   /** A function to get ref of the product icon */
@@ -205,47 +207,59 @@ export type GlobalNavigationProps = {
   /** A callback function which will be called when the recent item is clicked.
    * */
   onRecentClick?: ?() => void,
+  /** The text to display as the label for the recent drawer item. */
+  recentLabel?: string,
   /** The text to display in the tooltip for the recent drawer item. */
-  recentTooltip?: string,
+  recentTooltip?: string | Node,
   /** A function to get ref of the recent icon */
   getRecentRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the global invite item is clicked.
    * */
   onInviteClick?: ?() => void,
+  /** The text to display as the label for the global invite drawer item. */
+  inviteLabel?: string,
   /** The text to display in the tooltip for the global invite drawer item. */
-  inviteTooltip?: string,
+  inviteTooltip?: string | Node,
   /** A function to get ref of the global invite icon */
   getInviteRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onCreateClick?: ?() => void,
+  /** The text to display as the label for the create drawer item. */
+  createLabel?: string,
   /** The text to display in the tooltip for the create drawer item. */
-  createTooltip?: string,
+  createTooltip?: string | Node,
   /** A function to get ref of the create icon */
   getCreateRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the starred item is clicked.
    * */
   onStarredClick?: ?() => void,
+  /** The text to display as the label for the starred drawer item. */
+  starredLabel?: string,
   /** The text to display in the tooltip for the starred drawer item. */
-  starredTooltip?: string,
+  starredTooltip?: string | Node,
   /** A function to get ref of the starred icon */
   getStarredRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onSearchClick?: ?() => void,
+  /** The text to display as the label for the search drawer item. */
+  searchLabel?: string,
   /** The text to display in the tooltip for the search drawer item. */
-  searchTooltip?: string,
+  searchTooltip?: string | Node,
   /** A function to get ref of the search icon */
   getSearchRef?: (node: NonStringRef<'div'>) => void,
 
   /** The component to render the app switcher. */
   appSwitcherComponent?: ComponentType<*>, // AppSwitcher component
+  /** The text to display as the label for the app switcher item. */
+  appSwitcherLabel?: string,
   /** The text to display in the tooltip for the app switcher item. */
-  appSwitcherTooltip?: string,
+  appSwitcherTooltip?: string | Node,
   /** A function to get ref of the appSwitcher icon */
   getAppSwitcherRef?: (node: NonStringRef<'div'>) => void,
 
@@ -257,8 +271,10 @@ export type GlobalNavigationProps = {
   /** A callback function which will be called when the help item is clicked.
    * */
   onHelpClick?: ?() => void,
+  /** The text to display as the label for the help drawer item. */
+  helpLabel?: string,
   /** The text to display in the tooltip for the help drawer item. */
-  helpTooltip?: string,
+  helpTooltip?: string | Node,
   /** A function to get ref of the help icon */
   getHelpRef?: (node: NonStringRef<'div'>) => void,
 
@@ -266,9 +282,13 @@ export type GlobalNavigationProps = {
   enableHelpDrawer?: boolean,
   /** A component to render into the help menu dropdown. */
   helpItems?: ComponentType<{}>,
+  /** A component displayed over the help icon which can be used to convey a notification*/
+  helpBadge?: ComponentType<{}>,
 
+  /** The text to display as the label for the profile item. */
+  profileLabel?: string,
   /** The text to display in the tooltip for the profile item. */
-  profileTooltip?: string,
+  profileTooltip?: string | Node,
   /** A component to render into the profile menu dropdown. */
   profileItems?: ComponentType<{}>,
   /** The URL of the avatar image to render in the profile item. */
@@ -284,15 +304,19 @@ export type GlobalNavigationProps = {
   /** The number of unread notifications. Will render as a badge above the
    * notifications item. */
   notificationCount?: number,
+  /** The text to display as the label for the notifications drawer item. */
+  notificationsLabel?: string,
   /** The text to display in the tooltip for the notifications drawer item. */
-  notificationTooltip?: string,
+  notificationTooltip?: string | Node,
   /** A function to get ref of the notification icon */
   getNotificationRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the settings item is clicked. */
   onSettingsClick?: ?() => void,
+  /** The text to display as the label for the settings drawer item. */
+  settingsLabel?: string,
   /** The text to display in the tooltip for the settings drawer item. */
-  settingsTooltip?: string,
+  settingsTooltip?: string | Node,
   /** A function to get ref of the settings icon */
   getSettingsRef?: (node: NonStringRef<'div'>) => void,
 

@@ -6,7 +6,7 @@ import { HandlerResult } from '.';
 
 export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
   if (isFileUploadEndAction(action)) {
-    const { file, publicFile } = action;
+    const { file } = action;
 
     const { timeStarted } = store.getState().uploads[file.id] || {
       timeStarted: undefined,
@@ -19,15 +19,9 @@ export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
         actionSubjectId: 'localMedia',
         attributes: {
           fileAttributes: {
-            fileMediatype: publicFile.mediaType,
-            fileState: publicFile.processingStatus,
-            fileStatus:
-              publicFile.artifacts &&
-              Object.keys(publicFile.artifacts).length > 0
-                ? 'original'
-                : 'converted',
-            fileSize: publicFile.size,
-            fileMimetype: publicFile.mimeType,
+            fileSize: file.size,
+            fileMimetype: file.type,
+            fileId: file.id,
             fileSource: 'mediapicker',
           },
           status: 'success',

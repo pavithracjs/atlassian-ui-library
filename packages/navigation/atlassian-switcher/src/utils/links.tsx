@@ -197,6 +197,7 @@ const PRODUCT_ORDER = [
 ];
 
 interface ConnectedSite {
+  avatar: string | null;
   product: AvailableProduct;
   isCurrentSite: boolean;
   siteName: string;
@@ -216,21 +217,8 @@ const getProductSiteUrl = (connectedSite: ConnectedSite): string => {
   return siteUrl + AVAILABLE_PRODUCT_DATA_MAP[product.productType].href;
 };
 
-const getLinkDescription = (
-  siteName: string,
-  singleSite: boolean,
-  productType: WorklensProductType,
-): string | null => {
-  if (singleSite || productType === WorklensProductType.BITBUCKET) {
-    return null;
-  }
-
-  return siteName;
-};
-
 const getAvailableProductLinkFromSiteProduct = (
   connectedSites: ConnectedSite[],
-  singleSite: boolean,
   productTopItemVariation?: string,
 ): SwitcherItemType => {
   // if productTopItemVariation is 'most-frequent-site', we show most frequently visited site at the top
@@ -250,7 +238,7 @@ const getAvailableProductLinkFromSiteProduct = (
     ...productLinkProperties,
     key: productType + topSite.siteName,
     href: getProductSiteUrl(topSite),
-    description: getLinkDescription(topSite.siteName, singleSite, productType),
+    description: topSite.siteName,
     productType,
     childItems:
       connectedSites.length > 1
@@ -258,6 +246,7 @@ const getAvailableProductLinkFromSiteProduct = (
             .map(site => ({
               href: getProductSiteUrl(site),
               label: site.siteName,
+              avatar: site.avatar,
             }))
             .sort((a, b) => a.label.localeCompare(b.label))
         : [],
@@ -272,7 +261,7 @@ export const getAvailableProductLinks = (
   const productsMap: { [key: string]: ConnectedSite[] } = {};
 
   availableProducts.sites.forEach(site => {
-    const { availableProducts, displayName, url } = site;
+    const { availableProducts, avatar, displayName, url } = site;
     availableProducts.forEach(product => {
       const { productType } = product;
 
@@ -285,6 +274,7 @@ export const getAvailableProductLinks = (
         isCurrentSite: Boolean(cloudId) && site.cloudId === cloudId,
         siteName: displayName,
         siteUrl: url,
+        avatar,
       });
     });
   });
@@ -295,7 +285,6 @@ export const getAvailableProductLinks = (
       connectedSites &&
       getAvailableProductLinkFromSiteProduct(
         connectedSites,
-        availableProducts.sites.length === 1,
         productTopItemVariation,
       )
     );

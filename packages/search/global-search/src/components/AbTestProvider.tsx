@@ -57,6 +57,6 @@ export class ABTestProvider extends React.Component<Props, State> {
       return null;
     }
 
-    return <>{children(abTest)}</>;
+    return <>{children(abTest!)}</>;
   }
 }

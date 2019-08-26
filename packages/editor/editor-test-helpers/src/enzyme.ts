@@ -40,7 +40,7 @@ export function shallowWithIntl<P>(
 export function mountWithIntl<P, S>(
   node: ReactElement<P>,
   { context = {}, childContextTypes = {}, ...additionalOptions } = {},
-): ReactWrapper<P & InjectedIntlProps, S> {
+): ReactWrapper<P & InjectedIntlProps, S, any> {
   if (typeof node.type !== 'string' && node.type.name === 'InjectIntl') {
     const unwrappedType = (node.type as any).WrappedComponent;
     (node as any) = React.createElement(unwrappedType, node.props);

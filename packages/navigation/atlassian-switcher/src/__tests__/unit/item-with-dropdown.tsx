@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BitbucketIcon, JiraSoftwareIcon, OpsGenieIcon } from '@atlaskit/logo';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { SwitcherItemWithDropdown } from '../../primitives';
 import { createIcon } from '../../utils/icon-themes';
 
@@ -16,9 +16,9 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>Bitbucket</SwitcherItemWithDropdown>,
-    );
+    ).dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -34,10 +34,10 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>Opsgenie</SwitcherItemWithDropdown>,
     );
-
+    wrapper.dive();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -53,27 +53,35 @@ describe('Atlassian Switcher - ItemWithDropdown', () => {
           label: 'site00',
           href:
             'https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar:
+            'https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png',
         },
         {
           label: 'site10',
           href:
             'https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar:
+            'https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png',
         },
 
         {
           label: 'site30',
           href:
             'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          avatar: null,
         },
       ],
       tooltipContent: <span>Show more sites</span>,
     };
 
-    const wrapper = mount(
+    // doing a double .dive() here to render the toggle and child items
+    const wrapper = shallow(
       <SwitcherItemWithDropdown {...props}>
         Jira Software
       </SwitcherItemWithDropdown>,
-    );
+    )
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
 

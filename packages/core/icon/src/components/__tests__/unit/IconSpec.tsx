@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { mount, render } from 'enzyme';
 
-import { colors } from '@atlaskit/theme';
+import { background } from '@atlaskit/theme/colors';
 import { name } from '../../../version.json';
 import Icon, { size, IconProps } from '../../..';
 import { sizes as sizeValues } from '../../../constants';
@@ -156,7 +156,7 @@ describe(name, () => {
 
         expect(iconWrapper).toHaveStyleRule(
           'fill',
-          colors.background(props).toString(),
+          background(props).toString(),
         );
       });
       it('can be changed to a hex value', () => {

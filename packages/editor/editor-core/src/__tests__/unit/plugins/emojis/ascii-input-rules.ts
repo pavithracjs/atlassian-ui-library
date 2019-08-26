@@ -8,10 +8,10 @@ import {
   code,
   code_block,
   hardBreak,
-  emojiQuery,
   emoji,
+  typeAheadQuery,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
 import { EditorState } from 'prosemirror-state';
 
@@ -21,7 +21,7 @@ const providerFactory = ProviderFactory.create({ emojiProvider });
 describe('ascii emojis - input rules', () => {
   const createEditor = createEditorFactory();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
@@ -97,7 +97,9 @@ describe('ascii emojis - input rules', () => {
 
       it('should not replace a matching emoticon if not followed by a space', () => {
         return assert('text :D', p('{<>}'), state => {
-          expect(state.doc.content.child(0)).toEqualDocument(p('text :D'));
+          expect(state.doc.content.child(0)).toEqualDocument(
+            p('text ', typeAheadQuery({ trigger: ':' })(':D')),
+          );
         });
       });
     });
@@ -164,7 +166,9 @@ describe('ascii emojis - input rules', () => {
 
       it('should not replace a matching emoticon if not followed by a space', () => {
         return assert(':D', p('{<>}'), state => {
-          expect(state.doc.content.child(0)).toEqualDocument(p(':D'));
+          expect(state.doc.content.child(0)).toEqualDocument(
+            p(typeAheadQuery({ trigger: ':' })(':D')),
+          );
         });
       });
     });
@@ -250,16 +254,6 @@ describe('ascii emojis - input rules', () => {
     it('should not replace a matching emoticon not starting with a colon', () => {
       return assert('text(y)', p('{<>}'), state => {
         expect(state.doc.content.child(0)).toEqualDocument(p('text(y)'));
-      });
-    });
-  });
-
-  describe('when there is already an emojiQuery mark', () => {
-    it('it should replace a matching emoticon starting with a colon', () => {
-      return assert(' ', p(emojiQuery(':D{<>}')), state => {
-        expect(state.doc.content.child(0)).toEqualDocument(
-          p(smileyEmoji(), ' '),
-        );
       });
     });
   });

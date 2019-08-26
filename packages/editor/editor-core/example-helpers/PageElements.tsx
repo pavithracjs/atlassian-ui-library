@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 
-const TitleArea: any = styled.textarea`
+export const TitleArea: any = styled.textarea`
   border: none;
   outline: none;
   font-size: 2.07142857em;

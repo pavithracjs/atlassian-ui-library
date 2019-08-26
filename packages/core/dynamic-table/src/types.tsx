@@ -1,5 +1,8 @@
 import React from 'react';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 
 export interface RowCellType {
   key?: string | number;
@@ -12,7 +15,7 @@ export interface I18nShape {
   next: string;
 }
 
-export interface StatelessProps {
+export interface StatelessProps extends WithAnalyticsEventsProps {
   caption?: React.ReactNode;
   /** Object describing the column headings */
   head?: HeadType;
@@ -48,7 +51,7 @@ export interface StatelessProps {
   paginationi18n?: I18nShape;
 }
 
-export interface StatefulProps {
+export interface StatefulProps extends WithAnalyticsEventsProps {
   caption?: Node | string;
   head?: HeadType;
   rows?: Array<RowType>;

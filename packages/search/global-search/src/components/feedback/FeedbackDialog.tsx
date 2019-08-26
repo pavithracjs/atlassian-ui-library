@@ -77,6 +77,6 @@ export default class FeedbackDialog extends React.Component<Props> {
 
   render() {
     const { Modal } = this.state;
-    return Modal ? this.renderDialog(Modal) : null;
+    return !!Modal ? this.renderDialog(Modal!) : null;
   }
 }

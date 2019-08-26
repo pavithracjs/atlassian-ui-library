@@ -11,14 +11,8 @@ import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import { FileDetails } from '@atlaskit/media-client';
 
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
-import {
-  mountWithIntlContext,
-  expectToEqual,
-} from '@atlaskit/media-test-helpers';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
   CardView,
   CardViewBase,
@@ -54,7 +48,6 @@ describe('CardView', () => {
   ) =>
     shallow(
       <CardViewBase
-        mediaItemType={'file'}
         createAnalyticsEvent={createAnalyticsEventMock}
         status="loading"
         {...props}
@@ -253,7 +246,6 @@ describe('CardView', () => {
       const element = shallowCardViewBaseElement(
         {
           status: 'complete',
-          mediaItemType: 'file',
           metadata: file,
           disableOverlay: true,
         },
@@ -285,7 +277,7 @@ describe('CardView', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEventInterface> =
+    const actualEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualEvent.payload).toEqual({ action: 'clicked' });
     expect(actualEvent.context && actualEvent.context.length).toEqual(1);
@@ -311,7 +303,6 @@ describe('CardView', () => {
       expect(actualContext.packageVersion).toEqual(
         require('../../version.json').version,
       );
-      expect(actualContext.type).toEqual('file');
       expect(actualContext.actionSubjectId).toEqual('abcd');
     }
   });
@@ -328,7 +319,7 @@ describe('CardView', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEventInterface> =
+    const actualEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualEvent.payload).toEqual({ action: 'clicked' });
     expect(actualEvent.context && actualEvent.context.length).toEqual(1);
@@ -350,7 +341,6 @@ describe('CardView', () => {
       expect(actualContext.packageVersion).toEqual(
         require('../../version.json').version,
       );
-      expect(actualContext.type).toEqual('file');
       expect(actualContext.actionSubjectId).toEqual(null);
     }
   });
@@ -368,22 +358,12 @@ describe('CardView', () => {
 
     expect(clickHandler).toHaveBeenCalledTimes(1);
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualFiredEvent: Partial<UIAnalyticsEventInterface> =
+    const actualFiredEvent: Partial<UIAnalyticsEvent> =
       analyticsEventHandler.mock.calls[0][0];
-    const actualReturnedEvent: UIAnalyticsEventInterface =
-      clickHandler.mock.calls[0][1];
+    const actualReturnedEvent: UIAnalyticsEvent = clickHandler.mock.calls[0][1];
     expect(actualFiredEvent.hasFired).toEqual(true);
     expect(actualReturnedEvent.hasFired).toEqual(false);
     expect(actualReturnedEvent.payload.action).toEqual('clicked');
     expect(actualReturnedEvent.context).toEqual(actualFiredEvent.context);
-  });
-
-  it('should not use pointer cursor for external images', () => {
-    const card = shallowCardViewBaseElement({
-      dataURI: 'a',
-      mediaItemType: 'external-image',
-    });
-
-    expectToEqual(card.find(Wrapper).props().shouldUsePointerCursor, false);
   });
 });

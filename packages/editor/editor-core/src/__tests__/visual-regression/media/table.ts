@@ -1,4 +1,9 @@
-import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
+import {
+  snapshot,
+  initEditorWithAdf,
+  Appearance,
+  editorCommentContentSelector,
+} from '../_utils';
 import {
   insertMedia,
   waitForMediaToBeLoaded,
@@ -10,65 +15,48 @@ import {
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 import { scrollToTable } from '../../__helpers/page-objects/_table';
+import { Page } from '../../__helpers/page-objects/_types';
+
+const editors: { appearance: Appearance; snapshotSelector?: string }[] = [
+  { appearance: Appearance.fullPage },
+  {
+    appearance: Appearance.comment,
+    snapshotSelector: editorCommentContentSelector,
+  },
+];
 
 describe('Snapshot Test: Media', () => {
-  describe('full page editor', () => {
-    let page: any;
-    beforeEach(async () => {
-      // @ts-ignore
-      page = global.page;
-
-      await initEditorWithAdf(page, {
-        appearance: Appearance.fullPage,
-      });
-
-      // click into the editor
-      await clickEditableContent(page);
-    });
-
-    describe('Tables', async () => {
-      it('can insert into second row', async () => {
-        await clickToolbarMenu(page, ToolbarMenuItem.table);
-
-        // second cell
-        await pressKey(page, 'ArrowDown');
-
-        // now we can insert media as necessary
-        await insertMedia(page);
-        await waitForMediaToBeLoaded(page);
-        await scrollToTable(page);
-
-        await snapshot(page);
-      });
-    });
+  let page: Page;
+  beforeAll(async () => {
+    // @ts-ignore
+    page = global.page;
   });
 
-  describe('comment editor', () => {
-    let page: any;
-    beforeEach(async () => {
-      // @ts-ignore
-      page = global.page;
+  editors.forEach(editor => {
+    describe(`${editor.appearance} editor`, () => {
+      beforeEach(async () => {
+        await initEditorWithAdf(page, {
+          appearance: editor.appearance,
+        });
 
-      await initEditorWithAdf(page, {
-        appearance: Appearance.comment,
+        // click into the editor
+        await clickEditableContent(page);
       });
 
-      // click into the editor
-      await clickEditableContent(page);
-    });
+      describe('Tables', () => {
+        it('can insert into second row', async () => {
+          await clickToolbarMenu(page, ToolbarMenuItem.table);
 
-    describe('Tables', async () => {
-      it('can insert into second row', async () => {
-        await clickToolbarMenu(page, ToolbarMenuItem.table);
+          // second cell
+          await pressKey(page, 'ArrowDown');
 
-        // second cell
-        await pressKey(page, 'ArrowDown');
+          // now we can insert media as necessary
+          await insertMedia(page);
+          await waitForMediaToBeLoaded(page);
+          await scrollToTable(page);
 
-        // now we can insert media as necessary
-        await insertMedia(page);
-        await waitForMediaToBeLoaded(page);
-
-        await snapshot(page);
+          await snapshot(page, undefined, editor.snapshotSelector);
+        });
       });
     });
   });

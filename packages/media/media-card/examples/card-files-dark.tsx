@@ -8,10 +8,7 @@ import {
   errorFileId,
 } from '@atlaskit/media-test-helpers';
 
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import { FileIdentifier } from '@atlaskit/media-client';
@@ -159,7 +156,7 @@ const collectionConfigCards = [
     ),
   },
 ];
-const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
+const handleEvent = (analyticsEvent: UIAnalyticsEvent) => {
   const { payload, context } = analyticsEvent;
   console.log('Received event:', { payload, context });
 };

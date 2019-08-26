@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
+import { createUploadMediaClientConfig } from '@atlaskit/media-test-helpers';
 import styled from 'styled-components';
 import { MediaStore } from '../src';
-import { createUploadContext } from '../../media-test-helpers';
 import * as uuid from 'uuid';
 
 const Wrapper = styled.div`
@@ -29,7 +29,7 @@ const Response = styled.div`
   white-space: pre;
 `;
 
-const context = createUploadContext();
+const mediaClientConfig = createUploadMediaClientConfig();
 
 export interface State {
   result: any;
@@ -45,7 +45,7 @@ class Example extends React.Component<{}, State> {
       result: null,
     };
     this.store = new MediaStore({
-      authProvider: context.config.authProvider,
+      authProvider: mediaClientConfig.authProvider,
     });
   }
 

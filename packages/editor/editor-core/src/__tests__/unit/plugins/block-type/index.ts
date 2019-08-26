@@ -26,7 +26,7 @@ import {
   insertBlockTypesWithAnalytics,
 } from '../../../../plugins/block-type/commands';
 import { HEADING_1 } from '../../../../plugins/block-type/types';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION,
@@ -38,7 +38,7 @@ import {
 
 describe('block-type', () => {
   const createEditor = createEditorFactory<BlockTypeState>();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
@@ -55,7 +55,7 @@ describe('block-type', () => {
     });
   };
 
-  it('should be able to change to normal', () => {
+  it('should be able to change to normal text', () => {
     const { editorView } = editor(doc(h1('te{<>}xt')));
     const { state, dispatch } = editorView;
 
@@ -98,7 +98,10 @@ describe('block-type', () => {
       const { editorView } = editor(doc(p('te{<>}xt')));
       const { state, dispatch } = editorView;
 
-      insertBlockType('blockquote')(state, dispatch);
+      insertBlockTypesWithAnalytics('blockquote', INPUT_METHOD.TOOLBAR)(
+        state,
+        dispatch,
+      );
       expect(editorView.state.doc).toEqualDocument(doc(blockquote(p('text'))));
     });
 
@@ -119,11 +122,61 @@ describe('block-type', () => {
       const { editorView } = editor(doc(p('te{<>}xt')));
       const { state, dispatch } = editorView;
 
-      insertBlockType('codeblock')(state, dispatch);
+      insertBlockTypesWithAnalytics('codeblock', INPUT_METHOD.TOOLBAR)(
+        state,
+        dispatch,
+      );
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p('te'), code_block()(), p('xt')),
       );
+    });
+
+    it('should fire analytics event', () => {
+      const { editorView } = editor(doc(p('te{<>}xt')));
+      const { state, dispatch } = editorView;
+      insertBlockTypesWithAnalytics('codeblock', INPUT_METHOD.TOOLBAR)(
+        state,
+        dispatch,
+      );
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        eventType: 'track',
+        actionSubjectId: 'codeBlock',
+        attributes: { inputMethod: 'toolbar' },
+      });
+    });
+  });
+
+  describe('panel', () => {
+    it('should be able to insert panel', () => {
+      const { editorView } = editor(doc(p('{<>}')));
+      const { state, dispatch } = editorView;
+
+      insertBlockType('panel')(state, dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(panel({ type: 'info' })(p())),
+      );
+    });
+
+    it('should fire analytics event', () => {
+      const { editorView } = editor(doc(p('te{<>}xt')));
+      const { state, dispatch } = editorView;
+      insertBlockTypesWithAnalytics('panel', INPUT_METHOD.TOOLBAR)(
+        state,
+        dispatch,
+      );
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        eventType: 'track',
+        actionSubjectId: 'panel',
+        attributes: { inputMethod: 'toolbar', panelType: 'info' },
+      });
     });
   });
 

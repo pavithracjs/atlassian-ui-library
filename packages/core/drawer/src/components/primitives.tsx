@@ -1,7 +1,8 @@
 /** @jsx jsx */
 
 import { Component, FC, ReactChildren, MouseEvent } from 'react';
-import { colors, layers, gridSize } from '@atlaskit/theme';
+import { layers, gridSize } from '@atlaskit/theme/constants';
+import { N0, N500, N30A, B50 } from '@atlaskit/theme/colors';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 import { jsx } from '@emotion/core';
 
@@ -34,7 +35,7 @@ const Wrapper = ({
   return (
     <div
       css={{
-        backgroundColor: colors.N0,
+        backgroundColor: N0,
         display: 'flex',
         height: '100vh',
         left: 0,
@@ -68,7 +69,7 @@ const Sidebar: FC = props => {
       css={{
         alignItems: 'center',
         boxSizing: 'border-box',
-        color: colors.N500,
+        color: N500,
         display: 'flex',
         flexShrink: 0,
         flexDirection: 'column',
@@ -105,10 +106,10 @@ const IconWrapper: FC<IconWrapperProps> = props => (
       width: 5 * gridSize(),
 
       '&:hover': {
-        backgroundColor: props.onClick ? colors.N30A : undefined,
+        backgroundColor: props.onClick ? N30A : undefined,
       },
       '&:active': {
-        backgroundColor: props.onClick ? colors.B50 : undefined,
+        backgroundColor: props.onClick ? B50 : undefined,
         outline: 0,
       },
     }}

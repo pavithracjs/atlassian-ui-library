@@ -1,7 +1,7 @@
 // @flow
 
-import type { AnalyticsEventInterface } from '@atlaskit/analytics-next';
-import type { ThemeProp } from '@atlaskit/theme';
+import type { AnalyticsEvent } from '@atlaskit/analytics-next';
+import type { ThemeProp } from '@atlaskit/theme/components';
 import type { Node, ComponentType } from 'react';
 import type { ThemeProps, ThemeTokens } from './theme';
 
@@ -22,7 +22,7 @@ export type StyledComponentType = 'custom' | 'button' | 'link' | 'span';
 
 export type AvatarClickType = (
   ?{ event?: KeyboardEvent | MouseEvent, item: Object },
-  ?AnalyticsEventInterface,
+  ?AnalyticsEvent,
 ) => void;
 
 export type AvatarPropTypesBase = {

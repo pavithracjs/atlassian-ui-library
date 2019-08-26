@@ -1,5 +1,271 @@
 # @atlaskit/editor-core
 
+## 112.42.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 112.42.3
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 112.42.2
+
+### Patch Changes
+
+- [patch][9cafd2de3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cafd2de3c):
+
+  Editor now listens to Media Picker upload-end events and treats them the same as upload-processing finishing the insert progress and enabling Save
+
+## 112.42.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 112.42.0
+
+### Minor Changes
+
+- [minor][d438397a89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d438397a89):
+
+  **Editor Azlon Release**
+
+  **Affected editor components:**
+
+  Tables, Media, Smart Cards, Extensions, Analytics, Copy and Paste, Code Block, Undo, Emoji
+
+  **Performance**
+
+  - Reduce number of wrapping nodes in table cells. – [table][affects: wrapping, overflow, resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7288
+  - Cache resizeState in pluginState to avoid expensive DOM operations. – [table][affects: resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7343
+  - Delay MutationObserver initialization in table. – [table][affects: initial table rendering, size adjustment on initial render]
+    - https://product-fabric.atlassian.net/browse/ED-7436
+  - Improve the way we handle mouse events in table – [table][affects: column drag handlers, table controls, resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7342
+
+  **SmartCards**
+
+  - Pending and error states do not pass onClick prop
+    - https://product-fabric.atlassian.net/browse/SL-359
+  - Make toolbars consistent between blue link and smart link – [affects: link and smart link]
+    - https://product-fabric.atlassian.net/browse/ED-7157
+
+  **Mention Highlights**
+
+  Not clear how to test. – [affects: all type aheads, mention type ahead]
+
+  **Copy and Paste**
+
+  - Copying text & images from Google doc changes formatting on paste [affects: media]
+    - https://product-fabric.atlassian.net/browse/ED-7338
+  - Pasted code block does not persist selected language – [affects: code block]
+    - https://product-fabric.atlassian.net/browse/ED-7050
+  - Copy and paste media
+
+  **Tables**
+
+  - Table add 40+ blank columns
+    - https://product-fabric.atlassian.net/browse/ED-7031
+  - Implement Table Sorting in Edit Mode – [NEW BIG FEATURE][not enabled]
+    - Feature flag:
+      - allowColumnSorting – [default: false]
+    - https://product-fabric.atlassian.net/browse/ED-7391
+
+  **Analytics**
+
+  - Fire undo events – [affects: undo]
+    - https://product-fabric.atlassian.net/browse/ED-7276
+  - Make all insert events set analytics meta
+    - https://product-fabric.atlassian.net/browse/ED-7277
+
+  **Notable Bug fixes**
+
+  - Issue with ctrl+z [affects: undo on different languages, e.g. Russian keyboard]
+    - https://product-fabric.atlassian.net/browse/ED-7310
+
+---
+
+**All changes**
+
+- [minor][eb79a83696](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb79a83696):
+
+  BENTO-4437 allow ToolbarHelp position and title to be customised- [minor][e7e1b26b78](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7e1b26b78):
+
+  ED-7276 Send undo/redo analytics events
+
+  Note that this will only work for events which are currently using the approach where we setMeta on a transaction using the analytics plugin key, it will be updated to cover _all_ insert events in ED-7277
+
+- [minor][9636c78eb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9636c78eb4):
+
+  Delay MutationObserver in tables- [minor][c0058c2aab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0058c2aab):
+
+  [ED-7312] Add sorting table by column- [minor][66c5c88f4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66c5c88f4a):
+
+  Refactor emoji to use typeahead plugin- [minor][69d048577c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69d048577c):
+
+  ED-7277 Update way of firing insert analytics events so that they automatically work for undo/redo events- [minor][ef7bf9c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef7bf9c388):
+
+  ED-7217: Remove references to editor appearance from plugins in favor of plugin options- [minor][bdee736f14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdee736f14):
+
+  ED-7175: unify smart link and hyperlink toolbars
+
+  Also updates the toDOM and parseDOM on ADF nodes, making `url` optional.
+
+  Smart cards can now optionally be passed an onResolve callback, of the shape:
+
+      onResolve?: (data: { url?: string; title?: string }) => void;
+
+  This gets fired when the view resolves a smart card from JSON-LD, either via the client or the `data` prop.- [minor][ff9f82137b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff9f82137b):
+
+  ED-7149: Report the jankiness in the Editor- [minor][263e4bc7d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/263e4bc7d1):
+
+  [ED-6897] Add new rows do not expand the previous rowspan anymore, but we are copying the background-color from previous cells
+
+### Patch Changes
+
+- [patch][2b3c62db98](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b3c62db98):
+
+  Update i18n translations for editor-core- [patch][79e7405fae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79e7405fae):
+
+  ED-7031: prevent table plugin from appending unnecessary transactions- [patch][2d7fab179d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7fab179d):
+
+  ED-7050 Fixed pasting of codeblock so that selected language persists- [patch][8b9bdbc0ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b9bdbc0ea):
+
+  [ED-7450] Group content by type when ordering the table- [patch][ec33aa6b22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec33aa6b22):
+
+  prevent infinite loop while trying to render smart link- [patch][a93cd5686c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a93cd5686c):
+
+  ED-6972 Fix inconsistent behaviour with opening/closing text colour & align dropdowns
+
+  Clicking the button when a menu is open will now close the menu, this matches the behaviour of other dropdowns in the editor
+
+- [patch][6e3a0038fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e3a0038fc):
+
+  ED-7288: reduces the number of DOM nodes in table cells, changes the way resize handles are positioned- [patch][a0a3fa7aac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0a3fa7aac):
+
+  Ensure mediagroup nodes are copied to destination collection when pasted in different documents- [patch][a9b6e9afb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a9b6e9afb6):
+
+  Adding missing file data attributes in media single to help fix copy/paste issues
+
+- [patch][10c0f68fc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/10c0f68fc0):
+
+  ED-7328 Handle pasting a list inside an empty panel, previously the panel would be deleted- [patch][c3f7d81030](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3f7d81030):
+
+  [ED-7398] Fix floating insert button position when first columns has rowSpan- [patch][670e897285](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/670e897285):
+
+  ED-7343: improve performance of calculating resizeState- [patch][02bd8e3fdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02bd8e3fdb):
+
+  ED-7474: update resize handle on resize- [patch][b738f4f661](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b738f4f661):
+
+  ED-7344: trigger mutation observer callback only when new DIV nodes are inserted into table cells- [patch][ef5106b641](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef5106b641):
+
+  Fix typings and regex- [patch][5360ec9385](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5360ec9385):
+
+  ED-7342: when handling mouse events, make sure table is in focus and event handlers are debounced- [patch][473dac237b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/473dac237b):
+
+  Increasing the typing input time considering synchrony adds an overhead in typing- [patch][4549780c6c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4549780c6c):
+
+  [ED-7448] Mention will be case insensitive for sorting in table columns- [patch][7a926db3f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a926db3f2):
+
+  Add domain name to hyperlink analytics events- [patch][a82d6088e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a82d6088e2):
+
+  ED-4807 Use right cell type when spliting merged header cells- [patch][62b5fc3b6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62b5fc3b6b):
+
+  ED-7338 Fix Google Docs copy/paste bug where the order of text & images were not being preserved correctly
+
+- [patch][f696c87eaa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f696c87eaa):
+
+  ED-7217: Remove mention workaround for composition on mobile.- [patch][53da0eb314](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53da0eb314):
+
+  ED-7357 - Refactor scroll gutter plugin to use ProseMirror scrolling hooks, FM-2210 - Enable scroll gutter plugin for mobile appearance.
+
+## 112.41.9
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/editor-common@39.17.4
+  - @atlaskit/renderer@49.7.10
+  - @atlaskit/media-client@2.0.2
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-editor@36.2.10
+  - @atlaskit/media-filmstrip@34.3.3
+  - @atlaskit/media-picker@47.0.2
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-card@64.0.0
+
+## 112.41.8
+
+- Updated dependencies [6879d7d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6879d7d01e):
+  - @atlaskit/media-test-helpers@25.0.1
+  - @atlaskit/media-picker@47.0.0
+
+## 112.41.7
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 112.41.6
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/editor-test-helpers@9.11.6
+  - @atlaskit/renderer@49.7.8
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-editor@36.2.9
+  - @atlaskit/media-filmstrip@34.3.2
+  - @atlaskit/media-picker@46.0.9
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 112.41.5
+
+### Patch Changes
+
+- [patch][98dc5f3a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98dc5f3a6a):
+
+  CEMS-201: Fix gadget name in block header extension
+
+## 112.41.4
+
+### Patch Changes
+
+- [patch][c3618f9775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3618f9775):
+
+  CEMS-201: Remove image for block extenions
+
 ## 112.41.3
 
 ### Patch Changes

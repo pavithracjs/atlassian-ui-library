@@ -16,10 +16,7 @@ import {
   ExternalImageIdentifier,
   Identifier,
 } from '@atlaskit/media-client';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { MediaViewer } from '@atlaskit/media-viewer';
 import { CardAction, CardProps, CardDimensions } from '../..';
 import { Card } from '../../root/card';
@@ -311,10 +308,9 @@ describe('Card', () => {
       />,
     );
     const filePlaceholder = fileCard.find(CardView);
-    const { status, mediaItemType, dimensions } = filePlaceholder.props();
+    const { status, dimensions } = filePlaceholder.props();
 
     expect(status).toBe('loading');
-    expect(mediaItemType).toBe('file');
     expect(dimensions).toEqual({ width: 100, height: 50 });
   });
 
@@ -360,7 +356,7 @@ describe('Card', () => {
     card.simulate('click');
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualFiredEvent: UIAnalyticsEventInterface =
+    const actualFiredEvent: UIAnalyticsEvent =
       analyticsEventHandler.mock.calls[0][0];
     expect(actualFiredEvent.context[0]).toEqual(
       expect.objectContaining({
@@ -692,7 +688,6 @@ describe('Card', () => {
         dataURI: 'mock result of URL.createObjectURL()',
         dimensions: { width: 10, height: 20 },
         disableOverlay: true,
-        mediaItemType: 'file',
         progress: undefined,
         resizeMode: 'fit',
         selectable: true,

@@ -1,7 +1,7 @@
 {
   "name": "@atlaskit/util-data-test",
   "description": "Shared test and story data",
-  "version": "12.9.0",
+  "version": "12.9.6",
   "config": {
     "access": "public"
   },
@@ -10,11 +10,11 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/emoji": "^62.2.5",
-    "@atlaskit/mention": "^18.13.0",
-    "@atlaskit/task-decision": "^15.1.5",
-    "@atlaskit/util-service-support": "^4.0.5",
+    "@atlaskit/analytics-next": "^6.0.3",
+    "@atlaskit/emoji": "^62.3.3",
+    "@atlaskit/mention": "^18.14.4",
+    "@atlaskit/task-decision": "^15.2.4",
+    "@atlaskit/util-service-support": "^4.0.7",
     "date-fns": "^1.30.1",
     "lodash.sample": "^4.2.1",
     "tslib": "^1.9.3",
@@ -26,7 +26,7 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.1.1"
+    "@atlaskit/docs": "^8.1.5"
   },
   "author": "Atlassian Pty. Ltd",
   "maintainers": [],

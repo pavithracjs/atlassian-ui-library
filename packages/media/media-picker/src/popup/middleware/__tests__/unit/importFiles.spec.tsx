@@ -64,7 +64,7 @@ describe('importFiles middleware', () => {
   });
 
   const getSendUploadEventPayloads = (
-    store: { dispatch: jest.Mock<{}> },
+    store: { dispatch: jest.Mock<unknown> },
     eventName: UploadEventName,
   ): SendUploadEventActionPayload[] => {
     return store.dispatch.mock.calls
@@ -131,9 +131,6 @@ describe('importFiles middleware', () => {
         name: 'upload-end',
         data: {
           file,
-          public: {
-            id: `some-public-id-${index}`,
-          },
         },
       };
 

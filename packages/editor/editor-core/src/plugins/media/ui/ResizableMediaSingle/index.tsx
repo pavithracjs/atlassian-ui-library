@@ -15,7 +15,6 @@ import { Wrapper } from './styled';
 import { Props, EnabledHandles } from './types';
 import Resizer from './Resizer';
 import { snapTo, handleSides, imageAlignmentMap } from './utils';
-import { isFullPage } from '../../../../utils/is-full-page';
 import { calcMediaPxWidth, wrappedLayouts } from '../../utils/media-single';
 
 type State = {
@@ -75,6 +74,7 @@ export default class ResizableMediaSingle extends React.Component<
     });
     const state = await mediaClient.file.getCurrentState(
       getMediaNode!.attrs.id,
+      { collectionName: getMediaNode!.attrs.collection },
     );
     if (state && state.status !== 'error' && state.mediaType === 'image') {
       this.setState({
@@ -188,7 +188,7 @@ export default class ResizableMediaSingle extends React.Component<
   calcSnapPoints() {
     const { offsetLeft } = this.state;
 
-    const { containerWidth, lineLength, appearance } = this.props;
+    const { containerWidth, lineLength, allowBreakoutSnapPoints } = this.props;
     const snapTargets: number[] = [];
     for (let i = 0; i < this.gridWidth; i++) {
       snapTargets.push(
@@ -217,7 +217,7 @@ export default class ResizableMediaSingle extends React.Component<
       : snapPoints;
 
     const isTopLevel = $pos.parent.type.name === 'doc';
-    if (isTopLevel && isFullPage(appearance)) {
+    if (isTopLevel && allowBreakoutSnapPoints) {
       snapPoints.push(akEditorWideLayoutWidth);
       const fullWidthPoint = containerWidth - akEditorBreakoutPadding;
       if (fullWidthPoint > akEditorWideLayoutWidth) {

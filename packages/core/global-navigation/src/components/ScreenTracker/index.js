@@ -1,15 +1,12 @@
 // @flow
 
 import { Component } from 'react';
-import {
-  withAnalyticsEvents,
-  type WithAnalyticsEventsProps,
-} from '@atlaskit/analytics-next';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 
 import { NAVIGATION_CHANNEL } from '../../constants';
 
 type Props = {
-  ...WithAnalyticsEventsProps,
+  createAnalyticsEvent: Function,
   /** The name of the screen that is being displayed, sent in analytics. */
   name: string,
   /** Whether the screen is visible or not */

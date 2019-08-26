@@ -37,63 +37,63 @@ import Loadable from 'react-loadable';
 const DecisionItem = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_DecisionItem" */
-    './decisionItem').then(module => module.default),
+    './decisionItem'),
   loading: () => null,
 });
 
 const Date = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_Date" */
-    './date').then(module => module.default),
+    './date'),
   loading: () => null,
 });
 
 const Status = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_Status" */
-    './status').then(module => module.default),
+    './status'),
   loading: () => null,
 });
 
 const Emoji = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_Emoji" */
-    './emoji').then(module => module.default),
+    './emoji'),
   loading: () => null,
 });
 
 const InlineCard = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_InlineCard" */
-    './inlineCard').then(module => module.default),
+    './inlineCard'),
   loading: () => null,
 });
 
 const BlockCard = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_BlockCard" */
-    './blockCard').then(module => module.default),
+    './blockCard'),
   loading: () => null,
 });
 
 const Media = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_Media" */
-    './media').then(module => module.default),
+    './media'),
   loading: () => null,
 });
 
 const MediaGroup = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_MediaGroup" */
-    './mediaGroup').then(module => module.default),
+    './mediaGroup'),
   loading: () => null,
 });
 
 const Mention = Loadable({
   loader: () =>
     import(/* webpackChunkName:"@atlaskit-internal-renderer-node_Mention" */
-    './mention').then(module => module.default),
+    './mention'),
   loading: () => null,
 });
 
