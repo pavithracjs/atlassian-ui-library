@@ -3,7 +3,7 @@ module.exports = {
   all: undefined,
 
   // Add asset Information
-  assets: false,
+  assets: true,
 
   // Sort assets by a field
   // You can reverse the sort with `!field`.
