@@ -177,10 +177,12 @@ class FloatingInsertButton extends React.Component<
     }
   }
 
-  private insertRow() {
+  private insertRow(event: React.SyntheticEvent) {
     const { editorView, insertRowButtonIndex } = this.props;
 
     if (typeof insertRowButtonIndex !== 'undefined') {
+      event.preventDefault();
+
       const { state, dispatch } = editorView;
       insertRowWithAnalytics(INPUT_METHOD.BUTTON, insertRowButtonIndex)(
         state,
@@ -189,10 +191,12 @@ class FloatingInsertButton extends React.Component<
     }
   }
 
-  private insertColumn() {
+  private insertColumn(event: React.SyntheticEvent) {
     const { editorView, insertColumnButtonIndex } = this.props;
 
     if (typeof insertColumnButtonIndex !== 'undefined') {
+      event.preventDefault();
+
       const { state, dispatch } = editorView;
       insertColumnWithAnalytics(INPUT_METHOD.BUTTON, insertColumnButtonIndex)(
         state,
