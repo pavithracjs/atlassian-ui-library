@@ -35,6 +35,7 @@ interface Props extends OuterProps {
     Whether or not the dialog is visible
   */
   isOpen: boolean;
+  /** A `testId` prop is provided for specified elements, which is a unique string that appears as a data attribute `data-testid` in the rendered code, serving as a hook for automated tests */
   testId?: string;
 }
 
@@ -114,6 +115,7 @@ class Modal extends React.Component<Props, State> {
       heading,
       width,
       scrollBehavior,
+      testId,
     } = this.props;
 
     const { scrollDistance } = this.state;
@@ -157,6 +159,7 @@ class Modal extends React.Component<Props, State> {
                   heightValue={height}
                   isChromeless={isChromeless}
                   role="dialog"
+                  data-testid={testId}
                   tabIndex={-1}
                 >
                   <Content

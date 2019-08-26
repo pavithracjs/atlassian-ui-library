@@ -13,7 +13,7 @@ export default class ExampleBasic extends React.PureComponent<{}, State> {
 
   close = () => this.setState({ isOpen: false });
 
-  secondaryAction = ({ target }: any) => console.log(target.innerText);
+  secondaryAction = () => alert('Secondary button has been clicked!');
 
   render() {
     const { isOpen } = this.state;
@@ -24,7 +24,9 @@ export default class ExampleBasic extends React.PureComponent<{}, State> {
 
     return (
       <div>
-        <Button onClick={this.open}>Open Modal</Button>
+        <Button testId={'open-modal'} onClick={this.open}>
+          Open Modal
+        </Button>
 
         <ModalTransition>
           {isOpen && (
