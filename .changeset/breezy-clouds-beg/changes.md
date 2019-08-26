@@ -1,0 +1,1 @@
+Analytics Event will be fired when InlinePlayer is being clicked

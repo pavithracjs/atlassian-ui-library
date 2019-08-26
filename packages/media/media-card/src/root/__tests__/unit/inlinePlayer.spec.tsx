@@ -64,6 +64,7 @@ describe('<InlinePlayer />', () => {
       InlinePlayerState
     >(
       <InlinePlayer
+        dimensions={{}}
         mediaClient={mediaClient}
         identifier={identifier}
         {...props}
@@ -201,8 +202,8 @@ describe('<InlinePlayer />', () => {
     const { component, mediaClient } = setup();
 
     await update(component);
-    const instance = component.instance() as InlinePlayer;
-    instance.onDownloadClick();
+    const button = component.find('DownloadIcon');
+    button.simulate('click');
     await nextTick();
     expect(mediaClient.file.downloadBinary).toBeCalledTimes(1);
     expect(mediaClient.file.downloadBinary).toBeCalledWith(
