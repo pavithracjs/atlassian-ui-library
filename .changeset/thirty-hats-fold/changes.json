@@ -1,0 +1,25 @@
+{
+  "releases": [{ "name": "@atlaskit/onboarding", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/navigation-next", "@atlaskit/onboarding"]
+    },
+    {
+      "name": "@atlaskit/layer-manager",
+      "type": "patch",
+      "dependencies": ["@atlaskit/onboarding"]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": ["@atlaskit/global-navigation", "@atlaskit/onboarding"]
+    },
+    {
+      "name": "@atlaskit/portal",
+      "type": "patch",
+      "dependencies": ["@atlaskit/onboarding"]
+    }
+  ]
+}
