@@ -1,5 +1,21 @@
 # @atlaskit/media-card
 
+## 64.1.0
+
+### Minor Changes
+
+- [minor][44202a6e9a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44202a6e9a):
+
+  Analytics Event will be fired when InlinePlayer is being clicked
+
+## 64.0.2
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
 ## 64.0.1
 
 ### Patch Changes

@@ -1,105 +1,107 @@
-// @flow
-
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
-
 import { Grid } from '@atlaskit/page';
 import { ThemeProvider } from 'styled-components';
-import ProgressTracker from '../../index';
-import ProgressTrackerStage from '../../../ProgressTrackerStage';
+
+import { ProgressTracker, Stages } from '../../../';
+import ProgressTrackerStage, {
+  ProgressTrackerStageProps,
+} from '../../../ProgressTrackerStage';
 import { ProgressTrackerContainer } from '../../styled';
 
-const items = [
+const items: Stages = [
   {
     id: '1',
     label: 'Step 1',
     percentageComplete: 0,
-    status: 'current',
     href: '#',
+    status: 'current',
   },
   {
     id: '2',
     label: 'Step 2',
     percentageComplete: 0,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '3',
     label: 'Step 3',
     percentageComplete: 0,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '4',
     label: 'Step 4',
     percentageComplete: 0,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '5',
     label: 'Step 5',
     percentageComplete: 0,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '6',
     label: 'Step 6',
     percentageComplete: 0,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
 ];
 
-const completedStages = [
+const completedStages: Stages = [
   {
     id: '1',
     label: 'Step 1',
     percentageComplete: 100,
-    status: 'current',
     href: '#',
+    status: 'current',
   },
   {
     id: '2',
     label: 'Step 2',
     percentageComplete: 100,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '3',
     label: 'Step 3',
     percentageComplete: 100,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '4',
     label: 'Step 4',
     percentageComplete: 100,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '5',
     label: 'Step 5',
     percentageComplete: 100,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
   {
     id: '6',
     label: 'Step 6',
     percentageComplete: 100,
-    status: 'unvisited',
     href: '#',
+    status: 'unvisited',
   },
 ];
 
-const testBackwardsRenderTransitions = progressTrackerStages => {
+const testBackwardsRenderTransitions = (
+  progressTrackerStages: ShallowWrapper<ProgressTrackerStageProps>,
+) => {
   progressTrackerStages.forEach((stage, index) => {
     expect(stage.props().transitionDelay).toBe(
       (progressTrackerStages.length - 1 - index) * 50,
@@ -107,14 +109,18 @@ const testBackwardsRenderTransitions = progressTrackerStages => {
   });
 };
 
-const testMultiStepRenderTransitions = progressTrackerStages => {
+const testMultiStepRenderTransitions = (
+  progressTrackerStages: ShallowWrapper<ProgressTrackerStageProps>,
+) => {
   progressTrackerStages.forEach((stage, index) => {
     expect(stage.props().transitionDelay).toBe(index * 50);
     expect(stage.props().transitionEasing).toBe('linear');
   });
 };
 
-const testNoOrSingleStepRenderTransitions = progressTrackerStages => {
+const testNoOrSingleStepRenderTransitions = (
+  progressTrackerStages: ShallowWrapper<ProgressTrackerStageProps>,
+) => {
   progressTrackerStages.forEach(stage => {
     expect(stage.props().transitionDelay).toBe(0);
     expect(stage.props().transitionEasing).toBe('cubic-bezier(0.15,1,0.3,1)');
@@ -167,8 +173,8 @@ describe('ak-progress-tracker/progress-tracker', () => {
           id: '1',
           label: 'Step 1',
           percentageComplete: 50,
-          status: 'current',
           href: '#',
+          status: 'current',
         };
       }
       return stage;

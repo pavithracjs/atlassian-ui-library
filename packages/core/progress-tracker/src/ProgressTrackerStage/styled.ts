@@ -1,8 +1,6 @@
-// @flow
-import { gridSize, fontSize } from '@atlaskit/theme/constants';
-
-import { B300 } from '@atlaskit/theme/colors';
 import styled from 'styled-components';
+import { gridSize, fontSize } from '@atlaskit/theme/constants';
+import { B300 } from '@atlaskit/theme/colors';
 import { spacing } from '../constants';
 
 const halfGridSize = gridSize() / 2;
@@ -14,7 +12,17 @@ export const ProgressTrackerStageContainer = styled.div`
   width: 100%;
 `;
 
-export const ProgressTrackerStageMarker = styled.div`
+interface BaseStageProps {
+  transitionDelay: number;
+  transitionSpeed: number;
+  transitionEasing?: string;
+}
+
+interface StageMarkerProps extends BaseStageProps {
+  oldMarkerColor?: string;
+}
+
+export const ProgressTrackerStageMarker = styled.div<StageMarkerProps>`
   position: absolute;
   left: 50%;
   transform: translate(-50%, -${labelTopSpacing}px);
@@ -46,7 +54,12 @@ export const ProgressTrackerStageMarker = styled.div`
   }
 `;
 
-export const ProgressTrackerStageBar = styled.div`
+interface StageBarProps extends BaseStageProps {
+  percentageComplete: number;
+  oldPercentageComplete: number;
+}
+
+export const ProgressTrackerStageBar = styled.div<StageBarProps>`
   position: absolute;
   left: 50%;
   transform: translate(0, -${labelTopSpacing}px);
@@ -98,7 +111,11 @@ export const ProgressTrackerStageBar = styled.div`
   }
 `;
 
-export const ProgressTrackerStageTitle = styled.div`
+interface StageTitleProps extends BaseStageProps {
+  fontweight?: string;
+}
+
+export const ProgressTrackerStageTitle = styled.div<StageTitleProps>`
   font-weight: ${props => props.fontweight};
   line-height: 16px;
   color: ${props => props.color};
