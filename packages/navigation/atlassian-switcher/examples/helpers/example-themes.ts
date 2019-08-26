@@ -1,4 +1,4 @@
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import { createCustomTheme } from '../../src/theme/theme-builder';
 
 export const redTheme = createCustomTheme({

@@ -1,4 +1,5 @@
-import { colors, gridSize, createTheme } from '@atlaskit/theme';
+import { gridSize, createTheme } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import { ThemeProps, ThemeTokens } from './types';
 
 const defaultItemTheme = (props: ThemeProps) => {

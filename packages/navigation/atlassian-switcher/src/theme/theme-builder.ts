@@ -7,6 +7,7 @@ import {
   CustomizableStates,
   CustomizableTokens,
   CustomThemeResult,
+  ApplyThemeFn,
 } from './types';
 
 function getThemedTokens(
@@ -30,7 +31,8 @@ export const createCustomTheme = memoizeOne(
     const mainBackgroundColor = {
       background: customThemeProps.mainBackgroundColor,
     };
-    const itemTheme = (theme: any, props: ThemeProps) => ({
+
+    const itemTheme = (theme: ApplyThemeFn, props: ThemeProps) => ({
       ...theme(props),
       hover: {
         ...theme(props).hover,
@@ -43,7 +45,7 @@ export const createCustomTheme = memoizeOne(
       },
     });
 
-    const childItemTheme = (theme: any, props: ThemeProps) => ({
+    const childItemTheme = (theme: ApplyThemeFn, props: ThemeProps) => ({
       ...theme(props),
       hover: {
         ...theme(props).hover,

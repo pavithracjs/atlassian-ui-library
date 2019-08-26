@@ -9,7 +9,7 @@ import {
 } from '../utils/analytics';
 import { FadeIn } from './fade-in';
 
-interface SwitcherItemProps extends WithAnalyticsEventsProps {
+export interface SwitcherItemProps extends WithAnalyticsEventsProps {
   children: React.ReactNode;
   icon: React.ReactNode;
   description?: React.ReactNode;

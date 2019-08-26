@@ -2,7 +2,7 @@ import { createCustomTheme } from '../theme-builder';
 import { CustomizableStates } from '../types';
 
 import get from 'lodash.get';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 
 describe('utils/theme-builder', () => {
   const noopThemeFn = () => ({});

@@ -31,7 +31,9 @@ export type CustomTheme = {
   childItem: CustomizableStates;
 };
 
-type ThemeFn = (theme: any, props: ThemeProps) => ThemeTokens;
+export type ApplyThemeFn = (props: ThemeProps) => ThemeTokens;
+
+type ThemeFn = (theme: ApplyThemeFn, props: ThemeProps) => ThemeTokens;
 
 export type CustomThemeResult = { itemTheme: ThemeFn; childItemTheme: ThemeFn };
 

@@ -5,7 +5,7 @@ import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 import SwitcherThemedItem from './themed-item';
 import SwitcherThemedChildItem from './themed-child-item';
 
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import Tooltip from '@atlaskit/tooltip';
 import Avatar from './avatar';
 import { FadeIn } from './fade-in';
