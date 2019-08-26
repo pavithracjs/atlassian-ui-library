@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, FC } from 'react';
 import PropTypes from 'prop-types';
+import { AnalyticsReactContext } from './AnalyticsReactContext';
 import UIAnalyticsEvent, { UIAnalyticsEventHandler } from './UIAnalyticsEvent';
 
 type Props = {
@@ -12,11 +13,23 @@ type Props = {
   onEvent: (event: UIAnalyticsEvent, channel?: string) => void;
 };
 
+type InternalProps = {
+  /** Children! */
+  children?: React.ReactNode;
+  /** The channel to listen for events on. */
+  channel?: string;
+  /** A function which will be called when an event is fired on this Listener's
+   * channel. It is passed the event and the channel as arguments. */
+  onEvent: (event: UIAnalyticsEvent, channel?: string) => void;
+
+  newContext: any;
+};
+
 const ContextTypes = {
   getAtlaskitAnalyticsEventHandlers: PropTypes.func,
 };
 
-export default class AnalyticsListener extends Component<Props> {
+class AnalyticsListenerInternal extends Component<InternalProps> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
@@ -41,6 +54,26 @@ export default class AnalyticsListener extends Component<Props> {
   };
 
   render() {
-    return this.props.children;
+    const {
+      newContext: { getAtlaskitAnalyticsContext },
+      children,
+    } = this.props;
+    return (
+      <AnalyticsReactContext.Provider
+        value={{
+          getAtlaskitAnalyticsEventHandlers: this.getAnalyticsEventHandlers,
+          getAtlaskitAnalyticsContext,
+        }}
+      >
+        {children}
+      </AnalyticsReactContext.Provider>
+    );
   }
 }
+
+const AnalyticsListener: FC<Props> = props => {
+  const newContext = useContext(AnalyticsReactContext);
+  return <AnalyticsListenerInternal {...props} newContext={newContext} />;
+};
+
+export default AnalyticsListener;
