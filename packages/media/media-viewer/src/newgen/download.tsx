@@ -37,6 +37,7 @@ export const createItemDownloader = (
 ) => () => {
   const id = file.id;
   const name = !isErrorFileState(file) ? file.name : undefined;
+
   return mediaClient.file.downloadBinary(id, name, collectionName);
 };
 

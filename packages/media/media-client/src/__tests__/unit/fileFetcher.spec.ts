@@ -1,5 +1,10 @@
 import { Auth, AuthProvider, getFileStreamsCache } from '@atlaskit/media-core';
-import { ResponseFileItem, MediaFile } from '../..';
+import {
+  ResponseFileItem,
+  MediaFile,
+  globalMediaEventEmitter,
+  MediaViewedEventPayload,
+} from '../..';
 import * as MediaClientModule from '../..';
 import uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../client/file-fetcher';
@@ -56,6 +61,10 @@ describe('FileFetcher', () => {
     return { fileFetcher, mediaStore, items, itemsResponse };
   };
 
+  beforeEach(() => {
+    jest.spyOn(globalMediaEventEmitter, 'emit');
+  });
+
   afterEach(() => {
     getFileStreamsCache().removeAll();
     jest.restoreAllMocks();
@@ -67,6 +76,47 @@ describe('FileFetcher', () => {
     describe('with normal browser', () => {
       beforeEach(() => {
         appendChild = jest.spyOn(document.body, 'appendChild');
+      });
+
+      it('should trigger media-viewed in globalMediaEventEmitter for recents collection', async () => {
+        const { fileFetcher } = setup();
+        await fileFetcher.downloadBinary(fileId, fileName, 'recents');
+
+        expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(1);
+        expectFunctionToHaveBeenCalledWith(globalMediaEventEmitter.emit, [
+          'media-viewed',
+          {
+            fileId,
+            viewingLevel: 'download',
+            isUserCollection: true,
+          } as MediaViewedEventPayload,
+        ]);
+      });
+
+      it('should trigger media-viewed in globalMediaEventEmitter for non-recents collection', async () => {
+        const { fileFetcher } = setup();
+        await fileFetcher.downloadBinary(fileId, fileName, collectionName);
+
+        expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(1);
+        expectFunctionToHaveBeenCalledWith(globalMediaEventEmitter.emit, [
+          'media-viewed',
+          {
+            fileId,
+            viewingLevel: 'download',
+            isUserCollection: false,
+          } as MediaViewedEventPayload,
+        ]);
+      });
+
+      it('should not trigger media-viewed in globalMediaEventEmitter if getFileBinaryURL fails', async () => {
+        const { fileFetcher, mediaStore } = setup();
+        asMock(mediaStore.getFileBinaryURL).mockRejectedValue(new Error());
+        try {
+          await fileFetcher.downloadBinary(fileId, fileName, collectionName);
+        } catch {
+          expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(0);
+        }
+        expect.assertions(1);
       });
 
       it('should call getFileBinaryURL', () => {
