@@ -57,7 +57,7 @@ describe('<TaskList/>', () => {
     expect(ol.prop('data-task-list-local-id')).toEqual('');
     const li = component.find('li');
     expect(li.length).toEqual(1);
-    expect(li.prop('data-task-local-id')).toEqual('');
+    expect(li.prop('data-task-local-id')).toBeDefined();
   });
 
   describe('analytics', () => {

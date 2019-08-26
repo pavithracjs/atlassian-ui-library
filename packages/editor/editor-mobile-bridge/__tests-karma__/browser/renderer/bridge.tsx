@@ -39,7 +39,7 @@ describe('Renderer bridge', () => {
   };
 
   beforeEach(() => {
-    renderer = mount(<MobileRenderer />);
+    renderer = mount(<MobileRenderer document="" />);
   });
 
   afterEach(() => {
