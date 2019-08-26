@@ -136,7 +136,7 @@ async function runDevServer() {
     disableHostCheck,
 
     overlay: true,
-    stats,
+    stats: { ...stats, errors: true },
   });
 
   return new Promise((resolve, reject) => {

@@ -50,7 +50,7 @@ module.exports = {
   env: false,
 
   // Add errors
-  errors: true,
+  errors: false,
 
   // Add details to errors (like resolving log)
   errorDetails: false,
