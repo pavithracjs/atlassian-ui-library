@@ -242,7 +242,6 @@ class ProfilecardTrigger extends React.PureComponent<
   }
 
   render() {
-    console.log('==================');
     if (this.props.children) {
       return this.renderWithTrigger();
     } else {
