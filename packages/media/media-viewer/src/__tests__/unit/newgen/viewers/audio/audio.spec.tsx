@@ -1,16 +1,22 @@
 import * as React from 'react';
-import { ProcessedFileState } from '@atlaskit/media-client';
+import {
+  globalMediaEventEmitter,
+  MediaViewedEventPayload,
+  ProcessedFileState,
+} from '@atlaskit/media-client';
 import {
   mountWithIntlContext,
   nextTick,
   fakeMediaClient,
+  expectFunctionToHaveBeenCalledWith,
 } from '@atlaskit/media-test-helpers';
 import { AudioViewer } from '../../../../../newgen/viewers/audio';
 import Spinner from '@atlaskit/spinner';
 import { DefaultCoverWrapper, AudioCover } from '../../../../../newgen/styled';
 import { ErrorMessage } from '../../../../../newgen/error';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
-import { Auth } from '@atlaskit/media-store';
+import { Auth } from '@atlaskit/media-core';
+import { Props } from '../../../../../newgen/viewers/video';
 
 const token = 'some-token';
 const clientId = 'some-client-id';
@@ -34,6 +40,7 @@ const audioItem: ProcessedFileState = {
 
 function createFixture(
   authPromise: Promise<Auth>,
+  props?: Partial<Props>,
   collectionName?: string,
   item?: ProcessedFileState,
   mockReturnGetArtifactURL?: Promise<string>,
@@ -56,13 +63,18 @@ function createFixture(
       mediaClient={mediaClient}
       item={item || audioItem}
       collectionName={collectionName}
-      previewCount={0}
+      {...props}
+      previewCount={(props && props.previewCount) || 0}
     />,
   );
   return { mediaClient, el };
 }
 
 describe('Audio viewer', () => {
+  beforeEach(() => {
+    jest.spyOn(globalMediaEventEmitter, 'emit');
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -88,6 +100,7 @@ describe('Audio viewer', () => {
     const authPromise: any = new Promise(() => {});
     const { el } = createFixture(
       authPromise,
+      {},
       undefined,
       undefined,
       Promise.resolve(''),
@@ -142,7 +155,11 @@ describe('Audio viewer', () => {
     it('MSW-720: pass the collectionName to calls to getArtifactURL', async () => {
       const collectionName = 'collectionName';
       const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const { el, mediaClient } = createFixture(authPromise, collectionName);
+      const { el, mediaClient } = createFixture(
+        authPromise,
+        {},
+        collectionName,
+      );
       const instance: any = el.instance();
       const promiseSrc = Promise.resolve('cover-src');
 
@@ -195,5 +212,26 @@ describe('Audio viewer', () => {
         expect(el.find(CustomMediaPlayer).prop('isAutoPlay')).toBeFalsy();
       });
     });
+  });
+
+  it('should trigger media-viewed when audio is first played', async () => {
+    localStorage.setItem('mv_video_player_quality', 'sd');
+    const authPromise = Promise.resolve({ token, clientId, baseUrl });
+    const { el } = createFixture(authPromise, { previewCount: 1 });
+    await (el as any).instance()['init']();
+    el.update();
+    const { onFirstPlay } = el.find(CustomMediaPlayer).props();
+    if (!onFirstPlay) {
+      return expect(onFirstPlay).toBeDefined();
+    }
+    onFirstPlay();
+    expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(1);
+    expectFunctionToHaveBeenCalledWith(globalMediaEventEmitter.emit, [
+      'media-viewed',
+      {
+        fileId: 'some-id',
+        viewingLevel: 'full',
+      } as MediaViewedEventPayload,
+    ]);
   });
 });

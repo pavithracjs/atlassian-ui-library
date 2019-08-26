@@ -27,6 +27,9 @@ import {
 import { MediaViewer } from '../src';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
+import { addGlobalEventEmitterListeners } from '@atlaskit/media-test-helpers';
+addGlobalEventEmitterListeners();
+
 const mediaClientConfig = createStorybookMediaClientConfig();
 
 const handleEvent = (/*analyticsEvent: UIAnalyticsEvent*/) => {

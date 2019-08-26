@@ -3,6 +3,7 @@ import {
   ProcessedFileState,
   MediaClient,
   FileState,
+  globalMediaEventEmitter,
 } from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
 import { Outcome } from '../domain';
@@ -79,6 +80,14 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
     audioElement.setAttribute('controlsList', 'nodownload');
   };
 
+  private onFirstPlay = () => {
+    const { item } = this.props;
+    globalMediaEventEmitter.emit('media-viewed', {
+      fileId: item.id,
+      viewingLevel: 'full',
+    });
+  };
+
   protected renderSuccessful(src: string) {
     const { showControls, previewCount, onCanPlay, onError } = this.props;
 
@@ -95,6 +104,7 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
             isShortcutEnabled={true}
             showControls={showControls}
             onCanPlay={onCanPlay}
+            onFirstPlay={this.onFirstPlay}
             onError={onError}
           />
         </CustomAudioPlayerWrapper>
