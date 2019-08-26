@@ -64,7 +64,13 @@ const prepareData = pathToFolder => {
       buildEventPayload(pkgData, 'atlaskit.computed.bundle.size.per.package'),
     ),
   });
-  sendToRedash(bundleSizeDataEvents).then(res => {
-    console.log(`Sent bundle size data to Redash`);
-  });
+  sendToRedash(bundleSizeDataEvents)
+    .then(res => {
+      console.log(`Sent bundle size data to Redash`);
+    })
+    .catch(err => {
+      console.log(`Something went wrong while sending data: ${err}`);
+      // Doing so, we don't fail the script in pipelines if an error occurs.
+      process.exit(0);
+    });
 })();
