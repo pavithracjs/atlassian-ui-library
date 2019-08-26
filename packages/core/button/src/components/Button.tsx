@@ -175,7 +175,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               {({ buttonStyles, spinnerStyles }) => (
                 <StyledButton
                   {...filterProps(rest, StyledButton)}
-                  data-testId={testId}
+                  data-testid={testId}
                   ref={this.getComposedRefs(this.button, consumerRef)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}

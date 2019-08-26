@@ -167,7 +167,7 @@ describe('ak-button/default-behaviour', () => {
 
   it('should respect autofocus', () => {
     const wrapper = mount(
-      <Button id="testID123" tabIndex={0} autoFocus>
+      <Button id="testId123" tabIndex={0} autoFocus>
         button
       </Button>,
     );
