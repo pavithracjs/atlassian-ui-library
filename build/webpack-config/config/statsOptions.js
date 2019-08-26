@@ -59,7 +59,7 @@ module.exports = {
   hash: false,
 
   // Add built modules information
-  modules: false,
+  modules: true,
   // excludeModules: new RegExp('*.md'),
 
   // Sort the modules by a field
