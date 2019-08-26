@@ -1,6 +1,9 @@
 import React, { Children, Component, useContext, FC } from 'react';
 import PropTypes from 'prop-types';
-import { AnalyticsReactContext } from './AnalyticsReactContext';
+import {
+  AnalyticsReactContext,
+  AnalyticsReactContextInterface,
+} from './AnalyticsReactContext';
 
 const ContextTypes = {
   getAtlaskitAnalyticsContext: PropTypes.func,
@@ -14,17 +17,9 @@ interface Props {
   data: unknown;
 }
 
-interface InternalProps {
-  /** Children! */
-  children: React.ReactNode;
-  /** Arbitrary data. Any events created below this component in the tree will
-   * have this added as an item in their context array. */
-  data: unknown;
+type InternalProps = { newContext: AnalyticsReactContextInterface };
 
-  newContext: any;
-}
-
-class AnalyticsContextInternal extends Component<InternalProps> {
+class AnalyticsContextInternal extends Component<Props & InternalProps> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 

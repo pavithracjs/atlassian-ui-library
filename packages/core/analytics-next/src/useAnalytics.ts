@@ -9,7 +9,7 @@ import {
 import UIAnalyticsEvent from './UIAnalyticsEvent';
 import { AnalyticsEventPayload } from './AnalyticsEvent';
 
-type UseAnalyticsHook = {
+export type UseAnalyticsHook = {
   createAnalyticsEvent: CreateUIAnalyticsEvent;
   patchedEventProps: CreateEventMap;
 };
