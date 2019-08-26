@@ -244,7 +244,7 @@ export default class Example extends React.Component<Props, State> {
   private onJoin = () => {
     const { input } = this.state;
     if (input) {
-      const { value } = input as HTMLInputElement;
+      const { value } = input! as HTMLInputElement;
       if (value) {
         this.setState({
           documentId: value,
