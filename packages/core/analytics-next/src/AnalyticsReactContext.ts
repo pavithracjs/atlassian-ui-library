@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface AnalyticsReactContextInterface {
+export interface AnalyticsReactContextInterface {
   getAtlaskitAnalyticsContext(): any[];
   getAtlaskitAnalyticsEventHandlers(): any[];
 }

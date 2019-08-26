@@ -31,10 +31,13 @@ export {
 } from './withAnalyticsEvents';
 
 // React context
-export { AnalyticsReactContext } from './AnalyticsReactContext';
+export {
+  AnalyticsReactContext,
+  AnalyticsReactContextInterface,
+} from './AnalyticsReactContext';
 
 // Hook for creating and firing analytics events
-export { useAnalytics } from './useAnalytics';
+export { useAnalytics, UseAnalyticsHook } from './useAnalytics';
 
 // Helper functions
 export { default as createAndFireEvent } from './createAndFireEvent';

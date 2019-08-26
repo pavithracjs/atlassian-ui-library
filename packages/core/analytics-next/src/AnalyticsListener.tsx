@@ -1,6 +1,9 @@
 import React, { Component, useContext, FC } from 'react';
 import PropTypes from 'prop-types';
-import { AnalyticsReactContext } from './AnalyticsReactContext';
+import {
+  AnalyticsReactContext,
+  AnalyticsReactContextInterface,
+} from './AnalyticsReactContext';
 import UIAnalyticsEvent, { UIAnalyticsEventHandler } from './UIAnalyticsEvent';
 
 type Props = {
@@ -13,23 +16,13 @@ type Props = {
   onEvent: (event: UIAnalyticsEvent, channel?: string) => void;
 };
 
-type InternalProps = {
-  /** Children! */
-  children?: React.ReactNode;
-  /** The channel to listen for events on. */
-  channel?: string;
-  /** A function which will be called when an event is fired on this Listener's
-   * channel. It is passed the event and the channel as arguments. */
-  onEvent: (event: UIAnalyticsEvent, channel?: string) => void;
-
-  newContext: any;
-};
+type InternalProps = { newContext: AnalyticsReactContextInterface };
 
 const ContextTypes = {
   getAtlaskitAnalyticsEventHandlers: PropTypes.func,
 };
 
-class AnalyticsListenerInternal extends Component<InternalProps> {
+class AnalyticsListenerInternal extends Component<Props & InternalProps> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
