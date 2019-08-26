@@ -1,12 +1,6 @@
 import * as React from 'react';
 import Item from '@atlaskit/item';
-import {
-  createAndFireNavigationEvent,
-  withAnalyticsEvents,
-  WithAnalyticsEventsProps,
-  UI_EVENT_TYPE,
-  SWITCHER_ITEM_SUBJECT,
-} from '../utils/analytics';
+import { WithAnalyticsEventsProps } from '../utils/analytics';
 import { FadeIn } from './fade-in';
 
 export interface SwitcherItemProps extends WithAnalyticsEventsProps {
@@ -19,7 +13,7 @@ export interface SwitcherItemProps extends WithAnalyticsEventsProps {
   onKeyDown?: any;
 }
 
-class SwitcherItem extends React.Component<SwitcherItemProps> {
+export default class SwitcherItem extends React.Component<SwitcherItemProps> {
   render() {
     const { icon, description, ...rest } = this.props;
     return (
@@ -29,13 +23,3 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
     );
   }
 }
-
-const SwitcherItemWithEvents = withAnalyticsEvents({
-  onClick: createAndFireNavigationEvent({
-    eventType: UI_EVENT_TYPE,
-    action: 'clicked',
-    actionSubject: SWITCHER_ITEM_SUBJECT,
-  }),
-})(SwitcherItem);
-
-export default SwitcherItemWithEvents;

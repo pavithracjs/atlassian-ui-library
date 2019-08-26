@@ -302,11 +302,13 @@ describe('Atlassian Switcher - Component Analytics', () => {
     // skip viewed/rendered events
     eventStream.skip(2);
 
-    const expandToggle = wrapper.find(
-      '[data-test-id="switcher-expand-toggle"]',
-    );
+    const expandToggle = wrapper
+      .find(Item)
+      .find('[data-test-id="switcher-expand-toggle"]');
+
     expandToggle.at(0).simulate('click');
     const { payload, context } = await eventStream.next();
+
     expect(payload).toMatchObject({
       eventType: 'ui',
       action: 'clicked',
@@ -317,7 +319,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
       ...analyticsData,
     });
 
-    const childItem = wrapper.find('[data-test-id="switcher-child-item"]');
+    const childItem = wrapper
+      .find(Item)
+      .find('[data-test-id="switcher-child-item"]');
     childItem.at(0).simulate('click');
 
     const {

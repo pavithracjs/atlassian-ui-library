@@ -34,8 +34,9 @@
     "@atlaskit/theme": "^9.1.5",
     "@atlaskit/type-helpers": "^4.1.7",
     "lodash.isequal": "^4.5.0",
+    "lodash.pickby": "^4.6.0",
     "lodash.throttle": "^4.1.1",
-    "memoize-one": "^3.0.1",
+    "memoize-one": "^5.1.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
