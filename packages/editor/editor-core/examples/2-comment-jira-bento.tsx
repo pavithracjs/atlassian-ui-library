@@ -72,7 +72,9 @@ export class CommentEditorJiraBento extends React.Component<Props, State> {
                 allowCodeBlocks={true}
                 allowRule={true}
                 allowTextColor={true}
-                allowTables={true}
+                allowTables={{
+                  allowControls: true,
+                }}
                 allowPanel={true}
                 allowHelpDialog={true}
                 placeholder="We support markdown! Try **bold**, `inline code`, or ``` for code blocks."
