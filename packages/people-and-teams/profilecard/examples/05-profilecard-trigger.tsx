@@ -30,7 +30,6 @@ export const Section = styled.div`
 
 const defaultProps = {
   cloudId: 'DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048',
-  position: 'bottom-start',
   resourceClient: mockClient,
   analytics: analyticsHandler,
 };

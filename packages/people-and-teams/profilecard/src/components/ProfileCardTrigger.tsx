@@ -92,7 +92,12 @@ class ProfilecardTrigger extends React.PureComponent<
   componentDidUpdate(prevProps: ProfileCardTriggerProps) {
     const { userId, cloudId } = this.props;
     if (userId !== prevProps.userId || cloudId !== prevProps.cloudId) {
-      this.clientFetchProfile();
+      this.setState(
+        {
+          isLoading: undefined,
+        },
+        this.clientFetchProfile,
+      );
     }
   }
 
@@ -237,6 +242,7 @@ class ProfilecardTrigger extends React.PureComponent<
   }
 
   render() {
+    console.log('==================');
     if (this.props.children) {
       return this.renderWithTrigger();
     } else {
