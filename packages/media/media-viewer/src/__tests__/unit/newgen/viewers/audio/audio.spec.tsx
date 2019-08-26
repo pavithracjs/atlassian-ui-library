@@ -77,6 +77,7 @@ describe('Audio viewer', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('assigns a src for audio files when successful', async () => {

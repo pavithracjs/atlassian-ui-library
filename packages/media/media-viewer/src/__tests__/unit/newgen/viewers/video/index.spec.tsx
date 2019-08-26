@@ -92,6 +92,7 @@ describe('Video viewer', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
     localStorage.clear();
     (localStorage.setItem as jest.Mock).mockClear();
   });

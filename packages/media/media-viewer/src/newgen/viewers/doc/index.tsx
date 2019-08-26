@@ -47,7 +47,7 @@ export class DocViewer extends BaseViewer<string, Props> {
           'document.pdf',
           collectionName,
         );
-
+        this.onMediaDisplayed();
         this.setState({
           content: Outcome.successful(src),
         });

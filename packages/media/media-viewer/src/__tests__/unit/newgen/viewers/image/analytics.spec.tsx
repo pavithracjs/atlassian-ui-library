@@ -12,12 +12,17 @@ jest.mock(
 );
 
 import * as React from 'react';
-import { ProcessedFileState } from '@atlaskit/media-client';
+import {
+  globalMediaEventEmitter,
+  MediaViewedEventPayload,
+  ProcessedFileState,
+} from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
   fakeMediaClient,
   asMock,
+  expectFunctionToHaveBeenCalledWith,
 } from '@atlaskit/media-test-helpers';
 import { ImageViewer } from '../../../../../newgen/viewers/image';
 
@@ -54,6 +59,31 @@ function createFixture(response: Promise<Blob>) {
 }
 
 describe('ImageViewer analytics', () => {
+  beforeEach(() => {
+    jest.spyOn(globalMediaEventEmitter, 'emit');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('should trigger media-viewed when image is displayed', async () => {
+    setInteractiveImgState('success');
+    const response = Promise.resolve(new Blob());
+    createFixture(response);
+
+    await response;
+
+    expect(globalMediaEventEmitter.emit).toHaveBeenCalledTimes(1);
+    expectFunctionToHaveBeenCalledWith(globalMediaEventEmitter.emit, [
+      'media-viewed',
+      {
+        fileId: 'some-id',
+        viewingLevel: 'full',
+      } as MediaViewedEventPayload,
+    ]);
+  });
+
   it('should call onLoad with success', async () => {
     setInteractiveImgState('success');
     const response = Promise.resolve(new Blob());

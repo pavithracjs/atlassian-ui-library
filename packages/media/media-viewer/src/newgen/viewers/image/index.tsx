@@ -145,6 +145,7 @@ export class ImageViewer extends BaseViewer<
 
   private onLoad = () => {
     this.props.onLoad({ status: 'success' });
+    this.onMediaDisplayed();
   };
 
   private onError = () => {

@@ -2,7 +2,11 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import deepEqual from 'deep-equal';
-import { MediaClient, FileState } from '@atlaskit/media-client';
+import {
+  MediaClient,
+  FileState,
+  globalMediaEventEmitter,
+} from '@atlaskit/media-client';
 import { Outcome } from '../domain';
 import ErrorMessage, { MediaViewerError } from '../error';
 import { Spinner } from '../loading';
@@ -82,6 +86,14 @@ export abstract class BaseViewer<
       />
     );
   }
+
+  protected onMediaDisplayed = () => {
+    const { item } = this.props;
+    globalMediaEventEmitter.emit('media-viewed', {
+      fileId: item.id,
+      viewingLevel: 'full',
+    });
+  };
 
   protected needsReset(propsA: Props, propsB: Props) {
     return (
