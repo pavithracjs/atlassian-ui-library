@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 64.1.0
+
+### Minor Changes
+
+- [minor][44202a6e9a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44202a6e9a):
+
+  Analytics Event will be fired when InlinePlayer is being clicked
+
 ## 64.0.2
 
 ### Patch Changes
