@@ -1,0 +1,33 @@
+{
+  "releases": [
+    { "name": "@atlaskit/renderer", "type": "major" },
+    { "name": "@atlaskit/editor-mobile-bridge", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/conversation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/editor-core", "@atlaskit/renderer"]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": ["@atlaskit/task-decision", "@atlaskit/renderer"]
+    },
+    {
+      "name": "@atlaskit/editor-wikimarkup-transformer",
+      "type": "patch",
+      "dependencies": ["@atlaskit/editor-core", "@atlaskit/renderer"]
+    },
+    {
+      "name": "@atlaskit/embedded-document",
+      "type": "patch",
+      "dependencies": ["@atlaskit/editor-core", "@atlaskit/renderer"]
+    },
+    {
+      "name": "@atlaskit/task-decision",
+      "type": "patch",
+      "dependencies": ["@atlaskit/renderer"]
+    }
+  ]
+}

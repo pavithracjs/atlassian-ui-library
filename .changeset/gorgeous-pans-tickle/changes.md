@@ -1,0 +1,1 @@
+ED-7532 Expose ability to cancel default browser behavior when clicking Smart Links
