@@ -1,8 +1,7 @@
-// @flow
 import React, { Component } from 'react';
-import { ProgressTracker } from '../src';
+import { ProgressTracker, Stage, Stages } from '../src';
 
-const items = [
+const items: Stages = [
   {
     id: '1',
     label: 'Step 1',
@@ -47,7 +46,7 @@ const items = [
   },
 ];
 
-const completedStages = [
+const completedStages: Stages = [
   {
     id: '1',
     label: 'Step 1',
@@ -92,8 +91,13 @@ const completedStages = [
   },
 ];
 
-class ProgressExample extends Component<any, any> {
-  constructor(props) {
+interface State {
+  current: number;
+  items: Stages;
+}
+
+class ProgressExample extends Component<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       current: 1,
@@ -103,7 +107,7 @@ class ProgressExample extends Component<any, any> {
 
   next() {
     const currentId = this.state.current;
-    const completed = {
+    const completed: Stage = {
       id: `${currentId}`,
       label: `Step ${currentId}`,
       percentageComplete: 100,
@@ -111,7 +115,7 @@ class ProgressExample extends Component<any, any> {
       href: '#',
     };
     const nextId = currentId + 1;
-    const next = {
+    const next: Stage = {
       id: `${nextId}`,
       label: `Step ${nextId}`,
       percentageComplete: 0,
@@ -119,7 +123,7 @@ class ProgressExample extends Component<any, any> {
       href: '#',
     };
 
-    const newstages = this.state.items.map(x => {
+    const newstages: Stages = this.state.items.map(x => {
       if (x.id === `${currentId}`) {
         return completed;
       }
@@ -137,7 +141,7 @@ class ProgressExample extends Component<any, any> {
 
   prev() {
     const currentId = this.state.current;
-    const completed = {
+    const completed: Stage = {
       id: `${currentId}`,
       label: `Step ${currentId}`,
       percentageComplete: 0,
@@ -145,7 +149,7 @@ class ProgressExample extends Component<any, any> {
       href: '#',
     };
     const prevId = currentId - 1;
-    const prev = {
+    const prev: Stage = {
       id: `${prevId}`,
       label: `Step ${prevId}`,
       percentageComplete: 0,
@@ -153,7 +157,7 @@ class ProgressExample extends Component<any, any> {
       href: '#',
     };
 
-    const newstages = this.state.items.map(x => {
+    const newstages: Stages = this.state.items.map(x => {
       if (x.id === `${currentId}`) {
         return completed;
       }
@@ -186,7 +190,7 @@ class ProgressExample extends Component<any, any> {
   render() {
     return (
       <div>
-        <ProgressTracker items={this.state.items} />
+        <ProgressTracker items={this.state.items} animated={false} />
         <button onClick={() => this.next()}>Next</button>
         <button onClick={() => this.prev()}>Prev</button>
         <button onClick={() => this.reset()}>Reset</button>

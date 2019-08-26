@@ -1,7 +1,5 @@
-// @flow
-
 import React from 'react';
-import { ProgressTracker } from '../src';
+import { ProgressTracker, Stages } from '../src';
 
 const css = `
   .sample {
@@ -11,7 +9,7 @@ const css = `
   }
 `;
 
-const items = [
+const items: Stages = [
   {
     id: 'disabled-1',
     label: 'Disabled Step',

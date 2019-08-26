@@ -36,7 +36,6 @@ declare module '@atlaskit/nps';
 declare module '@atlaskit/onboarding';
 declare module '@atlaskit/panel';
 declare module '@atlaskit/polyfills';
-declare module '@atlaskit/progress-tracker';
 declare module '@atlaskit/react-experiment-framework';
 declare module '@atlaskit/reduced-ui-pack';
 declare module '@atlaskit/refinement-bar';

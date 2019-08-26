@@ -1,46 +1,44 @@
-// @flow
-
 import React, { PureComponent } from 'react';
 import { Grid } from '@atlaskit/page';
 import { ThemeProvider } from 'styled-components';
 import ProgressTrackerStage from '../ProgressTrackerStage';
 import { ProgressTrackerContainer } from './styled';
 import ProgressTrackerLink from '../ProgressTrackerLink';
-import type {
+import {
   Stages,
   Spacing,
   LinkComponentProps,
-  LinkElement,
   ProgressTrackerStageRenderProp,
 } from '../types';
 
-type Props = {
+export interface ProgressTrackerProps {
   /** Ordered list of stage data */
-  items: Stages,
+  items: Stages;
   /** Margin spacing type between steps */
-  spacing: Spacing,
+  spacing: Spacing;
   /** Render prop to specify custom implementations of components */
-  render: ProgressTrackerStageRenderProp,
+  render: ProgressTrackerStageRenderProp;
   /** Turns off transition animations if set to false */
-  animated: boolean,
-};
+  animated: boolean;
+}
 
-type State = {
-  prevStages: Stages,
-};
+interface State {
+  prevStages: Stages;
+}
 
 const TRANSITION_SPEED = 300;
 const LINEAR_TRANSITION_SPEED = 50;
 const easeOut = 'cubic-bezier(0.15,1,0.3,1)';
 
-export default class ProgressTracker extends PureComponent<Props, State> {
+export default class ProgressTracker extends PureComponent<
+  ProgressTrackerProps,
+  State
+> {
   static defaultProps = {
     items: [],
     spacing: 'cosy',
     render: {
-      link: (props: LinkComponentProps): LinkElement => (
-        <ProgressTrackerLink {...props} />
-      ),
+      link: (props: LinkComponentProps) => <ProgressTrackerLink {...props} />,
     },
     animated: true,
   };
@@ -49,8 +47,6 @@ export default class ProgressTracker extends PureComponent<Props, State> {
     spacing: this.props.spacing,
     columns: this.props.items.length * 2,
   });
-
-  props: Props;
 
   componentWillMount() {
     this.setState({
@@ -62,9 +58,9 @@ export default class ProgressTracker extends PureComponent<Props, State> {
   }
 
   componentWillReceiveProps() {
-    const newState = this.state;
-    newState.prevStages = this.props.items;
-    this.setState(newState);
+    this.setState({
+      prevStages: this.props.items,
+    });
   }
 
   render() {

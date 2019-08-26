@@ -1,12 +1,11 @@
-// @flow
-
 import { shallow, mount } from 'enzyme';
 import React from 'react';
 
 import ProgressTrackerLink from '../..';
 import { Link } from '../../styled';
+import { Stage } from '../../../types';
 
-const item = {
+const item: Stage = {
   id: 'visited-1',
   label: 'Visited Step',
   percentageComplete: 100,
