@@ -88,7 +88,8 @@ describe('ToolbarLists', () => {
   });
 
   describe('analytics', () => {
-    let toolbarLists: ReactWrapper;
+    let toolbarLists: ReactWrapper<any, any, any>;
+
     beforeEach(() => {
       ({ toolbarLists } = setup());
     });

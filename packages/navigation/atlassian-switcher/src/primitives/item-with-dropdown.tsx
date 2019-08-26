@@ -5,6 +5,7 @@ import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
+import Avatar from './avatar';
 import { FadeIn } from './fade-in';
 import { SwitcherChildItem } from '../types';
 import {
@@ -175,7 +176,12 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
               <ChildItemsContainer>
                 {childItems.map(item => (
                   <Item
-                    elemBefore={childIcon}
+                    elemBefore={
+                      <Avatar
+                        avatarUrl={item.avatar}
+                        fallbackComponent={childIcon}
+                      />
+                    }
                     href={item.href}
                     key={item.label}
                     onClick={onChildItemClick}

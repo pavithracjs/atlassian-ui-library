@@ -36,7 +36,7 @@ import {
 } from '../../util/features';
 import { Scope, QuickSearchContext } from '../../api/types';
 import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
-import { Filter } from '../../api/CrossProductSearchClient';
+import { Filter, FilterWithMetadata } from '../../api/CrossProductSearchClient';
 import {
   injectSearchSession,
   SearchSessionProps,
@@ -49,7 +49,7 @@ export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
   searchMore: (scope: Scope) => void;
   searchSessionId: string;
-  onFilterChanged(filter: Filter[]): void;
+  onFilterChanged(filter: FilterWithMetadata[]): void;
 }
 
 export interface PartiallyLoadedRecentItems<
@@ -118,7 +118,8 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap>
 }
 
 type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
-  SearchSessionProps;
+  SearchSessionProps &
+  WithAnalyticsEventsProps;
 
 export interface State<T> {
   latestSearchQuery: string;
@@ -128,7 +129,7 @@ export interface State<T> {
   searchResults: T | null;
   recentItems: T | null;
   autocompleteSuggestions?: string[];
-  currentFilters: Filter[];
+  currentFilters: FilterWithMetadata[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -185,7 +186,11 @@ export class QuickSearchContainer<
     this.unmounted = true;
   }
 
-  doSearch = async (query: string, queryVersion: number, filters: Filter[]) => {
+  doSearch = async (
+    query: string,
+    queryVersion: number,
+    filters: FilterWithMetadata[],
+  ) => {
     const startTime: number = performanceNow();
     this.latestQueryVersion = queryVersion;
 
@@ -195,7 +200,7 @@ export class QuickSearchContainer<
         this.props.searchSessionId,
         startTime,
         queryVersion,
-        filters,
+        filters.map(({ filter }) => filter),
       );
 
       if (this.unmounted) {
@@ -220,7 +225,7 @@ export class QuickSearchContainer<
               timings || {},
               this.props.searchSessionId,
               this.state.latestSearchQuery,
-              this.state.currentFilters || [],
+              this.state.currentFilters.map(({ filter }) => filter) || [],
               this.state.isLoading,
             );
           },
@@ -352,7 +357,7 @@ export class QuickSearchContainer<
   handleSearch = (
     newLatestSearchQuery: string,
     queryVersion: number,
-    filters: Filter[],
+    filters: FilterWithMetadata[],
   ) => {
     if (
       this.state.latestSearchQuery !== newLatestSearchQuery ||
@@ -510,7 +515,7 @@ export class QuickSearchContainer<
     }
   };
 
-  handleFilter = (filter: Filter[]) => {
+  handleFilter = (filter: FilterWithMetadata[]) => {
     this.handleSearch(
       this.state.latestSearchQuery,
       this.latestQueryVersion,

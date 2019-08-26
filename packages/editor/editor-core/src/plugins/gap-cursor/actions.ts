@@ -83,9 +83,17 @@ function shouldHandleMediaGapCursor(
   return true;
 }
 
+export type DirectionString =
+  | 'up'
+  | 'down'
+  | 'left'
+  | 'right'
+  | 'forward'
+  | 'backward';
+
 export const arrow = (
   dir: Direction,
-  endOfTextblock: (dir: string, state?: EditorState) => boolean,
+  endOfTextblock?: (dir: DirectionString, state?: EditorState) => boolean,
 ): Command => (state, dispatch, view) => {
   const { doc, schema, selection, tr } = state;
 
@@ -95,7 +103,7 @@ export const arrow = (
   // start from text selection
   if (selection instanceof TextSelection) {
     // if cursor is in the middle of a text node, do nothing
-    if (!endOfTextblock(dir.toString())) {
+    if (!endOfTextblock || !endOfTextblock(dir.toString() as DirectionString)) {
       return false;
     }
 

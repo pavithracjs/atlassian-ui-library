@@ -76,7 +76,7 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
           <Button
             key={`btn_${item}`}
             spacing="compact"
-            onMouseEnter={e => e.stopPropagation()}
+            onMouseEnter={(e: React.MouseEvent) => e.stopPropagation()}
             onClick={e => this.props.onClick && this.props.onClick(e, item)}
             href={getJiraAdvancedSearchUrl(item, this.props.query)}
           >

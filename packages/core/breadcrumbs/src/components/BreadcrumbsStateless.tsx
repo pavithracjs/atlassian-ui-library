@@ -23,6 +23,8 @@ export interface BreadcrumbsStatelessProps extends WithAnalyticsEventsProps {
   than the maximum number, only the first and last will be shown, with an
   ellipsis in between. */
   maxItems?: number;
+  /** The items to be included inside the Breadcrumbs wrapper */
+  children?: React.ReactNode;
   /** A function to be called when you are in the collapsed view and click
    the ellipsis. */
   onExpand?: (event: React.MouseEvent) => any;

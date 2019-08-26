@@ -32,6 +32,7 @@ const NotFoundImage = styled.img`
 
 interface ErrorBoundaryProps {
   messages: Messages;
+  children: React.ReactNode;
 }
 
 type ErrorBoundaryState = {

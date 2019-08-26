@@ -23,7 +23,7 @@ export function injectFeatures<T>(
   return (props: Pick<T, Exclude<keyof T, keyof FeaturesProviderProps>>) => (
     <FeaturesContext.Consumer>
       {({ features }) => (
-        <Component {...props} features={features || DEFAULT_FEATURES} />
+        <Component {...props as T} features={features || DEFAULT_FEATURES} />
       )}
     </FeaturesContext.Consumer>
   );

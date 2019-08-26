@@ -73,25 +73,32 @@ describe('Media PickerFacade', () => {
 
     it('listens to picker events', () => {
       expect(true).toBeTruthy();
-      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(4);
+      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(5);
       expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
         'upload-preview-update',
         expect.any(Function),
       );
       expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
         'upload-processing',
+        expect.any(Function),
+      );
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
+        'upload-end',
         expect.any(Function),
       );
     });
 
     it('removes listeners on destruction', () => {
       facade.destroy();
-      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledTimes(3);
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledTimes(4);
       expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
         'upload-preview-update',
       );
       expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
         'upload-processing',
+      );
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
+        'upload-end',
       );
     });
 

@@ -1,5 +1,29 @@
 # @atlaskit/editor-common
 
+## 39.18.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 39.18.2
+
+### Patch Changes
+
+- [patch][22291c2373](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22291c2373):
+
+  ED-7531: Fixes copy and paste issue for mediaSingle from renderer to editor
+
+## 39.18.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 39.18.0
 
 ### Minor Changes
