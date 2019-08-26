@@ -1,10 +1,14 @@
-/* This is a temporary and lazy way for me to test the hook. Will delete this and write separate tests once POC is approved. */
-
+/**
+ * This HOC will eventually be a replacement for `withAnalyticsEvents` once we are ready
+ * to make the major bump to solely use hooks and new React context API. For now it let's
+ * us test the hook logic to make sure that it accomplishes the expected behavior.
+ */
 import React from 'react';
 
 import { Omit } from '@atlaskit/type-helpers';
 import { CreateUIAnalyticsEvent, CreateEventMap } from './types';
-import { useAnalytics } from './useAnalytics';
+import { usePatchedProps } from './usePatchedProps';
+import { useAnalyticsEvents } from './useAnalyticsEvents';
 
 export interface WithAnalyticsHookProps {
   /**
@@ -29,9 +33,12 @@ const withAnalyticsHook = (createEventMap?: CreateEventMap) => <
 
   const WithAnalyticsHook = React.forwardRef<any, WrappedProps>(
     (props, ref) => {
-      const { createAnalyticsEvent, patchedEventProps } = useAnalytics<
-        WrappedProps
-      >(createEventMap, props);
+      const { patchedEventProps } = usePatchedProps<WrappedProps>(
+        createEventMap,
+        props,
+      );
+      const { createAnalyticsEvent } = useAnalyticsEvents();
+
       return (
         <WrappedComponent
           {...props as any}

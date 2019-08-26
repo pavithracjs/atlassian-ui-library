@@ -1,1 +1,1 @@
-Introduce a new custom React hook for firing analytics events within components. This hook replaces the need for the withAnalyticsEvents HOC.
+- Introduces a new custom React hook, `useAnalyticsEvents`, for creating analytics events within functional components. This hook replaces the need for the `withAnalyticsEvents` HOC. See the [Reference documentation](https://atlaskit.atlassian.com/packages/core/analytics-next/docs/reference) for details on how to use this new hook.

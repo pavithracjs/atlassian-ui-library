@@ -1,23 +1,22 @@
-import { useContext, useState } from 'react';
+/**
+ * Internal hook used for the `withAnalyticsHook` HOC and eventually
+ * will be used to replace `AnalyticsContextConsumer`.
+ */
 
-import { AnalyticsReactContext } from './AnalyticsReactContext';
-import {
-  CreateEventMap,
-  CreateUIAnalyticsEvent,
-  AnalyticsEventCreator,
-} from './types';
-import UIAnalyticsEvent from './UIAnalyticsEvent';
-import { AnalyticsEventPayload } from './AnalyticsEvent';
+import { useState } from 'react';
+import { useAnalyticsEvents } from './useAnalyticsEvents';
+import { CreateEventMap, AnalyticsEventCreator } from './types';
 
-export type UseAnalyticsHook = {
-  createAnalyticsEvent: CreateUIAnalyticsEvent;
+export type PatchedPropsHook = {
   patchedEventProps: CreateEventMap;
 };
 
-export function useAnalytics<Props extends Record<string, any>>(
+export function usePatchedProps<Props extends Record<string, any>>(
   createEventMap: CreateEventMap = {},
   wrappedComponentProps: Props,
-): UseAnalyticsHook {
+): PatchedPropsHook {
+  const { createAnalyticsEvent } = useAnalyticsEvents();
+
   const mapCreateEventsToProps = (changedPropNames: string[], props: Props) =>
     changedPropNames.reduce((modified, propCallbackName) => {
       const eventCreator = createEventMap[propCallbackName];
@@ -47,10 +46,6 @@ export function useAnalytics<Props extends Record<string, any>>(
       };
     }, {});
 
-  const {
-    getAtlaskitAnalyticsEventHandlers,
-    getAtlaskitAnalyticsContext,
-  } = useContext(AnalyticsReactContext);
   const [originalProps, setOriginalProps] = useState<CreateEventMap>(
     Object.keys(createEventMap).reduce(
       (a, c) => ({ ...a, [c]: wrappedComponentProps[c] }),
@@ -60,15 +55,6 @@ export function useAnalytics<Props extends Record<string, any>>(
   const [patchedProps, setPatchedProps] = useState<CreateEventMap>(
     mapCreateEventsToProps(Object.keys(createEventMap), wrappedComponentProps),
   );
-
-  const createAnalyticsEvent = (
-    payload: AnalyticsEventPayload,
-  ): UIAnalyticsEvent =>
-    new UIAnalyticsEvent({
-      context: getAtlaskitAnalyticsContext(),
-      handlers: getAtlaskitAnalyticsEventHandlers(),
-      payload,
-    });
 
   const updatePatchedEventProps = (props: Props): CreateEventMap => {
     const changedPropCallbacks = Object.keys(createEventMap).filter(
@@ -93,7 +79,6 @@ export function useAnalytics<Props extends Record<string, any>>(
   };
 
   return {
-    createAnalyticsEvent,
     patchedEventProps: updatePatchedEventProps(wrappedComponentProps),
   };
 }
