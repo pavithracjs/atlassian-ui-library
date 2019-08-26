@@ -40,7 +40,6 @@ describe('CardView', () => {
   };
 
   let createAnalyticsEventMock: any;
-  // let globalEmitSpy: typeof globalMediaEventEmitter['emit'];
 
   beforeEach(() => {
     jest.spyOn(globalMediaEventEmitter, 'emit');

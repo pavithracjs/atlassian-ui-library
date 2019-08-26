@@ -56,6 +56,7 @@ export interface CustomMediaPlayerProps extends WithShowControlMethodProp {
   readonly onCanPlay?: () => void;
   readonly onError?: () => void;
   readonly onDownloadClick?: () => void;
+  readonly onFirstPlay?: () => void;
 }
 
 export interface CustomMediaPlayerState {
@@ -77,12 +78,14 @@ export class CustomMediaPlayer extends Component<
 > {
   videoWrapperRef?: HTMLElement;
   private actions?: CustomMediaPlayerActions;
+  private wasPlayedOnce: boolean = false;
 
   state: CustomMediaPlayerState = {
     isFullScreenEnabled: false,
   };
 
   componentDidMount() {
+    const { isAutoPlay, onFirstPlay } = this.props;
     document.addEventListener(
       vendorify('fullscreenchange', false),
       this.onFullScreenChange,
@@ -90,8 +93,12 @@ export class CustomMediaPlayer extends Component<
 
     simultaneousPlayManager.subscribe(this);
 
-    if (this.props.isAutoPlay) {
+    if (isAutoPlay) {
       simultaneousPlayManager.pauseOthers(this);
+      if (onFirstPlay) {
+        this.wasPlayedOnce = true;
+        onFirstPlay();
+      }
     }
   }
 
@@ -246,10 +253,15 @@ export class CustomMediaPlayer extends Component<
   };
 
   private play = () => {
+    const { onFirstPlay } = this.props;
     if (this.actions) {
       this.actions.play();
     }
     simultaneousPlayManager.pauseOthers(this);
+    if (!this.wasPlayedOnce && onFirstPlay) {
+      this.wasPlayedOnce = true;
+      onFirstPlay();
+    }
   };
 
   render() {

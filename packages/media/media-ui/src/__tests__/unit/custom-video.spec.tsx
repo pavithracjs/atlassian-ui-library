@@ -301,4 +301,39 @@ describe('<CustomMediaPlayer />', () => {
       expect(simultaneousPlayManager.pauseOthers).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('#onFirstPlay', () => {
+    it('should be called once when loaded with autoplay = true', () => {
+      const onFirstPlay = jest.fn();
+      const { component } = setup({
+        onFirstPlay,
+        isHDAvailable: true,
+        isAutoPlay: true,
+      });
+      expect(onFirstPlay).toHaveBeenCalledTimes(1);
+
+      // Accessing private variable since there are no other way to simulate user starting play
+      // via external MediaPlayer component.
+      (component.instance() as any).play();
+      expect(onFirstPlay).toHaveBeenCalledTimes(1);
+    });
+
+    it('should be called once when loaded with autoplay = false and user start play', () => {
+      const onFirstPlay = jest.fn();
+      const { component } = setup({
+        onFirstPlay,
+        isHDAvailable: true,
+        isAutoPlay: false,
+      });
+      expect(onFirstPlay).toHaveBeenCalledTimes(0);
+
+      // Accessing private variable since there are no other way to simulate user starting play
+      // via external MediaPlayer component.
+      (component.instance() as any).play();
+      expect(onFirstPlay).toHaveBeenCalledTimes(1);
+
+      (component.instance() as any).play();
+      expect(onFirstPlay).toHaveBeenCalledTimes(1);
+    });
+  });
 });
