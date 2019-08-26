@@ -1,5 +1,104 @@
 # @atlaskit/global-search
 
+## 11.3.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 11.3.3
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 11.3.2
+
+### Patch Changes
+
+- [patch][c0a65fcf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0a65fcf70):
+
+  Create spaceballs experiment
+
+## 11.3.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 11.3.0
+
+### Minor Changes
+
+- [minor][2ebd907504](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ebd907504):
+
+  Simple experiment with faster search is now default behaviour and can no longer be toggled
+
+## 11.2.5
+
+### Patch Changes
+
+- [patch][abee1a5f4f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abee1a5f4f):
+
+  Bumping internal dependency (memoize-one) to latest version (5.1.0). memoize-one@5.1.0 has full typescript support so it is recommended that typescript consumers use it also.
+
+## 11.2.4
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 11.2.3
+
+### Patch Changes
+
+- [patch][b1082f1172](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1082f1172):
+
+  include issue key matches in faster search results
+
+## 11.2.2
+
+### Patch Changes
+
+- [patch][b49435cead](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b49435cead):
+
+  Fix minor bug with faster search analytics
+
+## 11.2.1
+
+### Patch Changes
+
+- [patch][f96e55e2ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f96e55e2ec):
+
+  show project name for jira board results
+
 ## 11.2.0
 
 ### Minor Changes

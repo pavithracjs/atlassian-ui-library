@@ -2,10 +2,10 @@ import React from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import GlobalTheme from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
 import {
   name as packageName,
   version as packageVersion,
@@ -14,7 +14,7 @@ import { Theme, ThemeTokens } from '../theme';
 import { TextAreaWrapper } from '../styled';
 import TextareaElement from './TextAreaElement';
 
-export interface Props {
+export interface Props extends WithAnalyticsEventsProps {
   /**
    * controls the appearance of the field.
    * subtle shows styling on hover.
@@ -78,10 +78,7 @@ type State = {
   isFocused: boolean;
 };
 
-class TextAreaWithoutForwardRef extends React.Component<
-  Props & WithAnalyticsEventProps,
-  State
-> {
+class TextAreaWithoutForwardRef extends React.Component<Props, State> {
   static defaultProps = {
     resize: 'smart',
     appearance: 'standard',
@@ -179,19 +176,19 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => (
   // Once Extract React Types is fixed to read from default exports we can
   // move textareaRef instantiation to after the spread.
   // as of now we do this to reduce the chance of users being misled into a breaking configuration
-  // by our documentat.
+  // by our documentation.
   <TextAreaWithoutForwardRef forwardedRef={ref} {...props} />
 ));
 
 export { TextArea as TextAreaWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'textArea',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'textArea',

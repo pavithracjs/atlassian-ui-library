@@ -1,9 +1,9 @@
 // @flow
 import { css } from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { placeholderText } from '@atlaskit/theme/colors';
 
 const placeholderStyles = css`
-  color: ${colors.placeholderText};
+  color: ${placeholderText};
   font-size: 14px;
 `;
 

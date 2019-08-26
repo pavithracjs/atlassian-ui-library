@@ -37,6 +37,7 @@ describe('card', () => {
         dispatchPasteEvent(editorView, { plain: text });
 
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [
             {
               url:
@@ -48,6 +49,7 @@ describe('card', () => {
             },
           ],
           provider,
+          showLinkingToolbar: false,
         });
       });
     });

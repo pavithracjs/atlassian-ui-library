@@ -8,6 +8,7 @@ import {
 import { Node as PmNode } from 'prosemirror-model';
 import { TableMap, cellAround, CellSelection } from 'prosemirror-tables';
 import { findTable, getSelectionRect, removeTable } from 'prosemirror-utils';
+import rafSchedule from 'raf-schd';
 import { browser } from '@atlaskit/editor-common';
 
 import { analyticsService } from '../../analytics';
@@ -335,4 +336,15 @@ export const handleCut = (
   }
 
   return tr;
+};
+
+export const whenTableInFocus = (
+  eventHandler: (view: EditorView, mouseEvent: Event) => boolean,
+) => (view: EditorView, mouseEvent: Event): boolean => {
+  if (!getPluginState(view.state).tableNode) {
+    return false;
+  }
+
+  // debounce event handler
+  return rafSchedule(eventHandler(view, mouseEvent));
 };

@@ -96,7 +96,7 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
 
       describe(`at ${width}x${height} ${
         dynamicTextSizing ? 'with' : 'without'
-      } dynamic text sizing`, async () => {
+      } dynamic text sizing`, () => {
         let editorWidth: number;
 
         beforeEach(async () => {

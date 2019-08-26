@@ -111,12 +111,18 @@ export function createPlugin(placeholderText?: string): Plugin | undefined {
   });
 }
 
-const placeholderPlugin = (): EditorPlugin => ({
+interface PlaceholderPluginOptions {
+  placeholder?: string;
+}
+
+const placeholderPlugin = (
+  options?: PlaceholderPluginOptions,
+): EditorPlugin => ({
   pmPlugins() {
     return [
       {
         name: 'placeholder',
-        plugin: ({ props }) => createPlugin(props.placeholder),
+        plugin: () => createPlugin(options && options.placeholder),
       },
     ];
   },

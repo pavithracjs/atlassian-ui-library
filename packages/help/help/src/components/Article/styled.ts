@@ -7,15 +7,15 @@ interface ArticleContainerProps {
   isSearchVisible: boolean;
 }
 
-export const ArticleContainer = styled.div`
+export const ArticleContainer = styled.div<ArticleContainerProps>`
   position: absolute;
-  height: ${(props: ArticleContainerProps) =>
+  height: ${props =>
     props.isSearchVisible
       ? `calc(100% - ${13 * gridSize()}px)`
       : `calc(100% - ${6 * gridSize()}px)`};
   width: 100%;
   background-color: #ffffff;
-  top: ${(props: ArticleContainerProps) =>
+  top: ${props =>
     props.isSearchVisible ? `${13 * gridSize()}px` : `${6 * gridSize()}px`};
   left: 100%;
   flex: 1;

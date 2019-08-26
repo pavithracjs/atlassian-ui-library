@@ -13,10 +13,7 @@ import {
   isImageRepresentationReady,
 } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
-import {
-  AnalyticsContext,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsContext, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { Subscription } from 'rxjs/Subscription';
 import { IntlProvider } from 'react-intl';
 import { MediaViewer, MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -26,7 +23,6 @@ import {
   CardDimensions,
   CardProps,
   CardState,
-  CardEvent,
 } from '../..';
 import { CardView } from '../cardView';
 import { LazyContent } from '../../utils/lazyContent';
@@ -37,13 +33,10 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
+import { WithCardViewAnalyticsContext } from '../withCardViewAnalyticsContext';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
-  private onClickPayload?: {
-    result: CardEvent;
-    analyticsEvent?: UIAnalyticsEventInterface;
-  };
 
   subscription?: Subscription;
   static defaultProps: Partial<CardProps> = {
@@ -275,7 +268,7 @@ export class Card extends Component<CardProps, CardState> {
     const { actions = [], identifier } = this.props;
     const { status, metadata } = this.state;
     if (isFileIdentifier(identifier) && status === 'failed-processing') {
-      actions.unshift({
+      const downloadAction = {
         label: 'Download',
         icon: <DownloadIcon label="Download" />,
         handler: async () =>
@@ -284,39 +277,27 @@ export class Card extends Component<CardProps, CardState> {
             (metadata as FileDetails).name,
             identifier.collectionName,
           ),
-      });
+      };
+      return [downloadAction, ...actions];
+    } else {
+      return actions;
     }
-
-    return actions;
   }
 
-  onClick = async (
-    result: CardEvent,
-    analyticsEvent?: UIAnalyticsEventInterface,
+  onCardViewClick = async (
+    event: React.MouseEvent<HTMLDivElement>,
+    analyticsEvent?: UIAnalyticsEvent,
   ) => {
-    const {
-      identifier,
-      onClick,
-      useInlinePlayer,
-      shouldOpenMediaViewer,
-    } = this.props;
-    const { mediaItemDetails } = result;
+    const { identifier, useInlinePlayer, shouldOpenMediaViewer } = this.props;
+    const { metadata } = this.state;
 
-    this.onClickPayload = {
-      result,
-      analyticsEvent,
-    };
+    this.onClick(event, analyticsEvent);
 
-    if (onClick) {
-      onClick(result, analyticsEvent);
-    }
-    if (!mediaItemDetails) {
+    if (!metadata) {
       return;
     }
 
-    const isVideo =
-      mediaItemDetails &&
-      (mediaItemDetails as FileDetails).mediaType === 'video';
+    const isVideo = metadata && (metadata as FileDetails).mediaType === 'video';
     if (useInlinePlayer && isVideo) {
       this.setState({
         isPlayingFile: true,
@@ -351,23 +332,16 @@ export class Card extends Component<CardProps, CardState> {
     });
   };
 
-  onInlinePlayerClick = () => {
-    const { onClick } = this.props;
-    if (onClick && this.onClickPayload) {
-      onClick(this.onClickPayload.result, this.onClickPayload.analyticsEvent);
-    }
-  };
-
   renderInlinePlayer = () => {
     const { identifier, mediaClient, dimensions, selected } = this.props;
 
     return (
       <InlinePlayer
         mediaClient={mediaClient}
-        dimensions={dimensions}
+        dimensions={dimensions || {}}
         identifier={identifier as FileIdentifier}
         onError={this.onInlinePlayerError}
-        onClick={this.onInlinePlayerClick}
+        onClick={this.onClick}
         selected={selected}
       />
     );
@@ -405,6 +379,40 @@ export class Card extends Component<CardProps, CardState> {
     );
   };
 
+  // Temporal method to mimic the Context generated inside of CardView. This will be removed in further PR's
+  getRenderCardProps = () => {
+    const {
+      appearance,
+      resizeMode,
+      dimensions,
+      selectable,
+      selected,
+      onSelectChange,
+      disableOverlay,
+    } = this.props;
+    const { progress, metadata, dataURI, previewOrientation } = this.state;
+    const { onRetry, onCardViewClick, actions, onMouseEnter } = this;
+    const status = getCardStatus(this.state, this.props);
+    return {
+      status,
+      metadata,
+      dataURI,
+      appearance,
+      resizeMode,
+      dimensions,
+      actions,
+      selectable,
+      selected,
+      onClick: onCardViewClick,
+      onMouseEnter,
+      onSelectChange,
+      disableOverlay,
+      progress,
+      onRetry,
+      previewOrientation,
+    };
+  };
+
   renderCard = () => {
     const {
       isLazy,
@@ -413,13 +421,17 @@ export class Card extends Component<CardProps, CardState> {
       dimensions,
       selectable,
       selected,
-      onMouseEnter,
       onSelectChange,
       disableOverlay,
-      identifier,
     } = this.props;
     const { progress, metadata, dataURI, previewOrientation } = this.state;
-    const { analyticsContext, onRetry, onClick, actions } = this;
+    const {
+      analyticsContext,
+      onRetry,
+      onCardViewClick,
+      actions,
+      onMouseEnter,
+    } = this;
     const status = getCardStatus(this.state, this.props);
     const card = (
       <AnalyticsContext data={analyticsContext}>
@@ -427,14 +439,13 @@ export class Card extends Component<CardProps, CardState> {
           status={status}
           metadata={metadata}
           dataURI={dataURI}
-          mediaItemType={identifier.mediaItemType}
           appearance={appearance}
           resizeMode={resizeMode}
           dimensions={dimensions}
           actions={actions}
           selectable={selectable}
           selected={selected}
-          onClick={onClick}
+          onClick={onCardViewClick}
           onMouseEnter={onMouseEnter}
           onSelectChange={onSelectChange}
           disableOverlay={disableOverlay}
@@ -456,19 +467,25 @@ export class Card extends Component<CardProps, CardState> {
 
   render() {
     const { isPlayingFile, mediaViewerSelectedItem } = this.state;
-    const content = isPlayingFile
+    const innerContent = isPlayingFile
       ? this.renderInlinePlayer()
       : this.renderCard();
 
-    return this.context.intl ? (
-      content
+    const content = this.context.intl ? (
+      innerContent
     ) : (
       <IntlProvider locale="en">
         <>
-          {content}
+          {innerContent}
           {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
         </>
       </IntlProvider>
+    );
+
+    return (
+      <WithCardViewAnalyticsContext {...this.getRenderCardProps()}>
+        {content}
+      </WithCardViewAnalyticsContext>
     );
   }
 
@@ -477,5 +494,32 @@ export class Card extends Component<CardProps, CardState> {
       const { identifier, mediaClient } = this.props;
       this.subscribe(identifier, mediaClient);
     });
+  };
+
+  onClick = (
+    event: React.MouseEvent<HTMLDivElement>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ) => {
+    const { onClick } = this.props;
+    const { metadata } = this.state;
+    if (onClick) {
+      const cardEvent = {
+        event,
+        mediaItemDetails: metadata,
+      };
+      onClick(cardEvent, analyticsEvent);
+    }
+  };
+
+  onMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+    const { onMouseEnter } = this.props;
+    const { metadata } = this.state;
+    if (onMouseEnter) {
+      const cardEvent = {
+        event,
+        mediaItemDetails: metadata,
+      };
+      onMouseEnter(cardEvent);
+    }
   };
 }

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { themed, colors } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { DN30, DN600 } from '@atlaskit/theme/colors';
 import { getWidth, paddingUnitless } from './constants';
 import { StyledProps } from '../types';
 
@@ -22,8 +23,8 @@ const iconSizing = ({ size }: StyledProps) =>
 
 const getIconColor = ({ isChecked }: StyledProps) =>
   isChecked
-    ? themed({ light: 'inherit', dark: colors.DN30 })
-    : themed({ light: 'inherit', dark: colors.DN600 });
+    ? themed({ light: 'inherit', dark: DN30 })
+    : themed({ light: 'inherit', dark: DN600 });
 
 export default styled.div`
   display: flex;

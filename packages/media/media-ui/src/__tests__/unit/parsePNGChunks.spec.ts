@@ -37,7 +37,10 @@ describe('PNG Image Metadata', () => {
 
     it('should find the iTXt chunk', async () => {
       const { iTXt } = await parsePNGChunks(chunks);
-      const expectedStr = String.fromCharCode.apply(null, iTXtDataArray);
+      const expectedStr = String.fromCharCode.apply(
+        null,
+        Array.from(iTXtDataArray),
+      );
       expect(iTXt).toEqual(expectedStr);
     });
 

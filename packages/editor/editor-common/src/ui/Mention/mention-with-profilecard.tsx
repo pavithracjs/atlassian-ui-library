@@ -25,9 +25,9 @@ export interface Props {
   mentionProvider?: Promise<MentionProvider>;
   portal?: HTMLElement;
   profilecardProvider: ProfilecardProvider;
-  onClick: MentionEventHandler;
-  onMouseEnter: MentionEventHandler;
-  onMouseLeave: MentionEventHandler;
+  onClick?: MentionEventHandler;
+  onMouseEnter?: MentionEventHandler;
+  onMouseLeave?: MentionEventHandler;
 }
 
 export type PopupAlignX = 'left' | 'right';

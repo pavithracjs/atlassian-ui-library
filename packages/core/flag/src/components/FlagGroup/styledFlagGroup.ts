@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 
-import { gridSize, math, layers } from '@atlaskit/theme';
+import { gridSize, layers } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
 
 export default styled.div`
-  bottom: ${math.multiply(gridSize, 6)}px;
-  left: ${math.multiply(gridSize, 10)}px;
+  bottom: ${multiply(gridSize, 6)}px;
+  left: ${multiply(gridSize, 10)}px;
   position: fixed;
   z-index: ${layers.flag};
 `;

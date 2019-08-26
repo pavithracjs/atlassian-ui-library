@@ -4,14 +4,18 @@ const HAS_BASE64_FILE_SUPPORT =
   typeof FileList !== 'undefined' &&
   typeof Blob !== 'undefined';
 
-const getPasteFiles = (clipboardData: DataTransfer) => {
+const getPasteFiles = (clipboardData: DataTransfer | null) => {
   if (!clipboardData) {
     return [];
   }
 
-  const items = Array.prototype.reduce.call(
+  const items = Array.prototype.reduce.call<
+    DataTransferItemList | FileList,
+    any,
+    Array<File>
+  >(
     clipboardData.items || clipboardData.files,
-    (filesArr: File[], item: DataTransferItem) => {
+    (filesArr: Array<File>, item: DataTransferItem) => {
       if (item.kind === 'file') {
         filesArr.push(item.getAsFile() as File);
       }

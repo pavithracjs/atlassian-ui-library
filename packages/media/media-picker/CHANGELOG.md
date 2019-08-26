@@ -1,5 +1,103 @@
 # @atlaskit/media-picker
 
+## 47.0.5
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 47.0.4
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 47.0.3
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 47.0.2
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/media-client@2.0.2
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-editor@36.2.10
+  - @atlaskit/media-store@12.0.9
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-viewer@43.3.2
+  - @atlaskit/media-card@64.0.0
+
+## 47.0.1
+
+### Patch Changes
+
+- [patch][adeb756c78](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/adeb756c78):
+
+  Changing async import to check for AnalyticsErrorBoundary integration
+
+## 47.0.0
+
+### Major Changes
+
+- [major][6879d7d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6879d7d01e):
+
+  Removed `public` property from Media Picker's `upload-end` event. It has not been used by anything anyway and it's a legacy from the times where we didn't have upfront id so is now redundant.
+
+## 46.0.10
+
+### Patch Changes
+
+- [patch][926b43142b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926b43142b):
+
+  Analytics-next has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No behavioural changes.
+
+  **Breaking changes**
+
+  - `withAnalyticsForSumTypeProps` alias has been removed, please use `withAnalyticsEvents`
+  - `AnalyticsContextWrappedComp` alias has been removed, please use `withAnalyticsContext`
+
+  **Breaking changes to TypeScript annotations**
+
+  - `withAnalyticsEvents` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - `withAnalyticsContext` now infers proptypes automatically, consumers no longer need to provide props as a generic type.
+  - Type `WithAnalyticsEventProps` has been renamed to `WithAnalyticsEventsProps` to match source code
+  - Type `CreateUIAnalyticsEventSignature` has been renamed to `CreateUIAnalyticsEvent` to match source code
+  - Type `UIAnalyticsEventHandlerSignature` has been renamed to `UIAnalyticsEventHandler` to match source code
+  - Type `AnalyticsEventsPayload` has been renamed to `AnalyticsEventPayload`
+  - Type `ObjectType` has been removed, please use `Record<string, any>` or `[key: string]: any`
+  - Type `UIAnalyticsEventInterface` has been removed, please use `UIAnalyticsEvent`
+  - Type `AnalyticsEventInterface` has been removed, please use `AnalyticsEvent`
+  - Type `CreateAndFireEventFunction` removed and should now be inferred by TypeScript
+  - Type `AnalyticsEventUpdater` removed and should now be inferred by TypeScript
+
+## 46.0.9
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-editor@36.2.9
+  - @atlaskit/media-store@12.0.8
+  - @atlaskit/media-viewer@43.2.10
+  - @atlaskit/media-ui@11.5.2
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 46.0.8
+
+### Patch Changes
+
+- [patch][1439241943](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1439241943):
+
+  Adding error boundary in media picker dropzone
+
 ## 46.0.7
 
 ### Patch Changes

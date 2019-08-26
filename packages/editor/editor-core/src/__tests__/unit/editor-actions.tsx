@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
-import { JSONTransformer } from '@atlaskit/editor-json-transformer/index';
+import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 import { Transformer } from '@atlaskit/editor-common';
 import { EditorActions } from '../../index';
 import Editor from '../../editor';
@@ -38,7 +38,7 @@ describe('Editor Actions', () => {
       const content = view.state.schema.nodeFromJSON({
         type: 'paragraph',
         content: [
-          { type: 'text', marks: [{ type: 'emojiQuery' }], text: ':smile' },
+          { type: 'text', marks: [{ type: 'typeAheadQuery' }], text: ':smile' },
         ],
       });
 

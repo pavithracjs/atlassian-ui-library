@@ -1,4 +1,4 @@
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 import { MentionNameDetails, MentionNameStatus } from '../types';
 import { MentionNameClient } from './MentionNameClient';
 import { fireAnalyticsMentionHydrationEvent } from '../util/analytics';
@@ -29,7 +29,7 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
 
   constructor(
     client: MentionNameClient,
-    analyticsProps: WithAnalyticsEventProps = {},
+    analyticsProps: WithAnalyticsEventsProps = {},
   ) {
     this.client = client;
     this.fireHydrationEvent = fireAnalyticsMentionHydrationEvent(

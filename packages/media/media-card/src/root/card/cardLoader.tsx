@@ -2,14 +2,14 @@ import * as React from 'react';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { CardProps, CardLoading } from '../..';
 
-type CardWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+export type CardWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   CardProps
 >;
 type CardWithMediaClientConfigComponent = React.ComponentType<
   CardWithMediaClientConfigProps
 >;
 
-interface AsyncCardState {
+export interface AsyncCardState {
   Card?: CardWithMediaClientConfigComponent;
 }
 
@@ -26,13 +26,17 @@ export default class CardLoader extends React.PureComponent<
 
   async componentDidMount() {
     if (!this.state.Card) {
-      const [mediaClient, cardModule] = await Promise.all([
-        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
-        import(/* webpackChunkName:"@atlaskit-internal_Card" */ './index'),
-      ]);
+      try {
+        const [mediaClient, cardModule] = await Promise.all([
+          import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+          import(/* webpackChunkName:"@atlaskit-internal_Card" */ './index'),
+        ]);
 
-      CardLoader.Card = mediaClient.withMediaClient(cardModule.Card);
-      this.setState({ Card: CardLoader.Card });
+        CardLoader.Card = mediaClient.withMediaClient(cardModule.Card);
+        this.setState({ Card: CardLoader.Card });
+      } catch (error) {
+        // TODO [MS-2278]: Add operational error to catch async import error
+      }
     }
   }
 

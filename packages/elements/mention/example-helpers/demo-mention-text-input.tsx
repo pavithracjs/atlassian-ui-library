@@ -99,6 +99,7 @@ export default class MentionTextInput extends React.Component<Props, State> {
 
     if (this.state.active) {
       mentionPicker = (
+        // @ts-ignore
         <MentionPicker
           target="demo-input"
           position={relativePosition}
@@ -107,7 +108,6 @@ export default class MentionTextInput extends React.Component<Props, State> {
           onSelection={this.handleSelection}
           onOpen={onOpen}
           onClose={onClose}
-          // @ts-ignore
           ref={this.handleMentionPickerRef}
           query={this.state.query}
           zIndex={zIndex}

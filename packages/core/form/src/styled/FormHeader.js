@@ -1,6 +1,8 @@
 // @flow
 import styled from 'styled-components';
-import { gridSize, math, typography } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { multiply } from '@atlaskit/theme/math';
+import { h700 } from '@atlaskit/theme/typography';
 
 /**
  * Provide a styled container for form headers.
@@ -11,9 +13,9 @@ const FormHeaderWrapper = styled.div``;
  * Provide a styled container for form header title.
  */
 const FormHeaderTitle = styled.h1`
-  ${typography.h700};
-  line-height: ${math.multiply(gridSize, 4)}px;
-  margin-right: ${math.multiply(gridSize, 4)}px;
+  ${h700};
+  line-height: ${multiply(gridSize, 4)}px;
+  margin-right: ${multiply(gridSize, 4)}px;
   margin-top: 0;
   overflow: hidden;
   text-overflow: ellipsis;

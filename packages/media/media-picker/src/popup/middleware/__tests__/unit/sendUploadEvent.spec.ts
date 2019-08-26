@@ -135,9 +135,6 @@ describe('sendUploadEvent middleware', () => {
 
   it('should emit upload end event', () => {
     const { eventEmitter, store, next } = setup();
-    const mediaApiData = {
-      id: file.id,
-    };
 
     sendUploadEventMiddleware(eventEmitter)(store)(next)(
       sendUploadEvent({
@@ -145,20 +142,16 @@ describe('sendUploadEvent middleware', () => {
           name: 'upload-end',
           data: {
             file,
-            public: mediaApiData,
           },
         },
         uploadId,
       }),
     );
 
-    expect(eventEmitter.emitUploadEnd).toBeCalledWith(
-      {
-        ...file,
-        id: uploadId,
-      },
-      mediaApiData,
-    );
+    expect(eventEmitter.emitUploadEnd).toBeCalledWith({
+      ...file,
+      id: uploadId,
+    });
   });
 
   it('should emit upload error event', () => {

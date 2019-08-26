@@ -76,7 +76,7 @@ export class LocalUploadComponent<
   };
 
   private onFileConverted = (payload: UploadEndEventPayload): void => {
-    this.emitUploadEnd(payload.file, payload.public);
+    this.emitUploadEnd(payload.file);
   };
 
   private onUploadError = ({ file, error }: UploadErrorEventPayload): void => {

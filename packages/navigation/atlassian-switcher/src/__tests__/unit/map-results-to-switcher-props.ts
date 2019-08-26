@@ -26,6 +26,7 @@ describe('map-results-to-switcher-props', () => {
           isDiscoverMoreForEveryoneEnabled: false,
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: true,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -51,6 +52,7 @@ describe('map-results-to-switcher-props', () => {
           isDiscoverMoreForEveryoneEnabled: false,
           xflow: true,
           productTopItemVariation: ProductTopItemVariation.currentSite,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -76,6 +78,7 @@ describe('map-results-to-switcher-props', () => {
           isDiscoverMoreForEveryoneEnabled: false,
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: true,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -99,6 +102,7 @@ describe('map-results-to-switcher-props', () => {
           isDiscoverMoreForEveryoneEnabled: false,
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -120,6 +124,7 @@ describe('map-results-to-switcher-props', () => {
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -198,6 +203,7 @@ describe('map-results-to-switcher-props', () => {
           productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -251,6 +257,7 @@ describe('map-results-to-switcher-props', () => {
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -304,6 +311,7 @@ describe('map-results-to-switcher-props', () => {
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -336,6 +344,7 @@ describe('map-results-to-switcher-props', () => {
           disableRecentContainers: false,
           productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -366,6 +375,7 @@ describe('map-results-to-switcher-props', () => {
           xflow: false,
           productTopItemVariation: ProductTopItemVariation.currentSite,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -418,6 +428,7 @@ function generateSite(
   return {
     adminAccess: false,
     availableProducts,
+    avatar: null,
     cloudId: siteName,
     displayName: siteName,
     url: `https://${siteName}.atlassian.net`,

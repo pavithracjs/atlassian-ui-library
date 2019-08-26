@@ -1,5 +1,37 @@
 # @atlaskit/code-insights
 
+## 1.1.8
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 1.1.7
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 1.1.6
+
+### Patch Changes
+
+- [patch][8a30920bec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a30920bec):
+
+  Fix false positives for duplicate dependencies in code-insights.
+
+## 1.1.5
+
+### Patch Changes
+
+- [patch][90de42e3ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90de42e3ac):
+
+  Change the code-insights tool to compare the duplicates of the latest commit with the branch of point with master. Instead of the current behaviour of comparing branch with origin/master.
+
 ## 1.1.4
 
 ### Patch Changes

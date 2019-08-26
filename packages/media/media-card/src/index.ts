@@ -7,7 +7,7 @@ import {
   Identifier,
   ImageResizeMode,
 } from '@atlaskit/media-client';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import { CardAction } from './actions';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -66,7 +66,7 @@ export interface SharedCardProps {
 }
 
 export interface CardOnClickCallback {
-  (result: CardEvent, analyticsEvent?: UIAnalyticsEventInterface): void;
+  (result: CardEvent, analyticsEvent?: UIAnalyticsEvent): void;
 }
 
 export interface CardEventProps {
@@ -107,7 +107,6 @@ export interface CardAnalyticsContext extends BaseAnalyticsContext {}
 
 export interface CardViewAnalyticsContext extends BaseAnalyticsContext {
   loadStatus: 'fail' | 'loading_metadata' | 'uploading' | 'complete';
-  type: 'file' | 'link' | 'smart' | 'external-image';
   viewAttributes: AnalyticsViewAttributes;
   fileAttributes?: AnalyticsFileAttributes;
   linkAttributes?: AnalyticsLinkAttributes;

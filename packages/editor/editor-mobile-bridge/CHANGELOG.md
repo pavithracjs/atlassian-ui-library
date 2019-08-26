@@ -1,5 +1,54 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.21
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 8.8.20
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 8.8.19
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 8.8.18
+
+### Patch Changes
+
+- [patch][14ee438465](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14ee438465):
+
+  ED-6714: Re-enable editorActions.replaceDocument for mobile-bridge with better tolerance of invalid nodes
+
+## 8.8.17
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/editor-core@112.41.6
+  - @atlaskit/editor-test-helpers@9.11.6
+  - @atlaskit/renderer@49.7.8
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 8.8.16
+
+- Updated dependencies [84887b940c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84887b940c):
+  - @atlaskit/form@6.1.7
+  - @atlaskit/smart-card@12.4.3
+  - @atlaskit/textfield@3.0.0
+
 ## 8.8.15
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { borderRadius, layers } from '@atlaskit/theme/constants';
+import { N30A, N60A, N0, DN50, text } from '@atlaskit/theme/colors';
 import { WIDTH_ENUM, gutter, WidthNames } from '../shared-variables';
 
 import {
@@ -11,24 +13,16 @@ const boxShadow = ({ isChromeless }: { isChromeless?: boolean }) =>
   isChromeless
     ? 'none'
     : `
-      0 0 0 1px ${colors.N30A}, 0 2px 1px ${colors.N30A},
-      0 0 20px -6px ${colors.N60A}
+      0 0 0 1px ${N30A}, 0 2px 1px ${N30A},
+      0 0 20px -6px ${N60A}
     `;
 const dialogBgColor = ({ isChromeless }: { isChromeless?: boolean }) => {
-  return isChromeless
-    ? 'transparent'
-    : themed({ light: colors.N0, dark: colors.DN50 })();
+  return isChromeless ? 'transparent' : themed({ light: N0, dark: DN50 })();
 };
 const maxDimensions = `calc(100% - ${gutter * 2}px)`;
 const maxHeightDimensions = `calc(100% - ${gutter * 2 - IEMaxHeightCalcPx}px)`;
 
-export const dialogWidth = ({
-  widthName,
-  widthValue,
-}: {
-  widthName?: WidthNames;
-  widthValue?: string | number;
-}) => {
+export const dialogWidth = ({ widthName, widthValue }: PositionerProps) => {
   if (typeof widthValue === 'number') {
     return `${widthValue}px`;
   }
@@ -56,12 +50,13 @@ export const dialogHeight = ({
   - rather than fixed position so popper.js children are properly positioned
 
   overflow-y
-  - only active when popper.js children envoked below the dialog
+  - only active when popper.js children invoked below the dialog
 */
 interface FillScreenProps {
   scrollDistance: number;
 }
-export const FillScreen = styled.div`
+
+export const FillScreen = styled.div<FillScreenProps>`
   height: 100vh;
   left: 0;
   overflow-y: auto;
@@ -72,7 +67,12 @@ export const FillScreen = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-export const PositionerAbsolute = styled.div`
+interface PositionerProps {
+  widthName?: WidthNames;
+  widthValue?: string | number;
+}
+
+export const PositionerAbsolute = styled.div<PositionerProps>`
   display: flex;
   flex-direction: column;
   height: ${maxHeightDimensions};
@@ -96,7 +96,7 @@ export const PositionerAbsolute = styled.div`
     width: 100%;
   }
 `;
-export const PositionerRelative = styled.div`
+export const PositionerRelative = styled.div<PositionerProps>`
   margin: ${gutter}px auto;
   position: relative;
   width: ${dialogWidth};
@@ -118,7 +118,7 @@ interface DialogProps {
   isChromeless?: boolean;
   heightValue?: string | number;
 }
-export const Dialog = styled.div`
+export const Dialog = styled.div<DialogProps>`
   ${(props: DialogProps) =>
     props.isChromeless
       ? null
@@ -127,7 +127,7 @@ export const Dialog = styled.div`
           border-radius: ${borderRadius()}px;
           box-shadow: ${boxShadow(props)};
         `}
-  color: ${colors.text};
+  color: ${text};
   display: flex;
   flex-direction: column;
   height: ${(props: DialogProps) =>

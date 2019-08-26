@@ -13,7 +13,7 @@ import {
 } from '../utils/analytics';
 import {
   AnalyticsEventPayload,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import packageContext from '../utils/package-context';
 import { FeatureFlagProps } from '../types';
@@ -36,7 +36,7 @@ type PrefetchTriggerProps = {
 } & Partial<FeatureFlagProps>;
 
 class PrefetchTrigger extends React.Component<
-  PrefetchTriggerProps & WithAnalyticsEventProps
+  PrefetchTriggerProps & WithAnalyticsEventsProps
 > {
   private lastEnteredAt?: number;
 
@@ -99,9 +99,7 @@ class PrefetchTrigger extends React.Component<
   }
 }
 
-const PrefetchTriggerWithEvents = withAnalyticsEvents<PrefetchTriggerProps>()(
-  PrefetchTrigger,
-);
+const PrefetchTriggerWithEvents = withAnalyticsEvents()(PrefetchTrigger);
 
 export default (props: PrefetchTriggerProps) => (
   <NavigationAnalyticsContext data={TRIGGER_CONTEXT}>

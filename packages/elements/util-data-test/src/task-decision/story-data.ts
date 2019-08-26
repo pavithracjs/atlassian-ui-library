@@ -9,15 +9,15 @@ declare var require: {
 
 // ServiceDecisionResponse
 export const getServiceDecisionsResponse = () =>
-  require('../../json-data/sample-decisions.json') as any;
+  require('../json-data/sample-decisions.json') as any;
 
 // ServiceTaskResponse
 export const getServiceTasksResponse = () =>
-  require('../../json-data/sample-tasks.json') as any;
+  require('../json-data/sample-tasks.json') as any;
 
 // ServiceItemResponse
 export const getServiceItemsResponse = () =>
-  require('../../json-data/sample-elements.json') as any;
+  require('../json-data/sample-elements.json') as any;
 
 export const getMockTaskDecisionResource = (
   config?: MockTaskDecisionResourceConfig,

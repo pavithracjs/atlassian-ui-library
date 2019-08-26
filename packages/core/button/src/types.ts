@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 import { InterpolationWithTheme } from '@emotion/core';
 
 export type ButtonAppearances =
@@ -79,7 +82,9 @@ export type OnlyButtonProps = {
   testId?: string;
 };
 
-export type ButtonProps = HtmlAttributes & OnlyButtonProps;
+export type ButtonProps = HtmlAttributes &
+  OnlyButtonProps &
+  WithAnalyticsEventsProps;
 
 export type Spacing = 'compact' | 'default' | 'none';
 

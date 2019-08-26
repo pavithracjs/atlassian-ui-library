@@ -1,6 +1,6 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { N60A } from '@atlaskit/theme/colors';
 import { getThemeStyle, themeNamespace } from '../util/theme';
 
 const getItemState = stateName => ({ theme }) => {
@@ -48,6 +48,22 @@ const getHeightStyles = ({ isCompact, theme }) => {
     : '';
 };
 
+const getWidthStyles = ({ isCompact, theme }) => {
+  const widthKey = isCompact ? 'compact' : 'default';
+  const width = getThemeStyle(theme[themeNamespace], widthKey, 'width');
+
+  if (!width) {
+    return '';
+  }
+  return typeof width === 'number'
+    ? css`
+        width: ${width}px;
+      `
+    : css`
+        width: ${width};
+      `;
+};
+
 // This function is responsible for drawing any focus styles for the element
 const getInteractiveStyles = ({
   theme,
@@ -57,8 +73,8 @@ const getInteractiveStyles = ({
 }) => {
   if (isDragging) {
     return css`
-      ${getItemState('dragging')} box-shadow: 0 4px 8px -2px ${colors.N60A},
-        0 0 1px ${colors.N60A};
+      ${getItemState('dragging')} box-shadow: 0 4px 8px -2px ${N60A},
+        0 0 1px ${N60A};
     `;
   }
 
@@ -117,7 +133,7 @@ export const ItemBase = ({ theme }: any) => css`
     flex: none;
     ${getItemState(
       'default',
-    )} ${getPadding} ${getInteractiveStyles} ${getHeightStyles} &:focus {
+    )} ${getPadding} ${getInteractiveStyles} ${getHeightStyles} ${getWidthStyles} &:focus {
       /* focus shadow drawn by getInteractiveStyles */
 
       outline: none;

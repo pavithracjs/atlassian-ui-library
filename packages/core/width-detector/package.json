@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/width-detector",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "description": "Wrapper for components that need to respond to width changes",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -10,9 +10,10 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "John VDL",
-    "Peter G",
-    "Vito BZ"
+    "Sean C",
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Width Detector",
@@ -20,7 +21,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/type-helpers": "^4.1.5",
+    "@atlaskit/type-helpers": "^4.1.8",
     "raf-schd": "^2.1.0",
     "tslib": "^1.9.3"
   },
@@ -29,10 +30,10 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.2.3",
-    "@atlaskit/docs": "^8.1.1",
-    "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/build-utils": "^2.2.5",
+    "@atlaskit/docs": "^8.1.5",
+    "@atlaskit/ssr": "^0.1.1",
+    "@atlaskit/visual-regression": "^0.1.3",
     "enzyme": "^3.7.0",
     "lodash.debounce": "^4.0.8",
     "react-dom": "^16.8.0"

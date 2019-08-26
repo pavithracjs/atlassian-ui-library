@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { exampleOptions } from '../example-helpers';
-import { UserPicker } from '../src/components/UserPicker';
+import UserPicker from '../src';
 
 export default class Example extends React.Component<{}> {
   render() {

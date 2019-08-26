@@ -1,7 +1,7 @@
 import { InjectedIntl } from 'react-intl';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { NodeType } from 'prosemirror-model';
+import { NodeType, Node } from 'prosemirror-model';
 
 import { Command } from '../../types';
 import { ButtonAppearance } from './ui/Button';
@@ -98,7 +98,9 @@ export interface FloatingToolbarConfig {
 
   visible?: boolean;
   nodeType: NodeType | NodeType[];
-  items: Array<FloatingToolbarItem<Command>>;
+  items:
+    | Array<FloatingToolbarItem<Command>>
+    | ((node: Node) => Array<FloatingToolbarItem<Command>>);
   align?: AlignType;
   className?: string;
   height?: number;

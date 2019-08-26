@@ -7,6 +7,8 @@ import {
   p,
   status,
   StatusLocalIdRegex,
+  insertText,
+  sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 import {
   updateStatus,
@@ -14,6 +16,7 @@ import {
 } from '../../../../plugins/status/actions';
 import { setNodeSelectionNearPos } from '../../../../plugins/status/utils';
 import { pluginKey } from '../../../../plugins/status/plugin';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 export const setSelectionAndPickerAt = (pos: number) => (
   editorView: EditorView,
@@ -49,20 +52,29 @@ export const getStatusesInDocument = (
 
 describe('status plugin: plugin', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
+  let editorView: EditorView;
 
-  const editorFactory = (doc: any) =>
-    createEditor({
+  const editorFactory = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    return createEditor({
       editorProps: {
         allowStatus: true,
+        allowAnalyticsGASV3: true,
       },
       doc,
+      createAnalyticsEvent,
     });
+  };
 
   describe('Edge cases', () => {
     it('StatusPicker should be dismissed if cursor is outside the Status node selection', () => {
       const { editorView } = editorFactory(doc(p('Status: {<>}')));
       // insert new Status at {<>}
-      updateStatus({ text: 'Yay', color: 'blue' })(editorView);
+      updateStatus({ text: 'Yay', color: 'blue' })(
+        editorView.state,
+        editorView.dispatch,
+      );
 
       let statusState = pluginKey.getState(editorView.state);
 
@@ -157,6 +169,34 @@ describe('status plugin: plugin', () => {
       // simulate the scenario where user selects a text node
       state = setSelectionAndPickerAt(cursorPos + 2)(editorView);
       getStatusesInDocument(state, 0);
+    });
+  });
+
+  describe('Quick insert', () => {
+    beforeEach(() => {
+      ({ editorView } = editorFactory(doc(p('{<>}'))));
+      insertText(editorView, `/status`);
+      sendKeyToPm(editorView, 'Enter');
+    });
+
+    it('inserts default status', () => {
+      const statuses = getStatusesInDocument(editorView.state, 1);
+
+      expect(statuses[0].node.attrs).toMatchObject({
+        text: '',
+        color: 'neutral',
+        localId: expect.stringMatching(StatusLocalIdRegex),
+      });
+    });
+
+    it('fires analytics event', () => {
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'status',
+        eventType: 'track',
+        attributes: { inputMethod: 'quickInsert' },
+      });
     });
   });
 });

@@ -1,3 +1,4 @@
+export { compareNodes } from './compareNodes';
 export {
   getSelectedColumnIndexes,
   getSelectedRowIndexes,
@@ -9,6 +10,7 @@ export {
   createControlsHoverDecoration,
   createColumnControlsDecoration,
   createColumnSelectedDecorations,
+  createCellHoverDecoration,
   updatePluginStateDecorations,
   updateNodeDecorations,
 } from './decoration';
@@ -42,6 +44,7 @@ export {
   getColumnOrRowIndex,
   getMousePositionHorizontalRelativeByElement,
   getMousePositionVerticalRelativeByElement,
+  updateResizeHandles,
 } from './dom';
 export {
   getColumnsWidths,
@@ -56,5 +59,7 @@ export {
   getRowsParams,
   getRowClassNames,
   RowParams,
+  copyPreviousRow,
 } from './row-controls';
 export { getSelectedTableInfo, getSelectedCellInfo } from './analytics';
+export { getMergedCellsPositions } from './table';

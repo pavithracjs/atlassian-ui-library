@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   withAnalyticsEvents,
+  WithAnalyticsEventsProps,
   withAnalyticsContext,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
@@ -11,7 +12,7 @@ import MessagesIntlProvider from './MessagesIntlProvider';
 
 import HelpContent from './HelpContent';
 
-export interface Props {
+export interface Props extends WithAnalyticsEventsProps {
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
   articleId?: string;
   // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
@@ -56,6 +57,6 @@ export class Help extends React.Component<Props> {
   }
 }
 
-export default withAnalyticsContext<Props>(defaultAnalyticsAttributes)(
-  withAnalyticsEvents<Props>()(Help),
+export default withAnalyticsContext(defaultAnalyticsAttributes)(
+  withAnalyticsEvents()(Help),
 );

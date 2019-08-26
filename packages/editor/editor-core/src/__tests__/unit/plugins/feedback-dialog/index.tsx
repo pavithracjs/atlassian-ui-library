@@ -8,7 +8,7 @@ import {
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import ToolbarFeedback from '../../../../ui/ToolbarFeedback';
 
@@ -17,7 +17,7 @@ import { openFeedbackDialog } from '../../../../plugins/feedback-dialog';
 
 describe('feedbackDialogPlugin', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const loadJiraCollectorDialogScript = jest.spyOn(
     LoadJiraCollectorDialogScript,
     'default',

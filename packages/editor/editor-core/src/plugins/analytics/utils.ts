@@ -1,5 +1,5 @@
 import { editorAnalyticsChannel } from './index';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { AnalyticsEventPayload } from './types';
 import { Transaction, EditorState } from 'prosemirror-state';
 import { Command } from '../../types';
@@ -75,7 +75,7 @@ export function ruleWithAnalytics(
 }
 
 export const fireAnalyticsEvent = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
 ) => ({
   payload,
   channel = editorAnalyticsChannel,

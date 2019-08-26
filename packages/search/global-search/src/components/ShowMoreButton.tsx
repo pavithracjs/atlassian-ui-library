@@ -4,6 +4,7 @@ import { CancelableEvent } from '@atlaskit/quick-search';
 import {
   withAnalyticsEvents,
   UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '../messages';
@@ -13,15 +14,13 @@ import {
   CONF_MAX_DISPLAYED_RESULTS,
 } from '../util/experiment-utils';
 import { fireShowMoreButtonClickEvent } from '../util/analytics-event-helper';
-import { CreateAnalyticsEventFn } from '../components/analytics/types';
 
-export interface ShowMoreButtonProps {
+export interface ShowMoreButtonProps extends WithAnalyticsEventsProps {
   resultLength: number;
   totalSize: number;
   onShowMoreClicked: () => void;
   onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
-  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
@@ -96,4 +95,4 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
   }
 }
 
-export default withAnalyticsEvents<ShowMoreButtonProps>()(ShowMoreButton);
+export default withAnalyticsEvents()(ShowMoreButton);

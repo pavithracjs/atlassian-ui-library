@@ -76,6 +76,7 @@ export default (
     case 'HOVER_ROWS':
     case 'HOVER_COLUMNS':
     case 'HOVER_TABLE':
+    case 'HOVER_CELLS':
     case 'SET_EDITOR_FOCUS':
       return { ...pluginState, ...action.data };
     default:

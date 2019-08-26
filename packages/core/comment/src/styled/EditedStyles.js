@@ -1,7 +1,7 @@
 // @flow
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { N200 } from '@atlaskit/theme/colors';
 
 export default styled.span`
-  color: ${colors.N200};
+  color: ${N200};
 `;

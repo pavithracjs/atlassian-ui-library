@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, themed, withTheme } from '@atlaskit/theme';
+import { themed, withTheme } from '@atlaskit/theme/components';
+
+import * as colors from '@atlaskit/theme/colors';
 import React from 'react';
 import styled from 'styled-components';
 import type { PresenceType } from '../types';

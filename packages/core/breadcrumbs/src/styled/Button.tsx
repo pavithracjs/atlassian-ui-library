@@ -10,7 +10,6 @@ export default React.forwardRef<HTMLButtonElement, Props>(
     // @ts-ignore
     <Button
       {...props}
-      // @ts-ignore
       ref={ref}
       theme={(currentTheme, themeProps) => {
         const { buttonStyles, ...rest } = currentTheme(themeProps);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import Portal from '@atlaskit/portal';
 import { ModalTransitionConsumer } from './ModalTransition';
 import StackConsumer from './StackConsumer';
@@ -8,8 +8,9 @@ import { AppearanceType, KeyboardOrMouseEvent, ButtonOnClick } from '../types';
 
 import Modal from './Modal';
 import { WidthNames } from '../shared-variables';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
-export interface WrapperProps {
+export interface WrapperProps extends WithAnalyticsEventsProps {
   /**
     Buttons to render in the footer
   */

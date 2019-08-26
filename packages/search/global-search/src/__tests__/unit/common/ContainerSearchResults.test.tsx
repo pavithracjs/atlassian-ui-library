@@ -157,7 +157,7 @@ const assertConfluenceNoRecentActivity = (element: JSX.Element) => {
   expect(props).toMatchObject({
     id: 'global_search.no_recent_activity_body',
     values: { url: '/wiki/dosearchsite.action' },
-  });
+  } as {});
 };
 const assertNoRecentActivityComponent = (
   product: QuickSearchContext,
@@ -356,7 +356,7 @@ const getConfluencePostQueryResults: (
     items: [],
     key: 'objects',
     title: messages.confluence_confluence_objects_heading,
-    showTotalSize: false,
+    showTotalSize: true,
     totalSize: 0,
   },
   {

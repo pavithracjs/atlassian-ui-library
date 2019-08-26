@@ -2,25 +2,29 @@ jest.mock('@atlaskit/media-client');
 
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { EditorView } from 'prosemirror-view';
-import { getMediaClient } from '@atlaskit/media-client';
+import { getMediaClient, FileState } from '@atlaskit/media-client';
 import {
   getDefaultMediaClientConfig,
   asMockReturnValue,
   fakeMediaClient,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import * as commands from '../../../../../plugins/media/commands';
-import { MediaNodeUpdater } from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
-import { EventDispatcher } from '../../../../../event-dispatcher';
 import {
-  MediaPluginState,
-  MediaProvider,
-} from '../../../../../plugins/media/pm-plugins/main';
+  MediaNodeUpdater,
+  MediaNodeUpdaterProps,
+} from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
+import * as mediaCommon from '../../../../../plugins/media/utils/media-common';
+import { MediaProvider } from '../../../../../plugins/media/pm-plugins/main';
 
 describe('MediaNodeUpdater', () => {
-  const setup = () => {
+  const setup = (props?: Partial<MediaNodeUpdaterProps>) => {
     jest.resetAllMocks();
     jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => {});
+    jest
+      .spyOn(mediaCommon, 'getViewMediaClientConfigFromMediaProvider')
+      .mockReturnValue(getDefaultMediaClientConfig());
 
     const mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);
@@ -48,27 +52,19 @@ describe('MediaNodeUpdater', () => {
       },
     });
     const node: any = {
-      firstChild: {
-        attrs: {
-          id: 'source-file-id',
-          collection: 'source-collection',
-          __contextId: 'source-context-id',
-        },
-      } as any,
+      attrs: {
+        id: 'source-file-id',
+        collection: 'source-collection',
+        __contextId: 'source-context-id',
+      },
     };
     const mediaNodeUpdater = new MediaNodeUpdater({
-      contextIdentifierProvider,
-      editorAppearance: 'full-page',
-      eventDispatcher: new EventDispatcher(),
-      getPos: () => 1,
-      lineLength: 1,
-      mediaOptions: {},
-      mediaPluginState: {} as MediaPluginState,
-      node,
-      selected() {},
       view: {} as EditorView,
-      width: 1,
+      node,
+      contextIdentifierProvider,
       mediaProvider,
+      isMediaSingle: true,
+      ...props,
     });
 
     return {
@@ -91,6 +87,45 @@ describe('MediaNodeUpdater', () => {
         {
           __contextId: 'object-id',
           contextId: 'object-id',
+        },
+        true,
+      );
+    });
+  });
+
+  describe('updateFileAttrs()', () => {
+    it('should update node attrs with file attributes', async () => {
+      const { mediaNodeUpdater } = setup();
+
+      const mediaClient = fakeMediaClient();
+
+      const fileState: Partial<FileState> = {
+        size: 10,
+        name: 'some-file',
+        mimeType: 'image/jpeg',
+      };
+
+      asMock(mediaClient.file.getCurrentState).mockReturnValue(
+        Promise.resolve(fileState),
+      );
+
+      asMockReturnValue(getMediaClient, mediaClient);
+
+      await mediaNodeUpdater.updateFileAttrs();
+
+      expect(mediaClient.file.getCurrentState).toBeCalledWith(
+        'source-file-id',
+        {
+          collectionName: 'source-collection',
+        },
+      );
+      expect(commands.updateMediaNodeAttrs).toBeCalledTimes(1);
+      expect(commands.updateMediaNodeAttrs).toBeCalledWith(
+        'source-file-id',
+        {
+          __fileName: 'some-file',
+          __fileMimeType: 'image/jpeg',
+          __fileSize: 10,
         },
         true,
       );
@@ -144,7 +179,7 @@ describe('MediaNodeUpdater', () => {
     });
 
     it('should update media node attrs with the new id', async () => {
-      const { mediaNodeUpdater } = setup();
+      const { mediaNodeUpdater } = setup({ isMediaSingle: false });
 
       await mediaNodeUpdater.copyNode();
 
@@ -155,7 +190,7 @@ describe('MediaNodeUpdater', () => {
           id: 'copied-file-id',
           collection: 'destination-collection',
         },
-        true,
+        false,
       );
     });
   });

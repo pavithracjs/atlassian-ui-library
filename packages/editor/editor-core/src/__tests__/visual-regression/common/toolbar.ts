@@ -4,6 +4,7 @@ import {
   Appearance,
   Device,
   deviceViewPorts,
+  editorSelector,
 } from '../_utils';
 import { waitForNoTooltip } from '@atlaskit/visual-regression/helper';
 import {
@@ -28,7 +29,7 @@ describe('Toolbar', () => {
   afterEach(async () => {
     await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
     await waitForNoTooltip(page);
-    await snapshot(page);
+    await snapshot(page, undefined, editorSelector);
   });
 
   it('should display headings menu correctly', async () => {
@@ -64,7 +65,7 @@ describe('Toolbar: Comment', () => {
   afterEach(async () => {
     await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
     await waitForNoTooltip(page);
-    await snapshot(page);
+    await snapshot(page, undefined, editorSelector);
   });
 
   it('should display text color menu correctly at small viewport', async () => {

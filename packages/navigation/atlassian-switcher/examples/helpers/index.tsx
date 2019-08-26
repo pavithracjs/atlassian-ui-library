@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import {
   SwitcherWrapper,
@@ -89,10 +86,7 @@ export class Switcher extends React.Component {
   }
 }
 
-const onAnalyticsEvent = (
-  event: UIAnalyticsEventInterface,
-  channel?: string,
-) => {
+const onAnalyticsEvent = (event: UIAnalyticsEvent, channel?: string) => {
   // eslint-disable-next-line no-console
   console.log(
     `AnalyticsEvent(${channel})\n\tpayload=%o\n\tcontext=%o`,

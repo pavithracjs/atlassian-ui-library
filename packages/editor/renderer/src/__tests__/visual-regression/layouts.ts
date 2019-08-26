@@ -1,6 +1,6 @@
 import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
-import { snapshot, initRendererWithADF, Device } from './_utils';
+import { snapshot, initRendererWithADF } from './_utils';
 import * as layoutWithDefaultBreakoutMark from '../__fixtures__/layout-default-breakout.adf.json';
 import * as layout2Col from '../__fixtures__/layout-2-columns.adf.json';
 import * as layout3Col from '../__fixtures__/layout-3-columns.adf.json';
@@ -12,7 +12,7 @@ import { emojiReadySelector } from '../__helpers/page-objects/_emoji';
 const initRenderer = async (page: Page, adf: any) => {
   await initRendererWithADF(page, {
     appearance: 'full-page',
-    device: Device.LaptopMDPI,
+    viewport: { width: 1040, height: 700 },
     adf,
   });
 };

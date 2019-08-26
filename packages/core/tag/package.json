@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tag",
-  "version": "9.0.1",
+  "version": "9.0.6",
   "description": "This component displays as a tag with an optional link and/or button to remove the given tag.",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
@@ -12,9 +12,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Tag",
@@ -22,9 +22,9 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/icon": "^19.0.0",
-    "@atlaskit/theme": "^9.1.1",
+    "@atlaskit/analytics-next": "^6.0.3",
+    "@atlaskit/icon": "^19.0.6",
+    "@atlaskit/theme": "^9.1.6",
     "create-error": "^0.3.1",
     "debug": "^2.2.0",
     "tslib": "^1.9.3"
@@ -34,12 +34,12 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^16.0.7",
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^8.1.3",
-    "@atlaskit/section-message": "^4.0.5",
-    "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/build-utils": "^2.2.5",
+    "@atlaskit/docs": "^8.1.5",
+    "@atlaskit/section-message": "^4.0.12",
+    "@atlaskit/ssr": "^0.1.1",
+    "@atlaskit/visual-regression": "^0.1.3",
     "enzyme": "^3.7.0",
     "exenv": "^1.2.2",
     "react-dom": "^16.8.0",

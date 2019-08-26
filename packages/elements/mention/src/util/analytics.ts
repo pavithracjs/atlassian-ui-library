@@ -1,7 +1,7 @@
 import {
-  UIAnalyticsEventInterface,
-  WithAnalyticsEventProps,
-  CreateUIAnalyticsEventSignature,
+  UIAnalyticsEvent,
+  WithAnalyticsEventsProps,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
 import {
@@ -30,7 +30,7 @@ export enum Actions {
 }
 
 export const fireAnalyticsMentionTypeaheadEvent = (
-  props: WithAnalyticsEventProps,
+  props: WithAnalyticsEventsProps,
 ) => (
   action: string,
   duration: number,
@@ -51,7 +51,7 @@ export const fireAnalyticsMentionTypeaheadEvent = (
       },
       eventType: OPERATIONAL_EVENT_TYPE,
     };
-    const analyticsEvent: UIAnalyticsEventInterface = props.createAnalyticsEvent(
+    const analyticsEvent: UIAnalyticsEvent = props.createAnalyticsEvent(
       eventPayload,
     );
     analyticsEvent.fire(ELEMENTS_CHANNEL);
@@ -59,7 +59,7 @@ export const fireAnalyticsMentionTypeaheadEvent = (
 };
 
 export const fireAnalyticsTeamMentionHighlightEvent = (
-  createEvent: CreateUIAnalyticsEventSignature,
+  createEvent: CreateUIAnalyticsEvent,
 ) => (
   actionSubject: string,
   action: string,
@@ -81,20 +81,20 @@ export const fireAnalyticsTeamMentionHighlightEvent = (
         viewedCount,
       },
     };
-    const analyticsEvent: UIAnalyticsEventInterface = createEvent(eventPayload);
+    const analyticsEvent: UIAnalyticsEvent = createEvent(eventPayload);
     analyticsEvent.fire(ELEMENTS_CHANNEL);
   }
 };
 
 export const fireAnalyticsMentionEvent = (
-  createEvent: CreateUIAnalyticsEventSignature,
+  createEvent: CreateUIAnalyticsEvent,
 ) => (
   actionSubject: string,
   action: string,
   text: string,
   id: string,
   accessLevel?: string,
-): UIAnalyticsEventInterface => {
+): UIAnalyticsEvent => {
   const payload: GasPayload = {
     action,
     actionSubject,
@@ -114,7 +114,7 @@ export const fireAnalyticsMentionEvent = (
 };
 
 export const fireAnalyticsMentionHydrationEvent = (
-  props: WithAnalyticsEventProps,
+  props: WithAnalyticsEventsProps,
 ) => (
   action: string,
   userId: string,
@@ -136,7 +136,7 @@ export const fireAnalyticsMentionHydrationEvent = (
       },
       eventType: OPERATIONAL_EVENT_TYPE,
     };
-    const analyticsEvent: UIAnalyticsEventInterface = props.createAnalyticsEvent(
+    const analyticsEvent: UIAnalyticsEvent = props.createAnalyticsEvent(
       eventPayload,
     );
     analyticsEvent.fire(ELEMENTS_CHANNEL);

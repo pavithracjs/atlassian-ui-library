@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -48,6 +48,10 @@ type SwitcherProps = {
   customLinks: SwitcherItemType[];
   productTopItemVariation?: string;
   manageLink?: string;
+  /**
+   * Remove section headers - useful if something else is providing them. i.e: trello inline dialog
+   */
+  disableHeadings?: boolean;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -89,7 +93,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
   triggerXFlow = (key: string) => (
     event: any,
-    analyticsEvent: UIAnalyticsEventInterface,
+    analyticsEvent: UIAnalyticsEvent,
   ) => {
     const { triggerXFlow } = this.props;
     triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
@@ -108,10 +112,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
    *  href is not valid for this case the item will instead call the onClick callback provided.
    *  */
 
-  onDiscoverMoreClicked = (
-    event: any,
-    analyticsEvent: UIAnalyticsEventInterface,
-  ) => {
+  onDiscoverMoreClicked = (event: any, analyticsEvent: UIAnalyticsEvent) => {
     const { onDiscoverMoreClicked } = this.props;
     onDiscoverMoreClicked(event, analyticsEvent);
   };
@@ -129,6 +130,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       hasLoaded,
       hasLoadedCritical,
       productTopItemVariation,
+      disableHeadings,
     } = this.props;
 
     /**
@@ -186,7 +188,11 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={<FormattedMessage {...messages.switchTo} />}
+            title={
+              disableHeadings ? null : (
+                <FormattedMessage {...messages.switchTo} />
+              )
+            }
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext
@@ -278,7 +284,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           </Section>
           <Section
             sectionId="recent"
-            title={<FormattedMessage {...messages.recent} />}
+            title={
+              disableHeadings ? null : <FormattedMessage {...messages.recent} />
+            }
           >
             {recentLinks.map(
               ({ key, label, href, type, description, Icon }, idx) => (
@@ -299,7 +307,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
           </Section>
           <Section
             sectionId="customLinks"
-            title={<FormattedMessage {...messages.more} />}
+            title={
+              disableHeadings ? null : <FormattedMessage {...messages.more} />
+            }
           >
             {customLinks.map(({ label, href, Icon }, idx) => (
               // todo: id in SwitcherItem should be consumed from custom link resolver

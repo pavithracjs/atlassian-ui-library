@@ -71,15 +71,24 @@ describe('FileCard', () => {
     expect(card.find(FileCardImageView).props().disableOverlay).toEqual(true);
   });
 
-  it('should not show size for external images', () => {
-    const card = shallow(
-      <FileCard
-        appearance="image"
-        status="complete"
-        mediaItemType="external-image"
-      />,
-    );
+  it('should hide file size when size it is set to zero', () => {
+    const details: FileDetails = {
+      id: 'id',
+      size: 0,
+    };
+    const card = shallow(<FileCard status="complete" details={details} />);
 
-    expect(card.find(FileCardImageView).prop('fileSize')).toEqual('');
+    const fileCardView = card.find(FileCardImageView);
+    expect(fileCardView.props().fileSize).toEqual('');
+  });
+
+  it('should hide file size when size it is unset', () => {
+    const details: FileDetails = {
+      id: 'id',
+    };
+    const card = shallow(<FileCard status="complete" details={details} />);
+
+    const fileCardView = card.find(FileCardImageView);
+    expect(fileCardView.props().fileSize).toEqual('');
   });
 });
