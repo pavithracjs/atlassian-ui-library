@@ -1,3 +1,5 @@
+export type Appearance = 'drawer' | 'standalone';
+
 export type ItemStateTokens = {
   background?: string;
   text?: string;
@@ -33,4 +35,4 @@ type ThemeFn = (theme: any, props: ThemeProps) => ThemeTokens;
 
 export type CustomThemeResult = { itemTheme: ThemeFn; childItemTheme: ThemeFn };
 
-export type Themeable<T> = T & { theme?: any };
+export type Themeable<T> = T & { theme?: any; appearance?: Appearance };

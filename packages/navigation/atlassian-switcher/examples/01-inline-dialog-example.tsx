@@ -77,6 +77,7 @@ class InlineDialogSwitcherExample extends React.Component {
               disableHeadings
               cloudId="some-cloud-id"
               triggerXFlow={this.onTriggerXFlow}
+              appearance="standalone"
             />
           </div>
         }

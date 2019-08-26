@@ -25,6 +25,7 @@ import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
 import { TriggerXFlowCallback, DiscoverMoreCallback } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
+import { Appearance } from '../theme/types';
 
 const noop = () => void 0;
 
@@ -52,6 +53,7 @@ export type SwitcherProps = {
    * Remove section headers - useful if something else is providing them. i.e: trello inline dialog
    */
   disableHeadings?: boolean;
+  appearance: Appearance;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -131,6 +133,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       hasLoadedCritical,
       productTopItemVariation,
       disableHeadings,
+      appearance,
     } = this.props;
 
     /**
@@ -166,7 +169,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
-        <SwitcherWrapper>
+        <SwitcherWrapper appearance={appearance}>
           {hasLoaded && (
             <ViewedTracker
               subject={SWITCHER_SUBJECT}

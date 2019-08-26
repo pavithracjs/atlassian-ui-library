@@ -79,6 +79,7 @@ class InlineDialogSwitcherExample extends React.Component {
               cloudId="some-cloud-id"
               triggerXFlow={this.onTriggerXFlow}
               theme={redTheme}
+              appearance="standalone"
             />
           </div>
         }
