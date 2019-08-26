@@ -45,6 +45,11 @@ import { ReactWrapper, mount } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
 import { InsertMenuCustomItem } from '../../../../../types';
 import { TooltipShortcut } from '../../../../../keymaps';
+import { InjectedIntlProps } from 'react-intl';
+
+type ToolbarOptionWrapper = ReactWrapper<
+  ToolbarInsertBlockProps & InjectedIntlProps
+>;
 
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 
@@ -55,13 +60,13 @@ const mediaProvider: Promise<MediaProvider> = Promise.resolve({
 
 const providerFactory = ProviderFactory.create({ mediaProvider });
 
-const openInsertMenu = (toolbarOption: ReactWrapper) => {
+const openInsertMenu = (toolbarOption: ToolbarOptionWrapper) => {
   toolbarOption.find('button').simulate('click');
 };
 
 const getToolbarButton = (
   title: string,
-  toolbarOption: ReactWrapper,
+  toolbarOption: ToolbarOptionWrapper,
 ): ReactWrapper =>
   toolbarOption
     .find(ToolbarButton)
@@ -72,19 +77,25 @@ const getToolbarButton = (
 
 const getInsertMenuButton = (
   title: string,
-  toolbarOption: ReactWrapper,
-): ReactWrapper => {
+  toolbarOption: ToolbarOptionWrapper,
+) => {
   openInsertMenu(toolbarOption);
   return toolbarOption
-    .find(Item)
+    .find<any>(Item)
     .filterWhere(n => n.text().indexOf(title) > -1);
 };
 
-const clickToolbarButton = (title: string, toolbarOption: ReactWrapper) => {
+const clickToolbarButton = (
+  title: string,
+  toolbarOption: ToolbarOptionWrapper,
+) => {
   getToolbarButton(title, toolbarOption).simulate('click');
 };
 
-const clickInsertMenuOption = (title: string, toolbarOption: ReactWrapper) => {
+const clickInsertMenuOption = (
+  title: string,
+  toolbarOption: ToolbarOptionWrapper,
+) => {
   getInsertMenuButton(title, toolbarOption).simulate('click');
 };
 
@@ -107,7 +118,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
   const createEditor = createEditorFactory();
   let editorView: EditorView;
   let pluginState: any;
-  let toolbarOption: ReactWrapper;
+  let toolbarOption: ToolbarOptionWrapper;
   let analyticsHandlerSpy: jest.Mock<AnalyticsHandler>;
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let dispatchAnalyticsSpy: jest.SpyInstance<DispatchAnalyticsEvent>;
@@ -144,7 +155,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
       buttons: 0,
       dispatchAnalyticsEvent: dispatchAnalyticsSpy as any,
     };
-    toolbarOption = mountWithIntl(
+    toolbarOption = mountWithIntl<ToolbarInsertBlockProps, {}>(
       <ToolbarInsertBlock {...defaultProps} {...props} />,
     );
   };

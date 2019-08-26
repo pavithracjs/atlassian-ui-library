@@ -14,6 +14,7 @@ import {
   underline,
   createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
+import { InjectedIntlProps } from 'react-intl';
 
 import { ReactWrapper } from 'enzyme';
 import {
@@ -23,6 +24,7 @@ import {
 import { pluginKey as clearFormattingPluginKey } from '../../../../../plugins/text-formatting/pm-plugins/clear-formatting';
 import ToolbarAdvancedTextFormatting, {
   messages,
+  Props as ToolbarProps,
 } from '../../../../../plugins/text-formatting/ui/ToolbarAdvancedTextFormatting';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenuWrapper from '../../../../../ui/DropdownMenu';
@@ -312,7 +314,10 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
   /**
    * Helper function to get the react element (not the DOM element) of menu items within the advanced text formatting menu.
    */
-  function getMenuItem(toolbarOption: ReactWrapper, itemKey: string) {
+  function getMenuItem(
+    toolbarOption: ReactWrapper<ToolbarProps & InjectedIntlProps>,
+    itemKey: string,
+  ) {
     return toolbarOption
       .find(DropdownMenuWrapper)
       .prop('items')[0]
@@ -320,7 +325,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
   }
 
   describe('menu options inside code block', () => {
-    let toolbarOption: ReactWrapper;
+    let toolbarOption: ReactWrapper<ToolbarProps & InjectedIntlProps>;
 
     beforeEach(() => {
       const { editorView, pluginState } = editor(
@@ -361,7 +366,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     const { editorView, pluginState } = editor(
       doc(p(strike(underline('{<}Formatted {>}text')))),
     );
-    const toolbarOption = mountWithIntl(
+    const toolbarOption = mountWithIntl<ToolbarProps, {}>(
       <ToolbarAdvancedTextFormatting
         textFormattingState={pluginState}
         editorView={editorView}

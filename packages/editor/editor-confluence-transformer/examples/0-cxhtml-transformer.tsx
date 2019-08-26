@@ -17,6 +17,7 @@ import {
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import Spinner from '@atlaskit/spinner';
+// @ts-ignore - TypeScript is not able to resolve this import
 import { TitleInput } from '@atlaskit/editor-core/example-helpers/PageElements';
 
 import {
@@ -172,7 +173,9 @@ class Example extends Component<ExampleProps, ExampleState> {
                   defaultValue={this.state.input}
                   key={this.state.input}
                   contentComponents={
-                    <TitleInput innerRef={ref => ref && ref.focus()} />
+                    <TitleInput
+                      innerRef={(ref?: HTMLElement) => ref && ref.focus()}
+                    />
                   }
                   primaryToolbarComponents={
                     <WithEditorActions

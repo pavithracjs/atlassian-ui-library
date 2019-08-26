@@ -204,8 +204,14 @@ export function createSchema(config: SchemaConfig): Schema {
     .concat(config.marks || [])
     .concat(markGroupDeclarationsNames);
 
-  let nodes = addItems(nodesInOrder, nodesConfig, customNodeSpecs);
-  let marks = addItems(marksInOrder, marksConfig, customMarkSpecs);
+  let nodes = addItems(nodesInOrder, nodesConfig, customNodeSpecs) as Record<
+    string,
+    NodeSpec
+  >;
+  let marks = addItems(marksInOrder, marksConfig, customMarkSpecs) as Record<
+    string,
+    MarkSpec
+  >;
   nodes = sanitizeNodes(nodes, marks);
   return new Schema<string, string>({
     nodes,

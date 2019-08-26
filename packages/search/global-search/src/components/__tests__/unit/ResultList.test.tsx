@@ -129,7 +129,7 @@ it('should pass the correct properties to ObjectResult for Confluence results', 
       containerName: 'containerName',
       friendlyLastModified: 'friendly-last-modified',
     },
-  });
+  } as {});
 });
 
 it('should pass the correct properties to ContainerResult for Confluence spaces', () => {

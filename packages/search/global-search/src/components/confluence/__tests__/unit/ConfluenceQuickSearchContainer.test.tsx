@@ -112,7 +112,7 @@ const mockCrossProductSearchClient = {
 const mockSingleResultPromise = (scope: Scope, result: Result) => {
   const results = {} as SearchResultsMap;
   results[scope] = {
-    items: [result],
+    items: [result as any],
     totalSize: 1,
   };
 
@@ -681,7 +681,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     const mockSearchSessionId = 'someSearchSessionId';
 
     it('should call onAdvancedSearch call', () => {
-      const spy = jest.fn();
+      const spy = jest.fn<{}>();
       const handleSearchSubmit = mountComponent(spy);
       const mockedEvent = mockEvent();
       handleSearchSubmit(mockedEvent, mockSearchSessionId);
