@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.42.3
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
 ## 112.42.2
 
 ### Patch Changes
@@ -28,7 +36,7 @@
 
   Tables, Media, Smart Cards, Extensions, Analytics, Copy and Paste, Code Block, Undo, Emoji
 
-   **Performance**
+  **Performance**
 
   - Reduce number of wrapping nodes in table cells. – [table][affects: wrapping, overflow, resizing]
     - https://product-fabric.atlassian.net/browse/ED-7288
@@ -79,8 +87,7 @@
   - Issue with ctrl+z [affects: undo on different languages, e.g. Russian keyboard]
     - https://product-fabric.atlassian.net/browse/ED-7310
 
-
-------
+---
 
 **All changes**
 

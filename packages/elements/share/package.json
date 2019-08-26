@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "config": {
     "access": "private"
   },
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.4",
-    "@atlaskit/editor-test-helpers": "^9.11.9",
+    "@atlaskit/editor-test-helpers": "^9.11.10",
     "@atlaskit/flag": "^12.0.19",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/select": "^10.0.7",

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-search",
-  "version": "11.3.2",
+  "version": "11.3.3",
   "description": "A cross-product search component (batteries included)",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -38,7 +38,7 @@
     "@atlaskit/icon-file-type": "^4.0.8",
     "@atlaskit/icon-object": "^4.0.8",
     "@atlaskit/logo": "^12.1.7",
-    "@atlaskit/modal-dialog": "^10.1.6",
+    "@atlaskit/modal-dialog": "^10.1.8",
     "@atlaskit/quick-search": "^7.6.7",
     "@atlaskit/theme": "^9.1.5",
     "@atlaskit/util-service-support": "^4.0.6",

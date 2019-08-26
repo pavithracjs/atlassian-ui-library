@@ -1,1 +1,0 @@
-Fixes type errors which were incompatible with TS 3.6

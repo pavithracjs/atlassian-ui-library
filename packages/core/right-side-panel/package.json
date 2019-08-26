@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/right-side-panel",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A cross-product right-side-panel component",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",

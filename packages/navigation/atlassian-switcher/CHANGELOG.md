@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.23.1
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
 ## 3.23.0
 
 ### Minor Changes
