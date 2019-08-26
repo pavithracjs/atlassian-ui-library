@@ -14,7 +14,7 @@ const defaultItemTheme = (props: ThemeProps) => {
       },
     },
     hover: {
-      background: 'transparent',
+      background: colors.N20,
     },
     default: {
       background: 'transparent',

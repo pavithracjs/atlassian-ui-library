@@ -4,7 +4,7 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { customTheme } from './helpers/example-themes';
+import { redTheme } from './helpers/example-themes';
 
 class JiraSwitcherExample extends React.Component {
   state = {
@@ -62,7 +62,7 @@ class JiraSwitcherExample extends React.Component {
             product="jira"
             cloudId="some-cloud-id"
             triggerXFlow={this.onTriggerXFlow}
-            theme={customTheme}
+            theme={redTheme}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>

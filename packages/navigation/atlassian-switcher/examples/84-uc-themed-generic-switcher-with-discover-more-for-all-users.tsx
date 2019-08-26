@@ -4,7 +4,7 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { customTheme } from './helpers/example-themes';
+import { redTheme } from './helpers/example-themes';
 
 class GenericSwitcherExample extends React.Component {
   state = {
@@ -60,7 +60,7 @@ class GenericSwitcherExample extends React.Component {
             isDiscoverMoreForEveryoneEnabled
             onDiscoverMoreClicked={this.onDiscoverMoreClicked}
             enableUserCentricProducts
-            theme={customTheme}
+            theme={redTheme}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>

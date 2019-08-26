@@ -1,13 +1,13 @@
 import { colors } from '@atlaskit/theme';
 import { createCustomTheme } from '../../src/theme/theme-builder';
 
-export const customTheme = createCustomTheme({
-  mainBackgroundColor: colors.R75,
+export const redTheme = createCustomTheme({
+  mainBackgroundColor: colors.N0,
   item: {
     hover: {
-      background: colors.R500,
-      text: colors.R75,
-      secondaryText: colors.N30,
+      background: colors.R50,
+      text: colors.R500,
+      secondaryText: colors.R200,
     },
     default: {
       text: colors.R500,
@@ -16,15 +16,13 @@ export const customTheme = createCustomTheme({
   },
   childItem: {
     hover: {
-      background: colors.R500,
-      text: colors.N0,
+      background: colors.R75,
+      text: colors.R500,
       secondaryText: colors.N30,
     },
     default: {
+      background: colors.R50,
       text: colors.R500,
     },
   },
 });
-
-export const bloodyItemTheme = customTheme.itemTheme;
-export const bloodyChildItemTheme = customTheme.childItemTheme;

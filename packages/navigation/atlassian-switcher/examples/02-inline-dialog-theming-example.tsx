@@ -4,7 +4,7 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { customTheme } from './helpers/example-themes';
+import { redTheme } from './helpers/example-themes';
 
 class InlineDialogSwitcherExample extends React.Component {
   state = {
@@ -78,7 +78,7 @@ class InlineDialogSwitcherExample extends React.Component {
               disableHeadings
               cloudId="some-cloud-id"
               triggerXFlow={this.onTriggerXFlow}
-              theme={customTheme}
+              theme={redTheme}
             />
           </div>
         }
