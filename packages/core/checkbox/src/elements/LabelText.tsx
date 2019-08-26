@@ -1,27 +1,33 @@
 /** @jsx jsx */
-import { jsx, InterpolationWithTheme } from '@emotion/core';
+import { jsx, CSSObject } from '@emotion/core';
 import { ThemeTokens } from '../types';
 
 export const labelTextCSS = ({
   tokens,
 }: {
   tokens: ThemeTokens;
-}): InterpolationWithTheme<any> => ({
+}): CSSObject => ({
   paddingTop: tokens.label.spacing.top,
   paddingRight: tokens.label.spacing.right,
   paddingBottom: tokens.label.spacing.bottom,
   paddingLeft: tokens.label.spacing.left,
 });
 
-export default ({
-  tokens,
-  getStyles,
-  ...rest
-}: {
-  getStyles: (
-    key: 'labelText',
-    props: { tokens: ThemeTokens },
-  ) => InterpolationWithTheme<any>;
+export interface LabelTextProps extends React.HTMLProps<HTMLSpanElement> {
+  attributesFn: (props: Record<string, any>) => Record<string, any>;
+  cssFn: (props: { tokens: ThemeTokens }) => CSSObject;
   tokens: ThemeTokens;
   children: React.ReactNode;
-}) => <span css={getStyles('labelText', { tokens })} {...rest} />;
+}
+
+export default ({
+  attributesFn,
+  tokens,
+  cssFn,
+  ...rest
+}: {
+  attributesFn: (props: Record<string, any>) => Record<string, any>;
+  cssFn: (props: { tokens: ThemeTokens }) => CSSObject;
+  tokens: ThemeTokens;
+  children: React.ReactNode;
+}) => <span {...attributesFn({})} css={cssFn({ tokens })} {...rest} />;

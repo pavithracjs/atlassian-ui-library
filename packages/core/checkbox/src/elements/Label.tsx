@@ -1,19 +1,17 @@
 /** @jsx jsx */
-import { jsx, InterpolationWithTheme } from '@emotion/core';
+import { jsx, CSSObject } from '@emotion/core';
 import { ThemeTokens } from '../types';
 
-export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
-  getStyles: (
-    key: 'label',
-    props: LabelCSSProps,
-  ) => InterpolationWithTheme<any>;
+export interface LabelProps extends React.HTMLProps<HTMLInputElement> {
+  attributesFn: (props: Record<string, any>) => Record<string, any>;
+  cssFn: (props: LabelCSSProps) => CSSObject;
   isDisabled?: boolean;
   tokens: ThemeTokens;
 }
 
 export type LabelCSSProps = Pick<LabelProps, 'isDisabled' | 'tokens'>;
 
-export const labelCSS = ({ isDisabled, tokens }: LabelCSSProps) => ({
+export const labelCSS = ({ isDisabled, tokens }: LabelCSSProps): CSSObject => ({
   alignItems: 'flex-start;',
   display: 'flex',
   color: isDisabled
@@ -22,6 +20,11 @@ export const labelCSS = ({ isDisabled, tokens }: LabelCSSProps) => ({
   ...(isDisabled && { cursor: 'not-allowed' }),
 });
 
-export default ({ isDisabled, tokens, getStyles, ...rest }: LabelProps) => (
-  <label css={getStyles('label', { isDisabled, tokens, ...rest })} {...rest} />
-);
+export default function({
+  attributesFn,
+  isDisabled,
+  tokens,
+  cssFn,
+}: LabelProps) {
+  return <label {...attributesFn({})} css={cssFn({ isDisabled, tokens })} />;
+}

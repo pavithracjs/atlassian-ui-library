@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, InterpolationWithTheme } from '@emotion/core';
+import { jsx, CSSObject } from '@emotion/core';
 import { ThemeTokens, ThemeIconTokens } from '../types';
 import React from 'react';
 
@@ -109,10 +109,8 @@ const getBoxColor = (props: Props) => {
 };
 
 export interface IconProps extends React.HTMLProps<HTMLLabelElement> {
-  getStyles: (
-    key: 'iconWrapper',
-    props: Pick<Props, Exclude<keyof Props, 'getStyles'>>,
-  ) => InterpolationWithTheme<any>;
+  attributesFn: (props: Record<string, any>) => any;
+  cssFn: (props: Pick<Props, Exclude<keyof Props, 'cssFn'>>) => CSSObject;
   tokens: ThemeTokens;
   isChecked?: boolean;
   isDisabled?: boolean;
@@ -122,9 +120,7 @@ export interface IconProps extends React.HTMLProps<HTMLLabelElement> {
   isInvalid?: boolean;
 }
 
-export const iconWrapperCSS = (
-  props: IconProps,
-): InterpolationWithTheme<any> => ({
+export const iconWrapperCSS = (props: IconProps): CSSObject => ({
   lineHeight: 0,
   flexShrink: 0,
   color: getBoxColor(props),
@@ -147,6 +143,6 @@ export const iconWrapperCSS = (
   },
 });
 
-export default ({ getStyles, children, ...props }: IconProps) => (
-  <span css={getStyles('iconWrapper', props)} children={children} />
+export default ({ attributesFn, cssFn, children, ...props }: IconProps) => (
+  <span css={cssFn(props)} {...attributesFn({})} children={children} />
 );

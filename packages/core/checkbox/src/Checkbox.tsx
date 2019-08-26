@@ -25,12 +25,6 @@ import {
   CheckboxDefaultStyles,
 } from './types';
 
-// interface CheckboxStyles {
-//   iconWrapper: (state: IconProps) => InterpolationWithTheme<any>;
-//   labelText: (state: { tokens: ThemeTokens, }) => InterpolationWithTheme<any>;
-//   label: (state: LabelProps) => InterpolationWithTheme<any>;
-// }
-
 const defaultStyles: CheckboxDefaultStyles = {
   iconWrapper: iconWrapperCSS,
   label: labelCSS,
