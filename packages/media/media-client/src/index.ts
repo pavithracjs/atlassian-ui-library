@@ -123,7 +123,7 @@ export {
 export {
   EventPayloadListener,
   UploadEventPayloadMap,
-  AttachmentViewedEventPayload,
+  MediaViewedEventPayload,
 } from './client/events';
 
 export {

@@ -1,7 +1,7 @@
 import {
   FileState,
   globalMediaEventEmitter,
-  AttachmentViewedEventPayload,
+  MediaViewedEventPayload,
 } from '@atlaskit/media-client';
 
 const fileAddedListener = (fileState: FileState) => {
@@ -9,14 +9,14 @@ const fileAddedListener = (fileState: FileState) => {
   console.log('file-added -> globalMediaEventEmitter', { fileState });
 };
 
-const attachmentViewedListener = (payload: AttachmentViewedEventPayload) => {
+const attachmentViewedListener = (payload: MediaViewedEventPayload) => {
   // eslint-disable-next-line no-console
-  console.log('attachment-viewed -> c', { payload });
+  console.log('media-viewed -> globalMediaEventEmitter', { payload });
 };
 
 export const addGlobalEventEmitterListeners = () => {
   globalMediaEventEmitter.off('file-added', fileAddedListener);
-  globalMediaEventEmitter.off('attachment-viewed', attachmentViewedListener);
+  globalMediaEventEmitter.off('media-viewed', attachmentViewedListener);
   globalMediaEventEmitter.on('file-added', fileAddedListener);
-  globalMediaEventEmitter.on('attachment-viewed', attachmentViewedListener);
+  globalMediaEventEmitter.on('media-viewed', attachmentViewedListener);
 };

@@ -168,9 +168,9 @@ export class InlinePlayer extends Component<
 
   onFirstPlay = async () => {
     const { identifier } = this.props;
-    globalMediaEventEmitter.emit('attachment-viewed', {
+    globalMediaEventEmitter.emit('media-viewed', {
       fileId: await identifier.id,
-      viewingExperience: 'full',
+      viewingLevel: 'full',
     });
   };
 

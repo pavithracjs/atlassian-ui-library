@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { messages } from '@atlaskit/media-ui';
 import { FormattedMessage } from 'react-intl';
-import {
-  FileDetails,
-  globalMediaEventEmitter,
-  ImageResizeMode,
-} from '@atlaskit/media-client';
+import { FileDetails, ImageResizeMode } from '@atlaskit/media-client';
 import { SharedCardProps, CardStatus } from '../..';
 import { CardAction } from '../../actions';
 import { FileCardImageView } from '../cardImageView';
@@ -21,6 +17,7 @@ export interface FileCardProps extends SharedCardProps {
   readonly resizeMode?: ImageResizeMode;
   readonly disableOverlay?: boolean;
   readonly previewOrientation?: number;
+  readonly onDisplayImage?: () => void;
 }
 
 export class FileCard extends Component<FileCardProps, {}> {
@@ -45,6 +42,7 @@ export class FileCard extends Component<FileCardProps, {}> {
       onRetry,
       disableOverlay,
       previewOrientation,
+      onDisplayImage,
     } = this.props;
     const defaultDetails: FileDetails = {
       id: '',
@@ -72,21 +70,13 @@ export class FileCard extends Component<FileCardProps, {}> {
         progress={progress}
         resizeMode={resizeMode}
         onRetry={onRetry}
-        onDisplayImage={this.onDisplayImage}
+        onDisplayImage={onDisplayImage}
         actions={this.getActions()}
         disableOverlay={disableOverlay}
         previewOrientation={previewOrientation}
       />
     );
   }
-
-  private onDisplayImage = () => {
-    const { details } = this.props;
-    globalMediaEventEmitter.emit('attachment-viewed', {
-      fileId: (details && details.id) || '',
-      viewingExperience: 'minimal',
-    });
-  };
 
   private getActions(): Array<CardAction> {
     const { details, actions = [] } = this.props;

@@ -11,6 +11,8 @@ import {
   isExternalImageIdentifier,
   isDifferentIdentifier,
   isImageRepresentationReady,
+  globalMediaEventEmitter,
+  MediaViewedEventPayload,
 } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { AnalyticsContext, UIAnalyticsEvent } from '@atlaskit/analytics-next';
@@ -373,6 +375,30 @@ export class Card extends Component<CardProps, CardState> {
     });
   };
 
+  private onDisplayImage = async () => {
+    const { identifier } = this.props;
+    let payloadPart: Pick<
+      MediaViewedEventPayload,
+      'fileId' | 'isUserCollection'
+    >;
+    if (isFileIdentifier(identifier)) {
+      payloadPart = {
+        fileId: await identifier.id,
+        isUserCollection: identifier.collectionName === 'recents',
+      };
+    } else {
+      payloadPart = {
+        fileId: identifier.dataURI,
+        isUserCollection: false,
+      };
+    }
+
+    globalMediaEventEmitter.emit('media-viewed', {
+      viewingLevel: 'minimal',
+      ...payloadPart,
+    });
+  };
+
   renderMediaViewer = () => {
     const { mediaViewerSelectedItem } = this.state;
     const { mediaClient, identifier, mediaViewerDataSource } = this.props;
@@ -412,7 +438,13 @@ export class Card extends Component<CardProps, CardState> {
       disableOverlay,
     } = this.props;
     const { progress, metadata, dataURI, previewOrientation } = this.state;
-    const { analyticsContext, onRetry, onClick, actions } = this;
+    const {
+      analyticsContext,
+      onRetry,
+      onClick,
+      onDisplayImage,
+      actions,
+    } = this;
     const status = getCardStatus(this.state, this.props);
     const card = (
       <AnalyticsContext data={analyticsContext}>
@@ -432,6 +464,7 @@ export class Card extends Component<CardProps, CardState> {
           disableOverlay={disableOverlay}
           progress={progress}
           onRetry={onRetry}
+          onDisplayImage={onDisplayImage}
           previewOrientation={previewOrientation}
         />
       </AnalyticsContext>
