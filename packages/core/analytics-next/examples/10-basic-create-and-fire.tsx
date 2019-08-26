@@ -39,7 +39,7 @@ const FunctionalButton: FC<Props> = ({ onClick, ...props }) => {
   // Decompose function from the hook
   const { createAnalyticsEvent } = useAnalyticsEvents();
 
-  const handleClick = e => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     // Create our analytics event
     const analyticsEvent = createAnalyticsEvent({ action: 'click' });
 
