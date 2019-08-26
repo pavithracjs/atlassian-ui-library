@@ -1,1 +1,0 @@
-Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as  relative imports
