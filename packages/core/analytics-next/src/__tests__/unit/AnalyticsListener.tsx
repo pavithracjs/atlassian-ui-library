@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import PropTypes from 'prop-types';
 import { AnalyticsListener } from '../..';
 
@@ -26,7 +26,7 @@ ContextConsumer.contextTypes = {
 };
 
 it('should render', () => {
-  const wrapper = shallow(
+  const wrapper = mount(
     <AnalyticsListener onEvent={() => {}}>
       <div />
     </AnalyticsListener>,

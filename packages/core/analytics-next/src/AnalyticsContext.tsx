@@ -1,5 +1,6 @@
-import React, { Children, Component } from 'react';
+import React, { Children, Component, useContext, FC } from 'react';
 import PropTypes from 'prop-types';
+import { AnalyticsReactContext } from './AnalyticsReactContext';
 
 const ContextTypes = {
   getAtlaskitAnalyticsContext: PropTypes.func,
@@ -13,7 +14,17 @@ interface Props {
   data: unknown;
 }
 
-export default class AnalyticsContext extends Component<Props> {
+interface InternalProps {
+  /** Children! */
+  children: React.ReactNode;
+  /** Arbitrary data. Any events created below this component in the tree will
+   * have this added as an item in their context array. */
+  data: unknown;
+
+  newContext: any;
+}
+
+class AnalyticsContextInternal extends Component<InternalProps> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
@@ -33,6 +44,26 @@ export default class AnalyticsContext extends Component<Props> {
   };
 
   render() {
-    return Children.only(this.props.children);
+    const {
+      newContext: { getAtlaskitAnalyticsEventHandlers },
+      children,
+    } = this.props;
+    return (
+      <AnalyticsReactContext.Provider
+        value={{
+          getAtlaskitAnalyticsContext: this.getAnalyticsContext,
+          getAtlaskitAnalyticsEventHandlers,
+        }}
+      >
+        {Children.only(children)}
+      </AnalyticsReactContext.Provider>
+    );
   }
 }
+
+const AnalyticsContext: FC<Props> = props => {
+  const newContext = useContext(AnalyticsReactContext);
+  return <AnalyticsContextInternal {...props} newContext={newContext} />;
+};
+
+export default AnalyticsContext;
