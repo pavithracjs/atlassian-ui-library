@@ -1,4 +1,4 @@
-import React, { Component, Ref } from 'react';
+import React, { Component } from 'react';
 import { Transition } from 'react-transition-group';
 import Lorem from 'react-lorem-component';
 
@@ -13,7 +13,7 @@ interface State {
 type AnimationState = { [key: string]: any };
 
 export default class SpotlightNodeExample extends Component<Object, State> {
-  drawer: Ref<HTMLElement> = null;
+  drawer?: HTMLElement;
 
   state = { drawerIsVisible: false, spotlightIsVisible: false };
 
@@ -41,7 +41,7 @@ export default class SpotlightNodeExample extends Component<Object, State> {
     this.setState({ spotlightIsVisible: false });
   };
 
-  getDrawer = (ref: Ref<HTMLElement>) => {
+  getDrawer = (ref: HTMLElement) => {
     this.drawer = ref;
   };
 

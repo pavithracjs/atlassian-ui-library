@@ -1,27 +1,6 @@
 import styled from 'styled-components';
-import { themed } from '@atlaskit/theme/components';
-import { borderRadius, gridSize } from '@atlaskit/theme/constants';
-import { N60A, DN60A, N50A, DN50A, P300, N0 } from '@atlaskit/theme/colors';
+import { gridSize } from '@atlaskit/theme/constants';
 import { multiply, divide } from '@atlaskit/theme/math';
-
-// dialog may not be smaller than 160px or larger than 600px
-const dialogWidth = ({ width }: { width: number }) =>
-  `${Math.min(Math.max(width, 160), 600)}px`;
-
-const borderColor = themed({
-  light: N60A,
-  dark: DN60A,
-});
-const shadowColor = themed({
-  light: N50A,
-  dark: DN50A,
-});
-const boxShadow = props => {
-  const border = `0 0 1px ${borderColor(props)}`;
-  const shadow = `0 4px 8px -2px ${shadowColor(props)}`;
-
-  return [border, shadow].join(',');
-};
 
 export const FillScreen = styled.div<{ scrollDistance: number }>`
   height: 100%;
@@ -32,16 +11,6 @@ export const FillScreen = styled.div<{ scrollDistance: number }>`
   width: 100%;
 `;
 
-export const Dialog = styled.div`
-  background: ${P300};
-  border-radius: ${borderRadius}px;
-  box-shadow: ${boxShadow};
-  box-sizing: border-box;
-  color: ${N0};
-  display: flex;
-  flex-direction: column;
-  width: ${dialogWidth};
-`;
 export const DialogBody = styled.div`
   flex: 1 1 auto;
   padding: ${multiply(gridSize, 2)}px ${multiply(gridSize, 3)}px ${gridSize}px;

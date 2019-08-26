@@ -17,11 +17,13 @@ interface SpotlightContext {
   opened: () => void;
   closed: () => void;
   targets: {
-    [key: string]: HTMLElement | void;
+    [key: string]: HTMLElement | undefined;
   };
 }
 
-const { Consumer: TargetConsumer, Provider: TargetProvider } = createContext();
+const { Consumer: TargetConsumer, Provider: TargetProvider } = createContext<
+  any
+>(undefined);
 
 const {
   Consumer: SpotlightStateConsumer,

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { TargetOverlay, TargetInner } from '../styled/Target';
 
 export interface CloneProps {
   /** Whether or not to display a pulse animation around the spotlighted element */
   pulse: boolean;
   /* An object containing the information used for positioning clone */
-  style: {};
+  style: Record<string, any>;
   /** The name of the SpotlightTarget */
   target?: string;
   /** The spotlight target node */
@@ -14,7 +14,10 @@ export interface CloneProps {
   targetBgColor?: string;
   /** Function to fire when a user clicks on the cloned target */
   targetOnClick?: (
-    eventData: { event: MouseEvent; target?: string },
+    eventData: {
+      event: MouseEvent<HTMLElement>;
+      target?: string;
+    },
   ) => unknown;
   /** The border-radius of the element being highlighted */
   targetRadius?: number;

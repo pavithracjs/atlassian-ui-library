@@ -47,12 +47,12 @@ const Wrapper = styled.div`
 `;
 
 interface State {
-  index?: number | void;
+  index?: number;
 }
 
 /* eslint-disable react/sort-comp */
 export default class SpotlightDialogPlacementExample extends Component<
-  Object,
+  {},
   State
 > {
   state: State = {};

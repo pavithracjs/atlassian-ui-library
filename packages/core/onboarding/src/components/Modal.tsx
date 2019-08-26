@@ -58,9 +58,7 @@ export default class OnboardingModal extends Component<Props> {
             })}
           </ModalActions>
         </ButtonTheme.Provider>
-      ) : (
-        undefined
-      );
+      ) : null;
 
     return FooterElement || ActionsElement;
   };

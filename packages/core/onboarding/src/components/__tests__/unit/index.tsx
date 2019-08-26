@@ -21,7 +21,7 @@ test('should show spotlight', () => {
 
 test('should spotlight different targets', () => {
   const ref = jest.fn();
-  const NextButton = props => <button {...props} />;
+  const NextButton = (props: { onClick: () => void }) => <button {...props} />;
   class SpotlightDemo extends React.Component<{}, { target: string }> {
     state = {
       target: 'target-one',

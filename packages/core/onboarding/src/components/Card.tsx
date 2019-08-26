@@ -1,4 +1,4 @@
-import React, { ReactNode, ComponentType } from 'react';
+import React, { FC, ReactNode, ComponentType } from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import { createTheme } from '@atlaskit/theme/components';
@@ -10,7 +10,7 @@ import { ActionItems, ActionItem } from '../styled/Dialog';
 import { Actions } from '../types';
 
 export interface CardTokens {
-  container: Record<string, string | void>;
+  container: Record<string, string | undefined>;
 }
 
 interface Props {
@@ -32,8 +32,9 @@ interface Props {
   /** The image to render above the heading. Can be a url or a Node. */
   image?: string | ReactNode;
   /** the theme of the card */
-  theme?: ThemeProp<CardTokens>;
-  innerRef?: Function;
+  theme?: ThemeProp<CardTokens, {}>;
+
+  innerRef?: React.Ref<HTMLElement>;
 }
 
 const Container = styled.div`
@@ -65,7 +66,7 @@ const DefaultFooter = styled.div`
   padding-top: ${gridSize}px;
 `;
 
-const Theme = createTheme<CardTokens, any>(() => ({
+const Theme = createTheme<CardTokens, {}>(() => ({
   container: {
     overflow: 'auto',
     borderRadius: `${borderRadius()}px`,
@@ -74,7 +75,7 @@ const Theme = createTheme<CardTokens, any>(() => ({
   },
 }));
 
-const Card = ({
+const Card: FC<Props> = ({
   actions = [],
   actionsBeforeElement,
   children,
@@ -84,7 +85,7 @@ const Card = ({
   headingAfterElement,
   theme,
   innerRef,
-}: Props) => {
+}) => {
   const { Header = DefaultHeader, Footer = DefaultFooter } = components;
 
   return (
@@ -92,7 +93,7 @@ const Card = ({
       <Theme.Consumer>
         {({ container }) => {
           return (
-            <Container theme={container} innerRef={innerRef}>
+            <Container theme={container} innerRef={innerRef!}>
               {typeof image === 'string' ? <img src={image} alt="" /> : image}
               <Body>
                 {heading || headingAfterElement ? (
@@ -132,6 +133,6 @@ const Card = ({
   );
 };
 
-export default React.forwardRef((props: Props, ref) => (
+export default React.forwardRef<HTMLElement, Props>((props, ref) => (
   <Card {...props} innerRef={ref} />
 ));

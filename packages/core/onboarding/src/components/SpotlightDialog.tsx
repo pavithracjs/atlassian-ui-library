@@ -1,9 +1,10 @@
-import React, { Component, ComponentType, Node } from 'react';
+import React, { Component, ComponentType, ReactNode } from 'react';
 import FocusLock from 'react-focus-lock';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { Popper, Placement } from '@atlaskit/popper';
 
@@ -12,18 +13,19 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-import { ActionsType } from '../types';
+import { Actions } from '../types';
 import { Image } from '../styled/Dialog';
 import SpotlightCard from './SpotlightCard';
 import ValueChanged from './ValueChanged';
+import { CardTokens } from './Card.js';
 
-interface Props {
+export interface SpotlightDialogProps extends WithAnalyticsEventsProps {
   /** Buttons to render in the footer */
-  actions?: ActionsType;
+  actions?: Actions;
   /** An optional element rendered beside the footer actions */
-  actionsBeforeElement?: Node;
+  actionsBeforeElement?: ReactNode;
   /** The elements rendered in the modal */
-  children?: Node;
+  children?: ReactNode;
   /** Where the dialog should appear, relative to the contents of the children. */
   dialogPlacement?:
     | 'top left'
@@ -58,7 +60,7 @@ interface State {
   focusLockDisabled: boolean;
 }
 
-class SpotlightDialog extends Component<Props, State> {
+class SpotlightDialog extends Component<SpotlightDialogProps, State> {
   state = {
     focusLockDisabled: true,
   };
@@ -87,8 +89,8 @@ class SpotlightDialog extends Component<Props, State> {
     } = this.props;
     const { focusLockDisabled } = this.state;
 
-    const translatedPlacement: Placement | void = dialogPlacement
-      ? {
+    const translatedPlacement: Placement | undefined = dialogPlacement
+      ? ({
           'top left': 'top-start',
           'top center': 'top',
           'top right': 'top-end',
@@ -101,7 +103,7 @@ class SpotlightDialog extends Component<Props, State> {
           'left top': 'left-start',
           'left middle': 'left',
           'left bottom': 'left-end',
-        }[dialogPlacement]
+        }[dialogPlacement] as Placement)
       : undefined;
 
     return (
@@ -116,7 +118,7 @@ class SpotlightDialog extends Component<Props, State> {
               <SpotlightCard
                 ref={ref}
                 theme={parent => {
-                  const { container, ...others } = parent();
+                  const { container, ...others } = parent({});
                   return {
                     ...others,
                     container: {
@@ -124,7 +126,7 @@ class SpotlightDialog extends Component<Props, State> {
                       ...style,
                       ...animationStyles,
                     },
-                  };
+                  } as CardTokens;
                 }}
                 width={dialogWidth}
                 actions={actions}
@@ -157,7 +159,6 @@ export default withAnalyticsContext({
     targetOnClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'spotlight',
-
       attributes: {
         componentName: 'spotlight',
         packageName,

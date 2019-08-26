@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactNode } from 'react';
+import React, { ComponentType, ReactNode, MouseEvent } from 'react';
 import SpotlightInner from './SpotlightInner';
 import { SpotlightConsumer } from './SpotlightManager';
 import { Actions } from '../types';
@@ -39,11 +39,13 @@ export interface Props {
   /** The name of the SpotlightTarget */
   target?: string;
   /** The spotlight target node */
-  targetNode?: ReactNode;
+  targetNode?: HTMLElement;
   /** The background color of the element being highlighted */
   targetBgColor?: string;
   /** Function to fire when a user clicks on the cloned target */
-  targetOnClick?: (eventData: { event: MouseEvent; target?: string }) => void;
+  targetOnClick?: (
+    eventData: { event: MouseEvent<HTMLElement>; target?: string },
+  ) => void;
   /** The border-radius of the element being highlighted */
   targetRadius?: number;
   /** Alternative element to render than the wrapped target */
@@ -62,9 +64,10 @@ class Spotlight extends React.Component<Props> {
       <SpotlightConsumer>
         {({ opened, closed, targets }) => {
           // use the targetNode prop or try get the target from context targets using name
-          const actualTargetNode =
+          const actualTargetNode: HTMLElement | undefined =
             targetNode ||
             (typeof target === 'string' ? targets[target] : undefined);
+
           return actualTargetNode ? (
             <SpotlightInner
               {...rest}

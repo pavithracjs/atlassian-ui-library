@@ -27,7 +27,7 @@ interface Props {
   /** Removes elevation styles if set */
   isFlat?: boolean;
   /** the theme of the card */
-  theme?: ThemeProp<CardTokens>;
+  theme?: ThemeProp<CardTokens, {}>;
   /** width of the card in pixels */
   width?: number;
 
@@ -39,7 +39,7 @@ class SpotlightCard extends React.Component<Props> {
     width: 400,
     isFlat: false,
     components: {},
-    theme: x => x(),
+    theme: (themeFn: () => unknown) => themeFn(),
   };
 
   render() {
@@ -67,19 +67,22 @@ class SpotlightCard extends React.Component<Props> {
           components={components}
           image={image}
           theme={parent => {
-            const { container, ...others } = parent();
-            return theme(() => ({
-              ...others,
-              container: {
-                background: P300,
-                color: N0,
-                width: `${Math.min(Math.max(width, 160), 600)}px`,
-                boxShadow: isFlat
-                  ? undefined
-                  : `0 4px 8px -2px ${N50A}, 0 0 1px ${N60A}`, // AK-5598
-                ...container,
-              },
-            }));
+            const { container, ...others } = parent({});
+            return theme!(
+              () => ({
+                ...others,
+                container: {
+                  background: P300,
+                  color: N0,
+                  width: `${Math.min(Math.max(width!, 160), 600)}px`,
+                  boxShadow: isFlat
+                    ? undefined
+                    : `0 4px 8px -2px ${N50A}, 0 0 1px ${N60A}`, // AK-5598
+                  ...container,
+                },
+              }),
+              {},
+            );
           }}
         >
           {children}

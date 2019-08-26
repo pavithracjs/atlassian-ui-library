@@ -144,7 +144,15 @@ class SpotlightInner extends React.Component<Props, State> {
               <Fade in={isOpen} onExited={onExited}>
                 {animationStyles => (
                   <SpotlightDialog
-                    {...this.props}
+                    actions={this.props.actions}
+                    actionsBeforeElement={this.props.actionsBeforeElement}
+                    children={this.props.children}
+                    dialogPlacement={this.props.dialogPlacement}
+                    dialogWidth={this.props.dialogWidth}
+                    footer={this.props.footer}
+                    header={this.props.header}
+                    heading={this.props.heading}
+                    image={this.props.image}
                     targetNode={replacementElement || targetNode}
                     animationStyles={animationStyles}
                   />

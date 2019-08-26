@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ButtonAppearances } from '@atlaskit/Button';
+import { ButtonAppearances } from '@atlaskit/button';
 
 interface Action {
   onClick?: (e: any) => unknown;
