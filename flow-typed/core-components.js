@@ -140,3 +140,7 @@ declare module '@atlaskit/toggle' {
 declare module '@atlaskit/tooltip' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/tree' {
+  declare module.exports: any;
+}
