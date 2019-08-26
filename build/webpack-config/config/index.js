@@ -279,6 +279,7 @@ function getPlugins(
       generateStatsFile: true,
       openAnalyzer: report,
       logLevel: 'error',
+      statsOptions: { ...statsOptions, assets: true, modules: true },
       defaultSizes: 'gzip',
     }),
   );
