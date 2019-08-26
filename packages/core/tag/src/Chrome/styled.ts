@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { colors, themed, gridSize, borderRadius } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize, borderRadius } from '@atlaskit/theme/constants';
+import { R500, DN30, N700, R50, R100 } from '@atlaskit/theme/colors';
 import { buttonWidthUnitless, tagHeight, focusRingColor } from '../constants';
 import {
   backgroundColor,
@@ -11,9 +13,9 @@ import { SpanProps } from './index';
 
 const gridSizeUnitless = gridSize();
 
-const colorRemoval = themed({ light: colors.R500, dark: colors.DN30 });
-const colorRemovalHover = themed({ light: colors.N700, dark: colors.DN30 });
-const backgroundColorRemoval = themed({ light: colors.R50, dark: colors.R100 });
+const colorRemoval = themed({ light: R500, dark: DN30 });
+const colorRemovalHover = themed({ light: N700, dark: DN30 });
+const backgroundColorRemoval = themed({ light: R50, dark: R100 });
 
 export const Span = styled.span`
   &:focus {

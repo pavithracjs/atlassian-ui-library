@@ -1,5 +1,21 @@
 # @atlaskit/editor-cq-transformer
 
+## 7.3.1
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 7.3.0
+
+### Minor Changes
+
+- [minor][66c5c88f4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66c5c88f4a):
+
+  Refactor emoji to use typeahead plugin
+
 ## 7.2.5
 
 ### Patch Changes

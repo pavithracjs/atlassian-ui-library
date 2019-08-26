@@ -24,7 +24,7 @@ import { getEmojiResourcePromise, newEmojiRepository } from '../../_test-data';
 import { FormattedMessage } from 'react-intl';
 import FileChooser from '../../../../components/common/FileChooser';
 import {
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   AnalyticsListener,
 } from '@atlaskit/analytics-next';
 
@@ -38,7 +38,7 @@ export function setupPickerWithoutToneSelector(): Promise<
 }
 
 export function setupPicker(
-  props?: Props & WithAnalyticsEventProps,
+  props?: Props & WithAnalyticsEventsProps,
   config?: MockEmojiResourceConfig,
   onEvent?: any,
 ): Promise<ReactWrapper<any, any>> {
@@ -76,7 +76,7 @@ export const findEmoji = (list: ReactWrapper) => list.find(Emoji);
  */
 export const emojisVisible = (
   picker: ReactWrapper,
-  list: ReactWrapper<any, any>,
+  list: ReactWrapper<any, any, any>,
 ) => hasSelector(picker, Emoji, list);
 
 const nodeIsCategory = (category: CategoryGroupKey, n: ReactWrapper<Props>) =>

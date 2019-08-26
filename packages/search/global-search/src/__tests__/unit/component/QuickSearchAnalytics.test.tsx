@@ -29,7 +29,7 @@ import {
 const spyOnComponentDidUpdate = () => {
   const componentsToWaitFor = [QuickSearchContainer, ABTestProvider];
 
-  const spy = jest.fn();
+  const spy = jest.fn<{}>();
 
   componentsToWaitFor.forEach(component => {
     const baseComponentDidUpdateImplementation =
@@ -44,6 +44,7 @@ const spyOnComponentDidUpdate = () => {
         snapshot: any,
       ) {
         spy(prevProps, prevState, snapshot);
+        // @ts-ignore there's some complex typing around `this` here
         return baseComponentDidUpdateImplementation.apply(this, [
           prevProps,
           prevState,
@@ -128,7 +129,7 @@ const getRecentItems = (product: string) =>
 ['confluence', 'jira'].forEach(product => {
   describe(`${product} Quick Search Analytics`, () => {
     const updateSpy = spyOnComponentDidUpdate();
-    const onEventSpy = jest.fn();
+    const onEventSpy = jest.fn<{}>();
     let wrapper: ReactWrapper;
     let originalWindowLocation = window.location;
 
@@ -144,7 +145,7 @@ const getRecentItems = (product: string) =>
     beforeAll(() => {
       delete window.location;
       window.location = Object.assign({}, window.location, {
-        assign: jest.fn(),
+        assign: jest.fn<{}>(),
       });
       setupMocks(ZERO_DELAY_CONFIG);
       jest.setTimeout(10000);

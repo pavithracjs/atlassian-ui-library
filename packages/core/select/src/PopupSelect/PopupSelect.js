@@ -19,7 +19,7 @@ import {
 import NodeResolver from 'react-node-resolver';
 import shallowEqualObjects from 'shallow-equal/objects';
 
-import { colors } from '@atlaskit/theme';
+import { N80 } from '@atlaskit/theme/colors';
 
 import { MenuDialog, DummyControl, defaultComponents } from './components';
 
@@ -68,7 +68,7 @@ type State = {
 // ==============================
 
 const defaultStyles = {
-  groupHeading: provided => ({ ...provided, color: colors.N80 }),
+  groupHeading: provided => ({ ...provided, color: N80 }),
 };
 
 const defaultPopperProps = {

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 

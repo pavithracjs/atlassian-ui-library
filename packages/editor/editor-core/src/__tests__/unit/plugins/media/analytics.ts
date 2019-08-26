@@ -11,7 +11,7 @@ import {
   MediaPluginState,
   MediaProvider,
 } from '../../../../plugins/media/pm-plugins/main';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import PickerFacade from '../../../../plugins/media/picker-facade';
 import { MediaFile } from '../../../../../../../media/media-picker';
 import {
@@ -25,7 +25,7 @@ describe('Media Analytics', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
   let mediaProvider: Promise<MediaProvider>;
   let providerFactory: ProviderFactory;
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let pickers: PickerFacade[];
 
   const editor = (doc: any) => {
@@ -127,7 +127,7 @@ describe('Media Analytics', () => {
       const imageNoExtension: MediaFile = {
         ...imageFile,
         id: '3',
-        type: '',
+        type: 'image/png',
         name: 'bettong',
       };
       insertMedia(imageNoExtension);

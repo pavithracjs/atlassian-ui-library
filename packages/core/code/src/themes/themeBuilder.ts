@@ -3,7 +3,7 @@ import {
   borderRadius,
   gridSize,
   fontSize,
-} from '@atlaskit/theme';
+} from '@atlaskit/theme/constants';
 
 import { defaultColors } from './defaultTheme';
 

@@ -1,10 +1,8 @@
 // @flow
-import {
-  colors,
-  gridSize as akGridSize,
-  layers,
-  themed,
-} from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+
+import { gridSize as akGridSize, layers } from '@atlaskit/theme/constants';
+import { B100, N0 } from '@atlaskit/theme/colors';
 
 /**
  * NOTE: changing the width of the Navigation is considered a breaking change
@@ -65,8 +63,8 @@ export const zIndex = {
 
 // these are colors that are currently not controllable via theming
 export const unthemedColors = {
-  resizer: themed({ light: colors.B100, dark: colors.B100 }),
-  presenceIconBg: colors.N0,
+  resizer: themed({ light: B100, dark: B100 }),
+  presenceIconBg: N0,
 };
 
 export const scrollBarSize = gridSize;

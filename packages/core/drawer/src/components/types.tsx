@@ -1,5 +1,5 @@
 import { ComponentType, SyntheticEvent, ReactNode } from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 export type Widths = {
   extended: string;
@@ -30,7 +30,7 @@ export interface DrawerPrimitiveProps extends BaseProps {
 
 export type DrawerProps = BaseProps &
   FocusLockProps &
-  WithAnalyticsEventProps & {
+  WithAnalyticsEventsProps & {
     /**
       Callback function that will be called when the drawer is displayed and `keydown` event is triggered.
     */

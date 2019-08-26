@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import {
   defaultCollectionName,
-  createUploadContext,
-  createStorybookMediaClient,
+  createStorybookMediaClientConfig,
+  createUploadMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -21,8 +21,9 @@ import {
   Popup,
 } from '../src';
 
-const context = createUploadContext();
-const mediaClient = createStorybookMediaClient();
+const userMediaClientConfig = createUploadMediaClientConfig();
+const tenantMediaClientConfig = createStorybookMediaClientConfig();
+
 const dataSourceOptions = [
   { label: 'List', value: 'list' },
   { label: 'Collection', value: 'collection' },
@@ -48,7 +49,7 @@ export default class Example extends React.Component<{}, State> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker(context, {
+    const popup = await MediaPicker(userMediaClientConfig, {
       uploadParams: {
         collection: defaultCollectionName,
       },
@@ -56,14 +57,6 @@ export default class Example extends React.Component<{}, State> {
       // Media picker requires `proxyReactContext` to enable analytics
       // otherwise, analytics Gasv3 integrations won't work
       proxyReactContext: this.context,
-    });
-
-    context.on('file-added', file => {
-      console.log('context on file-added', file);
-    });
-
-    mediaClient.on('file-added', file => {
-      console.log('mediaClient on file-added', file);
     });
 
     globalMediaEventEmitter.on('file-added', file => {
@@ -130,7 +123,7 @@ export default class Example extends React.Component<{}, State> {
       return (
         <div key={key} style={{ display: 'inline-block', margin: '10px' }}>
           <Card
-            context={context}
+            mediaClientConfig={tenantMediaClientConfig}
             identifier={identifier}
             dimensions={{
               width: 200,

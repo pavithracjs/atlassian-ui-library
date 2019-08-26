@@ -1,4 +1,9 @@
-import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import {
+  initFullPageEditorWithAdf,
+  snapshot,
+  Device,
+  editorSelector,
+} from '../_utils';
 import {
   clickToolbarMenu,
   ToolbarMenuItem,
@@ -9,10 +14,10 @@ import { insertTable } from '../../__helpers/page-objects/_table';
 import { emojiReadySelector } from '../../__helpers/page-objects/_emoji';
 import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 import adf from './__fixtures__/noData-adf.json';
+import { Page } from '../../__helpers/page-objects/_types';
 
-// TODO - add ADF before loading stuff
 describe('z-indexes:', () => {
-  let page: any;
+  let page: Page;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -25,7 +30,7 @@ describe('z-indexes:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page);
+    await snapshot(page, undefined, editorSelector);
   });
 
   it('should always position table trash icon below dropdowns from main menu', async () => {

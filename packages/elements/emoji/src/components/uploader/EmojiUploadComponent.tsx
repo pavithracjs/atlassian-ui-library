@@ -9,7 +9,7 @@ import { EmojiUpload } from '../../types';
 import { EmojiProvider, supportsUploadFeature } from '../../api/EmojiResource';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import EmojiUploadPicker from '../common/EmojiUploadPicker';
 import { uploadEmoji } from '../common/UploadEmoji';
@@ -27,7 +27,7 @@ export interface UploadRefHandler {
 export interface Props {
   emojiProvider: EmojiProvider;
   onUploaderRef?: UploadRefHandler;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface State {

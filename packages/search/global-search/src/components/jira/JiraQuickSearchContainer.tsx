@@ -620,6 +620,7 @@ export class JiraQuickSearchContainer extends React.Component<
     const { selectedResultId } = this.state;
 
     return (
+      // @ts-ignore
       <BaseJiraQuickSearchContainerJira
         placeholder={this.props.intl.formatMessage(
           messages.jira_search_placeholder,
@@ -654,5 +655,5 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
 );
 
 export default injectFeatures(
-  withAnalyticsEvents<Props>()(JiraQuickSearchContainerWithIntl),
+  withAnalyticsEvents()(JiraQuickSearchContainerWithIntl),
 );

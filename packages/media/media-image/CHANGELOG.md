@@ -1,5 +1,20 @@
 # @atlaskit/media-image
 
+## 14.1.6
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 14.1.5
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-client@2.0.1
+  - @atlaskit/media-store@12.0.8
+  - @atlaskit/media-test-helpers@25.0.0
+
 ## 14.1.4
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

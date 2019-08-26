@@ -7,7 +7,7 @@ import { ZoomLevel } from './domain/zoomLevel';
 import { ZoomWrapper, ZoomControlsWrapper, ZoomLevelIndicator } from './styled';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { channel } from './analytics';
 import { ZoomControlsGasPayload, createZoomEvent } from './analytics/zoom';
@@ -18,7 +18,7 @@ export type ZoomControlsProps = Readonly<{
   onChange: (newZoomLevel: ZoomLevel) => void;
   zoomLevel: ZoomLevel;
 }> &
-  WithAnalyticsEventProps;
+  WithAnalyticsEventsProps;
 
 export class ZoomControlsBase extends Component<
   ZoomControlsProps & InjectedIntlProps,
@@ -80,6 +80,6 @@ export class ZoomControlsBase extends Component<
   };
 }
 
-export const ZoomControls = withAnalyticsEvents<ZoomControlsProps>({})(
+export const ZoomControls = withAnalyticsEvents({})(
   injectIntl(ZoomControlsBase),
 );

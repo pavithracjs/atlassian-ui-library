@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Portal from '@atlaskit/portal';
-import { layers } from '@atlaskit/theme';
+import { layers } from '@atlaskit/theme/constants';
 import Tooltip from '../../Tooltip';
 import { Tooltip as StyledTooltip } from '../../../styled';
 import { hoveredPayload } from '../../utils/analytics-payloads';

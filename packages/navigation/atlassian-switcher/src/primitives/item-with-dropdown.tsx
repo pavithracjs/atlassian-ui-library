@@ -7,6 +7,7 @@ import SwitcherThemedChildItem from './themed-child-item';
 
 import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
+import Avatar from './avatar';
 import { FadeIn } from './fade-in';
 import { SwitcherChildItem } from '../types';
 
@@ -17,6 +18,7 @@ import {
   SWITCHER_CHILD_ITEM_SUBJECT,
   SWITCHER_ITEM_SUBJECT,
   SWITCHER_ITEM_EXPAND_SUBJECT,
+  WithAnalyticsEventsProps,
 } from '../utils/analytics';
 
 const ItemContainer = styled.div`
@@ -34,11 +36,6 @@ const ItemWrapper = styled.div<ToggleProps>`
   width: 100%;
   overflow: hidden;
 
-  // limit the width of the Item component to make sure long labels and descriptions are ellipsed properly
-  // remove this once the Item allows width theming
-  &&& > * {
-    max-width: 100%;
-  }
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
 
@@ -80,7 +77,7 @@ interface ToggleProps {
   isParentHovered?: boolean;
 }
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   children: React.ReactNode;
   icon: React.ReactNode;
   tooltipContent: React.ReactNode;
@@ -139,7 +136,12 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
             <ChildItemsContainer>
               {childItems.map(item => (
                 <SwitcherThemedChildItem
-                  icon={childIcon}
+                  icon={
+                    <Avatar
+                      avatarUrl={item.avatar}
+                      fallbackComponent={childIcon}
+                    />
+                  }
                   href={item.href}
                   key={item.label}
                   onClick={onChildItemClick}
@@ -207,7 +209,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
   private onMouseLeave = () => this.setItemHovered(false);
 }
 
-const SwitcherItemWithDropDownWithEvents = withAnalyticsEvents<Props>({
+const SwitcherItemWithDropDownWithEvents = withAnalyticsEvents({
   onChildItemClick: createAndFireNavigationEvent({
     eventType: UI_EVENT_TYPE,
     action: 'clicked',

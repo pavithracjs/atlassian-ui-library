@@ -12,7 +12,7 @@ export function defaultCompareFn(
 ): number {
   return typeof a === 'number' && typeof b === 'number'
     ? a - b
-    : String.prototype.localeCompare.call(a, b);
+    : String.prototype.localeCompare.call(a.toString(), b.toString());
 }
 
 export enum SortMode {

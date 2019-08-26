@@ -1,10 +1,7 @@
-import {
-  createAndFireEvent,
-  CreateAndFireEventFunction,
-} from '@atlaskit/analytics-next';
+import { createAndFireEvent } from '@atlaskit/analytics-next';
 
 export const fabricElementsChannel = 'fabric-elements';
 
-export const createAndFireEventInElementsChannel: CreateAndFireEventFunction = createAndFireEvent(
+export const createAndFireEventInElementsChannel = createAndFireEvent(
   fabricElementsChannel,
 );

@@ -1,6 +1,7 @@
 // @flow
 
-import GlobalTheme from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
+
 import React, { PureComponent } from 'react';
 import { Slot, ShapeGroup, Svg } from '../styled/AvatarImage';
 import type { AppearanceType, SizeType } from '../types';

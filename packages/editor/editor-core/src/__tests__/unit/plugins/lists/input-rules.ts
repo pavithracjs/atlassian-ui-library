@@ -11,11 +11,11 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { analyticsService, AnalyticsHandler } from '../../../../analytics';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   let trackEvent: jest.SpyInstance<AnalyticsHandler>;
 
   const editor = (doc: any) => {

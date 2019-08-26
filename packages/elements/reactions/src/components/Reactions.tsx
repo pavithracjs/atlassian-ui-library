@@ -1,6 +1,6 @@
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
 import Tooltip from '@atlaskit/tooltip';
@@ -57,7 +57,7 @@ export interface Props {
 }
 
 class ReactionsWithoutAnalytics extends React.PureComponent<
-  Props & WithAnalyticsEventProps
+  Props & WithAnalyticsEventsProps
 > {
   static defaultProps = {
     flash: {},
@@ -69,7 +69,7 @@ class ReactionsWithoutAnalytics extends React.PureComponent<
   private openTime: number | undefined;
   private renderTime: number | undefined;
 
-  constructor(props: Props & WithAnalyticsEventProps) {
+  constructor(props: Props & WithAnalyticsEventsProps) {
     super(props);
     if (props.status !== ReactionStatus.ready) {
       this.renderTime = Date.now();
@@ -204,6 +204,4 @@ class ReactionsWithoutAnalytics extends React.PureComponent<
   }
 }
 
-export const Reactions = withAnalyticsEvents<Props>()(
-  ReactionsWithoutAnalytics,
-);
+export const Reactions = withAnalyticsEvents()(ReactionsWithoutAnalytics);

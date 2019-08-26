@@ -1,6 +1,6 @@
 // @flow
 
-import { colors } from '@atlaskit/theme';
+import { N20, N500 } from '@atlaskit/theme/colors';
 
 import { CONTENT_NAV_WIDTH } from '../../../common/constants';
 
@@ -20,8 +20,8 @@ const baseStyles = {
 export default ({ product }: ModeColors) => () => ({
   container: {
     ...baseStyles,
-    backgroundColor: colors.N20,
-    color: colors.N500,
+    backgroundColor: N20,
+    color: N500,
   },
   product: {
     ...baseStyles,

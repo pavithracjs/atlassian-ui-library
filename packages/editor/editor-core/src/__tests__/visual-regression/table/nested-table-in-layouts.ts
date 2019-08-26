@@ -81,7 +81,7 @@ describe('Snapshot Test: Nested table inside layouts', () => {
   });
 
   it('should display correctly when columns are stacked', async () => {
-    await initEditor(deviceViewPorts[Device.iPad]);
+    await initEditor({ width: 768, height: 600 });
     await clickFirstCell(page);
   });
 });

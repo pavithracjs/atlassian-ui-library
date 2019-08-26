@@ -1,35 +1,42 @@
 import { colors, gridSize, createTheme } from '@atlaskit/theme';
 import { ThemeProps, ThemeTokens } from './types';
 
-const defaultItemTheme = (props: ThemeProps) => ({
-  display: 'block',
-  padding: {
-    default: {
-      bottom: gridSize(),
-      top: gridSize(),
-      left: gridSize(),
-      right: gridSize(),
+const defaultItemTheme = (props: ThemeProps) => {
+  const gridSizeResult = gridSize();
+  return {
+    display: 'block',
+    padding: {
+      default: {
+        bottom: gridSizeResult,
+        top: gridSizeResult,
+        left: gridSizeResult,
+        right: gridSizeResult,
+      },
     },
-  },
-  hover: {
-    background: 'transparent',
-  },
-  default: {
-    background: 'transparent',
-    text: colors.text,
-    secondaryText: colors.N200,
-  },
-});
+    hover: {
+      background: 'transparent',
+    },
+    default: {
+      background: 'transparent',
+      text: colors.text,
+      secondaryText: colors.N200,
+    },
+    width: {
+      default: '100%',
+    },
+  };
+};
 
 const defaultChildItemTheme = (props: ThemeProps) => {
   const defaultItemThemeResult = defaultItemTheme(props);
+  const gridSizeResult = gridSize();
   return {
     padding: {
       default: {
-        left: gridSize(),
-        right: gridSize(),
-        bottom: gridSize() / 2,
-        top: gridSize() / 2,
+        left: gridSizeResult,
+        right: gridSizeResult,
+        bottom: gridSizeResult / 2,
+        top: gridSizeResult / 2,
       },
     },
     hover: {

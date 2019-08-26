@@ -1,14 +1,17 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
-import { colors, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N30, DN30, R400, Y400 } from '@atlaskit/theme/colors';
+import { divide } from '@atlaskit/theme/math';
 import { flexMaxHeightIEFix } from '../utils/flex-max-height-ie-fix';
 import { AppearanceType } from '../types';
 
 // Constants
 // ==============================
 const modalPadding = gridSize() * 3;
-const keylineColor = themed({ light: colors.N30, dark: colors.DN30 });
+const keylineColor = themed({ light: N30, dark: DN30 });
 export const keylineHeight = 2;
 
 // Wrapper
@@ -26,7 +29,7 @@ export const wrapperStyles = css`
 interface HeaderProps {
   showKeyline?: boolean;
 }
-export const Header = styled.header`
+export const Header = styled.header<HeaderProps>`
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -35,7 +38,7 @@ export const Header = styled.header`
   z-index: 1;
   padding: ${modalPadding}px ${modalPadding}px ${modalPadding - keylineHeight}px
     ${modalPadding}px;
-  box-shadow: ${(props: HeaderProps) =>
+  box-shadow: ${props =>
     props.showKeyline
       ? `0 ${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};
@@ -56,12 +59,12 @@ export const Title = styled.h4`
 interface TitleTextProps {
   isHeadingMultiline?: boolean;
 }
-export const TitleText = styled.span`
+export const TitleText = styled.span<TitleTextProps>`
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
   width: 100%;
-  ${(props: TitleTextProps) =>
+  ${props =>
     !props.isHeadingMultiline &&
     `
       white-space: nowrap;
@@ -72,8 +75,8 @@ export const TitleText = styled.span`
 
 type iconColorType = { [key in AppearanceType]: string };
 const iconColor: iconColorType = {
-  danger: colors.R400,
-  warning: colors.Y400,
+  danger: R400,
+  warning: Y400,
 };
 
 export const titleIconWrapperStyles = (appearance: AppearanceType) => css`
@@ -111,8 +114,8 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
 interface BodyProps {
   shouldScroll?: boolean;
 }
-export const Body = styled.div`
-  ${(props: BodyProps) => bodyStyles(props.shouldScroll)}
+export const Body = styled.div<BodyProps>`
+  ${props => bodyStyles(props.shouldScroll)}
 `;
 
 // Footer
@@ -120,7 +123,7 @@ export const Body = styled.div`
 interface FooterProps {
   showKeyline?: boolean;
 }
-export const Footer = styled.footer`
+export const Footer = styled.footer<FooterProps>`
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -129,7 +132,7 @@ export const Footer = styled.footer`
   z-index: 1;
   padding: ${modalPadding - keylineHeight}px ${modalPadding}px ${modalPadding}px
     ${modalPadding}px;
-  box-shadow: ${(props: FooterProps) =>
+  box-shadow: ${props =>
     props.showKeyline
       ? `0 -${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};
@@ -137,10 +140,10 @@ export const Footer = styled.footer`
 
 export const Actions = styled.div`
   display: inline-flex;
-  margin: 0 -${math.divide(gridSize, 2)}px;
+  margin: 0 -${divide(gridSize, 2)}px;
 `;
 
 export const ActionItem = styled.div`
   flex: 1 0 auto;
-  margin: 0 ${math.divide(gridSize, 2)}px;
+  margin: 0 ${divide(gridSize, 2)}px;
 `;

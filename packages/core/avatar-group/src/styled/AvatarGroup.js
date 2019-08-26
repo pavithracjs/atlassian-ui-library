@@ -1,6 +1,11 @@
 // @flow
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import {
+  backgroundOnLayer,
+  backgroundHover,
+  backgroundActive,
+} from '@atlaskit/theme/colors';
 import { BORDER_WIDTH } from '@atlaskit/avatar';
 
 const gutterUnitless = gridSize() / 2;
@@ -39,14 +44,14 @@ export function getBackgroundColor({
   isActive: boolean,
   isHover: boolean,
 }) {
-  let themedBackgroundColor = colors.backgroundOnLayer;
+  let themedBackgroundColor = backgroundOnLayer;
 
   if (isHover) {
-    themedBackgroundColor = colors.backgroundHover;
+    themedBackgroundColor = backgroundHover;
   }
 
   if (isActive) {
-    themedBackgroundColor = colors.backgroundActive;
+    themedBackgroundColor = backgroundActive;
   }
 
   return themedBackgroundColor;

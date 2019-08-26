@@ -3,7 +3,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import { GridColumn } from '@atlaskit/page';
 import ProgressTrackerStage from '../../index';
 import ProgressTrackerLink from '../../../ProgressTrackerLink';

@@ -8,11 +8,19 @@ import { todayTimestampInUTC } from '@atlaskit/editor-common';
 import { pluginKey } from './plugin';
 import { DateType } from './index';
 import { Command } from '../../types';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../analytics';
+import { TOOLBAR_MENU_TYPE } from '../insert-block/ui/ToolbarInsertBlock';
 
-export const insertDate = (date?: DateType) => (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean => {
+export const insertDate = (
+  date?: DateType,
+  inputMethod?: TOOLBAR_MENU_TYPE,
+) => (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
   const { schema } = state;
   let timestamp: string;
   if (date) {
@@ -22,6 +30,15 @@ export const insertDate = (date?: DateType) => (
   }
 
   const tr = state.tr;
+  if (inputMethod) {
+    addAnalytics(tr, {
+      action: ACTION.INSERTED,
+      actionSubject: ACTION_SUBJECT.DOCUMENT,
+      actionSubjectId: ACTION_SUBJECT_ID.DATE,
+      eventType: EVENT_TYPE.TRACK,
+      attributes: { inputMethod },
+    });
+  }
   const { showDatePickerAt } = pluginKey.getState(state);
 
   if (!showDatePickerAt) {

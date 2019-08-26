@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { messages } from '@atlaskit/media-ui';
 import { FormattedMessage } from 'react-intl';
-import {
-  FileDetails,
-  ImageResizeMode,
-  MediaItemType,
-} from '@atlaskit/media-client';
+import { FileDetails, ImageResizeMode } from '@atlaskit/media-client';
 import { SharedCardProps, CardStatus } from '../..';
 import { CardAction } from '../../actions';
 import { FileCardImageView } from '../cardImageView';
@@ -20,7 +16,6 @@ export interface FileCardProps extends SharedCardProps {
   readonly onRetry?: () => void;
   readonly resizeMode?: ImageResizeMode;
   readonly disableOverlay?: boolean;
-  readonly mediaItemType?: MediaItemType;
   readonly previewOrientation?: number;
 }
 
@@ -45,7 +40,6 @@ export class FileCard extends Component<FileCardProps, {}> {
       resizeMode,
       onRetry,
       disableOverlay,
-      mediaItemType,
       previewOrientation,
     } = this.props;
     const defaultDetails: FileDetails = {
@@ -58,10 +52,7 @@ export class FileCard extends Component<FileCardProps, {}> {
     const errorMessage = this.isError && (
       <FormattedMessage {...messages.failed_to_load} />
     );
-    const fileSize =
-      mediaItemType === 'external-image'
-        ? ''
-        : toHumanReadableMediaSize(size || 0);
+    const fileSize = size ? toHumanReadableMediaSize(size) : '';
 
     return (
       <FileCardImageView

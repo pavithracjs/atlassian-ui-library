@@ -279,9 +279,9 @@ describe('TabsWithAnalytics', () => {
 
   it('should mount without errors', () => {
     mount(<TabsWithAnalytics tabs={tabs} />);
-    /* eslint-disable no-console */
+    // eslint-disable-next-line no-console
     expect(console.warn).not.toHaveBeenCalled();
+    // eslint-disable-next-line no-console
     expect(console.error).not.toHaveBeenCalled();
-    /* eslint-enable no-console */
   });
 });

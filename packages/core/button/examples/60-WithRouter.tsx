@@ -12,7 +12,7 @@ const ButtonWithRouter = () => (
           HTMLElement,
           React.AllHTMLAttributes<HTMLElement>
         >(({ href = '', children, ...rest }, ref: any) => (
-          <Link {...rest} to={href} innerRef={ref}>
+          <Link {...rest as any} to={href} innerRef={ref}>
             {children}
           </Link>
         ))}

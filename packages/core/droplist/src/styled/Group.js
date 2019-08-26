@@ -1,6 +1,9 @@
 // @flow
 import styled from 'styled-components';
-import { colors, gridSize, math, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { gridSize } from '@atlaskit/theme/constants';
+import { N300, DN300 } from '@atlaskit/theme/colors';
+import { multiply } from '@atlaskit/theme/math';
 
 export default styled.div`
   box-sizing: border-box;
@@ -15,8 +18,8 @@ export default styled.div`
 export const Heading = styled.div`
   align-items: baseline;
   color: ${themed({
-    light: colors.N300,
-    dark: colors.DN300,
+    light: N300,
+    dark: DN300,
   })};
   display: flex;
   flex: 1 1 auto;
@@ -24,7 +27,7 @@ export const Heading = styled.div`
   font-size: 14px;
   line-height: 1;
   margin: 0;
-  padding: ${gridSize}px ${math.multiply(gridSize, 1.5)}px;
+  padding: ${gridSize}px ${multiply(gridSize, 1.5)}px;
 `;
 export const HeadingAfter = styled.div`
   flex: 0 0 auto;

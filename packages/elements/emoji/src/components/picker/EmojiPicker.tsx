@@ -1,6 +1,6 @@
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import * as React from 'react';
 import { ComponentClass } from 'react';
@@ -30,7 +30,7 @@ export interface Props extends LoadingProps {
 }
 
 export class EmojiPickerInternal extends LoadingEmojiComponent<
-  Props & WithAnalyticsEventProps,
+  Props & WithAnalyticsEventsProps,
   LoadingState
 > {
   // state initialised with static component to prevent
@@ -79,6 +79,6 @@ export class EmojiPickerInternal extends LoadingEmojiComponent<
   }
 }
 
-const EmojiPicker = withAnalyticsEvents<Props>()(EmojiPickerInternal);
+const EmojiPicker = withAnalyticsEvents()(EmojiPickerInternal);
 
 export default EmojiPicker;

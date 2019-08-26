@@ -89,6 +89,7 @@ class ExampleEditorFullPage extends React.Component<Props> {
                 allowTextAlignment={true}
                 allowIndentation={true}
                 allowTables={{
+                  allowColumnSorting: true,
                   allowColumnResizing: true,
                   allowMergeCells: true,
                   allowNumberColumn: true,

@@ -17,12 +17,18 @@ import {
   EditorDisabledPluginState,
 } from '../editor-disabled';
 import { IconDate } from '../quick-insert/assets';
+import {
+  addAnalytics,
+  INPUT_METHOD,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../analytics';
 
 const DatePicker = Loadable({
   loader: () =>
-    import(/* webpackChunkName:"@atlaskit-internal-editor-datepicker" */ './ui/DatePicker').then(
-      module => module.default,
-    ),
+    import(/* webpackChunkName:"@atlaskit-internal-editor-datepicker" */ './ui/DatePicker'),
   loading: () => null,
 });
 
@@ -89,7 +95,9 @@ const datePlugin = (): EditorPlugin => ({
             <DatePicker
               key={showDatePickerAt}
               element={element}
-              onSelect={date => insertDate(date)(editorView.state, dispatch)}
+              onSelect={(date?: DateType) =>
+                insertDate(date)(editorView.state, dispatch)
+              }
               closeDatePicker={() =>
                 setDatePickerAt(null)(editorView.state, dispatch)
               }
@@ -115,6 +123,13 @@ const datePlugin = (): EditorPlugin => ({
           });
 
           const tr = insert(dateNode, { selectInlineNode: true });
+          addAnalytics(tr, {
+            action: ACTION.INSERTED,
+            actionSubject: ACTION_SUBJECT.DOCUMENT,
+            actionSubjectId: ACTION_SUBJECT_ID.DATE,
+            eventType: EVENT_TYPE.TRACK,
+            attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
+          });
           return tr.setMeta(datePluginKey, {
             showDatePickerAt: tr.selection.from,
           });

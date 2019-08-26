@@ -1,4 +1,4 @@
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import adf from '../common/__fixtures__/noData-adf.json';
 import {
   resizeColumn,
@@ -8,14 +8,19 @@ import {
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: table resizing', () => {
   describe('Re-sizing', () => {
-    let page: any;
+    let page: Page;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;
-      await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+      await initEditorWithAdf(page, {
+        appearance: Appearance.fullPage,
+        adf,
+        viewport: { width: 1040, height: 400 },
+      });
       await insertTable(page);
     });
 

@@ -53,6 +53,22 @@ export const clickElementWithText = async ({
   await target[0].click();
 };
 
+export const hoverElementWithText = async ({
+  page,
+  tag,
+  text,
+}: {
+  page: any;
+  tag: string;
+  text: string;
+}) => {
+  const elementPath = getElementPathWithText(text, tag);
+  await page.waitForXPath(elementPath, 5000);
+  const target = await page.$x(elementPath);
+  expect(target.length).toBeGreaterThan(0);
+  await target[0].hover();
+};
+
 interface Rect {
   left: number;
   top: number;

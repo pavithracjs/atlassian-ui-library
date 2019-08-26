@@ -1,4 +1,5 @@
-import GlobalTheme, { GlobalThemeTokens } from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
+import { GlobalThemeTokens } from '@atlaskit/theme/components';
 import React from 'react';
 import {
   withAnalyticsEvents,
@@ -170,25 +171,19 @@ class Textfield extends React.Component<InternalProps, State> {
   }
 }
 
-const ForwardRefTextfield = React.forwardRef(
-  (props: PublicProps, ref: React.Ref<HTMLInputElement>) => (
-    <Textfield {...props} forwardedRef={ref} />
-  ),
+const ForwardRefTextfield = React.forwardRef<HTMLInputElement, PublicProps>(
+  (props, ref) => <Textfield {...props} forwardedRef={ref} />,
 );
 
 export { ForwardRefTextfield as TextFieldWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-// Need to pass this into Analytics to avoid the 'ref' being lost
-// Otherwise would be passing in PublicProps
-type PropsWithRef = React.ComponentProps<typeof ForwardRefTextfield>;
-
-export default withAnalyticsContext<PropsWithRef>({
+export default withAnalyticsContext({
   componentName: 'textField',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<PropsWithRef>({
+  withAnalyticsEvents({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'textField',

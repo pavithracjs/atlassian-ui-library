@@ -14,7 +14,7 @@ import {
   pluginKey,
 } from '../../../../../plugins/text-formatting/pm-plugins/main';
 import ToolbarTextFormatting from '../../../../../plugins/text-formatting/ui/ToolbarTextFormatting';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION_SUBJECT_ID,
@@ -26,7 +26,7 @@ import {
 
 describe('ToolbarTextFormatting', () => {
   const createEditor = createEditorFactory<TextFormattingState>();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({

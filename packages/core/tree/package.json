@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tree",
-  "version": "6.0.6",
+  "version": "6.0.8",
   "description": "A React Component for displaying expandable and sortable tree hierarchies",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -11,10 +11,8 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C",
-    "Balasz N",
+    "Daniel DC",
+    "Harsha I",
     "Alex R"
   ],
   "atlaskit": {
@@ -30,15 +28,15 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.9",
-    "@atlaskit/docs": "^8.1.3",
-    "@atlaskit/icon": "^19.0.0",
-    "@atlaskit/navigation": "^35.1.13",
-    "@atlaskit/spinner": "^12.0.1",
+    "@atlaskit/build-utils": "^2.2.4",
+    "@atlaskit/button": "^13.1.5",
+    "@atlaskit/docs": "^8.1.4",
+    "@atlaskit/icon": "^19.0.5",
+    "@atlaskit/navigation": "^35.1.20",
+    "@atlaskit/spinner": "^12.0.8",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/theme": "^9.1.1",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/theme": "^9.1.5",
+    "@atlaskit/visual-regression": "^0.1.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "exenv": "^1.2.2",

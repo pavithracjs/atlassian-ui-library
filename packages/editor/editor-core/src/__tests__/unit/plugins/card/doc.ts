@@ -38,7 +38,7 @@ import {
   shouldReplace,
 } from '../../../../plugins/card/pm-plugins/doc';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { createCardRequest, setupProvider, ProviderWrapper } from './_helpers';
 
 const inlineCardAdf = {
@@ -58,7 +58,7 @@ const googleUrl = 'http://www.google.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
   const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const editorWrapper = createEditor({
@@ -102,6 +102,7 @@ describe('card', () => {
 
         // should be at initial pos
         const initialState = {
+          cards: [],
           requests: [
             expect.objectContaining({
               url: atlassianUrl,
@@ -109,6 +110,7 @@ describe('card', () => {
             }),
           ],
           provider: null,
+          showLinkingToolbar: false,
         } as CardPluginState;
         expect(pluginKey.getState(editorView.state)).toEqual(initialState);
 
@@ -142,6 +144,7 @@ describe('card', () => {
         );
 
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [
             {
               url: 'http://www.atlassian.com/',
@@ -152,7 +155,8 @@ describe('card', () => {
             },
           ],
           provider: null,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
       });
 
       it('remaps positions for typing before the link', () => {
@@ -176,6 +180,7 @@ describe('card', () => {
 
         // nothing should have changed
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [
             expect.objectContaining({
               url: atlassianUrl,
@@ -183,6 +188,7 @@ describe('card', () => {
             }),
           ],
           provider: null,
+          showLinkingToolbar: false,
         } as CardPluginState);
       });
 
@@ -217,6 +223,7 @@ describe('card', () => {
 
         // everything should be at initial pos
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [
             expect.objectContaining({
               url: hrefs['A'],
@@ -228,13 +235,15 @@ describe('card', () => {
             }),
           ],
           provider: null,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
 
         // type something in between the links
         insertText(editorView, 'ok', refs['middle']);
 
         // only B should have moved 2 to the right
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [
             expect.objectContaining({
               url: hrefs['A'],
@@ -246,7 +255,8 @@ describe('card', () => {
             }),
           ],
           provider: null,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
       });
     });
 
@@ -269,9 +279,11 @@ describe('card', () => {
       afterEach(async () => {
         // queue should now be empty, and document should remain the same
         expect(pluginKey.getState(view.state)).toEqual({
+          cards: [],
           requests: [],
           provider: provider,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
 
         expect(view.state.doc).toEqualDocument(initialDoc);
       });
@@ -364,9 +376,11 @@ describe('card', () => {
 
         // queue should be empty
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [],
           provider: providerWrapper.provider,
-        });
+          showLinkingToolbar: false,
+        } as CardPluginState);
       });
 
       it('replaces anyway if compareLinkText is false', async () => {
@@ -794,6 +808,18 @@ describe('card', () => {
         )(defaultSchema);
 
         expect(shouldReplace(link)).toBe(true);
+      });
+
+      it('returns true for link with slash', () => {
+        const link = cleanOne(
+          a({
+            href: 'https://invis.io/P8OKINLRQEH/',
+          })('https://invis.io/P8OKINLRQEH/'),
+        )(defaultSchema);
+
+        expect(shouldReplace(link, true, 'https://invis.io/P8OKINLRQEH/')).toBe(
+          true,
+        );
       });
 
       it('returns false for text node', () => {

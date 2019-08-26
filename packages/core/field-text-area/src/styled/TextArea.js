@@ -1,6 +1,7 @@
 // @flow
 import styled, { css } from 'styled-components';
-import { codeFontFamily, colors, fontSize } from '@atlaskit/theme';
+import { codeFontFamily, fontSize } from '@atlaskit/theme/constants';
+import { placeholderText } from '@atlaskit/theme/colors';
 
 const getPlaceholderStyle = style => css`
   &::-webkit-input-placeholder {
@@ -25,7 +26,7 @@ const getPlaceholderStyle = style => css`
   }
 `;
 const getPlaceholderColor = css`
-  color: ${colors.placeholderText};
+  color: ${placeholderText};
 `;
 
 // Safari puts on some difficult to remove styles, mainly for disabled inputs

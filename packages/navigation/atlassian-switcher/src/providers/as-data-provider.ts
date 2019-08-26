@@ -6,7 +6,7 @@ import {
 } from '../utils/analytics';
 import {
   AnalyticsEventPayload,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { errorToReason } from '../utils/error-to-reason';
 
@@ -85,7 +85,7 @@ export default function<P, D>(
   };
 
   const DataProvider = class extends React.Component<
-    P & DataProviderProps<D> & WithAnalyticsEventProps
+    P & DataProviderProps<D> & WithAnalyticsEventsProps
   > {
     acceptResults = true;
     state = getInitialState(this.props);
@@ -158,9 +158,10 @@ export default function<P, D>(
     }
 
     render() {
+      // @ts-ignore https://product-fabric.atlassian.net/browse/FIND-269 - Ignoring issue with children's return type
       return this.props.children(this.state);
     }
   };
 
-  return withAnalyticsEvents<P & DataProviderProps<D>>()(DataProvider);
+  return withAnalyticsEvents()(DataProvider);
 }

@@ -8,13 +8,13 @@ import {
   taskList,
   taskItem,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('save on enter', () => {
   const createEditor = createEditorFactory();
 
   const onSaveSpy = jest.fn();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   beforeEach(() => {
     onSaveSpy.mockReset();

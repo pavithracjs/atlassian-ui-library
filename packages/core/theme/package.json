@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/theme",
-  "version": "9.1.2",
+  "version": "9.1.5",
   "description": "The Atlaskit theme framework",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -11,9 +11,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "atlaskit": {
     "name": "Theme",
@@ -30,13 +30,13 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^8.1.1",
-    "@atlaskit/button": "^13.0.6",
-    "@atlaskit/lozenge": "^9.0.0",
-    "@atlaskit/section-message": "^4.0.4",
+    "@atlaskit/build-utils": "^2.2.4",
+    "@atlaskit/docs": "^8.1.4",
+    "@atlaskit/button": "^13.1.5",
+    "@atlaskit/lozenge": "^9.0.6",
+    "@atlaskit/section-message": "^4.0.11",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.2",
     "color": "^3.0.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
