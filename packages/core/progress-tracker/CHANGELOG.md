@@ -1,5 +1,13 @@
 # @atlaskit/progress-tracker
 
+## 6.0.8
+
+### Patch Changes
+
+- [patch][4432d729b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4432d729b7):
+
+  @atlaskit/progress-tracker has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 6.0.7
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/progress-tracker",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "description": "A React component that shows the steps and progress in a journey",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
