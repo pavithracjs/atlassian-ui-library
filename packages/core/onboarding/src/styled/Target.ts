@@ -8,6 +8,12 @@ interface TargetProps {
   radius?: number;
 }
 
+interface TargetProps {
+  pulse?: boolean;
+  bgColor?: string;
+  radius?: number;
+}
+
 // NOTE:
 // Pulse color "rgb(101, 84, 192)" derived from "colors.P300"
 const baseShadow = `0 0 0 2px ${P300}`;
