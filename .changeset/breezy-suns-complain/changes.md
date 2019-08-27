@@ -1,1 +1,0 @@
-ED-7513: fixed pasting content with an emoji duplicates the emoji as an image in Editor
