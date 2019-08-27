@@ -61,7 +61,7 @@ const withAnalytics = (
 
     evaluatedMap = {};
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.evaluatedMap =
         typeof map === 'function' ? map(this.fireAnalyticsEvent) : map;
     }

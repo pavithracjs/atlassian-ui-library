@@ -70,7 +70,7 @@ export default class CategorySelector extends PureComponent<Props, State> {
     }
   };
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     if (this.props.dynamicCategories !== nextProps.dynamicCategories) {
       this.setState({
         categories: addNewCategories(

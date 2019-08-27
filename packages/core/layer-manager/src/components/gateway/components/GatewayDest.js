@@ -34,7 +34,7 @@ export default class GatewayDest extends Component<Props, State> {
     this.gatewayRegistry = context.gatewayRegistry;
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.gatewayRegistry.addContainer(this.props.name, this);
   }
 

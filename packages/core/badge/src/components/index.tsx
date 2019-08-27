@@ -50,7 +50,7 @@ export default class Badge extends React.Component<BadgeProps> {
   };
 
   // TODO This can be removed when we remove support for onValueUpdated.
-  componentWillUpdate(nextProps: BadgeProps) {
+  UNSAFE_componentWillUpdate(nextProps: BadgeProps) {
     const { children, onValueUpdated, value } = this.props;
     let oldValue = children;
     let newValue = nextProps.children;

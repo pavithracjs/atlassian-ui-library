@@ -24,7 +24,7 @@ export default class ContainerNavigationNested extends PureComponent<
     traversalDirection: 'down',
   };
 
-  componentWillReceiveProps({ stack }: { stack: Stack }): any {
+  UNSAFE_componentWillReceiveProps({ stack }: { stack: Stack }): any {
     const traversalDirection = (() => {
       if (stack.length !== this.props.stack.length) {
         return stack.length < this.props.stack.length ? 'up' : 'down';

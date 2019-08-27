@@ -33,7 +33,7 @@ export class DropzoneLoader extends React.PureComponent<
     MediaPickerErrorBoundary: DropzoneLoader.MediaPickerErrorBoundary,
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     if (!this.state.Dropzone || !this.state.MediaPickerErrorBoundary) {
       try {
         const [

@@ -40,7 +40,7 @@ export default function withDimensions<
       }
     };
 
-    componentWillReceiveProps(nextProps: WrappedProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: WrappedProps) {
       const wasRanking = this.props.isRanking;
       const willRanking = nextProps.isRanking;
 

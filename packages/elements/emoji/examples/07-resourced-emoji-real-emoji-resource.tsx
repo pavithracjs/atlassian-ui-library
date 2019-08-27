@@ -35,7 +35,7 @@ class ResourcedFilteredEmojiList extends PureComponent<
     };
   }
 
-  componentWillReceiveProps(nextProps: FilteredProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: FilteredProps) {
     if (this.props.emojiProvider !== nextProps.emojiProvider) {
       if (this.props.emojiProvider) {
         this.props.emojiProvider.then(provider => {

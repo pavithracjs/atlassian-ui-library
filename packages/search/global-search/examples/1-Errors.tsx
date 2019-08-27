@@ -3,7 +3,7 @@ import StorybookQuickSearch from '../example-helpers/StorybookQuickSearch';
 import { setupAllRequestFailedMocks } from '../example-helpers/mocks/mockApis';
 
 export default class GlobalQuickSearchExample extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     setupAllRequestFailedMocks();
   }
 

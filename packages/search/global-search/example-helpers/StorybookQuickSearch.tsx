@@ -68,7 +68,7 @@ export default class WithNavigation extends React.Component<Props, State> {
     setupMocks(mockConfig);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setupMocks();
   }
 
