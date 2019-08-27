@@ -1,1 +1,0 @@
-Dependency 'prop-types' is unused in package.json.

@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.5.7
+
+### Patch Changes
+
+- [patch][61ab3a5b1d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/61ab3a5b1d):
+
+  Dependency 'prop-types' is unused in package.json.
+
 ## 6.5.6
 
 ### Patch Changes

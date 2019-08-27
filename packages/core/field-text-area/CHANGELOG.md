@@ -1,5 +1,13 @@
 # @atlaskit/field-text-area
 
+## 6.0.12
+
+### Patch Changes
+
+- [patch][8a1b28c4dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a1b28c4dd):
+
+  Dependency 'prop-types' is unused in package.json
+
 ## 6.0.11
 
 ### Patch Changes
