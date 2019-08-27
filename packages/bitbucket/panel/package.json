@@ -18,7 +18,6 @@
   "dependencies": {
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/icon": "^19.0.6",
-    "@atlaskit/size-detector": "^8.0.6",
     "@atlaskit/theme": "^9.1.6",
     "@babel/runtime": "^7.0.0",
     "react-animate-height": "^2.0.5",

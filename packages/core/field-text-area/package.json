@@ -25,8 +25,7 @@
     "@atlaskit/analytics-next": "^6.0.3",
     "@atlaskit/field-base": "^13.0.13",
     "@atlaskit/theme": "^9.1.6",
-    "@babel/runtime": "^7.0.0",
-    "prop-types": "^15.5.10"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
