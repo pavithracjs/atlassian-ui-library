@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ProfileCardTrigger } from '../src';
-import { getMockProfileClient } from './helper/util';
+import { getMockProfileClient, analyticsHandler } from './helper/util';
 import LocaleIntlProvider from './helper/locale-intl-provider';
 
 const mockClient = getMockProfileClient(10, 0);
@@ -28,6 +28,12 @@ export const Section = styled.div`
   }
 `;
 
+const defaultProps = {
+  cloudId: 'DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048',
+  resourceClient: mockClient,
+  analytics: analyticsHandler,
+};
+
 export default function Example() {
   return (
     <LocaleIntlProvider>
@@ -37,10 +43,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
-              resourceClient={mockClient}
               actions={[
                 {
                   label: 'View profile',
@@ -59,10 +63,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
-              resourceClient={mockClient}
               trigger="click"
               actions={[
                 {
@@ -83,9 +85,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={getMockProfileClient(10, 0, {
                 status: 'closed',
               })}
@@ -102,9 +103,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={mockClientForInactiveAccount}
               trigger="click"
             >
@@ -122,9 +122,8 @@ export default function Example() {
           <div>
             Lorem ipsum{' '}
             <ProfileCardTrigger
-              cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
+              {...defaultProps}
               userId="1"
-              position="bottom-start"
               resourceClient={mockClientForClosedAccountAndCustomMessage}
               trigger="click"
             >
