@@ -69,9 +69,14 @@ export default class ResizableMediaSingle extends React.Component<
 
   async checkVideoFile(viewMediaClientConfig?: MediaClientConfig) {
     const $pos = this.$pos;
+
+    if (!$pos || !viewMediaClientConfig) {
+      return;
+    }
+
     const mediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
 
-    if (!$pos || !viewMediaClientConfig || !mediaNode) {
+    if (!mediaNode) {
       return;
     }
 
