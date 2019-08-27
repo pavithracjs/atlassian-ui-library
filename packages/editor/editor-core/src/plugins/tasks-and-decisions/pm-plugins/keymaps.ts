@@ -126,19 +126,19 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
       if (dispatch) {
         // if we're the first taskItem in a taskList, we want to move the taskItem up to the preceeding taskList
         // --------------------------------------
-        if ($from.index(-1) === 0) {
-          console.warn('first taskItem');
-          const blockRange = getBlockRange($from);
-          if (!blockRange) {
-            console.warn('no block range');
-            return false;
-          }
+        // if ($from.index(-1) === 0) {
+        //   console.warn('first taskItem');
+        //   const blockRange = getBlockRange($from);
+        //   if (!blockRange) {
+        //     console.warn('no block range');
+        //     return false;
+        //   }
 
-          dispatch(state.tr.join($from.start() - 1));
-          // state.tr.join
+        //   dispatch(state.tr.join($from.start() - 1));
+        //   // state.tr.join
 
-          return true;
-        }
+        //   return true;
+        // }
 
         // TODO: until end of next taskList
         const blockRange = getBlockRange($from);
