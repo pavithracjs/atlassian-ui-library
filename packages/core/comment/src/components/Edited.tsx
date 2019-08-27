@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -10,7 +11,7 @@ import {
 } from '../version.json';
 import EditedStyles from '../styled/EditedStyles';
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   /** Content to render indicating that the comment has been edited. */
   children?: ReactNode;
   /** Handler called when the element is focused. */
@@ -33,12 +34,12 @@ class Edited extends Component<Props, {}> {
 export { Edited as CommentEditedWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'commentEdited',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentEdited',

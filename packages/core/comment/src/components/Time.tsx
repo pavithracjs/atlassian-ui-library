@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -10,7 +11,7 @@ import {
 } from '../version.json';
 import Field from './Field';
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   /** The time of the comment. */
   children?: ReactNode;
   /** The URL of the link. If not provided, the element will be rendered as text. */
@@ -42,12 +43,12 @@ class Time extends Component<Props> {
 export { Time as CommentTimeWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'commentTime',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentTime',

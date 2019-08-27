@@ -20,7 +20,7 @@ export default () => (
     </div>
     <div>
       <CommentAction
-        onClick={e => {
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
           const element = e.target as HTMLElement;
           return console.log(element.textContent);
         }}

@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
   name as packageName,
@@ -10,7 +11,7 @@ import {
 } from '../version.json';
 import Field from './Field';
 
-interface Props {
+interface Props extends WithAnalyticsEventsProps {
   /** The name of the author. */
   children?: ReactNode;
   /** The URL of the link. If not provided, the element will be rendered as text. */
@@ -43,12 +44,12 @@ class Author extends Component<Props, {}> {
 export { Author as CommentAuthorWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'commentAuthor',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentAuthor',

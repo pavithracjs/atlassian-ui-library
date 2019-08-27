@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 
@@ -11,7 +12,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-export interface Props {
+export interface Props extends WithAnalyticsEventsProps {
   /** The content to render inside the action button. */
   children?: ReactNode;
   /** Handler called when the element is clicked. */
@@ -41,12 +42,12 @@ class ActionItem extends Component<Props, {}> {
 export { ActionItem as CommentActionWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'commentAction',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentAction',
