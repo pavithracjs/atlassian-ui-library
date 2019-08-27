@@ -1,12 +1,16 @@
 {
   "name": "@atlaskit/build-validator",
+  "version": "0.1.0",
   "private": true,
   "description": "Validates built dists against versions downloaded from npm",
   "scripts": {
-    "fetch-npm-dep": "node scripts/fetch-npm-dep.js",
+    "fetch-npm-deps": "node scripts/fetch-npm-deps.js",
     "update-deps": "node scripts/update-deps.js"
   },
   "dependencies": {
+    "p-limit": "^2.2.1"
+  },
+  "optionalDependencies": {
     "@atlaskit/adf-schema": "3.1.2",
     "@atlaskit/adf-utils": "6.1.6",
     "@atlaskit/analytics": "6.0.6",

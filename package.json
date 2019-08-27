@@ -461,6 +461,7 @@
     "npm-run": "^4.1.2",
     "ora": "^3.0.0",
     "outdent": "^0.5.0",
+    "p-limit": "^2.2.1",
     "p-wait-for": "^3.1.0",
     "pdfjs-dist": "2.0.489",
     "png-chunks-extract": "^1.0.0",

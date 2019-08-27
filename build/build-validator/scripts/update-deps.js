@@ -6,7 +6,7 @@ const path = require('path');
 
 async function main() {
   const pkgJson = JSON.parse(fs.readFileSync('package.json'));
-  const oldDeps = pkgJson.dependencies;
+  const oldDeps = pkgJson.optionalDependencies;
   const allPackages = await bolt.getWorkspaces({
     cwd: path.join(process.cwd(), '..'),
   });
@@ -18,7 +18,7 @@ async function main() {
       if (private) {
         return;
       }
-      const existingEntry = pkgJson.dependencies[name];
+      const existingEntry = pkgJson.optionalDependencies[name];
       if (!existingEntry) {
         diff.push({ type: 'add', name, version });
       } else if (existingEntry !== version) {
@@ -27,7 +27,7 @@ async function main() {
       newDeps[name] = version;
     });
 
-  pkgJson.dependencies = newDeps;
+  pkgJson.optionalDependencies = newDeps;
   fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, 2), {
     encoding: 'utf-8',
   });
