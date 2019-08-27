@@ -25,7 +25,10 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
-import { getUIAnalyticsContext } from '../../utils/analytics';
+import {
+  getUIAnalyticsContext,
+  getBaseAnalyticsContext,
+} from '../../utils/analytics';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -427,8 +430,11 @@ export class Card extends Component<CardProps, CardState> {
   render() {
     const { metadata } = this.state;
     return (
-      <AnalyticsContext data={getUIAnalyticsContext(metadata)}>
-        {this.renderContent()}
+      // First Context provides data requested by Atlaskit Listener
+      <AnalyticsContext data={getBaseAnalyticsContext()}>
+        <AnalyticsContext data={getUIAnalyticsContext(metadata)}>
+          {this.renderContent()}
+        </AnalyticsContext>
       </AnalyticsContext>
     );
   }

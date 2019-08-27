@@ -27,7 +27,10 @@ import {
   getDataURIFromFileState,
   FilePreview,
 } from '../../utils/getDataURIFromFileState';
-import { getUIAnalyticsContext } from '../../utils/analytics';
+import {
+  getUIAnalyticsContext,
+  getBaseAnalyticsContext,
+} from '../../utils/analytics';
 
 describe('Card', () => {
   const identifier: Identifier = {
@@ -906,8 +909,23 @@ describe('Card', () => {
     );
     card.setState({ metadata });
     card.update();
-    const contextData = card.find(AnalyticsContext).props().data;
+    const contextData = card
+      .find(AnalyticsContext)
+      .at(1)
+      .props().data;
     expect(contextData).toMatchObject(getUIAnalyticsContext(metadata));
+  });
+
+  it('should attach Base Analytics Context', () => {
+    const mediaClient = fakeMediaClient() as any;
+    const card = shallow<Card>(
+      <Card mediaClient={mediaClient} identifier={identifier} />,
+    );
+    const contextData = card
+      .find(AnalyticsContext)
+      .at(0)
+      .props().data;
+    expect(contextData).toMatchObject(getBaseAnalyticsContext() || {});
   });
 
   it('should pass the Analytics Event fired from CardView to the provided onClick callback', () => {

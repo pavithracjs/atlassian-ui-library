@@ -37,12 +37,7 @@ export type MediaCardAnalyticsPayolad = MediaCardAnalyticsPayoladBase & {
   };
 };
 
-// The context should have the same structure as the Event's payload, this way it can be merged with it by Media Listener.
-// Atlaskit listener expects the context to include package name and versions in the root of the context, then, GasCorePayload['attributes'] gets duplicated here.
-export type MediaCardAnalyticsContext = GasCorePayload['attributes'] &
-  MediaCardAnalyticsPayolad;
-
-function getBaseAnalyticsContext(): GasCorePayload['attributes'] {
+export function getBaseAnalyticsContext(): GasCorePayload['attributes'] {
   return {
     packageVersion,
     packageName,
@@ -62,11 +57,10 @@ const getFileAttributes = (
 
 export function getUIAnalyticsContext(
   metadata?: FileDetails,
-): MediaCardAnalyticsContext {
+): MediaCardAnalyticsPayolad {
   const fileAttributes = getFileAttributes(metadata);
 
   return {
-    ...getBaseAnalyticsContext(),
     attributes: {
       packageName,
       ...getBaseAnalyticsContext(),

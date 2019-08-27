@@ -11,7 +11,6 @@ import { CardAction } from './actions';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
 
 export {
-  MediaCardAnalyticsContext,
   MediaCardAnalyticsPayolad,
   MediaCardAnalyticsFileAttributes,
 } from './utils/analytics';

@@ -13,6 +13,7 @@ import {
   MediaCardAnalyticsPayoladBase,
   createAndFireCustomMediaEvent,
   getUIAnalyticsContext,
+  getBaseAnalyticsContext,
 } from '../../analytics';
 import {
   version as packageVersion,
@@ -105,9 +106,6 @@ describe('Media Analytics', () => {
     };
 
     const expectedContextData = {
-      packageVersion,
-      packageName,
-      componentName: 'MediaCard',
       attributes: {
         packageVersion,
         packageName,
@@ -123,6 +121,17 @@ describe('Media Analytics', () => {
     };
 
     const contextData = getUIAnalyticsContext(metadata);
+    expect(contextData).toMatchObject(expectedContextData);
+  });
+
+  it('should generate Base Analytics Context data', () => {
+    const expectedContextData = {
+      packageVersion,
+      packageName,
+      componentName: 'MediaCard',
+    };
+
+    const contextData = getBaseAnalyticsContext();
     expect(contextData).toMatchObject(expectedContextData);
   });
 });
