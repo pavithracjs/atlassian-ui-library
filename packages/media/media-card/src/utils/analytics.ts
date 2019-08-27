@@ -14,7 +14,8 @@ import {
   UIAnalyticsEvent,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { FabricChannel } from '@atlaskit/analytics-listeners';
+
+const FabricChannel = { media: 'media' }; // Hardcodes FabricChannel.media to avoid import of the whole @atlaskit/analytics-listeners package
 
 export interface MediaCardAnalyticsFileAttributes {
   fileSource: string;
