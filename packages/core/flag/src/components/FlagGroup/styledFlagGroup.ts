@@ -9,6 +9,11 @@ export default styled.div`
   left: ${multiply(gridSize, 10)}px;
   position: fixed;
   z-index: ${layers.flag};
+
+  @media (max-width: 560px) {
+    bottom: 0;
+    left: 0;
+  }
 `;
 
 export const SROnly = styled.h1`

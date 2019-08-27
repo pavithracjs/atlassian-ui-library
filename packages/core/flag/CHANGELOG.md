@@ -1,5 +1,13 @@
 # @atlaskit/flag
 
+## 12.1.0
+
+### Minor Changes
+
+- [minor][3e0267e5dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e0267e5dd):
+
+  FlagGroup is centered on mobile
+
 ## 12.0.20
 
 ### Patch Changes
