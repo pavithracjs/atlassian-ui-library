@@ -3,7 +3,7 @@ import { ResultItemGroup, CancelableEvent } from '@atlaskit/quick-search';
 import Button from '@atlaskit/button';
 import { messages } from '../../messages';
 import { FormattedMessage } from 'react-intl';
-import { Filter } from '../../api/CrossProductSearchClient';
+import { FilterWithMetadata } from '../../api/CrossProductSearchClient';
 import ConfluenceSpaceFilter from './SpaceFilter';
 import styled from 'styled-components';
 import { fireMoreFiltersButtonClickEvent } from '../../util/analytics-event-helper';
@@ -16,7 +16,7 @@ export interface Props {
   spaceKey: string;
   isDisabled?: boolean;
   isFilterOn: boolean;
-  onFilterChanged(filter: Filter[]): void;
+  onFilterChanged(filter: FilterWithMetadata[]): void;
   onAdvancedSearch(event: CancelableEvent): void;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   searchSessionId: string;

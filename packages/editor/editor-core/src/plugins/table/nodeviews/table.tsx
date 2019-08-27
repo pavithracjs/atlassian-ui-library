@@ -64,7 +64,7 @@ const toDOM = (node: PmNode, props: Props) => {
   ] as DOMOutputSpec;
 };
 
-export default class TableView extends ReactNodeView {
+export default class TableView extends ReactNodeView<Props> {
   private table: HTMLElement | undefined;
   private observer?: MutationObserver;
 

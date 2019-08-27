@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React, { FC } from 'react';
 import { shallow, mount } from 'enzyme';
 import { AnalyticsContext, withAnalyticsContext } from '../..';
 
@@ -7,10 +7,10 @@ interface ButtonProps {
 }
 
 describe('withAnalyticsContext', () => {
-  let Button: ComponentType<ButtonProps>;
+  let Button: FC<ButtonProps>;
 
   beforeEach(() => {
-    Button = ({ children }: ButtonProps) => <button>{children}</button>;
+    Button = ({ children }) => <button>{children}</button>;
   });
 
   it('should render the provided component', () => {

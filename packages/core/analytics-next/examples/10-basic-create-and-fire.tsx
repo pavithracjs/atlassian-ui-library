@@ -8,6 +8,7 @@ import {
 
 interface Props extends WithAnalyticsEventsProps {
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
 }
 
 class ButtonBase extends Component<Props> {

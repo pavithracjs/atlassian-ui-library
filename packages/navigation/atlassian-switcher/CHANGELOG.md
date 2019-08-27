@@ -1,5 +1,37 @@
 # @atlaskit/atlassian-switcher
 
+## 3.23.2
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 3.23.1
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 3.23.0
+
+### Minor Changes
+
+- [minor][c0f0ae12ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0f0ae12ce):
+
+  yShow site avatars on switcher child items
+
+## 3.22.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 3.22.0
 
 ### Minor Changes

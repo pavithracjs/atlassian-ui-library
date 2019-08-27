@@ -1,5 +1,29 @@
 ## 0.1.0
 
+## 0.14.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 0.14.3
+
+### Patch Changes
+
+- [patch][9e23c34ccb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9e23c34ccb):
+
+  Use generic types instead of type annotations for styles-components
+
+## 0.14.2
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 0.14.1
 
 ### Patch Changes

@@ -74,7 +74,8 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
       return false;
     }
 
-    const filters: Array<(slice: Slice) => Slice> = [
+    type Fn = (slice: Slice) => Slice;
+    const filters: [Fn, ...Array<Fn>] = [
       linkifyContent(schema),
       taskDecisionSliceFilter(schema),
     ];

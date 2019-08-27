@@ -31,6 +31,7 @@ const features: ConfluenceFeatures = {
   useUrsForBootstrapping: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  spaceballsExperimentEnabled: false,
   isNavAutocompleteEnabled: false,
 };
 

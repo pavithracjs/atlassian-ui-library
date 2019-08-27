@@ -73,9 +73,9 @@ describe('ShareDialogContainer', () => {
       addToUrl: jest.fn(),
       toAnalyticsAttributes: jest.fn(),
     };
-    mockOriginTracingFactory = jest.fn().mockReturnValue(mockOriginTracing);
-    mockGetConfig = jest.fn().mockResolvedValue(mockConfig);
-    mockShare = jest.fn().mockResolvedValue({});
+    mockOriginTracingFactory = jest.fn<{}>().mockReturnValue(mockOriginTracing);
+    mockGetConfig = jest.fn<{}>().mockResolvedValue(mockConfig);
+    mockShare = jest.fn<{}>().mockResolvedValue({});
     mockRequestService = jest
       .spyOn(utils, 'requestService')
       .mockResolvedValue(mockConfig);
@@ -85,7 +85,7 @@ describe('ShareDialogContainer', () => {
         share: mockShare,
         getConfig: mockGetConfig,
       }));
-    mockCreateAnalyticsEvent = jest.fn().mockReturnValue({
+    mockCreateAnalyticsEvent = jest.fn<{}>().mockReturnValue({
       fire: jest.fn(),
     });
     mockFormatCopyLink = jest.fn((origin, link) => link + '&someOrigin');

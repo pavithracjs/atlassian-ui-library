@@ -109,6 +109,10 @@ declare module '@atlaskit/progress-indicator' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/progress-tracker' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/radio' {
   declare module.exports: any;
 }
@@ -142,5 +146,9 @@ declare module '@atlaskit/toggle' {
 }
 
 declare module '@atlaskit/tooltip' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/tree' {
   declare module.exports: any;
 }

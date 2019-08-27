@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import { ButtonProps } from '@atlaskit/button/src/types';
+import { ButtonProps } from '@atlaskit/button/types';
 import { colors } from '@atlaskit/theme';
 
 const buttonTheme = {

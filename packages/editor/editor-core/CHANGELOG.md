@@ -1,18 +1,50 @@
 # @atlaskit/editor-core
 
+## 112.42.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 112.42.3
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 112.42.2
+
+### Patch Changes
+
+- [patch][9cafd2de3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cafd2de3c):
+
+  Editor now listens to Media Picker upload-end events and treats them the same as upload-processing finishing the insert progress and enabling Save
+
+## 112.42.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 112.42.0
 
 ### Minor Changes
 
 - [minor][d438397a89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d438397a89):
 
-  ## Editor Azlon Release
+  **Editor Azlon Release**
 
-  ### Affected editor components:
+  **Affected editor components:**
 
   Tables, Media, Smart Cards, Extensions, Analytics, Copy and Paste, Code Block, Undo, Emoji
 
-  ### Performance
+  **Performance**
 
   - Reduce number of wrapping nodes in table cells. – [table][affects: wrapping, overflow, resizing]
     - https://product-fabric.atlassian.net/browse/ED-7288
@@ -23,24 +55,18 @@
   - Improve the way we handle mouse events in table – [table][affects: column drag handlers, table controls, resizing]
     - https://product-fabric.atlassian.net/browse/ED-7342
 
-  ### SmartCards
+  **SmartCards**
 
   - Pending and error states do not pass onClick prop
     - https://product-fabric.atlassian.net/browse/SL-359
   - Make toolbars consistent between blue link and smart link – [affects: link and smart link]
     - https://product-fabric.atlassian.net/browse/ED-7157
 
-  ### Mention Highlights
+  **Mention Highlights**
 
   Not clear how to test. – [affects: all type aheads, mention type ahead]
 
-  ### Emoji Refactor
-
-  Emoji has been rewritten to use common TypeAhead plugin (same as quick insert and mention). Need to thoroughly look at emoji typeahead, e.g. typing ":" and inserting emojis...
-
-  - https://product-fabric.atlassian.net/browse/ED-5369
-
-  ### Copy and Paste
+  **Copy and Paste**
 
   - Copying text & images from Google doc changes formatting on paste [affects: media]
     - https://product-fabric.atlassian.net/browse/ED-7338
@@ -48,7 +74,7 @@
     - https://product-fabric.atlassian.net/browse/ED-7050
   - Copy and paste media
 
-  ### Tables
+  **Tables**
 
   - Table add 40+ blank columns
     - https://product-fabric.atlassian.net/browse/ED-7031
@@ -57,23 +83,21 @@
       - allowColumnSorting – [default: false]
     - https://product-fabric.atlassian.net/browse/ED-7391
 
-  ### Analytics
+  **Analytics**
 
   - Fire undo events – [affects: undo]
     - https://product-fabric.atlassian.net/browse/ED-7276
   - Make all insert events set analytics meta
     - https://product-fabric.atlassian.net/browse/ED-7277
 
-  ### Notable Bug fixes
+  **Notable Bug fixes**
 
   - Issue with ctrl+z [affects: undo on different languages, e.g. Russian keyboard]
     - https://product-fabric.atlassian.net/browse/ED-7310
 
-- [minor][5ed73a70a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ed73a70a9):
+---
 
-  ## Editor Azlon Release
-
-  TODO: RELEASE NOTES
+**All changes**
 
 - [minor][eb79a83696](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb79a83696):
 

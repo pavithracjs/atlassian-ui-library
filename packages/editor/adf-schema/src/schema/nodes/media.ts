@@ -79,12 +79,13 @@ export const media: NodeSpec = {
     {
       tag: 'div[data-node-type="media"]',
       getAttrs: dom => {
-        const attrs = {} as MediaAttributes;
+        const attrs = {} as Record<string, any>;
 
         (Object.keys(defaultAttrs) as Array<keyof MediaAttributes>).forEach(
           k => {
             const key = camelCaseToKebabCase(k).replace(/^__/, '');
-            const value = (dom as HTMLElement).getAttribute(`data-${key}`);
+            const value =
+              (dom as HTMLElement).getAttribute(`data-${key}`) || '';
             if (value) {
               attrs[k] = value;
             }
@@ -104,7 +105,7 @@ export const media: NodeSpec = {
           attrs.height = Number(attrs.height);
         }
 
-        return attrs;
+        return attrs as MediaAttributes;
       },
     },
     // Don't match data URI
