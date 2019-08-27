@@ -1,0 +1,1 @@
+ Dependency '@atlaskit/size-detector' is unused in package 'bitbucket/panel/package.json.
