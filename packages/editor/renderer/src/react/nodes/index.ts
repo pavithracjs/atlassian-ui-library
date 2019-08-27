@@ -28,8 +28,7 @@ import Rule from './rule';
 import TaskItem from './taskItem';
 import TaskList from './taskList';
 import Table from './table';
-import TableCell from './tableCell';
-import TableHeader from './tableHeader';
+import { TableCell, TableHeader } from './tableCell';
 import TableRow from './tableRow';
 import UnknownBlock from './unknownBlock';
 import Loadable from 'react-loadable';
@@ -312,7 +311,6 @@ export {
   TaskList,
   Table,
   TableCell,
-  TableHeader,
   TableRow,
   UnknownBlock,
 };

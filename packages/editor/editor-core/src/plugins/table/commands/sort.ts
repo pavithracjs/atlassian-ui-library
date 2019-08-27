@@ -8,7 +8,7 @@ import {
   getSelectionRect,
   findCellRectClosestToPos,
 } from 'prosemirror-utils';
-import { compareNodes } from '../utils';
+import { compareNodes } from '@atlaskit/editor-common';
 
 import { TablePluginState, SortOrder } from '../types';
 import { getPluginState } from '../pm-plugins/main';

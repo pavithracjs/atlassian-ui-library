@@ -32,6 +32,7 @@ export enum TABLE_BREAKOUT {
 //#region Type Helpers
 interface SortColumn {
   sortOrder: SortOrder;
+  mode: 'editor';
 }
 
 interface TotalRowAndColCount {

@@ -1,4 +1,3 @@
-export { compareNodes } from './compareNodes';
 export {
   getSelectedColumnIndexes,
   getSelectedRowIndexes,

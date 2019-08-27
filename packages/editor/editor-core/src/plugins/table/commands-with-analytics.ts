@@ -427,6 +427,7 @@ export const sortColumnWithAnalytics = (
         totalColumnCount,
         position: columnIndex,
         sortOrder,
+        mode: 'editor',
       },
       eventType: EVENT_TYPE.TRACK,
     };

@@ -8,10 +8,13 @@ export enum EVENT_TYPE {
 export enum ACTION {
   STARTED = 'started',
   RENDERED = 'rendered',
+  SORT_COLUMN = 'sortedColumn',
+  SORT_COLUMN_NOT_ALLOWED = 'sortColumnNotAllowed',
 }
 
 export enum ACTION_SUBJECT {
   RENDERER = 'renderer',
+  TABLE = 'table',
 }
 
 export enum ACTION_SUBJECT_ID {}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import TableCell from '../../../../react/nodes/tableCell';
+import { TableCell } from '../../../../react/nodes/tableCell';
 
 describe('Renderer - React/Nodes/TableCell', () => {
   const baseProps = {
@@ -24,7 +24,7 @@ describe('Renderer - React/Nodes/TableCell', () => {
     expect(tableRow.prop('data-colwidth')).toEqual('10');
 
     expect(tableRow.prop('style')).toEqual({
-      'background-color': 'rgba(255,170,187,0.5)',
+      backgroundColor: '#fab',
     });
   });
 

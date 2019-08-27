@@ -1,6 +1,15 @@
 export * from './utils';
 
-export * from './types';
+export {
+  ExtensionParams,
+  ExtensionHandler,
+  UpdateExtension,
+  Extension,
+  ExtensionHandlers,
+  Transformer,
+  SortOrder,
+} from './types';
+
 export * from './contextIdentifier';
 
 export {

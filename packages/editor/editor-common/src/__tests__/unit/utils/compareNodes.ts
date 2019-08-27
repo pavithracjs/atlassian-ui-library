@@ -9,7 +9,7 @@ import {
   BuilderContent,
 } from '@atlaskit/editor-test-helpers';
 import { EditorView } from 'prosemirror-view';
-import { compareNodes } from '../../../../../plugins/table/utils';
+import { compareNodes } from '../../../utils/compareNodes';
 import { mention as mentionDataTest } from '@atlaskit/util-data-test';
 
 enum CompareResult {

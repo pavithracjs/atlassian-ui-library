@@ -173,6 +173,7 @@ export interface DemoRendererProps {
   maxHeight?: number;
   truncationEnabled?: boolean;
   allowDynamicTextSizing?: boolean;
+  allowColumnSorting?: boolean;
 }
 
 export interface DemoRendererState {
@@ -281,6 +282,7 @@ export default class RendererDemo extends React.Component<
       props.maxHeight = this.props.maxHeight;
       props.truncated = this.props.truncationEnabled && this.state.truncated;
       props.allowDynamicTextSizing = this.props.allowDynamicTextSizing;
+      props.allowColumnSorting = this.props.allowColumnSorting;
 
       if (additionalRendererProps) {
         props = {

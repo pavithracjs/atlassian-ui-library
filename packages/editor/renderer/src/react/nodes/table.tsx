@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Node as PMNode } from 'prosemirror-model';
 import { TableLayout } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
@@ -15,20 +16,80 @@ import {
   OverflowShadowProps,
   getBreakpoint,
   mapBreakpointToLayoutMaxWidth,
+  compareNodes,
+  SortOrder,
+  convertTableNodeAdfToArrayOfRows,
+  hasMergedCell,
+  compose,
 } from '@atlaskit/editor-common';
 
-import TableHeader from './tableHeader';
 import { RendererAppearance } from '../../ui/Renderer/types';
 import { FullPagePadding } from '../../ui/Renderer/style';
+import { TableHeader } from './tableCell';
+
+type TableArrayMapped = {
+  rowNodes: Array<PMNode | null>;
+  rowReact: React.ReactElement;
+};
+
+const orderChildrens = (
+  children: React.ReactElement[],
+  tableNode: PMNode,
+  tableOrderStatus?: TableOrderStatus,
+): React.ReactElement[] => {
+  if (!tableOrderStatus || tableOrderStatus.order === SortOrder.NO_ORDER) {
+    return children;
+  }
+
+  const { order, columnIndex } = tableOrderStatus;
+  const tableArray = convertTableNodeAdfToArrayOfRows(tableNode);
+
+  const tableArrayWithChildren: TableArrayMapped[] = tableArray.map(
+    (rowNodes, index) => ({ rowNodes, rowReact: children[index] }),
+  );
+
+  const headerRow = tableArrayWithChildren.shift();
+
+  const sortedTable = tableArrayWithChildren.sort(
+    (rowA: TableArrayMapped, rowB: TableArrayMapped) =>
+      (order === SortOrder.DESC ? -1 : 1) *
+      compareNodes(rowA.rowNodes[columnIndex], rowB.rowNodes[columnIndex]),
+  );
+
+  if (headerRow) {
+    sortedTable.unshift(headerRow);
+  }
+
+  return sortedTable.map(elem => elem.rowReact);
+};
+
+const addSortableColumn = (
+  rows: React.ReactElement<any>[],
+  tableOrderStatus: TableOrderStatus | undefined,
+  onSorting: (columnIndex: number, sortOrder: SortOrder) => void,
+) => {
+  return React.Children.map(rows, (row, index) => {
+    if (index === 0) {
+      return React.cloneElement(React.Children.only(row), {
+        tableOrderStatus,
+        onSorting,
+      });
+    }
+
+    return row;
+  });
+};
 
 export interface TableProps {
   columnWidths?: Array<number>;
   layout: TableLayout;
   isNumberColumnEnabled: boolean;
   children: React.ReactElement<any> | Array<React.ReactElement<any>>;
+  tableNode?: PMNode;
   renderWidth: number;
   rendererAppearance?: RendererAppearance;
   allowDynamicTextSizing?: boolean;
+  allowColumnSorting?: boolean;
 }
 
 export interface ScaleOptions {
@@ -59,16 +120,6 @@ const isHeaderRowEnabled = (rows: React.ReactChild[]) => {
     return false;
   }
   return children[0].type === TableHeader;
-};
-
-const addNumberColumnIndexes = (rows: React.ReactElement<any>[]) => {
-  const headerRowEnabled = isHeaderRowEnabled(rows);
-  return React.Children.map(rows, (row, index) => {
-    return React.cloneElement(React.Children.only(row), {
-      isNumberColumnEnabled: true,
-      index: headerRowEnabled ? (index === 0 ? '' : index) : index + 1,
-    });
-  });
 };
 
 interface TableWidthOptions {
@@ -121,9 +172,30 @@ const fixColumnWidth = (
   );
 };
 
-class Table extends React.Component<TableProps & OverflowShadowProps> {
+interface TableOrderStatus {
+  columnIndex: number;
+  order: SortOrder;
+}
+
+interface TableState {
+  tableOrderStatus?: TableOrderStatus;
+}
+
+export class TableContainer extends React.Component<
+  TableProps & OverflowShadowProps,
+  TableState
+> {
+  state = {
+    tableOrderStatus: undefined,
+  };
+
   render() {
-    const { isNumberColumnEnabled, layout, children, renderWidth } = this.props;
+    const { isNumberColumnEnabled, layout, renderWidth, children } = this.props;
+    if (!children) {
+      return null;
+    }
+
+    let childrenArray = React.Children.toArray<React.ReactElement>(children);
 
     return (
       <div
@@ -138,17 +210,61 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
           <table data-number-column={isNumberColumnEnabled}>
             {this.renderColgroup()}
             <tbody>
-              {isNumberColumnEnabled
-                ? addNumberColumnIndexes(
-                    React.Children.toArray<React.ReactElement>(children),
-                  )
-                : children}
+              {compose(
+                this.addNumberColumnIndexes,
+                this.addSortableColumn,
+              )(childrenArray)}
             </tbody>
           </table>
         </div>
       </div>
     );
   }
+
+  private addNumberColumnIndexes = (rows: React.ReactElement<any>[]) => {
+    const { isNumberColumnEnabled } = this.props;
+
+    if (!isNumberColumnEnabled) {
+      return rows;
+    }
+
+    const headerRowEnabled = isHeaderRowEnabled(rows);
+    return React.Children.map(rows, (row, index) => {
+      return React.cloneElement(React.Children.only(row), {
+        isNumberColumnEnabled: true,
+        index: headerRowEnabled ? (index === 0 ? '' : index) : index + 1,
+      });
+    });
+  };
+
+  private addSortableColumn = (childrenArray: React.ReactElement[]) => {
+    const { tableNode, allowColumnSorting } = this.props;
+    const { tableOrderStatus } = this.state;
+
+    if (
+      allowColumnSorting &&
+      isHeaderRowEnabled(childrenArray) &&
+      tableNode &&
+      !hasMergedCell(tableNode)
+    ) {
+      return addSortableColumn(
+        orderChildrens(childrenArray, tableNode, tableOrderStatus),
+        tableOrderStatus,
+        this.changeSortOrder,
+      );
+    }
+
+    return childrenArray;
+  };
+
+  private changeSortOrder = (columnIndex: number, sortOrder: SortOrder) => {
+    this.setState({
+      tableOrderStatus: {
+        columnIndex,
+        order: sortOrder,
+      },
+    });
+  };
 
   private renderColgroup = () => {
     let {
@@ -234,7 +350,7 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
   };
 }
 
-const TableWithShadows = overflowShadow(Table, {
+const TableWithShadows = overflowShadow(TableContainer, {
   overflowSelector: `.${TableSharedCssClassName.TABLE_NODE_WRAPPER}`,
 });
 

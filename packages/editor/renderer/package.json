@@ -36,6 +36,7 @@
     "@atlaskit/task-decision": "^15.3.0",
     "@atlaskit/theme": "^9.2.0",
     "@atlaskit/type-helpers": "^4.2.0",
+    "@atlaskit/tooltip": "^15.0.12",
     "prosemirror-model": "^1.7.0",
     "raf-schd": "^2.1.0",
     "react-loadable": "^5.1.0"

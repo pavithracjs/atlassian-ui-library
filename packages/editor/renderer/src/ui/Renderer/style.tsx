@@ -45,6 +45,31 @@ export type RendererWrapperProps = {
   theme?: any;
 };
 
+const tableSortableColumnStyle = `
+  .${RendererCssClassName.SORTABLE_COLUMN} {
+    cursor: pointer;
+
+    &.${RendererCssClassName.SORTABLE_COLUMN_NOT_ALLOWED} {
+      cursor: not-allowed;
+    }
+
+    .${RendererCssClassName.SORTABLE_COLUMN_ICON} {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .${RendererCssClassName.SORTABLE_COLUMN_NO_ORDER} {
+      opacity: 0;
+    }
+
+    &:hover {
+      .${RendererCssClassName.SORTABLE_COLUMN_NO_ORDER} {
+        opacity: 1;
+      }
+    }
+  }
+`;
+
 const tableStyles = ({ appearance }: RendererWrapperProps) => {
   if (appearance === 'mobile') {
     return 'table-layout: auto';
@@ -216,8 +241,14 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
 
     table {
       ${tableStyles};
+      ${tableSortableColumnStyle};
       margin-left: 0;
       margin-right: 0;
+    }
+
+    table tr:first-child td,
+    table tr:first-child th {
+      position: relative;
     }
 
     table[data-number-column='true'] {

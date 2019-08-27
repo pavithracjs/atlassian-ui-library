@@ -50,6 +50,7 @@ export interface Props {
   maxHeight?: number;
   truncated?: boolean;
   createAnalyticsEvent?: CreateUIAnalyticsEvent;
+  allowColumnSorting?: boolean;
 }
 
 export class Renderer extends PureComponent<Props, {}> {
@@ -115,6 +116,7 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowColumnSorting,
     } = props;
 
     this.serializer = new ReactSerializer({
@@ -130,18 +132,19 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowColumnSorting,
+      fireAnalyticsEvent: this.fireAnalyticsEvent,
     });
   }
 
-  private fireAnalyticsEvent(
-    event: AnalyticsEventPayload,
-    channel = FabricChannel.editor,
-  ) {
+  private fireAnalyticsEvent = (event: AnalyticsEventPayload) => {
     const { createAnalyticsEvent } = this.props;
+
     if (createAnalyticsEvent) {
+      const channel = FabricChannel.editor;
       createAnalyticsEvent(event).fire(channel);
     }
-  }
+  };
 
   render() {
     const {

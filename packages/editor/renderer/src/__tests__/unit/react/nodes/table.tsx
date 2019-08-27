@@ -4,10 +4,14 @@ import {
   akEditorTableNumberColumnWidth,
   akEditorDefaultLayoutWidth,
   akEditorTableLegacyCellMinWidth as tableCellMinWidth,
+  SortOrder,
 } from '@atlaskit/editor-common';
-import Table, { calcScalePercent } from '../../../../react/nodes/table';
-import TableCell from '../../../../react/nodes/tableCell';
-import TableHeader from '../../../../react/nodes/tableHeader';
+import { defaultSchema as schema } from '@atlaskit/adf-schema';
+import Table, {
+  calcScalePercent,
+  TableContainer,
+} from '../../../../react/nodes/table';
+import { TableCell, TableHeader } from '../../../../react/nodes/tableCell';
 import TableRow from '../../../../react/nodes/tableRow';
 
 describe('Renderer - React/Nodes/Table', () => {
@@ -431,6 +435,364 @@ describe('Renderer - React/Nodes/Table', () => {
           columnWidths[index] - columnWidths[index] * scale,
         );
         expect(col.prop('style')!.width).toEqual(`${width}px`);
+      });
+    });
+  });
+
+  describe('tables created when allowColumnSorting is enabled', () => {
+    const tableDoc = {
+      type: 'table',
+      attrs: {
+        isNumberColumnEnabled: true,
+      },
+      content: [
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 3',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableCell',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Body content 1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Body content 2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Body content 3',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const tableDocWithMergedCell = {
+      type: 'table',
+      attrs: {
+        isNumberColumnEnabled: true,
+      },
+      content: [
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Header content 3',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableCell',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Body content 1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colspan: 2,
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Body content 2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    it('should add sortable props to first table row', () => {
+      const tableFromSchema = schema.nodeFromJSON(tableDoc);
+
+      const wrap = mount(
+        <Table
+          layout="default"
+          renderWidth={renderWidth}
+          allowColumnSorting={true}
+          tableNode={tableFromSchema}
+          isNumberColumnEnabled={false}
+        >
+          <TableRow>
+            <TableHeader />
+            <TableHeader />
+            <TableHeader />
+          </TableRow>
+          <TableRow>
+            <TableCell />
+            <TableCell />
+            <TableCell />
+          </TableRow>
+        </Table>,
+      );
+
+      const container = wrap.find(TableContainer).instance();
+
+      container.setState({
+        tableOrderStatus: { columnIndex: 0, sortOrdered: SortOrder.ASC },
+      });
+      wrap.update();
+
+      const firstRowProps = wrap
+        .find(TableRow)
+        .first()
+        .props();
+      expect(firstRowProps.tableOrderStatus).toEqual({
+        columnIndex: 0,
+        sortOrdered: SortOrder.ASC,
+      });
+      expect(typeof firstRowProps.onSorting).toBe('function');
+    });
+
+    describe('when header row is not enabled', () => {
+      it('should not add sortable props to the first table row', () => {
+        const tableFromSchema = schema.nodeFromJSON(tableDoc);
+
+        const wrap = mount(
+          <Table
+            layout="default"
+            renderWidth={renderWidth}
+            allowColumnSorting={true}
+            tableNode={tableFromSchema}
+            isNumberColumnEnabled={false}
+          >
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell />
+            </TableRow>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </Table>,
+        );
+
+        const container = wrap.find(TableContainer).instance();
+
+        container.setState({
+          tableOrderStatus: { columnIndex: 0, sortOrdered: SortOrder.ASC },
+        });
+        wrap.update();
+
+        const firstRowProps = wrap
+          .find(TableRow)
+          .first()
+          .props();
+        expect(firstRowProps.tableOrderStatus).toBeUndefined();
+        expect(firstRowProps.onSorting).toBeUndefined();
+      });
+    });
+
+    describe('when there is merged cell on table', () => {
+      it('should not add sortable props to the first table row', () => {
+        const tableFromSchema = schema.nodeFromJSON(tableDocWithMergedCell);
+
+        const wrap = mount(
+          <Table
+            layout="default"
+            renderWidth={renderWidth}
+            allowColumnSorting={true}
+            tableNode={tableFromSchema}
+            isNumberColumnEnabled={false}
+          >
+            <TableRow>
+              <TableHeader />
+              <TableHeader />
+              <TableHeader />
+            </TableRow>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </Table>,
+        );
+
+        const container = wrap.find(TableContainer).instance();
+
+        container.setState({
+          tableOrderStatus: { columnIndex: 0, sortOrdered: SortOrder.ASC },
+        });
+        wrap.update();
+
+        const firstRowProps = wrap
+          .find(TableRow)
+          .first()
+          .props();
+        expect(firstRowProps.tableOrderStatus).toBeUndefined();
+        expect(firstRowProps.onSorting).toBeUndefined();
+      });
+    });
+
+    describe('when there is no tableNode', () => {
+      it('should not add sortable props to the first table row', () => {
+        const wrap = mount(
+          <Table
+            layout="default"
+            renderWidth={renderWidth}
+            allowColumnSorting={true}
+            isNumberColumnEnabled={false}
+          >
+            <TableRow>
+              <TableHeader />
+              <TableHeader />
+              <TableHeader />
+            </TableRow>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </Table>,
+        );
+
+        const container = wrap.find(TableContainer).instance();
+
+        container.setState({
+          tableOrderStatus: { columnIndex: 0, sortOrdered: SortOrder.ASC },
+        });
+        wrap.update();
+
+        const firstRowProps = wrap
+          .find(TableRow)
+          .first()
+          .props();
+        expect(firstRowProps.tableOrderStatus).toBeUndefined();
+        expect(firstRowProps.onSorting).toBeUndefined();
       });
     });
   });
