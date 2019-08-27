@@ -1,0 +1,1 @@
+FlagGroup is centered on mobile
