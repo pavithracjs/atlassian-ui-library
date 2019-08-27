@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
-import SwitcherThemedItem from './themed-item';
+import SwitcherThemedItem, { Toggle, ItemWrapper } from './themed-item';
 import SwitcherThemedChildItem from './themed-child-item';
 
 import * as colors from '@atlaskit/theme/colors';
@@ -29,39 +29,10 @@ const ItemContainer = styled.div`
   border-radius: 3px;
 `;
 
-const ItemWrapper = styled.div<ToggleProps>`
-  flex-grow: 1;
-  border-radius: 3px;
-  padding-top: 1px;
-  width: 100%;
-  overflow: hidden;
-
-  ${({ isParentHovered }) =>
-    isParentHovered ? `background-color: ${colors.N20A}` : ''};
-
-  &:hover {
-    background-color: ${colors.N30A};
-  }
-`;
-
 const ChildItemsContainer = styled.div`
   margin: 2px 0;
   border-radius: 3px;
   background-color: ${colors.N20A};
-`;
-
-const Toggle = styled.div<ToggleProps>`
-  flex-grow: 1;
-  max-height: 47px;
-  cursor: pointer;
-  margin-left: 2px;
-
-  ${({ isParentHovered }) =>
-    isParentHovered ? `background-color: ${colors.N20A}` : ''};
-
-  &:hover {
-    background-color: ${colors.N30A};
-  }
 `;
 
 const IconWrapper = styled.div`
@@ -72,10 +43,6 @@ const IconWrapper = styled.div`
   justify-content: center;
   margin-right: -8px;
 `;
-
-interface ToggleProps {
-  isParentHovered?: boolean;
-}
 
 interface Props extends WithAnalyticsEventsProps {
   children: React.ReactNode;

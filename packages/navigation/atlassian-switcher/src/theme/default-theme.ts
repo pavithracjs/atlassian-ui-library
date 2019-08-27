@@ -15,12 +15,15 @@ const defaultItemTheme = (props: ThemeProps) => {
       },
     },
     hover: {
-      background: colors.N20,
+      background: colors.N30,
     },
     default: {
       background: 'transparent',
       text: colors.text,
       secondaryText: colors.N200,
+    },
+    active: {
+      background: 'transparent',
     },
     width: {
       default: '100%',
@@ -41,7 +44,10 @@ const defaultChildItemTheme = (props: ThemeProps) => {
       },
     },
     hover: {
-      background: colors.N20A,
+      background: colors.N30,
+    },
+    active: {
+      background: 'transparent',
     },
     default: {
       ...defaultItemThemeResult.default,
