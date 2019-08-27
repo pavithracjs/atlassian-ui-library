@@ -21,10 +21,15 @@ export const labelCSS = ({ isDisabled, tokens }: LabelCSSProps): CSSObject => ({
 });
 
 export default function({
+  children,
   attributesFn,
   isDisabled,
   tokens,
   cssFn,
 }: LabelProps) {
-  return <label {...attributesFn({})} css={cssFn({ isDisabled, tokens })} />;
+  return (
+    <label {...attributesFn({})} css={cssFn({ isDisabled, tokens })}>
+      {children}
+    </label>
+  );
 }

@@ -1,16 +1,21 @@
 export const identity = <T>(p: T): T => p;
-
-export function createExtender<DefaultType, OverridesType>(
+export function createExtender<
+  DefaultType extends Record<string, any>,
+  OverridesType extends Record<string, any>
+>(
   defaults: DefaultType,
-  overrides: OverridesType,
+  /** We're defaulting to an Object.create call here to circumvent
+   *  the fact that {} can't be reconciled
+   *  with a type that extends Record<string, any> */
+  overrides: OverridesType = Object.create(Object.prototype),
 ) {
-  return function getOverrides(key: keyof DefaultType) {
+  return function getOverrides(key: string) {
     const {
       cssFn: defaultCssFn,
       attributesFn: defaultAttributesFn,
       component: defaultComponent,
-    } = defaults[key];
-    if (!overrides || !overrides[key]) {
+    }: DefaultType[keyof DefaultType] = defaults[key];
+    if (!overrides[key]) {
       return {
         cssFn: defaultCssFn,
         attributesFn: defaultAttributesFn,

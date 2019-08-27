@@ -9,7 +9,7 @@ import { IconWrapper, IconProps } from './elements';
 import { CheckboxIconProps, ThemeProps, ThemeTokens } from './types';
 import { iconWrapperCSS } from './elements/IconWrapper';
 
-interface Defaults {
+interface DefaultType {
   IconWrapper: {
     component: typeof IconWrapper;
     cssFn: (props: IconProps) => CSSObject;
@@ -22,7 +22,22 @@ interface Defaults {
     component: typeof IconIndeterminate;
   };
 }
-const defaults: Defaults = {
+
+type OverridesType = {
+  IconWrapper?: {
+    component?: React.ComponentType;
+    cssFn?: (defaultStyles: CSSObject, props: IconProps) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+  Icon?: {
+    component?: React.ComponentType;
+  };
+  IconIndeterminate?: {
+    component?: React.ComponentType;
+  };
+};
+
+const defaults: DefaultType = {
   IconWrapper: {
     component: IconWrapper,
     cssFn: iconWrapperCSS,
@@ -49,9 +64,10 @@ export default function CheckboxIcon({
   primaryColor,
   secondaryColor,
 }: CheckboxIconProps) {
-  const getOverrides = useMemo(() => createExtender(defaults, overrides), [
-    overrides,
-  ]);
+  const getOverrides = useMemo(
+    () => createExtender<DefaultType, OverridesType>(defaults, overrides),
+    [overrides],
+  );
   const { component: IconWrapper, ...iconWrapperOverrides } = getOverrides(
     'IconWrapper',
   );

@@ -5,7 +5,7 @@ export {
   IconProps,
 } from './IconWrapper';
 export { default as HiddenCheckbox } from './HiddenCheckbox';
-export { default as Label, LabelProps, labelCSS } from './Label';
+export { default as Label, LabelProps, labelCSS, LabelCSSProps } from './Label';
 export {
   default as LabelText,
   LabelTextProps,

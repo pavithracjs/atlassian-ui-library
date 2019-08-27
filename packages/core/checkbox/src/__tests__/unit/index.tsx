@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { mount } from 'enzyme';
 import CheckboxIcon from '@atlaskit/icon/glyph/checkbox';
 import CheckboxIndeterminateIcon from '@atlaskit/icon/glyph/checkbox-indeterminate';
@@ -69,23 +69,38 @@ describe(name, () => {
       expect(cb.find(CheckboxIndeterminateIcon)).toHaveLength(1);
     });
     it('should initially set the indeterminate state on the hidden checkbox', () => {
-      const cb = mountCheckbox({ isIndeterminate: true, isChecked: false });
-      // @ts-ignore - Property 'checkbox' does not exist
-      const element = cb.find('Checkbox').instance().checkbox;
-      expect(element.indeterminate).toBe(true);
+      let ref: MutableRefObject<HTMLInputElement>;
+      const refFn = (el: MutableRefObject<HTMLInputElement>) => {
+        ref = el;
+      };
+      const cb = mountCheckbox({
+        inputRef: refFn,
+        isIndeterminate: true,
+        isChecked: false,
+      });
+      cb.update();
+      // @ts-ignore - Property 'indeterminate' does not exist on HTMLInputElement
+      expect(ref.indeterminate).toBe(true);
     });
     it('should set the indeterminate state on the hidden checkbox on update', () => {
+      let ref: MutableRefObject<HTMLInputElement>;
+      const refFn = (el: MutableRefObject<HTMLInputElement>) => {
+        ref = el;
+      };
       const cb = mountCheckbox({
+        inputRef: refFn,
         isChecked: false,
         isIndeterminate: false,
       });
 
-      // @ts-ignore - Property 'checkbox' does not exist
-      const element = cb.find('Checkbox').instance().checkbox;
-      expect(element.indeterminate).toBe(false);
+      cb.update();
+      // @ts-ignore - Property 'indeterminate' does not exist on HTMLInputElement
+      expect(ref.indeterminate).toBe(false);
 
       cb.setProps({ isIndeterminate: true });
-      expect(element.indeterminate).toBe(true);
+      cb.update();
+      // @ts-ignore - Property 'indeterminate' does not exist on HTMLInputElement
+      expect(ref.indeterminate).toBe(true);
     });
     it('should pass all the extra props passed down to hidden checkbox', () => {
       const cb = mountCheckbox({
@@ -96,16 +111,24 @@ describe(name, () => {
   });
   describe('<Checkbox defaultChecked/>', () => {
     it('should render defaultChecked', () => {
-      const cb = mountCheckbox({ defaultChecked: true });
-      // @ts-ignore - Property 'checkbox' does not exist
-      const element = cb.find('Checkbox').instance().checkbox;
-      expect(element.checked).toBe(true);
+      let ref: MutableRefObject<HTMLInputElement>;
+      const refFn = (el: MutableRefObject<HTMLInputElement>) => {
+        ref = el;
+      };
+      const cb = mountCheckbox({ inputRef: refFn, defaultChecked: true });
+      cb.update();
+      // @ts-ignore - Property 'indeterminate' does not exist on HTMLInputElement
+      expect(ref.checked).toBe(true);
     });
     it('should render defaultChecked={undefined}', () => {
-      const cb = mountCheckbox({});
-      // @ts-ignore - Property 'checkbox' does not exist
-      const element = cb.find('Checkbox').instance().checkbox;
-      expect(element.checked).toBe(false);
+      let ref: MutableRefObject<HTMLInputElement>;
+      const refFn = (el: MutableRefObject<HTMLInputElement>) => {
+        ref = el;
+      };
+      const cb = mountCheckbox({ inputRef: refFn });
+      cb.update();
+      // @ts-ignore - Property 'indeterminate' does not exist on HTMLInputElement
+      expect(ref.checked).toBe(false);
     });
   });
 });

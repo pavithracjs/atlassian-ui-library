@@ -2,7 +2,7 @@ import React from 'react';
 import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 import { CSSObject } from '@emotion/core';
 import { IconProps } from './elements/IconWrapper';
-import { LabelProps, LabelTextProps } from './elements';
+import { LabelProps, LabelTextProps, LabelCSSProps } from './elements';
 
 export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
@@ -55,15 +55,15 @@ export interface CheckboxProps extends WithAnalyticsEventsProps {
   overrides?: {
     LabelText?: {
       component?: React.ComponentType<LabelTextProps>;
-      cssFn?: (defaultStyles: CSSObject, state: LabelProps) => CSSObject;
-      attributesFn?: (props: any) => any;
-    };
-    Label?: {
-      component?: React.ComponentType;
       cssFn?: (
         defaultStyles: CSSObject,
         state: { tokens: ThemeTokens },
       ) => CSSObject;
+      attributesFn?: (props: any) => any;
+    };
+    Label?: {
+      component?: React.ComponentType<LabelProps>;
+      cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
     };
     IconWrapper?: {
       component?: React.ComponentType;
