@@ -29,11 +29,13 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
-/* This function strip logs from the pipeline. */
-function stripLogs(logs /*: string */) {
-  return stripAnsi(logs);
+/* This function strip logs from the pipeline based on the last command that did not fail. */
+function stripLogs(logs /*: string */, command /*: string */) {
+  if (logs.indexOf(command) >= 0) {
+    // The logs are displayed with colors and style, using stripAnsi() will clean its.
+    return stripAnsi(logs.split(command)[1]);
+  }
 }
-
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
  */
@@ -269,6 +271,8 @@ async function getStepEvents(buildId /*: string*/) {
         buildId,
         stepObject.uuid,
         buildStatus,
+        stepObject.script_commands[stepObject.script_commands.length - 1]
+          .command,
       );
       return {
         build_status: buildStatus,
@@ -290,19 +294,18 @@ async function getStepEvents(buildId /*: string*/) {
   }
 }
 
-/* This function returns the error for a failed step.*/
 async function getStepFailedLogs(
-  buildId /*: string */,
+  buildNumber /*: number */,
   stepUuid /*: string */,
   status /*: string */,
-  // command /*: string */,
+  command /*: string */,
 ) {
   let logs = '';
-  if (status === 'FAILED' && buildId) {
-    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepUuid}/log`;
+  if (status === 'FAILED' && buildNumber && command) {
+    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildNumber}/steps/${stepUuid}/log`;
     try {
       const resp = await axios.get(url);
-      logs = stripLogs(resp.data);
+      logs = stripLogs(resp.data, command);
     } catch (err) {
       // Sometimes some logs are not found,
       logs = `${err}`;
