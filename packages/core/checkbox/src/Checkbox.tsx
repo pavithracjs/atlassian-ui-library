@@ -114,11 +114,14 @@ function Checkbox({
     [isIndeterminate],
   );
 
-  useEffect(() => {
-    if (inputRef && checkbox && checkbox.current) {
-      inputRef(checkbox.current);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (inputRef && checkbox && checkbox.current) {
+        inputRef(checkbox.current);
+      }
+    },
+    [inputRef],
+  );
 
   const { component: Label, ...labelOverrides } = getOverrides('Label');
   const { component: LabelText, ...labelTextOverrides } = getOverrides(
