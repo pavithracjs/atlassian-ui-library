@@ -295,14 +295,14 @@ async function getStepEvents(buildId /*: string*/) {
 }
 
 async function getStepFailedLogs(
-  buildNumber /*: string */,
+  buildId /*: string */,
   stepUuid /*: string */,
   status /*: string */,
   command /*: string */,
 ) {
   let logs = '';
-  if (status === 'FAILED' && buildNumber && command) {
-    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildNumber}/steps/${stepUuid}/log`;
+  if (status === 'FAILED' && buildId && command) {
+    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepUuid}/log`;
     try {
       const resp = await axios.get(url);
       logs = stripLogs(resp.data, command);
