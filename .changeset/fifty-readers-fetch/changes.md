@@ -1,1 +1,0 @@
-Converts prop types to interfaces
