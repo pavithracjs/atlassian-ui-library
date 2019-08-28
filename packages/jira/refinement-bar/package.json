@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/refinement-bar",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Jira Refinement Bar Component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -20,18 +20,18 @@
     "Joss M"
   ],
   "dependencies": {
-    "@atlaskit/analytics-next": "^6.0.2",
-    "@atlaskit/avatar": "^16.0.13",
-    "@atlaskit/badge": "^12.0.7",
-    "@atlaskit/button": "^13.1.5",
-    "@atlaskit/icon": "^19.0.5",
-    "@atlaskit/icon-object": "^4.0.8",
-    "@atlaskit/lozenge": "^9.0.6",
-    "@atlaskit/select": "^10.0.7",
-    "@atlaskit/spinner": "^12.0.8",
-    "@atlaskit/textfield": "^3.0.4",
-    "@atlaskit/theme": "^9.1.5",
-    "@atlaskit/tooltip": "^15.0.13",
+    "@atlaskit/analytics-next": "^6.0.3",
+    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/badge": "^12.0.8",
+    "@atlaskit/button": "^13.1.6",
+    "@atlaskit/icon": "^19.0.6",
+    "@atlaskit/icon-object": "^4.0.9",
+    "@atlaskit/lozenge": "^9.0.7",
+    "@atlaskit/select": "^10.0.8",
+    "@atlaskit/spinner": "^12.0.9",
+    "@atlaskit/textfield": "^3.0.5",
+    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/tooltip": "^15.0.14",
     "@emotion/core": "^10.0.9",
     "apply-ref": "^0.2.0",
     "memoize-one": "^5.1.0",
@@ -43,8 +43,8 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.1.4",
-    "@atlaskit/section-message": "^4.0.11",
+    "@atlaskit/docs": "^8.1.5",
+    "@atlaskit/section-message": "^4.0.12",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0"
   }

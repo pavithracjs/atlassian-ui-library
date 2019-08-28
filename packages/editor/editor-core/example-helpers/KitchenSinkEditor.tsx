@@ -122,7 +122,7 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
     this.validateDocument();
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
     if (this.props.actions !== newProps.actions) {
       this.editorView = newProps.actions._privateGetEditorView();
     }

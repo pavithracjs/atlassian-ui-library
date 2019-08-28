@@ -69,7 +69,7 @@ export class DropzoneBase extends LocalUploadComponentReact<
     this.removeContainerListeners(this.getContainer());
   }
 
-  public componentWillReceiveProps(nextProps: DropzoneProps): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: DropzoneProps): void {
     const {
       config: { container: newContainer },
     } = nextProps;

@@ -95,7 +95,7 @@ export class Renderer extends PureComponent<Props, {}> {
     });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.portal !== this.props.portal ||
       nextProps.appearance !== this.props.appearance

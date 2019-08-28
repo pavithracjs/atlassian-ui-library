@@ -26,7 +26,7 @@ export default class WebToNativeReporter extends React.Component<Props, State> {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.oldLog = (toNativeBridge as any).log;
     (toNativeBridge as any).log = this.handleNewLog;
   }

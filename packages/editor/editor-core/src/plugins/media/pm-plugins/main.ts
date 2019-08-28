@@ -449,7 +449,7 @@ export class MediaPluginState {
   };
 
   /**
-   * Called from React UI Component on componentWillUnmount and componentWillReceiveProps
+   * Called from React UI Component on componentWillUnmount and UNSAFE_componentWillReceiveProps
    * when React component's underlying node property is replaced with a new node
    */
   handleMediaNodeUnmount = (oldNode: PMNode) => {

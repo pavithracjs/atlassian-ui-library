@@ -38,7 +38,7 @@ export class PredefinedAvatarList extends PureComponent<
     avatars: [],
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState(state => {
       const { avatars } = this.props;
 

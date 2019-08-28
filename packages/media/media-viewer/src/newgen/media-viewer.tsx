@@ -45,7 +45,7 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
     }
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.fireAnalytics(mediaViewerModalEvent());
     MediaViewerComponent.startTime = Date.now();
   }

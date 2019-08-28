@@ -80,9 +80,10 @@ export type OnlyButtonProps = {
   children?: React.ReactNode;
 };
 
-export type ButtonProps = HtmlAttributes &
-  OnlyButtonProps &
-  WithAnalyticsEventsProps;
+export interface ButtonProps
+  extends HtmlAttributes,
+    OnlyButtonProps,
+    WithAnalyticsEventsProps {}
 
 export type Spacing = 'compact' | 'default' | 'none';
 

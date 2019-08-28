@@ -94,7 +94,7 @@ export default class AtlaskitThemeProvider extends Component<
     return { hasAtlaskitThemeProvider: true };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (!this.context.hasAtlaskitThemeProvider && exenv.canUseDOM) {
       const css = getStylesheetResetCSS(this.state);
       this.stylesheet = document.createElement('style');
@@ -106,7 +106,7 @@ export default class AtlaskitThemeProvider extends Component<
     }
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
     if (newProps.mode !== this.props.mode) {
       const newThemeState = buildThemeState(newProps.mode);
       if (this.stylesheet) {

@@ -8,7 +8,6 @@ const { INTEGRATION_TESTS } = process.env;
 const { VISUAL_REGRESSION } = process.env;
 const { PARALLELIZE_TESTS } = process.env;
 const { PARALLELIZE_TESTS_FILE } = process.env;
-const { TEST_ONLY_PATTERN } = process.env;
 
 // These are set by Pipelines if you are running in a parallel steps
 const STEP_IDX = Number(process.env.STEP_IDX);
@@ -141,26 +140,6 @@ if (INTEGRATION_TESTS || VISUAL_REGRESSION) {
   } else {
     config.testMatch = [`**/__tests__/${testPattern}/**/*.(js|tsx|ts)`];
   }
-}
-
-// The TEST_ONLY_PATTERN is added to let us restrict a set of tests that *would* have been run; to
-// only the ones that match a given pattern. This is slightly different to something like `yarn jest packages/core`
-// since we can take advantage of other parts of the jest config. `TEST_ONLY_PATTERN="packages/core" yarn run test:changed`
-if (TEST_ONLY_PATTERN) {
-  // There is a bit to unwrap here. What we are trying to achieve is a way to pass simple options like "packages/editor" and "!packages/editor"
-  // to our script and have them work as expected. Since this is going into the testPathIgnore variable, we do need to negate the negation however.
-  // So to run only non-editor tests you'd pass TEST_ONLY_PATTERN="!packages/editor". To turn that into an "ignore" regex, we can simply remove the "!".
-  // Note: it's important to use "packages/editor" and not just "editor" since editor can (and does) appear in other tests paths.
-  // Now, it's more complicated when we want to run tests that *only* match a specific part of a pattern.
-  // We can't use a simple negative lookahead (?!packages/editor/) since this match *everything* that doesn't match our pattern
-  // So we essentially have to check that all characters in the string *do not* follow our negated pattern (the . and *). We then also need
-  // to match this on the whole string, otherwise *any* character that matches would be a match, hence the ^ and $
-  let newIgnore = `(^((?!${TEST_ONLY_PATTERN}).)*$)`;
-  if (TEST_ONLY_PATTERN.startsWith('!')) {
-    newIgnore = TEST_ONLY_PATTERN.substr(1);
-  }
-
-  config.testPathIgnorePatterns.push(newIgnore);
 }
 
 /**

@@ -1,5 +1,19 @@
 # @atlaskit/global-navigation
 
+## 7.6.4
+
+- Updated dependencies [a75dfaad67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a75dfaad67):
+  - @atlaskit/navigation-next@6.5.8
+  - @atlaskit/onboarding@9.0.0
+
+## 7.6.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
 ## 7.6.2
 
 ### Patch Changes

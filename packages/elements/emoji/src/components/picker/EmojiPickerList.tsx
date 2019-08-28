@@ -116,7 +116,7 @@ export default class EmojiPickerVirtualList extends PureComponent<
     };
   }
 
-  componentWillUpdate(nextProps: Props, nextState: State) {
+  UNSAFE_componentWillUpdate(nextProps: Props, nextState: State) {
     if (
       this.props.emojis !== nextProps.emojis ||
       this.props.selectedTone !== nextProps.selectedTone ||

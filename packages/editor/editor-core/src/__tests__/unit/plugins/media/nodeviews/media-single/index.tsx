@@ -512,7 +512,7 @@ describe('nodeviews/mediaSingle', () => {
 
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });
-    // We need to await to ticks since we await 2 different promises on the componentWillReceiveProps
+    // We need to await to ticks since we await 2 different promises on the UNSAFE_componentWillReceiveProps
     // unfortunately we can't access the real promises here
     await nextTick();
     await nextTick();
