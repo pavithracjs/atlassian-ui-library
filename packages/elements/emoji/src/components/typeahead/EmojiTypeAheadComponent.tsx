@@ -152,7 +152,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     this.selected = false;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const prevEmojiProvider = this.props.emojiProvider;
     const nextEmojiProvider = nextProps.emojiProvider;
     if (prevEmojiProvider !== nextEmojiProvider) {

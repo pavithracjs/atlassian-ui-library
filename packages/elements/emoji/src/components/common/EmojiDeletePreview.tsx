@@ -34,7 +34,7 @@ export default class EmojiDeletePreview extends Component<Props, State> {
     };
   }
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     if (nextProps.emoji.id !== this.props.emoji.id) {
       this.setState({ error: false });
     }

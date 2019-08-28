@@ -5,15 +5,14 @@ import {
   withAnalyticsEvents,
   createAndFireEvent,
   WithAnalyticsEventsProps,
+  UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
 import {
   SharedCardProps,
   CardStatus,
-  CardEvent,
   OnSelectChangeFuncResult,
   CardDimensionValue,
-  CardOnClickCallback,
 } from '../index';
 import { FileCard } from '../files';
 import { breakpointSize } from '../utils/breakpoint';
@@ -26,16 +25,17 @@ import { getCSSUnitValue } from '../utils/getCSSUnitValue';
 import { getElementDimension } from '../utils/getElementDimension';
 import { Wrapper } from './styled';
 
-import { WithCardViewAnalyticsContext } from './withCardViewAnalyticsContext';
-
 export interface CardViewOwnProps extends SharedCardProps {
   readonly status: CardStatus;
   readonly metadata?: FileDetails;
   readonly resizeMode?: ImageResizeMode;
 
   readonly onRetry?: () => void;
-  readonly onClick?: CardOnClickCallback;
-  readonly onMouseEnter?: (result: CardEvent) => void;
+  readonly onClick?: (
+    event: React.MouseEvent<HTMLDivElement>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ) => void;
+  readonly onMouseEnter?: (event: MouseEvent<HTMLDivElement>) => void;
   readonly onSelectChange?: (result: OnSelectChangeFuncResult) => void;
 
   // FileCardProps
@@ -49,23 +49,27 @@ export interface CardViewState {
   elementWidth?: number;
 }
 
-export type CardViewBaseProps = CardViewOwnProps & WithAnalyticsEventsProps;
+export type CardViewProps = CardViewOwnProps & WithAnalyticsEventsProps;
 
 /**
  * This is classic vanilla CardView class. To create an instance of class one would need to supply
  * `createAnalyticsEvent` prop to satisfy it's Analytics Events needs.
  */
 export class CardViewBase extends React.Component<
-  CardViewBaseProps,
+  CardViewProps,
   CardViewState
 > {
   state: CardViewState = {};
+
+  static defaultProps: Partial<CardViewOwnProps> = {
+    appearance: 'auto',
+  };
 
   componentDidMount() {
     this.saveElementWidth();
   }
 
-  componentWillReceiveProps(nextProps: CardViewBaseProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CardViewProps) {
     const { selected: currSelected } = this.props;
     const { selectable: nextSelectable, selected: nextSelected } = nextProps;
 
@@ -124,8 +128,7 @@ export class CardViewBase extends React.Component<
   }
 
   render() {
-    const { onClick, onMouseEnter } = this;
-    const { dimensions, appearance } = this.props;
+    const { dimensions, appearance, onClick, onMouseEnter } = this.props;
     const wrapperDimensions = dimensions
       ? dimensions
       : getDefaultCardDimensions(appearance);
@@ -179,46 +182,10 @@ export class CardViewBase extends React.Component<
       />
     );
   };
-
-  private onClick = (event: MouseEvent<HTMLDivElement>) => {
-    const { onClick, metadata: mediaItemDetails } = this.props;
-    if (onClick) {
-      onClick({ event, mediaItemDetails });
-    }
-  };
-
-  private onMouseEnter = (event: MouseEvent<HTMLDivElement>) => {
-    const { onMouseEnter, metadata: mediaItemDetails } = this.props;
-    if (onMouseEnter) {
-      onMouseEnter({ event, mediaItemDetails });
-    }
-  };
 }
 
 const createAndFireEventOnMedia = createAndFireEvent('media');
-/**
- * With this CardView class constructor version `createAnalyticsEvent` props is supplied for you, so
- * when creating instance of that class you don't need to worry about it.
- */
-export const CardViewWithAnalyticsEvents = withAnalyticsEvents({
+
+export const CardView = withAnalyticsEvents({
   onClick: createAndFireEventOnMedia({ action: 'clicked' }),
 })(CardViewBase);
-
-/**
- * This if final version of CardView that is exported to the consumer. This version wraps everything
- * with Analytics Context information so that all the Analytics Events created anywhere inside CardView
- * will have it automatically.
- */
-export class CardView extends React.Component<CardViewOwnProps, CardViewState> {
-  static defaultProps: Partial<CardViewOwnProps> = {
-    appearance: 'auto',
-  };
-
-  render() {
-    return (
-      <WithCardViewAnalyticsContext {...this.props}>
-        <CardViewWithAnalyticsEvents {...this.props} />
-      </WithCardViewAnalyticsContext>
-    );
-  }
-}

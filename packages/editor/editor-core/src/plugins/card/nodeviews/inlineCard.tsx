@@ -19,7 +19,7 @@ export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
     contextAdapter: PropTypes.object,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { view } = this.props;
     const scrollContainer = findOverflowScrollParent(view.dom as HTMLElement);
     this.scrollContainer = scrollContainer || undefined;

@@ -58,7 +58,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
     );
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.taskDecisionProvider !== this.props.taskDecisionProvider ||
       nextProps.containerAri !== this.props.containerAri ||

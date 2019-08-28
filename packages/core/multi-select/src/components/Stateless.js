@@ -178,7 +178,7 @@ export default class StatelessMultiSelect extends PureComponent<Props, State> {
     }
   };
 
-  componentWillReceiveProps = (nextProps: Props) => {
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.items !== nextProps.items) {
       this.setState({ groupedItems: groupItems(nextProps.items) });
     }
