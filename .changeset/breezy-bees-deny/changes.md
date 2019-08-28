@@ -1,0 +1,1 @@
+Emit processed state when file gets copied
