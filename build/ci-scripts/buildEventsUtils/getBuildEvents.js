@@ -295,7 +295,7 @@ async function getStepEvents(buildId /*: string*/) {
 }
 
 async function getStepFailedLogs(
-  buildNumber /*: number */,
+  buildNumber /*: string */,
   stepUuid /*: string */,
   status /*: string */,
   command /*: string */,
