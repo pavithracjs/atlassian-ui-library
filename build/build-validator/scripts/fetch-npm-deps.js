@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const bolt = require('bolt');
 const util = require('util');
 const lodash = require('lodash');
 const child_process = require('child_process');
@@ -16,7 +17,7 @@ const limit = pLimit(25);
 
 const lockFileName = 'fetch.lock';
 
-function distExists(pkgName) {
+function distExists(pkgName, pkgVersion) {
   const distPath = getNpmDistPath(pkgName);
   if (!fs.existsSync(distPath)) {
     return false;
@@ -26,104 +27,78 @@ function distExists(pkgName) {
     return false;
   }
   const dirContents = fs.readdirSync(distPath);
-  return dirContents.length > 0 && !dirContents.find(f => f === lockFileName);
+  return (
+    dirContents.length > 0 &&
+    !dirContents.find(f => f === lockFileName) &&
+    dirContents.find(f => f.endsWith(`${pkgVersion}.tgz`))
+  );
 }
 
 async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
   // console.log(`Fetching npm dep '${pkgName}'`);
-
-  if (distExists(pkgName) && !forceRefetch) {
-    console.log(`Dist already exists for ${pkgName}. Use --force to refetch`);
-    return;
-  }
-
-  const { stdout, stderr } = await exec(
-    `yarn info ${pkgName}@${pkgVersion} --json dist`,
-  );
-
-  if (stderr) {
-    throw new Error(`Error executing yarn info for ${pkgName}: ${stderr}`);
-  }
-
-  const info = JSON.parse(stdout);
-
-  const tarball = lodash.get(info, 'data.tarball');
-  if (!tarball) {
-    throw new Error(
-      `Could not retrieve tarball link from yarn info for ${pkgName}`,
-    );
-  }
-
-  console.log(`Fetching ${pkgName} from ${tarball}`);
   const distPath = getNpmDistPath(pkgName);
-  const distTarballPath = path.join(distPath, path.basename(tarball));
+  const distPkgPath = path.join(distPath, 'package');
+  if (distExists(pkgName, pkgVersion) && !forceRefetch) {
+    console.log(`Using cached ${pkgName}. Use --refetch to refetch`);
+    return distPkgPath;
+  }
+
+  console.log(`Fetching ${pkgName}...`);
   rimraf.sync(distPath);
   fs.mkdirSync(distPath, { recursive: true });
+  // Create a lockfile that is deleted after we fetch and unpack successfully.
+  // Used to signal whether a cached dist is corrupt
   const lockFilePath = path.join(distPath, lockFileName);
   fs.closeSync(fs.openSync(lockFilePath, 'w'));
-  await limit(() =>
-    retryFetch(tarball, {
-      cb: (e, retry) =>
-        console.log(
-          `Encountered error ${
-            e.errno
-          } when fetching ${tarball}. ${retry} retries left.`,
-        ),
-    }),
-  ).then(
-    res =>
-      new Promise((resolve, reject) => {
-        const dest = fs.createWriteStream(distTarballPath);
-        res.body.pipe(dest);
-        dest.on('close', () => {
-          resolve();
-        });
-        dest.on('error', reject);
-      }),
+  // Change dir as npm pack extracts to current directory
+  const oldCwd = process.cwd();
+  process.chdir(distPath);
+  const { stdout, stderr } = await limit(() =>
+    exec(`npm pack ${pkgName}@${pkgVersion}`),
   );
-
-  // Strip-components extracts the contents out of the package dir in the tarball
-  // await tar.extract({
-  //   cwd: distPath,
-  //   file: distTarballPath,
-  //   // strip: 1,
-  // });
+  const distTarballPath = stdout;
   await exec(`tar -C ${distPath} -xvf ${distTarballPath}`);
+  // Change back to old directory so we don't permanently modify process.cwd
+  process.chdir(oldCwd);
   fs.unlinkSync(lockFilePath);
   console.log(`Successfully fetched and unpacked ${pkgName} to ${distPath}`);
 
-  return true;
+  // Npm dists are stored in package
+  return distPkgPath;
 }
 
 /**
  * fetch-npm-dep [packageName]
  *
- * Fetches `packageName` from npm and stores in the dists folder, provided the package exists under `optionalDependencies` of this package.json
+ * Fetches `packageName` from npm and stores in the dists folder, provided the package is a public workspace package of this repo
  *
- * If no `packageName` is passed, fetches all packages under `optionalDependencies`.
+ * If no `packageName` is passed, fetches all public workspace packages in the repo
  *
- * --force - force refetch of bundle from npm
+ * --refetch - force refetch of bundle from npm
  */
-async function main() {
-  const args = process.argv.slice(2);
-  const requiredArgs = args.filter(a => !a.startsWith('--'));
-  const flags = args.filter(a => a.startsWith('--'));
-  const pkgName = requiredArgs[0];
-  const force = flags.includes('--force');
-  const pkgJson = JSON.parse(fs.readFileSync('package.json'));
+async function main(pkgName, opts) {
+  const allPackages = (await bolt.getWorkspaces({
+    cwd: path.join(process.cwd(), '..'),
+  }))
+    .map(({ config: { name, private, version } }) => ({
+      name,
+      version,
+      private,
+    }))
+    .filter(p => !p.private);
 
   if (pkgName) {
-    const pkgVersion = pkgJson.optionalDependencies[pkgName];
-    if (!pkgJson || !pkgVersion) {
+    const resolvedPkg = allPackages.find(p => p.name === pkgName);
+    if (!resolvedPkg) {
       throw Error(
-        'Dependency does not exist as an optionalDependency in package.json. Add it there first.',
+        `Dependency ${pkgName} is not a public package in the atlaskit repo.`,
       );
     }
-    fetchDistFromNpm(pkgName, pkgVersion, force);
+    return fetchDistFromNpm(pkgName, resolvedPkg.version, opts.force);
   } else {
     const resolvedPromises = await Promise.all(
-      Object.entries(pkgJson.optionalDependencies).map(([name, version]) => {
-        return fetchDistFromNpm(name, version, force);
+      allPackages.map(({ name, version }) => {
+        return fetchDistFromNpm(name, version, opts.force);
       }),
     );
 
@@ -133,7 +108,14 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().catch(e => {
+  const args = process.argv.slice(2);
+  const requiredArgs = args.filter(a => !a.startsWith('--'));
+  const flags = args.filter(a => a.startsWith('--'));
+  const pkgName = requiredArgs[0];
+  const opts = {
+    force: flags.includes('--refetch'),
+  };
+  main(pkgName, opts).catch(e => {
     console.error(e);
     process.exit(1);
   });

@@ -4,8 +4,6 @@
   "private": true,
   "description": "Validates built dists against versions downloaded from npm",
   "scripts": {
-    "fetch-npm-deps": "node scripts/fetch-npm-deps.js",
-    "update-deps": "node scripts/update-deps.js",
     "validate-packages": "node scripts/validate-packages.js"
   },
   "dependencies": {

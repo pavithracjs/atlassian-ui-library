@@ -6,6 +6,7 @@ const util = require('util');
 const packlist = require('npm-packlist');
 const child_process = require('child_process');
 const { getNpmDistPath } = require('./utils');
+const fetchNpmDeps = require('./fetch-npm-deps');
 
 const exec = util.promisify(child_process.exec);
 
@@ -21,9 +22,10 @@ function copyFiles(srcDir, destDir, files) {
 // This lives in global scope so we can easily remove the dir in our global error handler
 let tmpDir;
 
-async function validatePackage(pkgName, quiet) {
-  // Get dist path for pkgName
-  const npmDistPath = path.join(getNpmDistPath(pkgName), 'package');
+async function validatePackage(pkgName, quiet, refetch = false) {
+  const npmDistPath = await fetchNpmDeps(pkgName, {
+    refetch,
+  });
   const repoPkgPath = getRepoPkgPath(pkgName);
   tmpDir = path.join(repoPkgPath, 'tmp');
   await fse.remove(tmpDir);
@@ -50,38 +52,39 @@ async function validatePackage(pkgName, quiet) {
 }
 
 /**
- * validate-packages [packageName]
+ * validate-packages
  *
  * Validates `packageName` in the repo against what is downloaded from npm in `dists` folder
+ *
+ * @param `packageName` string Name of the package to validate. If missing will validate all packages
+ * @param `opts` {
+ *  `quiet`: boolean Whether to only show files that have changed or the whole file diffs
+ *  `refetch`: boolean Whether to refetch the package from npm before comparing
+ * }
  *
  * Assumes that the package has already been built.
  *
  * If no `packageName` is passed, compares all packages under `optionalDependencies`.
  */
-async function main() {
-  const args = process.argv.slice(2);
-  const requiredArgs = args.filter(a => !a.startsWith('--'));
-  const flags = args.filter(a => a.startsWith('--'));
-  const pkgName = requiredArgs[0];
-  const quiet = flags.includes('--quiet');
-  const pkgJson = JSON.parse(fse.readFileSync('package.json'));
-
+async function main(pkgName, opts) {
   if (pkgName) {
     // Compare single package
-    const pkgVersion = pkgJson.optionalDependencies[pkgName];
-    if (!pkgJson || !pkgVersion) {
-      throw Error(
-        'Dependency does not exist as an optionalDependency in package.json. Add it there first.',
-      );
-    }
-    await validatePackage(pkgName, quiet);
+    await validatePackage(pkgName, opts.quiet, opts.refetch);
   } else {
     // Compare all
   }
 }
 
 if (require.main === module) {
-  main().catch(e => {
+  const args = process.argv.slice(2);
+  const requiredArgs = args.filter(a => !a.startsWith('--'));
+  const flags = args.filter(a => a.startsWith('--'));
+  const pkgName = requiredArgs[0];
+  const opts = {
+    quiet: flags.includes('--quiet'),
+    refetch: flags.includes('--refetch'),
+  };
+  main(pkgName, opts).catch(e => {
     console.error(e);
     fse.removeSync(tmpDir);
     process.exit(1);
