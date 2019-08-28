@@ -202,30 +202,35 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
       size: 'medium',
     });
+    const toggle = (
+      <Toggle isParentHovered={isParentHovered}>
+        <ThemeProvider
+          theme={{
+            [itemThemeNamespace]: itemTheme,
+          }}
+        >
+          <Item
+            data-test-id="switcher-expand-toggle"
+            onClick={this.toggleChildItemsVisibility}
+            onKeyDown={(e: KeyboardEvent) =>
+              e.key === 'Enter' && this.toggleChildItemsVisibility()
+            }
+          >
+            <Icon theme="subtle" />
+          </Item>
+        </ThemeProvider>
+      </Toggle>
+    );
 
-    return (
+    return showChildItems ? (
+      toggle
+    ) : (
       <Tooltip
-        content={!this.state.showChildItems && this.props.tooltipContent}
+        content={this.props.tooltipContent}
         hideTooltipOnMouseDown
         position="top"
       >
-        <Toggle isParentHovered={isParentHovered}>
-          <ThemeProvider
-            theme={{
-              [itemThemeNamespace]: itemTheme,
-            }}
-          >
-            <Item
-              data-test-id="switcher-expand-toggle"
-              onClick={this.toggleChildItemsVisibility}
-              onKeyDown={(e: KeyboardEvent) =>
-                e.key === 'Enter' && this.toggleChildItemsVisibility()
-              }
-            >
-              <Icon theme="subtle" />
-            </Item>
-          </ThemeProvider>
-        </Toggle>
+        {toggle}
       </Tooltip>
     );
   }
