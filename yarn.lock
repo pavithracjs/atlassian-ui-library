@@ -18189,11 +18189,6 @@ typescript@2.0.10:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.0.10.tgz#ccdd4ed86fd5550a407101a0814012e1b3fac3dd"
 
-typescript@3.6.1-rc:
-  version "3.6.1-rc"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.1-rc.tgz#9db650b25d8ef033d9e25b3057bdd1e102bb434b"
-  integrity sha512-u6AQN9AoocZKYSz8zcc1Qh/V/mbAO+BHc73fTiKlIdjzU60A8TesrK9/7kg3GM8o2RxNyCeOFpcevEtnfUyaLg==
-
 typescript@^2.5.1:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
@@ -18201,6 +18196,11 @@ typescript@^2.5.1:
 typescript@^3.2.1:
   version "3.3.3333"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3333.tgz#171b2c5af66c59e9431199117a3bcadc66fdcfd6"
+
+typescript@~3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.2.tgz#105b0f1934119dde543ac8eb71af3a91009efe54"
+  integrity sha512-lmQ4L+J6mnu3xweP8+rOrUwzmN+MRAj7TgtJtDaXE5PMyX2kCrklhg3rvOsOIfNeAWMQWO2F1GPc1kMD2vLAfw==
 
 typestyle@^1.4.4:
   version "1.7.2"
