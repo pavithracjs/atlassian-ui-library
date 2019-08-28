@@ -581,7 +581,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server
+                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server,monorepo-tooling
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               artifacts:
                 - .masterBundleSize/**
