@@ -1,3 +1,4 @@
+const path = require('path');
 const fetch = require('node-fetch');
 
 async function retryFetch(url, options) {
@@ -15,6 +16,9 @@ async function retryFetch(url, options) {
   }
 }
 
+const getNpmDistPath = pkgName => path.join(process.cwd(), 'dists', pkgName);
+
 module.exports = {
+  getNpmDistPath,
   retryFetch,
 };

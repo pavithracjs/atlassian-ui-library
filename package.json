@@ -458,6 +458,7 @@
     "meow": "^5.0.0",
     "minimatch": "^3.0.4",
     "node-yaml": "^3.1.1",
+    "npm-packlist": "^1.4.4",
     "npm-run": "^4.1.2",
     "ora": "^3.0.0",
     "outdent": "^0.5.0",

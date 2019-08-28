@@ -4,6 +4,11 @@ const bolt = require('bolt');
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * update-deps
+ *
+ * Adds all public workspace packages as an optional dependency of this package.
+ */
 async function main() {
   const pkgJson = JSON.parse(fs.readFileSync('package.json'));
   const oldDeps = pkgJson.optionalDependencies;
@@ -51,9 +56,14 @@ async function main() {
   removedDeps.forEach(([name, version]) => {
     console.log(`${name}@${version}`);
   });
+  return diff;
 }
 
-main().catch(e => {
-  console.error(e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(e => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = main;

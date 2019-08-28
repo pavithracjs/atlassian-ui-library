@@ -7,17 +7,17 @@ const lodash = require('lodash');
 const child_process = require('child_process');
 const rimraf = require('rimraf');
 const pLimit = require('p-limit');
-const { retryFetch } = require('./utils');
+const { getNpmDistPath, retryFetch } = require('./utils');
 
 const exec = util.promisify(child_process.exec);
 
 // Limit fetches to at most 25 in parallel
 const limit = pLimit(25);
 
-const getDistPath = pkgName => path.join(process.cwd(), 'dists', pkgName);
+const lockFileName = 'fetch.lock';
 
 function distExists(pkgName) {
-  const distPath = getDistPath(pkgName);
+  const distPath = getNpmDistPath(pkgName);
   if (!fs.existsSync(distPath)) {
     return false;
   }
@@ -26,7 +26,7 @@ function distExists(pkgName) {
     return false;
   }
   const dirContents = fs.readdirSync(distPath);
-  return dirContents.length > 0 && !dirContents.find(f => f.endsWith('.tgz'));
+  return dirContents.length > 0 && !dirContents.find(f => f === lockFileName);
 }
 
 async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
@@ -55,10 +55,12 @@ async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
   }
 
   console.log(`Fetching ${pkgName} from ${tarball}`);
-  const distPath = getDistPath(pkgName);
+  const distPath = getNpmDistPath(pkgName);
   const distTarballPath = path.join(distPath, path.basename(tarball));
   rimraf.sync(distPath);
   fs.mkdirSync(distPath, { recursive: true });
+  const lockFilePath = path.join(distPath, lockFileName);
+  fs.closeSync(fs.openSync(lockFilePath, 'w'));
   await limit(() =>
     retryFetch(tarball, {
       cb: (e, retry) =>
@@ -86,8 +88,8 @@ async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
   //   file: distTarballPath,
   //   // strip: 1,
   // });
-  await exec(`tar -C ${distPath} -xvf ${distTarballPath} --strip-components=1`);
-  fs.unlinkSync(distTarballPath);
+  await exec(`tar -C ${distPath} -xvf ${distTarballPath}`);
+  fs.unlinkSync(lockFilePath);
   console.log(`Successfully fetched and unpacked ${pkgName} to ${distPath}`);
 
   return true;
@@ -114,7 +116,7 @@ async function main() {
     const pkgVersion = pkgJson.optionalDependencies[pkgName];
     if (!pkgJson || !pkgVersion) {
       throw Error(
-        'Dependency does not exist in package.json. Add it there first.',
+        'Dependency does not exist as an optionalDependency in package.json. Add it there first.',
       );
     }
     fetchDistFromNpm(pkgName, pkgVersion, force);
@@ -126,10 +128,15 @@ async function main() {
     );
 
     console.log(`Fetched ${resolvedPromises.filter(p => !!p).length} packages`);
+    return resolvedPromises;
   }
 }
 
-main().catch(e => {
-  console.error(e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(e => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = main;
