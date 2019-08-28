@@ -141,7 +141,7 @@ async function copyFile({
 
   try {
     const destinationFile = await mediaStore.copyFileWithToken(body, params);
-    await emitProcessedState(destinationFile.data, store);
+    emitProcessedState(destinationFile.data, store);
     const tenantSubject = tenantMediaClient.file.getFileState(
       destinationFile.data.id,
     );
