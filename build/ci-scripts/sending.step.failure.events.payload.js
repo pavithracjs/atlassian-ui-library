@@ -11,7 +11,7 @@ const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayloa
 
 (async () => {
   try {
-    const buildId = process.env.BITBUCKET_BUILD_NUMBER || '69505';
+    const buildId = process.env.BITBUCKET_BUILD_NUMBER;
     const stepEvents = await getStepEvents(buildId);
     // Data are only sent to the service on failures.
     if (stepEvents && stepEvents.build_status === 'FAILED') {
