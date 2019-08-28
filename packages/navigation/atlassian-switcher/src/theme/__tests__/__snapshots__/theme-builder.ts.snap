@@ -3,12 +3,14 @@
 exports[`utils/theme-builder creating a proper theme childItemTheme should match snapshot 1`] = `
 Object {
   "default": Object {
-    "text": "#BF2600",
+    "background": "#e5ffff",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
   "hover": Object {
-    "background": "#BF2600",
-    "secondaryText": "#EBECF0",
-    "text": "#FFFFFF",
+    "background": "#ccffff",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
 }
 `;
@@ -16,43 +18,63 @@ Object {
 exports[`utils/theme-builder creating a proper theme itemTheme should match snapshot 1`] = `
 Object {
   "default": Object {
-    "background": "#BF2600",
-    "secondaryText": "#FF7452",
-    "text": "#BF2600",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
   "hover": Object {
-    "secondaryText": "#EBECF0",
-    "text": "#FFFFFF",
+    "background": "#ccffff",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
 }
 `;
 
-exports[`utils/theme-builder should not require all the props 1`] = `
+exports[`utils/theme-builder creating a proper theme topLevelItemWrapperTheme should match snapshot 1`] = `
 Object {
   "default": Object {
-    "background": "green",
-    "secondaryText": "gray",
-    "text": "white",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
   "hover": Object {
-    "background": "blue",
-    "secondaryText": "gray",
-    "text": "yellow",
+    "background": "#ccffff",
+    "secondaryText": "#03396c",
+    "text": "#0000B2",
   },
 }
 `;
 
-exports[`utils/theme-builder should not require all the props 2`] = `
+exports[`utils/theme-builder creating a theme without passing all the props will fallback to default childItemTheme should match snapshot 1`] = `
 Object {
   "default": Object {
-    "background": "green",
-    "secondaryText": "gray",
-    "text": "white",
+    "text": "#0000B2",
   },
   "hover": Object {
-    "background": "blue",
-    "secondaryText": "gray",
-    "text": "yellow",
+    "background": "#ccffff",
+    "text": "#0000B2",
+  },
+}
+`;
+
+exports[`utils/theme-builder creating a theme without passing all the props will fallback to default itemTheme should match snapshot 1`] = `
+Object {
+  "default": Object {
+    "text": "#0000B2",
+  },
+  "hover": Object {
+    "background": "#ccffff",
+    "text": "#0000B2",
+  },
+}
+`;
+
+exports[`utils/theme-builder creating a theme without passing all the props will fallback to default topLevelItemWrapperTheme should match snapshot 1`] = `
+Object {
+  "default": Object {
+    "text": "#0000B2",
+  },
+  "hover": Object {
+    "background": "#ccffff",
+    "text": "#0000B2",
   },
 }
 `;

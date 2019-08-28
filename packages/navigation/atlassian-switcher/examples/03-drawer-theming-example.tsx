@@ -4,8 +4,8 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { redTheme } from './helpers/example-themes';
-
+import * as colors from '@atlaskit/theme/colors';
+import { createCustomTheme } from '../src/theme/theme-builder';
 class JiraSwitcherExample extends React.Component {
   state = {
     isDrawerOpen: false,
@@ -55,6 +55,15 @@ class JiraSwitcherExample extends React.Component {
   };
 
   render() {
+    const redishColorScheme = {
+      primaryTextColor: colors.text,
+      secondaryTextColor: '#ff4c4c',
+      primaryHoverBackgroundColor: '#ffcccc',
+      secondaryHoverBackgroundColor: '#ffe5e5',
+    };
+
+    const theme = createCustomTheme(redishColorScheme);
+
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
@@ -62,7 +71,7 @@ class JiraSwitcherExample extends React.Component {
             product="jira"
             cloudId="some-cloud-id"
             triggerXFlow={this.onTriggerXFlow}
-            theme={redTheme}
+            theme={theme}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>

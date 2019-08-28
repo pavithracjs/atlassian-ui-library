@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
-import SwitcherThemedItem, { Toggle, ItemWrapper } from './themed-item';
+import { Toggle, ItemWrapper } from './themed-top-level-item';
+import SwitcherThemedItem from './themed-item';
 import SwitcherThemedChildItem from './themed-child-item';
 
 import * as colors from '@atlaskit/theme/colors';

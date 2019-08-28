@@ -4,7 +4,8 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { redTheme } from './helpers/example-themes';
+import * as colors from '@atlaskit/theme/colors';
+import { createCustomTheme } from '../src/theme/theme-builder';
 
 class InlineDialogSwitcherExample extends React.Component {
   state = {
@@ -59,6 +60,15 @@ class InlineDialogSwitcherExample extends React.Component {
   };
 
   render() {
+    const redishColorScheme = {
+      primaryTextColor: colors.text,
+      secondaryTextColor: '#ff4c4c',
+      primaryHoverBackgroundColor: '#ffcccc',
+      secondaryHoverBackgroundColor: '#ffe5e5',
+    };
+
+    const theme = createCustomTheme(redishColorScheme);
+
     return (
       <InlineDialog
         onClose={this.onClose}
@@ -78,7 +88,7 @@ class InlineDialogSwitcherExample extends React.Component {
               disableHeadings
               cloudId="some-cloud-id"
               triggerXFlow={this.onTriggerXFlow}
-              theme={redTheme}
+              theme={theme}
               appearance="standalone"
             />
           </div>

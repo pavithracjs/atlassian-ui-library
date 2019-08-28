@@ -35,7 +35,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
       <Component
@@ -57,7 +57,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       >
         Jira Software
       </Component>
-    </styled.div>
+    </Component>
     <Tooltip
       component={[Function]}
       content={
@@ -70,7 +70,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       position="top"
       tag="div"
     >
-      <styled.div
+      <Component
         isParentHovered={false}
       >
         <Component
@@ -85,7 +85,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           onClick={[Function]}
           onKeyDown={[Function]}
         />
-      </styled.div>
+      </Component>
     </Tooltip>
   </styled.div>
 </styled.div>
@@ -97,7 +97,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
       <Component
@@ -119,7 +119,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       >
         Jira Software
       </Component>
-    </styled.div>
+    </Component>
     <Tooltip
       component={[Function]}
       content={false}
@@ -128,7 +128,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       position="top"
       tag="div"
     >
-      <styled.div
+      <Component
         isParentHovered={false}
       >
         <Component
@@ -143,7 +143,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           onClick={[Function]}
           onKeyDown={[Function]}
         />
-      </styled.div>
+      </Component>
     </Tooltip>
   </styled.div>
   <styled.div>
@@ -211,7 +211,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
       <Component
@@ -233,7 +233,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       >
         Jira Software
       </Component>
-    </styled.div>
+    </Component>
     <Tooltip
       component={[Function]}
       content={
@@ -246,7 +246,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
       position="top"
       tag="div"
     >
-      <styled.div
+      <Component
         isParentHovered={false}
       >
         <Component
@@ -261,7 +261,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           onClick={[Function]}
           onKeyDown={[Function]}
         />
-      </styled.div>
+      </Component>
     </Tooltip>
   </styled.div>
 </styled.div>

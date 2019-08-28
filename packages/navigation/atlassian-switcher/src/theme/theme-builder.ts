@@ -1,47 +1,68 @@
 import memoizeOne from 'memoize-one';
-import get from 'lodash.get';
-import pickBy from 'lodash.pickby';
+
 import {
   ThemeProps,
-  CustomTheme,
-  CustomizableStates,
-  CustomizableTokens,
   CustomThemeResult,
   ApplyThemeFn,
+  ThemingPublicApi,
 } from './types';
 
-function getThemedTokens(
-  theme: Partial<CustomTheme>,
-  scope: keyof CustomTheme,
-  state: keyof CustomizableStates,
-): Partial<CustomizableTokens> {
-  const tokens = {
-    background: get(theme, `${scope}.${state}.background`),
-    text: get(theme, `${scope}.${state}.text`),
-    secondaryText: get(theme, `${scope}.${state}.secondaryText`),
+const maybeGetToken = (
+  propertyName: string,
+  customThemeProps: ThemingPublicApi,
+  colorName: keyof ThemingPublicApi,
+) => {
+  const value = customThemeProps[colorName];
+
+  if (!value) {
+    return {};
+  }
+
+  return {
+    [propertyName]: value,
   };
-
-  return pickBy(tokens, key => {
-    return key;
-  });
-}
-
+};
 export const createCustomTheme = memoizeOne(
-  (customThemeProps: Partial<CustomTheme>): CustomThemeResult => {
-    const mainBackgroundColor = {
-      background: customThemeProps.mainBackgroundColor,
-    };
+  (customThemeProps: ThemingPublicApi): CustomThemeResult => {
+    const topLevelItemWrapperTheme = (
+      theme: ApplyThemeFn,
+      props: ThemeProps,
+    ) => ({
+      ...theme(props),
+      hover: {
+        ...theme(props).hover,
+        ...maybeGetToken(
+          'background',
+          customThemeProps,
+          'secondaryHoverBackgroundColor',
+        ),
+      },
+    });
 
     const itemTheme = (theme: ApplyThemeFn, props: ThemeProps) => ({
       ...theme(props),
       hover: {
         ...theme(props).hover,
-        ...getThemedTokens(customThemeProps, 'item', 'hover'),
+        ...maybeGetToken(
+          'background',
+          customThemeProps,
+          'primaryHoverBackgroundColor',
+        ),
+        ...maybeGetToken('text', customThemeProps, 'primaryTextColor'),
+        ...maybeGetToken(
+          'secondaryText',
+          customThemeProps,
+          'secondaryTextColor',
+        ),
       },
       default: {
         ...theme(props).default,
-        ...getThemedTokens(customThemeProps, 'item', 'default'),
-        ...pickBy(mainBackgroundColor, key => key),
+        ...maybeGetToken('text', customThemeProps, 'primaryTextColor'),
+        ...maybeGetToken(
+          'secondaryText',
+          customThemeProps,
+          'secondaryTextColor',
+        ),
       },
     });
 
@@ -49,15 +70,36 @@ export const createCustomTheme = memoizeOne(
       ...theme(props),
       hover: {
         ...theme(props).hover,
-        ...getThemedTokens(customThemeProps, 'childItem', 'hover'),
+        ...maybeGetToken(
+          'background',
+          customThemeProps,
+          'primaryHoverBackgroundColor',
+        ),
+        ...maybeGetToken('text', customThemeProps, 'primaryTextColor'),
+        ...maybeGetToken(
+          'secondaryText',
+          customThemeProps,
+          'secondaryTextColor',
+        ),
       },
       default: {
         ...theme(props).default,
-        ...getThemedTokens(customThemeProps, 'childItem', 'default'),
+        ...maybeGetToken(
+          'background',
+          customThemeProps,
+          'secondaryHoverBackgroundColor',
+        ),
+        ...maybeGetToken('text', customThemeProps, 'primaryTextColor'),
+        ...maybeGetToken(
+          'secondaryText',
+          customThemeProps,
+          'secondaryTextColor',
+        ),
       },
     });
 
     return {
+      topLevelItemWrapperTheme,
       itemTheme,
       childItemTheme,
     };
