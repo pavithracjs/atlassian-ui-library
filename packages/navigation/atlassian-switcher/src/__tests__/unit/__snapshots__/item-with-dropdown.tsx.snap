@@ -92,17 +92,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
       <styled.div
         isParentHovered={false}
@@ -152,7 +149,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           </Item>
         </ThemeProvider>
       </styled.div>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
@@ -220,13 +217,10 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={false}
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
       <styled.div
         isParentHovered={false}
@@ -276,7 +270,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           </Item>
         </ThemeProvider>
       </styled.div>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
   <ThemeProvider
     theme={
@@ -446,17 +440,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
       <styled.div
         isParentHovered={false}
@@ -506,7 +497,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           </Item>
         </ThemeProvider>
       </styled.div>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
