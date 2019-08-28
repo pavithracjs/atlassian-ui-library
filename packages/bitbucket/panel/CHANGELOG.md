@@ -1,5 +1,13 @@
 # @atlaskit/panel
 
+## 0.2.5
+
+### Patch Changes
+
+- [patch][e7cfc5d77a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7cfc5d77a):
+
+  Dependency '@atlaskit/size-detector' is unused in package.json.
+
 ## 0.2.4
 
 ### Patch Changes

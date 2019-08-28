@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/navigation-next",
-  "version": "6.5.6",
+  "version": "6.5.7",
   "description": "The Atlassian navigation component.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -33,7 +33,6 @@
     "chromatism": "^2.6.0",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.7",
-    "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",
     "react-beautiful-dnd": "^10.0.2",
     "react-fast-compare": "^2.0.1",

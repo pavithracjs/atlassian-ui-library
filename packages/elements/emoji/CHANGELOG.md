@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.3.4
+
+### Patch Changes
+
+- [patch][3797db3796](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3797db3796):
+
+  ED-7513: fixed pasting content with an emoji duplicates the emoji as an image in Editor
+
 ## 62.3.3
 
 ### Patch Changes

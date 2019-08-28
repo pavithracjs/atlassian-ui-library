@@ -1,5 +1,13 @@
 # @atlaskit/icon-priority
 
+## 4.0.9
+
+### Patch Changes
+
+- [patch][4dd459fc56](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4dd459fc56):
+
+  Dependency 'uuid' is unused in package.jon.
+
 ## 4.0.8
 
 ### Patch Changes
