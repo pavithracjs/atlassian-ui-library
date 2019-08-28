@@ -1,1 +1,0 @@
-Avoid importing all of editor-common in jira-transformer

@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.19.1
+
+### Patch Changes
+
+- [patch][9bd9cc7d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9bd9cc7d25):
+
+  Avoid importing all of editor-common in jira-transformer
+
 ## 39.19.0
 
 ### Minor Changes
