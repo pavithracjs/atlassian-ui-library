@@ -3,9 +3,8 @@ import Button from '@atlaskit/button';
 import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
-import AtlassianSwitcher from '../src';
+import AtlassianSwitcher, { createCustomTheme } from '../src';
 import * as colors from '@atlaskit/theme/colors';
-import { createCustomTheme } from '../src/theme/theme-builder';
 class JiraSwitcherExample extends React.Component {
   state = {
     isDrawerOpen: false,

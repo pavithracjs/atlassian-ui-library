@@ -7,10 +7,9 @@ import * as colors from '@atlaskit/theme/colors';
 import AkDrawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
-import AtlassianSwitcher from '../src';
+import AtlassianSwitcher, { createCustomTheme } from '../src';
 
 import Tooltip from '@atlaskit/tooltip';
-import { createCustomTheme } from '../src/theme/theme-builder';
 import { ThemingPublicApi } from 'src/theme/types';
 
 class SwitcherExample extends React.Component {

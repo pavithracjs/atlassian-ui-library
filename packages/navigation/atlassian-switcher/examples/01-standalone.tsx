@@ -2,7 +2,6 @@ import * as React from 'react';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import { createCustomTheme } from '../src/theme/theme-builder';
 import styled from 'styled-components';
 
 const Container = styled.div`
