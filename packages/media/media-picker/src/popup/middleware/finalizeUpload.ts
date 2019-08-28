@@ -67,47 +67,55 @@ const emitProcessedState = async (
   destinationFile: MediaClientFile,
   store: Store<State>,
 ) => {
-  const { tenantMediaClient, config } = store.getState();
-  const collection = config.uploadParams && config.uploadParams.collection;
-  const tenantSubject = tenantMediaClient.file.getFileState(
-    destinationFile.id,
-  ) as ReplaySubject<FileState>;
-  const response = (await tenantMediaClient.mediaStore.getItems(
-    [destinationFile.id],
-    collection,
-  )).data;
-  const firstItem = response.items[0];
+  return new Promise(async resolve => {
+    const { tenantMediaClient, config } = store.getState();
+    const collection = config.uploadParams && config.uploadParams.collection;
+    const tenantSubject = tenantMediaClient.file.getFileState(
+      destinationFile.id,
+    ) as ReplaySubject<FileState>;
+    const response = (await tenantMediaClient.mediaStore.getItems(
+      [destinationFile.id],
+      collection,
+    )).data;
+    const firstItem = response.items[0];
 
-  // We need this check since the return type of getFileState might not be a ReplaySubject and won't have "next"
-  if (firstItem && tenantSubject && tenantSubject.next) {
-    const subscription = tenantSubject.subscribe({
-      next(currentState) {
-        setTimeout(() => subscription.unsubscribe(), 0);
-        setTimeout(() => {
-          const {
-            artifacts,
-            mediaType,
-            mimeType,
-            name,
-            size,
-            representations,
-          } = firstItem.details;
-          // we emit a new state which extends the existing one + the remote fields
-          // fields like "artifacts" will be later on required on MV and we don't have it locally beforehand
-          tenantSubject.next({
-            ...currentState,
-            status: 'processed',
-            artifacts,
-            mediaType,
-            mimeType,
-            name,
-            size,
-            representations,
-          });
-        }, 0);
-      },
-    });
-  }
+    // We need this check since the return type of getFileState might not be a ReplaySubject and won't have "next"
+    if (
+      firstItem &&
+      firstItem.details.processingStatus === 'succeeded' &&
+      tenantSubject &&
+      tenantSubject.next
+    ) {
+      const subscription = tenantSubject.subscribe({
+        next(currentState) {
+          setTimeout(() => subscription.unsubscribe(), 0);
+          setTimeout(() => {
+            const {
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            } = firstItem.details;
+            // we emit a new state which extends the existing one + the remote fields
+            // fields like "artifacts" will be later on required on MV and we don't have it locally beforehand
+            tenantSubject.next({
+              ...currentState,
+              status: 'processed',
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            });
+            resolve();
+          }, 0);
+        },
+      });
+    }
+  });
 };
 
 async function copyFile({
@@ -133,7 +141,7 @@ async function copyFile({
 
   try {
     const destinationFile = await mediaStore.copyFileWithToken(body, params);
-    emitProcessedState(destinationFile.data, store);
+    await emitProcessedState(destinationFile.data, store);
     const tenantSubject = tenantMediaClient.file.getFileState(
       destinationFile.data.id,
     );
