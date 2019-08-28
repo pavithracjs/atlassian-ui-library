@@ -206,6 +206,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     return (
       <Tooltip
         content={!this.state.showChildItems && this.props.tooltipContent}
+        hideTooltipOnMouseDown
         position="top"
       >
         <Toggle isParentHovered={isParentHovered}>
