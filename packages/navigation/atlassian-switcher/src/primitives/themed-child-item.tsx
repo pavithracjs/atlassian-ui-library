@@ -3,9 +3,9 @@ import { ThemeProvider } from 'styled-components';
 import { itemThemeNamespace } from '@atlaskit/item';
 import Item, { SwitcherItemProps } from './item';
 import { ChildItemTheme } from '../theme/default-theme';
-import { Themeable } from '../theme/types';
+import { Themed } from '../theme/types';
 
-export default (props: Themeable<SwitcherItemProps>) => (
+export default (props: Themed<SwitcherItemProps>) => (
   <ChildItemTheme.Consumer>
     {tokens => (
       <ThemeProvider theme={{ [itemThemeNamespace]: tokens }}>

@@ -4,7 +4,6 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher, { createCustomTheme } from '../src';
-import * as colors from '@atlaskit/theme/colors';
 
 class InlineDialogSwitcherExample extends React.Component {
   state = {
@@ -60,7 +59,7 @@ class InlineDialogSwitcherExample extends React.Component {
 
   render() {
     const redishColorScheme = {
-      primaryTextColor: colors.text,
+      primaryTextColor: '#8B0000',
       secondaryTextColor: '#ff4c4c',
       primaryHoverBackgroundColor: '#ffcccc',
       secondaryHoverBackgroundColor: '#ffe5e5',

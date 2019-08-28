@@ -26,10 +26,14 @@ export type ApplyThemeFn = (props: ThemeProps) => ThemeTokens;
 
 type ThemeFn = (theme: ApplyThemeFn, props: ThemeProps) => ThemeTokens;
 
-export type Themeable<T> = T & { theme?: ThemeFn; appearance?: Appearance };
-
 export type CustomThemeResult = {
   itemTheme: ThemeFn;
   childItemTheme: ThemeFn;
   topLevelItemWrapperTheme: ThemeFn;
 };
+
+export type Themeable<T> = T & {
+  theme?: CustomThemeResult;
+  appearance?: Appearance;
+};
+export type Themed<T> = T & { theme?: ThemeFn; appearance?: Appearance };

@@ -4,7 +4,7 @@ import { gridSize, colors } from '@atlaskit/theme';
 import ManageButton from './manage-button';
 import { Appearance } from '../theme/types';
 
-const Wrapper = styled.div<{ appearance: Appearance }>`
+const Wrapper = styled.div<{ appearance?: Appearance }>`
   box-sizing: border-box;
   height: 100%;
   ${({ appearance }) =>
@@ -40,7 +40,7 @@ const ErrorBoundaryWrapper = styled.div`
 type SwitcherWrapperProps = {
   children: React.ReactNode;
   onRender?: () => void;
-  appearance: Appearance;
+  appearance?: Appearance;
 };
 
 class SwitcherWrapper extends React.Component<SwitcherWrapperProps> {

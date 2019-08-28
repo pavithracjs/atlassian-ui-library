@@ -20,7 +20,7 @@ export default md`
 
   export default (props) => {
     const myTheme = {
-      primaryTextColor: colors.text,
+      primaryTextColor: '#000080',
       secondaryTextColor: '#03396c',
       primaryHoverBackgroundColor: '#ccffff',
       secondaryHoverBackgroundColor: '#e5ffff',

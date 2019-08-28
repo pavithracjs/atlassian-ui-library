@@ -4,7 +4,6 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher, { createCustomTheme } from '../src';
-import * as colors from '@atlaskit/theme/colors';
 class JiraSwitcherExample extends React.Component {
   state = {
     isDrawerOpen: false,
@@ -55,7 +54,7 @@ class JiraSwitcherExample extends React.Component {
 
   render() {
     const redishColorScheme = {
-      primaryTextColor: colors.text,
+      primaryTextColor: '#8B0000',
       secondaryTextColor: '#ff4c4c',
       primaryHoverBackgroundColor: '#ffcccc',
       secondaryHoverBackgroundColor: '#ffe5e5',

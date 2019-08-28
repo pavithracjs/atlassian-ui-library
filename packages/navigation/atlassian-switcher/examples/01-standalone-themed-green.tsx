@@ -3,6 +3,8 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher, { createCustomTheme } from '../src';
 import styled from 'styled-components';
+import { Grid, GridColumn } from '@atlaskit/page';
+import ColorScheme from './helpers/ColorScheme';
 
 const Container = styled.div`
   width: 300px;
@@ -74,22 +76,27 @@ class InlineDialogSwitcherExample extends React.Component {
 
     return (
       this.state.isLoaded && (
-        <>
-          <Container>
-            <AtlassianSwitcher
-              product="trello"
-              disableCustomLinks
-              disableRecentContainers
-              disableHeadings
-              isDiscoverMoreForEveryoneEnabled
-              enableUserCentricProducts
-              cloudId="some-cloud-id"
-              triggerXFlow={this.onTriggerXFlow}
-              appearance="standalone"
-              theme={greenTheme}
-            />
-          </Container>
-        </>
+        <Grid layout="fixed">
+          <GridColumn medium={8}>
+            <Container>
+              <AtlassianSwitcher
+                product="trello"
+                disableCustomLinks
+                disableRecentContainers
+                disableHeadings
+                isDiscoverMoreForEveryoneEnabled
+                enableUserCentricProducts
+                cloudId="some-cloud-id"
+                triggerXFlow={this.onTriggerXFlow}
+                appearance="standalone"
+                theme={greenTheme}
+              />
+            </Container>
+          </GridColumn>
+          <GridColumn medium={4}>
+            <ColorScheme colorScheme={greenishColorScheme} />
+          </GridColumn>
+        </Grid>
       )
     );
   }

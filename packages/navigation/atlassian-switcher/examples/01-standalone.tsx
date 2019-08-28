@@ -65,21 +65,19 @@ class InlineDialogSwitcherExample extends React.Component {
   render() {
     return (
       this.state.isLoaded && (
-        <>
-          <Container>
-            <AtlassianSwitcher
-              product="trello"
-              disableCustomLinks
-              disableRecentContainers
-              disableHeadings
-              isDiscoverMoreForEveryoneEnabled
-              enableUserCentricProducts
-              cloudId="some-cloud-id"
-              triggerXFlow={this.onTriggerXFlow}
-              appearance="standalone"
-            />
-          </Container>
-        </>
+        <Container>
+          <AtlassianSwitcher
+            product="trello"
+            disableCustomLinks
+            disableRecentContainers
+            disableHeadings
+            isDiscoverMoreForEveryoneEnabled
+            enableUserCentricProducts
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+            appearance="standalone"
+          />
+        </Container>
       )
     );
   }

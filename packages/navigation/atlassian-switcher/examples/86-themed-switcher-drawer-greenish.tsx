@@ -8,7 +8,7 @@ import AkDrawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher, { createCustomTheme } from '../src';
-
+import ColorScheme from './helpers/ColorScheme';
 import Tooltip from '@atlaskit/tooltip';
 
 class SwitcherExample extends React.Component {
@@ -55,40 +55,9 @@ class SwitcherExample extends React.Component {
     );
   };
 
-  renderColorScheme(colorScheme) {
-    const colors = Object.entries(colorScheme).map(([key, value]) => {
-      return (
-        <div
-          key={key}
-          style={{
-            display: 'inline-block',
-            margin: 5,
-          }}
-        >
-          <Tooltip content={key}>
-            <div
-              style={{
-                width: 16,
-                height: 16,
-                background: typeof value === 'function' ? value() : value,
-              }}
-            />
-          </Tooltip>
-        </div>
-      );
-    });
-
-    return (
-      <div>
-        <p>Colors used for the theme on the App swicther</p>
-        {colors}
-      </div>
-    );
-  }
-
   render() {
     const greenishColorScheme = {
-      primaryTextColor: colors.text,
+      primaryTextColor: '#006400',
       secondaryTextColor: '#4ca64c',
       primaryHoverBackgroundColor: '#cce5cc',
       secondaryHoverBackgroundColor: '#e5f2e5',
@@ -138,7 +107,7 @@ class SwitcherExample extends React.Component {
       >
         <Grid layout="fixed">
           <GridColumn medium={12}>
-            {this.renderColorScheme(greenishColorScheme)}
+            <ColorScheme colorScheme={greenishColorScheme} />
           </GridColumn>
         </Grid>
       </Page>
