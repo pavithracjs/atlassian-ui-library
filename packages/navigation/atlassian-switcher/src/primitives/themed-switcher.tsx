@@ -5,13 +5,18 @@ import {
   ItemTheme,
   ChildItemTheme,
 } from '../theme/default-theme';
-import { Themeable } from '../theme/types';
+import { CustomThemeResult, Appearance } from '../theme/types';
+
+type ThemedSwitcherProps = {
+  theme: CustomThemeResult;
+  appearance: Appearance;
+} & SwitcherProps;
 
 export default ({
-  theme = {},
+  theme,
   appearance = 'drawer',
   ...rest
-}: Themeable<SwitcherProps>) => {
+}: ThemedSwitcherProps) => {
   return (
     <TopLevelItemWrapperTheme.Provider value={theme.topLevelItemWrapperTheme}>
       <ItemTheme.Provider value={theme.itemTheme}>
