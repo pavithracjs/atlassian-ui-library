@@ -286,7 +286,11 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
           <ProfileImage>
             <Avatar
               size="xlarge"
-              src={this.props.status !== 'closed' ? this.props.avatarUrl : null}
+              src={
+                this.props.status !== 'closed'
+                  ? this.props.avatarUrl
+                  : undefined
+              }
               borderColor={colors.N0}
             />
           </ProfileImage>

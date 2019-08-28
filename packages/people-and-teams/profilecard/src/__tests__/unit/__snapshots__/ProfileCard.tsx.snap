@@ -131,7 +131,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
       <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
         borderColor="#FFFFFF"
         size="xlarge"
-        src={null}
       />
     </styled.div>
     <styled.div>
@@ -178,7 +177,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
       <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
         borderColor="#FFFFFF"
         size="xlarge"
-        src={null}
       />
     </styled.div>
     <styled.div>
@@ -223,7 +221,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
       <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
         borderColor="#FFFFFF"
         size="xlarge"
-        src={null}
       />
     </styled.div>
     <styled.div>
@@ -282,7 +279,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
       <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
         borderColor="#FFFFFF"
         size="xlarge"
-        src={null}
       />
     </styled.div>
     <styled.div>

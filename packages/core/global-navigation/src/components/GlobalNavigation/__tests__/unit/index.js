@@ -5,6 +5,7 @@ import { IntlProvider } from 'react-intl';
 import { mount, shallow } from 'enzyme';
 import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
+import Avatar from '@atlaskit/avatar';
 import Drawer from '@atlaskit/drawer';
 import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
@@ -1100,9 +1101,7 @@ describe('GlobalNavigation', () => {
       );
 
       expect(wrapper.find('DefaultImage').exists()).toBeFalsy();
-      expect(wrapper.find('Avatar').prop('src')).toEqual(
-        '//url.to.image/fancy',
-      );
+      expect(wrapper.find(Avatar).prop('src')).toEqual('//url.to.image/fancy');
     });
   });
 
