@@ -1,5 +1,10 @@
 # @atlaskit/layer-manager
 
+## 7.0.15
+
+- Updated dependencies [a75dfaad67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a75dfaad67):
+  - @atlaskit/onboarding@9.0.0
+
 ## 7.0.14
 
 ### Patch Changes

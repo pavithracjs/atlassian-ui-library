@@ -1,5 +1,10 @@
 # @atlaskit/portal
 
+## 3.0.13
+
+- Updated dependencies [a75dfaad67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a75dfaad67):
+  - @atlaskit/onboarding@9.0.0
+
 ## 3.0.12
 
 ### Patch Changes

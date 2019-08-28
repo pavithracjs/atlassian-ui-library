@@ -1,5 +1,11 @@
 # @atlaskit/global-navigation
 
+## 7.6.4
+
+- Updated dependencies [a75dfaad67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a75dfaad67):
+  - @atlaskit/navigation-next@6.5.8
+  - @atlaskit/onboarding@9.0.0
+
 ## 7.6.3
 
 ### Patch Changes
