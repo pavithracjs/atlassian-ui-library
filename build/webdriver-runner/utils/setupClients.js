@@ -101,7 +101,7 @@ function setLocalClients() /*: Array<?Object>*/ {
     hostname: 'localhost',
     capabilities: {
       browserName: 'chrome',
-      chromeOptions: isHeadless
+      'goog:chromeOptions': isHeadless
         ? { args: ['--headless', windowSize] }
         : { args: [windowSize] },
     },

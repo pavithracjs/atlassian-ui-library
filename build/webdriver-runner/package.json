@@ -15,7 +15,7 @@
     "webdriverio": "^5.7.14"
   },
   "devDependencies": {
-    "chromedriver": "^76.0.0",
+    "chromedriver": "^76.0.1",
     "wdio-chromedriver-service": "^0.1.3"
   }
 }

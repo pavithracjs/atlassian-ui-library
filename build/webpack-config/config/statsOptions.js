@@ -3,7 +3,7 @@ module.exports = {
   all: undefined,
 
   // Add asset Information
-  assets: false,
+  assets: true,
 
   // Sort assets by a field
   // You can reverse the sort with `!field`.
@@ -50,7 +50,7 @@ module.exports = {
   env: false,
 
   // Add errors
-  errors: true,
+  errors: false,
 
   // Add details to errors (like resolving log)
   errorDetails: false,
@@ -59,7 +59,7 @@ module.exports = {
   hash: false,
 
   // Add built modules information
-  modules: false,
+  modules: true,
   // excludeModules: new RegExp('*.md'),
 
   // Sort the modules by a field
