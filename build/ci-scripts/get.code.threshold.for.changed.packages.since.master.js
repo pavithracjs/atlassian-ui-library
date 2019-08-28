@@ -1,8 +1,6 @@
 const bolt = require('bolt');
 const packages = require('../utils/packages');
 const codeCoverageByPackage = require('./jest.codeCoverageThreshold');
-
-const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN || '';
 /**
  * NOTE: This prints the coverage threshold list by changed packages since master ONLY if they have been commited.
  * It will print them all out as a json array of relative paths
@@ -24,7 +22,7 @@ const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN || '';
   const changedPackages = await packages.getChangedPackagesSinceMaster();
 
   const changedPackagesName = changedPackages.map(
-    pkg => pkg.relativeDir && pkg.split('/').pop(),
+    pkg => pkg.relativeDir && pkg.relativeDir.split('/').pop(),
   );
 
   const atlaskitCoverageReducer = (result, { coverage, pkg }) => ({
