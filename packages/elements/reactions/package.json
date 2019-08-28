@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/reactions",
-  "version": "17.1.10",
+  "version": "17.2.0",
   "config": {
     "access": "public"
   },
@@ -12,13 +12,13 @@
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.10",
     "@atlaskit/analytics-namespaced-context": "^4.1.7",
-    "@atlaskit/analytics-next": "^6.0.3",
+    "@atlaskit/analytics-next": "^6.1.0",
     "@atlaskit/analytics-viewer": "^0.3.5",
     "@atlaskit/button": "^13.1.6",
-    "@atlaskit/emoji": "^62.3.3",
+    "@atlaskit/emoji": "^62.4.0",
     "@atlaskit/icon": "^19.0.6",
-    "@atlaskit/layer": "^7.0.8",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/layer": "^7.1.0",
+    "@atlaskit/theme": "^9.2.0",
     "@atlaskit/tooltip": "^15.0.14",
     "@atlaskit/util-service-support": "^4.0.7",
     "classnames": "^2.2.5",

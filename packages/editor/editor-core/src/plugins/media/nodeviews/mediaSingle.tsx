@@ -62,7 +62,7 @@ export default class MediaSingleNode extends Component<
     });
   };
 
-  componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
       this.setViewMediaClientConfig(nextProps);
       this.createMediaNodeUpdater(nextProps).updateFileAttrs();

@@ -53,7 +53,7 @@ export class MediaImageInternal extends Component<
     this.subscribe(this.props);
   }
 
-  componentWillReceiveProps({
+  UNSAFE_componentWillReceiveProps({
     apiConfig: newApiConfig = {},
     identifier: newIdentifier,
     ...otherNewProps

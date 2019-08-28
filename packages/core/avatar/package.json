@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/avatar",
-  "version": "16.0.14",
+  "version": "16.1.0",
   "description": "A component that represents a user.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -21,8 +21,8 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^6.0.3",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/analytics-next": "^6.1.0",
+    "@atlaskit/theme": "^9.2.0",
     "@atlaskit/tooltip": "^15.0.14",
     "@babel/runtime": "^7.0.0"
   },

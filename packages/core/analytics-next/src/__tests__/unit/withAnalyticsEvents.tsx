@@ -271,7 +271,7 @@ it('should not update patched prop callbacks across renders when the original ca
       count: 0,
     };
 
-    componentWillReceiveProps(nextProps: ChangeCounterProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: ChangeCounterProps) {
       if (this.props.onClick !== nextProps.onClick) {
         this.setState({ count: this.state.count + 1 });
       }

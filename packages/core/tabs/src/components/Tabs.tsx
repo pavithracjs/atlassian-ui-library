@@ -52,7 +52,7 @@ class Tabs extends Component<TabsProps, TabsState> {
     };
   }
 
-  componentWillReceiveProps(newProps: TabsProps) {
+  UNSAFE_componentWillReceiveProps(newProps: TabsProps) {
     if (
       typeof newProps.selected !== 'undefined' &&
       newProps.selected !== this.state.selected

@@ -54,7 +54,7 @@ describe('<EmojiPicker />', () => {
   });
 
   describe('analytics for component lifecycle', () => {
-    it('should fire analytics in componentWillMount/componentWillUnmount', async () => {
+    it('should fire analytics in UNSAFE_componentWillMount/componentWillUnmount', async () => {
       const component = await helper.setupPicker(undefined, undefined, onEvent);
       component.unmount();
       expect(onEvent).toHaveBeenCalledWith(

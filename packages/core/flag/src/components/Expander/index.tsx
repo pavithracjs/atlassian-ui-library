@@ -16,7 +16,7 @@ export default class Expander extends Component<Props, State> {
 
   state = { isAnimating: false };
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.isExpanded !== nextProps.isExpanded) {
       this.setState({ isAnimating: true });
     }

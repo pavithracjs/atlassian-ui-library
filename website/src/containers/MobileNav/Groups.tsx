@@ -75,12 +75,12 @@ export default class Groups extends React.Component<
     ],
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     //buildNavForPath(this.context.router.route.location.pathname);
     this.resolveRoutes(this.context.router.route.location.pathname);
   }
 
-  componentWillReceiveProps(
+  UNSAFE_componentWillReceiveProps(
     nextProps: GroupsProps,
     nextContext: GroupsContext,
   ) {
