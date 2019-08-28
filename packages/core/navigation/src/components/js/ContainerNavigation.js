@@ -89,7 +89,7 @@ export default class ContainerNavigation extends Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     // After any update we are going to start animating.
     // Not doing this in componentDidMount to prevent an
     // unneeded second render on mount.

@@ -145,7 +145,7 @@ class GoogleAnalyticsListener extends React.Component<Props> {
     }
     initializeGA();
   }
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.location !== this.props.location) {
       ReactGA.pageview(nextProps.location.pathname);
     }

@@ -68,7 +68,7 @@ export default class EmojiTypeAheadList extends PureComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     // adjust selection
     const { emojis } = nextProps;
     const { selectedKey } = this.state;

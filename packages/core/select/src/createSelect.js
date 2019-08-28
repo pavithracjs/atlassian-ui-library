@@ -271,7 +271,7 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
       tabSelectsValue: false,
     };
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       this.cacheComponents(nextProps.components, nextProps.enableAnimation);
     }
 

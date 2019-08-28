@@ -60,6 +60,22 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/mouse-events-have-key-events': 'off',
 
+    // Remove me after removing the usage of a legacy React lifecycle methods
+    // Rule was extended based on the AirBnB rule from:
+    // https://github.com/airbnb/javascript/blob/282ef9ea9051dce725f382ac83cb5c3f2d4da0c2/packages/eslint-config-airbnb-base/rules/style.js#L24
+    camelcase: [
+      'error',
+      {
+        properties: 'never',
+        ignoreDestructuring: false,
+        allow: [
+          'UNSAFE_componentWillMount',
+          'UNSAFE_componentWillReceiveProps',
+          'UNSAFE_componentWillUpdate',
+        ],
+      },
+    ],
+
     'react/no-multi-comp': [true, { ignoreStateless: false }],
     'react/forbid-prop-types': [
       'on',

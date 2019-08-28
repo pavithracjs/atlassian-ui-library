@@ -48,7 +48,7 @@ export default class ProgressTracker extends PureComponent<
     columns: this.props.items.length * 2,
   });
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       prevStages: this.props.items.map(stage => ({
         ...stage,
@@ -57,7 +57,7 @@ export default class ProgressTracker extends PureComponent<
     });
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.setState({
       prevStages: this.props.items,
     });
