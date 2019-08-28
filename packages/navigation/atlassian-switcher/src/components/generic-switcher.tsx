@@ -10,9 +10,9 @@ import {
 } from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
-import { Themeable } from '../theme/types';
+import { WithTheme } from '../theme/types';
 
-type GenericSwitcherProps = {
+type GenericSwitcherProps = WithTheme & {
   cloudId?: string;
   messages: Messages;
   features: FeatureMap;
@@ -21,7 +21,7 @@ type GenericSwitcherProps = {
   product: Exclude<Product, Product.JIRA | Product.CONFLUENCE>;
 };
 
-export default (props: Themeable<GenericSwitcherProps>) => (
+export default (props: GenericSwitcherProps) => (
   <AvailableProductsProvider
     isUserCentric={props.features.enableUserCentricProducts}
   >

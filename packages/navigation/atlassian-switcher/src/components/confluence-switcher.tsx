@@ -16,9 +16,9 @@ import {
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
-import { Themeable } from '../theme/types';
+import { WithTheme } from '../theme/types';
 
-type ConfluenceSwitcherProps = {
+type ConfluenceSwitcherProps = WithTheme & {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
@@ -27,7 +27,7 @@ type ConfluenceSwitcherProps = {
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
-export default (props: Themeable<ConfluenceSwitcherProps>) => (
+export default (props: ConfluenceSwitcherProps) => (
   <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
     {customLinks => (
       <AvailableProductsProvider

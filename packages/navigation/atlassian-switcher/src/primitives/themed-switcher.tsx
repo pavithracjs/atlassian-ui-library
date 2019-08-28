@@ -5,17 +5,22 @@ import {
   ItemTheme,
   ChildItemTheme,
 } from '../theme/default-theme';
-import { Themeable } from '../theme/types';
+import { WithTheme } from '../theme/types';
+import { createCustomTheme } from '../theme/theme-builder';
 
 export default ({
   theme,
   appearance = 'drawer',
   ...rest
-}: Themeable<SwitcherProps>) => {
+}: WithTheme & SwitcherProps) => {
+  const customTheme = createCustomTheme(theme);
+
   return (
-    <TopLevelItemWrapperTheme.Provider value={theme!.topLevelItemWrapperTheme}>
-      <ItemTheme.Provider value={theme!.itemTheme}>
-        <ChildItemTheme.Provider value={theme!.childItemTheme}>
+    <TopLevelItemWrapperTheme.Provider
+      value={customTheme.topLevelItemWrapperTheme}
+    >
+      <ItemTheme.Provider value={customTheme.itemTheme}>
+        <ChildItemTheme.Provider value={customTheme.childItemTheme}>
           <Switcher {...rest} appearance={appearance} />
         </ChildItemTheme.Provider>
       </ItemTheme.Provider>

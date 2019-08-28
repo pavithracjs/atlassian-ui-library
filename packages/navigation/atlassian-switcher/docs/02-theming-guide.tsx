@@ -16,7 +16,7 @@ export default md`
   ${code`
   // MyComponent.js
   import React from 'react';
-  import Switcher, { createCustomTheme } from '@atlaskit/atlassian-switcher"';
+  import Switcher from '@atlaskit/atlassian-switcher"';
 
   export default (props) => {
     const myTheme = {
@@ -26,12 +26,10 @@ export default md`
       secondaryHoverBackgroundColor: '#e5ffff',
     };
 
-    const customTheme = createCustomTheme(myTheme);
-
     return (
       <Switcher
         {...props}
-        theme={customTheme}
+        theme={myTheme}
         }}
       />
     );
@@ -39,15 +37,6 @@ export default md`
   `}
 
   ### Examples:
-
-  ${(
-    <Example
-      packageName="@atlaskit/atlassian-switcher"
-      Component={require('../examples/01-standalone').default}
-      title="Standalone switcher"
-      source={require('!!raw-loader!../examples/01-standalone')}
-    />
-  )}
 
   ${(
     <Example

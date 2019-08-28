@@ -23,7 +23,7 @@ const maybeGetToken = (
   };
 };
 export const createCustomTheme = memoizeOne(
-  (customThemeProps: ThemingPublicApi): CustomThemeResult => {
+  (customThemeProps: ThemingPublicApi = {}): CustomThemeResult => {
     const topLevelItemWrapperTheme = (
       theme: ApplyThemeFn,
       props: ThemeProps,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
-import AtlassianSwitcher, { createCustomTheme } from '../src';
+import AtlassianSwitcher from '../src';
 import styled from 'styled-components';
 import { Grid, GridColumn } from '@atlaskit/page';
 import ColorScheme from './helpers/ColorScheme';
@@ -72,8 +72,6 @@ class InlineDialogSwitcherExample extends React.Component {
       secondaryHoverBackgroundColor: '#e5f2e5',
     };
 
-    const greenTheme = createCustomTheme(greenishColorScheme);
-
     return (
       this.state.isLoaded && (
         <Grid layout="fixed">
@@ -89,7 +87,7 @@ class InlineDialogSwitcherExample extends React.Component {
                 cloudId="some-cloud-id"
                 triggerXFlow={this.onTriggerXFlow}
                 appearance="standalone"
-                theme={greenTheme}
+                theme={greenishColorScheme}
               />
             </Container>
           </GridColumn>

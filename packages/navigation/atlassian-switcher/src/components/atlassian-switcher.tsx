@@ -20,9 +20,9 @@ import {
 } from '../utils/analytics';
 import packageContext from '../utils/package-context';
 import mapPropsToFeatures from '../utils/map-props-to-features';
-import { Themeable } from '../theme/types';
+import { WithTheme } from '../theme/types';
 
-type AtlassianSwitcherProps = {
+type AtlassianSwitcherProps = WithTheme & {
   product: string;
   cloudId?: string;
   triggerXFlow?: TriggerXFlowCallback;
@@ -37,7 +37,7 @@ const getAnalyticsContext = (attributes: object) => ({
   ...analyticsAttributes(attributes),
 });
 
-const AtlassianSwitcher = (props: Themeable<AtlassianSwitcherProps>) => {
+const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
   const { product } = props;
 
   let Switcher: React.ElementType;

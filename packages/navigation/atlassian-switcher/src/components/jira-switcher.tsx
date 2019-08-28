@@ -16,9 +16,9 @@ import {
 } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
-import { Themeable } from '../theme/types';
+import { WithTheme } from '../theme/types';
 
-type JiraSwitcherProps = {
+type JiraSwitcherProps = WithTheme & {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
@@ -27,7 +27,7 @@ type JiraSwitcherProps = {
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
-export default (props: Themeable<JiraSwitcherProps>) => (
+export default (props: JiraSwitcherProps) => (
   <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
     {customLinks => (
       <AvailableProductsProvider

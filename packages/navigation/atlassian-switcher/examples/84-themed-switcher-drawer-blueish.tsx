@@ -7,7 +7,7 @@ import * as colors from '@atlaskit/theme/colors';
 import AkDrawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
-import AtlassianSwitcher, { createCustomTheme } from '../src';
+import AtlassianSwitcher from '../src';
 import ColorScheme from './helpers/ColorScheme';
 import Tooltip from '@atlaskit/tooltip';
 
@@ -63,7 +63,6 @@ class SwitcherExample extends React.Component {
       secondaryHoverBackgroundColor: '#e5ffff',
     };
 
-    const theme = createCustomTheme(blueishColorScheme);
     return (
       <Page
         navigation={
@@ -81,7 +80,7 @@ class SwitcherExample extends React.Component {
                   isDiscoverMoreForEveryoneEnabled
                   onDiscoverMoreClicked={this.onDiscoverMoreClicked}
                   enableUserCentricProducts
-                  theme={theme}
+                  theme={blueishColorScheme}
                 />
               </AkDrawer>,
             ]}

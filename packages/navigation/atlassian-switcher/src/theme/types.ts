@@ -32,8 +32,14 @@ export type CustomThemeResult = {
   topLevelItemWrapperTheme: ThemeFn;
 };
 
-export type Themeable<T> = T & {
-  theme?: CustomThemeResult;
+// export type Themeable<T> = T & {
+//   theme?: CustomThemeResult;
+//   appearance?: Appearance;
+// };
+
+export type WithTheme = {
+  theme?: ThemingPublicApi;
   appearance?: Appearance;
 };
+
 export type Themed<T> = T & { theme?: ThemeFn; appearance?: Appearance };
