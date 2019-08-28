@@ -1,0 +1,1 @@
+Add a tooltip dependency and hide tooltip on mouse down event
