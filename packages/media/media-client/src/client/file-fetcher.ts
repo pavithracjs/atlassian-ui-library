@@ -322,7 +322,7 @@ export class FileFetcherImpl implements FileFetcher {
     return new Promise<ExternalUploadPayload>(async (resolve, reject) => {
       const blob = await deferredBlob;
       if (!blob) {
-        return reject('External media could not be uploaded to MediaServices');
+        return reject('Could not download remote file');
       }
 
       const { type, size } = blob;
