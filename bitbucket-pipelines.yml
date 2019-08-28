@@ -40,6 +40,14 @@ pipelines:
           caches:
             - node
 
+    mblasz/build-validator:
+      - step:
+          script:
+            - source ./build-setup.sh
+              - bolt install --frozen-lockfile
+              - yarn build
+              - cd build/build-validator && yarn validate-packages @atlaskit/tag
+
   default:
     - parallel:
         - step:
