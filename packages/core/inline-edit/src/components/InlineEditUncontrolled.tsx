@@ -39,9 +39,9 @@ interface State {
 }
 
 /** This means that InlineDialog is only loaded if necessary */
+// @ts-ignore
 const InlineDialog = Loadable({
-  loader: () =>
-    import('@atlaskit/inline-dialog').then(module => module.default),
+  loader: () => import('@atlaskit/inline-dialog'),
   loading: () => null,
 });
 

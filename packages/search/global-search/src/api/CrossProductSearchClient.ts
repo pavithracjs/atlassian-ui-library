@@ -433,6 +433,10 @@ export default class CachingCrossProductSearchClientImpl
             mapItemToResult(scopeResult.id as Scope, result),
           );
 
+          //@ts-ignore mapItemToResult returns a generic result type, technically we can't guarantee that the
+          //           type returned by `mapItemToResult` can be coerced into the expected type, e.g. there's
+          //           no guarantee the `Result` can be casted to `ConfluenceObjectResult`. We just make the assumption
+          //           here for now and suppress the typescript error
           resultsMap[scopeResult.id] = {
             items,
             totalSize:

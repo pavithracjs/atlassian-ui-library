@@ -1,6 +1,6 @@
 export type TextFieldAppearance = 'default' | 'none' | 'transparent' | 'blue';
 export type TextFieldStyleState = 'idle' | 'hover' | 'focus';
-export type TextFieldStyleAppearance = TextFieldAppearance | 'disabled';
+export type TextFieldStyleAppearance = TextFieldAppearance & 'disabled';
 
 export type TextFieldThemeStyles = {
   container?: TextFieldStyleProps;

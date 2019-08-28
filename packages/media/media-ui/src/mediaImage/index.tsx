@@ -42,7 +42,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     };
   }
 
-  // TODO FIL-4060 we need to check whether the dataURI changes in componentWillReceiveProps()
+  // TODO FIL-4060 we need to check whether the dataURI changes in UNSAFE_componentWillReceiveProps()
   // and if it does recalculate the image height and width
 
   componentDidMount() {
@@ -189,7 +189,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
 
       To combat this we will not make height: 100% but use ratio of an image.
       In this case imgRatio is now 0.75 (after flipping)
-      
+
       New math will look like this:
       (orig img height) -> (scaled down img height)
       750px             -> (0.75 x 200px) = 150px (since `height: 75%`)

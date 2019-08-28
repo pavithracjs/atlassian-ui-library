@@ -15,8 +15,8 @@ import FabricAnalyticsListeners, {
 import {
   GasPurePayload,
   GasPureScreenEventPayload,
-} from '@atlaskit/analytics-gas-types/index';
-import { EDITOR_APPEARANCE_CONTEXT } from '@atlaskit/analytics-namespaced-context/index';
+} from '@atlaskit/analytics-gas-types';
+import { EDITOR_APPEARANCE_CONTEXT } from '@atlaskit/analytics-namespaced-context';
 import { EditorAppearance } from '../../types';
 
 describe(name, () => {

@@ -46,7 +46,7 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
     this.isMounted = true;
   }
 
-  componentWillReceiveProps(nextProps: SectionProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: SectionProps) {
     if (nextProps.parentId && nextProps.parentId === this.props.id) {
       this.setState({ traversalDirection: 'down' });
     }

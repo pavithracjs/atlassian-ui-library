@@ -1,5 +1,32 @@
 # @atlaskit/editor-core
 
+## 112.43.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 112.42.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 112.42.3
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
 ## 112.42.2
 
 ### Patch Changes
@@ -28,7 +55,7 @@
 
   Tables, Media, Smart Cards, Extensions, Analytics, Copy and Paste, Code Block, Undo, Emoji
 
-   **Performance**
+  **Performance**
 
   - Reduce number of wrapping nodes in table cells. – [table][affects: wrapping, overflow, resizing]
     - https://product-fabric.atlassian.net/browse/ED-7288
@@ -79,8 +106,7 @@
   - Issue with ctrl+z [affects: undo on different languages, e.g. Russian keyboard]
     - https://product-fabric.atlassian.net/browse/ED-7310
 
-
-------
+---
 
 **All changes**
 

@@ -54,7 +54,7 @@ export interface ProfileCardResourcedProps {
 
 export interface ProfileCardResourcedState {
   visible?: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   hasError: boolean;
   error?: ProfileCardErrorType;
   data: ProfileCardClientData | null;
@@ -74,7 +74,7 @@ export interface ProfileCardTriggerProps {
 
 export interface ProfileCardTriggerState {
   visible?: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   hasError: boolean;
   error?: ProfileCardErrorType;
   data: ProfileCardClientData | null;

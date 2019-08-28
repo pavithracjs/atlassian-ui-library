@@ -222,7 +222,7 @@ export default class WithPluginState extends React.Component<Props, State> {
     this.subscribeToContextUpdates(this.context);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (!this.isSubscribed) {
       this.subscribe(nextProps);
     }

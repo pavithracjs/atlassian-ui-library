@@ -22,7 +22,7 @@ export default class GlobalPrimaryActionsList extends PureComponent<Props> {
     checkIfTooManyPrimaryActions(props.actions);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     checkIfTooManyPrimaryActions(nextProps.actions);
   }
 

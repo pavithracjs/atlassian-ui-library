@@ -45,7 +45,7 @@ describe('Media Emoji Handling across components', () => {
 
   describe('<EmojiPicker/>', () => {
     it('Media emoji rendered in picker', () => {
-      const component = mountWithIntl(
+      const component = mountWithIntl<any, any>(
         <EmojiPicker emojiProvider={emojiProvider} />,
       );
       return waitUntil(() => hasSelector(component, EmojiPickerList)).then(

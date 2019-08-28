@@ -39,7 +39,7 @@ class Flag extends Component<FlagProps, State> {
 
   state = { isExpanded: false };
 
-  componentWillReceiveProps(nextProps: FlagProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: FlagProps) {
     const { actions, description } = nextProps;
     if (
       this.isBold() &&

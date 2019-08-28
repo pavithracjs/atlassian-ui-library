@@ -44,7 +44,7 @@ export class ToneSelectorInternal extends PureComponent<
     }
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.fireEvent(toneSelectorOpenedEvent({}));
   }
 

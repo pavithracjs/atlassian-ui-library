@@ -33,7 +33,10 @@ class ExampleChildren extends Component<ExampleChildrenProps, {}> {
     this.showMediaPicker();
   }
 
-  async componentWillReceiveProps(_: ExampleChildrenProps, nextContext: any) {
+  async UNSAFE_componentWillReceiveProps(
+    _: ExampleChildrenProps,
+    nextContext: any,
+  ) {
     if (this.context.intl !== nextContext.intl) {
       await this.createMediaPicker(nextContext);
     }
