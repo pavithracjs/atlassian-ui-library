@@ -24,18 +24,10 @@
     "@types/url-parse": "^1.4.3",
     "@yarnpkg/lockfile": "^1.1.0",
     "chalk": "^2.1.0",
-    "crypto": "^1.0.1",
+    "isomorphic-fetch": "^2.2.1",
     "meow": "^5.0.0",
-    "node-fetch": "^2.2.0",
-    "ora": "^3.0.0",
-    "projector-spawn": "^1.0.1",
-    "semver": "^5.4.1",
     "simple-git": "^1.115.0",
-    "spawndamnit": "^1.0.0",
-    "terminal-link": "^1.2.0",
-    "tslib": "^1.9.3",
-    "url-parse": "^1.4.3",
-    "yarn-deduplicate": "^1.0.5"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",

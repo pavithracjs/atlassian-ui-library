@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/branch-deploy-product-integrator", "type": "major" },
+    { "name": "@atlaskit/branch-installer", "type": "patch" }
+  ],
+  "dependents": []
+}

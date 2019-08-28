@@ -5,24 +5,23 @@ import simpleGit from 'simple-git/promise';
 //@ts-ignore
 import installFromCommit from '@atlaskit/branch-installer';
 
+//@ts-ignore
+import fetch from 'isomorphic-fetch';
+
 // type Flags = {
 
 // };
 // prettier-ignore
 const HELP_MSG = `
-   Reports insights
+  🚀 Atlaskit branch deploy product integrator™ 🚀
 
    ${chalk.green('Options')}
      ${chalk.yellow('--branchPrefix')} Prefix for the generated branch [default=atlaskit-branch-deploy/]
      ${chalk.yellow('--workingPath')}  Working path of the product repo installing a branch in [default=./]
-     ${chalk.yellow('--atlaskitCommitHash')} Atlaskit commit hash
-     ${chalk.yellow('--atlaskitBranchName')} The branch of Atlaskit we're integrating
-     ${chalk.yellow('--packageEngine')} Bolt or yarn
+     ${chalk.yellow('--atlaskitCommitHash')} Atlaskit commit hash of the branch deploy that needs to be installed
+     ${chalk.yellow('--atlaskitBranchName')} The name of the Atlaskit branch being installed
+     ${chalk.yellow('--packageEngine')} The package manager to use, currently only tested with Bolt and yarn [default=yarn]
      ${chalk.yellow('--packages')} comma delimited list of packages to install branch deploy of
-
-   ${chalk.green('Reporters')}
-    ${chalk.yellow('console')}        outputs insights to the console
-    ${chalk.yellow('bbs')}            outputs insights to the bitbucket-server code insights tool. Requires BITBUCKET_SERVER_TOKEN env variable
 `;
 
 // const getGitUrl = async (gitUrl?: string): Promise<string> => {
@@ -65,9 +64,16 @@ export async function run() {
       },
     },
   });
-
-  const git = simpleGit(cli.flags.workingPath);
-  const branchName = `${cli.flags.branchPrefix}${cli.flags.atlaskitBranchName}`;
+  const {
+    workingPath,
+    atlaskitBranchName,
+    atlaskitCommitHash,
+    branchPrefix,
+    packageEngine,
+    packages,
+  } = cli.flags;
+  const git = simpleGit(workingPath);
+  const branchName = `${branchPrefix}${atlaskitBranchName}`;
 
   const remote = await git.listRemote(['--get-url']);
 
@@ -85,24 +91,43 @@ export async function run() {
 
   if (branchExists) {
     await git.checkout(branchName);
+    await git.pull('origin', branchName);
   } else {
     await git.checkoutBranch(branchName, 'origin/master');
   }
 
-  await installFromCommit(cli.flags.atlaskitCommitHash, {
-    engine: 'bolt',
+  await installFromCommit(atlaskitCommitHash, {
+    engine: packageEngine,
     cmd: 'upgrade',
-    packages: cli.flags.packages,
+    packages: packages,
+    timeout: 30 * 60 * 1000, // Takes between 15 - 20 minutes to build a AK branch deploy
+    interval: 30000,
   });
 
   await git.add(['./']);
+
+  const commitInfo = await (await fetch(
+    `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/${atlaskitCommitHash}`,
+    {},
+  )).json();
+  const emailRegex = /^.*<([A-z]+@atlassian.com)>$/;
+
+  let authorEmail = 'no-reply@atlassian.com';
+  if (commitInfo.author.raw.match(emailRegex)) {
+    authorEmail = commitInfo.author.raw.replace(emailRegex, '$1');
+  }
 
   // prettier-ignore
   const commitMessage = `Upgraded to Atlaskit changes on branch ${cli.flags.atlaskitBranchName}
 
 https://bitbucket.org/atlassian/atlaskit-mk-2/branch/${cli.flags.atlaskitBranchName}
+
+This commit was auto-generated.
   `;
 
-  await git.commit(commitMessage);
+  await git.commit(commitMessage, [
+    '--author',
+    `BOT Atlaskit branch deploy integrator <${authorEmail}>`,
+  ]);
   await git.push('origin', branchName);
 }
