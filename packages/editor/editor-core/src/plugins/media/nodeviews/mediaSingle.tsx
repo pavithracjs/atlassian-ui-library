@@ -31,7 +31,7 @@ import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
 import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
-import { DispatchAnalyticsEvent } from 'src/plugins/analytics';
+import { DispatchAnalyticsEvent } from '../../analytics';
 
 export interface MediaSingleNodeState {
   width?: number;

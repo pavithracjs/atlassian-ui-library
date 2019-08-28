@@ -10,7 +10,7 @@ import { MediaProvider } from '../types';
 import { MediaOptions, MediaPMPluginOptions } from '../index';
 import { MediaPluginState } from '../pm-plugins/main';
 import { MediaSingleNodeProps } from './types';
-import { DispatchAnalyticsEvent } from 'src/plugins/analytics';
+import { DispatchAnalyticsEvent } from '../../analytics';
 
 export interface MediaSingleNodeProps {
   view: EditorView;

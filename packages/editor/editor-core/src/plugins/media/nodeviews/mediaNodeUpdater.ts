@@ -16,7 +16,6 @@ import { MediaProvider } from '../types';
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { MediaPMPluginOptions } from '../';
 import {
-  fireAnalyticsEvent,
   DispatchAnalyticsEvent,
   ACTION,
   ACTION_SUBJECT,
@@ -32,7 +31,7 @@ export interface MediaNodeUpdaterProps {
   contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   isMediaSingle: boolean;
   mediaPluginOptions?: MediaPMPluginOptions;
-  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export class MediaNodeUpdater {
@@ -162,11 +161,13 @@ export class MediaNodeUpdater {
         })(this.props.view.state, this.props.view.dispatch);
       } catch (e) {
         //keep it as external media
-        this.props.dispatchAnalyticsEvent({
-          action: ACTION.UPLOAD_EXTERNAL_FAIL,
-          actionSubject: ACTION_SUBJECT.EDITOR,
-          eventType: EVENT_TYPE.OPERATIONAL,
-        });
+        if (this.props.dispatchAnalyticsEvent) {
+          this.props.dispatchAnalyticsEvent({
+            action: ACTION.UPLOAD_EXTERNAL_FAIL,
+            actionSubject: ACTION_SUBJECT.EDITOR,
+            eventType: EVENT_TYPE.OPERATIONAL,
+          });
+        }
       }
     }
   };
