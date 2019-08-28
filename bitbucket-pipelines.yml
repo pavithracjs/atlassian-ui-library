@@ -44,9 +44,9 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-              - bolt install --frozen-lockfile
-              - yarn build
-              - cd build/build-validator && yarn validate-packages @atlaskit/tag
+            - bolt install --frozen-lockfile
+            - yarn build
+            - cd build/build-validator && yarn validate-packages @atlaskit/tag
 
   default:
     - parallel:
@@ -230,7 +230,7 @@ pipelines:
             - yarn send:buildEvents
           caches:
             - node
-            
+
     # This should only be called by a scheduled or manual build from master.
     # It builds the website and send the data to redash.
     send-website-build-analytics:
