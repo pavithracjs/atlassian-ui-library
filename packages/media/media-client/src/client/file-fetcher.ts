@@ -292,9 +292,16 @@ export class FileFetcherImpl implements FileFetcher {
     );
     const { id, occurrenceKey } = uploadableFileUpfrontIds;
     const subject = new ReplaySubject<FileState>(1);
-    const deferredBlob = fetch(url).then(response => response.blob());
-    const preview = new Promise<FilePreview>(async resolve => {
-      resolve({ value: await deferredBlob });
+    const deferredBlob = fetch(url)
+      .then(response => response.blob())
+      .catch(() => undefined);
+    const preview = new Promise<FilePreview>(async (resolve, reject) => {
+      const blob = await deferredBlob;
+      if (!blob) {
+        reject('Could not fetch the blob');
+      }
+
+      resolve({ value: blob as Blob });
     });
     const name = url.split('/').pop() || '';
     // we create a initial fileState with the minimum info that we have at this point
@@ -312,8 +319,12 @@ export class FileFetcherImpl implements FileFetcher {
     // we save it into the cache as soon as possible, in case someone subscribes
     getFileStreamsCache().set(id, subject);
 
-    return new Promise<ExternalUploadPayload>(async resolve => {
+    return new Promise<ExternalUploadPayload>(async (resolve, reject) => {
       const blob = await deferredBlob;
+      if (!blob) {
+        return reject('External media could not be uploaded to MediaServices');
+      }
+
       const { type, size } = blob;
       const file: UploadableFile = {
         content: blob,

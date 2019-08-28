@@ -321,7 +321,7 @@ describe('FileFetcher', () => {
     it('should set preview on cache for that file', async () => {
       const { fileFetcher } = setup();
 
-      fileFetcher.uploadExternal(url);
+      await fileFetcher.uploadExternal(url);
 
       const fileObservable = getFileStreamsCache().get('upfront-id');
       const fileState = await observableToPromise(fileObservable!);

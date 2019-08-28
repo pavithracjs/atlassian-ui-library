@@ -37,7 +37,7 @@ export const replaceExternalMedia = (pos: number, attrs: object): Command => (
     dispatch(
       state.tr
         .step(
-          new SetAttrsStep(pos + 1, {
+          new SetAttrsStep(pos, {
             type: 'file',
             url: null,
             ...attrs,

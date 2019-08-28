@@ -15,6 +15,13 @@ import { EditorView } from 'prosemirror-view';
 import { MediaProvider } from '../types';
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { MediaPMPluginOptions } from '../';
+import {
+  fireAnalyticsEvent,
+  DispatchAnalyticsEvent,
+  ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+} from '../../analytics';
 
 export type RemoteDimensions = { id: string; height: number; width: number };
 
@@ -25,6 +32,7 @@ export interface MediaNodeUpdaterProps {
   contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   isMediaSingle: boolean;
   mediaPluginOptions?: MediaPMPluginOptions;
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
 }
 
 export class MediaNodeUpdater {
@@ -140,19 +148,25 @@ export class MediaNodeUpdater {
         mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
 
       try {
-        const {
-          uploadableFileUpfrontIds,
-          dimensions,
-        } = await mediaClient.file.uploadExternal(node.attrs.url, collection);
+        const uploader = await mediaClient.file.uploadExternal(
+          node.attrs.url,
+          collection,
+        );
 
-        replaceExternalMedia(pos, {
+        const { uploadableFileUpfrontIds, dimensions } = uploader;
+        replaceExternalMedia(pos + 1, {
           id: uploadableFileUpfrontIds.id,
           collection,
           height: dimensions.height,
           width: dimensions.width,
         })(this.props.view.state, this.props.view.dispatch);
       } catch (e) {
-        //keep it an external image
+        //keep it as external media
+        this.props.dispatchAnalyticsEvent({
+          action: ACTION.UPLOAD_EXTERNAL_FAIL,
+          actionSubject: ACTION_SUBJECT.EDITOR,
+          eventType: EVENT_TYPE.OPERATIONAL,
+        });
       }
     }
   };
