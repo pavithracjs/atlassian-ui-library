@@ -178,7 +178,16 @@ module.exports = {
         'import/no-commonjs': 'off',
         'import/no-duplicates': 'off',
         'import/no-dynamic-require': 'off',
-        'import/no-extraneous-dependencies': 'off',
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: [
+              '**/docs/**/*.{ts,tsx}',
+              '**/__tests__/**/*.{ts,tsx}',
+              '**/examples/**/*.{ts,tsx}',
+            ],
+          },
+        ],
         'import/no-mutable-exports': 'off',
         'import/no-named-default': 'off',
         'import/no-useless-path-segments': 'off',
