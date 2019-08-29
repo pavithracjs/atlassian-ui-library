@@ -1,15 +1,9 @@
 import * as React from 'react';
-import AtlassianIcon from '@atlaskit/icon/glyph/atlassian';
-import Navigation, { AkGlobalItem } from '@atlaskit/navigation';
-import Page, { Grid, GridColumn } from '@atlaskit/page';
-import SwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
-import * as colors from '@atlaskit/theme/colors';
-import AkDrawer from '@atlaskit/drawer';
+import Drawer from '@atlaskit/drawer';
+import Button from '@atlaskit/button';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-import ColorScheme from './helpers/ColorScheme';
-import Tooltip from '@atlaskit/tooltip';
 
 class SwitcherExample extends React.Component {
   state = {
@@ -64,52 +58,22 @@ class SwitcherExample extends React.Component {
     };
 
     return (
-      <Page
-        navigation={
-          <Navigation
-            drawers={[
-              <AkDrawer
-                key="switcher"
-                isOpen={this.state.isDrawerOpen}
-                onClose={this.onClose}
-              >
-                <AtlassianSwitcher
-                  product="site-admin"
-                  cloudId="some-cloud-id"
-                  triggerXFlow={this.onTriggerXFlow}
-                  isDiscoverMoreForEveryoneEnabled
-                  onDiscoverMoreClicked={this.onDiscoverMoreClicked}
-                  enableUserCentricProducts
-                  theme={redishColorScheme}
-                />
-              </AkDrawer>,
-            ]}
-            globalPrimaryIcon={<AtlassianIcon size="large" label="Atlassian" />}
-            globalPrimaryItemHref="/"
-            globalSecondaryActions={[
-              <AkGlobalItem
-                key="switcher-global-item"
-                onClick={this.openDrawer}
-              >
-                <Tooltip content="Switch apps" position="right">
-                  <SwitcherIcon
-                    label="Switch apps"
-                    size="medium"
-                    primaryColor={colors.N0}
-                    secondaryColor={colors.N800}
-                  />
-                </Tooltip>
-              </AkGlobalItem>,
-            ]}
+      <div style={{ padding: '2rem' }}>
+        <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
+          <AtlassianSwitcher
+            product="site-admin"
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+            isDiscoverMoreForEveryoneEnabled
+            onDiscoverMoreClicked={this.onDiscoverMoreClicked}
+            enableUserCentricProducts
+            theme={redishColorScheme}
           />
-        }
-      >
-        <Grid layout="fixed">
-          <GridColumn medium={12}>
-            <ColorScheme colorScheme={redishColorScheme} />
-          </GridColumn>
-        </Grid>
-      </Page>
+        </Drawer>
+        <Button type="button" onClick={this.openDrawer}>
+          Open user-centric drawer
+        </Button>
+      </div>
     );
   }
 }
