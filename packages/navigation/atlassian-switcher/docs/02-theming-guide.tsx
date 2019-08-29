@@ -3,7 +3,7 @@ import { md, code, Example } from '@atlaskit/docs';
 import details from './switcher-theming.png';
 
 export default md`
-  The switcher supports a limited set of customizations through the atlaskit theming api. The following properties are exposed:
+  The switcher supports a simple set of customizations through the atlaskit theming api. The following properties are exposed:
   - primaryTextColor: text color used on the main text of each item
   - secondaryTextColor: text color used on the secondary text of some items
   - primaryHoverBackgroundColor: background color used on hover state for top level and child items
@@ -30,7 +30,6 @@ export default md`
       <Switcher
         {...props}
         theme={myTheme}
-        }}
       />
     );
   }
