@@ -10,7 +10,7 @@ import {
   isSchemaWithTextColor,
   isSchemaWithTables,
 } from '@atlaskit/adf-schema';
-import { normalizeHexColor } from '@atlaskit/editor-common';
+import { normalizeHexColor } from '@atlaskit/editor-common/color';
 
 import {
   Fragment,

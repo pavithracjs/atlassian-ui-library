@@ -66,6 +66,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </span>
       }
       delay={300}
+      hideTooltipOnMouseDown={true}
       mousePosition="bottom"
       position="top"
       tag="div"
@@ -120,31 +121,22 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         Jira Software
       </Component>
     </Component>
-    <Tooltip
-      component={[Function]}
-      content={false}
-      delay={300}
-      mousePosition="bottom"
-      position="top"
-      tag="div"
+    <Component
+      isParentHovered={false}
     >
       <Component
-        isParentHovered={false}
-      >
-        <Component
-          data-test-id="switcher-expand-toggle"
-          icon={
-            <styled.div>
-              <ChevronUpIcon
-                label="close"
-              />
-            </styled.div>
-          }
-          onClick={[Function]}
-          onKeyDown={[Function]}
-        />
-      </Component>
-    </Tooltip>
+        data-test-id="switcher-expand-toggle"
+        icon={
+          <styled.div>
+            <ChevronUpIcon
+              label="close"
+            />
+          </styled.div>
+        }
+        onClick={[Function]}
+        onKeyDown={[Function]}
+      />
+    </Component>
   </styled.div>
   <styled.div>
     <Component
@@ -242,6 +234,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </span>
       }
       delay={300}
+      hideTooltipOnMouseDown={true}
       mousePosition="bottom"
       position="top"
       tag="div"

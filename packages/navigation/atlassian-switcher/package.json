@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/atlassian-switcher",
-  "version": "3.23.2",
+  "version": "3.24.0",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
   "module": "dist/esm/index.js",
@@ -32,6 +32,7 @@
     "@atlaskit/logo": "^12.1.8",
     "@atlaskit/lozenge": "^9.0.7",
     "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/tooltip": "^15.0.14",
     "@atlaskit/type-helpers": "^4.1.8",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
