@@ -84,6 +84,7 @@ export default () => (
                   inputId={id}
                   {...rest}
                   options={colors}
+                  isClearable
                 />
                 {error && <ErrorMessage>{error}</ErrorMessage>}
               </Fragment>
