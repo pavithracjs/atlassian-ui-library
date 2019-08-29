@@ -182,9 +182,10 @@ module.exports = {
           'error',
           {
             devDependencies: [
-              '**/docs/**/*.{ts,tsx}',
+              // Top level dirs that aren't src - can't have ** either side
+              'packages/*/*/!(src)/**/*.{ts,tsx}',
+              // __tests__ dirs inside src
               '**/__tests__/**/*.{ts,tsx}',
-              '**/examples/**/*.{ts,tsx}',
             ],
           },
         ],
