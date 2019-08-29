@@ -90,6 +90,14 @@ class InlineDialogSwitcherExample extends React.Component {
   }
 
   render() {
+    // colors picked from trello's website. Alpha channel was removed to avoid overlays
+    const trelloTheme = {
+      primaryTextColor: '#172b4d',
+      secondaryTextColor: '#5e6c84',
+      primaryHoverBackgroundColor: '#E0E2E5',
+      secondaryHoverBackgroundColor: '#F5F6F7',
+    };
+
     return (
       this.state.isLoaded &&
       this.renderFakeTrelloChrome(
@@ -100,6 +108,7 @@ class InlineDialogSwitcherExample extends React.Component {
           disableHeadings
           enableUserCentricProducts
           appearance="standalone"
+          theme={trelloTheme}
         />,
       )
     );

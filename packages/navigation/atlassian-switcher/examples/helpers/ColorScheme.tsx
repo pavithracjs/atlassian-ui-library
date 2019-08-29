@@ -31,11 +31,6 @@ export default class ColorScheme extends React.Component<Props> {
       },
     );
 
-    return (
-      <div>
-        <p>Colors:</p>
-        {colors}
-      </div>
-    );
+    return <>{colors}</>;
   }
 }
