@@ -2,16 +2,18 @@ import * as React from 'react';
 import { Messages } from 'react-intl';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import isEqual from 'lodash.isequal';
-
-import SwitcherThemedItemWithEvents from '../primitives/themed-item-with-events';
-import SwitcherItemWithDropdown from '../primitives/item-with-dropdown';
-import Section from '../primitives/section';
-import SwitcherWrapper from '../primitives/wrapper';
-import ManageButton from '../primitives/manage-button';
-import Skeleton from '../primitives/skeleton';
+import {
+  SwitcherThemedItemWithEvents,
+  SwitcherItemWithDropdown,
+  Section,
+  SwitcherWrapper,
+  ManageButton,
+  Skeleton,
+  TryLozenge,
+  FormattedMessage,
+} from '../primitives';
 
 import { SwitcherItemType, RecentItemType } from '../utils/links';
-
 import {
   analyticsAttributes,
   NavigationAnalyticsContext,
@@ -20,11 +22,9 @@ import {
   ViewedTracker,
 } from '../utils/analytics';
 import now from '../utils/performance-now';
-import FormattedMessage from '../primitives/formatted-message';
-import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, DiscoverMoreCallback } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
 import { Appearance } from '../theme/types';
+import { TriggerXFlowCallback, DiscoverMoreCallback } from '../types';
 
 const noop = () => void 0;
 
