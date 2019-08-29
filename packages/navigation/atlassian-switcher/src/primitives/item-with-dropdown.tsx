@@ -5,7 +5,7 @@ import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 import { Toggle, ItemWrapper } from './themed-top-level-item';
 import SwitcherThemedItem from './themed-item';
 import SwitcherThemedChildItem from './themed-child-item';
-
+import { gridSize } from '@atlaskit/theme';
 import * as colors from '@atlaskit/theme/colors';
 import Tooltip from '@atlaskit/tooltip';
 import Avatar from './avatar';
@@ -36,13 +36,15 @@ const ChildItemsContainer = styled.div`
   background-color: ${colors.N20A};
 `;
 
+const gridSizeResult = gridSize();
+
 const IconWrapper = styled.div`
-  width: 32px;
-  height: 32px;
+  width: ${gridSizeResult * 4}px;
+  height: ${gridSizeResult * 4}px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: -8px;
+  margin-right: -${gridSizeResult}px;
 `;
 
 interface Props extends WithAnalyticsEventsProps {

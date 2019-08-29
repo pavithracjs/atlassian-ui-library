@@ -75,12 +75,6 @@ class InlineDialogSwitcherExample extends React.Component {
     });
   };
 
-  onTriggerXFlow = (productKey: string, sourceComponent: string) => {
-    console.log(
-      `Triggering xflow for => ${productKey} from ${sourceComponent}`,
-    );
-  };
-
   renderFakeTrelloChrome(content: React.ReactNode) {
     return (
       <FakeTrelloInlineDialog>
@@ -104,8 +98,7 @@ class InlineDialogSwitcherExample extends React.Component {
           disableCustomLinks
           disableRecentContainers
           disableHeadings
-          cloudId="some-cloud-id"
-          triggerXFlow={this.onTriggerXFlow}
+          enableUserCentricProducts
           appearance="standalone"
         />,
       )
