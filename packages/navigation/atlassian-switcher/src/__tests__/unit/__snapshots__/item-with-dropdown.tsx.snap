@@ -58,18 +58,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         Jira Software
       </Component>
     </Component>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
       hideTooltipOnMouseDown={true}
-      mousePosition="bottom"
       position="top"
-      tag="div"
     >
       <Component
         isParentHovered={false}
@@ -87,7 +83,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           onKeyDown={[Function]}
         />
       </Component>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
@@ -226,18 +222,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         Jira Software
       </Component>
     </Component>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
       hideTooltipOnMouseDown={true}
-      mousePosition="bottom"
       position="top"
-      tag="div"
     >
       <Component
         isParentHovered={false}
@@ -255,7 +247,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           onKeyDown={[Function]}
         />
       </Component>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
