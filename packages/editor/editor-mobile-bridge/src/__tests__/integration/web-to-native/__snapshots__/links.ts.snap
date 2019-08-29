@@ -3,11 +3,11 @@
 exports[`currentSelection when cursor is on link 1`] = `
 Array [
   Object {
-    "bottom": 21,
-    "left": 0,
-    "right": 0,
+    "bottom": 53,
+    "left": 16,
+    "right": 16,
     "text": "Atlassian",
-    "top": 2,
+    "top": 34,
     "url": "https://www.google.com",
   },
 ]
@@ -16,11 +16,11 @@ Array [
 exports[`currentSelection when cursor is selecting a link 1`] = `
 Array [
   Object {
-    "bottom": 21,
-    "left": 0,
-    "right": 0,
+    "bottom": 53,
+    "left": 16,
+    "right": 16,
     "text": "Atlassian",
-    "top": 2,
+    "top": 34,
     "url": "https://www.google.com",
   },
   Object {
@@ -96,11 +96,11 @@ Array [
     "url": "",
   },
   Object {
-    "bottom": 21,
-    "left": 0,
-    "right": 0,
+    "bottom": 53,
+    "left": 16,
+    "right": 16,
     "text": "Atlassian",
-    "top": 2,
+    "top": 34,
     "url": "https://www.google.com",
   },
 ]
@@ -109,11 +109,11 @@ Array [
 exports[`currentSelection when cursor is selecting text and link 1`] = `
 Array [
   Object {
-    "bottom": 21,
-    "left": 51.84375,
-    "right": 51.84375,
+    "bottom": 53,
+    "left": 67.84375,
+    "right": 67.84375,
     "text": "link",
-    "top": 2,
+    "top": 34,
     "url": "https://www.google.com",
   },
   Object {

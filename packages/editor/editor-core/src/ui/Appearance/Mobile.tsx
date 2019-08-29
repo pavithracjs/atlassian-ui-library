@@ -10,6 +10,7 @@ import {
 } from '../../plugins/max-content-size';
 import { mentionPluginKey } from '../../plugins/mentions';
 import WithFlash from '../WithFlash';
+import { ClickAreaMobile as ClickArea } from '../Addon';
 
 export interface MobileEditorProps {
   isMaxContentSizeReached?: boolean;
@@ -17,7 +18,6 @@ export interface MobileEditorProps {
 }
 
 const MobileEditor: any = styled.div`
-  height: 100%;
   min-height: 30px;
   width: 100%;
   max-width: inherit;
@@ -32,15 +32,7 @@ const MobileEditor: any = styled.div`
   }
 `;
 MobileEditor.displayName = 'MobileEditor';
-
-const ContentArea = styled(ContentStyles)`
-  height: 100%;
-
-  .ProseMirror {
-    /** Make it full page minus the padding */
-    min-height: calc(100vh - 40px);
-  }
-`;
+const ContentArea = styled(ContentStyles)``;
 ContentArea.displayName = 'ContentArea';
 
 export default class Editor extends React.Component<
@@ -82,19 +74,21 @@ export default class Editor extends React.Component<
           isMaxContentSizeReached={maxContentSizeReached}
           maxHeight={maxHeight}
         >
-          <ContentArea innerRef={this.handleRef}>
-            {customContentComponents}
-            <PluginSlot
-              editorView={editorView}
-              eventDispatcher={eventDispatcher}
-              providerFactory={providerFactory}
-              appearance={this.appearance}
-              containerElement={this.containerElement}
-              disabled={!!disabled}
-              dispatchAnalyticsEvent={dispatchAnalyticsEvent}
-            />
-            {editorDOMElement}
-          </ContentArea>
+          <ClickArea editorView={editorView}>
+            <ContentArea innerRef={this.handleRef}>
+              {customContentComponents}
+              <PluginSlot
+                editorView={editorView}
+                eventDispatcher={eventDispatcher}
+                providerFactory={providerFactory}
+                appearance={this.appearance}
+                containerElement={this.containerElement}
+                disabled={!!disabled}
+                dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+              />
+              {editorDOMElement}
+            </ContentArea>
+          </ClickArea>
         </MobileEditor>
       </WithFlash>
     );
