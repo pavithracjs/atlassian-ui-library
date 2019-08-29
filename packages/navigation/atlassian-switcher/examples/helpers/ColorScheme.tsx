@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import { ThemingPublicApi } from 'src/theme/types';
+import { ThemingPublicApi } from '../../src/theme/types';
 
 type Props = {
   colorScheme: ThemingPublicApi;
@@ -8,7 +8,7 @@ type Props = {
 export default class ColorScheme extends React.Component<Props> {
   render() {
     const colors = Object.entries(this.props.colorScheme).map(
-      ([key, value]): React.ReactNode => {
+      ([key, value]) => {
         return (
           <div
             style={{
@@ -22,7 +22,7 @@ export default class ColorScheme extends React.Component<Props> {
                 style={{
                   width: 16,
                   height: 16,
-                  background: value,
+                  backgroundColor: value,
                 }}
               />
             </Tooltip>
