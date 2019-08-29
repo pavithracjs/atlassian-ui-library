@@ -104,6 +104,7 @@
     "@babel/node": "^7.0.0",
     "@babel/plugin-syntax-optional-catch-binding": "^7.2.0",
     "@babel/preset-typescript": "^7.1.0",
+    "@babel/types": "^7.5.5",
     "@changesets/cli": "^1.2.0",
     "@emotion/babel-preset-css-prop": "^10.0.7",
     "@jest/fake-timers": "^24.8.0",

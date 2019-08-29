@@ -26,6 +26,7 @@
     "prosemirror-model": "^1.7.0"
   },
   "devDependencies": {
+    "@atlaskit/activity": "^1.0.1",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/editor-common": "^39.18.3",
     "@atlaskit/editor-core": "^112.42.4",
@@ -40,6 +41,8 @@
     "debug": "^2.2.0",
     "got": "^8.3.1",
     "puppeteer": "^1.13.0",
-    "rxjs": "^5.5.0"
+    "react": "^16.8.0",
+    "rxjs": "^5.5.0",
+    "styled-components": "^3.2.6"
   }
 }
