@@ -8,9 +8,6 @@ import installFromCommit from '@atlaskit/branch-installer';
 //@ts-ignore
 import fetch from 'isomorphic-fetch';
 
-// type Flags = {
-
-// };
 // prettier-ignore
 const HELP_MSG = `
   🚀 Atlaskit branch deploy product integrator™ 🚀
@@ -23,20 +20,6 @@ const HELP_MSG = `
      ${chalk.yellow('--packageEngine')} The package manager to use, currently only tested with Bolt and yarn [default=yarn]
      ${chalk.yellow('--packages')} comma delimited list of packages to install branch deploy of
 `;
-
-// const getGitUrl = async (gitUrl?: string): Promise<string> => {
-//   if (gitUrl) {
-//     return gitUrl;
-//   }
-//   return getOriginUrl();
-// };
-
-// const getCommit = async (commit?: string): Promise<string> => {
-//   if (commit) {
-//     return commit;
-//   }
-//   return getRef();
-// };
 
 export async function run() {
   const cli = meow(HELP_MSG, {
@@ -73,6 +56,7 @@ export async function run() {
     packageEngine,
     packages,
   } = cli.flags;
+
   const git = simpleGit(workingPath);
   const branchName = `${branchPrefix}${atlaskitBranchName}`;
 
@@ -81,6 +65,7 @@ export async function run() {
   if (remote.indexOf('atlassian/atlaskit-mk-2') > -1) {
     throw new Error('Working path should not be the Atlaskit repo!');
   }
+
   let branchExists;
 
   try {
