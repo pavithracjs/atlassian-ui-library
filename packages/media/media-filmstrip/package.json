@@ -46,6 +46,7 @@
     "@types/debounce": "^1.2.0",
     "enzyme": "^3.7.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   }
 }
