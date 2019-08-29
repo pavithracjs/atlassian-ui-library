@@ -1,5 +1,19 @@
 # @atlaskit/media-picker
 
+## 47.1.1
+
+### Patch Changes
+
+- [patch][aa23bf2bc5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa23bf2bc5):
+
+  Emit processed state when file gets copied
+
+  Fixes CEMS-244:
+
+  Currently some properties are missing after a file get’s copied (inserted from MediaPicker) and when the user tries to see on MediaViewer, the preview fails to load.
+
+  It happens for files that require artifacts, like documents or videos
+
 ## 47.1.0
 
 ### Minor Changes
