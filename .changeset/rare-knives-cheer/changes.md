@@ -1,1 +1,0 @@
-ED-6216: External images will now be uploaded to media services if possible 
