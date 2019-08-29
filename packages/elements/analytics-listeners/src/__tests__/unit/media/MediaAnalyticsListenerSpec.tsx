@@ -3,7 +3,10 @@ import {
   GasPayload,
   UI_EVENT_TYPE,
 } from '@atlaskit/analytics-gas-types';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
+import {
+  AnalyticsListener,
+  AnalyticsEventPayload,
+} from '@atlaskit/analytics-next';
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { createButtonWithAnalytics } from '../../../../examples/helpers';
@@ -26,11 +29,16 @@ describe('MediaAnalyticsListener', () => {
     loggerMock = createLoggerMock();
   });
 
-  const fireAndVerify = (eventPayload: GasPayload, expectedEvent: any) => {
+  const fireAndVerify = (
+    eventPayload: GasPayload,
+    expectedEvent: any,
+    context?: AnalyticsEventPayload[],
+  ) => {
     const spy = jest.fn();
     const ButtonWithAnalytics = createButtonWithAnalytics(
       eventPayload,
       FabricChannel.media,
+      context,
     );
 
     const component = mount(
@@ -129,6 +137,111 @@ describe('MediaAnalyticsListener', () => {
         source: 'mySource',
         tags: expect.arrayContaining(['media', 'atlaskit']),
       },
+    );
+  });
+
+  it('should include package hierarchy based on context data', () => {
+    const context = [
+      { packageName: '@someNice/Package', packageVersion: '3.4.5' }, // Top Package
+      { packageName: 'anotherNice', packageVersion: 33 }, // Middle Packages
+      { packageName: 'notNicePackage' },
+      { willThis: 'pass??' },
+      { packageName: '@peter/framptom', packageVersion: 'babyILoveYourWay' }, // Bottom Package
+    ];
+    fireAndVerify(
+      {
+        eventType: UI_EVENT_TYPE,
+        action: 'someAction',
+        actionSubject: 'someComponent',
+        source: 'mySource',
+        tags: ['atlaskit'],
+      },
+      {
+        action: 'someAction',
+        actionSubject: 'someComponent',
+        source: 'mySource',
+        tags: expect.arrayContaining(['media', 'atlaskit']),
+        attributes: {
+          packageHierarchy:
+            '@someNice/Package@3.4.5,anotherNice@33,notNicePackage,@peter/framptom@babyILoveYourWay',
+        },
+      },
+      context,
+    );
+  });
+
+  it('should megre event payload with context hierarchy based on package name', () => {
+    const context = [
+      {
+        val1: 'ctx11',
+        val2: 'ctx12',
+        val4: 'ctx14',
+        attributes: {
+          attr1: 'ctx11',
+          attr2: 'ctx12',
+          attr4: 'ctx14',
+          packageName: '@anAwesome/Package',
+        },
+      },
+      {
+        val7: 'nope',
+        val8: 'nope',
+        val9: 'nope',
+        attributes: {
+          attr7: 'nope',
+          attr8: 'nope',
+          attr9: 'nope',
+          packageName: '@different/Package',
+        },
+      },
+      {
+        val2: 'ctx22',
+        val3: 'ctx23',
+        val6: 'ctx26',
+        attributes: {
+          attr2: 'ctx22',
+          attr3: 'ctx23',
+          attr6: 'ctx26',
+          packageName: '@anAwesome/Package',
+        },
+      },
+    ];
+
+    fireAndVerify(
+      {
+        eventType: UI_EVENT_TYPE,
+        actionSubject: 'someComponent',
+        val1: 'val1',
+        val3: 'val3',
+        val5: 'val5',
+        attributes: {
+          attr1: 'val1',
+          attr3: 'val3',
+          attr5: 'val5',
+          packageName: '@anAwesome/Package',
+        },
+      },
+      {
+        actionSubject: 'someComponent',
+        val1: 'val1',
+        val2: 'ctx22',
+        val3: 'val3',
+        val4: 'ctx14',
+        val5: 'val5',
+        val6: 'ctx26',
+        attributes: {
+          attr1: 'val1',
+          attr2: 'ctx22',
+          attr3: 'val3',
+          attr4: 'ctx14',
+          attr5: 'val5',
+          attr6: 'ctx26',
+          packageName: '@anAwesome/Package',
+        },
+        source: 'unknown',
+        tags: ['media'],
+      },
+      context,
     );
   });
 });
