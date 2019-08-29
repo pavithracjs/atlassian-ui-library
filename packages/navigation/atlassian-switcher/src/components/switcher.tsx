@@ -168,7 +168,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
-        <SwitcherWrapper appearance={appearance || 'drawer'}>
+        <SwitcherWrapper appearance={appearance || Appearance.drawer}>
           {hasLoaded && (
             <ViewedTracker
               subject={SWITCHER_SUBJECT}
