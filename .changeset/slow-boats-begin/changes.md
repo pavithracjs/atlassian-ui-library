@@ -1,0 +1,1 @@
+Add missing dependency in package.json
