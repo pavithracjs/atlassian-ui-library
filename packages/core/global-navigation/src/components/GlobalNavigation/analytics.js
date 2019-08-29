@@ -11,7 +11,6 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
   help: 'helpDrawer',
   settings: 'settingsDrawer',
   invite: 'inviteDrawer',
-  atlassianSwitcher: 'atlassianSwitcherDrawer',
 };
 
 export const fireDrawerDismissedEvents = (

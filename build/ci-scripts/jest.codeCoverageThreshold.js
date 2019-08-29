@@ -9,7 +9,7 @@ module.exports = {
   },
   'packages/core/global-navigation/src': {
     statements: 80,
-    branches: 90,
+    branches: 89,
     functions: 88,
     lines: 80,
   },

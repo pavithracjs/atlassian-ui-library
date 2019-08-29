@@ -16,7 +16,6 @@ import {
 import { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import { ToggleStateless } from '@atlaskit/toggle';
 import Lorem from 'react-lorem-component';
-import { mockEndpoints } from './helpers/mock-atlassian-switcher-endpoints';
 
 import GlobalNavigation from '../src';
 
@@ -277,7 +276,6 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           // App switcher
           appSwitcherComponent={AppSwitcherComponent}
           appSwitcherTooltip="Switch apps..."
-          enableAtlassianSwitcher
           // Help
           helpItems={HelpDropdown}
           helpDrawerContents={this.renderHelpDrawerContents}
@@ -331,10 +329,6 @@ export default class extends Component<{||}, NavState> {
     notificationCount: DEFAULT_NOTIFICATION_COUNT,
     shouldUnmountOnExit: false,
   };
-
-  componentDidMount() {
-    mockEndpoints();
-  }
 
   handleCreateChange = (e: *) => {
     this.setState({ createItemOpens: e.currentTarget.value });

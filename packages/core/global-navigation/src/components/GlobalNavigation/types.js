@@ -263,11 +263,6 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the appSwitcher icon */
   getAppSwitcherRef?: (node: NonStringRef<'div'>) => void,
 
-  /** The boolean that controls whether to display the Atlassian Switcher. */
-  enableAtlassianSwitcher?: boolean,
-  /** A callback used to trigger the product implementation of XFlow */
-  triggerXFlow?: ?(productKey: string, sourceComponent: string) => void,
-
   /** A callback function which will be called when the help item is clicked.
    * */
   onHelpClick?: ?() => void,
@@ -331,7 +326,6 @@ export type DrawerName =
   | 'help'
   | 'settings'
   | 'recent'
-  | 'invite'
-  | 'atlassianSwitcher';
+  | 'invite';
 
 export type { DrawerWidth };
