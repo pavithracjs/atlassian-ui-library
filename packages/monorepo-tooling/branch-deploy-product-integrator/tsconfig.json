@@ -18,13 +18,10 @@
       "es2017"
     ],
     "types": ["node"],
-    "typeRoots": ["../../../typings", "./typings", "./node_modules/@types"]
+    "typeRoots": ["../../../typings", "./node_modules/@types"]
   },
   "include": [
     "./src/**/*.ts",
-    "./typings/yarnpkg-lockfile.d.ts",
-    "./typings/projector-spawn.d.ts"
-
   ],
 
 }
