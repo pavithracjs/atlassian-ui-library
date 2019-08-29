@@ -1,5 +1,13 @@
 # @atlaskit/theme
 
+## 9.2.1
+
+### Patch Changes
+
+- [patch][94620ae46a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94620ae46a):
+
+  Updating the temporary ts definition file for Theme.
+
 ## 9.2.0
 
 ### Minor Changes

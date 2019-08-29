@@ -1,1 +1,0 @@
-Updating the temporary ts definition file for Theme.
