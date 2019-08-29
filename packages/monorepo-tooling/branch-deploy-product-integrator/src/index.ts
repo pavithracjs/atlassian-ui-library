@@ -83,7 +83,7 @@ export async function run() {
   let branchExists;
 
   try {
-    await git.revparse(['--verify', branchName]);
+    await git.revparse(['--verify', `origin/${branchName}`]);
     branchExists = true;
   } catch (error) {
     branchExists = false;
