@@ -114,7 +114,6 @@ class InlinePlayerBase extends Component<InlinePlayerProps, InlinePlayerState> {
 
   setFileSrc = (fileSrc: string) => {
     this.setState({ fileSrc });
-    window.setTimeout(this.unsubscribe, 0);
   };
 
   // Tries to use the binary artifact to provide something to play while the video is still processing
