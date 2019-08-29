@@ -1383,6 +1383,10 @@
         "../../editor/renderer/src/serializer",
         "./packages/editor/renderer/src/serializer"
       ],
+      "@atlaskit/renderer/text-serializer": [
+        "../../editor/renderer/src/text-serializer",
+        "./packages/editor/renderer/src/text-serializer"
+      ],
       "@atlaskit/renderer/utils": [
         "../../editor/renderer/src/utils",
         "./packages/editor/renderer/src/utils"
