@@ -61,6 +61,7 @@ export async function run() {
       },
       packages: {
         type: 'string',
+        default: 'all',
       },
     },
   });
