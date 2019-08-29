@@ -1,1 +1,0 @@
-Fix default export of text serializer

@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.9.2
+
+### Patch Changes
+
+- [patch][b0804f563f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0804f563f):
+
+  Fix default export of text serializer
+
 ## 49.9.1
 
 ### Patch Changes
