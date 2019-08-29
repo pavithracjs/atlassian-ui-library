@@ -27,6 +27,7 @@ async function getInstalledAtlaskitDependencies() {
     );
   } catch (err) {
     console.error(err);
+    throw new Error(err);
   }
 
   let atlaskitDependencies = flattenDeep(
