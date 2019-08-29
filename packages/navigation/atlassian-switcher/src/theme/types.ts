@@ -1,7 +1,4 @@
-export enum Appearance {
-  drawer = 'drawer',
-  standalonw = 'standalone',
-}
+export type Appearance = 'drawer' | 'standalone';
 
 export type ThemingPublicApi = {
   primaryTextColor?: string;

@@ -78,6 +78,9 @@ const getItemAnalyticsContext = (
 });
 
 export default class Switcher extends React.Component<SwitcherProps> {
+  static defaultProps = {
+    appearance: 'drawer',
+  };
   mountedAt?: number;
 
   componentDidMount() {
@@ -168,7 +171,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
-        <SwitcherWrapper appearance={appearance || Appearance.drawer}>
+        <SwitcherWrapper appearance={appearance}>
           {hasLoaded && (
             <ViewedTracker
               subject={SWITCHER_SUBJECT}
