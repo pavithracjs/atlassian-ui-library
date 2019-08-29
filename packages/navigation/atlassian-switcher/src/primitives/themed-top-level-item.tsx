@@ -14,11 +14,11 @@ const ThemeableItemParent = styled.div<ToggleProps>`
     isParentHovered && `background-color: ${tokens!.hover!.background}`};
   border-radius: 3px;
   flex-grow: 1;
-  overflow: hidden;
 `;
 
 const ThemeableItemWrapper = styled(ThemeableItemParent)<ToggleProps>`
   width: 100%;
+  overflow: hidden;
 `;
 
 const ThemeableToggleStyle = styled(ThemeableItemParent)<ToggleProps>`
