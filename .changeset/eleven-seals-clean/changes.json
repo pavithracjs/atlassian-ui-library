@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/editor-mobile-bridge", "type": "patch" },
+    { "name": "@atlaskit/help", "type": "patch" },
+    { "name": "@atlaskit/media-client", "type": "patch" }
+  ],
+  "dependents": []
+}
