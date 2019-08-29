@@ -76,20 +76,22 @@ class InlineDialogSwitcherExample extends React.Component {
       this.state.isLoaded && (
         <Grid layout="fixed">
           <GridColumn medium={8}>
-            <Container>
-              <AtlassianSwitcher
-                product="trello"
-                disableCustomLinks
-                disableRecentContainers
-                disableHeadings
-                isDiscoverMoreForEveryoneEnabled
-                enableUserCentricProducts
-                cloudId="some-cloud-id"
-                triggerXFlow={this.onTriggerXFlow}
-                appearance="standalone"
-                theme={redishColorScheme}
-              />
-            </Container>
+            {this.state.isLoaded && (
+              <Container>
+                <AtlassianSwitcher
+                  product="trello"
+                  disableCustomLinks
+                  disableRecentContainers
+                  disableHeadings
+                  isDiscoverMoreForEveryoneEnabled
+                  enableUserCentricProducts
+                  cloudId="some-cloud-id"
+                  triggerXFlow={this.onTriggerXFlow}
+                  appearance="standalone"
+                  theme={redishColorScheme}
+                />
+              </Container>
+            )}
           </GridColumn>
           <GridColumn medium={4}>
             <ColorScheme colorScheme={redishColorScheme} />
