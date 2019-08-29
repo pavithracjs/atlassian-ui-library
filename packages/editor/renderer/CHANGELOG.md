@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.9.1
+
+### Patch Changes
+
+- [patch][8b07822f8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b07822f8a):
+
+  Add entry-point for text-serializer
+
 ## 49.9.0
 
 ### Minor Changes

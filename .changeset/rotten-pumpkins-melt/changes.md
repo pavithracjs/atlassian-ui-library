@@ -1,1 +1,0 @@
-Add entry-point for text-serializer
