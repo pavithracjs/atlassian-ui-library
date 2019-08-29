@@ -40,7 +40,7 @@ async function getInstalledAtlaskitDependencies() {
       .filter(depType => typeof packageJSON[depType] === 'object')
       .map(depType => {
         return Object.entries(packageJSON[depType])
-          .filter(([name, version]) => name.startsWith('@atlaskit'))
+          .filter(([name]) => name.startsWith('@atlaskit'))
           .map(([name]) => name);
       }),
   );
