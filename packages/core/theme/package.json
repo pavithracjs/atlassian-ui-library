@@ -31,15 +31,16 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.2.5",
-    "@atlaskit/docs": "^8.1.5",
     "@atlaskit/button": "^13.1.6",
+    "@atlaskit/docs": "^8.1.5",
     "@atlaskit/lozenge": "^9.0.7",
     "@atlaskit/section-message": "^4.0.12",
     "@atlaskit/ssr": "^0.1.1",
     "@atlaskit/visual-regression": "^0.1.3",
     "color": "^3.0.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "keywords": [
     "atlaskit",
