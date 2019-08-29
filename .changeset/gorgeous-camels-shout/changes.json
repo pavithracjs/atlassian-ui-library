@@ -1,0 +1,27 @@
+{
+  "releases": [{ "name": "@atlaskit/global-navigation", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/feedback-collector",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/navigation-next",
+        "@atlaskit/global-navigation"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": ["@atlaskit/global-navigation"]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/feedback-collector",
+        "@atlaskit/navigation-next",
+        "@atlaskit/global-navigation"
+      ]
+    }
+  ]
+}

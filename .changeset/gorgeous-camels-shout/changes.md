@@ -1,0 +1,1 @@
+Major breaking change. atlassian-switcher has been unbundled from global-nav. Users of global-nav will have to explicitly pass their own rendering of atlassian-switcher into global-nav via appSwitcherComponent props
