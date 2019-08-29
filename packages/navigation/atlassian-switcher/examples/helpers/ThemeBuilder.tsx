@@ -93,7 +93,7 @@ export default class ThemeBuilder extends React.Component<Props, State> {
       <Grid layout="fixed">
         <GridColumn medium={6}>{this.props.children(this.state)}</GridColumn>
         <GridColumn medium={6}>
-          <h6>Select a preset:</h6>
+          <h6>Examples:</h6>
           <PresetList>
             {colorSchemes.map(preset => {
               return (
@@ -106,7 +106,7 @@ export default class ThemeBuilder extends React.Component<Props, State> {
               );
             })}
           </PresetList>
-          <h6>Or customize your own:</h6>
+          <h6>Customize your own:</h6>
           {Object.keys(this.state).map(fieldName => (
             <Field name={fieldName} label={fieldName}>
               {({ fieldProps }: any) => {
