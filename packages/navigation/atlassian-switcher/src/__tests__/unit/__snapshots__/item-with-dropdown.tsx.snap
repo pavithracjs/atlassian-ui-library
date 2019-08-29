@@ -92,17 +92,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
       <styled.div
         isParentHovered={false}
@@ -152,7 +149,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           </Item>
         </ThemeProvider>
       </styled.div>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
@@ -220,63 +217,54 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
-      content={false}
-      delay={300}
-      mousePosition="bottom"
-      position="top"
-      tag="div"
+    <styled.div
+      isParentHovered={false}
     >
-      <styled.div
-        isParentHovered={false}
-      >
-        <ThemeProvider
-          theme={
-            Object {
-              "@atlaskit-shared-theme/item": Object {
+      <ThemeProvider
+        theme={
+          Object {
+            "@atlaskit-shared-theme/item": Object {
+              "default": Object {
+                "background": "transparent",
+                "secondaryText": "#6B778C",
+                "text": [Function],
+              },
+              "hover": Object {
+                "background": "transparent",
+              },
+              "padding": Object {
                 "default": Object {
-                  "background": "transparent",
-                  "secondaryText": "#6B778C",
-                  "text": [Function],
-                },
-                "hover": Object {
-                  "background": "transparent",
-                },
-                "padding": Object {
-                  "default": Object {
-                    "bottom": 8,
-                    "left": 8,
-                    "right": 8,
-                    "top": 8,
-                  },
-                },
-                "width": Object {
-                  "default": "100%",
+                  "bottom": 8,
+                  "left": 8,
+                  "right": 8,
+                  "top": 8,
                 },
               },
-            }
+              "width": Object {
+                "default": "100%",
+              },
+            },
           }
+        }
+      >
+        <Item
+          autoFocus={false}
+          data-test-id="switcher-expand-toggle"
+          description=""
+          isCompact={false}
+          isDisabled={false}
+          isHidden={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          shouldAllowMultiline={false}
         >
-          <Item
-            autoFocus={false}
-            data-test-id="switcher-expand-toggle"
-            description=""
-            isCompact={false}
-            isDisabled={false}
-            isHidden={false}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            shouldAllowMultiline={false}
-          >
-            <Component
-              theme="subtle"
-            />
-          </Item>
-        </ThemeProvider>
-      </styled.div>
-    </Tooltip>
+          <Component
+            theme="subtle"
+          />
+        </Item>
+      </ThemeProvider>
+    </styled.div>
   </styled.div>
   <ThemeProvider
     theme={
@@ -446,17 +434,14 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         </Item>
       </ThemeProvider>
     </styled.div>
-    <Tooltip
-      component={[Function]}
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
       <styled.div
         isParentHovered={false}
@@ -506,7 +491,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           </Item>
         </ThemeProvider>
       </styled.div>
-    </Tooltip>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;

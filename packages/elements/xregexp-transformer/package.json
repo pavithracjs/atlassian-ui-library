@@ -11,7 +11,7 @@
     "sample": "./node_modules/ttypescript/bin/tsc src/sample.ts"
   },
   "dependencies": {
-    "typescript": "3.6.1-rc",
+    "typescript": "~3.6.2",
     "xregexp": "^4.1.1"
   },
   "devDependencies": {

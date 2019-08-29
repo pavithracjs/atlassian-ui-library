@@ -93,10 +93,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --frozen-lockfile
-              # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
-              - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
-              # Run the editor tests (runInBand is required or it fails in CI)
-              - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
+              - yarn test:changed --maxWorkers=50% --passWithNoTests
               # Run platform-specific tests of the editor bridge
               - yarn test:editor-mobile-bridge:ios
               - yarn test:editor-mobile-bridge:android
@@ -290,10 +287,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - bolt install --frozen-lockfile
-                # Run the non-editor tests.
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test
-                # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
+                - yarn test --maxWorkers=50%
                 # Run platform-specific tests of the editor bridge
                 - yarn test:editor-mobile-bridge:ios
                 - yarn test:editor-mobile-bridge:android
@@ -387,40 +381,38 @@ pipelines:
                 - yarn changeset bump
               after-script:
                 - yarn send:stepFailureEvents
-          # Rest of the steps are jest tests. We no longer use the $BITBUCKET_PARALLEL_STEP_COUNT and $BITBUCKET_PARALLEL_STEP
-          # variables as they mean the jest steps need to be in their own parallel block, so we just hardcode them here.
-          # Editor tests need to runInBand.
           - step:
-              name: Running Editor Unit tests - Jest 1 of 2 chunks
+              name: Running Unit tests - Jest 1 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
                 # This script acts like a unit test to check changes to @atlaskit/adf-schema.
                 - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
               after-script:
                 - yarn send:stepFailureEvents
           - step:
-              name: Running Editor Unit tests - Jest 2 of 2 chunks
+              name: Running Unit tests - Jest 2 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
                 - yarn test:editor-mobile-bridge:ios
-                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
           - step:
-              name: Running Non Editor Unit tests
+              name: Running Unit tests - Jest 2 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="2" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
+                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
           - step:

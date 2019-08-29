@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.24.0
+
+### Minor Changes
+
+- [minor][5f681ceea7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f681ceea7):
+
+  Add a tooltip dependency and hide tooltip on mouse down event
+
 ## 3.23.2
 
 ### Patch Changes
