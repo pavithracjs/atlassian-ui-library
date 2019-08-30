@@ -4,7 +4,6 @@ import { AnalyticsReactContext } from './AnalyticsReactContext';
 import { CreateUIAnalyticsEvent } from './types';
 import UIAnalyticsEvent from './UIAnalyticsEvent';
 import { AnalyticsEventPayload } from './AnalyticsEvent';
-import { node } from 'prop-types';
 
 export type UseAnalyticsEventsHook = {
   createAnalyticsEvent: CreateUIAnalyticsEvent;
