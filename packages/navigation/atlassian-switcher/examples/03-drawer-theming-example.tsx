@@ -1,14 +1,17 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import InlineDialog from '@atlaskit/inline-dialog';
+import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-
-class InlineDialogSwitcherExample extends React.Component {
+class JiraSwitcherExample extends React.Component {
   state = {
-    isOpen: false,
+    isDrawerOpen: false,
   };
+
+  componentDidMount() {
+    this.openDrawer();
+  }
 
   openDrawer = () => {
     mockEndpoints(
@@ -16,14 +19,6 @@ class InlineDialogSwitcherExample extends React.Component {
       originalMockData => {
         return {
           ...originalMockData,
-          RECENT_CONTAINERS_DATA: {
-            data: [],
-          },
-          CUSTOM_LINKS_DATA: {
-            data: [],
-          },
-          XFLOW_SETTINGS: {},
-
           LICENSE_INFORMATION_DATA: {
             hostname: 'https://some-random-instance.atlassian.net',
             firstActivationDate: 1492488658539,
@@ -41,13 +36,13 @@ class InlineDialogSwitcherExample extends React.Component {
       REQUEST_FAST,
     );
     this.setState({
-      isOpen: true,
+      isDrawerOpen: true,
     });
   };
 
   onClose = () => {
     this.setState({
-      isOpen: false,
+      isDrawerOpen: false,
     });
   };
 
@@ -58,37 +53,29 @@ class InlineDialogSwitcherExample extends React.Component {
   };
 
   render() {
+    const redishColorScheme = {
+      primaryTextColor: '#8B0000',
+      secondaryTextColor: '#ff4c4c',
+      primaryHoverBackgroundColor: '#ffcccc',
+      secondaryHoverBackgroundColor: '#ffe5e5',
+    };
+
     return (
-      <InlineDialog
-        onClose={this.onClose}
-        isOpen={this.state.isOpen}
-        content={
-          <div
-            style={{
-              maxHeight: 'inherit',
-              maxWidth: 'inherit',
-              overflow: 'auto',
-            }}
-          >
-            <AtlassianSwitcher
-              product="trello"
-              disableCustomLinks
-              disableRecentContainers
-              disableHeadings
-              cloudId="some-cloud-id"
-              triggerXFlow={this.onTriggerXFlow}
-            />
-          </div>
-        }
-      >
+      <div style={{ padding: '2rem' }}>
+        <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
+          <AtlassianSwitcher
+            product="jira"
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+            theme={redishColorScheme}
+          />
+        </Drawer>
         <Button type="button" onClick={this.openDrawer}>
-          Click to open inline dialog
+          Open drawer
         </Button>
-      </InlineDialog>
+      </div>
     );
   }
 }
 
-export default withIntlProvider(
-  withAnalyticsLogger(InlineDialogSwitcherExample),
-);
+export default withIntlProvider(withAnalyticsLogger(JiraSwitcherExample));

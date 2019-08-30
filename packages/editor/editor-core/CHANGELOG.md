@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.44.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
 ## 112.43.0
 
 ### Minor Changes

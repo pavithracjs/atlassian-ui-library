@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.25.0
+
+### Minor Changes
+
+- [minor][03a905d43e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03a905d43e):
+
+  FIND-133: Add support for theming
+
 ## 3.24.0
 
 ### Minor Changes

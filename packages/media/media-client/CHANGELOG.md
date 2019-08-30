@@ -1,5 +1,13 @@
 # @atlaskit/media-client
 
+## 2.1.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
 ## 2.0.5
 
 ### Patch Changes
