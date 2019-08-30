@@ -37,7 +37,6 @@ const ChildItemsContainer = styled.div`
 `;
 
 const gridSizeResult = gridSize();
-
 const IconWrapper = styled.div`
   width: ${gridSizeResult * 4}px;
   height: ${gridSizeResult * 4}px;
@@ -131,9 +130,9 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     const icon = (
       <IconWrapper>
         {showChildItems ? (
-          <ChevronUpIcon label="close" />
+          <ChevronUpIcon label="Collapse" />
         ) : (
-          <ChevronDownIcon label="open" />
+          <ChevronDownIcon label="Expand" />
         )}
       </IconWrapper>
     );

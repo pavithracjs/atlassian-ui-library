@@ -75,7 +75,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           icon={
             <styled.div>
               <ChevronDownIcon
-                label="open"
+                label="Expand"
               />
             </styled.div>
           }
@@ -125,7 +125,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
         icon={
           <styled.div>
             <ChevronUpIcon
-              label="close"
+              label="Collapse"
             />
           </styled.div>
         }
@@ -239,7 +239,7 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
           icon={
             <styled.div>
               <ChevronDownIcon
-                label="open"
+                label="Expand"
               />
             </styled.div>
           }
