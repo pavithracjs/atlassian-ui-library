@@ -117,10 +117,10 @@ const App = () => (
 
   If you have an interaction that you want to capture that is not covered by
   the analytics that come with Atlaskit components, you can use either the \`withAnalyticsEvents\`
-  HOC or the \`useAnalyticsEvents\` hook to create your own.
+  HOC or the \`useAnalyticsEvents_experimental\` hook to create your own.
 
   The \`withAnalyticsEvents\` HOC injects a \`createAnalyticsEvent\` function onto the props
-  of the wrapped component, while the \`useAnalyticsEvents\` hook provides the same function 
+  of the wrapped component, while the \`useAnalyticsEvents_experimental\` hook provides the same function 
   directly within a funcitonal component. 
   This function accepts an payload object and returns a
   \`UIAnalyticsEvent\`.
@@ -164,11 +164,11 @@ export default withAnalyticsEvents()(Button);
 
 ${code`
 import React from 'react';
-import { useAnalyticsEvents } from '@atlaskit/analytics-next';
+import { useAnalyticsEvents_experimental } from '@atlaskit/analytics-next';
 
 const Button = ({ onClick, ...props }) => {
   // Decompose function from the hook
-  const { createAnalyticsEvent } = useAnalyticsEvents();
+  const { createAnalyticsEvent } = useAnalyticsEvents_experimental();
 
   const handleClick = e => {
     // Create our analytics event

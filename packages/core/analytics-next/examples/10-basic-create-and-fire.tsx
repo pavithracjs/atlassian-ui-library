@@ -4,7 +4,7 @@ import {
   UIAnalyticsEvent,
   withAnalyticsEvents,
   WithAnalyticsEventsProps,
-  useAnalyticsEvents,
+  useAnalyticsEvents_experimental,
 } from '../src';
 
 interface Props extends WithAnalyticsEventsProps {
@@ -37,7 +37,7 @@ const Button = withAnalyticsEvents()(ButtonBase);
 
 const FunctionalButton: FC<Props> = ({ onClick, ...props }) => {
   // Decompose function from the hook
-  const { createAnalyticsEvent } = useAnalyticsEvents();
+  const { createAnalyticsEvent } = useAnalyticsEvents_experimental();
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     // Create our analytics event

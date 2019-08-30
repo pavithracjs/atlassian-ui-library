@@ -38,7 +38,7 @@ export {
 
 // Hook for creating and firing analytics events
 export {
-  useAnalyticsEvents,
+  useAnalyticsEvents_experimental,
   UseAnalyticsEventsHook,
 } from './useAnalyticsEvents';
 

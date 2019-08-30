@@ -8,7 +8,7 @@ import React from 'react';
 import { Omit } from '@atlaskit/type-helpers';
 import { CreateUIAnalyticsEvent, CreateEventMap } from './types';
 import { usePatchedProps } from './usePatchedProps';
-import { useAnalyticsEvents } from './useAnalyticsEvents';
+import { useAnalyticsEvents_experimental } from './useAnalyticsEvents';
 
 export interface WithAnalyticsHookProps {
   /**
@@ -37,7 +37,7 @@ const withAnalyticsHook = (createEventMap?: CreateEventMap) => <
         createEventMap,
         props,
       );
-      const { createAnalyticsEvent } = useAnalyticsEvents();
+      const { createAnalyticsEvent } = useAnalyticsEvents_experimental();
 
       return (
         <WrappedComponent
