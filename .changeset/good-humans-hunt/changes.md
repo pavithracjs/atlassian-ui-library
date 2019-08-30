@@ -1,0 +1,1 @@
+CEMS-244: Emit processed state when file gets copied
