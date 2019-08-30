@@ -9,9 +9,7 @@ export const defaultThemingColors: ThemingPublicApi = {
   secondaryHoverBackgroundColor: colors.N20,
 };
 
-const defaultTopLevelItemWrapperTheme = (
-  props: ThemingPublicApi = defaultThemingColors,
-) => {
+const defaultTopLevelItemWrapperTheme = () => {
   return {
     hover: {
       background: defaultThemingColors.secondaryHoverBackgroundColor,
@@ -19,7 +17,7 @@ const defaultTopLevelItemWrapperTheme = (
   };
 };
 
-const defaultItemTheme = (props: ThemingPublicApi = defaultThemingColors) => {
+const defaultItemTheme = () => {
   const gridSizeResult = gridSize();
   return {
     display: 'block',
@@ -48,10 +46,8 @@ const defaultItemTheme = (props: ThemingPublicApi = defaultThemingColors) => {
   };
 };
 
-const defaultChildItemTheme = (
-  props: ThemingPublicApi = defaultThemingColors,
-) => {
-  const defaultItemThemeResult = defaultItemTheme(props);
+const defaultChildItemTheme = () => {
+  const defaultItemThemeResult = defaultItemTheme();
   const gridSizeResult = gridSize();
   return {
     padding: {
