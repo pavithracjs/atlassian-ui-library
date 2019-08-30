@@ -4,7 +4,7 @@
   "description": "Installs the Atlaskit dependency versions from the given commit.",
   "main": "src/index.js",
   "bin": {
-    "atlaskit-branch-installer": "index.js"
+    "atlaskit-branch-installer": "cli.js"
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -14,7 +14,7 @@
   ],
   "files": [
     "src",
-    "index.js"
+    "cli.js"
   ],
   "license": "Apache-2.0",
   "devDependencies": {
