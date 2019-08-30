@@ -20,7 +20,7 @@ const renderSpecificTest = (
         triggerXFlow={noop}
       />,
     );
-    expect(switcher.find(Ctor)).toHaveLength(1);
+    expect(switcher).toMatchSnapshot();
   });
 };
 
@@ -38,21 +38,6 @@ describe('Atlassian Switcher', () => {
   renderSpecificTest(
     'should render correct switcher for `site-admin`',
     'site-admin',
-    GenericSwitcher,
-  );
-  renderSpecificTest(
-    'should render correct switcher for `trusted-admin`',
-    'trusted-admin',
-    GenericSwitcher,
-  );
-  renderSpecificTest(
-    'should render correct switcher for `home`',
-    'home',
-    GenericSwitcher,
-  );
-  renderSpecificTest(
-    'should render correct switcher for `people`',
-    'people',
     GenericSwitcher,
   );
 });

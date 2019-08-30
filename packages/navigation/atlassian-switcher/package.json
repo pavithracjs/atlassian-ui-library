@@ -37,6 +37,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "memoize-one": "^5.1.0",
+    "react-loadable": "^5.1.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
