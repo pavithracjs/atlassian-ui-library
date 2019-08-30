@@ -1,0 +1,1 @@
+Export and consume validator from editor-common
