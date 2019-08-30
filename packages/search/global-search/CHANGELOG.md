@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.4.1
+
+### Patch Changes
+
+- [patch][4638a2e06a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4638a2e06a):
+
+  Fixed QuickSearchContainer so it doesn't end up with a new session id on update if not a child of SearchSessionProvider
+
 ## 11.4.0
 
 ### Minor Changes

@@ -1,1 +1,0 @@
-Fixed QuickSearchContainer so it doesn't end up with a new session id on update if not a child of SearchSessionProvider
