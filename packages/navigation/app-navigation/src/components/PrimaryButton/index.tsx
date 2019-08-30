@@ -59,3 +59,5 @@ PrimaryButton.defaultProps = {
   isSelected: false,
   testId: 'NavigationItem',
 };
+
+export { PrimaryButtonSkeleton } from './skeleton';

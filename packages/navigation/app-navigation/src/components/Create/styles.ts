@@ -3,19 +3,23 @@ import {
   fontSizeSmall,
   gridSize as gridSizeFn,
 } from '@atlaskit/theme/constants';
+import styled from '@emotion/styled';
 import {
   actionSectionDesktopStyles,
   actionSectionMobileStyles,
+  globalSkeletonStyles,
 } from '../../common/styles';
 
 const gridSize = gridSizeFn();
+
+const buttonHeight = gridSize * 4;
 
 const buttonOverrides = {
   backgroundColor: B75,
   color: B500,
   fontSize: fontSizeSmall(),
   fontWeight: 'bold',
-  height: gridSize * 4,
+  height: buttonHeight,
   textTransform: 'uppercase',
 };
 
@@ -36,3 +40,18 @@ export const buttonTheme: any = (
 export const createButtonStyles = actionSectionDesktopStyles;
 
 export const createIconStyles = actionSectionMobileStyles;
+
+export const ButtonSkeleton = styled.div`
+  height: ${buttonHeight}px;
+  width: 68px;
+  border-radius: 3px;
+  ${createButtonStyles}
+  ${globalSkeletonStyles}
+`;
+export const IconButtonSkeleton = styled.div`
+  width: ${buttonHeight}px;
+  height: ${buttonHeight}px;
+  border-radius: 50%;
+  ${createIconStyles}
+  ${globalSkeletonStyles}
+`;

@@ -1,6 +1,8 @@
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { PRODUCT_HOME_BREAKPOINT } from '../../common/constants';
+import { globalSkeletonStyles } from '../../common/styles';
 
 const gridSize = gridSizeFn();
 
@@ -17,8 +19,10 @@ export const containerStyles = css`
   }
 `;
 
+const imageHeight = 40;
+
 const imageStyles = css`
-  height: 40px;
+  height: ${imageHeight}px;
 `;
 
 export const productIconStyles = css`
@@ -41,4 +45,24 @@ export const productLogoStyles = css`
 export const customProductLogoStyles = css`
   ${productLogoStyles};
   ${imageStyles}
+`;
+
+export const LogoSkeleton = styled.div`
+  width: 120px;
+  border-radius: ${imageHeight / 2}px;
+  ${imageStyles}
+  ${globalSkeletonStyles}
+`;
+
+const iconHeight = 28;
+
+export const IconSkeleton = styled.div`
+  width: ${iconHeight}px;
+  height: ${iconHeight}px;
+  border-radius: 50%;
+  ${globalSkeletonStyles}
+`;
+
+export const containerSkeletonStyles = css`
+  ${containerStyles};
 `;

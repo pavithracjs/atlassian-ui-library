@@ -13,3 +13,8 @@ export type AppNavigationProps = {
   renderSearch?: React.ComponentType<{}>;
   renderSettings?: React.ComponentType<{}>;
 };
+
+export type AppNavigationSkeletonProps = {
+  primaryItemCount?: number;
+  secondaryItemCount?: number;
+};
