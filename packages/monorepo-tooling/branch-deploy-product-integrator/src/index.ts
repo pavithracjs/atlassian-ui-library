@@ -26,7 +26,7 @@ export async function run() {
     flags: {
       branchPrefix: {
         type: 'string',
-        default: 'atlaskit-branch-deploy/',
+        default: 'atlaskit-branch-deploy-',
       },
       workingPath: {
         type: 'string',
