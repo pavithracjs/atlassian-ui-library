@@ -44,6 +44,7 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: -${gridSizeResult}px;
+  margin-bottom: -1px;
 `;
 
 interface Props extends WithAnalyticsEventsProps {
