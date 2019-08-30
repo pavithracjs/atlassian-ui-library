@@ -26,6 +26,7 @@ export function useAnalyticsEvents_experimental(): UseAnalyticsEventsHook {
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
       console.warn(
         `The useAnalyticsEvents_experimental hook should be used with caution.
         It's consumers must be wrapped with the updated AnalyticsListener and AnalyticsContext components from the latest release of @atlaskit/analytics-next.`,
