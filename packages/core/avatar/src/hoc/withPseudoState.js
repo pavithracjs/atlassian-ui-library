@@ -51,7 +51,7 @@ export default function withPseudoState<InnerProps: {}>(
 
     actionKeys: Array<string>;
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const { href, isInteractive, onClick } = this.props;
 
       if (href || isInteractive || onClick) {

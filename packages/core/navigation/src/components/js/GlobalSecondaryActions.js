@@ -22,7 +22,7 @@ export default class GlobalSecondaryActions extends PureComponent<Props> {
     checkIfTooManySecondaryActions(props.actions);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     checkIfTooManySecondaryActions(nextProps.actions);
   }
 

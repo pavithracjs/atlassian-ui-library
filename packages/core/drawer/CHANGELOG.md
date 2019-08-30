@@ -1,5 +1,21 @@
 # @atlaskit/drawer
 
+## 5.0.9
+
+### Patch Changes
+
+- [patch][baf6c19b23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/baf6c19b23):
+
+  Remove //@ts-ignore unintentionally rendered with the other content
+
+## 5.0.8
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
 ## 5.0.7
 
 ### Patch Changes

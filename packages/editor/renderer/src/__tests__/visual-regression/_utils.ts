@@ -11,6 +11,10 @@ import { RendererAppearance } from '../../ui/Renderer/types';
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
 
+type WindowOverride = Window & {
+  __mountRenderer: (props?: RendererPropsOverrides, adf?: Object) => void;
+};
+
 export enum Device {
   Default = 'Default',
   LaptopHiDPI = 'LaptopHiDPI',
@@ -44,6 +48,7 @@ export async function goToRendererTestingExample(page: Page) {
 export type RendererPropsOverrides = { [T in keyof Props]?: Props[T] } & {
   showSidebar?: boolean;
 };
+
 export async function mountRenderer(
   page: Page,
   props?: RendererPropsOverrides,
@@ -52,9 +57,7 @@ export async function mountRenderer(
   await page.$eval(
     '#renderer-container',
     (_e, props, adf) => {
-      (window as Window & {
-        __mountRenderer: (props?: RendererPropsOverrides, adf?: Object) => void;
-      }).__mountRenderer(props, adf);
+      ((window as unknown) as WindowOverride).__mountRenderer(props, adf);
     },
     props,
     adf,

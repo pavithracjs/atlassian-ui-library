@@ -59,7 +59,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
     this.updateOverflow();
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     // Reset the state
     this.setState({ hasOverflow: false });
   }

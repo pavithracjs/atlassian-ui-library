@@ -40,7 +40,7 @@ export default class DropdownMenu extends Component<
     items: [...this.props.items],
   };
 
-  componentWillReceiveProps(nextProps: DropdownMenuStatefulProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: DropdownMenuStatefulProps) {
     if (nextProps.items !== this.state.items) {
       this.setState({ items: [...nextProps.items] });
     }

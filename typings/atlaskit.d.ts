@@ -15,6 +15,8 @@ declare module '@atlaskit/field-radio-group';
 declare module '@atlaskit/field-range';
 declare module '@atlaskit/form';
 declare module '@atlaskit/global-navigation';
+// TODO - Add icon import paths to entry-points.tsconfig.json
+declare module '@atlaskit/icon/*';
 declare module '@atlaskit/icon-file-type';
 declare module '@atlaskit/icon-file-type/*';
 declare module '@atlaskit/icon-object';
@@ -31,10 +33,8 @@ declare module '@atlaskit/multi-select';
 declare module '@atlaskit/navigation-next';
 declare module '@atlaskit/navigation';
 declare module '@atlaskit/nps';
-declare module '@atlaskit/onboarding';
 declare module '@atlaskit/panel';
 declare module '@atlaskit/polyfills';
-declare module '@atlaskit/progress-tracker';
 declare module '@atlaskit/react-experiment-framework';
 declare module '@atlaskit/reduced-ui-pack';
 declare module '@atlaskit/refinement-bar';
@@ -44,7 +44,6 @@ declare module '@atlaskit/size-detector';
 declare module '@atlaskit/table-tree';
 declare module '@atlaskit/textfield';
 declare module '@atlaskit/theme/colors';
-declare module '@atlaskit/tree';
 
 // Build
 declare module '@atlaskit/ssr';

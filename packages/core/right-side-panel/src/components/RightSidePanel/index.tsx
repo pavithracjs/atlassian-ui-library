@@ -94,7 +94,7 @@ export class RightSidePanel extends Component<Props, State> {
   render() {
     const { container } = this.state;
 
-    return !!container ? this.renderDrawer(container) : null;
+    return !!container ? this.renderDrawer(container!) : null;
   }
 }
 

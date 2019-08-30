@@ -1,5 +1,21 @@
 # @atlaskit/profilecard
 
+## 12.0.7
+
+### Patch Changes
+
+- [patch][875282da30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/875282da30):
+
+  Fix a bug which causes ProfileCard triggers viewed analytics event twice
+
+## 12.0.6
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
 ## 12.0.5
 
 ### Patch Changes

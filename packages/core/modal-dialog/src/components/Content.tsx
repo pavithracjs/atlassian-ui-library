@@ -162,7 +162,7 @@ export default class Content extends React.Component<Props, State> {
     /* eslint-enable no-console */
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { stackIndex } = this.props;
 
     // update focus scope and let consumer know when stack index has changed

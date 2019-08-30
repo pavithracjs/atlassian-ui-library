@@ -28,9 +28,7 @@ import {
 
 const DatePicker = Loadable({
   loader: () =>
-    import(/* webpackChunkName:"@atlaskit-internal-editor-datepicker" */ './ui/DatePicker').then(
-      module => module.default,
-    ),
+    import(/* webpackChunkName:"@atlaskit-internal-editor-datepicker" */ './ui/DatePicker'),
   loading: () => null,
 });
 
@@ -97,7 +95,9 @@ const datePlugin = (): EditorPlugin => ({
             <DatePicker
               key={showDatePickerAt}
               element={element}
-              onSelect={date => insertDate(date)(editorView.state, dispatch)}
+              onSelect={(date?: DateType) =>
+                insertDate(date)(editorView.state, dispatch)
+              }
               closeDatePicker={() =>
                 setDatePickerAt(null)(editorView.state, dispatch)
               }

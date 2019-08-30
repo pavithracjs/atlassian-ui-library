@@ -51,7 +51,7 @@ const mockEvent: any = {
 const defaultProps = {
   product: 'confluence' as QuickSearchContext,
   logger: mockLogger(),
-  getSearchResultsComponent: jest.fn(
+  getSearchResultsComponent: jest.fn<{}>(
     (props: SearchResultProps<GenericResultMap>) => null,
   ),
   getRecentItems: jest.fn((searchSessionId: string) => ({

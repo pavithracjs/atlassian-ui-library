@@ -1,5 +1,29 @@
 # @atlaskit/media-client
 
+## 2.1.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
+## 2.0.5
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 2.0.4
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
 ## 2.0.3
 
 ### Patch Changes

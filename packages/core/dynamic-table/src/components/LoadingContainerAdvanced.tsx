@@ -37,7 +37,7 @@ export default class LoadingContainerAdvanced extends React.Component<
     }
   };
 
-  componentWillReceiveProps = (nextProps: Props) => {
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (!nextProps.isLoading || !this.hasTargetNode(nextProps)) {
       this.detachListeners();
     } else if (!this.props.isLoading) {

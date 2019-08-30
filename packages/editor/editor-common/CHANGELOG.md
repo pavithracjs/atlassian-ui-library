@@ -1,5 +1,48 @@
 # @atlaskit/editor-common
 
+## 39.20.0
+
+### Minor Changes
+
+- [minor][73e0198ae4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/73e0198ae4):
+
+  AK-6504: Fix MentionWithProfilecard for mentions in editor view mode
+
+## 39.19.1
+
+### Patch Changes
+
+- [patch][9bd9cc7d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9bd9cc7d25):
+
+  Avoid importing all of editor-common in jira-transformer
+
+## 39.19.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 39.18.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 39.18.2
+
+### Patch Changes
+
+- [patch][22291c2373](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22291c2373):
+
+  ED-7531: Fixes copy and paste issue for mediaSingle from renderer to editor
+
 ## 39.18.1
 
 ### Patch Changes

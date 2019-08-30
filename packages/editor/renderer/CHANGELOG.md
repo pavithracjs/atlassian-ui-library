@@ -1,5 +1,48 @@
 # @atlaskit/renderer
 
+## 49.9.2
+
+### Patch Changes
+
+- [patch][b0804f563f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0804f563f):
+
+  Fix default export of text serializer
+
+## 49.9.1
+
+### Patch Changes
+
+- [patch][8b07822f8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b07822f8a):
+
+  Add entry-point for text-serializer
+
+## 49.9.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 49.8.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 49.8.2
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
 ## 49.8.1
 
 ### Patch Changes

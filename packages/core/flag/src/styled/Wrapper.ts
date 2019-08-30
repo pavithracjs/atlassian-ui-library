@@ -49,6 +49,10 @@ const Wrapper = styled.div`
   transition: transform ${flagAnimationDuration} ease-in-out;
   width: ${flagWidth}px;
 
+  @media (max-width: 560px) {
+    width: 100vw;
+  }
+
   &:first-child {
     animation: ${getAnimation};
   }

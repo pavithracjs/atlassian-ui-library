@@ -58,7 +58,7 @@ describe('ShareDialogWithTrigger', () => {
   }
 
   beforeEach(() => {
-    mockCreateAnalyticsEvent = jest.fn().mockReturnValue({
+    mockCreateAnalyticsEvent = jest.fn<{}>().mockReturnValue({
       fire: jest.fn(),
     });
     mockOnShareSubmit.mockReset();
@@ -459,7 +459,7 @@ describe('ShareDialogWithTrigger', () => {
 
   describe('handleShareSubmit', () => {
     it('should call onSubmit props with an object of users and comment as an argument', () => {
-      const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const mockOnSubmit = jest.fn<{}>().mockResolvedValue({});
       const values: ShareData = {
         users: [
           { type: 'user', id: 'id', name: 'name' },
@@ -489,7 +489,7 @@ describe('ShareDialogWithTrigger', () => {
     });
 
     it('should close inline dialog and reset the state and call props.showFlags when onSubmit resolves a value', async () => {
-      const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const mockOnSubmit = jest.fn<{}>().mockResolvedValue({});
       const mockConfig: ConfigResponse = {
         allowComment: false,
         allowedDomains: [],
