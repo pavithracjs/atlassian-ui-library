@@ -1,24 +1,27 @@
 /** @jsx jsx */
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import { B50 } from '@atlaskit/theme/colors';
-import { jsx, SerializedStyles } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
-import { IconButton } from '../IconButton';
+import { ThemedIconButton } from '../IconButton';
 import { TriggerManager } from '../TriggerManager';
 
-import { SearchInput, SearchWrapper, IconWrapper } from './styled';
-import { searchIconStyles, searchInputStyles } from './styles';
+import {
+  searchInputContainerStyles,
+  searchIconStyles,
+  searchInputStyles,
+  searchInputIconStyles,
+} from './styles';
 import { SearchProps } from './types';
 
 type SearchComponentProps = {
-  css: SerializedStyles;
   onClick: SearchProps['onClick'];
   text: SearchProps['text'];
 };
 
 const SearchComponent = (props: SearchComponentProps) => {
-  const { onClick, text, ...searchProps } = props;
+  const { onClick, text } = props;
 
   const onChange = (...args: any[]) => {
     // @ts-ignore
@@ -26,17 +29,18 @@ const SearchComponent = (props: SearchComponentProps) => {
   };
 
   return (
-    <SearchWrapper {...searchProps}>
-      <IconWrapper>
+    <div css={searchInputContainerStyles}>
+      <div css={searchInputIconStyles}>
         <SearchIcon label={text} primaryColor={B50} />
-      </IconWrapper>
-      <SearchInput
+      </div>
+      <input
+        css={searchInputStyles}
         placeholder={text}
         onChange={onChange}
         onClick={onClick}
         value=""
       />
-    </SearchWrapper>
+    </div>
   );
 };
 
@@ -47,12 +51,8 @@ export const Search = (props: SearchProps) => {
     <TriggerManager {...triggerManagerProps}>
       {({ onTriggerClick }) => (
         <Fragment>
-          <SearchComponent
-            css={searchInputStyles}
-            onClick={onTriggerClick}
-            text={text}
-          />
-          <IconButton
+          <SearchComponent onClick={onTriggerClick} text={text} />
+          <ThemedIconButton
             css={searchIconStyles}
             icon={<SearchIcon label={tooltip} />}
             onClick={onTriggerClick}

@@ -1,4 +1,3 @@
-import { B400, B50 } from '@atlaskit/theme/colors';
 import {
   fontSizeSmall,
   gridSize as gridSizeFn,
@@ -6,6 +5,8 @@ import {
 import css from '@emotion/css';
 import styled from '@emotion/styled';
 import { globalSkeletonStyles } from '../../common/styles';
+import { AppNavigationTheme } from '../../theme';
+import { ThemeProps, ThemeTokens } from '@atlaskit/button/types';
 
 const gridSize = gridSizeFn();
 
@@ -23,16 +24,18 @@ const padding = {
 };
 
 // TODO marginRight
-export const primaryButtonTheme: any = (
-  currentTheme: Function,
-  themeProps: { appearance: string },
+export const getPrimaryButtonTheme = ({
+  mode: { primary },
+}: AppNavigationTheme) => (
+  current: (props: ThemeProps) => ThemeTokens,
+  props: ThemeProps,
 ) => {
-  const { buttonStyles, spinnerStyles } = currentTheme(themeProps);
+  const { buttonStyles, spinnerStyles } = current(props);
   return {
     buttonStyles: {
       ...buttonStyles,
       backgroundColor: 'transparent',
-      color: B50,
+      color: primary.text.default,
       display: 'inline-flex',
       fontSize: fontSizeSmall(),
       fontWeight: 'bold',
@@ -41,7 +44,10 @@ export const primaryButtonTheme: any = (
       padding: padding.all,
       textTransform: 'uppercase',
       ':hover, :focus': {
-        backgroundColor: B400,
+        backgroundColor: primary.background.hint,
+      },
+      ':active': {
+        backgroundColor: primary.background.interact,
       },
       ':hover .chevron, :focus .chevron': {
         visibility: 'visible',

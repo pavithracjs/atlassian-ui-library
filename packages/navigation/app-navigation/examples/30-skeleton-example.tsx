@@ -60,4 +60,4 @@ const SkeletonExample = () => {
   );
 };
 
-export default () => <SkeletonExample />;
+export default SkeletonExample;

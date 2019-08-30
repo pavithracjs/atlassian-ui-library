@@ -3,20 +3,19 @@ import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
 import {
-  SearchInputSkeleton,
-  SearchWrapper,
-  IconWrapper,
+  searchInputContainerStyles,
+  searchInputIconStyles,
+  searchInputSkeletonStyles,
   SearchIconSkeleton,
-} from './styled';
-import { searchInputStyles } from './styles';
+} from './styles';
 
 export const SearchSkeleton = () => {
   return (
     <Fragment>
-      <SearchWrapper css={searchInputStyles}>
-        <IconWrapper />
-        <SearchInputSkeleton />
-      </SearchWrapper>
+      <div css={searchInputContainerStyles}>
+        <div css={searchInputIconStyles} />
+        <div css={searchInputSkeletonStyles} />
+      </div>
       <SearchIconSkeleton />
     </Fragment>
   );

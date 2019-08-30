@@ -17,7 +17,6 @@ export const profileButtonTheme: any = (
       color: B50,
       cursor: 'pointer',
       display: 'inline-flex',
-      flexShrink: 0,
       marginLeft: gridSize / 2,
       ':hover, :focus': {
         backgroundColor: 'none',

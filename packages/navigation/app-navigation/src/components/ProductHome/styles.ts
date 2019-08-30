@@ -10,12 +10,12 @@ export const containerStyles = css`
   align-items: center;
   display: flex;
 
-  @media (min-width: ${PRODUCT_HOME_BREAKPOINT}px) {
-    margin-right: ${gridSize * 2}px;
+  @media (max-width: ${PRODUCT_HOME_BREAKPOINT - 1}px) {
+    margin-right: ${gridSize}px;
   }
 
-  @media (min-width: ${PRODUCT_HOME_BREAKPOINT - 1}px) {
-    margin-right: ${gridSize * 3}px;
+  @media (min-width: ${PRODUCT_HOME_BREAKPOINT}px) {
+    margin-right: ${gridSize * 2}px;
   }
 `;
 
