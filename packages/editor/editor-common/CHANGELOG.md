@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.21.0
+
+### Minor Changes
+
+- [minor][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
 ## 39.20.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.9.3
+
+### Patch Changes
+
+- [patch][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
 ## 49.9.2
 
 ### Patch Changes
