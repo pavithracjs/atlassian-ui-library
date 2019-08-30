@@ -149,7 +149,7 @@ export interface ExampleProps {
   onTitleChange?: (title: string) => void;
 }
 
-class ExampleEditorComponent extends React.Component<
+export class ExampleEditorComponent extends React.Component<
   EditorProps & ExampleProps,
   State
 > {
