@@ -4,7 +4,7 @@ import { colors, elevation, gridSize } from '@atlaskit/theme';
 import { ComponentType } from 'react';
 
 interface IconBaseProps {
-  bgColor: string;
+  bgColor?: string;
   iconElevation?: string;
 }
 
@@ -39,7 +39,7 @@ interface AkLogoProps {
 }
 
 interface IconBackgroundTheme {
-  backgroundColor: string;
+  backgroundColor?: string;
 }
 
 interface IconTheme {
