@@ -51,3 +51,5 @@ export const AppNavigation = (props: AppNavigationProps) => {
 AppNavigation.defaultProps = {
   primaryItems: [],
 };
+
+export { AppNavigationSkeleton } from './skeleton';
