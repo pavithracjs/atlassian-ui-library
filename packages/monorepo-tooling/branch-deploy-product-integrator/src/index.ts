@@ -14,7 +14,6 @@ const HELP_MSG = `
 
    ${chalk.green('Options')}
      ${chalk.yellow('--branchPrefix')} Prefix for the generated branch [default=atlaskit-branch-deploy/]
-     ${chalk.yellow('--workingPath')}  Working path of the product repo installing a branch in [default=./]
      ${chalk.yellow('--atlaskitCommitHash')} Atlaskit commit hash of the branch deploy that needs to be installed
      ${chalk.yellow('--atlaskitBranchName')} The name of the Atlaskit branch being installed
      ${chalk.yellow('--packageEngine')} The package manager to use, currently only tested with Bolt and yarn [default=yarn]
@@ -27,10 +26,6 @@ export async function run() {
       branchPrefix: {
         type: 'string',
         default: 'atlaskit-branch-deploy-',
-      },
-      workingPath: {
-        type: 'string',
-        default: './',
       },
       atlaskitBranchName: {
         type: 'string',
@@ -49,7 +44,6 @@ export async function run() {
     },
   });
   const {
-    workingPath,
     atlaskitBranchName,
     atlaskitCommitHash,
     branchPrefix,
@@ -57,7 +51,7 @@ export async function run() {
     packages,
   } = cli.flags;
 
-  const git = simpleGit(workingPath);
+  const git = simpleGit('./');
   const branchName = `${branchPrefix}${atlaskitBranchName}`;
 
   const remote = await git.listRemote(['--get-url']);
