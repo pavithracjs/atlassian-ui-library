@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/editor-common", "type": "minor" },
+    { "name": "@atlaskit/renderer", "type": "patch" }
+  ],
+  "dependents": []
+}
