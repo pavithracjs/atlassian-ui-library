@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.14.5
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
 ## 0.14.4
 
 ### Patch Changes

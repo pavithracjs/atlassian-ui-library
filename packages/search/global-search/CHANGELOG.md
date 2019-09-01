@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.4.2
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
 ## 11.4.1
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-Add missing peerDependency in package.json

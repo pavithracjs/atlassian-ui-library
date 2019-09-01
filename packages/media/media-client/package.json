@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-client",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Media API Web Client Library",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
