@@ -47,6 +47,7 @@
     "prosemirror-view": "^1.9.12"
   },
   "peerDependencies": {
+    "@atlaskit/media-core": "^30.0.13",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
@@ -55,8 +56,9 @@
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/editor-test-helpers": "^9.11.11",
     "@atlaskit/form": "^6.1.12",
-    "@atlaskit/media-core": "^30.0.13",
+    "@atlaskit/icon": "^19.0.6",
     "@atlaskit/media-client": "^2.0.5",
+    "@atlaskit/media-core": "^30.0.13",
     "@atlaskit/media-test-helpers": "^25.0.4",
     "@atlaskit/multi-entry-tools": "^0.0.3",
     "@atlaskit/select": "^10.1.0",
@@ -65,6 +67,7 @@
     "@atlaskit/webdriver-runner": "^0.1.4",
     "ajv": "^4.11.3",
     "babel-loader": "^8.0.2",
+    "chai": "^4.1.2",
     "copy-pkg": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash.constant": "^3.0.0",
@@ -73,8 +76,10 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "rxjs": "^5.5.0",
+    "sinon": "^2.2.0",
     "styled-components": "^3.2.6",
     "ts-loader": "^4.4.2",
+    "uuid": "^3.1.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0"
   }

@@ -42,7 +42,8 @@
     "@atlaskit/json-schema-generator": "^2.1.4",
     "ajv": "^4.11.3",
     "axios": "^0.18.0",
-    "json-schema-diff-validator": "^0.3.0"
+    "json-schema-diff-validator": "^0.3.0",
+    "prosemirror-state": "^1.2.2"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2"
 }

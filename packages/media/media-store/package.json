@@ -32,11 +32,12 @@
     "@atlaskit/media-core": "^30.0.13",
     "@atlaskit/media-test-helpers": "^25.0.4",
     "@atlaskit/ssr": "^0.1.1",
-    "@types/query-string": "^4.3.1",
     "@types/fetch-mock": "^6.0.3",
+    "@types/query-string": "^4.3.1",
     "fetch-mock": "^7.3.3",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^30.0.13",

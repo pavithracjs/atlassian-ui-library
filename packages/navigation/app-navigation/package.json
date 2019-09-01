@@ -25,10 +25,13 @@
     "@atlaskit/icon": "^19.0.4",
     "@atlaskit/notification-indicator": "^7.0.0",
     "@atlaskit/notification-log-client": "^4.0.4",
+    "@atlaskit/spinner": "^12.0.9",
     "@atlaskit/theme": "^9.0.1",
     "@atlaskit/tooltip": "^15.0.12",
     "@atlaskit/width-detector": "^2.0.0",
     "@emotion/core": "^10.0.9",
+    "@emotion/css": "^10.0.14",
+    "@emotion/styled": "^10.0.7",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
