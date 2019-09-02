@@ -170,8 +170,8 @@ describe('MediaAnalyticsListener', () => {
     );
   });
 
-  it('should megre event payload with context hierarchy having same package name', () => {
-    const topContext = {
+  it('should merge event payload with context hierarchy having the same attributes.packageName', () => {
+    const topContextData = {
       val1: 'overriden by payload',
       val2: 'overriden by bottom context',
       val4: 'topContext val4',
@@ -181,8 +181,9 @@ describe('MediaAnalyticsListener', () => {
         attr4: 'topContext attr4',
         packageName: '@anAwesome/Package',
       },
+      tags: ['top-tag-1', 'top-tag-2'],
     };
-    const middleContext = {
+    const middleContextData = {
       val7: 'nope',
       val8: 'nope',
       val9: 'nope',
@@ -192,8 +193,9 @@ describe('MediaAnalyticsListener', () => {
         attr9: 'nope',
         packageName: '@different/Package',
       },
+      tags: ['middle-tag-1', 'middle-tag-2'],
     };
-    const bottomContext = {
+    const bottomContextData = {
       val2: 'bottomContext val2',
       val3: 'overriden by payload',
       attributes: {
@@ -201,9 +203,10 @@ describe('MediaAnalyticsListener', () => {
         attr3: 'overriden by payload',
         packageName: '@anAwesome/Package',
       },
+      tags: ['bottom-tag-1'],
     };
 
-    const context = [topContext, middleContext, bottomContext];
+    const context = [topContextData, middleContextData, bottomContextData];
 
     const eventPayload: GasPayload = {
       eventType: UI_EVENT_TYPE,
@@ -215,6 +218,7 @@ describe('MediaAnalyticsListener', () => {
         attr3: 'payload attr3',
         packageName: '@anAwesome/Package',
       },
+      tags: ['payload-tag-1', 'payload-tag-2'],
     };
 
     const expectedMergedPayloadWithContexts = {
@@ -231,7 +235,14 @@ describe('MediaAnalyticsListener', () => {
         packageName: '@anAwesome/Package',
       },
       source: 'unknown',
-      tags: ['media'],
+      tags: [
+        'payload-tag-1',
+        'payload-tag-2',
+        'bottom-tag-1',
+        'top-tag-1',
+        'top-tag-2',
+        'media',
+      ],
     };
     fireAndVerify(eventPayload, expectedMergedPayloadWithContexts, context);
   });

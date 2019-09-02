@@ -8,21 +8,10 @@ import { DEFAULT_SOURCE, GasPayload } from '@atlaskit/analytics-gas-types';
 import { sendEvent } from '../analytics-web-client-wrapper';
 import { ListenerProps, FabricChannel } from '../types';
 import { mergeEventData } from './mergeData';
-import { getPackageInfo } from '../atlaskit/extract-data-from-event';
+import { getPackageHierarchy } from '../atlaskit/extract-data-from-event';
 
-function getPackageHierarchy(event: UIAnalyticsEvent): string | void {
-  const packages = getPackageInfo(event);
-  return (
-    packages
-      .map(p =>
-        p.packageVersion
-          ? `${p.packageName}@${p.packageVersion}`
-          : p.packageName,
-      )
-      .join(',') || undefined
-  );
-}
-
+// This function will attach a packageHierarchy value inside of 'attributes' attribute payload.
+// It won't attach it if getPackageHierarchy returns undefined (that's in the case when no context data provided a package name/version)
 function attachPackageHierarchy(
   event: UIAnalyticsEvent,
   attributes: { [key: string]: any },
@@ -44,18 +33,18 @@ export default class MediaAnalyticsListener extends React.Component<
   listenerHandler: UIAnalyticsEventHandler = event => {
     const { client, logger } = this.props;
     logger.debug('Received Media event', event);
-    const eventMergedPayload = mergeEventData(event);
-    if (eventMergedPayload) {
+    const mergedPayloadWithContext = mergeEventData(event);
+    if (mergedPayloadWithContext) {
       const payloadAttributes = attachPackageHierarchy(
         event,
-        eventMergedPayload.attributes,
+        mergedPayloadWithContext.attributes,
       );
       const payload = {
         source: DEFAULT_SOURCE,
-        ...eventMergedPayload,
+        ...mergedPayloadWithContext,
         ...payloadAttributes,
-        tags: eventMergedPayload.tags
-          ? Array.from(new Set([...eventMergedPayload.tags, 'media']))
+        tags: mergedPayloadWithContext.tags
+          ? Array.from(new Set([...mergedPayloadWithContext.tags, 'media']))
           : ['media'],
       } as GasPayload;
       sendEvent(logger, client)(payload);
