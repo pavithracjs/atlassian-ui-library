@@ -55,7 +55,7 @@ export default class ProfileCardResourced extends React.PureComponent<
     }
 
     if (hasError !== prevState.hasError && hasError) {
-      this.callAnalytics(AnalyticsName.PROFILE_CARD_RESOURCE_ERROR);
+      this.callAnalytics(AnalyticsName.PROFILE_CARD_RESOURCED_ERROR);
     }
   }
 

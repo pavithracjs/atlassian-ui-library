@@ -76,7 +76,7 @@ describe('ProfileCardResourced', () => {
         hasError: true,
       });
       expect(defaultProps.analytics).toHaveBeenCalledWith(
-        AnalyticsName.PROFILE_CARD_RESOURCE_ERROR,
+        AnalyticsName.PROFILE_CARD_RESOURCED_ERROR,
         {},
       );
     });
