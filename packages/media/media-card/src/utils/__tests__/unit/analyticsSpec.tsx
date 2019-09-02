@@ -42,11 +42,10 @@ const mediaPayload: MediaCardAnalyticsPayolad = {
 };
 
 describe('Media Analytics', () => {
-  // For some unknown reason this test does not work. Although, the function does work in the actual code
-  // The problem might be in the click event simulation
-  // TODO: fix this test
-  it.skip('Should provide an analytics event creator for Media Card', () => {
-    const SomeComponent = () => <span>Hi!</span>;
+  it('Should provide an analytics event creator for Media Card', () => {
+    const SomeComponent = ({ onClick }: any) => (
+      <span onClick={onClick}>Hi!</span>
+    );
     const SomeWrappedComponent = withAnalyticsEvents({
       onClick: createAndFireMediaEvent(somePayload),
     })(SomeComponent);

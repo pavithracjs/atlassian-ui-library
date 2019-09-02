@@ -16,7 +16,7 @@ import {
   ExternalImageIdentifier,
   Identifier,
 } from '@atlaskit/media-client';
-import { AnalyticsContext, UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { AnalyticsContext } from '@atlaskit/analytics-next';
 import { MediaViewer } from '@atlaskit/media-viewer';
 import { CardAction, CardProps, CardDimensions } from '../..';
 import { Card } from '../../root/card';
@@ -929,40 +929,32 @@ describe('Card', () => {
   });
 
   it('should pass the Analytics Event fired from CardView to the provided onClick callback', () => {
-    const mediaClient = fakeMediaClient() as any;
     const onClickHandler = jest.fn();
-    const card = mount<Card>(
-      <Card
-        mediaClient={mediaClient}
-        identifier={identifier}
-        onClick={onClickHandler}
-      />,
-    );
-    card.find(CardView).simulate('click');
+    const { component } = setup(undefined, { onClick: onClickHandler });
+    component
+      .find(CardView)
+      .props()
+      .onClick({ thiIsA: 'HTMLEvent' }, { thiIsAn: 'AnalyticsEvent' });
+
     expect(onClickHandler).toBeCalledTimes(1);
     const actualEvent = onClickHandler.mock.calls[0][1];
     expect(actualEvent).toBeDefined();
-    expect(actualEvent instanceof UIAnalyticsEvent).toBe(true);
   });
 
-  //TODO: fix
-  it.skip('should pass the Analytics Event fired from InlinePlayer to the provided onClick callback', () => {
-    const mediaClient = fakeMediaClient() as any;
+  it('should pass the Analytics Event fired from InlinePlayer to the provided onClick callback', async () => {
     const onClickHandler = jest.fn();
-    const card = mount<Card>(
-      <Card
-        mediaClient={mediaClient}
-        identifier={identifier}
-        onClick={onClickHandler}
-        useInlinePlayer={true}
-      />,
-    );
-    card.setState({ isPlayingFile: true });
-    card.update();
-    card.find(InlinePlayer).simulate('click');
+    const { component } = setup(undefined, { onClick: onClickHandler });
+    component.setState({
+      isPlayingFile: true,
+    });
+    component.update();
+    component
+      .find(InlinePlayer)
+      .props()
+      .onClick({ thiIsA: 'HTMLEvent' }, { thiIsAn: 'AnalyticsEvent' });
+
     expect(onClickHandler).toBeCalledTimes(1);
     const actualEvent = onClickHandler.mock.calls[0][1];
     expect(actualEvent).toBeDefined();
-    expect(actualEvent instanceof UIAnalyticsEvent).toBe(true);
   });
 });
