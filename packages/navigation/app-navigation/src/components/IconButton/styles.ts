@@ -7,8 +7,6 @@ import { IconButtonSkeletonProps } from './types';
 
 const gridSize = gridSizeFn();
 
-const buttonHeight = gridSize * 4;
-
 const margin = {
   left: gridSize / 2,
 };
@@ -27,19 +25,20 @@ export const getIconButtonTheme = ({
   return {
     buttonStyles: {
       ...buttonStyles,
-      backgroundColor: 'transparent',
-      color: primary.text.default,
-      display: 'inline-flex',
-      height: buttonHeight,
+      display: 'flex',
+      height: 'auto',
       marginLeft: margin.left,
       padding: padding.all,
-      ':hover, :focus': {
-        backgroundColor: primary.background.static,
-      },
+      ...primary.default,
+      ':hover': primary.hover,
+      ':focus': primary.focus,
+      ':active': primary.active,
     },
     spinnerStyles,
   };
 };
+
+const buttonHeight = gridSize * 4;
 
 export const SecondaryButtonSkeleton = styled.div<IconButtonSkeletonProps>`
   width: ${({ dimension }) =>

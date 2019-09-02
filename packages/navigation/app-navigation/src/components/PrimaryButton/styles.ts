@@ -34,8 +34,6 @@ export const getPrimaryButtonTheme = ({
   return {
     buttonStyles: {
       ...buttonStyles,
-      backgroundColor: 'transparent',
-      color: primary.text.default,
       display: 'inline-flex',
       fontSize: fontSizeSmall(),
       fontWeight: 'bold',
@@ -43,12 +41,10 @@ export const getPrimaryButtonTheme = ({
       marginLeft: margin.left,
       padding: padding.all,
       textTransform: 'uppercase',
-      ':hover, :focus': {
-        backgroundColor: primary.background.hint,
-      },
-      ':active': {
-        backgroundColor: primary.background.interact,
-      },
+      ...primary.default,
+      ':hover': primary.hover,
+      ':focus': primary.focus,
+      ':active': primary.active,
       ':hover .chevron, :focus .chevron': {
         visibility: 'visible',
       },

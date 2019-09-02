@@ -22,7 +22,7 @@ export const Help = (props: HelpProps) => {
           icon={
             <QuestionCircleIcon
               label={tooltip}
-              secondaryColor={primary.background.default}
+              secondaryColor={primary.default.backgroundColor}
             />
           }
           onClick={onTriggerClick}

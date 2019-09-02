@@ -1,13 +1,25 @@
-import { B500, DN10, N0, N20 } from '@atlaskit/theme/colors';
+import { B200, B500, DN10, N0, N20 } from '@atlaskit/theme/colors';
 
 import { generateMode } from './modeGenerator';
 
 export const light = generateMode({
-  text: N0,
-  background: B500,
+  primary: {
+    backgroundColor: B500,
+    color: N0,
+  },
+  secondary: {
+    backgroundColor: B200,
+    color: N0,
+  },
 });
 
 export const dark = generateMode({
-  text: N20,
-  background: DN10,
+  primary: {
+    backgroundColor: DN10,
+    color: N20,
+  },
+  secondary: {
+    backgroundColor: N20,
+    color: DN10,
+  },
 });

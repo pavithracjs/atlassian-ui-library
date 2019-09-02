@@ -4,7 +4,6 @@ import { jsx } from '@emotion/core';
 
 import { ThemedIconButton } from '../IconButton';
 import { TriggerManager } from '../TriggerManager';
-import { profileButtonTheme } from './styles';
 import { ProfileProps } from './types';
 
 export const Profile = (props: ProfileProps) => {
@@ -24,7 +23,6 @@ export const Profile = (props: ProfileProps) => {
         <ThemedIconButton
           icon={avatar}
           onClick={onTriggerClick}
-          // theme={profileButtonTheme}
           tooltip={tooltip}
         />
       )}

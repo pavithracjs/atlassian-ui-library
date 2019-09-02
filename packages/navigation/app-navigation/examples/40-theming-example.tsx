@@ -13,12 +13,55 @@ import { DefaultProductHome } from './shared/ProductHome';
 import { DefaultProfile } from './shared/Profile';
 import { DefaultSearch } from './shared/Search';
 import { DefaultSettings } from './shared/Settings';
-import { AppNavigation, darkTheme, lightTheme } from '../src';
+import { AppNavigation, darkTheme, generateMode, lightTheme } from '../src';
+import { Colors } from '../src/theme/modeGenerator';
 
 mockEndpoints('jira');
 mockBuiltInNotifications();
 
-const themes = [lightTheme, darkTheme];
+const generateTheme = (primary: Colors) => ({
+  mode: generateMode({ primary }),
+});
+
+const customThemes = [
+  // Red
+  generateTheme({
+    backgroundColor: '#ff3e15',
+    color: '#fff',
+  }),
+  // Orange
+  generateTheme({
+    backgroundColor: '#ff8c19',
+    color: '#fff',
+  }),
+  // Yellow
+  generateTheme({
+    backgroundColor: '#ffff00',
+    color: '#000',
+  }),
+  // Green
+  generateTheme({
+    backgroundColor: '#0fdc60',
+    color: '#fff',
+  }),
+  // Blue
+  generateTheme({
+    backgroundColor: '#3babfd',
+    color: '#fff',
+  }),
+  // Violet
+  generateTheme({
+    backgroundColor: '#4f1c82',
+    color: '#fff',
+  }),
+  // Pink
+  generateTheme({
+    backgroundColor: '#fec8d8',
+    color: '#000',
+  }),
+];
+
+const themes = [lightTheme, darkTheme, ...customThemes];
 
 const ThemingExample = () => (
   <div>

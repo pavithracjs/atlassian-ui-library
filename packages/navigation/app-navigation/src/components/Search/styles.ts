@@ -30,17 +30,16 @@ export const searchInputStyles = ({
   mode: { primary },
 }: AppNavigationTheme) => ({
   width: '220px',
-  background: primary.background.hint,
   height: `${gridSize * 4}px`,
   outline: 'none',
   borderRadius: `${gridSize * 2}px`,
   border: 'none',
   boxSizing: 'border-box',
-  color: primary.text.default,
   padding: `0 ${gridSize}px 0 40px`,
   fontSize: `${fontSize()}px`,
+  ...primary.subtle,
   '::placeholder': {
-    color: primary.text.default,
+    color: 'inherit',
   },
 });
 

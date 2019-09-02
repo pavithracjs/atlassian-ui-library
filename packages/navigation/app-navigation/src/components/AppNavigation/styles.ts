@@ -12,9 +12,7 @@ export const styles = {
     } = theme;
     return {
       alignItems: 'center',
-      backgroundColor: primary.background.default,
       boxSizing: 'border-box' as const,
-      color: primary.text.default,
       display: 'flex',
       flexShrink: 0,
       justifyContent: 'space-between',
@@ -22,6 +20,7 @@ export const styles = {
       paddingRight: gridSize * 2,
       height: HORIZONTAL_GLOBAL_NAV_HEIGHT,
       width: '100vw',
+      ...primary.default,
     };
   },
   left: {

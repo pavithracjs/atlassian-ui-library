@@ -21,7 +21,7 @@ export const createButtonStyles = actionSectionDesktopStyles;
 export const createIconStyles = actionSectionMobileStyles;
 
 export const getCreateButtonTheme = ({
-  mode: { primary },
+  mode: { secondary },
 }: AppNavigationTheme) => (
   current: (props: ThemeProps) => ThemeTokens,
   props: ThemeProps,
@@ -30,18 +30,14 @@ export const getCreateButtonTheme = ({
   return {
     buttonStyles: {
       ...buttonStyles,
-      backgroundColor: primary.background.hint,
-      color: primary.text.default,
       fontSize: fontSizeSmall(),
       fontWeight: 'bold',
       height: buttonHeight,
       textTransform: 'uppercase',
-      ':hover, :focus': {
-        backgroundColor: primary.background.interact,
-      },
-      ':active': {
-        backgroundColor: primary.background.static,
-      },
+      ...secondary.default,
+      ':hover': secondary.hover,
+      ':focus': secondary.focus,
+      ':active': secondary.active,
     },
     spinnerStyles,
   };

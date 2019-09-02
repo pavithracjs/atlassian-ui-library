@@ -1,13 +1,14 @@
 import chromatism, { ColourModes } from 'chromatism';
 
-import { AppNavigationMode, ContextColors } from './types';
+import { Mode, ModeContext } from './types';
 
 type Modifier = Omit<ColourModes.HSL, 'h'>;
 
 type Modifiers = {
-  hint: Modifier;
-  interact: Modifier;
-  static: Modifier;
+  active: Modifier;
+  focus: Modifier;
+  hover: Modifier;
+  subtle: Modifier;
 };
 
 type ColorMatrix = Modifiers & {
@@ -18,84 +19,107 @@ const colorMatrix: ColorMatrix[] = [
   {
     // Dark
     when: ({ l }) => l <= 20,
-    hint: { s: 0, l: 16 },
-    interact: { s: -4, l: 8 },
-    static: { s: -8, l: 12 },
+    active: { s: -4, l: 8 },
+    focus: { s: -8, l: 12 },
+    hover: { s: 0, l: 16 },
+    subtle: { s: -8, l: 12 },
   },
   {
-    // bright and saturated
+    // Bright and saturated
     when: ({ s, l }) => s > 65 && l > 30,
-    hint: { s: -16, l: 12 },
-    interact: { s: -16, l: 8 },
-    static: { s: 0, l: -8 },
+    active: { s: -16, l: 8 },
+    focus: { s: 0, l: -8 },
+    hover: { s: -16, l: 12 },
+    subtle: { s: 0, l: -8 },
   },
   {
-    // bright and dull
+    // Bright and dull
     when: ({ s, l }) => s <= 20 && l > 90,
-    hint: { s: 0, l: -2 },
-    interact: { s: 0, l: -4 },
-    static: { s: 0, l: -6 },
+    active: { s: 0, l: -4 },
+    focus: { s: 0, l: -6 },
+    hover: { s: 0, l: -2 },
+    subtle: { s: 0, l: -6 },
   },
   {
-    // pastel
+    // Pastel
     when: ({ s, l }) => s > 20 && s < 50 && l > 50,
-    hint: { s: 24, l: 2 },
-    interact: { s: 8, l: -4 },
-    static: { s: 8, l: -12 },
+    active: { s: 8, l: -4 },
+    focus: { s: 8, l: -12 },
+    hover: { s: 24, l: 2 },
+    subtle: { s: 8, l: -12 },
   },
   {
-    // dull
+    // Dull
     when: ({ s, l }) => s <= 20 && l <= 90,
-    hint: { s: 0, l: 4 },
-    interact: { s: 0, l: -4 },
-    static: { s: 0, l: -8 },
+    active: { s: 0, l: -4 },
+    focus: { s: 0, l: -8 },
+    hover: { s: 0, l: 4 },
+    subtle: { s: 0, l: -8 },
   },
 ];
 
-const getStatesBackground = (parts: ColourModes.HSL, modifiers: Modifiers) => {
-  const convert = (modifier: Modifier) =>
-    chromatism.convert({
-      ...parts,
-      s: parts.s + modifier.s,
-      l: parts.l + modifier.l,
-    }).hex;
+const defaultModifiers: Modifiers = {
+  active: { s: 0, l: 4 },
+  focus: { s: 8, l: -6 },
+  hover: { s: 0, l: 8 },
+  subtle: { s: 8, l: -6 },
+};
+
+const getColor = (baseColor: ColourModes.HSL, modifier: Modifier) =>
+  chromatism.convert({
+    ...baseColor,
+    s: baseColor.s + modifier.s,
+    l: baseColor.l + modifier.l,
+  }).hex;
+
+const getModifierStates = ({ backgroundColor, color }: Colors) => {
+  const baseBackgroundColor = chromatism.convert(backgroundColor).hsl;
+  const baseColor = chromatism.convert(color).hsl;
+
+  const getState = (
+    backgroundColorModifier: Modifier,
+    colorModifier: Modifier,
+  ) => ({
+    backgroundColor: getColor(baseBackgroundColor, backgroundColorModifier),
+    color: getColor(baseColor, colorModifier),
+  });
+
+  const backgroundColorModifiers =
+    colorMatrix.find(cm => cm.when(baseBackgroundColor)) || defaultModifiers;
+  const colorModifiers =
+    colorMatrix.find(cm => cm.when(baseColor)) || defaultModifiers;
 
   return {
-    hint: convert(modifiers.hint),
-    interact: convert(modifiers.interact),
-    static: convert(modifiers.static),
+    active: getState(backgroundColorModifiers.active, colorModifiers.active),
+    focus: getState(backgroundColorModifiers.focus, colorModifiers.focus),
+    hover: getState(backgroundColorModifiers.hover, colorModifiers.hover),
+    subtle: getState(backgroundColorModifiers.subtle, colorModifiers.subtle),
   };
 };
 
 export type Colors = {
-  background: string;
-  text: string;
+  backgroundColor: string;
+  color: string;
 };
 
-const getContextColors = ({ background, text }: Colors): ContextColors => {
-  const bgParts = chromatism.convert(background).hsl;
-  const vs = bgParts.l < 30 && bgParts.s < 50 ? -1 : 1;
-  const textSubtle = chromatism.brightness(
-    1 + vs * 6,
-    chromatism.fade(4, background, text).hex[2],
-  ).hex;
-  const modifiers = colorMatrix.find(cm => cm.when(bgParts)) || {
-    hint: { s: 0, l: 8 },
-    interact: { s: 0, l: 4 },
-    static: { s: 8, l: -6 },
-  };
-
+const generateModeContext = (colors: Colors): ModeContext => {
   return {
-    background: {
-      default: background,
-      ...getStatesBackground(bgParts, modifiers),
-    },
-    text: { default: text, subtle: textSubtle },
+    default: colors,
+    ...getModifierStates(colors),
   };
 };
 
-export const generateMode = (colors: Colors): AppNavigationMode => {
+export type GenerateModeArgs = {
+  primary: Colors;
+  secondary?: Colors;
+};
+
+export const generateMode = (args: GenerateModeArgs): Mode => {
+  const primary = generateModeContext(args.primary);
   return {
-    primary: getContextColors(colors),
+    primary,
+    secondary: args.secondary
+      ? generateModeContext(args.secondary)
+      : generateModeContext(primary.hover),
   };
 };

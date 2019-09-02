@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import SearchIcon from '@atlaskit/icon/glyph/search';
-import { B50 } from '@atlaskit/theme/colors';
 import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
@@ -31,7 +30,7 @@ const SearchComponent = (props: SearchComponentProps) => {
   return (
     <div css={searchInputContainerStyles}>
       <div css={searchInputIconStyles}>
-        <SearchIcon label={text} primaryColor={B50} />
+        <SearchIcon label={text} />
       </div>
       <input
         css={searchInputStyles}
