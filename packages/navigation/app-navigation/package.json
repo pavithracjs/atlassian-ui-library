@@ -34,6 +34,7 @@
     "@emotion/css": "^10.0.14",
     "@emotion/styled": "^10.0.7",
     "chromatism": "^2.6.0",
+    "emotion-theming": "^10.0.7",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
