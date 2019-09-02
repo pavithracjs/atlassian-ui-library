@@ -655,6 +655,7 @@ describe('importFiles middleware', () => {
               'id-1',
               {
                 collection: RECENTS_COLLECTION,
+                mode: 'fit',
               },
               undefined,
               true,

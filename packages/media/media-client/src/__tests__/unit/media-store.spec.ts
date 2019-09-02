@@ -637,7 +637,7 @@ describe('MediaStore', () => {
         );
       });
 
-      it('should append width, height and mode params if fetchMaxRes', async () => {
+      it('should append width and height params if fetchMaxRes', async () => {
         fetchMock.mock(`begin:${baseUrl}/file`, {
           body: {
             data,
@@ -656,11 +656,11 @@ describe('MediaStore', () => {
           true,
         );
         expect(fetchMock.lastUrl()).toEqual(
-          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=fit&token=some-token&upscale=true&version=2&width=4096`,
+          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=full-fit&token=some-token&upscale=true&version=2&width=4096`,
         );
       });
 
-      it('should override width, height and mode params if fetchMaxRes', async () => {
+      it('should override width and height params if fetchMaxRes', async () => {
         fetchMock.mock(`begin:${baseUrl}/file`, {
           body: {
             data,
@@ -681,7 +681,7 @@ describe('MediaStore', () => {
           true,
         );
         expect(fetchMock.lastUrl()).toEqual(
-          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=fit&token=some-token&upscale=true&version=2&width=4096`,
+          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=crop&token=some-token&upscale=true&version=2&width=4096`,
         );
       });
 

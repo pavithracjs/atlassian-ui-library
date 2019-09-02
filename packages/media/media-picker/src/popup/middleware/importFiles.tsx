@@ -134,6 +134,7 @@ const getPreviewByService = (
         fileId,
         {
           collection: RECENTS_COLLECTION,
+          mode: 'fit',
         },
         undefined,
         true,

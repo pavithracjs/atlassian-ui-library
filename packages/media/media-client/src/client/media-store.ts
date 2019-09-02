@@ -42,7 +42,7 @@ const extendImageParams = (
   return {
     ...defaultImageOptions,
     ...params,
-    ...(fetchMaxRes ? { width: 4096, height: 4096, mode: 'fit' } : {}),
+    ...(fetchMaxRes ? { width: 4096, height: 4096 } : {}),
   };
 };
 

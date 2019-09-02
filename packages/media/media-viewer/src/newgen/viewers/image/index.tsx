@@ -85,6 +85,7 @@ export class ImageViewer extends BaseViewer<
             item.details.id,
             {
               collection: collectionName,
+              mode: 'fit',
             },
             controller,
             true,
