@@ -51,11 +51,24 @@ async function downloadFromS3ForLocal(downloadToFolder, branch, package) {
   const ratchetFile = `${package}-bundle-size-ratchet.json`;
   const output = `${downloadToFolder}/${ratchetFile}`;
   const rachetFileUrl = `http://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
-  const response = await axios({
-    url: rachetFileUrl,
-    method: 'get',
-  });
-  fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
+  try {
+    const response = await axios({
+      url: rachetFileUrl,
+      method: 'get',
+    });
+    fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
+  } catch (err) {
+    if (response.status === 404) {
+      console.error(
+        chalk.red(`Could not find file ${ratchetFile} on s3, it is likely that you are adding a new package to the repository.
+      Please consult the README.md in the @atlaskit/measure folder on how to add a new package on s3.`),
+      );
+      process.exit(0);
+    } else {
+      console.error(chalk.red(`${err}`));
+      process.exit(0);
+    }
+  }
 }
 
 function downloadFromS3(downloadToFolder, branch, package) {
@@ -67,10 +80,22 @@ function downloadFromS3(downloadToFolder, branch, package) {
   const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
 
   console.log('bucket', bucketPath);
-
-  npmRun.sync(
-    `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
-  );
+  try {
+    npmRun.sync(
+      `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
+    );
+  } catch (err) {
+    if (response.status === 404) {
+      console.error(
+        chalk.red(`Could not find file ${ratchetFile} on s3, it is likely that you are adding a new package to the repository.
+        Please consult the README.md in the @atlaskit/measure folder on how to add a new package on s3.`),
+      );
+      process.exit(0);
+    } else {
+      console.error(chalk.red(`${err}`));
+      process.exit(0);
+    }
+  }
 }
 
 function uploadToS3(pathToFile, branch) {

@@ -1,3 +1,7 @@
+# TODO
+# 1 Add maybe the s3 part
+# 2 Add the steps in the case if you add a new package
+
 # Atlaskit Measure Tool
 
 The atlaskit measure tool is effectively a quick script to analyze the webpack bundle for a package. This is incredibly useful both to get the bundle size at-a-glance as well as when doing deep dives into bundle size.
