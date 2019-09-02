@@ -1,5 +1,13 @@
 # @atlaskit/form
 
+## 6.2.0
+
+### Minor Changes
+
+- [minor][1f2c548ffa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f2c548ffa):
+
+  Fixes an issue where Select inside a Form would not be clearable
+
 ## 6.1.12
 
 ### Patch Changes

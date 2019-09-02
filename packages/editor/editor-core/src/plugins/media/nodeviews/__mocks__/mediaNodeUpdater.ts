@@ -27,6 +27,9 @@ export class MediaNodeUpdater {
       mockOverrides['copyNode'] || jest.fn().mockResolvedValue(undefined);
     this.updateFileAttrs = mockOverrides['updateFileAttrs'] || jest.fn();
     MediaNodeUpdater.instances.push(this);
+    this.uploadExternalMedia =
+      mockOverrides['uploadExternalMedia'] ||
+      jest.fn().mockResolvedValue(undefined);
   }
 
   static setMock(thisKey: string, value: any) {
@@ -42,4 +45,5 @@ export class MediaNodeUpdater {
   async isNodeFromDifferentCollection() {}
   async copyNode() {}
   async updateFileAttrs() {}
+  async uploadExternalMedia() {}
 }

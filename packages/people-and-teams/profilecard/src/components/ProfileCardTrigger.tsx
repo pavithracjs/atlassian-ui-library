@@ -22,7 +22,7 @@ import {
   ProfileCardClientData,
 } from '../types';
 
-class ProfilecardTrigger extends React.Component<
+class ProfilecardTrigger extends React.PureComponent<
   ProfileCardTriggerProps,
   ProfileCardTriggerState
 > {
@@ -49,14 +49,13 @@ class ProfilecardTrigger extends React.Component<
   };
 
   showProfilecard = () => {
-    if (!this.state.visible) {
-      this.clientFetchProfile();
-    }
-
     clearTimeout(this.hideTimer);
 
     this.showTimer = window.setTimeout(() => {
-      this.setState({ visible: true });
+      if (!this.state.visible) {
+        this.clientFetchProfile();
+        this.setState({ visible: true });
+      }
     }, this.showDelay);
   };
 
@@ -80,7 +79,7 @@ class ProfilecardTrigger extends React.Component<
 
   state: ProfileCardTriggerState = {
     visible: false,
-    isLoading: false,
+    isLoading: undefined,
     hasError: false,
     error: null,
     data: null,
@@ -93,7 +92,12 @@ class ProfilecardTrigger extends React.Component<
   componentDidUpdate(prevProps: ProfileCardTriggerProps) {
     const { userId, cloudId } = this.props;
     if (userId !== prevProps.userId || cloudId !== prevProps.cloudId) {
-      this.clientFetchProfile();
+      this.setState(
+        {
+          isLoading: undefined,
+        },
+        this.clientFetchProfile,
+      );
     }
   }
 
@@ -105,20 +109,29 @@ class ProfilecardTrigger extends React.Component<
 
   clientFetchProfile = () => {
     const { cloudId, userId } = this.props;
+    const { isLoading } = this.state;
 
-    this.setState({
-      isLoading: true,
-      hasError: false,
-      data: null,
-    });
+    if (isLoading === true) {
+      // don't fetch data when fetching is in process
+      return;
+    }
 
-    this.props.resourceClient
-      .getProfile(cloudId, userId)
-      .then(
-        res => this.handleClientSuccess(res),
-        err => this.handleClientError(err),
-      )
-      .catch(err => this.handleClientError(err));
+    this.setState(
+      {
+        isLoading: true,
+        hasError: false,
+        data: null,
+      },
+      () => {
+        this.props.resourceClient
+          .getProfile(cloudId, userId)
+          .then(
+            res => this.handleClientSuccess(res),
+            err => this.handleClientError(err),
+          )
+          .catch(err => this.handleClientError(err));
+      },
+    );
   };
 
   handleClientSuccess(res: ProfileCardClientData) {
@@ -191,26 +204,32 @@ class ProfilecardTrigger extends React.Component<
   }
 
   renderLoading() {
-    return this.state.visible && this.state.isLoading && this.targetRef
+    const { isLoading, visible } = this.state;
+    const isFetchingOrNotStartToFetchYet =
+      isLoading === true || isLoading === undefined;
+
+    return visible && isFetchingOrNotStartToFetchYet && this.targetRef
       ? this.renderWithPopper(<LoadingState />)
       : null;
   }
 
   renderProfileCardLoaded() {
-    return this.state.visible && !this.state.isLoading && this.targetRef
+    const { isLoading, visible } = this.state;
+
+    return visible && isLoading === false && this.targetRef
       ? this.renderWithPopper(this.renderProfileCard())
       : null;
   }
+
+  setRef = (targetRef: HTMLElement) => {
+    this.targetRef = targetRef;
+  };
 
   renderWithTrigger() {
     return (
       <>
         <CardTriggerWrapper {...this.containerListeners}>
-          <NodeResolver
-            innerRef={(targetRef: HTMLElement) => {
-              this.targetRef = targetRef;
-            }}
-          >
+          <NodeResolver innerRef={this.setRef}>
             {this.props.children}
           </NodeResolver>
         </CardTriggerWrapper>

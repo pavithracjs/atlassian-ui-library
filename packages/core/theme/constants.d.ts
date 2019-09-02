@@ -9,6 +9,7 @@ declare module '@atlaskit/theme/constants' {
   export const elevation: any;
   export const fontFamily: any;
   export const fontSize: any;
+  export const fontSizeSmall: () => number;
   export const gridSize: any;
   export const layers: Record<string, () => number>;
   export const math: any;

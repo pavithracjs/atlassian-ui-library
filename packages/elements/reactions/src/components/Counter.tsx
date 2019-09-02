@@ -73,7 +73,7 @@ export class Counter extends React.PureComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { value, highlight } = this.props;
     if (
       value !== undefined &&

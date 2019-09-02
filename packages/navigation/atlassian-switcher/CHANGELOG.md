@@ -1,5 +1,29 @@
 # @atlaskit/atlassian-switcher
 
+## 3.25.1
+
+### Patch Changes
+
+- [patch][4d8468b055](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d8468b055):
+
+  Fix UI alignment between toggle and top level item
+
+## 3.25.0
+
+### Minor Changes
+
+- [minor][03a905d43e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03a905d43e):
+
+  FIND-133: Add support for theming
+
+## 3.24.0
+
+### Minor Changes
+
+- [minor][5f681ceea7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f681ceea7):
+
+  Add a tooltip dependency and hide tooltip on mouse down event
+
 ## 3.23.2
 
 ### Patch Changes

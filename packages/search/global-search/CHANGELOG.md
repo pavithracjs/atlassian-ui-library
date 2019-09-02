@@ -1,5 +1,24 @@
 # @atlaskit/global-search
 
+## 11.4.1
+
+### Patch Changes
+
+- [patch][4638a2e06a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4638a2e06a):
+
+  Fixed QuickSearchContainer so it doesn't end up with a new session id on update if not a child of SearchSessionProvider
+
+## 11.4.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 11.3.4
 
 ### Patch Changes

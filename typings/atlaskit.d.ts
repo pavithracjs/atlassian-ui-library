@@ -33,7 +33,6 @@ declare module '@atlaskit/multi-select';
 declare module '@atlaskit/navigation-next';
 declare module '@atlaskit/navigation';
 declare module '@atlaskit/nps';
-declare module '@atlaskit/onboarding';
 declare module '@atlaskit/panel';
 declare module '@atlaskit/polyfills';
 declare module '@atlaskit/react-experiment-framework';

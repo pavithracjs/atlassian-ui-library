@@ -39,6 +39,7 @@
     "@atlaskit/ssr": "^0.1.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0",
-    "sinon": "^2.2.0"
+    "sinon": "^2.2.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

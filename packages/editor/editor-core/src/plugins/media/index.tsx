@@ -106,6 +106,7 @@ const mediaPlugin = (
           errorReporter,
           portalProviderAPI,
           reactContext,
+          dispatchAnalyticsEvent,
         }: PMPluginFactoryParams) =>
           createPlugin(
             schema,
@@ -125,6 +126,7 @@ const mediaPlugin = (
                   options,
                   pluginOptions,
                   pluginOptions && pluginOptions.fullWidthEnabled,
+                  dispatchAnalyticsEvent,
                 ),
               },
               errorReporter,

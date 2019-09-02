@@ -4,6 +4,11 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import {
+  FileState,
+  MediaFile as MediaClientFile,
+} from '@atlaskit/media-client';
 import {
   FinalizeUploadAction,
   isFinalizeUploadAction,
@@ -57,6 +62,62 @@ type CopyFileParams = {
   replaceFileId?: Promise<string> | string;
 };
 
+// Trigers a fetch to the recently copied file, and populates the existing state with the remote one
+const emitProcessedState = async (
+  destinationFile: MediaClientFile,
+  store: Store<State>,
+) => {
+  return new Promise(async resolve => {
+    const { tenantMediaClient, config } = store.getState();
+    const collection = config.uploadParams && config.uploadParams.collection;
+    const tenantSubject = tenantMediaClient.file.getFileState(
+      destinationFile.id,
+    ) as ReplaySubject<FileState>;
+    const response = (await tenantMediaClient.mediaStore.getItems(
+      [destinationFile.id],
+      collection,
+    )).data;
+    const firstItem = response.items[0];
+
+    // We need this check since the return type of getFileState might not be a ReplaySubject and won't have "next"
+    if (
+      firstItem &&
+      firstItem.details.processingStatus === 'succeeded' &&
+      tenantSubject &&
+      tenantSubject.next
+    ) {
+      const subscription = tenantSubject.subscribe({
+        next(currentState) {
+          setTimeout(() => subscription.unsubscribe(), 0);
+          setTimeout(() => {
+            const {
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            } = firstItem.details;
+            // we emit a new state which extends the existing one + the remote fields
+            // fields like "artifacts" will be later on required on MV and we don't have it locally beforehand
+            tenantSubject.next({
+              ...currentState,
+              status: 'processed',
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            });
+            resolve();
+          }, 0);
+        },
+      });
+    }
+  });
+};
+
 async function copyFile({
   store,
   file,
@@ -80,12 +141,14 @@ async function copyFile({
 
   try {
     const destinationFile = await mediaStore.copyFileWithToken(body, params);
+    emitProcessedState(destinationFile.data, store);
     const tenantSubject = tenantMediaClient.file.getFileState(
       destinationFile.data.id,
     );
-
-    tenantSubject.subscribe({
+    const subscription = tenantSubject.subscribe({
       next: fileState => {
+        setTimeout(() => subscription.unsubscribe(), 0);
+
         if (fileState.status === 'processing') {
           store.dispatch(
             sendUploadEvent({

@@ -87,7 +87,7 @@ export default class Transition extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: TransitionProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: TransitionProps) {
     const { children: nextChildren } = nextProps;
     const { children: prevChildren } = this.props;
 

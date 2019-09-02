@@ -76,7 +76,7 @@ export class SmartMediaEditor extends React.Component<
     this.getFile(identifier);
   }
 
-  componentWillReceiveProps(nextProps: Readonly<SmartMediaEditorProps>) {
+  UNSAFE_componentWillReceiveProps(nextProps: Readonly<SmartMediaEditorProps>) {
     const { identifier, mediaClient } = this.props;
     if (
       nextProps.identifier.id !== identifier.id ||

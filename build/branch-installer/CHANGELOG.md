@@ -1,5 +1,13 @@
 # @atlaskit/branch-installer
 
+## 0.1.4
+
+### Patch Changes
+
+- [patch][348b1058fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/348b1058fd):
+
+  First version of branch deploy integrator cli
+
 ## 0.1.3
 
 ### Patch Changes

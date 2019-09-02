@@ -30,6 +30,7 @@ import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
 import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
+import { DispatchAnalyticsEvent } from '../../analytics';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
 export interface MediaSingleNodeState {
@@ -59,10 +60,11 @@ export default class MediaSingleNode extends Component<
       ...props,
       isMediaSingle: true,
       node: node ? (node as PMNode) : this.props.node,
+      dispatchAnalyticsEvent: this.props.dispatchAnalyticsEvent,
     });
   };
 
-  componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
       this.setViewMediaClientConfig(nextProps);
       this.createMediaNodeUpdater(nextProps).updateFileAttrs();
@@ -98,6 +100,7 @@ export default class MediaSingleNode extends Component<
     }
 
     if (node.attrs.type === 'external') {
+      await mediaNodeUpdater.uploadExternalMedia(this.props.getPos());
       return;
     }
 
@@ -328,6 +331,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView<
       providerFactory,
       mediaOptions,
       mediaPluginOptions,
+      dispatchAnalyticsEvent,
     } = this.reactComponentProps;
 
     return (
@@ -364,6 +368,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView<
                     eventDispatcher={eventDispatcher}
                     mediaPluginOptions={mediaPluginOptions}
                     mediaPluginState={mediaPluginState}
+                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
                   />
                 );
               }}
@@ -398,6 +403,7 @@ export const ReactMediaSingleNode = (
   mediaOptions: MediaOptions = {},
   pluginOptions?: MediaPMPluginOptions,
   fullWidthMode?: boolean,
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,
@@ -405,5 +411,6 @@ export const ReactMediaSingleNode = (
     fullWidthMode,
     providerFactory,
     mediaOptions,
+    dispatchAnalyticsEvent,
   }).init();
 };

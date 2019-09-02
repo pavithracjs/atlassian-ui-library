@@ -32,7 +32,7 @@ class MultiPopupSelectExample extends Component<*, State> {
     controlShouldRenderValue: false,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState(state => ({
       valuesString: state.values.map(v => v.label).join(', '),
     }));

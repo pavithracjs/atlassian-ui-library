@@ -859,17 +859,9 @@
         "../../core/theme/src/colors",
         "./packages/core/theme/src/colors"
       ],
-      "@atlaskit/theme/components.d": [
-        "../../core/theme/src/components.d",
-        "./packages/core/theme/src/components.d"
-      ],
       "@atlaskit/theme/components": [
         "../../core/theme/src/components",
         "./packages/core/theme/src/components"
-      ],
-      "@atlaskit/theme/constants.d": [
-        "../../core/theme/src/constants.d",
-        "./packages/core/theme/src/constants.d"
       ],
       "@atlaskit/theme/constants": [
         "../../core/theme/src/constants",
@@ -1031,9 +1023,17 @@
         "../../editor/editor-bitbucket-transformer/src/util",
         "./packages/editor/editor-bitbucket-transformer/src/util"
       ],
+      "@atlaskit/editor-common/color": [
+        "../../editor/editor-common/src/color",
+        "./packages/editor/editor-common/src/color"
+      ],
       "@atlaskit/editor-common": [
         "../../editor/editor-common/src/",
         "./packages/editor/editor-common/src/"
+      ],
+      "@atlaskit/editor-common/validator": [
+        "../../editor/editor-common/src/validator",
+        "./packages/editor/editor-common/src/validator"
       ],
       "@atlaskit/editor-confluence-transformer/collapse-whitespace": [
         "../../editor/editor-confluence-transformer/src/collapse-whitespace",
@@ -1386,6 +1386,10 @@
       "@atlaskit/renderer/serializer": [
         "../../editor/renderer/src/serializer",
         "./packages/editor/renderer/src/serializer"
+      ],
+      "@atlaskit/renderer/text-serializer": [
+        "../../editor/renderer/src/text-serializer",
+        "./packages/editor/renderer/src/text-serializer"
       ],
       "@atlaskit/renderer/utils": [
         "../../editor/renderer/src/utils",
@@ -1859,10 +1863,6 @@
         "../../media/media-test-helpers/src/collectionNames",
         "./packages/media/media-test-helpers/src/collectionNames"
       ],
-      "@atlaskit/media-test-helpers/contextProvider": [
-        "../../media/media-test-helpers/src/contextProvider",
-        "./packages/media/media-test-helpers/src/contextProvider"
-      ],
       "@atlaskit/media-test-helpers/createMouseEvent": [
         "../../media/media-test-helpers/src/createMouseEvent",
         "./packages/media/media-test-helpers/src/createMouseEvent"
@@ -1874,10 +1874,6 @@
       "@atlaskit/media-test-helpers/exampleMediaItems": [
         "../../media/media-test-helpers/src/exampleMediaItems",
         "./packages/media/media-test-helpers/src/exampleMediaItems"
-      ],
-      "@atlaskit/media-test-helpers/fakeContextProvider": [
-        "../../media/media-test-helpers/src/fakeContextProvider",
-        "./packages/media/media-test-helpers/src/fakeContextProvider"
       ],
       "@atlaskit/media-test-helpers/fakeI18n": [
         "../../media/media-test-helpers/src/fakeI18n",

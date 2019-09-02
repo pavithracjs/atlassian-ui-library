@@ -1,0 +1,40 @@
+{
+  "name": "@atlaskit/branch-deploy-product-integrator",
+  "version": "1.0.0",
+  "description": "TODO",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "bin": {
+    "branch-deploy-product-integrator": "./bin/branch-deploy-product-integrator.js"
+  },
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Marco J"
+  ],
+  "atlaskit": {
+    "internal": true,
+    "name": "Branch deploy product integrator",
+    "team": "AFP"
+  },
+  "dependencies": {
+    "@atlaskit/branch-installer": "^0.1.4",
+    "@types/node": "^11.11.7",
+    "@types/node-fetch": "^2.1.4",
+    "@types/url-parse": "^1.4.3",
+    "@yarnpkg/lockfile": "^1.1.0",
+    "chalk": "^2.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "meow": "^5.0.0",
+    "simple-git": "^1.115.0",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/meow": "^5.0.0",
+    "@types/node-fetch": "^2.1.4",
+    "@types/ora": "^1.3.4",
+    "@types/semver": "^5.5.0",
+    "ts-node": "^6.1.1"
+  },
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2"
+}

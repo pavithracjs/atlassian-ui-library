@@ -89,7 +89,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
     this.handleProviders(this.props);
   }
 
-  componentWillReceiveProps(nextProps: EditorProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditorProps) {
     this.handleProviders(nextProps);
   }
 

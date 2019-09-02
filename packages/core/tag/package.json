@@ -43,6 +43,7 @@
     "enzyme": "^3.7.0",
     "exenv": "^1.2.2",
     "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.8.0"
+    "react-test-renderer": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

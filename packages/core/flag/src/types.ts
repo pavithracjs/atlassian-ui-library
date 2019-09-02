@@ -61,14 +61,15 @@ export type AutoDismissFlagProps = {
   linkComponent?: ElementType;
 };
 
-export type FlagProps = AutoDismissFlagProps &
-  WithAnalyticsEventsProps & {
-    /** Standard onBlur event, applied to Flag by AutoDismissFlag */
-    onBlur?: FocusEventHandler;
-    /** Standard onFocus event, applied to Flag by AutoDismissFlag */
-    onFocus?: FocusEventHandler;
-    /** Standard onMouseOut event, applied to Flag by AutoDismissFlag */
-    onMouseOut?: MouseEventHandler;
-    /** Standard onMouseOver event, applied to Flag by AutoDismissFlag */
-    onMouseOver?: MouseEventHandler;
-  };
+export interface FlagProps
+  extends AutoDismissFlagProps,
+    WithAnalyticsEventsProps {
+  /** Standard onBlur event, applied to Flag by AutoDismissFlag */
+  onBlur?: FocusEventHandler;
+  /** Standard onFocus event, applied to Flag by AutoDismissFlag */
+  onFocus?: FocusEventHandler;
+  /** Standard onMouseOut event, applied to Flag by AutoDismissFlag */
+  onMouseOut?: MouseEventHandler;
+  /** Standard onMouseOver event, applied to Flag by AutoDismissFlag */
+  onMouseOver?: MouseEventHandler;
+}

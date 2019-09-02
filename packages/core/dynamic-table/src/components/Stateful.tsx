@@ -32,7 +32,7 @@ export default class DynamicTable extends React.Component<
     rows: this.props.rows,
   };
 
-  componentWillReceiveProps(newProps: StatefulProps) {
+  UNSAFE_componentWillReceiveProps(newProps: StatefulProps) {
     this.setState({
       page: newProps.page,
       sortKey: newProps.defaultSortKey,

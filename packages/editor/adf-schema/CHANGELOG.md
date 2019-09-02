@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 3.1.3
+
+### Patch Changes
+
+- [patch][48fcfce0a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/48fcfce0a1):
+
+  Export missing definitions from schema to fix types in utils
+
 ## 3.1.2
 
 ### Patch Changes
