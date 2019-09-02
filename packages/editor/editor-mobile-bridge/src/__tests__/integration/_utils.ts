@@ -48,7 +48,7 @@ export const clipboardHelper = {
 };
 
 export const clipboardInput = 'textarea[data-id=clipboardInput]';
-export const copyIcon = 'span[aria-label="copy"]';
+export const copyButton = 'button[aria-label="copy"]';
 
 export const callNativeBridge = async (
   browser: any,

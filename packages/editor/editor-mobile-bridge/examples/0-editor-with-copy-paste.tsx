@@ -35,6 +35,11 @@ export const ClipboardZone: any = styled.div`
   align-items: center;
 `;
 
+export const CopyWrapper: any = styled.button`
+  border: none;
+  background: none;
+`;
+
 Wrapper.displayName = 'Wrapper';
 
 // @ts-ignore
@@ -69,7 +74,9 @@ export default class Example extends React.Component {
                 (this.textAreaRef = ref)
               }
             />
-            <CopyIcon label="copy" onClick={this.copyToClipboard} />
+            <CopyWrapper aria-label="copy" onClick={this.copyToClipboard}>
+              <CopyIcon label="copy-icon" />
+            </CopyWrapper>
           </ClipboardZone>
         </Toolbar>
         <Editor

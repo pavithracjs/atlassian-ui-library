@@ -5,7 +5,7 @@ import {
   editable,
   getDocFromElement,
   clipboardInput,
-  copyIcon,
+  copyButton,
   skipBrowsers as skip,
 } from '../_utils';
 
@@ -22,7 +22,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
     await browser.isVisible(clipboardInput);
     await browser.type(clipboardInput, 'https://www.atlassian.com');
-    await browser.click(copyIcon);
+    await browser.click(copyButton);
     await browser.waitForSelector(editorClipboardHelper.placeholder);
     await browser.click(editorClipboardHelper.placeholder);
     await browser.waitForSelector(editable);
