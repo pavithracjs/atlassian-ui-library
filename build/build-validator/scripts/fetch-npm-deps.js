@@ -56,7 +56,9 @@ async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
 
   await fse.move(distTarballPath, path.join(distPath, distTarballPath));
   fse.unlinkSync(lockFilePath);
-  console.log(`Successfully fetched and unpacked ${pkgName} to ${distPath}`);
+  console.log(
+    `Successfully fetched and unpacked ${pkgName} (${distTarballPath}) to ${distPath}`,
+  );
 
   // Npm dists are stored in package
   return distPkgPath;
