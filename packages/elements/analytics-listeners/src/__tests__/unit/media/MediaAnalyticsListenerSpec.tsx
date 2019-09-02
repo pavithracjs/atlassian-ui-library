@@ -170,78 +170,69 @@ describe('MediaAnalyticsListener', () => {
     );
   });
 
-  it('should megre event payload with context hierarchy based on package name', () => {
-    const context = [
-      {
-        val1: 'ctx11',
-        val2: 'ctx12',
-        val4: 'ctx14',
-        attributes: {
-          attr1: 'ctx11',
-          attr2: 'ctx12',
-          attr4: 'ctx14',
-          packageName: '@anAwesome/Package',
-        },
+  it('should megre event payload with context hierarchy having same package name', () => {
+    const topContext = {
+      val1: 'overriden by payload',
+      val2: 'overriden by bottom context',
+      val4: 'topContext val4',
+      attributes: {
+        attr1: 'overriden by payload',
+        attr2: 'overriden by bottom context',
+        attr4: 'topContext attr4',
+        packageName: '@anAwesome/Package',
       },
-      {
-        val7: 'nope',
-        val8: 'nope',
-        val9: 'nope',
-        attributes: {
-          attr7: 'nope',
-          attr8: 'nope',
-          attr9: 'nope',
-          packageName: '@different/Package',
-        },
+    };
+    const middleContext = {
+      val7: 'nope',
+      val8: 'nope',
+      val9: 'nope',
+      attributes: {
+        attr7: 'nope',
+        attr8: 'nope',
+        attr9: 'nope',
+        packageName: '@different/Package',
       },
-      {
-        val2: 'ctx22',
-        val3: 'ctx23',
-        val6: 'ctx26',
-        attributes: {
-          attr2: 'ctx22',
-          attr3: 'ctx23',
-          attr6: 'ctx26',
-          packageName: '@anAwesome/Package',
-        },
+    };
+    const bottomContext = {
+      val2: 'bottomContext val2',
+      val3: 'overriden by payload',
+      attributes: {
+        attr2: 'bottomContext attr2',
+        attr3: 'overriden by payload',
+        packageName: '@anAwesome/Package',
       },
-    ];
+    };
 
-    fireAndVerify(
-      {
-        eventType: UI_EVENT_TYPE,
-        actionSubject: 'someComponent',
-        val1: 'val1',
-        val3: 'val3',
-        val5: 'val5',
-        attributes: {
-          attr1: 'val1',
-          attr3: 'val3',
-          attr5: 'val5',
-          packageName: '@anAwesome/Package',
-        },
+    const context = [topContext, middleContext, bottomContext];
+
+    const eventPayload: GasPayload = {
+      eventType: UI_EVENT_TYPE,
+      actionSubject: 'someComponent',
+      val1: 'payload val1',
+      val3: 'payload val3',
+      attributes: {
+        attr1: 'payload attr1',
+        attr3: 'payload attr3',
+        packageName: '@anAwesome/Package',
       },
-      {
-        actionSubject: 'someComponent',
-        val1: 'val1',
-        val2: 'ctx22',
-        val3: 'val3',
-        val4: 'ctx14',
-        val5: 'val5',
-        val6: 'ctx26',
-        attributes: {
-          attr1: 'val1',
-          attr2: 'ctx22',
-          attr3: 'val3',
-          attr4: 'ctx14',
-          attr5: 'val5',
-          attr6: 'ctx26',
-          packageName: '@anAwesome/Package',
-        },
-        source: 'unknown',
-        tags: ['media'],
+    };
+
+    const expectedMergedPayloadWithContexts = {
+      actionSubject: 'someComponent',
+      val1: 'payload val1',
+      val2: 'bottomContext val2',
+      val3: 'payload val3',
+      val4: 'topContext val4',
+      attributes: {
+        attr1: 'payload attr1',
+        attr2: 'bottomContext attr2',
+        attr3: 'payload attr3',
+        attr4: 'topContext attr4',
+        packageName: '@anAwesome/Package',
       },
-      context,
-    );
+      source: 'unknown',
+      tags: ['media'],
+    };
+    fireAndVerify(eventPayload, expectedMergedPayloadWithContexts, context);
   });
 });

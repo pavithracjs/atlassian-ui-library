@@ -157,7 +157,7 @@ export const IncorrectEventType = (channel: FabricChannel) =>
 export const createButtonWithAnalytics = (
   payload: GasPurePayload,
   channel: FabricChannel,
-  context: AnalyticsEventPayload[] = [],
+  context: AnalyticsEventPayload[] = [], // Context should incluide all data in the same order that AnalyticsListener would receive it
 ): typeof MyButton => {
   const ButtonWithAnalyticsEvents = withAnalyticsEvents({
     onClick: createAndFireEvent(channel)(payload),
