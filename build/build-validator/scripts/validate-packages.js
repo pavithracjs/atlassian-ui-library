@@ -10,49 +10,50 @@ const { getAllPublicPackages } = require('./utils');
 
 const exec = util.promisify(child_process.exec);
 
-const getRepoPkgPath = pkgName =>
-  path.join(process.cwd(), 'node_modules', pkgName);
-
 function copyFiles(srcDir, destDir, files) {
   return Promise.all(
     files.map(f => fse.copy(path.join(srcDir, f), path.join(destDir, f))),
   );
 }
 
-// This lives in global scope so we can easily remove the dir in our global error handler
-let tmpDir;
-
 async function validatePackage(pkgName, pkgDir, quiet, refetch = false) {
   const npmDistPath = await fetchNpmDeps(pkgName, {
     refetch,
   });
-  tmpDir = path.join(pkgDir, 'tmp');
-  await fse.remove(tmpDir);
-  await fse.mkdir(tmpDir);
-  const packedRepoFiles = await packlist({ path: pkgDir });
-  // Copy files that would be published to a temp dir for easy diffing
-  await copyFiles(pkgDir, tmpDir, packedRepoFiles);
-  let valid = true;
+  let tmpDir = path.join(pkgDir, 'tmp');
   try {
-    await exec(
-      `diff -W 100 -${quiet ? 'q' : ''}ur '${npmDistPath}' '${tmpDir}'`,
-      {
-        maxBuffer: 1024 * 500,
-      },
-    );
-    console.log(`${pkgName} passed validation`);
-  } catch (e) {
-    if (e.code === 1) {
-      // If exit code is 1, there is a diff between the two dirs
-      valid = false;
-      console.error(`${pkgName} differs from npm`);
-      console.error(e.stdout);
-    } else {
-      throw e;
+    await fse.remove(tmpDir);
+    await fse.mkdir(tmpDir);
+    const packedRepoFiles = await packlist({ path: pkgDir });
+    // Copy files that would be published to a temp dir for easy diffing
+    await copyFiles(pkgDir, tmpDir, packedRepoFiles);
+    let valid = true;
+    try {
+      await exec(
+        `diff -W 100 -${quiet ? 'q' : ''}ur '${npmDistPath}' '${tmpDir}'`,
+        {
+          maxBuffer: 1024 * 500,
+        },
+      );
+      console.log(`${pkgName} passed validation`);
+    } catch (e) {
+      if (e.code === 1) {
+        // If exit code is 1, there is a diff between the two dirs
+        valid = false;
+        console.error(`${pkgName} differs from npm`);
+        console.error(e.stdout);
+      } else {
+        throw e;
+      }
     }
+    await fse.remove(tmpDir);
+
+    return valid;
+  } catch (e) {
+    // Cleanup temp dir before propogating any errors
+    await fse.remove(tmpDir);
+    throw e;
   }
-  await fse.remove(tmpDir);
-  return valid;
 }
 
 /**
@@ -82,7 +83,7 @@ async function main(pkgName, opts) {
       );
     }
     // Compare single package
-    await validatePackage(
+    return validatePackage(
       resolvedPkg.name,
       resolvedPkg.dir,
       opts.quiet,
@@ -118,7 +119,7 @@ async function main(pkgName, opts) {
       console.error(`${invalidPackages.map(p => p.name).join(', ')}`);
     }
 
-    return results;
+    return invalidPackages.length === 0;
   }
 }
 
@@ -131,11 +132,17 @@ if (require.main === module) {
     quiet: flags.includes('--quiet'),
     refetch: flags.includes('--refetch'),
   };
-  main(pkgName, opts).catch(e => {
-    console.error(e);
-    fse.removeSync(tmpDir);
-    process.exit(1);
-  });
+  main(pkgName, opts)
+    .then(success => {
+      if (!success) {
+        console.error('Validation failed, exiting with non-zero status code');
+        process.exit(1);
+      }
+    })
+    .catch(e => {
+      console.error(e);
+      process.exit(2);
+    });
 }
 
 module.exports = main;
