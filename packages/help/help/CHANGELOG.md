@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.15.0
+
+### Minor Changes
+
+- [minor][eb130ee556](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb130ee556):
+
+  Added analytics event to onclick event in ArticleListItem
+
 ## 0.14.5
 
 ### Patch Changes

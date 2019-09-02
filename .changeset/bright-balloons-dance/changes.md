@@ -1,1 +1,0 @@
-Added analytics event to onclick event in ArticleListItem 
