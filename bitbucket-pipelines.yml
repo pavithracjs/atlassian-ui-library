@@ -58,7 +58,7 @@ pipelines:
               - mkdir -p dists/
               - node build/ci-scripts/branch-deploys/copy.built.tgzs.to.dists.dir.js
               - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
-              - cd build/build-validator && yarn validate-packages @atlaskit/tag
+              - cd build/build-validator && yarn validate-packages
             artifacts:
               - dists/manifest.json
             after-script:
