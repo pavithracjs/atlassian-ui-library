@@ -1,7 +1,24 @@
 # @atlaskit/codemod-util-shared-styles-to-theme
 
+## 2.0.2
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 2.0.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 2.0.0
-- [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+- [major][76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
   - Drop ES5 from all the flow modules
 
@@ -22,7 +39,7 @@
   import colors from `@atlaskit/theme/dist/esm/colors`;
   ```
 
-  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't _actually_ supposed to be used. 2. We are unable to do this _internally_ in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
 
   To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
 
@@ -33,4 +50,5 @@
   Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
 
 ## 1.0.1
+
 - [patch] Adds missing implicit @babel/runtime dependency [b71751b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b71751b)

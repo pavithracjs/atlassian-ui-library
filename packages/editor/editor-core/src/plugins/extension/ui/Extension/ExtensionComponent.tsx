@@ -31,7 +31,7 @@ export default class ExtensionComponent extends Component<Props, State> {
   state: State = {};
   mounted = false;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.mounted = true;
   }
 
@@ -46,7 +46,7 @@ export default class ExtensionComponent extends Component<Props, State> {
     this.mounted = false;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { macroProvider } = nextProps;
 
     if (this.props.macroProvider !== macroProvider) {

@@ -177,7 +177,7 @@ export class ImagePlacer extends React.Component<
     return new Bounds(originX, originY, cornerX - originX, cornerY - originY);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.provideImageActions();
   }
 

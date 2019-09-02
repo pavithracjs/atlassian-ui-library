@@ -22,6 +22,15 @@ import { mapSlice } from '../../../utils/slice';
 import { getParentNodeWidth } from '../../../utils/node-width';
 import { alignmentLayouts } from '../ui/ResizableMediaSingle/utils';
 import { WidthPluginState } from '../../width';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+  InputMethodInsertMedia,
+  InsertEventPayload,
+} from '../../analytics';
 
 export const wrappedLayouts: MediaSingleLayout[] = [
   'wrap-left',
@@ -42,6 +51,20 @@ export interface MediaSingleState extends MediaState {
   contextId?: string;
 }
 
+const getInsertMediaAnalytics = (
+  inputMethod: InputMethodInsertMedia,
+  fileExtension?: string,
+): InsertEventPayload => ({
+  action: ACTION.INSERTED,
+  actionSubject: ACTION_SUBJECT.DOCUMENT,
+  actionSubjectId: ACTION_SUBJECT_ID.MEDIA,
+  attributes: {
+    inputMethod,
+    fileExtension,
+  },
+  eventType: EVENT_TYPE.TRACK,
+});
+
 function shouldAddParagraph(state: EditorState) {
   return (
     atTheBeginningOfBlock(state) &&
@@ -49,10 +72,17 @@ function shouldAddParagraph(state: EditorState) {
   );
 }
 
-function insertNodesWithOptionalParagraph(nodes: PMNode[]): Command {
+function insertNodesWithOptionalParagraph(
+  nodes: PMNode[],
+  analyticsAttributes: {
+    inputMethod?: InputMethodInsertMedia;
+    fileExtension?: string;
+  } = {},
+): Command {
   return function(state, dispatch) {
     const { tr, schema } = state;
     const { paragraph } = schema.nodes;
+    const { inputMethod, fileExtension } = analyticsAttributes;
 
     let openEnd = 0;
     if (shouldAddParagraph(state)) {
@@ -61,6 +91,9 @@ function insertNodesWithOptionalParagraph(nodes: PMNode[]): Command {
     }
 
     tr.replaceSelection(new Slice(Fragment.from(nodes), 0, openEnd));
+    if (inputMethod) {
+      addAnalytics(tr, getInsertMediaAnalytics(inputMethod, fileExtension));
+    }
 
     if (dispatch) {
       dispatch(tr);
@@ -75,6 +108,7 @@ export const isMediaSingle = (schema: Schema, fileMimeType?: string) =>
 export const insertMediaAsMediaSingle = (
   view: EditorView,
   node: PMNode,
+  inputMethod: InputMethodInsertMedia,
 ): boolean => {
   const { state, dispatch } = view;
   const { mediaSingle, media } = state.schema.nodes;
@@ -93,12 +127,20 @@ export const insertMediaAsMediaSingle = (
 
   const mediaSingleNode = mediaSingle.create({}, node);
   const nodes = [mediaSingleNode];
-  return insertNodesWithOptionalParagraph(nodes)(state, dispatch);
+  const analyticsAttributes = {
+    inputMethod,
+    fileExtension: node.attrs.__fileMimeType,
+  };
+  return insertNodesWithOptionalParagraph(nodes, analyticsAttributes)(
+    state,
+    dispatch,
+  );
 };
 
 export const insertMediaSingleNode = (
   view: EditorView,
   mediaState: MediaState,
+  inputMethod?: InputMethodInsertMedia,
   collection?: string,
 ): boolean => {
   if (collection === undefined) {
@@ -112,19 +154,35 @@ export const insertMediaSingleNode = (
   );
   const shouldSplit =
     grandParent && grandParent.type.validContent(Fragment.from(node));
+  let fileExtension: string | undefined;
+  if (mediaState.fileName) {
+    const extensionIdx = mediaState.fileName.lastIndexOf('.');
+    fileExtension =
+      extensionIdx >= 0
+        ? mediaState.fileName.substring(extensionIdx + 1)
+        : undefined;
+  }
 
   if (shouldSplit) {
-    insertNodesWithOptionalParagraph([node])(state, dispatch);
-  } else {
-    dispatch(
-      safeInsert(
-        shouldAddParagraph(view.state)
-          ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
-          : node,
-        undefined,
-        true,
-      )(state.tr),
+    insertNodesWithOptionalParagraph([node], { fileExtension, inputMethod })(
+      state,
+      dispatch,
     );
+  } else {
+    let tr = safeInsert(
+      shouldAddParagraph(view.state)
+        ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
+        : node,
+      undefined,
+      true,
+    )(state.tr);
+    if (inputMethod) {
+      tr = addAnalytics(
+        tr,
+        getInsertMediaAnalytics(inputMethod, fileExtension),
+      );
+    }
+    dispatch(tr);
   }
 
   return true;

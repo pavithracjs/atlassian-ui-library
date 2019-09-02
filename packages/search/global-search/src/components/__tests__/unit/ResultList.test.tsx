@@ -6,8 +6,6 @@ import {
   PersonResult as PersonResultComponent,
   ContainerResult as ContainerResultComponent,
 } from '@atlaskit/quick-search';
-
-import PageIcon from '@atlaskit/icon-object/glyph/page/24';
 import BoardIcon from '@atlaskit/icon/glyph/board';
 import { UnwrappedResultList as ResultList, Props } from '../../ResultList';
 import {
@@ -100,7 +98,7 @@ it('should pass the correct properties to PersonResult for people results', () =
   });
 });
 
-it('should not render the friendly last modified date if the search extensions feature is disabled', () => {
+it('should pass the correct properties to ObjectResult for Confluence results', () => {
   const confluenceResults: ConfluenceObjectResult[] = [
     makeConfluenceObjectResult({
       resultId: 'resultId',
@@ -108,49 +106,10 @@ it('should not render the friendly last modified date if the search extensions f
     }),
   ];
 
-  const wrapper = render(
-    {
-      results: confluenceResults,
-      analyticsData: DUMMY_ANALYTICS_DATA,
-    },
-    {
-      ...DEFAULT_FEATURES,
-      searchExtensionsEnabled: false,
-    },
-  );
-
-  expect(wrapper.find(ObjectResultComponent).props()).toMatchObject({
-    href: 'href',
-    resultId: 'confluence-page-resultId',
-    type: 'result-confluence',
-    name: 'name',
-    containerName: 'containerName',
-    analyticsData: expect.objectContaining(DUMMY_ANALYTICS_DATA),
+  const wrapper = render({
+    results: confluenceResults,
+    analyticsData: DUMMY_ANALYTICS_DATA,
   });
-
-  const avatar = wrapper.find(ObjectResultComponent).prop('avatar');
-  // @ts-ignore TS can't find type
-  expect(avatar.type).toEqual(PageIcon);
-});
-
-it('should pass the correct properties to ObjectResult for Confluence results if search extensions if enabled', () => {
-  const confluenceResults: ConfluenceObjectResult[] = [
-    makeConfluenceObjectResult({
-      resultId: 'resultId',
-      analyticsType: AnalyticsType.ResultConfluence,
-    }),
-  ];
-
-  const wrapper = render(
-    {
-      results: confluenceResults,
-      analyticsData: DUMMY_ANALYTICS_DATA,
-    },
-    {
-      ...DEFAULT_FEATURES,
-      searchExtensionsEnabled: true,
-    },
-  );
 
   expect(wrapper.find(ObjectResultComponent).props()).toMatchObject({
     href: 'href',
@@ -170,7 +129,7 @@ it('should pass the correct properties to ObjectResult for Confluence results if
       containerName: 'containerName',
       friendlyLastModified: 'friendly-last-modified',
     },
-  });
+  } as {});
 });
 
 it('should pass the correct properties to ContainerResult for Confluence spaces', () => {

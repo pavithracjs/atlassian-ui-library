@@ -29,7 +29,7 @@ export default class AsyncSmartMediaEditor extends React.PureComponent<
     isErrored: false,
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     if (!this.state.SmartMediaEditor) {
       try {
         const [mediaClient, smartEditorModule] = await Promise.all([

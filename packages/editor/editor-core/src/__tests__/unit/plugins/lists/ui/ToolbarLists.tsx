@@ -17,7 +17,6 @@ import DropdownMenu from '../../../../../ui/DropdownMenu';
 import ToolbarLists from '../../../../../plugins/lists/ui/ToolbarLists';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
-import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
 
 function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
   toolbarOption
@@ -89,11 +88,10 @@ describe('ToolbarLists', () => {
   });
 
   describe('analytics', () => {
-    let toolbarLists: ReactWrapper;
-    let dispatchAnalyticsEvent: jest.MockInstance<DispatchAnalyticsEvent>;
+    let toolbarLists: ReactWrapper<any, any, any>;
+
     beforeEach(() => {
-      dispatchAnalyticsEvent = jest.fn();
-      ({ toolbarLists } = setup({ dispatchAnalyticsEvent }));
+      ({ toolbarLists } = setup());
     });
 
     it('should trigger analyticsService.trackEvent when bulleted list button is clicked', () => {
@@ -107,7 +105,7 @@ describe('ToolbarLists', () => {
     it('should dispatch analytics event when bulleted list button is clicked', () => {
       clickToolbarOption(toolbarLists, messages.unorderedList.defaultMessage);
 
-      expect(dispatchAnalyticsEvent).toHaveBeenCalledWith({
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'formatted',
         actionSubject: 'text',
         eventType: 'track',
@@ -129,7 +127,7 @@ describe('ToolbarLists', () => {
     it('should dispatch analytics event when numbered list button is clicked', () => {
       clickToolbarOption(toolbarLists, messages.orderedList.defaultMessage);
 
-      expect(dispatchAnalyticsEvent).toHaveBeenCalledWith({
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'formatted',
         actionSubject: 'text',
         eventType: 'track',

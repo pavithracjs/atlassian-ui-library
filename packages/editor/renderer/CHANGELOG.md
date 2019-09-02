@@ -1,5 +1,155 @@
 # @atlaskit/renderer
 
+## 49.9.3
+
+### Patch Changes
+
+- [patch][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
+## 49.9.2
+
+### Patch Changes
+
+- [patch][b0804f563f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0804f563f):
+
+  Fix default export of text serializer
+
+## 49.9.1
+
+### Patch Changes
+
+- [patch][8b07822f8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b07822f8a):
+
+  Add entry-point for text-serializer
+
+## 49.9.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 49.8.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 49.8.2
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 49.8.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 49.8.0
+
+### Minor Changes
+
+- [minor][d438397a89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d438397a89):
+
+  ## Editor Azlon Release
+
+  ### Affected editor components:
+
+  Tables, Media, Smart Cards, Extensions, Analytics, Copy and Paste, Code Block, Undo, Emoji
+
+  ### Performance
+
+  - Reduce number of wrapping nodes in table cells. – [table][affects: wrapping, overflow, resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7288
+  - Cache resizeState in pluginState to avoid expensive DOM operations. – [table][affects: resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7343
+  - Delay MutationObserver initialization in table. – [table][affects: initial table rendering, size adjustment on initial render]
+    - https://product-fabric.atlassian.net/browse/ED-7436
+  - Improve the way we handle mouse events in table – [table][affects: column drag handlers, table controls, resizing]
+    - https://product-fabric.atlassian.net/browse/ED-7342
+
+  ### SmartCards
+
+  - Pending and error states do not pass onClick prop
+    - https://product-fabric.atlassian.net/browse/SL-359
+  - Make toolbars consistent between blue link and smart link – [affects: link and smart link]
+    - https://product-fabric.atlassian.net/browse/ED-7157
+
+  ### Mention Highlights
+
+  Not clear how to test. – [affects: all type aheads, mention type ahead]
+
+  ### Emoji Refactor
+
+  Emoji has been rewritten to use common TypeAhead plugin (same as quick insert and mention). Need to thoroughly look at emoji typeahead, e.g. typing ":" and inserting emojis...
+
+  - https://product-fabric.atlassian.net/browse/ED-5369
+
+  ### Copy and Paste
+
+  - Copying text & images from Google doc changes formatting on paste [affects: media]
+    - https://product-fabric.atlassian.net/browse/ED-7338
+  - Pasted code block does not persist selected language – [affects: code block]
+    - https://product-fabric.atlassian.net/browse/ED-7050
+  - Copy and paste media
+
+  ### Tables
+
+  - Table add 40+ blank columns
+    - https://product-fabric.atlassian.net/browse/ED-7031
+  - Implement Table Sorting in Edit Mode – [NEW BIG FEATURE][not enabled]
+    - Feature flag:
+      - allowColumnSorting – [default: false]
+    - https://product-fabric.atlassian.net/browse/ED-7391
+
+  ### Analytics
+
+  - Fire undo events – [affects: undo]
+    - https://product-fabric.atlassian.net/browse/ED-7276
+  - Make all insert events set analytics meta
+    - https://product-fabric.atlassian.net/browse/ED-7277
+
+  ### Notable Bug fixes
+
+  - Issue with ctrl+z [affects: undo on different languages, e.g. Russian keyboard]
+    - https://product-fabric.atlassian.net/browse/ED-7310
+
+- [minor][5ed73a70a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ed73a70a9):
+
+  ## Editor Azlon Release
+
+  TODO: RELEASE NOTES
+
+### Patch Changes
+
+- [patch][48de0e74ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/48de0e74ae):
+
+  add missing attrs to MediaSingle node for copy and paste
+
+## 49.7.10
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/editor-common@39.17.4
+  - @atlaskit/media-client@2.0.2
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-filmstrip@34.3.3
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-card@64.0.0
+
 ## 49.7.9
 
 ### Patch Changes

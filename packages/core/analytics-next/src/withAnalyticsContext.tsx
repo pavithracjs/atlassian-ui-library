@@ -16,7 +16,6 @@ const withAnalyticsContext = (defaultData?: any) => <Props, Component>(
 
   const WithAnalyticsContext = React.forwardRef<any, WrappedProps>(
     (props, ref) => {
-      // @ts-ignore
       const { analyticsContext = {}, ...rest } = props;
       const analyticsData = {
         ...defaultData,
@@ -25,7 +24,7 @@ const withAnalyticsContext = (defaultData?: any) => <Props, Component>(
 
       return (
         <AnalyticsContext data={analyticsData}>
-          <WrappedComponent {...rest} ref={ref} />
+          <WrappedComponent {...rest as any} ref={ref} />
         </AnalyticsContext>
       );
     },

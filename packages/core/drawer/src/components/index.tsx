@@ -144,7 +144,6 @@ export class DrawerBase extends Component<
         <Portal zIndex="unset">
           <TransitionGroup component={OnlyChild}>
             <Fragment>
-              // @ts-ignore
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>

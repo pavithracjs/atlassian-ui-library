@@ -1,5 +1,40 @@
 # @atlaskit/website
 
+## 5.2.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 5.1.21
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 5.1.20
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 5.1.19
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-filmstrip@34.3.3
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-card@64.0.0
+
 ## 5.1.18
 
 - Updated dependencies [cc461c0022](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc461c0022):

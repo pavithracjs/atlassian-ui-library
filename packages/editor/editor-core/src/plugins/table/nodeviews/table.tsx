@@ -64,7 +64,7 @@ const toDOM = (node: PmNode, props: Props) => {
   ] as DOMOutputSpec;
 };
 
-export default class TableView extends ReactNodeView {
+export default class TableView extends ReactNodeView<Props> {
   private table: HTMLElement | undefined;
   private observer?: MutationObserver;
 
@@ -87,13 +87,15 @@ export default class TableView extends ReactNodeView {
       // Ignore mutation doesn't pick up children updates
       // E.g. inserting a bodiless extension that renders
       // arbitrary nodes (aka macros).
-      if (this.observer) {
-        this.observer.observe(rendered.dom, {
-          subtree: true,
-          childList: true,
-          attributes: true,
-        });
-      }
+      requestAnimationFrame(() => {
+        if (this.observer) {
+          this.observer.observe(rendered.dom, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+          });
+        }
+      });
     }
 
     return rendered;
@@ -147,9 +149,7 @@ export default class TableView extends ReactNodeView {
     const { view } = this;
     const elemOrWrapper = closestElement(
       target,
-      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-        ClassName.TABLE_CELL_NODE_WRAPPER
-      }`,
+      `.${ClassName.TABLE_HEADER_CELL}, .${ClassName.TABLE_CELL}`,
     );
     const { minWidth } = contentWidth(target, target);
 
@@ -169,7 +169,7 @@ export default class TableView extends ReactNodeView {
     }
   };
 
-  private resizeForExtensionContent = (target: HTMLTableElement) => {
+  private resizeForExtensionContent = (target: HTMLElement) => {
     if (!this.node) {
       return;
     }
@@ -183,9 +183,7 @@ export default class TableView extends ReactNodeView {
     }
     const container = closestElement(
       target,
-      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-        ClassName.TABLE_CELL_NODE_WRAPPER
-      }`,
+      `.${ClassName.TABLE_HEADER_CELL}, .${ClassName.TABLE_CELL}`,
     ) as HTMLTableElement;
     if (!container) {
       return;
@@ -213,7 +211,14 @@ export default class TableView extends ReactNodeView {
 
     const uniqueTargets: Set<HTMLElement> = new Set();
     records.forEach(record => {
-      const target = record.target as HTMLTableElement;
+      const target = record.target as HTMLElement;
+      // ED-7344: ignore mutations that happen inside anything other than DIV or SPAN elements
+      if (
+        ['DIV', 'SPAN'].indexOf(target.tagName) === -1 ||
+        target.classList.contains(ClassName.RESIZE_HANDLE)
+      ) {
+        return;
+      }
       // If we've seen this target already in this set of targets
       // We dont need to reprocess.
       if (!uniqueTargets.has(target)) {

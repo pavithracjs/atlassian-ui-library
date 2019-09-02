@@ -46,6 +46,8 @@ export interface Props {
   ): void;
   // Default content. This prop is optional
   defaultContent?: React.ReactNode;
+  // Wrapped content
+  children?: React.ReactNode;
 }
 
 export interface State {

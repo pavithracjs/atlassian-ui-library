@@ -13,10 +13,6 @@ import { FileDetails } from '@atlaskit/media-client';
 
 import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
-  mountWithIntlContext,
-  expectToEqual,
-} from '@atlaskit/media-test-helpers';
-import {
   CardView,
   CardViewBase,
   CardViewOwnProps,
@@ -26,8 +22,6 @@ import { Wrapper } from '../../../src/root/styled';
 import { breakpointSize } from '../../../src/utils/breakpoint';
 
 import { shouldDisplayImageThumbnail } from '../../../src/utils/shouldDisplayImageThumbnail';
-
-import { CardViewAnalyticsContext, CardAction } from '../../../src/index';
 
 describe('CardView', () => {
   const file: FileDetails = {
@@ -51,7 +45,6 @@ describe('CardView', () => {
   ) =>
     shallow(
       <CardViewBase
-        mediaItemType={'file'}
         createAnalyticsEvent={createAnalyticsEventMock}
         status="loading"
         {...props}
@@ -82,30 +75,6 @@ describe('CardView', () => {
     const fileCard = element.find(FileCard);
     expect(fileCard).toHaveLength(1);
     expect(fileCard.prop('appearance')).toEqual('image');
-  });
-
-  it('should fire onClick and onMouseEnter events when file details are passed in', () => {
-    const clickHandler = jest.fn();
-    const hoverHandler = jest.fn();
-    const card = mount(
-      <CardView
-        status="loading"
-        metadata={file}
-        onClick={clickHandler}
-        onMouseEnter={hoverHandler}
-      />,
-    );
-
-    card.simulate('click');
-    card.simulate('mouseEnter');
-
-    expect(clickHandler).toHaveBeenCalledTimes(1);
-    const clickHandlerArg = clickHandler.mock.calls[0][0];
-    expect(clickHandlerArg.mediaItemDetails).toEqual(file);
-
-    expect(hoverHandler).toHaveBeenCalledTimes(1);
-    const hoverHandlerArg = hoverHandler.mock.calls[0][0];
-    expect(hoverHandlerArg.mediaItemDetails).toEqual(file);
   });
 
   it('should NOT fire onSelectChange when card is NOT selectable', () => {
@@ -250,7 +219,6 @@ describe('CardView', () => {
       const element = shallowCardViewBaseElement(
         {
           status: 'complete',
-          mediaItemType: 'file',
           metadata: file,
           disableOverlay: true,
         },
@@ -259,97 +227,6 @@ describe('CardView', () => {
 
       expect(element.find(FileCard).props().disableOverlay).toEqual(true);
     });
-  });
-
-  it('should fire "clicked" analytics event when loading file card clicked', () => {
-    const clickHandler = jest.fn();
-    const analyticsEventHandler = jest.fn();
-    const cardAction: CardAction = {
-      handler: () => {},
-      label: 'Click me',
-    };
-    const card = mount(
-      <AnalyticsListener channel="media" onEvent={analyticsEventHandler}>
-        <CardView
-          status="processing"
-          actions={[cardAction]}
-          metadata={{ ...file }}
-          onClick={clickHandler}
-        />
-      </AnalyticsListener>,
-    );
-
-    card.simulate('click');
-
-    expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEvent> =
-      analyticsEventHandler.mock.calls[0][0];
-    expect(actualEvent.payload).toEqual({ action: 'clicked' });
-    expect(actualEvent.context && actualEvent.context.length).toEqual(1);
-    const actualContext =
-      actualEvent.context &&
-      (actualEvent.context[0] as CardViewAnalyticsContext);
-    expect(actualContext).not.toBeUndefined();
-    if (actualContext) {
-      expect(actualContext.fileAttributes).toEqual({
-        fileMediatype: 'image',
-        fileSize: 42,
-        fileStatus: 'pending',
-        fileMimetype: 'image/png',
-      });
-      expect(actualContext.viewAttributes).toEqual({
-        viewPreview: true,
-        viewSize: 'auto',
-        viewActionmenu: true,
-      });
-      expect(actualContext.loadStatus).toEqual('loading_metadata');
-      expect(actualContext.componentName).toEqual('CardView');
-      expect(actualContext.actionSubject).toEqual('MediaCard');
-      expect(actualContext.packageVersion).toEqual(
-        require('../../version.json').version,
-      );
-      expect(actualContext.type).toEqual('file');
-      expect(actualContext.actionSubjectId).toEqual('abcd');
-    }
-  });
-
-  it('should fire "clicked" analytics event when metadata is not provided', () => {
-    const clickHandler = jest.fn();
-    const analyticsEventHandler = jest.fn();
-    const card = mountWithIntlContext(
-      <AnalyticsListener channel="media" onEvent={analyticsEventHandler}>
-        <CardView status="error" onClick={clickHandler} />
-      </AnalyticsListener>,
-    );
-
-    card.simulate('click');
-
-    expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
-    const actualEvent: Partial<UIAnalyticsEvent> =
-      analyticsEventHandler.mock.calls[0][0];
-    expect(actualEvent.payload).toEqual({ action: 'clicked' });
-    expect(actualEvent.context && actualEvent.context.length).toEqual(1);
-    const actualContext =
-      actualEvent.context &&
-      (actualEvent.context[0] as CardViewAnalyticsContext);
-    expect(actualContext).not.toBeUndefined();
-    if (actualContext) {
-      expect(actualContext.fileAttributes).toBeUndefined();
-      expect(actualContext.linkAttributes).toBeUndefined();
-      expect(actualContext.viewAttributes).toEqual({
-        viewPreview: false,
-        viewSize: 'auto',
-        viewActionmenu: false,
-      });
-      expect(actualContext.loadStatus).toEqual('fail');
-      expect(actualContext.componentName).toEqual('CardView');
-      expect(actualContext.actionSubject).toEqual('MediaCard');
-      expect(actualContext.packageVersion).toEqual(
-        require('../../version.json').version,
-      );
-      expect(actualContext.type).toEqual('file');
-      expect(actualContext.actionSubjectId).toEqual(null);
-    }
   });
 
   it('should return analytics event as a last argument when card is clicked', () => {
@@ -372,14 +249,5 @@ describe('CardView', () => {
     expect(actualReturnedEvent.hasFired).toEqual(false);
     expect(actualReturnedEvent.payload.action).toEqual('clicked');
     expect(actualReturnedEvent.context).toEqual(actualFiredEvent.context);
-  });
-
-  it('should not use pointer cursor for external images', () => {
-    const card = shallowCardViewBaseElement({
-      dataURI: 'a',
-      mediaItemType: 'external-image',
-    });
-
-    expectToEqual(card.find(Wrapper).props().shouldUsePointerCursor, false);
   });
 });

@@ -1,5 +1,57 @@
 # @atlaskit/media-card
 
+## 64.2.1
+
+### Patch Changes
+
+- [patch][9ce6986361](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce6986361):
+
+  CEMS-244: Emit processed state when file gets copied
+
+## 64.2.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 64.1.0
+
+### Minor Changes
+
+- [minor][44202a6e9a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44202a6e9a):
+
+  Analytics Event will be fired when InlinePlayer is being clicked
+
+## 64.0.2
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 64.0.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 64.0.0
+
+### Major Changes
+
+- [major][3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+
+  Property `type` was removed from `CardViewAnalyticsContext` interface
+  File size won't be displayed if it was set to zero or not obtained
+
 ## 63.3.12
 
 ### Patch Changes

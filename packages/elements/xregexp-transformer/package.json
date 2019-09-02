@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/xregexp-transformer",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "private": true,
   "description": "Xregexp transformer to compile regex scripts to unicode charsets.",
   "author": "Atlassian Pty Ltd",
@@ -11,11 +11,11 @@
     "sample": "./node_modules/ttypescript/bin/tsc src/sample.ts"
   },
   "dependencies": {
-    "typescript": "~3.1.0",
+    "typescript": "~3.6.2",
     "xregexp": "^4.1.1"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/docs": "^8.1.5",
     "@types/node": "^11.11.7",
     "ttypescript": "^1.5.5"
   },

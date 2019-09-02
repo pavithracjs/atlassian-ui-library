@@ -117,7 +117,7 @@ export default class MultiSelect extends PureComponent<Props, State> {
     items: this.props.items,
   };
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.items !== this.state.items) {
       this.setState({ items: [...nextProps.items] });
     }

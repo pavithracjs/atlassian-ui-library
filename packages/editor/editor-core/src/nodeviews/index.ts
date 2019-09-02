@@ -1,6 +1,7 @@
 export * from './types';
 export {
   default as ReactNodeView,
+  SelectionBasedNodeView,
   ReactComponentProps,
   getPosHandler,
   ForwardRef,

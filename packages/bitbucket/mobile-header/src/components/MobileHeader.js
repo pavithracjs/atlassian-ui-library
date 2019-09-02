@@ -32,7 +32,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     topOffset: 0,
   };
 
-  componentWillReceiveProps(nextProps: MobileHeaderProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: MobileHeaderProps) {
     if (nextProps.drawerState === 'none') {
       if (this.props.drawerState === 'navigation') {
         this.setState({ isAnimatingNavigation: true });

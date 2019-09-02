@@ -102,7 +102,7 @@ export interface AppCardIcon {
   label: string;
 }
 
-const defaultAttrs = {
+const defaultAttrs: Record<string, any> = {
   text: { default: '' },
   textUrl: { default: null },
   link: { default: null },
@@ -125,16 +125,14 @@ export const applicationCard: NodeSpec = {
     {
       tag: 'div[data-node-type="media"]',
       getAttrs: dom => {
-        const attrs: ApplicationCardAttributes = {
+        const attrs: Record<string, any> = {
           text: '',
           title: { text: '' },
         };
 
-        (Object.keys(defaultAttrs) as Array<keyof typeof defaultAttrs>).forEach(
-          key => {
-            attrs[key] = (dom as HTMLElement).dataset[key] as any;
-          },
-        );
+        Object.keys(defaultAttrs).forEach(key => {
+          attrs[key] = (dom as HTMLElement).dataset[key];
+        });
 
         return attrs;
       },

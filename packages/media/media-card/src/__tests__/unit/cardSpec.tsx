@@ -18,7 +18,12 @@ import {
 } from '@atlaskit/media-client';
 import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { MediaViewer } from '@atlaskit/media-viewer';
-import { CardAction, CardProps, CardDimensions } from '../..';
+import {
+  CardAction,
+  CardProps,
+  CardDimensions,
+  CardViewAnalyticsContext,
+} from '../..';
 import { Card } from '../../root/card';
 import { CardView } from '../../root/cardView';
 import { InlinePlayer } from '../../root/inlinePlayer';
@@ -240,18 +245,63 @@ describe('Card', () => {
     expect(clickHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('should pass onMouseEnter to CardView', () => {
+  it('should fire onClick and onMouseEnter events triggered from MediaCard', () => {
     const mediaClient = fakeMediaClient() as any;
-    const hoverHandler = () => {};
-    const card = shallow(
+    const clickHandler = jest.fn();
+    const hoverHandler = jest.fn();
+    const card = shallow<Card>(
       <Card
         mediaClient={mediaClient}
         identifier={identifier}
         onMouseEnter={hoverHandler}
+        onClick={clickHandler}
       />,
     );
+    const cardView = card.find(CardView);
+    cardView.simulate('mouseEnter');
+    cardView.simulate('click');
 
-    expect(card.find(CardView).props().onMouseEnter).toEqual(hoverHandler);
+    expect(clickHandler).toHaveBeenCalledTimes(1);
+    const clickHandlerArg = clickHandler.mock.calls[0][0];
+    expect(clickHandlerArg.mediaItemDetails).toEqual(card.state().metadata);
+
+    expect(hoverHandler).toBeCalledTimes(1);
+    const hoverHandlerArg = hoverHandler.mock.calls[0][0];
+    expect(hoverHandlerArg.mediaItemDetails).toEqual(card.state().metadata);
+  });
+
+  it('should fire "clicked" analytics event when loading file card clicked', () => {
+    const mediaClient = fakeMediaClient() as any;
+    const clickHandler = jest.fn();
+    const analyticsEventHandler = jest.fn();
+    const cardAction: CardAction = {
+      handler: () => {},
+      label: 'Click me',
+    };
+    const listener = mount(
+      <AnalyticsListener channel="media" onEvent={analyticsEventHandler}>
+        <Card
+          mediaClient={mediaClient}
+          actions={[cardAction]}
+          onClick={clickHandler}
+          identifier={identifier}
+        />
+      </AnalyticsListener>,
+    );
+
+    const cardView = listener.find(CardView);
+    cardView.simulate('click');
+
+    expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
+    const actualEvent: Partial<UIAnalyticsEvent> =
+      analyticsEventHandler.mock.calls[0][0];
+    expect(actualEvent.payload).toEqual({ action: 'clicked' });
+    expect(actualEvent.context && actualEvent.context.length).toEqual(2);
+    const actualContext =
+      actualEvent.context &&
+      (actualEvent.context[0] as CardViewAnalyticsContext);
+    expect(actualContext).not.toBeUndefined();
+    // TODO: Add context data assertions
   });
 
   it('should use lazy load by default', () => {
@@ -308,10 +358,9 @@ describe('Card', () => {
       />,
     );
     const filePlaceholder = fileCard.find(CardView);
-    const { status, mediaItemType, dimensions } = filePlaceholder.props();
+    const { status, dimensions } = filePlaceholder.props();
 
     expect(status).toBe('loading');
-    expect(mediaItemType).toBe('file');
     expect(dimensions).toEqual({ width: 100, height: 50 });
   });
 
@@ -359,7 +408,7 @@ describe('Card', () => {
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
     const actualFiredEvent: UIAnalyticsEvent =
       analyticsEventHandler.mock.calls[0][0];
-    expect(actualFiredEvent.context[0]).toEqual(
+    expect(actualFiredEvent.context[1]).toEqual(
       expect.objectContaining({
         actionSubject: 'MediaCard',
         actionSubjectId: 'some-random-id',
@@ -689,7 +738,6 @@ describe('Card', () => {
         dataURI: 'mock result of URL.createObjectURL()',
         dimensions: { width: 10, height: 20 },
         disableOverlay: true,
-        mediaItemType: 'file',
         progress: undefined,
         resizeMode: 'fit',
         selectable: true,
@@ -771,8 +819,8 @@ describe('Card', () => {
 
       const { component } = setup(undefined, { identifier });
 
-      expect(component.find('CardView').prop('dataURI')).toEqual('bla');
-      expect(component.find('CardView').prop('metadata')).toEqual({
+      expect(component.find(CardView).prop('dataURI')).toEqual('bla');
+      expect(component.find(CardView).prop('metadata')).toEqual({
         id: 'bla',
         mediaType: 'image',
         name: 'some external image',
@@ -787,7 +835,7 @@ describe('Card', () => {
 
       const { component } = setup(undefined, { identifier });
 
-      expect(component.find('CardView').prop('metadata')).toEqual({
+      expect(component.find(CardView).prop('metadata')).toEqual({
         id: 'bla',
         mediaType: 'image',
         name: 'bla',
@@ -849,30 +897,17 @@ describe('Card', () => {
 
     it('should set isPlayingFile=true when clicking on a video file', () => {
       const { component } = setup(undefined, { useInlinePlayer: true });
-      const instance = component.instance() as Card;
-
-      instance.onClick({
-        mediaItemDetails: {
-          mediaType: 'video',
-        },
-      } as any);
-
+      component.setState({ metadata: { id: 'some-id', mediaType: 'video' } });
+      component.find(CardView).simulate('click');
       expect(component.state('isPlayingFile')).toBeTruthy();
     });
   });
 
   describe('MediaViewer integration', () => {
-    const clickedIdentifier: any = {
-      mediaItemDetails: {
-        mediaType: 'file',
-      },
-    };
-
     it('should render MV when shouldOpenMediaViewer=true', async () => {
       const { component } = setup(undefined, { shouldOpenMediaViewer: true });
-      const instance = component.instance() as Card;
-
-      instance.onClick(clickedIdentifier);
+      component.setState({ metadata: { id: 'some-id', mediaType: 'image' } });
+      component.find(CardView).simulate('click');
       await nextTick();
 
       const MV = component.find(MediaViewer);
@@ -893,9 +928,9 @@ describe('Card', () => {
         shouldOpenMediaViewer: true,
         mediaViewerDataSource: { list: [identifier, identifier] },
       });
-      const instance = component.instance() as Card;
+      component.setState({ metadata: { id: 'some-id', mediaType: 'image' } });
+      component.find(CardView).simulate('click');
 
-      instance.onClick(clickedIdentifier);
       await nextTick();
       expect(component.find(MediaViewer).prop('dataSource')).toEqual({
         list: [identifier, identifier],

@@ -4,6 +4,7 @@ import { EditorView } from 'prosemirror-view';
 import * as PropTypes from 'prop-types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
+import { EditorSharedConfig } from '../../labs/next/Editor';
 
 export interface State {
   [name: string]: any;
@@ -12,6 +13,7 @@ export interface State {
 export type PluginsConfig = { [name: string]: PluginKey };
 export type Context = {
   editorActions?: EditorActions;
+  editorSharedConfig?: EditorSharedConfig;
 };
 
 export interface Props {
@@ -46,6 +48,7 @@ export default class WithPluginState extends React.Component<Props, State> {
 
   static contextTypes = {
     editorActions: PropTypes.object,
+    editorSharedConfig: PropTypes.object,
   };
 
   state = {};
@@ -69,7 +72,10 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.editorView ||
       (context &&
         context.editorActions &&
-        context.editorActions._privateGetEditorView())
+        context.editorActions._privateGetEditorView()) ||
+      (context &&
+        context.editorSharedConfig &&
+        context.editorSharedConfig.editorView)
     );
   }
 
@@ -79,7 +85,10 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.eventDispatcher ||
       (this.context &&
         this.context.editorActions &&
-        this.context.editorActions._privateGetEventDispatcher())
+        this.context.editorActions._privateGetEventDispatcher()) ||
+      (this.context &&
+        this.context.editorSharedConfig &&
+        this.context.editorSharedConfig.eventDispatcher)
     );
   }
 
@@ -213,7 +222,7 @@ export default class WithPluginState extends React.Component<Props, State> {
     this.subscribeToContextUpdates(this.context);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (!this.isSubscribed) {
       this.subscribe(nextProps);
     }

@@ -67,7 +67,7 @@ export default class ResourcedEmojiControl extends PureComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     // Make a weak attempt to reduce the duplication in EmojiResource creation when a storybook is mounted
     if (
       JSON.stringify(nextProps.emojiConfig) !==

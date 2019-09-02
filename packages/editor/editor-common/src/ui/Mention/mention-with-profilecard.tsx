@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { PureComponent, ReactInstance } from 'react';
+import { PureComponent, ReactInstance, SyntheticEvent } from 'react';
 import { MentionUserType as UserType } from '@atlaskit/adf-schema';
 import { MentionProvider, ResourcedMention } from '@atlaskit/mention';
 
@@ -25,9 +25,9 @@ export interface Props {
   mentionProvider?: Promise<MentionProvider>;
   portal?: HTMLElement;
   profilecardProvider: ProfilecardProvider;
-  onClick: MentionEventHandler;
-  onMouseEnter: MentionEventHandler;
-  onMouseLeave: MentionEventHandler;
+  onClick?: MentionEventHandler;
+  onMouseEnter?: MentionEventHandler;
+  onMouseLeave?: MentionEventHandler;
 }
 
 export type PopupAlignX = 'left' | 'right';
@@ -113,10 +113,12 @@ export default class MentionWithProfileCard extends PureComponent<
     });
   }
 
-  private showProfilecard = () => {
+  private showProfilecard = (event: SyntheticEvent<HTMLElement>) => {
     if (!this.domNode) {
       return;
     }
+
+    event.stopPropagation();
 
     const [popupAlignX, popupAlignY] = this.calculateLayerPosition();
 

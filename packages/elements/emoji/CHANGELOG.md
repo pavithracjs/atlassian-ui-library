@@ -1,5 +1,56 @@
 # @atlaskit/emoji
 
+## 62.4.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 62.3.4
+
+### Patch Changes
+
+- [patch][3797db3796](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3797db3796):
+
+  ED-7513: fixed pasting content with an emoji duplicates the emoji as an image in Editor
+
+## 62.3.3
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 62.3.2
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 62.3.1
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 62.3.0
+
+### Minor Changes
+
+- [minor][66c5c88f4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66c5c88f4a):
+
+  Refactor emoji to use typeahead plugin
+
 ## 62.2.11
 
 ### Patch Changes

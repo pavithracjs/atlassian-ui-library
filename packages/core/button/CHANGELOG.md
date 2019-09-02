@@ -1,5 +1,29 @@
 # @atlaskit/button
 
+## 13.1.7
+
+### Patch Changes
+
+- [patch][67a3a1ee02](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67a3a1ee02):
+
+  Converts prop types to interfaces
+
+## 13.1.6
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 13.1.5
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
 ## 13.1.4
 
 ### Patch Changes

@@ -175,7 +175,7 @@ export default class EmojiUploadPicker extends PureComponent<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const updatedState: State = {};
     if (nextProps.errorMessage) {
       updatedState.uploadStatus = UploadStatus.Error;

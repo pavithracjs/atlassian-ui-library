@@ -1,118 +1,132 @@
-import * as React from 'react';
-import { shallow, ShallowWrapper } from 'enzyme';
+import { EditorState } from 'prosemirror-state';
 import { EmojiProvider } from '@atlaskit/emoji';
-import EditorEmojiTypeAhead from '../../../../../plugins/emoji/ui/EmojiTypeAhead';
+import {
+  createEditorFactory,
+  doc,
+  p,
+  insertText,
+  sendKeyToPm,
+} from '@atlaskit/editor-test-helpers';
 import { analyticsService, AnalyticsHandler } from '../../../../../analytics';
+import { emojiPlugin, analyticsPlugin } from '../../../../../plugins';
+import { selectCurrentItem } from '../../../../../plugins/type-ahead/commands/select-item';
+import { TypeAheadItem } from '../../../../../plugins/type-ahead/types';
 
 describe('EmojiTypeAhead', () => {
   const emojiProvider = Promise.resolve({} as EmojiProvider);
 
   describe('Analytics', () => {
-    const insertEmojiMock = jest.fn();
-    const selectNextMock = jest.fn();
-    const selectPreviousMock = jest.fn();
-
-    const pluginKey = {
-      getState: jest.fn(),
-    } as any;
-
-    const editorView = {
-      insertEmoji: jest.fn(),
-    } as any;
-
-    const emojiTypeAheadMock = {
-      selectNext: selectNextMock,
-      selectPrevious: selectPreviousMock,
-    } as any;
+    const createEditor = createEditorFactory();
+    const editor = (
+      trackEvent: any,
+      customGetItems?: any,
+      mockSelectItem?: any,
+      dispatchAnalyticsEvent?: any,
+    ) =>
+      createEditor({
+        doc: doc(p('{<>}')),
+        editorProps: {
+          emojiProvider: customGetItems ? undefined : emojiProvider,
+          analyticsHandler: trackEvent,
+          allowAnalyticsGASV3: true,
+        },
+        createAnalyticsEvent: dispatchAnalyticsEvent,
+        editorPlugins: [
+          analyticsPlugin(dispatchAnalyticsEvent),
+          {
+            ...emojiPlugin({ createAnalyticsEvent: dispatchAnalyticsEvent }),
+            pluginsOptions: {
+              typeAhead: {
+                ...emojiPlugin({ createAnalyticsEvent: dispatchAnalyticsEvent })
+                  .pluginsOptions!.typeAhead,
+                getItems:
+                  customGetItems ||
+                  emojiPlugin({ createAnalyticsEvent: dispatchAnalyticsEvent })
+                    .pluginsOptions!.typeAhead!.getItems,
+                selectItem: mockSelectItem
+                  ? (
+                      state: EditorState,
+                      item: TypeAheadItem,
+                      _insert: any,
+                      meta: any,
+                    ) => {
+                      return emojiPlugin({
+                        createAnalyticsEvent: dispatchAnalyticsEvent,
+                      }).pluginsOptions!.typeAhead!.selectItem(
+                        state,
+                        item,
+                        () => state.tr,
+                        meta,
+                      );
+                    }
+                  : emojiPlugin({
+                      createAnalyticsEvent: dispatchAnalyticsEvent,
+                    }).pluginsOptions!.typeAhead!.selectItem,
+              },
+            },
+          },
+        ],
+      });
 
     let trackEvent: jest.SpyInstance<AnalyticsHandler>;
-    let component: ShallowWrapper<EditorEmojiTypeAhead>;
-    let componentInstance: EditorEmojiTypeAhead;
     let dispatchAnalyticsSpy: jest.Mock;
-
-    pluginKey.getState.mockReturnValue({
-      query: ':ok',
-      subscribe: jest.fn(),
-      unsubscribe: jest.fn(),
-      insertEmoji: insertEmojiMock,
-    });
 
     beforeEach(() => {
       trackEvent = jest.spyOn(analyticsService, 'trackEvent');
-      dispatchAnalyticsSpy = jest.fn();
-
-      component = shallow(
-        <EditorEmojiTypeAhead
-          pluginKey={pluginKey}
-          editorView={editorView}
-          emojiProvider={emojiProvider}
-          dispatchAnalyticsEvent={dispatchAnalyticsSpy}
-        />,
-      );
-      componentInstance = component.instance() as EditorEmojiTypeAhead;
-
-      componentInstance.handleEmojiTypeAheadRef(emojiTypeAheadMock);
+      dispatchAnalyticsSpy = jest.fn(() => ({ fire: () => {} }));
     });
 
     afterEach(() => {
       trackEvent.mockRestore();
-      component.unmount();
     });
 
-    it('should fire analytics in handleOnOpen', () => {
-      componentInstance.handleOnOpen();
+    it('should fire analytics when type ahead is opened', () => {
+      const { editorView, sel } = editor(trackEvent);
+      insertText(editorView, `:he`, sel);
       expect(trackEvent).toHaveBeenCalledWith(
         'atlassian.fabric.emoji.typeahead.open',
         {},
       );
     });
 
-    it('should fire analytics in handleOnClose', () => {
-      componentInstance.handleOnClose();
+    it('should fire analytics when type ahead is closed', () => {
+      const { editorView, sel } = editor(trackEvent);
+      insertText(editorView, `:he`, sel);
+      sendKeyToPm(editorView, 'Escape');
       expect(trackEvent).toHaveBeenCalledWith(
         'atlassian.fabric.emoji.typeahead.close',
         {},
       );
     });
 
-    it('should fire analytics in handleSpaceTyped', () => {
-      componentInstance.handleSpaceTyped();
+    it('should fire analytics after space is typed', () => {
+      const { editorView, sel } = editor(trackEvent);
+      insertText(editorView, `:he `, sel);
       expect(trackEvent).toHaveBeenCalledWith(
         'atlassian.fabric.emoji.typeahead.space',
         {},
       );
     });
 
-    it('should fire analytics in handleSelectPrevious', () => {
-      (componentInstance as any).handleSelectPrevious();
-      expect(selectPreviousMock).toHaveBeenCalled();
-      expect(trackEvent).toHaveBeenCalledWith(
-        'atlassian.fabric.emoji.typeahead.keyup',
-        {},
+    it('should fire analytics when enter is pressed', async () => {
+      const { editorView, sel } = editor(
+        trackEvent,
+        () => [
+          {
+            title: 'foo',
+            emoji: {
+              id: 'emojiId',
+              type: 'emojiType',
+            },
+          },
+        ],
+        true,
       );
-    });
 
-    it('should fire analytics in handleSelectNext', () => {
-      (componentInstance as any).handleSelectNext();
-      expect(selectNextMock).toHaveBeenCalled();
-      expect(trackEvent).toHaveBeenCalledWith(
-        'atlassian.fabric.emoji.typeahead.keydown',
-        {},
-      );
-    });
+      insertText(editorView, `:foo`, sel);
+      sendKeyToPm(editorView, 'Enter');
 
-    it('should fire analytics in handleSpaceSelectCurrent', () => {
-      componentInstance.handleOnOpen(); // set openTime
-      trackEvent.mockReset();
-
-      (componentInstance as any).handleSpaceSelectCurrent(
-        {
-          id: 'emojiId',
-          type: 'emojiType',
-        },
-        'Enter',
-        ':foo',
-      );
+      expect(trackEvent).toHaveBeenCalled();
 
       expect(trackEvent).toHaveBeenCalledWith(
         'atlassian.fabric.emoji.typeahead.select',
@@ -120,43 +134,47 @@ describe('EmojiTypeAhead', () => {
           mode: 'enter',
           emojiId: 'emojiId',
           type: 'emojiType',
-          queryLength: 4,
+          queryLength: 3,
         }),
       );
     });
 
-    describe('handleSelectedEmoji', () => {
-      beforeEach(() => {
-        componentInstance.handleOnOpen(); // set openTime
-        trackEvent.mockReset();
+    it('should fire analytics when selected from typeahead', () => {
+      const { editorView, sel } = editor(
+        trackEvent,
+        () => [
+          {
+            title: 'foo',
+            emoji: {
+              id: 'emojiId',
+              type: 'emojiType',
+            },
+          },
+        ],
+        true,
+        dispatchAnalyticsSpy,
+      );
 
-        (componentInstance as any).handleSelectedEmoji('emojiId', {
-          id: 'emojiId',
+      insertText(editorView, `:foo`, sel);
+      selectCurrentItem('selected')(editorView.state, editorView.dispatch);
+
+      expect(trackEvent).toHaveBeenNthCalledWith(
+        4,
+        'atlassian.fabric.emoji.typeahead.select',
+        expect.objectContaining({
+          mode: 'selected',
+          emojiId: 'emojiId',
           type: 'emojiType',
-        });
-      });
+          queryLength: 3,
+        }),
+      );
 
-      it('should fire v2 analytics event', () => {
-        expect(insertEmojiMock).toHaveBeenCalledWith('emojiId');
-        expect(trackEvent).toHaveBeenCalledWith(
-          'atlassian.fabric.emoji.typeahead.select',
-          expect.objectContaining({
-            mode: 'selected',
-            emojiId: 'emojiId',
-            type: 'emojiType',
-            queryLength: 3,
-          }),
-        );
-      });
-
-      it('should fire v3 analytics event', () => {
-        expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
-          action: 'inserted',
-          actionSubject: 'document',
-          actionSubjectId: 'emoji',
-          attributes: { inputMethod: 'typeAhead' },
-          eventType: 'track',
-        });
+      expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'emoji',
+        attributes: { inputMethod: 'typeAhead' },
+        eventType: 'track',
       });
     });
   });

@@ -7,6 +7,7 @@ import {
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
 import { animationFrame } from '../__helpers/page-objects/_editor';
+import { GUTTER_SELECTOR } from '../../plugins/base/pm-plugins/scroll-gutter';
 
 export {
   setupMediaMocksProviders,
@@ -17,7 +18,11 @@ export {
   toggleFeature,
 } from '../integration/_helpers';
 
-export const editorSelector = '.ProseMirror';
+export const editorSelector = '.akEditor';
+export const editorFullPageContentSelector =
+  '.fabric-editor-popup-scroll-parent';
+export const editorCommentContentSelector = '.ak-editor-content-area';
+export const pmSelector = '.ProseMirror';
 
 export const DEFAULT_WIDTH = 800;
 export const DEFAULT_HEIGHT = 600;
@@ -28,34 +33,6 @@ export const dynamicTextViewportSizes = [
   { width: 768, height: 4000 },
   { width: 1024, height: 4000 },
 ];
-
-// TODO: remove this gotoExample step
-export const initEditor = async (page: any, appearance: string) => {
-  const url = getExampleUrl(
-    'editor',
-    'editor-core',
-    appearance,
-    // @ts-ignore
-    global.__BASEURL__,
-  );
-  await navigateToUrl(page, url);
-  if (appearance === 'comment') {
-    const placeholder = 'input[placeholder="What do you want to say?"]';
-    await page.waitForSelector(placeholder);
-    await page.click(placeholder);
-  }
-
-  await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
-  await page.waitForSelector(editorSelector);
-  await page.click(editorSelector);
-  await page.addStyleTag({
-    content: `
-      .json-output { display: none; }
-      .ProseMirror { caret-color: transparent; }
-      .ProseMirror-gapcursor span::after { animation-play-state: paused !important; }
-    `,
-  });
-};
 
 export enum Device {
   Default = 'Default',
@@ -74,6 +51,26 @@ export const deviceViewPorts = {
   [Device.iPad]: { width: 768, height: 1024 },
   [Device.iPhonePlus]: { width: 414, height: 736 },
 };
+
+/**
+ * Sometimes it's useful to visualise whitespace, invisible elements, or bounding boxes
+ * to track layout changes and capture regressions in CI.
+ *
+ * Green is used to ensure it doesn't clash with the red and yellow used by jest-image-snapshot.
+ */
+const WHITESPACE_DEBUGGING_FILL_COLOR = '#0c0';
+
+async function visualiseInvisibleElements(page: any) {
+  await page.addStyleTag({
+    content: `
+      /*
+        Visualise the invisible scroll gutter (padding at bottom of full page editor).
+        This allows us to see whether the element exists within a snapshot, and compare the scroll offset.
+      */
+      ${GUTTER_SELECTOR} { background: ${WHITESPACE_DEBUGGING_FILL_COLOR}; }
+    `,
+  });
+}
 
 function getEditorProps(appearance: Appearance) {
   const enableAllEditorProps = {
@@ -154,7 +151,7 @@ export async function mountEditor(
     props,
     mountOptions,
   );
-  await page.waitForSelector(editorSelector, 500);
+  await page.waitForSelector(pmSelector, 500);
 }
 
 export enum Appearance {
@@ -221,6 +218,9 @@ export const initEditorWithAdf = async (
   // because we cannot control and affect snapshots
   // You can override this disabling if you are sure that you need it in your test
   await disableAllSideEffects(page, allowSideEffects);
+
+  // Visualise invisible elements
+  await visualiseInvisibleElements(page);
 };
 
 export const initFullPageEditorWithAdf = async (
@@ -270,7 +270,7 @@ export const updateEditorProps = async (
 
 export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
-    const dom = document.querySelector(editorSelector) as HTMLElement;
+    const dom = document.querySelector(pmSelector) as HTMLElement;
     dom.innerHTML = '<p><br /></p>';
   });
 };
@@ -281,7 +281,7 @@ export const snapshot = async (
     tolerance?: number;
     useUnsafeThreshold?: boolean;
   } = {},
-  selector: string = '.akEditor',
+  selector: string = editorFullPageContentSelector,
 ) => {
   const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);

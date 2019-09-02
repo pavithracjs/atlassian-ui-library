@@ -11,7 +11,7 @@ interface ExtensionPluginOptions {
   breakoutEnabled?: boolean;
 }
 
-const extensionPlugin = (config: ExtensionPluginOptions): EditorPlugin => ({
+const extensionPlugin = (options?: ExtensionPluginOptions): EditorPlugin => ({
   nodes() {
     return [
       { name: 'extension', node: extension },
@@ -29,7 +29,9 @@ const extensionPlugin = (config: ExtensionPluginOptions): EditorPlugin => ({
             (typeof props.allowExtension === 'object'
               ? props.allowExtension
               : { allowBreakout: false }
-            ).allowBreakout && props.appearance !== 'full-width';
+            ).allowBreakout &&
+            options &&
+            options.breakoutEnabled;
 
           return createPlugin(
             dispatch,
@@ -46,7 +48,7 @@ const extensionPlugin = (config: ExtensionPluginOptions): EditorPlugin => ({
   },
 
   pluginsOptions: {
-    floatingToolbar: getToolbarConfig(config.breakoutEnabled),
+    floatingToolbar: getToolbarConfig(options && options.breakoutEnabled),
   },
 });
 

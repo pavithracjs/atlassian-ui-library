@@ -1,5 +1,45 @@
 # @atlaskit/editor-test-helpers
 
+## 9.11.12
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
+## 9.11.11
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 9.11.10
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 9.11.9
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 9.11.8
+
+### Patch Changes
+
+- [patch][a82d6088e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a82d6088e2):
+
+  ED-4807 Use right cell type when spliting merged header cells
+
 ## 9.11.7
 
 ### Patch Changes

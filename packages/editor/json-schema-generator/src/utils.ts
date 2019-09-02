@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-
 export type TagInfo = {
   name: string;
   allowUnsupportedBlock?: boolean;
@@ -31,17 +30,24 @@ export function getTags(tagInfo: ts.JSDocTagInfo[]): TagInfo {
 }
 
 export type PrimitiveType = number | boolean | string;
-
+export type LiteralType = {
+  [k in keyof ts.LiteralType]: ts.LiteralType[k] extends
+    | string
+    | number
+    | ts.PseudoBigInt
+    ? PrimitiveType
+    : ts.LiteralType[k]
+};
 export function extractLiteralValue(typ: ts.Type): PrimitiveType {
   /* eslint-disable no-bitwise */
   if (typ.flags & ts.TypeFlags.EnumLiteral) {
-    let str = String((typ as ts.LiteralType).value);
+    let str = String((typ as LiteralType).value);
     let num = parseFloat(str);
     return isNaN(num) ? str : num;
   } else if (typ.flags & ts.TypeFlags.StringLiteral) {
-    return (typ as ts.LiteralType).value;
+    return (typ as LiteralType).value;
   } else if (typ.flags & ts.TypeFlags.NumberLiteral) {
-    return (typ as ts.LiteralType).value;
+    return (typ as LiteralType).value;
   } else if (typ.flags & ts.TypeFlags.BooleanLiteral) {
     // TODO: Fix any
     return (typ as any).intrinsicName === 'true';

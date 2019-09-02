@@ -5,7 +5,7 @@ import { Page } from 'puppeteer';
 const initRenderer = async (page: Page, adf: any) => {
   await initRendererWithADF(page, {
     appearance: 'full-page',
-    viewport: { width: 1280, height: 1080 },
+    viewport: { width: 1280, height: 900 },
     adf,
   });
 };

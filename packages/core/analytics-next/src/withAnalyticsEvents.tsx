@@ -10,6 +10,8 @@ export interface WithAnalyticsEventsProps {
    * It is provided by `@atlaskit/analytics-next` and integrated in the component
    */
   createAnalyticsEvent?: CreateUIAnalyticsEvent;
+
+  ref?: React.Ref<any>;
 }
 
 const withAnalyticsEvents = (createEventMap?: CreateEventMap) => <
@@ -31,10 +33,9 @@ const withAnalyticsEvents = (createEventMap?: CreateEventMap) => <
       >
         {({ createAnalyticsEvent, patchedEventProps }) => (
           <WrappedComponent
-            {...props}
+            {...props as any}
             {...patchedEventProps}
             createAnalyticsEvent={createAnalyticsEvent}
-            // @ts-ignore
             ref={ref}
           />
         )}

@@ -49,6 +49,17 @@ pipelines:
               - bolt install --frozen-lockfile
               - yarn build
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
+              - export CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js)
+              # Change into a glob pattern (removing brackets, spaces and quotes).
+              - export CHANGED_PACKAGES_GLOB=$(echo "$CHANGED_PACKAGES" | sed 's/[][" ]//g')
+              - node build/ci-scripts/branch-deploys/update.changed.packages.deps.to.cdn.js
+              # We add in the exta brances and a trailing comma in case we only have one package
+              - bolt ws exec --only-fs="{$CHANGED_PACKAGES_GLOB,}" -- npm pack
+              - mkdir -p dists/
+              - node build/ci-scripts/branch-deploys/copy.built.tgzs.to.dists.dir.js
+              - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
+            artifacts:
+              - dists/manifest.json
             after-script:
               - yarn send:stepFailureEvents
             caches:
@@ -93,10 +104,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --frozen-lockfile
-              # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
-              - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
-              # Run the editor tests (runInBand is required or it fails in CI)
-              - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
+              - yarn test:changed --maxWorkers=50% --passWithNoTests
               # Run platform-specific tests of the editor bridge
               - yarn test:editor-mobile-bridge:ios
               - yarn test:editor-mobile-bridge:android
@@ -214,20 +222,7 @@ pipelines:
             - yarn send:buildEvents
           caches:
             - node
-
-    # This should only be called by a scheduled build to check the bundle-size after a merge to master and on dependent packages.
-    bundle-size-master-check:
-      - step:
-          script:
-            - source ./build-setup.sh
-            - git merge master --no-edit
-            - bolt install --frozen-lockfile
-            - yarn measure:dependents
-          after-script:
-            - yarn send:buildEvents
-          caches:
-            - node
-
+            
     # This should only be called by a scheduled or manual build from master.
     # It builds the website and send the data to redash.
     send-website-build-analytics:
@@ -303,10 +298,7 @@ pipelines:
               script:
                 - source ./build-setup.sh
                 - bolt install --frozen-lockfile
-                # Run the non-editor tests.
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test
-                # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
+                - yarn test --maxWorkers=50%
                 # Run platform-specific tests of the editor bridge
                 - yarn test:editor-mobile-bridge:ios
                 - yarn test:editor-mobile-bridge:android
@@ -400,40 +392,38 @@ pipelines:
                 - yarn changeset bump
               after-script:
                 - yarn send:stepFailureEvents
-          # Rest of the steps are jest tests. We no longer use the $BITBUCKET_PARALLEL_STEP_COUNT and $BITBUCKET_PARALLEL_STEP
-          # variables as they mean the jest steps need to be in their own parallel block, so we just hardcode them here.
-          # Editor tests need to runInBand.
           - step:
-              name: Running Editor Unit tests - Jest 1 of 2 chunks
+              name: Running Unit tests - Jest 1 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
                 # This script acts like a unit test to check changes to @atlaskit/adf-schema.
                 - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
               after-script:
                 - yarn send:stepFailureEvents
           - step:
-              name: Running Editor Unit tests - Jest 2 of 2 chunks
+              name: Running Unit tests - Jest 2 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
                 - yarn test:editor-mobile-bridge:ios
-                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
           - step:
-              name: Running Non Editor Unit tests
+              name: Running Unit tests - Jest 2 of 3 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="3" STEP_IDX="2" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --maxWorkers=50%
+                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
           - step:
@@ -543,9 +533,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-1| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -555,9 +546,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js editor-part-2| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -567,9 +559,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js core| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -579,9 +572,10 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
                 - node build/ci-scripts/get.pkgs.in.team.js media| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
           - step:
@@ -590,11 +584,12 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --frozen-lockfile
-                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server
+                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform,server,monorepo-tooling
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
-              # required to debug, may be we can remove this later
               artifacts:
                 - .masterBundleSize/**
+              after-script:
+                - yarn send:bundleSize
               caches:
                 - node
     # A pipeline to update a package's i18n translation messages.

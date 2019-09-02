@@ -9,4 +9,5 @@ export type CardWithUrlContentProps = {
   isSelected?: boolean;
   container?: HTMLElement;
   dispatchAnalytics: AnalyticsHandler;
+  onResolve?: (data: { url?: string; title?: string }) => void;
 };

@@ -182,7 +182,7 @@ export default (editorView: any) => {
   (editorView as any).updateState = function(state: any) {
     warnOnce();
     state.scrollToSelection = 0;
-    EditorView.prototype.updateState.apply(this, arguments);
+    EditorView.prototype.updateState.apply(this, arguments as any);
   };
 
   // Do nothing to update selection
@@ -195,6 +195,6 @@ export default (editorView: any) => {
   };
 
   (editorView as any).destroy = function() {
-    EditorView.prototype.destroy.apply(this, arguments);
+    EditorView.prototype.destroy.apply(this, arguments as any);
   };
 };

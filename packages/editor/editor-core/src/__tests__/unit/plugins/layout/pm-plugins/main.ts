@@ -10,6 +10,7 @@ import {
   RefsNode,
   createEditorFactory,
   sendKeyToPm,
+  insertText,
 } from '@atlaskit/editor-test-helpers';
 import {
   default as createLayoutPlugin,
@@ -21,15 +22,24 @@ import {
   PresetLayout,
 } from '../../../../../plugins/layout/actions';
 import { layouts, buildLayoutForWidths } from '../_utils';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 describe('layout', () => {
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
+  let editorView: EditorView;
   const createEditor = createEditorFactory();
   const layoutPlugin = createLayoutPlugin({
     allowBreakout: true,
     UNSAFE_addSidebarLayouts: true,
   });
-  const editor = (doc: any) =>
-    createEditor({ doc, editorProps: { allowLayouts: true } });
+  const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    return createEditor({
+      doc,
+      editorProps: { allowLayouts: true, allowAnalyticsGASV3: true },
+      createAnalyticsEvent,
+    });
+  };
   const toState = (node: RefsNode) =>
     EditorState.create({
       doc: node,
@@ -448,6 +458,35 @@ describe('layout', () => {
           ),
         ),
       );
+    });
+  });
+
+  describe('quick insert', () => {
+    beforeEach(() => {
+      ({ editorView } = editor(doc(p('{<>}'))));
+      insertText(editorView, `/layout`);
+      sendKeyToPm(editorView, 'Enter');
+    });
+
+    it('inserts default layout (2 cols equal width)', () => {
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          layoutSection(
+            layoutColumn({ width: 50 })(p()),
+            layoutColumn({ width: 50 })(p()),
+          ),
+        ),
+      );
+    });
+
+    it('fires analytics event', () => {
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'layout',
+        eventType: 'track',
+        attributes: { inputMethod: 'quickInsert' },
+      });
     });
   });
 });

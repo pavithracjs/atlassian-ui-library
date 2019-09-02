@@ -65,6 +65,20 @@ describe('<Emoji />', () => {
       expect(image.prop('src') || {}).toEqual('https://path-to-image.png');
     });
 
+    it('should have emoji class', () => {
+      const wrapper = shallow(<Emoji emoji={imageEmoji} />);
+
+      const image = wrapper.find(`.${styles.emoji} img`);
+      expect(image.hasClass('emoji')).toEqual(true);
+    });
+
+    it('should have "data-emoji-short-name" attribute', () => {
+      const wrapper = shallow(<Emoji emoji={imageEmoji} />);
+
+      const image = wrapper.find(`.${styles.emoji} img`);
+      expect(image.prop('data-emoji-short-name') || {}).toEqual(':grimacing:');
+    });
+
     it('should use altRepresentation image if fitToHeight is larger than representation height', () => {
       const wrapper = shallow(<Emoji emoji={imageEmoji} fitToHeight={26} />);
 

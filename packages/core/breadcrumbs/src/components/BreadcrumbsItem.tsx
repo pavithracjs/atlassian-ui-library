@@ -59,7 +59,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
     this.updateOverflow();
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     // Reset the state
     this.setState({ hasOverflow: false });
   }
@@ -104,6 +104,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
     const { hasOverflow } = this.state;
 
     return (
+      // @ts-ignore - 31052019 VBZ - this shouldn't exist right?
       <Button
         truncationWidth={truncationWidth}
         appearance="subtle-link"
@@ -117,7 +118,6 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
           this.button = el;
         }}
         component={component}
-        // @ts-ignore - 31052019 VBZ - this shouldn't exist right?
         analyticsContext={{
           componentName: 'breadcrumbsItem',
           packageName,

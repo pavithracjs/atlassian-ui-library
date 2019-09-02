@@ -41,7 +41,7 @@ export default abstract class LoadingEmojiComponent<
     }
   }
 
-  componentWillReceiveProps(nextProps: Readonly<P>) {
+  UNSAFE_componentWillReceiveProps(nextProps: Readonly<P>) {
     this.loadEmojiProvider(nextProps.emojiProvider);
   }
 

@@ -24,11 +24,10 @@ interface CardProps {
   ref: ((ref: HTMLElement | null) => any);
 }
 
-const Card = styled.div`
+const Card = styled.div<CardProps>`
   background: ${colors.Y75};
   border-radius: 3px;
-  cursor: ${({ isDragging }: CardProps) =>
-    isDragging ? 'grabbing' : 'pointer'};
+  cursor: ${({ isDragging }) => (isDragging ? 'grabbing' : 'pointer')};
   display: flex;
   position: relative;
   height: ${gridUnit * 5}px;

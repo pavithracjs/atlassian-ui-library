@@ -3,8 +3,8 @@ import * as React from 'react';
 import {
   ABTest,
   DEFAULT_AB_TEST,
-  Filter,
   FilterType,
+  FilterWithMetadata,
 } from '../../../../api/CrossProductSearchClient';
 import { CreateAnalyticsEventFn } from '../../../analytics/types';
 import {
@@ -51,7 +51,7 @@ const mockEvent: any = {
 const defaultProps = {
   product: 'confluence' as QuickSearchContext,
   logger: mockLogger(),
-  getSearchResultsComponent: jest.fn(
+  getSearchResultsComponent: jest.fn<{}>(
     (props: SearchResultProps<GenericResultMap>) => null,
   ),
   getRecentItems: jest.fn((searchSessionId: string) => ({
@@ -355,7 +355,7 @@ describe('QuickSearchContainer', () => {
         | Promise<{ results: { spaces: { key: string }[] } }>
         | Promise<never>
         | Promise<{ results: { spaces: { key: string }[] } }>,
-      filters: Filter[] = [],
+      filters: FilterWithMetadata[] = [],
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
@@ -406,7 +406,7 @@ describe('QuickSearchContainer', () => {
         wrapper,
         query,
         Promise.resolve({ results: searchResults }),
-        [{ '@type': FilterType.Spaces, spaceKeys: ['abc123'] }],
+        [{ filter: { '@type': FilterType.Spaces, spaceKeys: ['abc123'] } }],
       );
       assertLastCall(defaultProps.getSearchResultsComponent, {
         searchResults,

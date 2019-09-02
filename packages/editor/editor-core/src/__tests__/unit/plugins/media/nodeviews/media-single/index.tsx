@@ -1,4 +1,9 @@
 import * as React from 'react';
+
+jest.mock('../../../../../../plugins/media/nodeviews/mediaNodeUpdater');
+
+import { MediaNodeUpdater } from '../../../../../../plugins/media/nodeviews/mediaNodeUpdater';
+
 import { mount, ReactWrapper } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
 import {
@@ -28,9 +33,12 @@ import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
 import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/base/pm-plugins/react-nodeview';
 import { MediaOptions } from '../../../../../../plugins/media';
-import * as mediaCommands from '../../../../../../plugins/media/commands';
 import ResizableMediaSingle from '../../../../../../plugins/media/ui/ResizableMediaSingle';
-import { nextTick } from '@atlaskit/media-test-helpers';
+import {
+  nextTick,
+  asMock,
+  asMockReturnValue,
+} from '@atlaskit/media-test-helpers';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -38,6 +46,11 @@ const getFreshMediaProvider = () =>
   fakeMediaProvider({
     collectionName: testCollectionName,
   });
+
+const getLastMediaNodeUpdaterMockInstance = (): MediaNodeUpdater => {
+  const instances = (MediaNodeUpdater as any).instances;
+  return instances[instances.length - 1];
+};
 
 describe('nodeviews/mediaSingle', () => {
   let pluginState: MediaPluginState;
@@ -79,7 +92,14 @@ describe('nodeviews/mediaSingle', () => {
   let contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   let getDimensions: any;
 
+  afterEach(() => {
+    jest.resetModules();
+    jest.resetAllMocks();
+  });
+
   beforeEach(() => {
+    asMock(MediaNodeUpdater).mockReset();
+
     mediaProvider = getFreshMediaProvider();
     contextIdentifierProvider = Promise.resolve({
       containerId: '',
@@ -149,7 +169,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -192,7 +211,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={{
             ...mediaOptions,
             allowResizing: true,
@@ -214,6 +232,39 @@ describe('nodeviews/mediaSingle', () => {
     });
   });
 
+  it('calls upload media external', async () => {
+    const mediaNodeAttrs = {
+      id: 'foo',
+      type: 'external',
+      collection: 'collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNodeWithoutDimensions = mediaSingle()(mediaNode);
+
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNodeWithoutDimensions(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+    instances[0].getRemoteDimensions = getDimensions(wrapper);
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    expect(instances[0].uploadExternalMedia).toHaveBeenCalledTimes(1);
+  });
+
   it('passes the editor width down as cardDimensions', () => {
     const mediaSingleNode = mediaSingle()(mediaNode);
     const wrapper = mount(
@@ -225,7 +276,6 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
@@ -245,7 +295,9 @@ describe('nodeviews/mediaSingle', () => {
   });
 
   it('propagates mobile upload progress to Media component', async () => {
-    pluginState.editorAppearance = 'mobile';
+    pluginState.mediaPluginOptions = {
+      allowMarkingUploadsAsIncomplete: true,
+    };
     pluginState.mobileUploadComplete = { foo: false };
 
     const mediaSingleNode = mediaSingle()(mediaNode);
@@ -258,17 +310,18 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
+        mediaPluginOptions={{
+          allowMarkingUploadsAsIncomplete: true,
+        }}
       />,
     );
 
-    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
-      wrapper,
-    );
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+    instances[0].getRemoteDimensions = getDimensions(wrapper);
 
     await (wrapper.instance() as MediaSingle).componentDidMount();
     const { uploadComplete } = wrapper.find(Media).props();
@@ -276,7 +329,9 @@ describe('nodeviews/mediaSingle', () => {
   });
 
   it('propagates mobile upload complete to Media component', async () => {
-    pluginState.editorAppearance = 'mobile';
+    pluginState.mediaPluginOptions = {
+      allowMarkingUploadsAsIncomplete: true,
+    };
     pluginState.mobileUploadComplete = { foo: true };
 
     const mediaSingleNode = mediaSingle()(mediaNode);
@@ -289,17 +344,18 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
+        mediaPluginOptions={{
+          allowMarkingUploadsAsIncomplete: true,
+        }}
       />,
     );
 
-    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
-      wrapper,
-    );
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+    instances[0].getRemoteDimensions = getDimensions(wrapper);
 
     await (wrapper.instance() as MediaSingle).componentDidMount();
     const { uploadComplete } = wrapper.find(Media).props();
@@ -315,7 +371,6 @@ describe('nodeviews/mediaSingle', () => {
         eventDispatcher,
         providerFactory,
         mediaOptions,
-        'full-page',
       )(node, view, getPos);
 
       const renderMock = jest.fn();
@@ -331,7 +386,6 @@ describe('nodeviews/mediaSingle', () => {
         eventDispatcher,
         providerFactory,
         mediaOptions,
-        'full-page',
       )(node, view, getPos);
 
       const renderMock = jest.fn();
@@ -350,10 +404,6 @@ describe('nodeviews/mediaSingle', () => {
 
   describe('when dimensions are missing on images', () => {
     it('asks media APIs for dimensions when not in ADF and updates it', async () => {
-      const updateMediaNodeAttrsSpy = jest.spyOn(
-        mediaCommands,
-        'updateMediaNodeAttrs',
-      );
       const mediaNodeAttrs = {
         id: 'foo',
         type: 'file',
@@ -372,7 +422,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -380,26 +429,23 @@ describe('nodeviews/mediaSingle', () => {
         />,
       );
 
-      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
-        wrapper,
+      (MediaNodeUpdater as any).setMock(
+        'getRemoteDimensions',
+        getDimensions(wrapper),
       );
 
-      await (wrapper.instance() as MediaSingle).componentDidMount();
-      expect(updateMediaNodeAttrsSpy).toHaveBeenCalledWith(
-        'foo',
-        {
-          height: 100,
-          width: 100,
-        },
-        true,
-      );
+      await (wrapper.instance() as any).componentDidMount();
+
+      expect(
+        getLastMediaNodeUpdaterMockInstance().updateDimensions,
+      ).toHaveBeenCalledWith({
+        id: 'foo',
+        height: 100,
+        width: 100,
+      });
     });
 
     it('does not ask media for dimensions when the image type is external', async () => {
-      const updateMediaNodeAttrsSpy = jest.spyOn(
-        mediaCommands,
-        'updateMediaNodeAttrs',
-      );
       const mediaNodeAttrs = {
         id: 'foo',
         type: 'external',
@@ -418,7 +464,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -426,12 +471,11 @@ describe('nodeviews/mediaSingle', () => {
         />,
       );
 
-      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
-        wrapper,
-      );
+      const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+      instances[0].getRemoteDimensions = getDimensions(wrapper);
 
       await (wrapper.instance() as MediaSingle).componentDidMount();
-      expect(updateMediaNodeAttrsSpy).toHaveBeenCalledTimes(0);
+      expect(instances[0].updateDimensions).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -454,7 +498,6 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
@@ -463,17 +506,17 @@ describe('nodeviews/mediaSingle', () => {
     );
     const instance = wrapper.instance() as MediaSingle;
 
-    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
-    instance.mediaNodeUpdater.isNodeFromDifferentCollection = jest
-      .fn()
-      .mockReturnValue(true);
-    instance.mediaNodeUpdater.copyNode = jest.fn();
-    instance.mediaNodeUpdater.updateContextId = jest.fn();
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+
+    instances[0].isNodeFromDifferentCollection &&
+      asMockReturnValue(
+        instances[0].isNodeFromDifferentCollection,
+        Promise.resolve(true),
+      );
+
     await instance.componentDidMount();
-    expect(
-      instance.mediaNodeUpdater.isNodeFromDifferentCollection,
-    ).toHaveBeenCalled();
-    expect(instance.mediaNodeUpdater.copyNode).toHaveBeenCalled();
+    expect(instances[0].isNodeFromDifferentCollection).toHaveBeenCalled();
+    expect(instances[0].copyNode).toHaveBeenCalled();
   });
 
   it('should set viewMediaClientConfig if mediaProvider changes', async () => {
@@ -494,19 +537,15 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
       />,
     );
-    const instance = wrapper.instance() as MediaSingle;
-
-    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
 
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });
-    // We need to await to ticks since we await 2 different promises on the componentWillReceiveProps
+    // We need to await to ticks since we await 2 different promises on the UNSAFE_componentWillReceiveProps
     // unfortunately we can't access the real promises here
     await nextTick();
     await nextTick();
@@ -514,7 +553,33 @@ describe('nodeviews/mediaSingle', () => {
     expect(wrapper.state('viewMediaClientConfig')).toBeDefined();
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
+  it('should call updateFileAttrs if mediaProvider changes', async () => {
+    const mediaNodeAttrs = {
+      id: 'some-id',
+      type: 'file',
+      collection: 'collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        mediaOptions={mediaOptions}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
+    wrapper.setProps({ mediaProvider });
+
+    expect(getLastMediaNodeUpdaterMockInstance().updateFileAttrs).toBeCalled();
   });
 });

@@ -49,12 +49,13 @@ ScrollContainer.displayName = 'ScrollContainer';
 
 const ContentArea = styled.div`
   line-height: 24px;
-  height: 100%;
-  width: 100%;
   padding-top: 50px;
+  padding-bottom: 55px;
+  height: calc(100% - 105px); /* 100% - (padding top & bottom) */
+  width: 100%;
   flex-direction: column;
   flex-grow: 1;
-  padding-bottom: 55px;
+
   max-width: ${({ theme, fullWidthMode }: any) =>
     (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
     TOTAL_PADDING}px;

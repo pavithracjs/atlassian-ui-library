@@ -15,7 +15,6 @@ import { Wrapper } from './styled';
 import { Props, EnabledHandles } from './types';
 import Resizer from './Resizer';
 import { snapTo, handleSides, imageAlignmentMap } from './utils';
-import { isFullPage } from '../../../../utils/is-full-page';
 import { calcMediaPxWidth, wrappedLayouts } from '../../utils/media-single';
 
 type State = {
@@ -55,7 +54,7 @@ export default class ResizableMediaSingle extends React.Component<
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig) {
       this.checkVideoFile(nextProps.viewMediaClientConfig);
     }
@@ -66,16 +65,23 @@ export default class ResizableMediaSingle extends React.Component<
 
   async checkVideoFile(viewMediaClientConfig?: MediaClientConfig) {
     const $pos = this.$pos;
+
     if (!$pos || !viewMediaClientConfig) {
       return;
     }
-    const getMediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
+
+    const mediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
+
+    if (!mediaNode) {
+      return;
+    }
+
     const mediaClient = getMediaClient({
       mediaClientConfig: viewMediaClientConfig,
     });
-    const state = await mediaClient.file.getCurrentState(
-      getMediaNode!.attrs.id,
-    );
+    const state = await mediaClient.file.getCurrentState(mediaNode.attrs.id, {
+      collectionName: mediaNode.attrs.collection,
+    });
     if (state && state.status !== 'error' && state.mediaType === 'image') {
       this.setState({
         isVideoFile: false,
@@ -188,7 +194,7 @@ export default class ResizableMediaSingle extends React.Component<
   calcSnapPoints() {
     const { offsetLeft } = this.state;
 
-    const { containerWidth, lineLength, appearance } = this.props;
+    const { containerWidth, lineLength, allowBreakoutSnapPoints } = this.props;
     const snapTargets: number[] = [];
     for (let i = 0; i < this.gridWidth; i++) {
       snapTargets.push(
@@ -217,7 +223,7 @@ export default class ResizableMediaSingle extends React.Component<
       : snapPoints;
 
     const isTopLevel = $pos.parent.type.name === 'doc';
-    if (isTopLevel && isFullPage(appearance)) {
+    if (isTopLevel && allowBreakoutSnapPoints) {
       snapPoints.push(akEditorWideLayoutWidth);
       const fullWidthPoint = containerWidth - akEditorBreakoutPadding;
       if (fullWidthPoint > akEditorWideLayoutWidth) {
