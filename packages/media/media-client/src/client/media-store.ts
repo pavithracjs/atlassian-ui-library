@@ -37,8 +37,13 @@ const defaultGetCollectionItems: MediaStoreGetCollectionItemsParams = {
 
 const extendImageParams = (
   params?: MediaStoreGetFileImageParams,
+  fetchMaxRes: boolean = false,
 ): MediaStoreGetFileImageParams => {
-  return { ...defaultImageOptions, ...params };
+  return {
+    ...defaultImageOptions,
+    ...params,
+    ...(fetchMaxRes ? { width: 4096, height: 4096 } : {}),
+  };
 };
 
 const jsonHeaders = {
@@ -285,6 +290,7 @@ export class MediaStore {
     id: string,
     params?: MediaStoreGetFileImageParams,
     controller?: AbortController,
+    fetchMaxRes?: boolean,
   ): Promise<Blob> => {
     // TODO [MS-1787]: add checkWebpSupport() back
     const isWebpSupported = false;
@@ -298,7 +304,7 @@ export class MediaStore {
       `/file/${id}/image`,
       {
         headers,
-        params: extendImageParams(params),
+        params: extendImageParams(params, fetchMaxRes),
         authContext: { collectionName: params && params.collection },
       },
       controller,

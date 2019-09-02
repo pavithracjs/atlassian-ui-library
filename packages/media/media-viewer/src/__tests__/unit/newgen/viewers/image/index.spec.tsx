@@ -1,10 +1,12 @@
 import * as React from 'react';
+
 import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
+
 import {
   ImageViewer,
   REQUEST_CANCELLED,
@@ -93,7 +95,7 @@ describe('ImageViewer', () => {
     expect(revokeObjectUrl).toHaveBeenCalled();
   });
 
-  it('should call mediaClient.getImage when image representation is present', async () => {
+  it('should call mediaClient.getImage when image representation is present and no preview is present', async () => {
     const response = Promise.resolve(new Blob());
     const { el, mediaClient } = createFixture(response);
 
@@ -102,15 +104,26 @@ describe('ImageViewer', () => {
 
     expect(mediaClient.getImage).toHaveBeenCalledWith(
       'some-id',
-      expect.objectContaining({
-        width: 4096,
-        height: 4096,
-        mode: 'fit',
-        allowAnimated: true,
+      {
         collection: 'some-collection',
-      }),
+        mode: 'fit',
+      },
       expect.anything(),
+      true,
     );
+  });
+
+  it('should not call mediaClient.getImage when image representation and a preview is present', async () => {
+    const response = Promise.resolve(new Blob());
+    const { el, mediaClient } = createFixture(response, {
+      ...imageItem,
+      preview: { value: new Blob() },
+    });
+
+    await response;
+    el.update();
+
+    expect(mediaClient.getImage).not.toHaveBeenCalled();
   });
 
   it('should not call mediaClient.getImage when image representation is not present', async () => {

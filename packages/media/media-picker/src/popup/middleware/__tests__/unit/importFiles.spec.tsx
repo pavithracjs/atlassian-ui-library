@@ -651,12 +651,15 @@ describe('importFiles middleware', () => {
             await state.preview;
             const { userMediaClient } = store.getState();
             expect(userMediaClient.getImage).toBeCalledTimes(1);
-            expect(userMediaClient.getImage).toBeCalledWith('id-1', {
-              collection: RECENTS_COLLECTION,
-              width: 1920,
-              height: 1080,
-              mode: 'fit',
-            });
+            expect(userMediaClient.getImage).toBeCalledWith(
+              'id-1',
+              {
+                collection: RECENTS_COLLECTION,
+                mode: 'fit',
+              },
+              undefined,
+              true,
+            );
             done();
           }
         },

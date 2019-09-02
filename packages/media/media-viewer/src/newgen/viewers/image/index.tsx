@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   MediaClient,
   FileItem,
@@ -6,6 +7,7 @@ import {
   isImageRepresentationReady,
 } from '@atlaskit/media-client';
 import { getOrientation } from '@atlaskit/media-ui';
+
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
 import { InteractiveImg } from './interactive-img';
@@ -63,7 +65,16 @@ export class ImageViewer extends BaseViewer<
       let orientation = 1;
       let objectUrl: string;
 
-      if (isImageRepresentationReady(file)) {
+      const { preview } = file;
+      if (preview) {
+        const { value } = await preview;
+        if (value instanceof Blob) {
+          orientation = await getOrientation(value as File);
+          objectUrl = URL.createObjectURL(value);
+        } else {
+          objectUrl = value;
+        }
+      } else if (isImageRepresentationReady(file)) {
         const item = processedFileStateToMediaItem(file);
         const controller =
           typeof AbortController !== 'undefined'
@@ -72,32 +83,19 @@ export class ImageViewer extends BaseViewer<
         const response = mediaClient.getImage(
           item.details.id,
           {
-            width: 4096,
-            height: 4096,
-            mode: 'fit',
-            allowAnimated: true,
             collection: collectionName,
+            mode: 'fit',
           },
           controller,
+          true,
         );
         this.cancelImageFetch = () => controller && controller.abort();
         objectUrl = URL.createObjectURL(await response);
       } else {
-        const { preview } = file;
-        if (preview) {
-          const { value } = await preview;
-          if (value instanceof Blob) {
-            orientation = await getOrientation(value as File);
-            objectUrl = URL.createObjectURL(value);
-          } else {
-            objectUrl = value;
-          }
-        } else {
-          this.setState({
-            content: Outcome.pending(),
-          });
-          return;
-        }
+        this.setState({
+          content: Outcome.pending(),
+        });
+        return;
       }
 
       this.setState({

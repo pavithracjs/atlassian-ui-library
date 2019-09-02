@@ -637,6 +637,54 @@ describe('MediaStore', () => {
         );
       });
 
+      it('should append width and height params if fetchMaxRes', async () => {
+        fetchMock.mock(`begin:${baseUrl}/file`, {
+          body: {
+            data,
+          },
+          status: 201,
+        });
+
+        await mediaStore.getImage(
+          '123',
+          {
+            mode: 'full-fit',
+            version: 2,
+            upscale: true,
+          },
+          undefined,
+          true,
+        );
+        expect(fetchMock.lastUrl()).toEqual(
+          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=full-fit&token=some-token&upscale=true&version=2&width=4096`,
+        );
+      });
+
+      it('should override width and height params if fetchMaxRes', async () => {
+        fetchMock.mock(`begin:${baseUrl}/file`, {
+          body: {
+            data,
+          },
+          status: 201,
+        });
+
+        await mediaStore.getImage(
+          '123',
+          {
+            mode: 'crop',
+            version: 2,
+            upscale: true,
+            width: 1000,
+            height: 1000,
+          },
+          undefined,
+          true,
+        );
+        expect(fetchMock.lastUrl()).toEqual(
+          `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&height=4096&max-age=3600&mode=crop&token=some-token&upscale=true&version=2&width=4096`,
+        );
+      });
+
       // TODO [MS-1787]: add checkWebpSupport() back
       it.skip('should request webp content when supported', async () => {
         fetchMock.mock(`begin:${baseUrl}/file`, {
