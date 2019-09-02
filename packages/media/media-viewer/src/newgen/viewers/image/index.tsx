@@ -74,30 +74,28 @@ export class ImageViewer extends BaseViewer<
         } else {
           objectUrl = value;
         }
+      } else if (isImageRepresentationReady(file)) {
+        const item = processedFileStateToMediaItem(file);
+        const controller =
+          typeof AbortController !== 'undefined'
+            ? new AbortController()
+            : undefined;
+        const response = mediaClient.getImage(
+          item.details.id,
+          {
+            collection: collectionName,
+            mode: 'fit',
+          },
+          controller,
+          true,
+        );
+        this.cancelImageFetch = () => controller && controller.abort();
+        objectUrl = URL.createObjectURL(await response);
       } else {
-        if (isImageRepresentationReady(file)) {
-          const item = processedFileStateToMediaItem(file);
-          const controller =
-            typeof AbortController !== 'undefined'
-              ? new AbortController()
-              : undefined;
-          const response = mediaClient.getImage(
-            item.details.id,
-            {
-              collection: collectionName,
-              mode: 'fit',
-            },
-            controller,
-            true,
-          );
-          this.cancelImageFetch = () => controller && controller.abort();
-          objectUrl = URL.createObjectURL(await response);
-        } else {
-          this.setState({
-            content: Outcome.pending(),
-          });
-          return;
-        }
+        this.setState({
+          content: Outcome.pending(),
+        });
+        return;
       }
 
       this.setState({
