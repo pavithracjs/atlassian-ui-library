@@ -1,24 +1,24 @@
 const path = require('path');
-const fetch = require('node-fetch');
-
-async function retryFetch(url, options) {
-  let retry = options.retry || 3;
-  try {
-    return await fetch(url, options);
-  } catch (e) {
-    if (options.cb) {
-      options.cb(e, retry);
-    }
-    retry--;
-    if (retry === 0) {
-      throw e;
-    }
-  }
-}
+const bolt = require('bolt');
 
 const getNpmDistPath = pkgName => path.join(process.cwd(), 'dists', pkgName);
 
+async function getAllPublicPackages(cwd) {
+  const allWorkspaces = await bolt.getWorkspaces({
+    cwd,
+  });
+
+  return allWorkspaces
+    .map(({ dir, config: { name, private, version } }) => ({
+      dir,
+      name,
+      version,
+      private,
+    }))
+    .filter(p => !p.private);
+}
+
 module.exports = {
+  getAllPublicPackages,
   getNpmDistPath,
-  retryFetch,
 };

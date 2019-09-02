@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
+const fse = require('fs-extra');
 const path = require('path');
-const bolt = require('bolt');
 const util = require('util');
-const lodash = require('lodash');
 const child_process = require('child_process');
 const rimraf = require('rimraf');
 const pLimit = require('p-limit');
-const { getNpmDistPath, retryFetch } = require('./utils');
+const { getNpmDistPath, getAllPublicPackages } = require('./utils');
 
 const exec = util.promisify(child_process.exec);
 
@@ -19,14 +17,14 @@ const lockFileName = 'fetch.lock';
 
 function distExists(pkgName, pkgVersion) {
   const distPath = getNpmDistPath(pkgName);
-  if (!fs.existsSync(distPath)) {
+  if (!fse.existsSync(distPath)) {
     return false;
   }
-  const distStat = fs.statSync(distPath);
+  const distStat = fse.statSync(distPath);
   if (!distStat.isDirectory()) {
     return false;
   }
-  const dirContents = fs.readdirSync(distPath);
+  const dirContents = fse.readdirSync(distPath);
   return (
     dirContents.length > 0 &&
     !dirContents.find(f => f === lockFileName) &&
@@ -45,22 +43,19 @@ async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
 
   console.log(`Fetching ${pkgName}...`);
   rimraf.sync(distPath);
-  fs.mkdirSync(distPath, { recursive: true });
+  fse.mkdirSync(distPath, { recursive: true });
   // Create a lockfile that is deleted after we fetch and unpack successfully.
   // Used to signal whether a cached dist is corrupt
   const lockFilePath = path.join(distPath, lockFileName);
-  fs.closeSync(fs.openSync(lockFilePath, 'w'));
-  // Change dir as npm pack extracts to current directory
-  const oldCwd = process.cwd();
-  process.chdir(distPath);
-  const { stdout, stderr } = await limit(() =>
+  fse.closeSync(fse.openSync(lockFilePath, 'w'));
+  const { stdout } = await limit(() =>
     exec(`npm pack ${pkgName}@${pkgVersion}`),
   );
-  const distTarballPath = stdout;
+  const distTarballPath = stdout.split('\n')[0];
   await exec(`tar -C ${distPath} -xvf ${distTarballPath}`);
-  // Change back to old directory so we don't permanently modify process.cwd
-  process.chdir(oldCwd);
-  fs.unlinkSync(lockFilePath);
+
+  await fse.move(distTarballPath, path.join(distPath, distTarballPath));
+  fse.unlinkSync(lockFilePath);
   console.log(`Successfully fetched and unpacked ${pkgName} to ${distPath}`);
 
   // Npm dists are stored in package
@@ -77,15 +72,9 @@ async function fetchDistFromNpm(pkgName, pkgVersion, forceRefetch) {
  * --refetch - force refetch of bundle from npm
  */
 async function main(pkgName, opts) {
-  const allPackages = (await bolt.getWorkspaces({
-    cwd: path.join(process.cwd(), '..'),
-  }))
-    .map(({ config: { name, private, version } }) => ({
-      name,
-      version,
-      private,
-    }))
-    .filter(p => !p.private);
+  const allPackages = await getAllPublicPackages(
+    path.join(process.cwd(), '..'),
+  );
 
   if (pkgName) {
     const resolvedPkg = allPackages.find(p => p.name === pkgName);
