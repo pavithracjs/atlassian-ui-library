@@ -248,7 +248,12 @@ export function mapResultsToSwitcherProps(
       ? asLicenseInformationProviderResult(availableProducts, cloudId)
       : licenseInformation;
 
-  const hasLoadedLicenseInformation = hasLoaded(resolvedLicenseInformation);
+  const hasLoadedSiteCentricProducts = hasLoaded(licenseInformation);
+  const hasLoadedAccountCentricProducts = hasLoaded(availableProducts);
+
+  const hasLoadedLicenseInformation = features.enableUserCentricProducts
+    ? hasLoadedAccountCentricProducts
+    : hasLoadedSiteCentricProducts;
   const hasLoadedAdminLinks =
     hasLoaded(managePermission) && hasLoaded(addProductsPermission);
   const hasLoadedSuggestedProducts = features.xflow
