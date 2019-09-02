@@ -39,7 +39,7 @@ exports[`ak-button/default-behaviour isLoading set the opacity of the text to 0 
   background: rgba(9,30,66,0.04);
   border-radius: 3px;
   box-shadow: 0 0 0 2px inherit;
-  color: #505F79 !important;
+  color: #42526E !important;
   cursor: default;
   height: 2.2857142857142856em;
   line-height: 2.2857142857142856em;
@@ -136,7 +136,7 @@ exports[`ak-button/default-behaviour isLoading set the opacity of the text to 0 
   background: rgba(9,30,66,0.04);
   border-radius: 3px;
   box-shadow: 0 0 0 2px inherit;
-  color: #505F79 !important;
+  color: #42526E !important;
   cursor: default;
   height: 2.2857142857142856em;
   line-height: 2.2857142857142856em;
