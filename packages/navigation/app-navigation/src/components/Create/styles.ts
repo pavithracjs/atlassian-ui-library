@@ -9,6 +9,7 @@ import {
   actionSectionMobileStyles,
   globalSkeletonStyles,
 } from '../../common/styles';
+import { SecondaryButtonSkeleton } from '../IconButton';
 
 const gridSize = gridSizeFn();
 
@@ -48,10 +49,8 @@ export const ButtonSkeleton = styled.div`
   ${createButtonStyles}
   ${globalSkeletonStyles}
 `;
-export const IconButtonSkeleton = styled.div`
-  width: ${buttonHeight}px;
-  height: ${buttonHeight}px;
-  border-radius: 50%;
+export const IconButtonSkeleton = styled(SecondaryButtonSkeleton)`
+  width: ${gridSize * 3.25}px;
+  height: ${gridSize * 3.25}px;
   ${createIconStyles}
-  ${globalSkeletonStyles}
 `;

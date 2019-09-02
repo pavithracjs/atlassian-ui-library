@@ -15,6 +15,6 @@ export type AppNavigationProps = {
 };
 
 export type AppNavigationSkeletonProps = {
-  primaryItemCount?: number;
-  secondaryItemCount?: number;
+  primaryItemsCount?: number;
+  secondaryItemsCount?: number;
 };

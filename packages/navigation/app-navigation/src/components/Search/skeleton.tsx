@@ -2,8 +2,13 @@
 import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
-import { SearchInputSkeleton, SearchWrapper, IconWrapper } from './styled';
-import { searchIconStyles, searchInputStyles } from './styles';
+import {
+  SearchInputSkeleton,
+  SearchWrapper,
+  IconWrapper,
+  SearchIconSkeleton,
+} from './styled';
+import { searchInputStyles } from './styles';
 
 export const SearchSkeleton = () => {
   return (
@@ -12,7 +17,7 @@ export const SearchSkeleton = () => {
         <IconWrapper />
         <SearchInputSkeleton />
       </SearchWrapper>
-      <div css={searchIconStyles} />
+      <SearchIconSkeleton />
     </Fragment>
   );
 };

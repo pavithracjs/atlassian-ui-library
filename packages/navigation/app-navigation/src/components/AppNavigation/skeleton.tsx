@@ -12,21 +12,21 @@ import { AppNavigationSkeletonProps } from './types';
 const styles = getStyles();
 
 export const AppNavigationSkeleton = ({
-  primaryItemCount = 4,
-  secondaryItemCount = 4,
+  primaryItemsCount = 4,
+  secondaryItemsCount = 4,
 }: AppNavigationSkeletonProps) => {
   return (
     <div css={styles.outer}>
       <div css={styles.left}>
         <ProductHomeSkeleton />
-        {new Array(primaryItemCount).fill(null).map((_, index) => (
+        {Array.from({ length: primaryItemsCount }, (_, index) => (
           <PrimaryButtonSkeleton key={index} />
         ))}
       </div>
       <div css={styles.right}>
         <CreateSkeleton />
         <SearchSkeleton />
-        {new Array(secondaryItemCount).fill(null).map((_, index) => (
+        {Array.from({ length: secondaryItemsCount }, (_, index) => (
           <SecondaryButtonSkeleton key={index} {...secondaryItemStyles} />
         ))}
         <ProfileSkeleton />
