@@ -430,8 +430,15 @@ export class Card extends Component<CardProps, CardState> {
   render() {
     const { metadata } = this.state;
     return (
-      // First Context provides data requested by Atlaskit Listener
+      /* 
+        First Context provides data needed to build packageHierarchy in Atlaskit Analytics Listener and Media Analytics Listener.
+        This data is not added to the final GASv3 payload 
+      */
       <AnalyticsContext data={getBaseAnalyticsContext()}>
+        {/* 
+          Second context provides data to be merged with any other context down in the tree and the event's payload.
+          This data is usually not available at the time of firing the event, though it is needed to be sent to the backend.
+       */}
         <AnalyticsContext data={getUIAnalyticsContext(metadata)}>
           {this.renderContent()}
         </AnalyticsContext>
