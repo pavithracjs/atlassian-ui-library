@@ -27,17 +27,17 @@ export const searchInputContainerStyles = css`
 `;
 
 export const searchInputStyles = ({
-  mode: { primary },
+  mode: { search },
 }: AppNavigationTheme) => ({
   width: '220px',
   height: `${gridSize * 4}px`,
   outline: 'none',
   borderRadius: `${gridSize * 2}px`,
   border: 'none',
-  boxSizing: 'border-box',
+  boxSizing: 'border-box' as const,
   padding: `0 ${gridSize}px 0 40px`,
   fontSize: `${fontSize()}px`,
-  ...primary.subtle,
+  ...search,
   '::placeholder': {
     color: 'inherit',
   },

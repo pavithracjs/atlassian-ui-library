@@ -1,3 +1,4 @@
+import { ThemeProps, ThemeTokens } from '@atlaskit/button/types';
 import {
   fontSizeSmall,
   gridSize as gridSizeFn,
@@ -6,7 +7,6 @@ import css from '@emotion/css';
 import styled from '@emotion/styled';
 import { globalSkeletonStyles } from '../../common/styles';
 import { AppNavigationTheme } from '../../theme';
-import { ThemeProps, ThemeTokens } from '@atlaskit/button/types';
 
 const gridSize = gridSizeFn();
 
@@ -25,7 +25,7 @@ const padding = {
 
 // TODO marginRight
 export const getPrimaryButtonTheme = ({
-  mode: { primary },
+  mode: { primaryButton },
 }: AppNavigationTheme) => (
   current: (props: ThemeProps) => ThemeTokens,
   props: ThemeProps,
@@ -41,10 +41,10 @@ export const getPrimaryButtonTheme = ({
       marginLeft: margin.left,
       padding: padding.all,
       textTransform: 'uppercase',
-      ...primary.default,
-      ':hover': primary.hover,
-      ':focus': primary.focus,
-      ':active': primary.active,
+      ...primaryButton.default,
+      ':hover': primaryButton.hover,
+      ':focus': primaryButton.focus,
+      ':active': primaryButton.active,
       ':hover .chevron, :focus .chevron': {
         visibility: 'visible',
       },

@@ -16,7 +16,7 @@ const padding = {
 };
 
 export const getIconButtonTheme = ({
-  mode: { primary },
+  mode: { iconButton },
 }: AppNavigationTheme) => (
   current: (props: ThemeProps) => ThemeTokens,
   props: ThemeProps,
@@ -29,10 +29,10 @@ export const getIconButtonTheme = ({
       height: 'auto',
       marginLeft: margin.left,
       padding: padding.all,
-      ...primary.default,
-      ':hover': primary.hover,
-      ':focus': primary.focus,
-      ':active': primary.active,
+      ...iconButton.default,
+      ':hover': iconButton.hover,
+      ':focus': iconButton.focus,
+      ':active': iconButton.active,
     },
     spinnerStyles,
   };

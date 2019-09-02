@@ -20,8 +20,10 @@ export type PrimaryButtonProps = Omit<TriggerManagerProps, 'children'> & {
   testId?: string;
   /** A string or node to render as the main content of the item. */
   text: ReactNode;
-  /** */
+  /** The theme for the package that will be utilised by the primary button. */
   theme: AppNavigationTheme;
   /** A string to render as a tooltip */
   tooltip?: string;
 };
+
+export type ThemedPrimaryButtonProps = Omit<PrimaryButtonProps, 'theme'>;

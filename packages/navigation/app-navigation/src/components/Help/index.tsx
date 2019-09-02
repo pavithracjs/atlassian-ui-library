@@ -9,7 +9,7 @@ import { HelpProps } from './types';
 export const Help = (props: HelpProps) => {
   const {
     theme: {
-      mode: { primary },
+      mode: { navigation },
     },
     tooltip,
     ...triggerManagerProps
@@ -22,7 +22,7 @@ export const Help = (props: HelpProps) => {
           icon={
             <QuestionCircleIcon
               label={tooltip}
-              secondaryColor={primary.default.backgroundColor}
+              secondaryColor={navigation.backgroundColor}
             />
           }
           onClick={onTriggerClick}

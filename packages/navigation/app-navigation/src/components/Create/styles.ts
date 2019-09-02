@@ -21,7 +21,7 @@ export const createButtonStyles = actionSectionDesktopStyles;
 export const createIconStyles = actionSectionMobileStyles;
 
 export const getCreateButtonTheme = ({
-  mode: { secondary },
+  mode: { create },
 }: AppNavigationTheme) => (
   current: (props: ThemeProps) => ThemeTokens,
   props: ThemeProps,
@@ -34,10 +34,10 @@ export const getCreateButtonTheme = ({
       fontWeight: 'bold',
       height: buttonHeight,
       textTransform: 'uppercase',
-      ...secondary.default,
-      ':hover': secondary.hover,
-      ':focus': secondary.focus,
-      ':active': secondary.active,
+      ...create.default,
+      ':hover': create.hover,
+      ':focus': create.focus,
+      ':active': create.active,
     },
     spinnerStyles,
   };

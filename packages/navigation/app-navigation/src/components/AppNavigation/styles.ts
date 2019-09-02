@@ -8,7 +8,7 @@ const gridSize = gridSizeFn();
 export const styles = {
   outer: (theme: AppNavigationTheme) => {
     const {
-      mode: { primary },
+      mode: { navigation },
     } = theme;
     return {
       alignItems: 'center',
@@ -20,7 +20,7 @@ export const styles = {
       paddingRight: gridSize * 2,
       height: HORIZONTAL_GLOBAL_NAV_HEIGHT,
       width: '100vw',
-      ...primary.default,
+      ...navigation,
     };
   },
   left: {

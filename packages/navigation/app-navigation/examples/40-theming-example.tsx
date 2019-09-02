@@ -13,51 +13,60 @@ import { DefaultProductHome } from './shared/ProductHome';
 import { DefaultProfile } from './shared/Profile';
 import { DefaultSearch } from './shared/Search';
 import { DefaultSettings } from './shared/Settings';
-import { AppNavigation, darkTheme, generateMode, lightTheme } from '../src';
-import { Colors } from '../src/theme/modeGenerator';
+import { AppNavigation, darkTheme, generateTheme, lightTheme } from '../src';
 
 mockEndpoints('jira');
 mockBuiltInNotifications();
 
-const generateTheme = (primary: Colors) => ({
-  mode: generateMode({ primary }),
-});
-
 const customThemes = [
   // Red
   generateTheme({
-    backgroundColor: '#ff3e15',
-    color: '#fff',
+    primary: {
+      backgroundColor: '#ff3e15',
+      color: '#ffffff',
+    },
   }),
   // Orange
   generateTheme({
-    backgroundColor: '#ff8c19',
-    color: '#fff',
+    primary: {
+      backgroundColor: '#ff8c19',
+      color: '#ffffff',
+    },
   }),
   // Yellow
   generateTheme({
-    backgroundColor: '#ffff00',
-    color: '#000',
+    primary: {
+      backgroundColor: '#ffff00',
+      color: '#000000',
+    },
   }),
   // Green
   generateTheme({
-    backgroundColor: '#0fdc60',
-    color: '#fff',
+    primary: {
+      backgroundColor: '#0fdc60',
+      color: '#ffffff',
+    },
   }),
   // Blue
   generateTheme({
-    backgroundColor: '#3babfd',
-    color: '#fff',
+    primary: {
+      backgroundColor: '#3babfd',
+      color: '#ffffff',
+    },
   }),
   // Violet
   generateTheme({
-    backgroundColor: '#4f1c82',
-    color: '#fff',
+    primary: {
+      backgroundColor: '#4f1c82',
+      color: '#ffffff',
+    },
   }),
   // Pink
   generateTheme({
-    backgroundColor: '#fec8d8',
-    color: '#000',
+    primary: {
+      backgroundColor: '#fec8d8',
+      color: '#000000',
+    },
   }),
 ];
 
@@ -79,7 +88,7 @@ const ThemingExample = () => (
           renderSettings={DefaultSettings}
           theme={theme}
         />
-        {i < themes.length && <br />}
+        {i < themes.length - 1 && <br />}
       </Fragment>
     ))}
   </div>

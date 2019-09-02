@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { AppNavigationTheme } from '../../theme';
-import { PrimaryButtonProps } from '../PrimaryButton/types';
+import { ThemedPrimaryButtonProps } from '../PrimaryButton/types';
 
 export type AppNavigationProps = {
-  primaryItems: PrimaryButtonProps[];
+  primaryItems: ThemedPrimaryButtonProps[];
   renderAppSwitcher?: React.ComponentType<{}>;
   renderCreate?: React.ComponentType<{}>;
   renderHelp?: React.ComponentType<{}>;

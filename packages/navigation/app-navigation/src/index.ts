@@ -12,8 +12,11 @@ export { Search } from './components/Search';
 export { Settings } from './components/Settings';
 
 export {
-  generateMode,
+  Colors,
+  generateTheme,
+  GenerateThemeArgs,
   darkTheme,
   lightTheme,
   withAppNavigationTheme,
+  ThemeProvider,
 } from './theme';

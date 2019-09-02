@@ -1,6 +1,6 @@
-import { CSSProperties as ReactCSSProperties } from 'react';
+import { CSSObject } from '@emotion/core';
 
-export type CSSProperties = ReactCSSProperties & {
+export type CSSProperties = CSSObject & {
   backgroundColor: string;
   color: string;
 };
@@ -10,13 +10,15 @@ export type ModeContext = {
   hover: CSSProperties;
   focus: CSSProperties;
   active: CSSProperties;
-  subtle: CSSProperties;
 };
 
 // This is the shape of a theme 'mode', e.g. light, dark, or custom
 export type Mode = {
-  primary: ModeContext;
-  secondary: ModeContext;
+  create: ModeContext;
+  iconButton: ModeContext;
+  navigation: CSSProperties;
+  search: CSSProperties;
+  primaryButton: ModeContext;
 };
 
 export type AppNavigationTheme = {
