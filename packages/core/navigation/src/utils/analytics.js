@@ -28,7 +28,6 @@ export const navigationExpandedCollapsed = (
 export const withGlobalItemAnalytics = (Component: ComponentType<*>) => {
   return withAnalyticsEvents({
     onClick: (createAnalyticsEvent, props) => {
-      // $FlowFixMe - analytics-next no longer supports flow
       if (props.id) {
         const event = createAnalyticsEvent({
           action: 'clicked',
@@ -41,7 +40,6 @@ export const withGlobalItemAnalytics = (Component: ComponentType<*>) => {
         event.fire(navigationChannel);
       }
 
-      // $FlowFixMe - analytics-next no longer supports flow
       return null;
     },
   })(Component);

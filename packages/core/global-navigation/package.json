@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "@atlaskit/analytics-listeners": "^6.1.7",
-    "@atlaskit/app-switcher": "^8.0.1",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/field-base": "^13.0.13",
