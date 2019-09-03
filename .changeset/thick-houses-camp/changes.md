@@ -1,0 +1,1 @@
+Adjusted insertStyleSheetHead to prevent it finding style sheets in the document body when header styles exist
