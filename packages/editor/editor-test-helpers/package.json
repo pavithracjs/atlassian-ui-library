@@ -1,6 +1,7 @@
 {
   "name": "@atlaskit/editor-test-helpers",
   "version": "9.11.13",
+  "private": true,
   "description": "Test Helpers for Atlassian Editor components",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
