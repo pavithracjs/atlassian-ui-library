@@ -25,3 +25,5 @@ export const IconButton = ({
     />
   </Tooltip>
 );
+
+export { SecondaryButtonSkeleton } from './skeleton';

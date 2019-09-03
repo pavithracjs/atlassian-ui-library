@@ -28,3 +28,5 @@ export const Profile = (props: ProfileProps) => {
     </TriggerManager>
   );
 };
+
+export { ProfileSkeleton } from './skeleton';

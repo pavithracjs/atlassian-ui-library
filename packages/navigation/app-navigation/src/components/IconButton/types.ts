@@ -7,3 +7,9 @@ export type IconButtonProps = Pick<ButtonProps, 'onClick'> & {
   theme?: ButtonProps['theme'];
   tooltip: string;
 };
+
+export type IconButtonSkeletonProps = {
+  dimension?: number;
+  marginLeft?: number;
+  marginRight?: number;
+};

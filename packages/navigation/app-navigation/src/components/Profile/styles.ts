@@ -26,3 +26,9 @@ export const profileButtonTheme: any = (
     spinnerStyles,
   };
 };
+
+export const profileItemStyles = {
+  dimension: gridSize * 4.75,
+  marginLeft: 6,
+  marginRight: 6,
+};

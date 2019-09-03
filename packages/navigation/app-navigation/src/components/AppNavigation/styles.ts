@@ -31,3 +31,9 @@ export default () => ({
     right: gridSize * 4,
   },
 });
+
+export const secondaryItemStyles = {
+  dimension: gridSize * 3.25,
+  marginLeft: 0,
+  marginRight: 5,
+};
