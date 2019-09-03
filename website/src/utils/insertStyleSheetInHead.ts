@@ -9,7 +9,8 @@ export default function insertStyleSheetInHead(cssResetStyles: string) {
   const parentElement = document.head || document.body;
   if (parentElement) {
     const insertBeforeElement =
-      document.getElementsByTagName('style')[0] || parentElement.firstChild;
+      parentElement.getElementsByTagName('style')[0] ||
+      parentElement.firstChild;
 
     const style = document.createElement('style');
     style.innerHTML = cssResetStyles;
