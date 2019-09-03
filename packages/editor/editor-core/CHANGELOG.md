@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 112.44.4
+
+### Patch Changes
+
+- [patch][c19165aec0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c19165aec0):
+
+  Fix non-critical exception when updating media nodes
+
+  `contextIdentifierProvider` is an optional provider for consumers of the Editor. Some code assumed that this was always provided. Some tests, for example, did not pass this, so they would blow up.
+
 ## 112.44.3
 
 - Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
