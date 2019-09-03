@@ -1,5 +1,13 @@
 # @atlaskit/navigation
 
+## 35.2.1
+
+### Patch Changes
+
+- [patch][49abf6d42c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/49abf6d42c):
+
+  Updates broken icon import path
+
 ## 35.2.0
 
 ### Minor Changes
