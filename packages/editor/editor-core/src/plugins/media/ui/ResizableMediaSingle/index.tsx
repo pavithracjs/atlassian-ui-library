@@ -75,8 +75,7 @@ export default class ResizableMediaSingle extends React.Component<
     }
 
     const mediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
-
-    if (!mediaNode) {
+    if (!mediaNode || !mediaNode.attrs.id) {
       return;
     }
 
