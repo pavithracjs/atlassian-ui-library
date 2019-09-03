@@ -83,6 +83,9 @@ export class AnnotationToolbar extends React.Component<AnnotationToolbarProps> {
     const mediaClient = getMediaClient({
       mediaClientConfig: this.props.viewMediaClientConfig,
     });
+    if (!this.props.id) {
+      return;
+    }
     const state = await mediaClient.file.getCurrentState(this.props.id, {
       collectionName: this.props.collection,
     });
