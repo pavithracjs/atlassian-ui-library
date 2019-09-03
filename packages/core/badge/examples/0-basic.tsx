@@ -7,11 +7,11 @@ interface ItemProps {
   inverted?: boolean;
 }
 
-const Item = styled.div`
+const Item = styled.div<ItemProps>`
   align-items: center;
-  background: ${(props: ItemProps) => (props.inverted ? colors.B400 : 'none')};
+  background: ${props => (props.inverted ? colors.B400 : 'none')};
   border-radius: ${borderRadius}px;
-  color: ${(props: ItemProps) => (props.inverted ? colors.N0 : 'inherit')};
+  color: ${props => (props.inverted ? colors.N0 : 'inherit')};
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
@@ -19,8 +19,7 @@ const Item = styled.div`
   padding: 0.6em 1em;
 
   &:hover {
-    background-color: ${(props: ItemProps) =>
-      props.inverted ? colors.B500 : colors.N20};
+    background-color: ${props => (props.inverted ? colors.B500 : colors.N20)};
   }
 `;
 

@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 import { ThemeTokens } from '../theme';
 
-const Container = styled.span`
+const Container = styled.span<{
+  backgroundColor: string;
+  textColor: string;
+}>`
   ${(props: ThemeTokens) => `
     background-color: ${props.backgroundColor};
     color: ${props.textColor};
@@ -16,7 +19,5 @@ const Container = styled.span`
   padding: 0.16666666666667em 0.5em;
   text-align: center;
 `;
-
-Container.displayName = 'Ak.Badge.Container';
 
 export default Container;
