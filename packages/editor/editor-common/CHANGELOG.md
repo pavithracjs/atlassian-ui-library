@@ -1,5 +1,21 @@
 # @atlaskit/editor-common
 
+## 39.21.0
+
+### Minor Changes
+
+- [minor][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
+## 39.20.0
+
+### Minor Changes
+
+- [minor][73e0198ae4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/73e0198ae4):
+
+  AK-6504: Fix MentionWithProfilecard for mentions in editor view mode
+
 ## 39.19.1
 
 ### Patch Changes

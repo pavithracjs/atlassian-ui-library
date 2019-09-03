@@ -113,7 +113,7 @@ export const baseTheme = {
 
   color: {
     default: {
-      default: { light: colors.N400, dark: colors.DN400 },
+      default: { light: colors.N500, dark: colors.DN400 },
       active: { light: colors.B400, dark: colors.B400 },
       disabled: { light: colors.N70, dark: colors.DN30 },
       selected: { light: colors.N20, dark: colors.DN400 },
@@ -146,7 +146,7 @@ export const baseTheme = {
       focusSelected: { light: colors.N20, dark: colors.N700 },
     },
     subtle: {
-      default: { light: colors.N400, dark: colors.DN400 },
+      default: { light: colors.N500, dark: colors.DN400 },
       active: { light: colors.B400, dark: colors.B400 },
       disabled: { light: colors.N70, dark: colors.DN100 },
       selected: { light: colors.N20, dark: colors.DN400 },

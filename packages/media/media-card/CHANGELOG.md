@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 64.2.1
+
+### Patch Changes
+
+- [patch][9ce6986361](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce6986361):
+
+  CEMS-244: Emit processed state when file gets copied
+
 ## 64.2.0
 
 ### Minor Changes

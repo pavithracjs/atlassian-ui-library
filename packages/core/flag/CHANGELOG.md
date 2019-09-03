@@ -1,5 +1,13 @@
 # @atlaskit/flag
 
+## 12.2.1
+
+### Patch Changes
+
+- [patch][67a3a1ee02](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67a3a1ee02):
+
+  Converts prop types to interfaces
+
 ## 12.2.0
 
 ### Minor Changes

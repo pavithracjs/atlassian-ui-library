@@ -2,12 +2,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { gridSize, colors } from '@atlaskit/theme';
 import ManageButton from './manage-button';
+import { Appearance } from '../theme/types';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ appearance?: Appearance }>`
   box-sizing: border-box;
   height: 100%;
-  padding-right: ${gridSize() * 4}px;
-  padding-top: 5px;
+  ${({ appearance }) =>
+    appearance === 'drawer' && `padding-right: ${gridSize() * 4}px;`};
+  ${({ appearance }) => appearance === 'drawer' && `padding-top: 5px;`};
 `;
 
 const Body = styled.div`
@@ -38,11 +40,12 @@ const ErrorBoundaryWrapper = styled.div`
 type SwitcherWrapperProps = {
   children: React.ReactNode;
   onRender?: () => void;
+  appearance?: Appearance;
 };
 
 class SwitcherWrapper extends React.Component<SwitcherWrapperProps> {
   render() {
-    const { children } = this.props;
+    const { appearance, children } = this.props;
 
     const manageButton = React.Children.toArray(children).filter(
       child =>
@@ -56,7 +59,7 @@ class SwitcherWrapper extends React.Component<SwitcherWrapperProps> {
     );
 
     return (
-      <Wrapper>
+      <Wrapper appearance={appearance}>
         <Body>{items}</Body>
         {manageButton.length ? <Footer>{manageButton}</Footer> : null}
       </Wrapper>

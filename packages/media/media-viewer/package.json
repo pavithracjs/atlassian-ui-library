@@ -55,6 +55,7 @@
     "enzyme": "^3.7.0",
     "jsverify": "^0.8.3",
     "react-dom": "^16.8.0",
-    "react-intl": "^2.6.0"
+    "react-intl": "^2.6.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

@@ -1,5 +1,29 @@
 # @atlaskit/renderer
 
+## 49.9.3
+
+### Patch Changes
+
+- [patch][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
+## 49.9.2
+
+### Patch Changes
+
+- [patch][b0804f563f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0804f563f):
+
+  Fix default export of text serializer
+
+## 49.9.1
+
+### Patch Changes
+
+- [patch][8b07822f8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b07822f8a):
+
+  Add entry-point for text-serializer
+
 ## 49.9.0
 
 ### Minor Changes

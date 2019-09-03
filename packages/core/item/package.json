@@ -40,7 +40,8 @@
     "react-dom": "^16.8.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "recompose": "^0.26.0"
+    "recompose": "^0.26.0",
+    "wait-for-expect": "^1.2.0"
   },
   "atlaskit": {
     "internal": true,

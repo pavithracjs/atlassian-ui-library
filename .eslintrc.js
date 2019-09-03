@@ -178,7 +178,17 @@ module.exports = {
         'import/no-commonjs': 'off',
         'import/no-duplicates': 'off',
         'import/no-dynamic-require': 'off',
-        'import/no-extraneous-dependencies': 'off',
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: [
+              // Top level dirs that aren't src - can't have ** either side
+              'packages/*/*/!(src)/**/*.{ts,tsx}',
+              // __tests__ dirs inside src
+              '**/__tests__/**/*.{ts,tsx}',
+            ],
+          },
+        ],
         'import/no-mutable-exports': 'off',
         'import/no-named-default': 'off',
         'import/no-useless-path-segments': 'off',

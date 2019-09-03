@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/renderer",
-  "version": "49.9.0",
+  "version": "49.9.3",
   "description": "Renderer component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +24,7 @@
     "@atlaskit/analytics-namespaced-context": "^4.1.7",
     "@atlaskit/analytics-next": "^6.1.0",
     "@atlaskit/code": "^11.0.11",
-    "@atlaskit/editor-common": "^39.19.0",
+    "@atlaskit/editor-common": "^39.21.0",
     "@atlaskit/editor-json-transformer": "^6.3.1",
     "@atlaskit/icon": "^19.0.6",
     "@atlaskit/media-card": "^64.2.0",
@@ -46,10 +46,12 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
+    "@atlaskit/avatar": "^16.0.14",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/editor-test-helpers": "^9.11.11",
     "@atlaskit/field-range": "^7.1.0",
+    "@atlaskit/logo": "^12.1.8",
     "@atlaskit/media-core": "^30.0.13",
     "@atlaskit/media-test-helpers": "^25.0.4",
     "@atlaskit/navigation-next": "^6.6.0",
@@ -59,9 +61,11 @@
     "@types/prosemirror-model": "^1.5.0",
     "@types/puppeteer": "^1.12.1",
     "@types/react-loadable": "^5.4.1",
+    "ajv": "^4.11.3",
     "enzyme": "^3.7.0",
     "puppeteer": "^1.13.0",
     "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-live-clock": "^2.0.2",
     "sinon": "^2.2.0"
   }
