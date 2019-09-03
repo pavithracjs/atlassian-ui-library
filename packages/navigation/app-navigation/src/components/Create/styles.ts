@@ -1,56 +1,51 @@
-import { B500, B75 } from '@atlaskit/theme/colors';
+import { ThemeProps, ThemeTokens } from '@atlaskit/button/types';
 import {
   fontSizeSmall,
   gridSize as gridSizeFn,
 } from '@atlaskit/theme/constants';
-import styled from '@emotion/styled';
 import {
   actionSectionDesktopStyles,
   actionSectionMobileStyles,
-  globalSkeletonStyles,
+  skeletonStyles,
 } from '../../common/styles';
-import { SecondaryButtonSkeleton } from '../IconButton';
+import { AppNavigationTheme } from '../../theme';
 
 const gridSize = gridSizeFn();
 
 const buttonHeight = gridSize * 4;
 
-const buttonOverrides = {
-  backgroundColor: B75,
-  color: B500,
-  fontSize: fontSizeSmall(),
-  fontWeight: 'bold',
-  height: buttonHeight,
-  textTransform: 'uppercase',
-};
+export const createButtonStyles = actionSectionDesktopStyles;
 
-export const buttonTheme: any = (
-  currentTheme: Function,
-  themeProps: { appearance: string },
+export const createButtonSkeletonStyles = (theme: AppNavigationTheme) => ({
+  height: `${buttonHeight}px`,
+  width: '68px',
+  borderRadius: '3px',
+  ...skeletonStyles(theme),
+  ...createButtonStyles,
+});
+
+export const createIconStyles = actionSectionMobileStyles;
+export const createIconSkeletonStyles = createIconStyles;
+
+export const getCreateButtonTheme = ({
+  mode: { create },
+}: AppNavigationTheme) => (
+  current: (props: ThemeProps) => ThemeTokens,
+  props: ThemeProps,
 ) => {
-  const { buttonStyles, spinnerStyles } = currentTheme(themeProps);
+  const { buttonStyles, spinnerStyles } = current(props);
   return {
     buttonStyles: {
       ...buttonStyles,
-      ...buttonOverrides,
+      fontSize: fontSizeSmall(),
+      fontWeight: 'bold',
+      height: buttonHeight,
+      textTransform: 'uppercase',
+      ...create.default,
+      ':hover': create.hover,
+      ':focus': create.focus,
+      ':active': create.active,
     },
     spinnerStyles,
   };
 };
-
-export const createButtonStyles = actionSectionDesktopStyles;
-
-export const createIconStyles = actionSectionMobileStyles;
-
-export const ButtonSkeleton = styled.div`
-  height: ${buttonHeight}px;
-  width: 68px;
-  border-radius: 3px;
-  ${createButtonStyles}
-  ${globalSkeletonStyles}
-`;
-export const IconButtonSkeleton = styled(SecondaryButtonSkeleton)`
-  width: ${gridSize * 3.25}px;
-  height: ${gridSize * 3.25}px;
-  ${createIconStyles}
-`;

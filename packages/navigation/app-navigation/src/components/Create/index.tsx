@@ -4,16 +4,25 @@ import { jsx } from '@emotion/core';
 import Button from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
 
-import { IconButton } from '../IconButton';
-import { buttonTheme, createButtonStyles, createIconStyles } from './styles';
+import { withAppNavigationTheme } from '../../theme';
+import { ThemedIconButton } from '../IconButton';
+import {
+  createButtonStyles,
+  createIconStyles,
+  getCreateButtonTheme,
+} from './styles';
 import { CreateProps } from './types';
 
-export const Create = ({ onClick, text }: CreateProps) => (
+export const Create = ({ onClick, theme, text }: CreateProps) => (
   <Fragment>
-    <Button css={createButtonStyles} onClick={onClick} theme={buttonTheme}>
+    <Button
+      css={createButtonStyles}
+      onClick={onClick}
+      theme={getCreateButtonTheme(theme)}
+    >
       {text}
     </Button>
-    <IconButton
+    <ThemedIconButton
       css={createIconStyles}
       icon={<AddIcon label={text} />}
       onClick={onClick}
@@ -22,4 +31,4 @@ export const Create = ({ onClick, text }: CreateProps) => (
   </Fragment>
 );
 
-export { CreateSkeleton } from './skeleton';
+export const ThemedCreate = withAppNavigationTheme(Create);
