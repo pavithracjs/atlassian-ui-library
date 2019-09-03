@@ -7,11 +7,7 @@ import { AtlassianIcon } from '@atlaskit/logo';
 import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { Checkbox } from '@atlaskit/checkbox';
-import {
-  GlobalItem,
-  LayoutManager,
-  NavigationProvider,
-} from '@atlaskit/navigation-next';
+import { LayoutManager, NavigationProvider } from '@atlaskit/navigation-next';
 import { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import { ToggleStateless } from '@atlaskit/toggle';
 import Lorem from 'react-lorem-component';
