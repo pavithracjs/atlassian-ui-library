@@ -31,7 +31,7 @@
     "prosemirror-keymap": "^1.0.1",
     "prosemirror-model": "^1.7.0",
     "prosemirror-state": "^1.2.2",
-    "prosemirror-tables": "^0.9.1",
+    "prosemirror-tables": "0.9.2",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.9.12",
     "react-intl": "^2.6.0"
