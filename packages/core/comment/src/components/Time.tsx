@@ -3,6 +3,7 @@ import {
   withAnalyticsEvents,
   withAnalyticsContext,
   createAndFireEvent,
+  UIAnalyticsEvent,
   WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import {
@@ -17,7 +18,10 @@ interface Props extends WithAnalyticsEventsProps {
   /** The URL of the link. If not provided, the element will be rendered as text. */
   href?: string;
   /** Handler called when the element is clicked. */
-  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ) => void;
   /** Handler called when the element is focused. */
   onFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   /** Handler called when the element is moused over. */

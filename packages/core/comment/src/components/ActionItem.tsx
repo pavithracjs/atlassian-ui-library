@@ -4,6 +4,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
   WithAnalyticsEventsProps,
+  UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 
@@ -16,7 +17,10 @@ export interface Props extends WithAnalyticsEventsProps {
   /** The content to render inside the action button. */
   children?: ReactNode;
   /** Handler called when the element is clicked. */
-  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ) => void;
   /** Handler called when the element is focused. */
   onFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   /** Handler called when the element is moused over. */
