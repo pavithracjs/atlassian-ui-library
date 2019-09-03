@@ -1,5 +1,10 @@
 # @atlaskit/website
 
+## 5.2.2
+
+- Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+  - @atlaskit/badge@13.0.0
+
 ## 5.2.1
 
 - Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
