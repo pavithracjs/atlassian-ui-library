@@ -28,7 +28,7 @@ export interface MediaNodeUpdaterProps {
   view: EditorView;
   node: PMNode; // assumed to be media type node (ie. child of MediaSingle, MediaGroup)
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
   isMediaSingle: boolean;
   mediaPluginOptions?: MediaPMPluginOptions;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
@@ -121,11 +121,11 @@ export class MediaNodeUpdater {
     return undefined;
   };
 
-  getObjectId = async (): Promise<string> => {
+  getObjectId = async (): Promise<string | undefined> => {
     const contextIdentifierProvider = await this.props
       .contextIdentifierProvider;
 
-    return contextIdentifierProvider.objectId;
+    return contextIdentifierProvider && contextIdentifierProvider.objectId;
   };
 
   uploadExternalMedia = async (pos: number) => {
@@ -282,7 +282,7 @@ export class MediaNodeUpdater {
       mediaClientConfig: uploadMediaClientConfig,
     });
 
-    if (uploadMediaClientConfig.getAuthFromContext) {
+    if (uploadMediaClientConfig.getAuthFromContext && contextId) {
       const auth = await uploadMediaClientConfig.getAuthFromContext(contextId);
       const { id, collection } = attrs;
       const source = {
