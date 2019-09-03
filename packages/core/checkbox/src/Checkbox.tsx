@@ -201,7 +201,6 @@ class Checkbox extends Component<CheckboxProps, State> {
     const { isFocused, isActive, isHovered } = this.state;
     const getOverrides = createExtender(defaults, overrides);
     const { component: Label, ...labelOverrides } = getOverrides('Label');
-    console.log(labelOverrides);
     const { component: LabelText, ...labelTextOverrides } = getOverrides(
       'LabelText',
     );
