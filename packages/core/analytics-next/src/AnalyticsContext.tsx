@@ -1,9 +1,6 @@
-import React, { Children, Component, useContext, FC } from 'react';
+import React, { Children, Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  AnalyticsReactContext,
-  AnalyticsReactContextInterface,
-} from './AnalyticsReactContext';
+import { AnalyticsReactContext } from './AnalyticsReactContext';
 
 const ContextTypes = {
   getAtlaskitAnalyticsContext: PropTypes.func,
@@ -17,9 +14,7 @@ interface Props {
   data: unknown;
 }
 
-type InternalProps = { newContext: AnalyticsReactContextInterface };
-
-class AnalyticsContextInternal extends Component<Props & InternalProps> {
+class AnalyticsContext extends Component<Props> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
@@ -39,10 +34,8 @@ class AnalyticsContextInternal extends Component<Props & InternalProps> {
   };
 
   render() {
-    const {
-      newContext: { getAtlaskitAnalyticsEventHandlers },
-      children,
-    } = this.props;
+    const { getAtlaskitAnalyticsEventHandlers = () => [] } = this.context;
+    const { children } = this.props;
     return (
       <AnalyticsReactContext.Provider
         value={{
@@ -55,10 +48,5 @@ class AnalyticsContextInternal extends Component<Props & InternalProps> {
     );
   }
 }
-
-const AnalyticsContext: FC<Props> = props => {
-  const newContext = useContext(AnalyticsReactContext);
-  return <AnalyticsContextInternal {...props} newContext={newContext} />;
-};
 
 export default AnalyticsContext;

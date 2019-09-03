@@ -1,9 +1,6 @@
-import React, { Component, useContext, FC } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  AnalyticsReactContext,
-  AnalyticsReactContextInterface,
-} from './AnalyticsReactContext';
+import { AnalyticsReactContext } from './AnalyticsReactContext';
 import UIAnalyticsEvent, { UIAnalyticsEventHandler } from './UIAnalyticsEvent';
 
 type Props = {
@@ -16,13 +13,11 @@ type Props = {
   onEvent: (event: UIAnalyticsEvent, channel?: string) => void;
 };
 
-type InternalProps = { newContext: AnalyticsReactContextInterface };
-
 const ContextTypes = {
   getAtlaskitAnalyticsEventHandlers: PropTypes.func,
 };
 
-class AnalyticsListenerInternal extends Component<Props & InternalProps> {
+class AnalyticsListener extends Component<Props> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
@@ -47,10 +42,8 @@ class AnalyticsListenerInternal extends Component<Props & InternalProps> {
   };
 
   render() {
-    const {
-      newContext: { getAtlaskitAnalyticsContext },
-      children,
-    } = this.props;
+    const { getAtlaskitAnalyticsContext = () => [] } = this.context;
+    const { children } = this.props;
     return (
       <AnalyticsReactContext.Provider
         value={{
@@ -63,10 +56,5 @@ class AnalyticsListenerInternal extends Component<Props & InternalProps> {
     );
   }
 }
-
-const AnalyticsListener: FC<Props> = props => {
-  const newContext = useContext(AnalyticsReactContext);
-  return <AnalyticsListenerInternal {...props} newContext={newContext} />;
-};
 
 export default AnalyticsListener;
