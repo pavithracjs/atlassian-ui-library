@@ -14,7 +14,7 @@ const StyledInput = styled.input`
   width: 50px;
 `;
 
-const SkeletonExample = () => {
+const InteractiveSkeletonExample = () => {
   const [isSkeleton, setIsSkeleton] = useState(true);
   const [itemCounts, setItemCounts] = useState({ primary: 4, secondary: 4 });
   const { primary, secondary } = itemCounts;
@@ -60,4 +60,4 @@ const SkeletonExample = () => {
   );
 };
 
-export default SkeletonExample;
+export default InteractiveSkeletonExample;

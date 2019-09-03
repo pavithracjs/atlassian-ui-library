@@ -62,5 +62,3 @@ export const Search = (props: SearchProps) => {
     </TriggerManager>
   );
 };
-
-export { SearchSkeleton } from './skeleton';

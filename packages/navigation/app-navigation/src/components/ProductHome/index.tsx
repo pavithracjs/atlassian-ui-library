@@ -48,5 +48,3 @@ export const CustomProductHome = (props: CustomProductHomeProps) => {
     </Component>
   );
 };
-
-export { ProductHomeSkeleton } from './skeleton';

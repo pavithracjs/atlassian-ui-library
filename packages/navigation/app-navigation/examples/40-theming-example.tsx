@@ -13,64 +13,11 @@ import { DefaultProductHome } from './shared/ProductHome';
 import { DefaultProfile } from './shared/Profile';
 import { DefaultSearch } from './shared/Search';
 import { DefaultSettings } from './shared/Settings';
-import { AppNavigation, darkTheme, generateTheme, lightTheme } from '../src';
+import { themes } from './shared/themes';
+import { AppNavigation } from '../src';
 
 mockEndpoints('jira');
 mockBuiltInNotifications();
-
-const customThemes = [
-  // Red
-  generateTheme({
-    primary: {
-      backgroundColor: '#ff3e15',
-      color: '#ffffff',
-    },
-  }),
-  // Orange
-  generateTheme({
-    primary: {
-      backgroundColor: '#ff8c19',
-      color: '#ffffff',
-    },
-  }),
-  // Yellow
-  generateTheme({
-    primary: {
-      backgroundColor: '#ffff00',
-      color: '#000000',
-    },
-  }),
-  // Green
-  generateTheme({
-    primary: {
-      backgroundColor: '#0fdc60',
-      color: '#ffffff',
-    },
-  }),
-  // Blue
-  generateTheme({
-    primary: {
-      backgroundColor: '#3babfd',
-      color: '#ffffff',
-    },
-  }),
-  // Violet
-  generateTheme({
-    primary: {
-      backgroundColor: '#4f1c82',
-      color: '#ffffff',
-    },
-  }),
-  // Pink
-  generateTheme({
-    primary: {
-      backgroundColor: '#fec8d8',
-      color: '#000000',
-    },
-  }),
-];
-
-const themes = [lightTheme, darkTheme, ...customThemes];
 
 const ThemingExample = () => (
   <div>

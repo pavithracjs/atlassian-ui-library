@@ -1,15 +1,15 @@
 /** @jsx jsx */
-import { ThemeProvider } from 'emotion-theming';
+import { gridSize } from '@atlaskit/theme/constants';
 import { jsx } from '@emotion/core';
 
-import { AppNavigationTheme, ThemeProvider, defaultTheme } from '../../theme';
+import { ThemeProvider, defaultTheme } from '../../theme';
 
-import { CreateSkeleton } from '../Create';
-import { SecondaryButtonSkeleton } from '../IconButton';
-import { PrimaryButtonSkeleton } from '../PrimaryButton';
-import { ProductHomeSkeleton } from '../ProductHome';
-import { ProfileSkeleton } from '../Profile';
-import { SearchSkeleton } from '../Search';
+import { CreateSkeleton } from '../Create/skeleton';
+import { IconButtonSkeleton } from '../IconButton/skeleton';
+import { PrimaryButtonSkeleton } from '../PrimaryButton/skeleton';
+import { ProductHomeSkeleton } from '../ProductHome/skeleton';
+import { ProfileSkeleton } from '../Profile/skeleton';
+import { SearchSkeleton } from '../Search/skeleton';
 
 import { styles } from './styles';
 import { AppNavigationSkeletonProps } from './types';
@@ -32,7 +32,12 @@ export const AppNavigationSkeleton = ({
           <CreateSkeleton />
           <SearchSkeleton />
           {Array.from({ length: secondaryItemsCount }, (_, index) => (
-            <SecondaryButtonSkeleton key={index} {...styles.secondaryButtonSkeleton} />
+            <IconButtonSkeleton
+              key={index}
+              dimension={gridSize() * 3.25}
+              marginLeft={0}
+              marginRight={5}
+            />
           ))}
           <ProfileSkeleton />
         </div>

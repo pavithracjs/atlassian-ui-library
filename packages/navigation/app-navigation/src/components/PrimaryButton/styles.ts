@@ -4,8 +4,6 @@ import {
   gridSize as gridSizeFn,
 } from '@atlaskit/theme/constants';
 import css from '@emotion/css';
-import styled from '@emotion/styled';
-import { globalSkeletonStyles } from '../../common/styles';
 import { AppNavigationTheme } from '../../theme';
 
 const gridSize = gridSizeFn();
@@ -15,11 +13,13 @@ export const chevronStyles = css`
   visibility: hidden;
 `;
 
-const buttonHeight = gridSize * 4;
-const margin = {
+export const buttonHeight = gridSize * 4;
+
+export const margin = {
   left: gridSize / 2,
 };
-const padding = {
+
+export const padding = {
   all: gridSize / 2,
 };
 
@@ -52,13 +52,3 @@ export const getPrimaryButtonTheme = ({
     spinnerStyles,
   };
 };
-
-export const PrimaryButtonSkeleton = styled.div`
-  display: inline-flex;
-  width: 68px;
-  height: ${buttonHeight - padding.all * 2.5}px;
-  border-radius: ${gridSize / 2}px;
-  margin-left: ${margin.left + padding.all * 2}px;
-  margin-right: 12px;
-  ${globalSkeletonStyles};
-`;

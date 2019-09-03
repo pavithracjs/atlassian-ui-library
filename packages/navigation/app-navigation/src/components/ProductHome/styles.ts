@@ -1,8 +1,8 @@
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 import { css } from '@emotion/core';
-import styled from '@emotion/styled';
 import { PRODUCT_HOME_BREAKPOINT } from '../../common/constants';
-import { globalSkeletonStyles } from '../../common/styles';
+import { skeletonStyles } from '../../common/styles';
+import { AppNavigationTheme } from '../../theme';
 
 const gridSize = gridSizeFn();
 
@@ -19,6 +19,8 @@ export const containerStyles = css`
   }
 `;
 
+export const containerSkeletonStyles = containerStyles;
+
 const imageHeight = 40;
 
 const imageStyles = css`
@@ -31,6 +33,18 @@ export const productIconStyles = css`
   }
 `;
 
+const iconHeight = 28;
+
+export const productIconSkeletonStyles = (theme: AppNavigationTheme) => [
+  css`
+    width: ${iconHeight}px;
+    height: ${iconHeight}px;
+    border-radius: 50%;
+    ${productIconStyles}
+  `,
+  skeletonStyles(theme),
+];
+
 export const customProductIconStyles = css`
   ${productIconStyles};
   ${imageStyles}
@@ -42,27 +56,17 @@ export const productLogoStyles = css`
   }
 `;
 
+export const productLogoSkeletonStyles = (theme: AppNavigationTheme) => [
+  css`
+    width: 120px;
+    border-radius: ${imageHeight / 2}px;
+    ${productLogoStyles}
+    ${imageStyles}
+  `,
+  skeletonStyles(theme),
+];
+
 export const customProductLogoStyles = css`
   ${productLogoStyles};
   ${imageStyles}
-`;
-
-export const LogoSkeleton = styled.div`
-  width: 120px;
-  border-radius: ${imageHeight / 2}px;
-  ${imageStyles}
-  ${globalSkeletonStyles}
-`;
-
-const iconHeight = 28;
-
-export const IconSkeleton = styled.div`
-  width: ${iconHeight}px;
-  height: ${iconHeight}px;
-  border-radius: 50%;
-  ${globalSkeletonStyles}
-`;
-
-export const containerSkeletonStyles = css`
-  ${containerStyles};
 `;

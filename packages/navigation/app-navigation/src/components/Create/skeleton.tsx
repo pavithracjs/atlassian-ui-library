@@ -1,11 +1,16 @@
 /** @jsx jsx */
-import { Fragment } from 'react';
+import { gridSize } from '@atlaskit/theme/constants';
 import { jsx } from '@emotion/core';
-import { ButtonSkeleton, IconButtonSkeleton } from './styles';
+import { Fragment } from 'react';
+import { IconButtonSkeleton } from '../IconButton/skeleton';
+import { createButtonSkeletonStyles, createIconSkeletonStyles } from './styles';
 
 export const CreateSkeleton = () => (
   <Fragment>
-    <ButtonSkeleton />
-    <IconButtonSkeleton />
+    <div css={createButtonSkeletonStyles} />
+    <IconButtonSkeleton
+      css={createIconSkeletonStyles}
+      dimension={gridSize() * 3.25}
+    />
   </Fragment>
 );

@@ -57,5 +57,3 @@ AppNavigation.defaultProps = {
   primaryItems: [],
   theme: defaultTheme,
 };
-
-export { AppNavigationSkeleton } from './skeleton';

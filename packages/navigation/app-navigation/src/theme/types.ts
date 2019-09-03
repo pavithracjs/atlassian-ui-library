@@ -18,6 +18,7 @@ export type Mode = {
   iconButton: ModeContext;
   navigation: CSSProperties;
   search: CSSProperties;
+  skeleton: CSSObject & { backgroundColor: string };
   primaryButton: ModeContext;
 };
 

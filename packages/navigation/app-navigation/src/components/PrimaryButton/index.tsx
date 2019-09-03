@@ -63,5 +63,3 @@ PrimaryButton.defaultProps = {
 };
 
 export const ThemedPrimaryButton = withAppNavigationTheme(PrimaryButton);
-
-export { PrimaryButtonSkeleton } from './skeleton';

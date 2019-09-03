@@ -28,5 +28,3 @@ export const IconButton = ({
 );
 
 export const ThemedIconButton = withAppNavigationTheme(IconButton);
-
-export { SecondaryButtonSkeleton } from './skeleton';

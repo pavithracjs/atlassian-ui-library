@@ -3,14 +3,12 @@ import {
   fontSizeSmall,
   gridSize as gridSizeFn,
 } from '@atlaskit/theme/constants';
-import styled from '@emotion/styled';
 import {
   actionSectionDesktopStyles,
   actionSectionMobileStyles,
-  globalSkeletonStyles,
+  skeletonStyles,
 } from '../../common/styles';
 import { AppNavigationTheme } from '../../theme';
-import { SecondaryButtonSkeleton } from '../IconButton';
 
 const gridSize = gridSizeFn();
 
@@ -18,7 +16,16 @@ const buttonHeight = gridSize * 4;
 
 export const createButtonStyles = actionSectionDesktopStyles;
 
+export const createButtonSkeletonStyles = (theme: AppNavigationTheme) => ({
+  height: `${buttonHeight}px`,
+  width: '68px',
+  borderRadius: '3px',
+  ...skeletonStyles(theme),
+  ...createButtonStyles,
+});
+
 export const createIconStyles = actionSectionMobileStyles;
+export const createIconSkeletonStyles = createIconStyles;
 
 export const getCreateButtonTheme = ({
   mode: { create },
@@ -42,17 +49,3 @@ export const getCreateButtonTheme = ({
     spinnerStyles,
   };
 };
-
-export const ButtonSkeleton = styled.div`
-  height: ${buttonHeight}px;
-  width: 68px;
-  border-radius: 3px;
-  ${createButtonStyles}
-  ${globalSkeletonStyles}
-`;
-
-export const IconButtonSkeleton = styled(SecondaryButtonSkeleton)`
-  width: ${gridSize * 3.25}px;
-  height: ${gridSize * 3.25}px;
-  ${createIconStyles}
-`;

@@ -116,6 +116,11 @@ export const generateTheme = (args: GenerateThemeArgs): AppNavigationTheme => {
       navigation: primary.default,
       primaryButton: primary,
       search: primary.active,
+      skeleton: {
+        backgroundColor: chromatism.contrastRatio(
+          primary.default.backgroundColor,
+        ).hex,
+      },
     },
   };
 };

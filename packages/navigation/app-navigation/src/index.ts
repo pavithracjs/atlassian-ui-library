@@ -1,7 +1,5 @@
-export {
-  AppNavigation,
-  AppNavigationSkeleton,
-} from './components/AppNavigation';
+export { AppNavigation } from './components/AppNavigation';
+export { AppNavigationSkeleton } from './components/AppNavigation/skeleton';
 export { AppSwitcher } from './components/AppSwitcher';
 export { Create, ThemedCreate } from './components/Create';
 export { Help, ThemedHelp } from './components/Help';

@@ -32,5 +32,3 @@ export const Create = ({ onClick, theme, text }: CreateProps) => (
 );
 
 export const ThemedCreate = withAppNavigationTheme(Create);
-
-export { CreateSkeleton } from './skeleton';

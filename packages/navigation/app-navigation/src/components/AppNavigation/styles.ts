@@ -34,9 +34,4 @@ export const styles = {
     flexShrink: 0,
     right: gridSize * 4,
   },
-  secondaryButtonSkeleton: {
-    dimension: gridSize * 3.25,
-    marginLeft: 0,
-    marginRight: 5,
-  },
 };
