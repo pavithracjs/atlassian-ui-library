@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.44.1
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
 ## 112.44.0
 
 ### Minor Changes

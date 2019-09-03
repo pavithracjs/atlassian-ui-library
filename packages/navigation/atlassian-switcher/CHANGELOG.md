@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.26.0
+
+### Minor Changes
+
+- [minor][d1997bfbc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1997bfbc2):
+
+  Fixed an edge case where viewed events will be emitted prematurely because we're using the incorrect provider to check for hasLoaded flag
+
 ## 3.25.1
 
 ### Patch Changes

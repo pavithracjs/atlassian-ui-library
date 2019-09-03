@@ -1,26 +1,47 @@
 import { B400, B50 } from '@atlaskit/theme/colors';
 import { fontSize, gridSize as gridSizeFn } from '@atlaskit/theme/constants';
 import styled from '@emotion/styled';
+import { css, SerializedStyles } from '@emotion/core';
+import { globalSkeletonStyles } from '../../common/styles';
+import { searchIconStyles } from './styles';
+import { SecondaryButtonSkeleton } from '../IconButton';
 
 const gridSize = gridSizeFn();
 
-export const SearchInput = styled.input`
+const searchCommonStyles = css`
   width: 220px;
-  background: ${B400};
   height: ${gridSize * 4}px;
   outline: none;
   border-radius: ${gridSize * 2}px;
   border: none;
   box-sizing: border-box;
-  color: ${B50};
   padding: 0 ${gridSize}px 0 40px;
+`;
+
+export const SearchInput = styled.input`
+  background: ${B400};
+  color: ${B50};
   font-size: ${fontSize()}px;
   ::placeholder {
     color: ${B50};
   }
+  ${searchCommonStyles}
 `;
 
-export const SearchWrapper = styled.div`
+export const SearchInputSkeleton = styled.div`
+  margin-right: 6px;
+  ${searchCommonStyles}
+  ${globalSkeletonStyles}
+`;
+
+export const SearchIconSkeleton = styled(SecondaryButtonSkeleton)`
+  width: ${gridSize * 3.25}px;
+  height: ${gridSize * 3.25}px;
+  margin: 0px 5px;
+  ${searchIconStyles}
+`;
+
+export const SearchWrapper = styled.div<{ css: SerializedStyles }>`
   margin-left: 20px;
   padding-right: ${gridSize}px;
   position: relative;
