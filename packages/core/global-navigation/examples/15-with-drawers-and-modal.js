@@ -317,9 +317,8 @@ export default class extends Component<{||}, NavState> {
   resetNotificationCount = () =>
     this.setState({ notificationCount: DEFAULT_NOTIFICATION_COUNT });
 
-  toggleFocusLock = ev => {
+  toggleFocusLock = (ev: SyntheticMouseEvent) => {
     const propName = `is${ev.target.id}FocusLockEnabled`;
-    console.log(propName, this.state[propName]);
     this.setState(state => ({
       [propName]: !state[propName],
     }));
