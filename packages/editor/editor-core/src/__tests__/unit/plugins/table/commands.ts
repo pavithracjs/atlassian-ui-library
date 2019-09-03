@@ -40,11 +40,13 @@ import {
 } from '../../../../plugins/table/pm-plugins/main';
 import { EditorView } from 'prosemirror-view';
 import { splitCell } from '../../../../plugins/table/commands/misc';
+import { temporaryMediaGroup, getFreshMediaProvider } from '../media/_utils';
+import { EditorProps } from '../../../../types';
 
 describe('table plugin: actions', () => {
   const createEditor = createEditorFactory<TablePluginState>();
 
-  const editor = (doc: any) =>
+  const editor = (doc: any, props: Partial<EditorProps> = {}) =>
     createEditor({
       doc,
       editorProps: {
@@ -52,6 +54,7 @@ describe('table plugin: actions', () => {
           allowHeaderRow: true,
         },
         allowPanel: true,
+        ...props,
       },
       pluginKey,
     });
@@ -704,5 +707,33 @@ describe('table plugin: actions', () => {
         ),
       );
     });
+  });
+
+  test('should split cell with media selected', () => {
+    const { editorView } = editor(
+      doc(
+        table()(
+          tr(th()(p('')), th()(p('')), th()(p(''))),
+          tr(td({ colspan: 2 })('{<node>}', temporaryMediaGroup), td()(p(''))),
+        ),
+      ),
+      {
+        media: {
+          allowMediaSingle: true,
+        },
+        mediaProvider: getFreshMediaProvider(),
+      },
+    );
+
+    splitCell(editorView.state, editorView.dispatch);
+
+    expect(editorView.state.doc).toEqualDocument(
+      doc(
+        table()(
+          tr(th()(p('')), th()(p('')), th()(p(''))),
+          tr(td()(temporaryMediaGroup), td()(p('')), td()(p(''))),
+        ),
+      ),
+    );
   });
 });
