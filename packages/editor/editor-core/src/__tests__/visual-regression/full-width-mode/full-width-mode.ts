@@ -5,7 +5,6 @@ import adfWithBreakout from './__fixtures__/mixed-content-with-breakout.adf.json
 import adfWithHScrollContent from './__fixtures__/horizontal-scroll-content.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 import { scrollToTop } from '../../__helpers/page-objects/_editor';
-import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 describe('Full-width mode', () => {
   let page: Page;
@@ -44,7 +43,6 @@ describe('Full-width mode', () => {
       describe(`with media`, () => {
         it('should display content in full-width mode', async () => {
           await initEditor(adfWithMedia, width);
-          await waitForLoadedImageElements(page);
           await snapshot(page);
         });
       });

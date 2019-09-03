@@ -174,7 +174,7 @@ export class QuickSearch extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.children !== this.props.children) {
       this.setState({
         selectedResultId: nextProps.selectedResultId || null,

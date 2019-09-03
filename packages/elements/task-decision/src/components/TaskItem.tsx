@@ -42,7 +42,7 @@ export class TaskItem extends PureComponent<
     this.checkBoxId = getCheckBoxId(props.taskId);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.taskId !== this.props.taskId) {
       this.checkBoxId = getCheckBoxId(nextProps.taskId);
     }

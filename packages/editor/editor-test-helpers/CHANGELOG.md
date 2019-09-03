@@ -1,5 +1,13 @@
 # @atlaskit/editor-test-helpers
 
+## 9.11.12
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
 ## 9.11.11
 
 ### Patch Changes

@@ -85,14 +85,14 @@ export default class ProgressTrackerStage extends PureComponent<
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       ...this.state,
       transitioning: true,
     });
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.setState({
       ...this.state,
       transitioning: true,

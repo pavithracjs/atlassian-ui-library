@@ -1,5 +1,4 @@
 import { Component, ReactNode } from 'react';
-import textContent from 'react-addons-text-content';
 
 export type ItemGroupProps = {
   /** Items to be shown inside the item group. */

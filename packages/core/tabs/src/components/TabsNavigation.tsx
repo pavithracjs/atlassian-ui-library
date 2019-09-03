@@ -5,7 +5,7 @@ import { TabData, TabsNavigationProps } from '../types';
 export default class TabsNavigation extends Component<TabsNavigationProps> {
   elementRefs: Array<HTMLElement> = [];
 
-  componentWillReceiveProps(newProps: TabsNavigationProps) {
+  UNSAFE_componentWillReceiveProps(newProps: TabsNavigationProps) {
     if (newProps.tabs !== this.props.tabs) {
       this.elementRefs = [];
     }

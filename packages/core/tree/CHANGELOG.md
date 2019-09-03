@@ -1,5 +1,13 @@
 # @atlaskit/tree
 
+## 7.0.0
+
+### Major Changes
+
+- [major][ec1bf6161f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec1bf6161f):
+
+  @atlaskit/tree has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 6.0.9
 
 ### Patch Changes

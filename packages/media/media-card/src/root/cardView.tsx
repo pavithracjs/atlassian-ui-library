@@ -70,7 +70,7 @@ export class CardViewBase extends React.Component<
     this.saveElementWidth();
   }
 
-  componentWillReceiveProps(nextProps: CardViewProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CardViewProps) {
     const { selected: currSelected } = this.props;
     const { selectable: nextSelectable, selected: nextSelected } = nextProps;
 

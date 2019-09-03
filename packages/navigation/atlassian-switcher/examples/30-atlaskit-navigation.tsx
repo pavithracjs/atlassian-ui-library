@@ -3,7 +3,7 @@ import AtlassianIcon from '@atlaskit/icon/glyph/atlassian';
 import Navigation, { AkGlobalItem } from '@atlaskit/navigation';
 import Tooltip from '@atlaskit/tooltip';
 import SwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import AkDrawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';

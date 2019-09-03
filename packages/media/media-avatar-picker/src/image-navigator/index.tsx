@@ -95,7 +95,7 @@ export class ImageNavigator extends Component<
   state: State = defaultState;
   imageElement?: HTMLImageElement;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (!exenv.canUseDOM) {
       return;
     }

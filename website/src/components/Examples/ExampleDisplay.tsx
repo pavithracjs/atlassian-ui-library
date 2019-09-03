@@ -40,7 +40,7 @@ export default class ExampleDisplay extends React.Component<Props> {
     super(props);
     this.buildExampleComponents(props);
   }
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.src !== nextProps.src) {
       const contentWindow =
         this.iframeRef &&

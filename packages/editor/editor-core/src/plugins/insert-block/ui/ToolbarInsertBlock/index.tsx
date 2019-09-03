@@ -294,7 +294,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     emojiPickerOpen: false,
   };
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     // If number of visible buttons changed, close emoji picker
     if (nextProps.buttons !== this.props.buttons) {
       this.setState({ emojiPickerOpen: false });

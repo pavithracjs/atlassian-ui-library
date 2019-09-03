@@ -64,7 +64,10 @@ export class CachingMediaEmoji extends PureComponent<CachingEmojiProps, State> {
     this.mounted = false;
   }
 
-  componentWillReceiveProps(nextProps: EmojiProps, nextContext: EmojiContext) {
+  UNSAFE_componentWillReceiveProps(
+    nextProps: EmojiProps,
+    nextContext: EmojiContext,
+  ) {
     if (nextProps.emoji !== this.props.emoji) {
       if (this.mounted) {
         this.setState({

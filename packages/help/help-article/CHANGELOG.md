@@ -1,5 +1,13 @@
 # @atlaskit/help-article
 
+## 0.5.4
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
 ## 0.5.3
 
 ### Patch Changes

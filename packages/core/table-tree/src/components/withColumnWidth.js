@@ -20,7 +20,7 @@ export default function withColumnWidth(Cell: ElementType): ComponentType<*> {
       tableTree: PropTypes.object.isRequired,
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.setColumnWidth(this.props.width);
     }
 
@@ -30,7 +30,7 @@ export default function withColumnWidth(Cell: ElementType): ComponentType<*> {
       }
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       this.setColumnWidth(nextProps.width);
     }
 

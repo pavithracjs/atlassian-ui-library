@@ -1,5 +1,32 @@
 # @atlaskit/flag
 
+## 12.2.1
+
+### Patch Changes
+
+- [patch][67a3a1ee02](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67a3a1ee02):
+
+  Converts prop types to interfaces
+
+## 12.2.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
+## 12.1.0
+
+### Minor Changes
+
+- [minor][3e0267e5dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e0267e5dd):
+
+  FlagGroup is centered on mobile
+
 ## 12.0.20
 
 ### Patch Changes

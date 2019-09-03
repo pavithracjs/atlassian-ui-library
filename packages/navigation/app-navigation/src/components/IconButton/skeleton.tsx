@@ -1,0 +1,1 @@
+export { SecondaryButtonSkeleton } from './styles';

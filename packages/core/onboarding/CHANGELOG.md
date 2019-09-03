@@ -1,5 +1,13 @@
 # @atlaskit/onboarding
 
+## 9.0.0
+
+### Major Changes
+
+- [major][a75dfaad67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a75dfaad67):
+
+  @atlaskit/onboarding has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 8.0.17
 
 ### Patch Changes

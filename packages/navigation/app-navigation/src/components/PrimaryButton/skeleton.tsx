@@ -1,0 +1,1 @@
+export { PrimaryButtonSkeleton } from './styles';
