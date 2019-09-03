@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import memoize from 'memoize-one';
+import { CSSObject } from '@emotion/core';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -6,25 +8,66 @@ import {
 } from '@atlaskit/analytics-next';
 import GlobalTheme from '@atlaskit/theme/components';
 import Theme, { componentTokens } from './theme';
+import { createExtender, identity } from './utils';
 import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
+
 import {
   LabelText,
+  LabelProps,
+  LabelCSSProps,
+  LabelTextProps,
   Label,
   CheckboxWrapper,
   RequiredIndicator,
   HiddenCheckbox,
+  labelCSS,
+  labelTextCSS,
 } from './elements';
-import { CheckboxProps } from './types';
+import { CheckboxProps, ThemeTokens } from './types';
 
-interface State {
-  isActive: boolean;
-  isChecked?: boolean;
-  isFocused: boolean;
-  isHovered: boolean;
-  isMouseDown: boolean;
-}
+const defaults = {
+  Label: {
+    component: Label,
+    cssFn: labelCSS,
+    attributesFn: identity,
+  },
+  LabelText: {
+    component: LabelText,
+    cssFn: labelTextCSS,
+    attributesFn: identity,
+  },
+};
+
+type DefaultType = {
+  Label: {
+    component: React.ComponentType<LabelProps>;
+    cssFn: (state: LabelCSSProps) => CSSObject;
+    attributesFn: (props: Record<string, any>) => Record<string, any>;
+  };
+  LabelText: {
+    component: React.ComponentType<LabelTextProps>;
+    cssFn: (state: { tokens: ThemeTokens }) => CSSObject;
+    attributesFn: (props: { [key: string]: any }) => any;
+  };
+};
+
+type OverridesType = {
+  Label?: {
+    component?: React.ComponentType<LabelProps>;
+    cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+  LabelText?: {
+    component?: React.ComponentType<LabelTextProps>;
+    cssFn?: (
+      defaultStyles: CSSObject,
+      state: { tokens: ThemeTokens },
+    ) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+};
 
 class Checkbox extends Component<CheckboxProps, State> {
   static defaultProps: CheckboxProps = {
@@ -47,6 +90,11 @@ class Checkbox extends Component<CheckboxProps, State> {
   };
   checkbox?: HTMLInputElement | null = undefined;
   actionKeys = [' '];
+
+  constructor(props) {
+    super(props);
+    this.createExtender = memoize(createExtender);
+  }
 
   componentDidMount() {
     const { isIndeterminate } = this.props;
@@ -132,6 +180,7 @@ class Checkbox extends Component<CheckboxProps, State> {
       isIndeterminate,
       label,
       name,
+      overrides,
       value,
       isRequired,
       //props not passed into HiddenCheckbox
@@ -141,6 +190,7 @@ class Checkbox extends Component<CheckboxProps, State> {
       isFullWidth,
       onChange,
       theme,
+      styles,
       ...rest
     } = this.props;
 
@@ -149,6 +199,11 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.state.isChecked
         : propsIsChecked;
     const { isFocused, isActive, isHovered } = this.state;
+    const getOverrides = createExtender(defaults, overrides);
+    const { component: Label, ...labelOverrides } = getOverrides('Label');
+    const { component: LabelText, ...labelTextOverrides } = getOverrides(
+      'LabelText',
+    );
 
     return (
       <Theme.Provider value={theme}>
@@ -157,6 +212,7 @@ class Checkbox extends Component<CheckboxProps, State> {
             <Theme.Consumer mode={mode} tokens={componentTokens}>
               {tokens => (
                 <Label
+                  {...labelOverrides}
                   isDisabled={isDisabled}
                   onMouseDown={this.onMouseDown}
                   onMouseEnter={this.onMouseEnter}
@@ -182,6 +238,18 @@ class Checkbox extends Component<CheckboxProps, State> {
                     />
                     <CheckboxIcon
                       theme={theme}
+                      styles={
+                        styles &&
+                        styles.iconWrapper && {
+                          iconWrapper: styles.iconWrapper,
+                        }
+                      }
+                      overrides={{
+                        IconWrapper: overrides && overrides.IconWrapper,
+                        Icon: overrides && overrides.Icon,
+                        IndeterminateIcon:
+                          overrides && overrides.IndeterminateIcon,
+                      }}
                       isChecked={isChecked}
                       isDisabled={isDisabled}
                       isFocused={isFocused}
@@ -194,7 +262,7 @@ class Checkbox extends Component<CheckboxProps, State> {
                       label=""
                     />
                   </CheckboxWrapper>
-                  <LabelText tokens={tokens}>
+                  <LabelText {...labelTextOverrides} tokens={tokens}>
                     {label}
                     {isRequired && (
                       <RequiredIndicator tokens={tokens} aria-hidden="true">

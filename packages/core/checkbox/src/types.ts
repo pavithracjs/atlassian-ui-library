@@ -1,5 +1,8 @@
 import React from 'react';
 import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
+import { CSSObject } from '@emotion/core';
+import { IconProps } from './elements/IconWrapper';
+import { LabelProps, LabelTextProps, LabelCSSProps } from './elements';
 
 export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
@@ -29,13 +32,51 @@ export interface CheckboxIconProps {
   secondaryColor?: any;
   /** The label for icon to be displayed */
   label: any;
-  theme: (
+  overrides?: {
+    IconWrapper?: {
+      component?: React.ComponentType;
+      cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
+      attributesFn?: (props: Record<string, any>) => Record<string, any>;
+    };
+    Icon?: {
+      component?: React.ComponentType;
+    };
+    IconIndeterminate?: {
+      component?: React.ComponentType;
+    };
+  };
+  theme?: (
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
   ) => ThemeTokens;
 }
 
 export interface CheckboxProps extends WithAnalyticsEventsProps {
+  overrides?: {
+    LabelText?: {
+      component?: React.ComponentType<LabelTextProps>;
+      cssFn?: (
+        defaultStyles: CSSObject,
+        state: { tokens: ThemeTokens },
+      ) => CSSObject;
+      attributesFn?: (props: any) => any;
+    };
+    Label?: {
+      component?: React.ComponentType<LabelProps>;
+      cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
+    };
+    IconWrapper?: {
+      component?: React.ComponentType;
+      cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
+      attributesFn?: (props: any) => any;
+    };
+    Icon?: {
+      component?: React.ComponentType;
+    };
+    IconIndeterminate?: {
+      component?: React.ComponentType;
+    };
+  };
   /** Sets whether the checkbox begins checked. */
   defaultChecked?: boolean;
   /** id assigned to input */
@@ -81,6 +122,7 @@ interface ModeValue {
   light: string;
   dark: string;
 }
+
 type TokenValue = ModeValue | string;
 
 export interface ComponentTokens {
@@ -179,6 +221,29 @@ export interface ThemeTokens {
       rest: string;
     };
   };
+}
+
+export interface ThemeProps {
+  tokens: ComponentTokens;
+  mode: string;
+}
+
+export interface ThemeLabelTokens {
+  textColor: {
+    rest: string;
+    disabled: string;
+  };
+  spacing: {
+    bottom: string;
+    right: string;
+    left: string;
+    top: string;
+  };
+}
+
+export interface ThemeTokens {
+  label: ThemeLabelTokens;
+  icon: ThemeIconTokens;
 }
 
 export interface ThemeProps {
