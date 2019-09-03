@@ -1,5 +1,13 @@
 # @atlaskit/app-navigation
 
+## 0.2.0
+
+### Minor Changes
+
+- [minor][187b3147bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/187b3147bd):
+
+  Add theming support
+
 ## 0.1.3
 
 - Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
