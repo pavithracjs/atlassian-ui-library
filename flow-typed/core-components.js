@@ -61,6 +61,10 @@ declare module '@atlaskit/icon' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/icon/*' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/inline-dialog' {
   declare module.exports: any;
 }
@@ -74,6 +78,10 @@ declare module '@atlaskit/inline-message' {
 }
 
 declare module '@atlaskit/lozenge' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/logo' {
   declare module.exports: any;
 }
 

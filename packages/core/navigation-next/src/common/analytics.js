@@ -86,7 +86,6 @@ export const navigationItemClicked = <P: {}, C: ComponentType<P>>(
 
         event.fire(navigationChannel);
 
-        // $FlowFixMe - analytics-next no longer supports flow
         return null;
       },
     })(Component),

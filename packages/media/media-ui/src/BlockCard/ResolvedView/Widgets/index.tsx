@@ -29,9 +29,10 @@ export default class Widgets extends React.Component<WidgetsProps> {
       <Badge
         key="badge"
         appearance={badge.appearance || 'default'}
-        value={badge.value}
         max={badge.max}
-      />
+      >
+        {badge.value}
+      </Badge>
     );
   }
 

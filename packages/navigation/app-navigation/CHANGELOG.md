@@ -1,5 +1,11 @@
 # @atlaskit/app-navigation
 
+## 0.1.3
+
+- Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+  - @atlaskit/badge@13.0.0
+  - @atlaskit/notification-indicator@7.0.8
+
 ## 0.1.2
 
 ### Patch Changes

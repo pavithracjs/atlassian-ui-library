@@ -144,11 +144,9 @@ function notificationBadge(badgeCount) {
   return {
     badge: badgeCount
       ? () => (
-          <Badge
-            max={MAX_NOTIFICATIONS_COUNT}
-            appearance="important"
-            value={badgeCount}
-          />
+          <Badge max={MAX_NOTIFICATIONS_COUNT} appearance="important">
+            {badgeCount}
+          </Badge>
         )
       : null,
     badgeCount,

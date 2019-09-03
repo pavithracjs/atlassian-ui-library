@@ -1,5 +1,12 @@
 # @atlaskit/global-search
 
+## 11.4.3
+
+- Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+  - @atlaskit/badge@13.0.0
+  - @atlaskit/global-navigation@7.6.5
+  - @atlaskit/navigation-next@6.6.1
+
 ## 11.4.2
 
 ### Patch Changes

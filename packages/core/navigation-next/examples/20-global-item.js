@@ -14,7 +14,9 @@ import { CONTENT_NAV_WIDTH } from '../src/common/constants';
 const themeModes = { light, dark, settings };
 
 const ConfiguredBadge = () => (
-  <Badge appearance="important" max={9} value={3} />
+  <Badge appearance="important" max={9}>
+    3
+  </Badge>
 );
 
 type ItemType = *;
