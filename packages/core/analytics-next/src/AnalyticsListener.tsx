@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { AnalyticsReactContext } from './AnalyticsReactContext';
 import UIAnalyticsEvent, { UIAnalyticsEventHandler } from './UIAnalyticsEvent';
 
 type Props = {
@@ -16,7 +17,7 @@ const ContextTypes = {
   getAtlaskitAnalyticsEventHandlers: PropTypes.func,
 };
 
-export default class AnalyticsListener extends Component<Props> {
+class AnalyticsListener extends Component<Props> {
   static contextTypes = ContextTypes;
   static childContextTypes = ContextTypes;
 
@@ -41,6 +42,19 @@ export default class AnalyticsListener extends Component<Props> {
   };
 
   render() {
-    return this.props.children;
+    const { getAtlaskitAnalyticsContext = () => [] } = this.context;
+    const { children } = this.props;
+    return (
+      <AnalyticsReactContext.Provider
+        value={{
+          getAtlaskitAnalyticsEventHandlers: this.getAnalyticsEventHandlers,
+          getAtlaskitAnalyticsContext,
+        }}
+      >
+        {children}
+      </AnalyticsReactContext.Provider>
+    );
   }
 }
+
+export default AnalyticsListener;
