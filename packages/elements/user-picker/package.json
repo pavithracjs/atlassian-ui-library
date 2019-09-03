@@ -46,6 +46,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/analytics-viewer": "^0.3.5",
+    "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/elements-test-helpers": "^0.6.4",
     "@atlaskit/i18n-tools": "^0.5.2",

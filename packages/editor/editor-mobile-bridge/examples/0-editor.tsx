@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import Button from '@atlaskit/button';
 import CopyIcon from '@atlaskit/icon/glyph/copy';
 import TextArea from '@atlaskit/textarea';
 import { colors } from '@atlaskit/theme';
@@ -69,7 +70,9 @@ export default class Example extends React.Component {
                 (this.textAreaRef = ref)
               }
             />
-            <CopyIcon label="copy" onClick={this.copyToClipboard} />
+            <Button appearance="subtle" onClick={this.copyToClipboard}>
+              <CopyIcon size="medium" label="copy" />
+            </Button>
           </ClipboardZone>
         </Toolbar>
         <Editor

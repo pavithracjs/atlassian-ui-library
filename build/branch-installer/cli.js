@@ -13,12 +13,12 @@ let cli = meow(
         $ atlaskit-branch-installer commitHash
       Options
         --engine Which engine to use (bolt/yarn) [Default: yarn]
-        --cmd Command to run to install packages (add/upgrade) [Default: add]
+        --cmd Command to run to install packages (add/upgrade) [Default: upgrade]
         --dry-run Do not install the packages just print it
         --verbose Show what is going on
 
         [Advanced]
-        --packages Comma separated list of packages to install from commit [Default: all]
+        --packages Comma separated list of packages to install from commit. All meaning all that are installed in the target package.json [Default: all]
         --timeout Maximum time to wait (in ms) for a manifest to be published for a commit [Default: 20000]
         --interval How long to wait (in ms) between retries when looking for packages manifest [Default: 5000]
 
@@ -35,7 +35,7 @@ let cli = meow(
       },
       cmd: {
         type: 'string',
-        default: 'add',
+        default: 'upgrade',
       },
       dryRun: {
         type: 'boolean',

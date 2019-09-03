@@ -1,4 +1,7 @@
-export { AppNavigation } from './components/AppNavigation';
+export {
+  AppNavigation,
+  AppNavigationSkeleton,
+} from './components/AppNavigation';
 export { AppSwitcher } from './components/AppSwitcher';
 export { Create } from './components/Create';
 export { Help } from './components/Help';

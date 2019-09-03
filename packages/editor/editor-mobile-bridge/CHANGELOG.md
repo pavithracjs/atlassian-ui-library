@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.9.1
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
 ## 8.9.0
 
 ### Minor Changes

@@ -11,6 +11,7 @@ const exceptions = [
   '@atlaskit/updater-cli',
   '@atlaskit/dependency-version-analytics',
   '@atlaskit/code-insights',
+  '@atlaskit/branch-deploy-product-integrator',
 ];
 
 const checkForDirEmpty = (folderName /*: string*/) /*: boolean */ => {

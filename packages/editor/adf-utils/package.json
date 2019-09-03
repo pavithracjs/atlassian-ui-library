@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.5",
-    "@atlaskit/json-schema-generator": "^2.1.4"
+    "@atlaskit/json-schema-generator": "^2.1.4",
+    "react": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2"
 }
