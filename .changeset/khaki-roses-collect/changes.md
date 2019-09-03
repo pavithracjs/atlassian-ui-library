@@ -1,1 +1,0 @@
- ProfileCardResourced should trigger analytics event when having error
