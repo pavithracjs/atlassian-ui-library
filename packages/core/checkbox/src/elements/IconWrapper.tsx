@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
+import { jsx, CSSObject } from '@emotion/core';
 import { ThemeTokens, ThemeIconTokens } from '../types';
 import React from 'react';
 
@@ -109,6 +109,8 @@ const getBoxColor = (props: Props) => {
 };
 
 export interface IconProps extends React.HTMLProps<HTMLLabelElement> {
+  attributesFn: (props: Record<string, any>) => any;
+  cssFn: (props: Pick<Props, Exclude<keyof Props, 'cssFn'>>) => CSSObject;
   tokens: ThemeTokens;
   isChecked?: boolean;
   isDisabled?: boolean;
@@ -118,30 +120,29 @@ export interface IconProps extends React.HTMLProps<HTMLLabelElement> {
   isInvalid?: boolean;
 }
 
-export default ({ children, ...props }: IconProps) => (
-  <span
-    css={{
-      lineHeight: 0,
-      flexShrink: 0,
-      color: getBoxColor(props),
-      fill: getTickColor(props),
-      transition: 'all 0.2s ease-in-out;',
+export const iconWrapperCSS = (props: IconProps): CSSObject => ({
+  lineHeight: 0,
+  flexShrink: 0,
+  color: getBoxColor(props),
+  fill: getTickColor(props),
+  transition: 'all 0.2s ease-in-out;',
 
-      /* This is adding a property to the inner svg, to add a border to the checkbox */
-      '& rect:first-of-type': {
-        transition: 'stroke 0.2s ease-in-out;',
-        ...getBorderColor(props),
-      },
+  /* This is adding a property to the inner svg, to add a border to the checkbox */
+  '& rect:first-of-type': {
+    transition: 'stroke 0.2s ease-in-out;',
+    ...getBorderColor(props),
+  },
 
-      /**
-       * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
-       * happens when checkboxes are flex items in a parent with overflow.
-       * See AK-6321 for more details.
-       **/
-      '> span': {
-        display: 'flex',
-      },
-    }}
-    children={children}
-  />
+  /**
+   * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
+   * happens when checkboxes are flex items in a parent with overflow.
+   * See AK-6321 for more details.
+   **/
+  '> span': {
+    display: 'flex',
+  },
+});
+
+export default ({ attributesFn, cssFn, children, ...props }: IconProps) => (
+  <span css={cssFn(props)} {...attributesFn({})} children={children} />
 );
