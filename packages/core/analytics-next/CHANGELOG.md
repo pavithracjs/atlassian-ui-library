@@ -1,5 +1,13 @@
 # @atlaskit/analytics-next
 
+## 6.2.0
+
+### Minor Changes
+
+- [minor][42fd897e16](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42fd897e16):
+
+  - Introduces a new custom React hook, `useAnalyticsEvents_experimental`, for creating analytics events within functional components. This hook replaces the need for the `withAnalyticsEvents` HOC. See the [Reference documentation](https://atlaskit.atlassian.com/packages/core/analytics-next/docs/reference) for details on how to use this new hook.
+
 ## 6.1.0
 
 ### Minor Changes
