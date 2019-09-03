@@ -123,6 +123,14 @@ type Props = {
   notificationCount: number,
   onNotificationDrawerOpen: () => void,
   unmountOnExit: boolean,
+  isRecentDrawerFocusLockEnabled: boolean,
+  isStarredDrawerFocusLockEnabled: boolean,
+  isSearchDrawerFocusLockEnabled: boolean,
+  isCreateDrawerFocusLockEnabled: boolean,
+  isNotificationDrawerFocusLockEnabled: boolean,
+  isInviteDrawerFocusLockEnabled: boolean,
+  isHelpDrawerFocusLockEnabled: boolean,
+  isSettingsDrawerFocusLockEnabled: boolean,
 };
 
 const HelpDropdown = () => (
