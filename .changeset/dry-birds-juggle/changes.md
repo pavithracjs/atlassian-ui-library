@@ -1,1 +1,0 @@
-ED-7532 Expose ability to cancel default browser behaviour when clicking Smart Links within the Mobile Renderer.
