@@ -13,12 +13,6 @@ test('snapshot', () => {
   expect(mount(<Badge />)).toMatchSnapshot();
 });
 
-test('DEPRECATED - value', () => {
-  expect(getFormatProps(<Badge value={100} />)).toMatchObject({
-    children: 100,
-  });
-});
-
 test('children', () => {
   expect(getFormatProps(<Badge>{100}</Badge>)).toMatchObject({ children: 100 });
 });
