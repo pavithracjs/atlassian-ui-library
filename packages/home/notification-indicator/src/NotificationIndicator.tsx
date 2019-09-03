@@ -200,7 +200,9 @@ class NotificationIndicator extends Component<Props, State> {
 
     return count ? (
       <div data-test-selector="NotificationIndicator">
-        <Badge max={max} appearance={appearance} value={count} />
+        <Badge max={max} appearance={appearance}>
+          {count}
+        </Badge>
       </div>
     ) : null;
   }
