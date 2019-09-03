@@ -42,7 +42,8 @@
     "@atlaskit/toggle": "^8.0.5",
     "@atlaskit/visual-regression": "^0.1.3",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "keywords": [
     "atlaskit",

@@ -53,6 +53,7 @@
     "@atlaskit/webdriver-runner": "^0.1.4",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0",
-    "react-value": "^0.2.0"
+    "react-value": "^0.2.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

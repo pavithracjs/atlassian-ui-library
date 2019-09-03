@@ -55,6 +55,28 @@ describe('SearchSessionProvider', () => {
     expect(searchSessionId).toBeTruthy();
   });
 
+  it('injectedSearchSession component does not change on re-render without a provider', () => {
+    const InjectedDummyComponent = injectSearchSession(DummyComponent);
+
+    const wrapper = mount(<InjectedDummyComponent />);
+
+    const searchSessionId = wrapper
+      .find(DummyComponent)
+      .prop('searchSessionId');
+
+    wrapper.setProps({
+      blah: 'blah',
+    });
+
+    wrapper.update();
+
+    const searchSessionId2 = wrapper
+      .find(DummyComponent)
+      .prop('searchSessionId');
+
+    expect(searchSessionId).toEqual(searchSessionId2);
+  });
+
   it('injectedSearchSession component without provider generates different session id for each instance', () => {
     const InjectedDummyComponent = injectSearchSession(DummyComponent);
 

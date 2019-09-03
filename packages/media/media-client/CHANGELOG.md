@@ -1,5 +1,13 @@
 # @atlaskit/media-client
 
+## 2.1.1
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
 ## 2.1.0
 
 ### Minor Changes

@@ -21,3 +21,5 @@ export const Create = ({ onClick, text }: CreateProps) => (
     />
   </Fragment>
 );
+
+export { CreateSkeleton } from './skeleton';
