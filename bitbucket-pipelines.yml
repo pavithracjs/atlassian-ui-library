@@ -612,4 +612,6 @@ pipelines:
           script:
             - source ./build-setup.sh
             - bolt install --frozen-lockfile
+            - yarn build
+            - yarn build:editor-mobile-bridge
             - cd build/build-validator && yarn validate-packages
