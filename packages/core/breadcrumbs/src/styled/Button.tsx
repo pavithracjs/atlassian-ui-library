@@ -7,7 +7,6 @@ interface Props extends ButtonProps {
 
 export default React.forwardRef<HTMLButtonElement, Props>(
   ({ truncationWidth, ...props }, ref) => (
-    // @ts-ignore
     <Button
       {...props}
       ref={ref}
