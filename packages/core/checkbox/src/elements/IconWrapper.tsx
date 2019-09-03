@@ -143,6 +143,11 @@ export const iconWrapperCSS = (props: IconProps): CSSObject => ({
   },
 });
 
-export default ({ attributesFn, cssFn, children, ...props }: IconProps) => (
-  <span css={cssFn(props)} {...attributesFn({})} children={children} />
-);
+export default function IconWrapper({
+  attributesFn,
+  cssFn,
+  children,
+  ...props
+}: IconProps) {
+  return <span css={cssFn(props)} {...attributesFn({})} children={children} />;
+}

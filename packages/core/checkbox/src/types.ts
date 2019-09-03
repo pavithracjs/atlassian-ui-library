@@ -34,15 +34,15 @@ export interface CheckboxIconProps {
   label: any;
   overrides?: {
     IconWrapper?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<IconProps>;
       cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
       attributesFn?: (props: Record<string, any>) => Record<string, any>;
     };
     Icon?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<any>;
     };
     IconIndeterminate?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<any>;
     };
   };
   theme?: (
@@ -66,15 +66,15 @@ export interface CheckboxProps extends WithAnalyticsEventsProps {
       cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
     };
     IconWrapper?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<IconProps>;
       cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
       attributesFn?: (props: any) => any;
     };
     Icon?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<any>;
     };
     IconIndeterminate?: {
-      component?: React.ComponentType;
+      component?: React.ComponentType<any>;
     };
   };
   /** Sets whether the checkbox begins checked. */

@@ -8,7 +8,7 @@ import {
 } from '@atlaskit/analytics-next';
 import GlobalTheme from '@atlaskit/theme/components';
 import Theme, { componentTokens } from './theme';
-import { createExtender, identity } from './utils';
+import { createExtender, identity, ExtenderType } from './utils';
 import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
@@ -39,6 +39,14 @@ const defaults = {
     attributesFn: identity,
   },
 };
+
+interface State {
+  isActive: boolean;
+  isChecked?: boolean;
+  isFocused: boolean;
+  isHovered: boolean;
+  isMouseDown: boolean;
+}
 
 type DefaultType = {
   Label: {
@@ -88,10 +96,11 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
+  createExtender?: ExtenderType;
   checkbox?: HTMLInputElement | null = undefined;
   actionKeys = [' '];
 
-  constructor(props) {
+  constructor(props: CheckboxProps) {
     super(props);
     this.createExtender = memoize(createExtender);
   }
@@ -190,7 +199,6 @@ class Checkbox extends Component<CheckboxProps, State> {
       isFullWidth,
       onChange,
       theme,
-      styles,
       ...rest
     } = this.props;
 
@@ -199,7 +207,10 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.state.isChecked
         : propsIsChecked;
     const { isFocused, isActive, isHovered } = this.state;
-    const getOverrides = createExtender(defaults, overrides);
+    const getOverrides = createExtender<DefaultType, OverridesType>(
+      defaults,
+      overrides,
+    );
     const { component: Label, ...labelOverrides } = getOverrides('Label');
     const { component: LabelText, ...labelTextOverrides } = getOverrides(
       'LabelText',
@@ -238,17 +249,11 @@ class Checkbox extends Component<CheckboxProps, State> {
                     />
                     <CheckboxIcon
                       theme={theme}
-                      styles={
-                        styles &&
-                        styles.iconWrapper && {
-                          iconWrapper: styles.iconWrapper,
-                        }
-                      }
                       overrides={{
                         IconWrapper: overrides && overrides.IconWrapper,
                         Icon: overrides && overrides.Icon,
-                        IndeterminateIcon:
-                          overrides && overrides.IndeterminateIcon,
+                        IconIndeterminate:
+                          overrides && overrides.IconIndeterminate,
                       }}
                       isChecked={isChecked}
                       isDisabled={isDisabled}

@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
+import { CSSObject } from '@emotion/core';
 import memoize from 'memoize-one';
 import Icon from '@atlaskit/icon/glyph/checkbox';
 import GlobalTheme from '@atlaskit/theme/components';
 import IconIndeterminate from '@atlaskit/icon/glyph/checkbox-indeterminate';
 import Theme, { componentTokens } from './theme';
-import { createExtender, identity } from './utils';
-import { IconWrapper, iconWrapperCSS } from './elements';
+import { createExtender, identity, ExtenderType } from './utils';
+import { IconWrapper, iconWrapperCSS, IconProps } from './elements';
 import { CheckboxIconProps, ThemeProps, ThemeTokens } from './types';
 
 interface DefaultType {
   IconWrapper: {
-    component: typeof IconWrapper;
+    component: React.ComponentType<IconProps>;
     cssFn: (props: IconProps) => CSSObject;
     attributesFn: (props: Record<string, any>) => Record<string, any>;
   };
   Icon: {
-    component: typeof Icon;
+    component: React.ComponentType<any>;
   };
   IndeterminateIcon: {
-    component: typeof IconIndeterminate;
+    component: React.ComponentType<any>;
   };
 }
 
@@ -29,10 +30,10 @@ type OverridesType = {
     attributesFn?: (props: Record<string, any>) => Record<string, any>;
   };
   Icon?: {
-    component?: React.ComponentType;
+    component?: React.ComponentType<any>;
   };
   IndeterminateIcon?: {
-    component?: React.ComponentType;
+    component?: React.ComponentType<any>;
   };
 };
 
@@ -61,9 +62,11 @@ export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
     ): ThemeTokens => current(props),
   };
 
-  constructor(props) {
+  createExtender?: ExtenderType;
+
+  constructor(props: CheckboxIconProps) {
     super(props);
-    this.createExtender = memoize(createExtender).bind(this);
+    this.createExtender = memoize(createExtender).bind(this) as ExtenderType;
   }
 
   render() {
@@ -80,7 +83,11 @@ export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
       secondaryColor,
       theme,
     } = this.props;
-    const getOverrides = this.createExtender(defaults, overrides);
+    // @ts-ignore
+    const getOverrides = this.createExtender<DefaultType, OverridesType>(
+      defaults,
+      overrides,
+    );
     const { component: IconWrapper, ...iconWrapperOverrides } = getOverrides(
       'IconWrapper',
     );
