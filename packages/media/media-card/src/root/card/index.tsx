@@ -98,8 +98,10 @@ export class Card extends Component<CardProps, CardState> {
   }
 
   releaseDataURI = () => {
+    const { identifier } = this.props;
     const { dataURI } = this.state;
-    if (dataURI) {
+    // we don't want to release external previews, since it might be reused later on
+    if (dataURI && identifier.mediaItemType !== 'external-image') {
       URL.revokeObjectURL(dataURI);
     }
   };
