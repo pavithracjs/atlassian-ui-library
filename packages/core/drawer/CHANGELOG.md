@@ -1,5 +1,13 @@
 # @atlaskit/drawer
 
+## 5.0.9
+
+### Patch Changes
+
+- [patch][baf6c19b23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/baf6c19b23):
+
+  Remove //@ts-ignore unintentionally rendered with the other content
+
 ## 5.0.8
 
 ### Patch Changes

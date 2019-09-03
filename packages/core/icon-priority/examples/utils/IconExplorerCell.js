@@ -57,7 +57,7 @@ class IconExplorerCell extends Component<Props, { isModalOpen: boolean }> {
     const isSet = Boolean(this.ref);
 
     console.log(ref);
-    // $FlowFixMe
+
     this.input = ref ? ref.input : null;
 
     if (this.input && !isSet) {

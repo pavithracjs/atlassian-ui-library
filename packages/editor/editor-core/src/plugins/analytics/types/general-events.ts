@@ -93,6 +93,14 @@ type SlowInputAEP = OperationalAEP<
   undefined
 >;
 
+type UploadExternalFailedAEP = OperationalAEP<
+  ACTION.UPLOAD_EXTERNAL_FAIL,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  undefined,
+  undefined
+>;
+
 type EditorStopAEP = UIAEP<
   ACTION.STOPPED,
   ACTION_SUBJECT.EDITOR,
@@ -208,4 +216,5 @@ export type GeneralEventPayload =
   | FullWidthModeAEP
   | EditorPerfAEP
   | BrowserFreezePayload
-  | SlowInputAEP;
+  | SlowInputAEP
+  | UploadExternalFailedAEP;

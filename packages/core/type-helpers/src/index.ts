@@ -48,11 +48,11 @@ export type ResultantProps<InjectedProps, P extends InjectedProps> = Omit<
  *       Component,
  *     )})`;
  *
- *     componentWillMount() {
+ *     UNSAFE_componentWillMount() {
  *       warnIfDeprecatedAppearance(this.props.appearance);
  *     }
  *
- *     componentWillReceiveProps(newProps: AppearanceProps) {
+ *     UNSAFE_componentWillReceiveProps(newProps: AppearanceProps) {
  *       if (newProps.appearance !== this.props.appearance) {
  *         warnIfDeprecatedAppearance(newProps.appearance);
  *       }

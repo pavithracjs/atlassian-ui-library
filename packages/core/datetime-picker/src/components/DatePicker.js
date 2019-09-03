@@ -129,7 +129,6 @@ const Menu = ({ selectProps, innerProps }: Object) => (
 );
 
 class DatePicker extends Component<Props, State> {
-  // $FlowFixMe - Calendar isn't being correctly detected as a react component
   calendarRef: ElementRef<Calendar>;
 
   containerRef: ?HTMLElement;

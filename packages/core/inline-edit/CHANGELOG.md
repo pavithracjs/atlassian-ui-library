@@ -1,5 +1,13 @@
 # @atlaskit/inline-edit
 
+## 10.0.21
+
+### Patch Changes
+
+- [patch][7f9c665733](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f9c665733):
+
+  Remove babel/runtime as a dependency
+
 ## 10.0.20
 
 ### Patch Changes

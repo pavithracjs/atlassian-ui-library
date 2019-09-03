@@ -232,6 +232,39 @@ describe('nodeviews/mediaSingle', () => {
     });
   });
 
+  it('calls upload media external', async () => {
+    const mediaNodeAttrs = {
+      id: 'foo',
+      type: 'external',
+      collection: 'collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNodeWithoutDimensions = mediaSingle()(mediaNode);
+
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNodeWithoutDimensions(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    const instances: MediaNodeUpdater[] = (MediaNodeUpdater as any).instances;
+    instances[0].getRemoteDimensions = getDimensions(wrapper);
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    expect(instances[0].uploadExternalMedia).toHaveBeenCalledTimes(1);
+  });
+
   it('passes the editor width down as cardDimensions', () => {
     const mediaSingleNode = mediaSingle()(mediaNode);
     const wrapper = mount(
@@ -512,7 +545,7 @@ describe('nodeviews/mediaSingle', () => {
 
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });
-    // We need to await to ticks since we await 2 different promises on the componentWillReceiveProps
+    // We need to await to ticks since we await 2 different promises on the UNSAFE_componentWillReceiveProps
     // unfortunately we can't access the real promises here
     await nextTick();
     await nextTick();

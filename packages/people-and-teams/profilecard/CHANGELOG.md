@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 12.0.7
+
+### Patch Changes
+
+- [patch][875282da30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/875282da30):
+
+  Fix a bug which causes ProfileCard triggers viewed analytics event twice
+
 ## 12.0.6
 
 ### Patch Changes

@@ -159,7 +159,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
   };
 
-  componentWillReceiveProps(nextProps: EditorViewProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditorViewProps) {
     if (
       this.view &&
       this.props.editorProps.disabled !== nextProps.editorProps.disabled

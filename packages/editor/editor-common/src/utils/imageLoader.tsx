@@ -32,7 +32,7 @@ export const withImageLoader = <P extends {}>(
       this.fetchImage(this.props);
     }
 
-    componentWillReceiveProps(nextProps: ImageLoaderProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: ImageLoaderProps) {
       if (nextProps.url !== this.props.url) {
         this.setState({
           imageStatus: 'loading',

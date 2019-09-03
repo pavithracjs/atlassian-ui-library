@@ -6,7 +6,7 @@ import GatewayRegistry from './GatewayRegistry';
 type Props = {
   into: string,
   children?: Node,
-  shouldBlockRender?: boolean,
+  shouldBlockRender?: boolean, // eslint-disable-line react/no-unused-prop-types
 };
 type Context = {
   gatewayRegistry: GatewayRegistry,
@@ -26,7 +26,7 @@ export default class Gateway extends Component<Props> {
     this.gatewayRegistry = context.gatewayRegistry;
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.id = this.gatewayRegistry.register(
       this.props.into,
       this.props.children,
@@ -34,7 +34,7 @@ export default class Gateway extends Component<Props> {
     this.renderIntoGatewayNode(this.props);
   }
 
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     if (!props.shouldBlockRender) {
       this.gatewayRegistry.clearChild(this.props.into, this.id);
       this.renderIntoGatewayNode(props);

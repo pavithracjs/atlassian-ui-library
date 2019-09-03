@@ -24,7 +24,7 @@ export class ClipboardLoader extends React.PureComponent<
     Clipboard: ClipboardLoader.Clipboard,
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     if (!this.state.Clipboard) {
       const [mediaClient, clipboardModule] = await Promise.all([
         import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),

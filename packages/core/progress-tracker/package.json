@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/progress-tracker",
-  "version": "6.0.8",
+  "version": "6.1.0",
   "description": "A React component that shows the steps and progress in a journey",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -23,7 +23,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-22",
   "dependencies": {
     "@atlaskit/page": "^11.0.8",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.0",
     "@babel/runtime": "^7.0.0",
     "react-transition-group": "^2.2.1",
     "tslib": "^1.9.3"

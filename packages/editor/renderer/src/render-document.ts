@@ -5,7 +5,7 @@ import {
   getValidNode,
   ADNode,
   ADFStage,
-} from '@atlaskit/editor-common';
+} from '@atlaskit/editor-common/validator';
 import { Node as PMNode, Schema, Fragment } from 'prosemirror-model';
 
 export interface RenderOutput<T> {

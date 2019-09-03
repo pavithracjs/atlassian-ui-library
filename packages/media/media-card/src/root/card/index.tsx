@@ -59,7 +59,7 @@ export class Card extends Component<CardProps, CardState> {
     this.subscribe(identifier, mediaClient);
   }
 
-  componentWillReceiveProps(nextProps: CardProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CardProps) {
     const {
       mediaClient: currentMediaClient,
       identifier: currentIdentifier,

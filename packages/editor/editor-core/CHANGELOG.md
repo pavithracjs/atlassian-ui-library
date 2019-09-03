@@ -1,5 +1,43 @@
 # @atlaskit/editor-core
 
+## 112.44.2
+
+- Updated dependencies [08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+  - @atlaskit/editor-bitbucket-transformer@6.2.3
+  - @atlaskit/editor-json-transformer@6.3.2
+  - @atlaskit/editor-markdown-transformer@3.1.5
+  - @atlaskit/editor-test-helpers@9.11.13
+  - @atlaskit/task-decision@15.3.1
+  - @atlaskit/editor-common@40.0.0
+  - @atlaskit/renderer@50.0.0
+
+## 112.44.1
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
+## 112.44.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
+## 112.43.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 112.42.4
 
 ### Patch Changes

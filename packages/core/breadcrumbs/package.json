@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "9.0.12",
+  "version": "9.1.0",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
@@ -22,9 +22,9 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^6.0.3",
+    "@atlaskit/analytics-next": "^6.1.0",
     "@atlaskit/button": "^13.1.6",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.0",
     "@atlaskit/tooltip": "^15.0.14",
     "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3"
@@ -38,13 +38,14 @@
     "@atlaskit/build-utils": "^2.2.5",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/logo": "^12.1.8",
-    "@atlaskit/select": "^10.0.8",
+    "@atlaskit/select": "^10.1.0",
     "@atlaskit/ssr": "^0.1.1",
     "@atlaskit/visual-regression": "^0.1.3",
     "enzyme": "^3.7.0",
     "jest-in-case": "^1.0.2",
     "react-dom": "^16.8.0",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "wait-for-expect": "^1.2.0"
   }
 }

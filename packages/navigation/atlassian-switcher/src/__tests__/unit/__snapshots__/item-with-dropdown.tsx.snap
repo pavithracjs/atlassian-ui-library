@@ -35,124 +35,55 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
-      <ThemeProvider
-        theme={
-          Object {
-            "@atlaskit-shared-theme/item": Object {
-              "default": Object {
-                "background": "transparent",
-                "secondaryText": "#6B778C",
-                "text": [Function],
-              },
-              "hover": Object {
-                "background": "transparent",
-              },
-              "padding": Object {
-                "default": Object {
-                  "bottom": 8,
-                  "left": 8,
-                  "right": 8,
-                  "top": 8,
-                },
-              },
-              "width": Object {
-                "default": "100%",
-              },
-            },
-          }
+      <Component
+        createAnalyticsEvent={[Function]}
+        description="some-instance"
+        href="https://app.opsgenie.com"
+        icon={
+          <Unknown
+            theme="product"
+          />
+        }
+        onClick={[Function]}
+        onExpandClick={[Function]}
+        tooltipContent={
+          <span>
+            Show more sites
+          </span>
         }
       >
-        <Item
-          autoFocus={false}
-          createAnalyticsEvent={[Function]}
-          description="some-instance"
-          elemBefore={
-            <Unknown
-              theme="product"
-            />
-          }
-          href="https://app.opsgenie.com"
-          isCompact={false}
-          isDisabled={false}
-          isHidden={false}
-          onClick={[Function]}
-          onExpandClick={[Function]}
-          role="button"
-          shouldAllowMultiline={false}
-          tooltipContent={
-            <span>
-              Show more sites
-            </span>
-          }
-        >
-          Jira Software
-        </Item>
-      </ThemeProvider>
-    </styled.div>
-    <Tooltip
-      component={[Function]}
+        Jira Software
+      </Component>
+    </Component>
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
-      <styled.div
+      <Component
         isParentHovered={false}
       >
-        <ThemeProvider
-          theme={
-            Object {
-              "@atlaskit-shared-theme/item": Object {
-                "default": Object {
-                  "background": "transparent",
-                  "secondaryText": "#6B778C",
-                  "text": [Function],
-                },
-                "hover": Object {
-                  "background": "transparent",
-                },
-                "padding": Object {
-                  "default": Object {
-                    "bottom": 8,
-                    "left": 8,
-                    "right": 8,
-                    "top": 8,
-                  },
-                },
-                "width": Object {
-                  "default": "100%",
-                },
-              },
-            }
+        <Component
+          data-test-id="switcher-expand-toggle"
+          icon={
+            <styled.div>
+              <ChevronDownIcon
+                label="Expand"
+              />
+            </styled.div>
           }
-        >
-          <Item
-            autoFocus={false}
-            data-test-id="switcher-expand-toggle"
-            description=""
-            isCompact={false}
-            isDisabled={false}
-            isHidden={false}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            shouldAllowMultiline={false}
-          >
-            <Component
-              theme="subtle"
-            />
-          </Item>
-        </ThemeProvider>
-      </styled.div>
-    </Tooltip>
+          onClick={[Function]}
+          onKeyDown={[Function]}
+        />
+      </Component>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;
@@ -163,223 +94,102 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
-      <ThemeProvider
-        theme={
-          Object {
-            "@atlaskit-shared-theme/item": Object {
-              "default": Object {
-                "background": "transparent",
-                "secondaryText": "#6B778C",
-                "text": [Function],
-              },
-              "hover": Object {
-                "background": "transparent",
-              },
-              "padding": Object {
-                "default": Object {
-                  "bottom": 8,
-                  "left": 8,
-                  "right": 8,
-                  "top": 8,
-                },
-              },
-              "width": Object {
-                "default": "100%",
-              },
-            },
-          }
+      <Component
+        createAnalyticsEvent={[Function]}
+        description="some-instance"
+        href="https://app.opsgenie.com"
+        icon={
+          <Unknown
+            theme="product"
+          />
+        }
+        onClick={[Function]}
+        onExpandClick={[Function]}
+        tooltipContent={
+          <span>
+            Show more sites
+          </span>
         }
       >
-        <Item
-          autoFocus={false}
-          createAnalyticsEvent={[Function]}
-          description="some-instance"
-          elemBefore={
-            <Unknown
-              theme="product"
-            />
-          }
-          href="https://app.opsgenie.com"
-          isCompact={false}
-          isDisabled={false}
-          isHidden={false}
-          onClick={[Function]}
-          onExpandClick={[Function]}
-          role="button"
-          shouldAllowMultiline={false}
-          tooltipContent={
-            <span>
-              Show more sites
-            </span>
-          }
-        >
-          Jira Software
-        </Item>
-      </ThemeProvider>
-    </styled.div>
-    <Tooltip
-      component={[Function]}
-      content={false}
-      delay={300}
-      mousePosition="bottom"
-      position="top"
-      tag="div"
+        Jira Software
+      </Component>
+    </Component>
+    <Component
+      isParentHovered={false}
     >
-      <styled.div
-        isParentHovered={false}
-      >
-        <ThemeProvider
-          theme={
-            Object {
-              "@atlaskit-shared-theme/item": Object {
-                "default": Object {
-                  "background": "transparent",
-                  "secondaryText": "#6B778C",
-                  "text": [Function],
-                },
-                "hover": Object {
-                  "background": "transparent",
-                },
-                "padding": Object {
-                  "default": Object {
-                    "bottom": 8,
-                    "left": 8,
-                    "right": 8,
-                    "top": 8,
-                  },
-                },
-                "width": Object {
-                  "default": "100%",
-                },
-              },
-            }
-          }
-        >
-          <Item
-            autoFocus={false}
-            data-test-id="switcher-expand-toggle"
-            description=""
-            isCompact={false}
-            isDisabled={false}
-            isHidden={false}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            shouldAllowMultiline={false}
-          >
-            <Component
+      <Component
+        data-test-id="switcher-expand-toggle"
+        icon={
+          <styled.div>
+            <ChevronUpIcon
+              label="Collapse"
+            />
+          </styled.div>
+        }
+        onClick={[Function]}
+        onKeyDown={[Function]}
+      />
+    </Component>
+  </styled.div>
+  <styled.div>
+    <Component
+      data-test-id="switcher-child-item"
+      href="https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
+      icon={
+        <Avatar
+          avatarUrl="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
+          fallbackComponent={
+            <Unknown
               theme="subtle"
             />
-          </Item>
-        </ThemeProvider>
-      </styled.div>
-    </Tooltip>
-  </styled.div>
-  <ThemeProvider
-    theme={
-      Object {
-        "@atlaskit-shared-theme/item": Object {
-          "default": Object {
-            "background": "transparent",
-            "secondaryText": "#6B778C",
-            "text": "#253858",
-          },
-          "hover": Object {
-            "background": "rgba(9, 30, 66, 0.04)",
-          },
-          "padding": Object {
-            "default": Object {
-              "bottom": 4,
-              "left": 8,
-              "right": 8,
-              "top": 4,
-            },
-          },
-        },
+          }
+        />
       }
-    }
-  >
-    <styled.div>
-      <Item
-        autoFocus={false}
-        data-test-id="switcher-child-item"
-        description=""
-        elemBefore={
-          <Avatar
-            avatarUrl="https://site-admin-avatar-cdn.staging.public.atl-paas.net/avatars/240/rocket.png"
-            fallbackComponent={
-              <Unknown
-                theme="subtle"
-              />
-            }
-          />
-        }
-        href="https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
-        isCompact={false}
-        isDisabled={false}
-        isHidden={false}
-        key="site00"
-        onClick={[Function]}
-        role="button"
-        shouldAllowMultiline={false}
-      >
-        site00
-      </Item>
-      <Item
-        autoFocus={false}
-        data-test-id="switcher-child-item"
-        description=""
-        elemBefore={
-          <Avatar
-            avatarUrl="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
-            fallbackComponent={
-              <Unknown
-                theme="subtle"
-              />
-            }
-          />
-        }
-        href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
-        isCompact={false}
-        isDisabled={false}
-        isHidden={false}
-        key="site10"
-        onClick={[Function]}
-        role="button"
-        shouldAllowMultiline={false}
-      >
-        site10
-      </Item>
-      <Item
-        autoFocus={false}
-        data-test-id="switcher-child-item"
-        description=""
-        elemBefore={
-          <Avatar
-            avatarUrl={null}
-            fallbackComponent={
-              <Unknown
-                theme="subtle"
-              />
-            }
-          />
-        }
-        href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
-        isCompact={false}
-        isDisabled={false}
-        isHidden={false}
-        key="site30"
-        onClick={[Function]}
-        role="button"
-        shouldAllowMultiline={false}
-      >
-        site30
-      </Item>
-    </styled.div>
-  </ThemeProvider>
+      key="site00"
+      onClick={[Function]}
+    >
+      site00
+    </Component>
+    <Component
+      data-test-id="switcher-child-item"
+      href="https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
+      icon={
+        <Avatar
+          avatarUrl="https://site-admin-avatar-cdn.stg.public.atl-paas.net/avatars/240/rocket.png"
+          fallbackComponent={
+            <Unknown
+              theme="subtle"
+            />
+          }
+        />
+      }
+      key="site10"
+      onClick={[Function]}
+    >
+      site10
+    </Component>
+    <Component
+      data-test-id="switcher-child-item"
+      href="https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software"
+      icon={
+        <Avatar
+          avatarUrl={null}
+          fallbackComponent={
+            <Unknown
+              theme="subtle"
+            />
+          }
+        />
+      }
+      key="site30"
+      onClick={[Function]}
+    >
+      site30
+    </Component>
+  </styled.div>
 </styled.div>
 `;
 
@@ -389,124 +199,55 @@ exports[`Atlassian Switcher - ItemWithDropdown renders an item with multiple sit
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <styled.div
+    <Component
       isParentHovered={false}
     >
-      <ThemeProvider
-        theme={
-          Object {
-            "@atlaskit-shared-theme/item": Object {
-              "default": Object {
-                "background": "transparent",
-                "secondaryText": "#6B778C",
-                "text": [Function],
-              },
-              "hover": Object {
-                "background": "transparent",
-              },
-              "padding": Object {
-                "default": Object {
-                  "bottom": 8,
-                  "left": 8,
-                  "right": 8,
-                  "top": 8,
-                },
-              },
-              "width": Object {
-                "default": "100%",
-              },
-            },
-          }
+      <Component
+        createAnalyticsEvent={[Function]}
+        description="some-instance"
+        href="https://app.opsgenie.com"
+        icon={
+          <Unknown
+            theme="product"
+          />
+        }
+        onClick={[Function]}
+        onExpandClick={[Function]}
+        tooltipContent={
+          <span>
+            Show more sites
+          </span>
         }
       >
-        <Item
-          autoFocus={false}
-          createAnalyticsEvent={[Function]}
-          description="some-instance"
-          elemBefore={
-            <Unknown
-              theme="product"
-            />
-          }
-          href="https://app.opsgenie.com"
-          isCompact={false}
-          isDisabled={false}
-          isHidden={false}
-          onClick={[Function]}
-          onExpandClick={[Function]}
-          role="button"
-          shouldAllowMultiline={false}
-          tooltipContent={
-            <span>
-              Show more sites
-            </span>
-          }
-        >
-          Jira Software
-        </Item>
-      </ThemeProvider>
-    </styled.div>
-    <Tooltip
-      component={[Function]}
+        Jira Software
+      </Component>
+    </Component>
+    <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
       content={
         <span>
           Show more sites
         </span>
       }
-      delay={300}
-      mousePosition="bottom"
+      hideTooltipOnMouseDown={true}
       position="top"
-      tag="div"
     >
-      <styled.div
+      <Component
         isParentHovered={false}
       >
-        <ThemeProvider
-          theme={
-            Object {
-              "@atlaskit-shared-theme/item": Object {
-                "default": Object {
-                  "background": "transparent",
-                  "secondaryText": "#6B778C",
-                  "text": [Function],
-                },
-                "hover": Object {
-                  "background": "transparent",
-                },
-                "padding": Object {
-                  "default": Object {
-                    "bottom": 8,
-                    "left": 8,
-                    "right": 8,
-                    "top": 8,
-                  },
-                },
-                "width": Object {
-                  "default": "100%",
-                },
-              },
-            }
+        <Component
+          data-test-id="switcher-expand-toggle"
+          icon={
+            <styled.div>
+              <ChevronDownIcon
+                label="Expand"
+              />
+            </styled.div>
           }
-        >
-          <Item
-            autoFocus={false}
-            data-test-id="switcher-expand-toggle"
-            description=""
-            isCompact={false}
-            isDisabled={false}
-            isHidden={false}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            role="button"
-            shouldAllowMultiline={false}
-          >
-            <Component
-              theme="subtle"
-            />
-          </Item>
-        </ThemeProvider>
-      </styled.div>
-    </Tooltip>
+          onClick={[Function]}
+          onKeyDown={[Function]}
+        />
+      </Component>
+    </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
   </styled.div>
 </styled.div>
 `;

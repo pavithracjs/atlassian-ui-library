@@ -10,7 +10,9 @@ exports[`Switcher should be able to disable headers with "disableHeadings" 1`] =
     }
   }
 >
-  <SwitcherWrapper>
+  <SwitcherWrapper
+    appearance="drawer"
+  >
     <WithAnalyticsEvents(class_2)
       data={
         Object {
@@ -50,7 +52,9 @@ exports[`Switcher should render sections with headers by default 1`] = `
     }
   }
 >
-  <SwitcherWrapper>
+  <SwitcherWrapper
+    appearance="drawer"
+  >
     <WithAnalyticsEvents(class_2)
       data={
         Object {

@@ -77,12 +77,12 @@ class DynamicTable extends React.Component<Props, State> {
     },
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     validateSortKey(this.props.sortKey, this.props.head);
     assertIsSortable(this.props.head);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.sortKey !== nextProps.sortKey ||
       this.props.head !== nextProps.head
