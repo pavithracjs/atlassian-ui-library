@@ -1,9 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { getStyles } from './styles';
+import { styles } from './styles';
 import { BadgeProps } from './types';
-
-const styles = getStyles();
 
 export const BadgeContainer = (props: BadgeProps) => {
   const { badge: Badge, children } = props;

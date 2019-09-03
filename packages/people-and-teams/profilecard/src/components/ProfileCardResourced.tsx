@@ -12,8 +12,9 @@ import {
   ProfileCardResourcedState,
   ProfileCardAction,
 } from '../types';
+import { AnalyticsName } from '../internal/analytics';
 
-export default class ProfilecardResourced extends React.PureComponent<
+export default class ProfileCardResourced extends React.PureComponent<
   ProfileCardResourcedProps,
   ProfileCardResourcedState
 > {
@@ -37,8 +38,13 @@ export default class ProfilecardResourced extends React.PureComponent<
     this.clientFetchProfile();
   }
 
-  componentDidUpdate(prevProps: ProfileCardResourcedProps) {
+  componentDidUpdate(
+    prevProps: ProfileCardResourcedProps,
+    prevState: ProfileCardResourcedState,
+  ) {
     const { userId, cloudId } = this.props;
+    const { hasError } = this.state;
+
     if (userId !== prevProps.userId || cloudId !== prevProps.cloudId) {
       this.setState(
         {
@@ -47,11 +53,22 @@ export default class ProfilecardResourced extends React.PureComponent<
         this.clientFetchProfile,
       );
     }
+
+    if (hasError !== prevState.hasError && hasError) {
+      this.callAnalytics(AnalyticsName.PROFILE_CARD_RESOURCED_ERROR);
+    }
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
+
+  private callAnalytics = (id: string, options: any = {}) => {
+    const { analytics } = this.props;
+    if (analytics) {
+      analytics(id, options);
+    }
+  };
 
   clientFetchProfile = () => {
     const { cloudId, userId } = this.props;
@@ -129,10 +146,10 @@ export default class ProfilecardResourced extends React.PureComponent<
     }
 
     const newProps = {
-      hasError: hasError,
+      hasError,
       errorType: error,
       clientFetchProfile: this.clientFetchProfile,
-      analytics: analytics,
+      analytics,
       ...data,
     };
 

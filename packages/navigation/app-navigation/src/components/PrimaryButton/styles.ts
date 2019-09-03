@@ -1,9 +1,10 @@
-import { B400, B50 } from '@atlaskit/theme/colors';
+import { ThemeProps, ThemeTokens } from '@atlaskit/button/types';
 import {
   fontSizeSmall,
   gridSize as gridSizeFn,
 } from '@atlaskit/theme/constants';
 import css from '@emotion/css';
+import { AppNavigationTheme } from '../../theme';
 
 const gridSize = gridSizeFn();
 
@@ -12,27 +13,38 @@ export const chevronStyles = css`
   visibility: hidden;
 `;
 
+export const buttonHeight = gridSize * 4;
+
+export const margin = {
+  left: gridSize / 2,
+};
+
+export const padding = {
+  all: gridSize / 2,
+};
+
 // TODO marginRight
-export const primaryButtonTheme: any = (
-  currentTheme: Function,
-  themeProps: { appearance: string },
+export const getPrimaryButtonTheme = ({
+  mode: { primaryButton },
+}: AppNavigationTheme) => (
+  current: (props: ThemeProps) => ThemeTokens,
+  props: ThemeProps,
 ) => {
-  const { buttonStyles, spinnerStyles } = currentTheme(themeProps);
+  const { buttonStyles, spinnerStyles } = current(props);
   return {
     buttonStyles: {
       ...buttonStyles,
-      backgroundColor: 'transparent',
-      color: B50,
       display: 'inline-flex',
       fontSize: fontSizeSmall(),
       fontWeight: 'bold',
-      height: gridSize * 4,
-      marginLeft: gridSize / 2,
-      padding: gridSize / 2,
+      height: buttonHeight,
+      marginLeft: margin.left,
+      padding: padding.all,
       textTransform: 'uppercase',
-      ':hover, :focus': {
-        backgroundColor: B400,
-      },
+      ...primaryButton.default,
+      ':hover': primaryButton.hover,
+      ':focus': primaryButton.focus,
+      ':active': primaryButton.active,
       ':hover .chevron, :focus .chevron': {
         visibility: 'visible',
       },

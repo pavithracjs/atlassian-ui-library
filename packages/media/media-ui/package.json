@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "11.6.0",
+  "version": "11.6.1",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@atlaskit/avatar": "^16.1.0",
     "@atlaskit/avatar-group": "^4.0.12",
-    "@atlaskit/badge": "^12.1.0",
+    "@atlaskit/badge": "^13.0.0",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/dropdown-menu": "^8.1.0",
     "@atlaskit/field-text": "^9.0.11",
@@ -71,6 +71,7 @@
     "jsverify": "^0.8.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-intl": "^2.6.0"
+    "react-intl": "^2.6.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

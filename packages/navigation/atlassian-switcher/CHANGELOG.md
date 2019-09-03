@@ -1,5 +1,29 @@
 # @atlaskit/atlassian-switcher
 
+## 3.26.0
+
+### Minor Changes
+
+- [minor][d1997bfbc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1997bfbc2):
+
+  Fixed an edge case where viewed events will be emitted prematurely because we're using the incorrect provider to check for hasLoaded flag
+
+## 3.25.1
+
+### Patch Changes
+
+- [patch][4d8468b055](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d8468b055):
+
+  Fix UI alignment between toggle and top level item
+
+## 3.25.0
+
+### Minor Changes
+
+- [minor][03a905d43e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03a905d43e):
+
+  FIND-133: Add support for theming
+
 ## 3.24.0
 
 ### Minor Changes

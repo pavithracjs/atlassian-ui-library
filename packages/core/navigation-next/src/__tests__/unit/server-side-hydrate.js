@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});

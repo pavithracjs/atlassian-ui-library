@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 12.0.8
+
+### Patch Changes
+
+- [patch][02f8d986b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02f8d986b5):
+
+  ProfileCardResourced should trigger analytics event when having error
+
 ## 12.0.7
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # @atlaskit/editor-core
 
+## 112.44.3
+
+- Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+  - @atlaskit/editor-common@40.0.1
+  - @atlaskit/renderer@50.0.1
+  - @atlaskit/media-client@2.1.2
+  - @atlaskit/media-core@30.0.14
+  - @atlaskit/media-filmstrip@34.3.6
+  - @atlaskit/media-editor@36.3.1
+  - @atlaskit/media-picker@47.1.2
+  - @atlaskit/media-test-helpers@25.1.1
+  - @atlaskit/media-card@65.0.0
+  - @atlaskit/analytics-listeners@6.2.0
+
+## 112.44.2
+
+- Updated dependencies [08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+  - @atlaskit/editor-bitbucket-transformer@6.2.3
+  - @atlaskit/editor-json-transformer@6.3.2
+  - @atlaskit/editor-markdown-transformer@3.1.5
+  - @atlaskit/editor-test-helpers@9.11.13
+  - @atlaskit/task-decision@15.3.1
+  - @atlaskit/editor-common@40.0.0
+  - @atlaskit/renderer@50.0.0
+
+## 112.44.1
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
 ## 112.44.0
 
 ### Minor Changes

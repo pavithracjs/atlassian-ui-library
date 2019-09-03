@@ -42,7 +42,8 @@
     "@atlaskit/tooltip": "^15.0.14",
     "enzyme": "^3.7.0",
     "fs-extra": "^4.0.2",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "keywords": [
     "atlaskit",

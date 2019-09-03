@@ -1,5 +1,10 @@
 # @atlaskit/refinement-bar
 
+## 1.1.6
+
+- Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+  - @atlaskit/badge@13.0.0
+
 ## 1.1.5
 
 ### Patch Changes

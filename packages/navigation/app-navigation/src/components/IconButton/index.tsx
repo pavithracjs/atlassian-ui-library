@@ -3,7 +3,8 @@ import { jsx } from '@emotion/core';
 import Button from '@atlaskit/button';
 import Tooltip from '@atlaskit/tooltip';
 
-import { iconButtonTheme } from './styles';
+import { withAppNavigationTheme } from '../../theme';
+import { getIconButtonTheme } from './styles';
 import { IconButtonProps } from './types';
 
 export const IconButton = ({
@@ -11,7 +12,7 @@ export const IconButton = ({
   icon,
   onClick,
   testId = 'NavigationItem',
-  theme = iconButtonTheme,
+  theme,
   tooltip,
 }: IconButtonProps) => (
   <Tooltip content={tooltip}>
@@ -21,7 +22,9 @@ export const IconButton = ({
       className={className}
       iconBefore={icon}
       onClick={onClick}
-      theme={theme}
+      theme={getIconButtonTheme(theme)}
     />
   </Tooltip>
 );
+
+export const ThemedIconButton = withAppNavigationTheme(IconButton);

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-filmstrip",
-  "version": "34.3.5",
+  "version": "34.3.6",
   "description": "Includes components that show media cards as a filmstrip",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",
@@ -21,15 +21,15 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/icon": "^19.0.6",
-    "@atlaskit/media-card": "^64.0.2",
-    "@atlaskit/media-client": "^2.0.5",
+    "@atlaskit/media-card": "^65.0.0",
+    "@atlaskit/media-client": "^2.1.2",
     "@atlaskit/theme": "^9.1.6",
     "@atlaskit/type-helpers": "^4.1.8",
     "debounce": "^1.0.0",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.13",
+    "@atlaskit/media-core": "^30.0.14",
     "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
@@ -40,12 +40,14 @@
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/field-radio-group": "^6.0.12",
     "@atlaskit/field-range": "^7.0.11",
-    "@atlaskit/media-core": "^30.0.13",
-    "@atlaskit/media-test-helpers": "^25.0.4",
+    "@atlaskit/media-core": "^30.0.14",
+    "@atlaskit/media-test-helpers": "^25.1.1",
     "@atlaskit/ssr": "^0.1.1",
     "@types/debounce": "^1.2.0",
     "enzyme": "^3.7.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "rxjs": "^5.5.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

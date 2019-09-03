@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.6.1
+
+### Patch Changes
+
+- [patch][6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+
+  Deprecated props, `value` and `onValueUpdated` have been removed from the Badge component. Please use the children prop instead.
+
 ## 6.6.0
 
 ### Minor Changes

@@ -1,19 +1,16 @@
 import { gridSize } from '@atlaskit/theme';
-import { CSSObject } from '@emotion/css';
 
-const externalContent = (hasIframeLoaded: boolean): CSSObject => ({
-  visibility: hasIframeLoaded ? 'visible' : 'hidden',
+export const externalContent = (hasIframeLoaded: boolean) => ({
+  visibility: hasIframeLoaded ? ('visible' as const) : ('hidden' as const),
   height: `calc(100% - ${3 * gridSize()}px)`,
   width: '100%',
   border: 0,
   flex: '1 1 auto',
 });
 
-const spinnerWrapper: CSSObject = {
+export const spinnerWrapper = {
   display: 'flex',
   justifyContent: 'center',
-  position: 'relative',
+  position: 'relative' as const,
   top: '11.25rem',
 };
-
-export { externalContent, spinnerWrapper };

@@ -1,5 +1,23 @@
 # @atlaskit/media-card
 
+## 65.0.0
+
+### Major Changes
+
+- [major][af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+
+  Media card now emit analytics events which payload and context stuctures reflect GASv3 payload specification.
+  Media Analytics Listener merges Payload and Context data before sending it to the backend. The merge is based on attributes.packageName equality
+  Media Analytics Listener adds packageHierarchy attribute to merged payload, the same way Atlaskit Listener does.
+
+## 64.2.1
+
+### Patch Changes
+
+- [patch][9ce6986361](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce6986361):
+
+  CEMS-244: Emit processed state when file gets copied
+
 ## 64.2.0
 
 ### Minor Changes

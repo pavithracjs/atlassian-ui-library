@@ -1031,6 +1031,10 @@
         "../../editor/editor-common/src/",
         "./packages/editor/editor-common/src/"
       ],
+      "@atlaskit/editor-common/validator": [
+        "../../editor/editor-common/src/validator",
+        "./packages/editor/editor-common/src/validator"
+      ],
       "@atlaskit/editor-confluence-transformer/collapse-whitespace": [
         "../../editor/editor-confluence-transformer/src/collapse-whitespace",
         "./packages/editor/editor-confluence-transformer/src/collapse-whitespace"

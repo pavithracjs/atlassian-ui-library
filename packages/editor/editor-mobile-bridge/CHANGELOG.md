@@ -1,5 +1,21 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.9.2
+
+### Patch Changes
+
+- [patch][08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+
+  ED-7532 Expose ability to cancel default browser behaviour when clicking Smart Links within the Mobile Renderer.
+
+## 8.9.1
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
 ## 8.9.0
 
 ### Minor Changes

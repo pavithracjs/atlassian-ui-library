@@ -3,10 +3,53 @@ const chalk = require('chalk');
 const spawndamnit = require('spawndamnit');
 const prettyjson = require('prettyjson');
 const pWaitFor = require('p-wait-for');
+const fs = require('fs');
+const util = require('util');
+const readFile = util.promisify(fs.readFile);
 
 const CDN_URL_BASE =
   'http://s3-ap-southeast-2.amazonaws.com/atlaskit-artefacts';
 
+function flattenDeep(arr1) {
+  return arr1.reduce(
+    (acc, val) =>
+      Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val),
+    [],
+  );
+}
+
+async function getInstalledAtlaskitDependencies() {
+  let packageJSON;
+
+  try {
+    packageJSON = JSON.parse(
+      (await readFile('./package.json', 'utf8')).toString(),
+    );
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
+
+  let atlaskitDependencies = flattenDeep(
+    [
+      'dependencies',
+      'devDependencies',
+      'bundledDependencies',
+      'optionalDependencies',
+      'peerDependencies',
+    ]
+      .filter(depType => typeof packageJSON[depType] === 'object')
+      .map(depType => {
+        return Object.entries(packageJSON[depType])
+          .filter(([name]) => name.startsWith('@atlaskit'))
+          .map(([name]) => name);
+      }),
+  );
+
+  return atlaskitDependencies.filter(
+    (item, i) => atlaskitDependencies.indexOf(item) === i,
+  );
+}
 // This function needs to be shared between the cli and the main node entry point
 // so that they can print different error messages
 function validateOptions(commitHash, options = {}) {
@@ -128,16 +171,15 @@ async function _installFromCommit(commitHash = '', options = {}) {
   });
   const packages =
     options.packages === 'all'
-      ? Object.keys(manifest)
+      ? await getInstalledAtlaskitDependencies()
       : options.packages.split(',');
 
   const { engine, cmd } = options;
   const cmdArgs = [cmd]; // args that we'll pass to the engine ('add'/'upgrade' pkgName@url pkgName@url)
 
   packages.forEach(pkg => {
-    if (!manifest[pkg]) {
-      log(`Error: Unable to find url for ${pkg} in manifest.json`);
-    } else {
+    if (manifest[pkg]) {
+      log(`Notice: Installing branch-deploy for: ${pkg}`);
       const tarUrl = `${CDN_URL_BASE}/${commitHash}/dists/${
         manifest[pkg].tarFile
       }`;

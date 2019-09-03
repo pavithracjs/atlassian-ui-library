@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/button",
-  "version": "13.1.7",
+  "version": "13.2.0",
   "description": "A React component that is a base button.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -50,6 +50,7 @@
     "jest-in-case": "^1.0.2",
     "react-dom": "^16.8.0",
     "react-router-dom": "^4.2.2",
-    "react-test-renderer": "^16.8.0"
+    "react-test-renderer": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   }
 }

@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import { AppNavigationTheme } from '../theme';
 import { CREATE_BREAKPOINT } from './constants';
 
 export const actionSectionDesktopStyles = css`
@@ -12,3 +13,8 @@ export const actionSectionMobileStyles = css`
     display: none;
   }
 `;
+
+export const skeletonStyles = ({ mode: { skeleton } }: AppNavigationTheme) => ({
+  opacity: 0.15,
+  ...skeleton,
+});

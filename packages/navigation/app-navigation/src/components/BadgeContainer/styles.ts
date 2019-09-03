@@ -1,13 +1,11 @@
-import { CSSObject } from '@emotion/css';
-
-export const getStyles = (): { [key: string]: CSSObject } => ({
+export const styles = {
   container: {
-    position: 'relative',
+    position: 'relative' as const,
     zIndex: 1,
   },
   badgePositioner: {
-    position: 'absolute',
+    position: 'absolute' as const,
     top: '-6px',
     right: '-8px',
   },
-});
+};

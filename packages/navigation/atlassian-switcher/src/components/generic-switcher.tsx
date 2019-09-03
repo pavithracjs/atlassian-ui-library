@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import Switcher from './switcher';
+import Switcher from '../primitives/themed-switcher';
 import CommonDataProvider from '../providers/common-data-provider';
 import {
   Product,
@@ -10,8 +10,9 @@ import {
 } from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
+import { WithTheme } from '../theme/types';
 
-type GenericSwitcherProps = {
+type GenericSwitcherProps = WithTheme & {
   cloudId?: string;
   messages: Messages;
   features: FeatureMap;
