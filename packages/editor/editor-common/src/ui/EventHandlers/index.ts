@@ -23,7 +23,10 @@ export type LinkEventClickHandler = (
   event: SyntheticEvent<HTMLAnchorElement>,
   url?: string,
 ) => void;
-export type SmartCardEventClickHandler = (url?: string) => void;
+export type SmartCardEventClickHandler = (
+  event: SyntheticEvent<HTMLAnchorElement>,
+  url?: string,
+) => void;
 
 export interface MentionEventHandlers {
   onClick?: MentionEventHandler;
