@@ -40,7 +40,10 @@ import {
   transformSliceToCorrectMediaWrapper,
   unwrapNestedMediaElements,
 } from '../../media/utils/media-common';
-import { transformSliceToRemoveColumnsWidths } from '../../table/commands/misc';
+import {
+  transformSliceToRemoveColumnsWidths,
+  transformSliceRemoveCellBackgroundColor,
+} from '../../table/commands/misc';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -66,6 +69,11 @@ function isHeaderRowRequired(state: EditorState) {
 function isAllowResizingEnabled(state: EditorState) {
   const tableState = getTablePluginState(state);
   return tableState && tableState.pluginConfig.allowColumnResizing;
+}
+
+function isBackgroundCellAllowed(state: EditorState) {
+  const tableState = getTablePluginState(state);
+  return tableState && tableState.pluginConfig.allowBackgroundColor;
 }
 
 export function createPlugin(
@@ -234,6 +242,15 @@ export function createPlugin(
 
           if (!isAllowResizingEnabled(state)) {
             slice = transformSliceToRemoveColumnsWidths(slice, state.schema);
+          }
+
+          // If we don't allow background on cells, we need to remove it
+          // from the paste slice
+          if (!isBackgroundCellAllowed(state)) {
+            slice = transformSliceRemoveCellBackgroundColor(
+              slice,
+              state.schema,
+            );
           }
 
           // get prosemirror-tables to handle pasting tables if it can

@@ -51,6 +51,7 @@ describe('table plugin', () => {
       allowNumberColumn: true,
       allowHeaderRow: true,
       allowHeaderColumn: true,
+      allowBackgroundColor: true,
       permittedLayouts: 'all',
     } as PluginConfig;
     return createEditor({
