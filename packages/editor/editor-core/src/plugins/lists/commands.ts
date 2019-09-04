@@ -211,19 +211,17 @@ export const enterKeyCommand: Command = (state, dispatch): boolean => {
   const { selection } = state;
   if (selection.empty) {
     const { $from } = selection;
-    const { listItem, codeBlock, taskItem } = state.schema.nodes;
+    const { listItem, codeBlock } = state.schema.nodes;
     const node = $from.node($from.depth);
     const wrapper = $from.node($from.depth - 1);
 
-    if (wrapper && (wrapper.type === listItem || wrapper.type === taskItem)) {
+    if (wrapper && wrapper.type === listItem) {
       /** Check if the wrapper has any visible content */
       const wrapperHasContent = hasVisibleContent(wrapper);
       if (isNodeEmpty(node) && !wrapperHasContent) {
-        console.warn('outdent');
         return outdentList()(state, dispatch);
       } else if (!hasParentNodeOfType(codeBlock)(selection)) {
-        console.warn('split');
-        return splitListItem(wrapper.type)(state, dispatch);
+        return splitListItem(listItem)(state, dispatch);
       }
     }
   }

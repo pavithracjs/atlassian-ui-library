@@ -79,11 +79,11 @@ function splitListItem(itemType: NodeType): Command {
   };
 }
 
-const getBlockRange = ($from: ResolvedPos) => {
+const getBlockRange = ($from: ResolvedPos, $to: ResolvedPos) => {
   const { taskList } = $from.doc.type.schema.nodes;
 
-  let end = $from.end();
-  const after = $from.doc.resolve(end + 1).nodeAfter;
+  let end = $to.end();
+  const after = $to.doc.resolve(end + 1).nodeAfter;
   console.log('after', after);
 
   // TODO: ensure they have the same depth
@@ -91,115 +91,114 @@ const getBlockRange = ($from: ResolvedPos) => {
     end += after.nodeSize;
   }
 
-  return $from.blockRange($from.doc.resolve(end));
+  return $from.blockRange($to.doc.resolve(end));
 };
+
+const unindent = autoJoin(
+  (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+    if (!isInsideTaskOrDecisionItem(state)) {
+      return false;
+    }
+
+    const { $from, $to } = state.selection;
+    if (dispatch) {
+      const blockRange = getBlockRange($from, $to);
+      if (!blockRange) {
+        return false;
+      }
+
+      dispatch(
+        state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
+      );
+    }
+
+    return true;
+  },
+  ['taskList'],
+);
+
+const indent = autoJoin(
+  (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+    if (!isInsideTaskOrDecisionItem(state)) {
+      return false;
+    }
+
+    const { $from, $to } = state.selection;
+    if (dispatch) {
+      const blockRange = getBlockRange($from, $to);
+      if (!blockRange) {
+        return false;
+      }
+
+      const wrapping = findWrapping(blockRange, state.schema.nodes.taskList);
+      if (!wrapping) {
+        return false;
+      }
+
+      dispatch(state.tr.wrap(blockRange, wrapping).scrollIntoView());
+    }
+
+    return true;
+  },
+  ['taskList'],
+);
 
 export function keymapPlugin(schema: Schema): Plugin | undefined {
   const keymaps = {
-    'Shift-Tab': autoJoin(
-      (state: EditorState, dispatch?: (tr: Transaction) => void) => {
-        if (!isInsideTaskOrDecisionItem(state)) {
-          return false;
-        }
+    'Shift-Tab': unindent,
+    Tab: indent,
 
-        const { $from } = state.selection;
-        if (dispatch) {
-          const blockRange = getBlockRange($from);
-          if (!blockRange) {
-            return false;
-          }
-
-          dispatch(
-            state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
-          );
-        }
-
-        return true;
-      },
-      ['taskList'],
-    ),
-
-    Tab: autoJoin(
-      (state: EditorState, dispatch?: (tr: Transaction) => void) => {
-        if (!isInsideTaskOrDecisionItem(state)) {
-          return false;
-        }
-
-        const { $from } = state.selection;
-        if (dispatch) {
-          const blockRange = getBlockRange($from);
-          if (!blockRange) {
-            return false;
-          }
-
-          const wrapping = findWrapping(
-            blockRange,
-            state.schema.nodes.taskList,
-          );
-          if (!wrapping) {
-            return false;
-          }
-
-          dispatch(state.tr.wrap(blockRange, wrapping).scrollIntoView());
-        }
-
-        return true;
-      },
-      ['taskList'],
-    ),
     Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const { selection, tr } = state;
       const { $from } = selection;
-      const nodeIsTaskOrDecisionItem = isInsideTaskOrDecisionItem(state);
       const node = $from.node($from.depth);
       const nodeType = node && node.type;
       const isEmpty = node && node.textContent.length === 0;
       const listType: TaskDecisionListType =
         nodeType === state.schema.nodes.taskItem ? 'taskList' : 'decisionList';
 
-      if (nodeIsTaskOrDecisionItem) {
-        // only do this if nested and non-empty
-        // console.log('uh', $from.node(-2).type, 'empty?', isEmpty)
-        // if (isEmpty && ($from.depth == 2 || $from.node(-1).type.name != 'taskList' || $from.node(-2).type.name != 'taskList')) {
-        //   console.warn('trying to exit node');
-        //   liftListItem(state.schema.nodes.taskItem)(state, dispatch);
-        //   // dispatch(tr.split($from.pos, 1));
-        //   return true;
-        // }
+      if (!isInsideTaskOrDecisionItem(state)) {
+        return false;
+      }
 
-        if (splitListItem(nodeType)(state, dispatch)) {
-          return true;
-        }
+      if (isEmpty) {
+        return unindent(state, dispatch);
+      }
 
-        // if (!isEmpty) {
-        const addItem = ({
-          tr,
-          itemLocalId,
-        }: {
-          tr: Transaction;
-          itemLocalId?: string;
-        }) => {
-          console.log('insert item');
-          return tr.split($from.pos, 1, [
-            { type: nodeType, attrs: { localId: itemLocalId } },
-          ]);
-        };
+      // this is from prosemirror-schema-list
+      // will unindent if empty
 
-        const insertTr = insertTaskDecisionWithAnalytics(
-          state,
-          listType,
-          INPUT_METHOD.KEYBOARD,
-          addItem,
-        );
-
-        if (insertTr) {
-          insertTr.scrollIntoView();
-          dispatch(insertTr);
-        }
+      if (isEmpty && $from.parent.type.name !== 'taskList') {
+        console.warn('using old method');
+        dispatch(splitListAtSelection(tr, schema));
         return true;
       }
 
-      return false;
+      const addItem = ({
+        tr,
+        itemLocalId,
+      }: {
+        tr: Transaction;
+        itemLocalId?: string;
+      }) => {
+        console.log('insert item');
+        return tr.split($from.pos, 1, [
+          { type: nodeType, attrs: { localId: itemLocalId } },
+        ]);
+      };
+
+      const insertTr = insertTaskDecisionWithAnalytics(
+        state,
+        listType,
+        INPUT_METHOD.KEYBOARD,
+        addItem,
+      );
+
+      if (insertTr) {
+        insertTr.scrollIntoView();
+        dispatch(insertTr);
+      }
+      return true;
     },
   };
   return keymap(keymaps);

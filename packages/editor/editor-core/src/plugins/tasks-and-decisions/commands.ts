@@ -197,7 +197,7 @@ export const insertTaskDecisionWithAnalytics = (
     itemIdx = 0;
     listSize = 1;
     insertTrCreator = addAndCreateList;
-  } else if ($to.node().textContent.length >= 0) {
+  } else if ($to.node().textContent.length > 0) {
     listSize = listNode.node.childCount + 1;
     listLocalId = listNode.node.attrs.localId;
     const listItemNode = findParentNodeOfType(item)(state.selection); // finds current item in list
