@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Atlassian Switcher basic snapshot 1`] = `
+<InjectIntl(SwitcherIntlProdiver)>
+  <NavigationAnalyticsContext
+    data={
+      Object {
+        "attributes": Object {
+          "featureFlags": Object {
+            "disableCustomLinks": false,
+            "disableHeadings": false,
+            "disableRecentContainers": false,
+            "enableUserCentricProducts": false,
+            "isDiscoverMoreForEveryoneEnabled": false,
+            "productTopItemVariation": undefined,
+            "xflow": true,
+          },
+        },
+        "componentName": "atlassianSwitcher",
+        "packageName": "@atlaskit/atlassian-switcher",
+        "packageVersion": "999.9.9",
+        "source": "atlassianSwitcher",
+      }
+    }
+  >
+    <WithAnalyticsEvents(InjectIntl(ErrorBoundary))
+      messages={
+        Object {
+          "administration": Object {
+            "defaultMessage": "Administration",
+            "description": "The text of a link redirecting the user to the site administration",
+            "id": "fabric.atlassianSwitcher.administration",
+          },
+          "confluenceSpace": Object {
+            "defaultMessage": "Confluence space",
+            "description": "In a context in which several items are listed , this text describes that the specific type of a given item is a Confluence space",
+            "id": "fabric.atlassianSwitcher.confluenceSpace",
+          },
+          "discoverMore": Object {
+            "defaultMessage": "Discover more",
+            "description": "The text of a link redirecting the user to Discover More Atlassian products",
+            "id": "fabric.atlassianSwitcher.discoverMore",
+          },
+          "errorHeading": Object {
+            "defaultMessage": "Something’s gone wrong",
+            "description": "Heading of the error screen which is shown when an unknown error happens in the Atlassian Switcher. Usually due to failed network requests.",
+            "id": "fabric.atlassianSwitcher.errorHeading",
+          },
+          "errorImageAltText": Object {
+            "defaultMessage": "A broken robot and a number of people busy fixing it.",
+            "description": "Text displayed as alt text when an error occurs in the Atlassian Switcher",
+            "id": "fabric.atlassianSwitcher.errorImageAltText",
+          },
+          "errorText": Object {
+            "defaultMessage": "We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things",
+            "description": "Text that is displayed when an unknown error happens in the Atlassian Switcher.",
+            "id": "fabric.atlassianSwitcher.errorText",
+          },
+          "errorTextLoggedOut": Object {
+            "defaultMessage": "You’ve been logged out. Please log in again.",
+            "description": "Text that is displayed when we detect user is logged out.",
+            "id": "fabric.atlassianSwitcher.errorTextLoggedOut",
+          },
+          "errorTextNetwork": Object {
+            "defaultMessage": "We couldn’t load this list. Please reload the page and try again.",
+            "description": "Text that is displayed when we detect a network issue.",
+            "id": "fabric.atlassianSwitcher.errorTextNetwork",
+          },
+          "jiraProject": Object {
+            "defaultMessage": "Jira project",
+            "description": "In a context in which several items are listed , this text describes that the specific type of a given item is a Jira project",
+            "id": "fabric.atlassianSwitcher.jiraProject",
+          },
+          "login": Object {
+            "defaultMessage": "Log in",
+            "description": "Text in log in button.",
+            "id": "fabric.atlassianSwitcher.login",
+          },
+          "manageList": Object {
+            "defaultMessage": "Manage list",
+            "description": "This text is for the action for a user to manage the values present in an editable list of links.",
+            "id": "fabric.atlassianSwitcher.manageList",
+          },
+          "more": Object {
+            "defaultMessage": "More",
+            "description": "In a context in which users are able to view predefined custom links, this text is the title of the section displaying all existing custom links.",
+            "id": "fabric.atlassianSwitcher.more",
+          },
+          "people": Object {
+            "defaultMessage": "People",
+            "description": "The text of a link redirecting the user to the People directory",
+            "id": "fabric.atlassianSwitcher.people",
+          },
+          "recent": Object {
+            "defaultMessage": "Recent",
+            "description": "In a context in which users are able to view recent projects or spaces they've viewed, this text is the title of the section displaying all the recent projects or spaces.",
+            "id": "fabric.atlassianSwitcher.recent",
+          },
+          "showMoreSites": Object {
+            "defaultMessage": "Show more sites",
+            "description": "The text of a toggle showing more site options",
+            "id": "fabric.atlassianSwitcher.show.more.sites",
+          },
+          "switchTo": Object {
+            "defaultMessage": "Switch to",
+            "description": "In a context in which users are able to switch between products, this text is the title of the category displaying the products the user is able to switch to.",
+            "id": "fabric.atlassianSwitcher.switchTo",
+          },
+          "switchToTooltip": Object {
+            "defaultMessage": "Switch to…",
+            "description": "This text appears as a tooltip when a user hovers over the atlassian switcher icon before clicking on it.",
+            "id": "fabric.atlassianSwitcher.switchToTooltip",
+          },
+          "try": Object {
+            "defaultMessage": "Try",
+            "description": "This text appears as a way to encourage the user to try a new Atlassian product.",
+            "id": "fabric.atlassianSwitcher.try",
+          },
+        }
+      }
+    >
+      <LoadableComponent
+        cloudId="CLOUD_ID"
+        features={
+          Object {
+            "disableCustomLinks": false,
+            "disableHeadings": false,
+            "disableRecentContainers": false,
+            "enableUserCentricProducts": false,
+            "isDiscoverMoreForEveryoneEnabled": false,
+            "productTopItemVariation": undefined,
+            "xflow": true,
+          }
+        }
+        messages={
+          Object {
+            "administration": Object {
+              "defaultMessage": "Administration",
+              "description": "The text of a link redirecting the user to the site administration",
+              "id": "fabric.atlassianSwitcher.administration",
+            },
+            "confluenceSpace": Object {
+              "defaultMessage": "Confluence space",
+              "description": "In a context in which several items are listed , this text describes that the specific type of a given item is a Confluence space",
+              "id": "fabric.atlassianSwitcher.confluenceSpace",
+            },
+            "discoverMore": Object {
+              "defaultMessage": "Discover more",
+              "description": "The text of a link redirecting the user to Discover More Atlassian products",
+              "id": "fabric.atlassianSwitcher.discoverMore",
+            },
+            "errorHeading": Object {
+              "defaultMessage": "Something’s gone wrong",
+              "description": "Heading of the error screen which is shown when an unknown error happens in the Atlassian Switcher. Usually due to failed network requests.",
+              "id": "fabric.atlassianSwitcher.errorHeading",
+            },
+            "errorImageAltText": Object {
+              "defaultMessage": "A broken robot and a number of people busy fixing it.",
+              "description": "Text displayed as alt text when an error occurs in the Atlassian Switcher",
+              "id": "fabric.atlassianSwitcher.errorImageAltText",
+            },
+            "errorText": Object {
+              "defaultMessage": "We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things",
+              "description": "Text that is displayed when an unknown error happens in the Atlassian Switcher.",
+              "id": "fabric.atlassianSwitcher.errorText",
+            },
+            "errorTextLoggedOut": Object {
+              "defaultMessage": "You’ve been logged out. Please log in again.",
+              "description": "Text that is displayed when we detect user is logged out.",
+              "id": "fabric.atlassianSwitcher.errorTextLoggedOut",
+            },
+            "errorTextNetwork": Object {
+              "defaultMessage": "We couldn’t load this list. Please reload the page and try again.",
+              "description": "Text that is displayed when we detect a network issue.",
+              "id": "fabric.atlassianSwitcher.errorTextNetwork",
+            },
+            "jiraProject": Object {
+              "defaultMessage": "Jira project",
+              "description": "In a context in which several items are listed , this text describes that the specific type of a given item is a Jira project",
+              "id": "fabric.atlassianSwitcher.jiraProject",
+            },
+            "login": Object {
+              "defaultMessage": "Log in",
+              "description": "Text in log in button.",
+              "id": "fabric.atlassianSwitcher.login",
+            },
+            "manageList": Object {
+              "defaultMessage": "Manage list",
+              "description": "This text is for the action for a user to manage the values present in an editable list of links.",
+              "id": "fabric.atlassianSwitcher.manageList",
+            },
+            "more": Object {
+              "defaultMessage": "More",
+              "description": "In a context in which users are able to view predefined custom links, this text is the title of the section displaying all existing custom links.",
+              "id": "fabric.atlassianSwitcher.more",
+            },
+            "people": Object {
+              "defaultMessage": "People",
+              "description": "The text of a link redirecting the user to the People directory",
+              "id": "fabric.atlassianSwitcher.people",
+            },
+            "recent": Object {
+              "defaultMessage": "Recent",
+              "description": "In a context in which users are able to view recent projects or spaces they've viewed, this text is the title of the section displaying all the recent projects or spaces.",
+              "id": "fabric.atlassianSwitcher.recent",
+            },
+            "showMoreSites": Object {
+              "defaultMessage": "Show more sites",
+              "description": "The text of a toggle showing more site options",
+              "id": "fabric.atlassianSwitcher.show.more.sites",
+            },
+            "switchTo": Object {
+              "defaultMessage": "Switch to",
+              "description": "In a context in which users are able to switch between products, this text is the title of the category displaying the products the user is able to switch to.",
+              "id": "fabric.atlassianSwitcher.switchTo",
+            },
+            "switchToTooltip": Object {
+              "defaultMessage": "Switch to…",
+              "description": "This text appears as a tooltip when a user hovers over the atlassian switcher icon before clicking on it.",
+              "id": "fabric.atlassianSwitcher.switchToTooltip",
+            },
+            "try": Object {
+              "defaultMessage": "Try",
+              "description": "This text appears as a way to encourage the user to try a new Atlassian product.",
+              "id": "fabric.atlassianSwitcher.try",
+            },
+          }
+        }
+        product="jira"
+        triggerXFlow={[Function]}
+      />
+    </WithAnalyticsEvents(InjectIntl(ErrorBoundary))>
+  </NavigationAnalyticsContext>
+</InjectIntl(SwitcherIntlProdiver)>
+`;

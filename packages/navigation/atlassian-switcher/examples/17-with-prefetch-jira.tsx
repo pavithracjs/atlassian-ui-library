@@ -62,6 +62,7 @@ class JiraSwitcherExample extends React.Component {
         </Drawer>
         <div style={{ display: 'flex' }}>
           <AtlassianSwitcherPrefetchTrigger
+            product="jira"
             cloudId={CLOUD_ID}
             enableUserCentricProducts={enableUserCentricProducts}
           >

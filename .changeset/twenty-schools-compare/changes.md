@@ -1,0 +1,1 @@
+Lazy load underlying switcher component to avoid loading unnecessary code
