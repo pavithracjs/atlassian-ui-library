@@ -29,6 +29,15 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
+
+/*::
+type IPipelines = {
+  default: Array<Object>,
+  custom: Object,
+  branches: { master: Object}
+}
+*/
+
 /* This function strip logs from the pipeline based on the last command that did not fail. */
 function stripLogs(logs /*: string */, command /*: string */) {
   if (logs.indexOf(command) >= 0) {
@@ -43,8 +52,9 @@ async function computeBuildTime(
   stepsData /*: Array<IStepsDataType>*/,
 ) /*: Promise<number> */ {
   let buildDuration;
+  // We need to filter if step_duration exists and if step is not run.
   const stepDurationArray = stepsData
-    .filter(step => step.step_duration)
+    .filter(step => step.step_duration && step.step_status !== 'NOT_RUN')
     .map(step => step.step_duration);
   // When a build has 1 step, we can't apply this function, we take the only available value.
   if (stepDurationArray.length === 1) {
@@ -189,18 +199,31 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   }
 }
 
-/* This function returns a payload depending on the build type.*/
-const createPayloadPerBuildType = (
-  step_name /*: string */,
-  build_type /*: string */,
-  build_name /*: string */,
-) => {
-  return {
-    step_name,
-    build_type,
-    build_name,
-  };
-};
+/* This function returns the payload per build type. */
+function returnPayloadPerBuildType(
+  pipelines /*: IPipelines */,
+  buildType /*: string*/,
+  buildName /*: string*/,
+) {
+  if (buildType === 'default') {
+    return {
+      step_name:
+        pipelines.default[0].parallel[process.env.BITBUCKET_PARALLEL_STEP].step
+          .name,
+      build_type: buildType,
+      build_name: buildName,
+    };
+  } else {
+    return {
+      step_name:
+        pipelines.custom[buildName][0].parallel[
+          process.env.BITBUCKET_PARALLEL_STEP
+        ].step.name,
+      build_type: buildType,
+      build_name: buildName,
+    };
+  }
+}
 
 /* This function identifies the step currently running and build a partial payload based on the build type.*/
 async function getStepNamePerBuildType(buildId /*: string */) {
@@ -212,39 +235,18 @@ async function getStepNamePerBuildType(buildId /*: string */) {
     const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
     const res = await axios.get(apiEndpoint);
     const buildType = res.data.target.selector.type || 'default';
+    const buildName =
+      res.data.target.selector.pattern || res.data.target.ref_name;
+    // Master branch is not returning data per step but per build.
+    if (buildName === 'master') return;
     // Only the 3 types of build below will have parallel steps.
     // process.env.BITBUCKET_PARALLEL_STEP returns zero-based index of the current step in the group, for example: 0, 1, 2, … - only for parallel step.
     // This will return the actual step where the build is currently running.
-    // Note: indentedJson.pipelines.<branch_name> returns an array.
-    if (buildType === 'default') {
-      return createPayloadPerBuildType(
-        indentedJson.pipelines.default[0].parallel[
-          process.env.BITBUCKET_PARALLEL_STEP
-        ].step.name,
-        'default',
-        res.data.target.ref_name ||
-          res.data.target.selector.pattern ||
-          res.data.target.selector.type,
-      );
-    }
-    if (buildType === 'landkid') {
-      return createPayloadPerBuildType(
-        indentedJson.pipelines.custom['landkid'][0].parallel[
-          process.env.BITBUCKET_PARALLEL_STEP
-        ].step.name,
-        'custom',
-        'landkid',
-      );
-    }
-    if (buildType === 'run-full-suite') {
-      return createPayloadPerBuildType(
-        indentedJson.pipelines.custom['run-full-suite'][0].parallel[
-          process.env.BITBUCKET_PARALLEL_STEP
-        ].step.name,
-        'custom',
-        'run-full-suite',
-      );
-    }
+    return returnPayloadPerBuildType(
+      indentedJson.pipelines,
+      buildType,
+      buildName,
+    );
   } catch (e) {
     console.log(e);
   }
@@ -274,10 +276,15 @@ async function getStepEvents(buildId /*: string*/) {
         stepObject.script_commands[stepObject.script_commands.length - 1]
           .command,
       );
+      // Build type and build name are confused for custom build.
+      const buildType =
+        stepPayload.build_type === 'custom'
+          ? stepPayload.build_name
+          : stepPayload.build_type;
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
-        build_type: stepPayload.build_type,
+        build_type: buildType,
         build_steps: [
           {
             step_duration: stepTime,
