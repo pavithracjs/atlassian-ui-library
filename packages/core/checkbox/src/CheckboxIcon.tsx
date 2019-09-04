@@ -25,7 +25,7 @@ interface DefaultType {
 
 type OverridesType = {
   IconWrapper?: {
-    component?: React.ComponentType;
+    component?: React.ComponentType<IconProps>;
     cssFn?: (defaultStyles: CSSObject, props: IconProps) => CSSObject;
     attributesFn?: (props: Record<string, any>) => Record<string, any>;
   };
