@@ -9,6 +9,7 @@ exports[`GlobalQuickSearchWrapper should render AbTestProvider wrapper matching 
       "abTestDataCache": Promise {},
       "cloudId": "123",
       "crossProductRecentsCache": undefined,
+      "isUserAnonymous": false,
       "serviceConfig": Object {
         "url": "/gateway/api/xpsearch-aggregator",
       },

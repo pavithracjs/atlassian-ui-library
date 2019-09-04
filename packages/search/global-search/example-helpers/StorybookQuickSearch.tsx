@@ -230,12 +230,14 @@ export default class WithNavigation extends React.Component<Props, State> {
 
   renderNavigation = () => {
     const { context: currentContext, currentConfig } = this.state;
+    const { userId } = this.props;
 
     return (
       // We use the current context and config as key here as we want to bust the prefetch cache when those change
       <PrefetchedResultsProvider
         context={currentContext}
         cloudId="123"
+        userId={userId === null ? null : 'abc123'}
         key={`${currentContext}_${currentConfig}`}
       >
         <BasicNavigation searchDrawerContent={this.renderSearchDraw} />
