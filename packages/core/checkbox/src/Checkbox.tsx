@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import memoize from 'memoize-one';
-import { CSSObject } from '@emotion/core';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -15,9 +14,6 @@ import { name as packageName, version as packageVersion } from './version.json';
 
 import {
   LabelText,
-  LabelProps,
-  LabelCSSProps,
-  LabelTextProps,
   Label,
   CheckboxWrapper,
   RequiredIndicator,
@@ -25,9 +21,9 @@ import {
   labelCSS,
   labelTextCSS,
 } from './elements';
-import { CheckboxProps, ThemeTokens } from './types';
+import { CheckboxProps, CheckboxDefaults, CheckboxOverrides } from './types';
 
-const defaults = {
+const defaults: CheckboxDefaults = {
   Label: {
     component: Label,
     cssFn: labelCSS,
@@ -47,35 +43,6 @@ interface State {
   isHovered: boolean;
   isMouseDown: boolean;
 }
-
-type DefaultType = {
-  Label: {
-    component: React.ComponentType<LabelProps>;
-    cssFn: (state: LabelCSSProps) => CSSObject;
-    attributesFn: (props: Record<string, any>) => Record<string, any>;
-  };
-  LabelText: {
-    component: React.ComponentType<LabelTextProps>;
-    cssFn: (state: { tokens: ThemeTokens }) => CSSObject;
-    attributesFn: (props: { [key: string]: any }) => any;
-  };
-};
-
-type OverridesType = {
-  Label?: {
-    component?: React.ComponentType<LabelProps>;
-    cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
-    attributesFn?: (props: Record<string, any>) => Record<string, any>;
-  };
-  LabelText?: {
-    component?: React.ComponentType<LabelTextProps>;
-    cssFn?: (
-      defaultStyles: CSSObject,
-      state: { tokens: ThemeTokens },
-    ) => CSSObject;
-    attributesFn?: (props: Record<string, any>) => Record<string, any>;
-  };
-};
 
 class Checkbox extends Component<CheckboxProps, State> {
   static defaultProps: CheckboxProps = {
@@ -207,7 +174,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.state.isChecked
         : propsIsChecked;
     const { isFocused, isActive, isHovered } = this.state;
-    const getOverrides = createExtender<DefaultType, OverridesType>(
+    const getOverrides = createExtender<CheckboxDefaults, CheckboxOverrides>(
       defaults,
       overrides,
     );

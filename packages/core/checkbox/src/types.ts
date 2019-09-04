@@ -8,6 +8,69 @@ export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
 export type ElementType = React.ReactChild;
 
+type DefaultsType = {
+  Label: {
+    component: React.ComponentType<LabelProps>;
+    cssFn: (state: LabelCSSProps) => CSSObject;
+    attributesFn: (props: Record<string, any>) => Record<string, any>;
+  };
+  LabelText: {
+    component: React.ComponentType<LabelTextProps>;
+    cssFn: (state: { tokens: ThemeTokens }) => CSSObject;
+    attributesFn: (props: { [key: string]: any }) => any;
+  };
+  IconWrapper: {
+    component: React.ComponentType<IconProps>;
+    cssFn: (props: IconProps) => CSSObject;
+    attributesFn: (props: Record<string, any>) => Record<string, any>;
+  };
+  Icon: {
+    component: React.ComponentType<any>;
+  };
+  IconIndeterminate: {
+    component: React.ComponentType<any>;
+  };
+};
+
+type OverridesType = {
+  Label?: {
+    component?: React.ComponentType<LabelProps>;
+    cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+  LabelText?: {
+    component?: React.ComponentType<LabelTextProps>;
+    cssFn?: (
+      defaultStyles: CSSObject,
+      state: { tokens: ThemeTokens },
+    ) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+  IconWrapper?: {
+    component?: React.ComponentType<IconProps>;
+    cssFn?: (defaultStyles: CSSObject, props: IconProps) => CSSObject;
+    attributesFn?: (props: Record<string, any>) => Record<string, any>;
+  };
+  Icon?: {
+    component?: React.ComponentType<any>;
+  };
+  IconIndeterminate?: {
+    component?: React.ComponentType<any>;
+  };
+};
+
+export type CheckboxDefaults = Pick<DefaultsType, 'Label' | 'LabelText'>;
+export type CheckboxOverrides = Pick<OverridesType, 'Label' | 'LabelText'>;
+
+export type CheckboxIconDefaults = Pick<
+  DefaultsType,
+  'Icon' | 'IconWrapper' | 'IconIndeterminate'
+>;
+export type CheckboxIconOverrides = Pick<
+  OverridesType,
+  'Icon' | 'IconWrapper' | 'IconIndeterminate'
+>;
+
 export interface CheckboxIconProps {
   /** Sets the checkbox icon active state. */
   isActive?: boolean;
@@ -32,19 +95,7 @@ export interface CheckboxIconProps {
   secondaryColor?: any;
   /** The label for icon to be displayed */
   label: any;
-  overrides?: {
-    IconWrapper?: {
-      component?: React.ComponentType<IconProps>;
-      cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
-      attributesFn?: (props: Record<string, any>) => Record<string, any>;
-    };
-    Icon?: {
-      component?: React.ComponentType<any>;
-    };
-    IconIndeterminate?: {
-      component?: React.ComponentType<any>;
-    };
-  };
+  overrides?: CheckboxIconOverrides;
   theme?: (
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
@@ -52,31 +103,7 @@ export interface CheckboxIconProps {
 }
 
 export interface CheckboxProps extends WithAnalyticsEventsProps {
-  overrides?: {
-    LabelText?: {
-      component?: React.ComponentType<LabelTextProps>;
-      cssFn?: (
-        defaultStyles: CSSObject,
-        state: { tokens: ThemeTokens },
-      ) => CSSObject;
-      attributesFn?: (props: any) => any;
-    };
-    Label?: {
-      component?: React.ComponentType<LabelProps>;
-      cssFn?: (defaultStyles: CSSObject, state: LabelCSSProps) => CSSObject;
-    };
-    IconWrapper?: {
-      component?: React.ComponentType<IconProps>;
-      cssFn?: (defaultStyles: CSSObject, state: IconProps) => CSSObject;
-      attributesFn?: (props: any) => any;
-    };
-    Icon?: {
-      component?: React.ComponentType<any>;
-    };
-    IconIndeterminate?: {
-      component?: React.ComponentType<any>;
-    };
-  };
+  overrides?: OverridesType;
   /** Sets whether the checkbox begins checked. */
   defaultChecked?: boolean;
   /** id assigned to input */
