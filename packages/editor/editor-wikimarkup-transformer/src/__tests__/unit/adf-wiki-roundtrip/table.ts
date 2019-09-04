@@ -175,4 +175,13 @@ describe('ADF => WikiMarkup - Table', () => {
     const adf = transformer.parse(wiki).toJSON();
     expect(adf).toEqual(node.toJSON());
   });
+
+  test('should convert Table node with empty cells', () => {
+    const node = doc(
+      table()(tr(th()(p()), th()(p())), tr(td()(p()), td()(p()))),
+    )(defaultSchema);
+    const wiki = transformer.encode(node);
+    const adf = transformer.parse(wiki).toJSON();
+    expect(adf).toEqual(node.toJSON());
+  });
 });
