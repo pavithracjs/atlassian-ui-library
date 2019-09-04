@@ -14,7 +14,6 @@ import {
   WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { createAndFireMediaEvent } from '../analytics';
-import { formatAnalyticsEventActionLabel } from './analyticsHelper';
 
 export type CardActionsDropdownMenuProps = {
   readonly actions: CardAction[];
@@ -45,13 +44,12 @@ const DropdownItemWithProps = (props: DropdownItemProps) => (
 
 const createDropdownItemWithAnalytics = (action: CardAction, index: number) => {
   const { label, handler } = action;
-  const actionSubjectId = formatAnalyticsEventActionLabel(label);
   const DropdownItemWithAnalytics = withAnalyticsEvents({
     onClick: createAndFireMediaEvent({
       eventType: 'ui',
       action: 'clicked',
       actionSubject: 'button',
-      actionSubjectId,
+      actionSubjectId: 'mediaCardDropDownMenuItem',
       attributes: {
         label,
       },

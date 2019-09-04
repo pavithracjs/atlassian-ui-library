@@ -9,7 +9,6 @@ import {
 } from './cardActionIconButton';
 import { CardActionsDropdownMenu } from './cardActionsDropdownMenu';
 import { PreventClickThrough } from '../preventClickThrough';
-import { formatAnalyticsEventActionLabel } from './analyticsHelper';
 import { createAndFireMediaEvent } from '../analytics';
 import {
   withAnalyticsEvents,
@@ -43,17 +42,24 @@ export class CardActionsView extends Component<CardActionsViewProps> {
     return (
       <PreventClickThrough>
         <Wrapper>
-          {primaryAction ? this.renderActionIconButton(primaryAction) : null}
+          {primaryAction
+            ? this.renderActionIconButton(primaryAction, true)
+            : null}
           {this.renderOtherActionButtons(otherActions)}
         </Wrapper>
       </PreventClickThrough>
     );
   }
 
-  private renderActionIconButton(action: CardAction): JSX.Element {
+  private renderActionIconButton(
+    action: CardAction,
+    isPrimary: boolean,
+  ): JSX.Element {
     const { triggerColor } = this.props;
     const { icon, handler, label } = action;
-    const actionSubjectId = formatAnalyticsEventActionLabel(label);
+    const actionSubjectId = isPrimary
+      ? 'mediaCardPrimaryActionButton'
+      : 'mediaCardSecondaryActionButton';
     const CardActionIconButtonWithAnalytics = withAnalyticsEvents({
       onClick: createAndFireMediaEvent({
         eventType: 'ui',
@@ -85,7 +91,7 @@ export class CardActionsView extends Component<CardActionsViewProps> {
       );
 
       if (firstActionWithIcon && otherActions.length === 0) {
-        return this.renderActionIconButton(firstActionWithIcon);
+        return this.renderActionIconButton(firstActionWithIcon, false);
       } else {
         return (
           <CardActionsDropdownMenu

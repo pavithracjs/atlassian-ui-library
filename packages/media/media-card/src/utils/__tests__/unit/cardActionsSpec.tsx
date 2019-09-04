@@ -48,7 +48,7 @@ describe('CardActions', () => {
   const setup = (
     actions: CardAction[],
     triggerColor?: string,
-    analyticsHandler: any = false,
+    analyticsHandler?: AnalyticsListener['onEvent'],
   ) => {
     const TheCardActionsView = () => (
       <CardActionsView actions={actions} triggerColor={triggerColor} />
@@ -192,8 +192,7 @@ describe('CardActions', () => {
     expect(iconButtons.prop('triggerColor')).toEqual(triggerColor);
   });
 
-  it('should fire analytics event on every clicked action and dropdown menu', async () => {
-    const analyticsEventHandler = jest.fn();
+  describe('Analytics Events', () => {
     const clickIconButton = (card: ReactWrapper, at: number) =>
       card
         .find(CardActionIconButton)
@@ -210,6 +209,8 @@ describe('CardActions', () => {
       actions: CardAction[],
       callNumber: number,
       actionPosition: number,
+      actionSubjectId: string,
+      analyticsEventHandler: AnalyticsListener['onEvent'],
     ) =>
       expect(
         (analyticsEventHandler.mock.calls[callNumber][0] as UIAnalyticsEvent)
@@ -218,49 +219,102 @@ describe('CardActions', () => {
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
-        actionSubjectId: formatAnalyticsEventActionLabel(
-          actions[actionPosition].label,
-        ),
+        actionSubjectId,
+        attributes: {
+          label: actions[actionPosition].label,
+        },
       });
 
-    const matchMenuPayload = (callNumber: number) =>
+    const matchMenuPayload = (
+      callNumber: number,
+      analyticsEventHandler: AnalyticsListener['onEvent'],
+    ) =>
       expect(
         (analyticsEventHandler.mock.calls[callNumber][0] as UIAnalyticsEvent)
           .payload,
       ).toMatchObject({ actionSubjectId: 'mediaCardDropDownMenu' });
 
-    // 2 Action Buttons. No Dropdown Items
-    const twoActions = [annotateAction, deleteAction];
-    const { card: card1 } = setup(twoActions, undefined, analyticsEventHandler);
-    clickIconButton(card1, 0); // call 0 - action 0
-    clickIconButton(card1, 1); // call 1 - action 1
+    it('should fire analytics event on every action clicked', async () => {
+      const analyticsEventHandler = jest.fn();
+      const twoActions = [annotateAction, deleteAction];
+      const { card: card1 } = setup(
+        twoActions,
+        undefined,
+        analyticsEventHandler,
+      );
+      clickIconButton(card1, 0);
+      clickIconButton(card1, 1);
 
-    // 1 Action Button. 3 Dropdown Items
-    const fourActions = [annotateAction, openAction, deleteAction, closeAction];
-    const { card: card2 } = setup(
-      fourActions,
-      undefined,
-      analyticsEventHandler,
-    );
-    // Click in dropdown from setup   // call 2 - open dropdown
-    clickIconButton(card2, 0); // call 3 - action 0
-    clickDropdownItem(card2, 0); // call 4 - action 1
-    openDropdownMenuIfExists(card2); // call 5 - Reopen dropdown
-    clickDropdownItem(card2, 1); // call 6 - action 2
-    openDropdownMenuIfExists(card2); // call 7 - Reopen dropdown
-    clickDropdownItem(card2, 2); // call 8 - action 3
+      expect(analyticsEventHandler).toBeCalledTimes(2);
+      matchActionPayload(
+        twoActions,
+        0,
+        0,
+        'mediaCardPrimaryActionButton',
+        analyticsEventHandler,
+      );
+      matchActionPayload(
+        twoActions,
+        1,
+        1,
+        'mediaCardSecondaryActionButton',
+        analyticsEventHandler,
+      );
+    });
 
-    expect(analyticsEventHandler).toBeCalledTimes(9);
-    // 2 Action Buttons. No Dropdown Items
-    matchActionPayload(twoActions, 0, 0); // call 0 - action 0
-    matchActionPayload(twoActions, 1, 1); // call 1 - action 1
-    // 1 Action Button. 3 Dropdown Items
-    matchMenuPayload(2); // call 2 - open dropdown
-    matchActionPayload(fourActions, 3, 0); // call 3 - action 0
-    matchActionPayload(fourActions, 4, 1); // call 4 - action 1
-    matchMenuPayload(5); // call 5 - Reopen dropdown
-    matchActionPayload(fourActions, 6, 2); // call 6 - action 2
-    matchMenuPayload(7); // call 7 - Reopen dropdown
-    matchActionPayload(fourActions, 8, 3); // call 8 - action 3
+    it('should fire analytics event on every clicked action and dropdown menu', async () => {
+      const analyticsEventHandler = jest.fn();
+      const fourActions = [
+        annotateAction,
+        openAction,
+        deleteAction,
+        closeAction,
+      ];
+      const { card: card2 } = setup(
+        fourActions,
+        undefined,
+        analyticsEventHandler,
+      );
+      // Click in dropdown from setup   // call 2 - open dropdown
+      clickIconButton(card2, 0); // call 1 - action 0
+      clickDropdownItem(card2, 0); // call 2 - action 1
+      openDropdownMenuIfExists(card2); // call 3 - Reopen dropdown
+      clickDropdownItem(card2, 1); // call 4 - action 2
+      openDropdownMenuIfExists(card2); // call 5 - Reopen dropdown
+      clickDropdownItem(card2, 2); // call 6 - action 3
+
+      expect(analyticsEventHandler).toBeCalledTimes(7);
+      matchMenuPayload(0, analyticsEventHandler); // call 0 - open dropdown
+      matchActionPayload(
+        fourActions,
+        1,
+        0,
+        'mediaCardPrimaryActionButton',
+        analyticsEventHandler,
+      ); // call 1 - action 0
+      matchActionPayload(
+        fourActions,
+        2,
+        1,
+        'mediaCardDropDownMenuItem',
+        analyticsEventHandler,
+      ); // call 2 - action 1
+      matchMenuPayload(3, analyticsEventHandler); // call 3 - Reopen dropdown
+      matchActionPayload(
+        fourActions,
+        4,
+        2,
+        'mediaCardDropDownMenuItem',
+        analyticsEventHandler,
+      ); // call 4 - action 2
+      matchMenuPayload(5, analyticsEventHandler); // call 5 - Reopen dropdown
+      matchActionPayload(
+        fourActions,
+        6,
+        3,
+        'mediaCardDropDownMenuItem',
+        analyticsEventHandler,
+      ); // call 6 - action 3
+    });
   });
 });
