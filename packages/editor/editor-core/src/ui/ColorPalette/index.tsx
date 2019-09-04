@@ -3,46 +3,43 @@ import { PureComponent } from 'react';
 import Color from './Color';
 
 import { ColorPaletteWrapper } from './styles';
+import { PaletteColor } from './Palettes/type';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 export interface Props {
-  palette: Map<string, string>;
+  palette: PaletteColor[];
   selectedColor: string | null;
-  borderColors: object;
   onClick: (value: string) => void;
   cols?: number;
   className?: string;
   checkMarkColor?: string;
 }
 
-export default class ColorPalette extends PureComponent<Props, any> {
+class ColorPalette extends PureComponent<Props & InjectedIntlProps, any> {
   render() {
     const {
       palette,
       cols = 7,
       onClick,
       selectedColor,
-      borderColors,
       className,
       checkMarkColor,
+      intl: { formatMessage },
     } = this.props;
-
-    const colors: [string, string][] = Array.from(palette.entries());
 
     return (
       <ColorPaletteWrapper
         className={className}
         style={{ maxWidth: cols * 32 }}
       >
-        {colors.map(([color, label]) => (
+        {palette.map(({ value, label, border, message }) => (
           <Color
-            key={color}
-            value={color}
-            borderColor={
-              (borderColors as any)[label.toLowerCase() || 'transparent']
-            }
-            label={label}
+            key={value}
+            value={value}
+            borderColor={border}
+            label={message ? formatMessage(message) : label}
             onClick={onClick}
-            isSelected={color === selectedColor}
+            isSelected={value === selectedColor}
             checkMarkColor={checkMarkColor}
           />
         ))}
@@ -50,3 +47,5 @@ export default class ColorPalette extends PureComponent<Props, any> {
     );
   }
 }
+
+export default injectIntl(ColorPalette);

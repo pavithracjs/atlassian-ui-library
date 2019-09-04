@@ -37,17 +37,26 @@ export interface TextColorMark extends Mark {
 
 /** New borders for colors in the color picker */
 export const borderColorPalette = {
-  orange: Y500,
-  teal: T500,
-  red: R500,
-  'light-gray': N90,
-  purple: P500,
-  green: G500,
+  [N80]: N90,
+  [P300]: P500,
+  [T300]: T500,
+  [G300]: G500,
+  [R300]: R500,
+  [Y400]: Y500,
 };
 
+export type TextColorKey =
+  | 'Light gray'
+  | 'Purple'
+  | 'Teal'
+  | 'Green'
+  | 'Red'
+  | 'Orange';
+
 // @see https://product-fabric.atlassian.net/wiki/spaces/E/pages/55979455/Colour+picker+decisions#Colourpickerdecisions-Visualdesigndecisions
-export const colorPalette = new Map<string, string>();
-[
+export const colorPalette = new Map<string, TextColorKey>();
+
+const colorArrayPalette: Array<[string, TextColorKey]> = [
   // [N800, default],
   [N80, 'Light gray'],
   [P300, 'Purple'],
@@ -55,7 +64,11 @@ export const colorPalette = new Map<string, string>();
   [G300, 'Green'],
   [R300, 'Red'],
   [Y400, 'Orange'],
-].forEach(([color, label]) => colorPalette.set(color.toLowerCase(), label));
+];
+
+colorArrayPalette.forEach(([color, label]) =>
+  colorPalette.set(color.toLowerCase(), label),
+);
 
 export const textColor: MarkSpec = {
   attrs: { color: {} },

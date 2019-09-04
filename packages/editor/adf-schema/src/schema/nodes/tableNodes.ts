@@ -2,21 +2,29 @@ import { Node as PmNode } from 'prosemirror-model';
 import {
   isRgb,
   rgbToHex,
-  N20,
-  B50,
-  T50,
-  P50,
-  R50,
-  G50,
-  Y50,
   N0,
+  N20,
+  N60,
+  B50,
   B75,
-  G75,
-  R75,
-  N40,
-  P75,
+  B100,
+  T50,
   T75,
+  T100,
+  P50,
+  P75,
+  P100,
+  R50,
+  R75,
+  R100,
+  G50,
+  G75,
+  G200,
+  Y50,
   Y75,
+  Y200,
+  hexToRgba,
+  N800,
 } from '../../utils/colors';
 import { TableCellContent } from './doc';
 
@@ -82,7 +90,7 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
     // - it clears background color for <td> if its set to white
     const ignored =
       (nodeType === 'tableHeader' &&
-        background === tableBackgroundColorNames.get('gray')) ||
+        background === tableBackgroundColorNames.get('light gray')) ||
       (nodeType === 'tableCell' &&
         background === tableBackgroundColorNames.get('white'));
 
@@ -106,28 +114,33 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
 
 export const tableBackgroundColorPalette = new Map<string, string>();
 
-/** New borders for colors in the color picker */
-export const tableBackgroundBorderColors = {
-  blue: B75,
-  teal: T75,
-  red: R75,
-  gray: N40,
-  purple: P75,
-  green: G75,
-  yellow: Y75,
-  white: N40,
-};
-
+export const tableBackgroundBorderColor = hexToRgba(N800, 0.12) || N0;
 export const tableBackgroundColorNames = new Map<string, string>();
+
 [
-  [B50, 'Blue'],
-  [T50, 'Teal'],
-  [R50, 'Red'],
-  [N20, 'Gray'],
-  [P50, 'Purple'],
-  [G50, 'Green'],
-  [Y50, 'Yellow'],
   [N0, 'White'],
+  [B50, 'Light blue'],
+  [T50, 'Light teal'],
+  [G50, 'Light green'],
+  [Y50, 'Light yellow'],
+  [R50, 'Light red'],
+  [P50, 'Light purple'],
+
+  [N20, 'Light gray'],
+  [B75, 'Blue'],
+  [T75, 'Teal'],
+  [G75, 'Green'],
+  [Y75, 'Yellow'],
+  [R75, 'Red'],
+  [P75, 'Purple'],
+
+  [N60, 'Gray'],
+  [B100, 'Dark blue'],
+  [T100, 'Dark teal'],
+  [G200, 'Dark green'],
+  [Y200, 'Dark yellow'],
+  [R100, 'Dark red'],
+  [P100, 'Dark purple'],
 ].forEach(([colorValue, colorName]) => {
   tableBackgroundColorPalette.set(colorValue.toLowerCase(), colorName);
   tableBackgroundColorNames.set(

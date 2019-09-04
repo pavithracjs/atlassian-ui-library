@@ -16,6 +16,7 @@ import {
 } from '@atlaskit/editor-common';
 import { scrollbarStyles } from '../../../ui/styles';
 import { TableCssClassName as ClassName } from '../types';
+import { tableBackgroundBorderColor } from '@atlaskit/adf-schema';
 
 const {
   N40A,
@@ -30,7 +31,6 @@ const {
   R75,
   N20A,
   N60A,
-  N30,
   N90,
   N200,
   N0,
@@ -798,6 +798,9 @@ export const tableCommentEditorStyles = css`
   }
 `;
 
+const colorsButtonPerLine = 7;
+const colorsButtonRows = 3;
+const colorButtonSizeWithPadding = 32;
 export const tablePopupStyles = css`
   .${ClassName.CONTEXTUAL_SUBMENU} {
     border-radius: ${borderRadius()}px;
@@ -805,11 +808,11 @@ export const tablePopupStyles = css`
     box-shadow: 0 4px 8px -2px ${N60A}, 0 0 1px ${N60A};
     display: block;
     position: absolute;
-    width: 130px;
-    height: 64px;
+    width: ${colorButtonSizeWithPadding * colorsButtonPerLine}px;
+    height: ${colorButtonSizeWithPadding * colorsButtonRows}px;
     top: 0;
     left: ${contextualMenuDropdownWidth}px;
-    padding: 5px;
+    padding: 8px;
 
     > div {
       padding: 0;
@@ -817,7 +820,7 @@ export const tablePopupStyles = css`
   }
 
   .${ClassName.CONTEXTUAL_MENU_ICON} {
-    border: 1px solid ${N30};
+    border: 1px solid ${tableBackgroundBorderColor};
     border-radius: ${borderRadius()}px;
     display: block;
     width: 20px;

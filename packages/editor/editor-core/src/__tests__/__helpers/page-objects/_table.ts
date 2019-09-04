@@ -147,7 +147,7 @@ export const selectCellBackground = async ({
 
   const colorButtonSelector =
     tableSelectors.cellBackgroundSubmenuSelector +
-    ` span:nth-child(${colorIndex}) button`;
+    ` div:nth-child(${colorIndex}) button`;
 
   await selectCellOption(page, tableSelectors.cellBackgroundText);
   await page.waitForSelector(colorButtonSelector);

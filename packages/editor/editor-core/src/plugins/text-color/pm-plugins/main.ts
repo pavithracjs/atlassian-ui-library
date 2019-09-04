@@ -1,17 +1,15 @@
 import { Plugin, PluginKey, Transaction, EditorState } from 'prosemirror-state';
 
-import { colorPalette, borderColorPalette } from '@atlaskit/adf-schema';
 import { colors } from '@atlaskit/theme';
 
 import { Dispatch } from '../../../event-dispatcher';
 import { getActiveColor } from '../utils/color';
 import { getDisabledState } from '../utils/disabled';
+import { PaletteColor } from '../../../ui/ColorPalette/Palettes/type';
+import textColorPalette from '../../../ui/ColorPalette/Palettes/textColorPalette';
 
 export type TextColorPluginState = {
-  palette: Map<string, string>;
-  borderColorPalette: {
-    [name: string]: string;
-  };
+  palette: Array<PaletteColor>;
   defaultColor: string;
   disabled?: boolean;
   color: string | null;
@@ -48,19 +46,19 @@ export function createInitialPluginState(
   const defaultColor =
     (pluginConfig && pluginConfig.defaultColor) || DEFAULT_COLOR;
 
-  const palette = new Map<string, string>([
-    [defaultColor.color, defaultColor.label],
-  ]);
-
-  // Typescript can't spread Map as of 11 May, 2017
-  colorPalette.forEach((label, color) => palette.set(color, label));
+  const palette: Array<PaletteColor> = [
+    {
+      value: defaultColor.color,
+      label: defaultColor.label,
+    },
+    ...textColorPalette,
+  ];
 
   return {
     color: getActiveColor(editorState),
     disabled: getDisabledState(editorState),
     palette,
-    borderColorPalette,
-    defaultColor: palette.keys().next().value,
+    defaultColor: palette[0].value,
   };
 }
 

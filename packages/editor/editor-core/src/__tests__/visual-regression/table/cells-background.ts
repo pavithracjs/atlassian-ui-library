@@ -24,7 +24,7 @@ describe('Table context menu: cells background', () => {
   it(`should set background color to cells`, async () => {
     await selectCellBackground({
       page,
-      colorIndex: 2,
+      colorIndex: 3, // light blue color
       from: {
         row: 1,
         column: 1,
@@ -38,7 +38,7 @@ describe('Table context menu: cells background', () => {
 
     await selectCellBackground({
       page,
-      colorIndex: 3,
+      colorIndex: 6, // light red color
       from: {
         row: 2,
         column: 1,
@@ -52,7 +52,7 @@ describe('Table context menu: cells background', () => {
 
     await selectCellBackground({
       page,
-      colorIndex: 4,
+      colorIndex: 8, // light gray color
       from: {
         row: 3,
         column: 1,

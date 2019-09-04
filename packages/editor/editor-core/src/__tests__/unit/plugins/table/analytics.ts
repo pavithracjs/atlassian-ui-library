@@ -320,7 +320,7 @@ describe('Table analytic events', () => {
         actionSubject: 'table',
         actionSubjectId: null,
         attributes: {
-          cellColor: 'blue',
+          cellColor: 'light blue',
           verticalCells: 1,
           horizontalCells: 3,
           totalCells: 3,

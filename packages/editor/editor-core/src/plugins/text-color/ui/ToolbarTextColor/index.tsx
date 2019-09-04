@@ -179,7 +179,6 @@ class ToolbarTextColor extends React.Component<
             palette={pluginState.palette}
             onClick={color => this.changeTextColor(color, pluginState.disabled)}
             selectedColor={pluginState.color}
-            borderColors={pluginState.borderColorPalette}
           />
         </Dropdown>
         <Separator />

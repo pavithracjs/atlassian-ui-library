@@ -4,10 +4,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
 
-import {
-  tableBackgroundColorPalette,
-  tableBackgroundBorderColors,
-} from '@atlaskit/adf-schema';
 import { colors } from '@atlaskit/theme';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import { Skeleton } from '@atlaskit/icon';
@@ -16,6 +12,7 @@ import Toolbar from '../src/plugins/floating-toolbar/ui/Toolbar';
 import { FloatingToolbarItem } from '../src/plugins/floating-toolbar/types';
 import ColorPalette from '../src/ui/ColorPalette';
 import { Content } from '../example-helpers/styles';
+import cellBackgroundColorPalette from '../src/ui/ColorPalette/Palettes/cellBackgroundColorPalette';
 
 const SAVE_ACTION = () => console.log('Save');
 // const analyticsHandler = (actionName, props) => console.log(actionName, props);
@@ -113,8 +110,7 @@ const DROPDOWNS: Array<FloatingToolbarItem<Function>> = [
     options: {
       render: ({ hide }) => (
         <ColorPalette
-          palette={tableBackgroundColorPalette}
-          borderColors={tableBackgroundBorderColors}
+          palette={cellBackgroundColorPalette}
           selectedColor={null}
           onClick={() => {
             SAVE_ACTION();
