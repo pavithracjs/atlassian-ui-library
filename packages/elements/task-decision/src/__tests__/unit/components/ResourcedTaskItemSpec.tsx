@@ -39,7 +39,7 @@ describe('<ResourcedTaskItem/>', () => {
   });
 
   afterEach(() => {
-    if (component.length > 0) {
+    if (component && component.length > 0) {
       component.unmount();
     }
   });
@@ -123,6 +123,32 @@ describe('<ResourcedTaskItem/>', () => {
     const input = component.find('input');
     input.simulate('change');
     expect(component.find(TaskItem).prop('isDone')).toEqual(true);
+  });
+
+  it("should update ResourcedTaskItem 'component's `state.isDone` to match refreshed `props.isDone`", () => {
+    const component = mount<ResourcedTaskItem>(
+      <ResourcedTaskItem taskId="task-1" isDone={true}>
+        Hello World
+      </ResourcedTaskItem>,
+    );
+
+    expect(component.state('isDone')).toEqual(true);
+    expect(component.find(TaskItem).prop('isDone')).toEqual(true);
+    expect(component.find(TaskItem).prop('children')).toEqual('Hello World');
+
+    // Change the props and re-render. This simulates a document refresh.
+    // (e.g. the client refreshes _potentially_ stale top level document data from a remote location).
+    component.setProps({
+      isDone: false,
+      taskId: 'task-1',
+      children: 'Hello Universe',
+    });
+
+    expect(component.state('isDone')).toEqual(false);
+    expect(component.find(TaskItem).prop('isDone')).toEqual(false);
+    expect(component.find(TaskItem).prop('children')).toEqual('Hello Universe');
+
+    component.unmount();
   });
 
   it('should not disable taskItem if no provider', () => {
