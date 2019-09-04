@@ -26,7 +26,7 @@ export class ImagePlacerImage extends React.Component<
   ImagePlacerImageProps,
   {}
 > {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { src, onError } = this.props;
     if (src !== undefined) {
       try {

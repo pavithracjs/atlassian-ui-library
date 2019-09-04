@@ -1,6 +1,6 @@
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { ResourcedEmoji } from '@atlaskit/emoji/element';
@@ -78,7 +78,7 @@ export interface State {
 }
 
 class ReactionWithoutAnalytics extends PureComponent<
-  Props & WithAnalyticsEventProps,
+  Props & WithAnalyticsEventsProps,
   State
 > {
   static defaultProps = {
@@ -93,7 +93,7 @@ class ReactionWithoutAnalytics extends PureComponent<
   private mounted: boolean = false;
   private hoverStart: number | undefined;
 
-  constructor(props: Props & WithAnalyticsEventProps) {
+  constructor(props: Props & WithAnalyticsEventsProps) {
     super(props);
 
     this.state = {};
@@ -198,4 +198,4 @@ class ReactionWithoutAnalytics extends PureComponent<
   }
 }
 
-export const Reaction = withAnalyticsEvents<Props>()(ReactionWithoutAnalytics);
+export const Reaction = withAnalyticsEvents()(ReactionWithoutAnalytics);

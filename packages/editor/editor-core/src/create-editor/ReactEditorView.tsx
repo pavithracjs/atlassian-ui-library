@@ -4,7 +4,7 @@ import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   ProviderFactory,
   Transformer,
@@ -58,10 +58,11 @@ import { getNodesCount } from '../utils/document';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
+  disabled?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -111,7 +112,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
   analyticsEventHandler!: (
-    payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
+    payloadChannel: {
+      payload: AnalyticsEventPayload;
+      channel?: string;
+    },
   ) => void;
 
   static contextTypes = {
@@ -155,7 +159,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
   };
 
-  componentWillReceiveProps(nextProps: EditorViewProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditorViewProps) {
     if (
       this.view &&
       this.props.editorProps.disabled !== nextProps.editorProps.disabled
@@ -232,7 +236,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     this.config = processPluginsList(
-      this.getPlugins(props.editorProps, props.createAnalyticsEvent),
+      this.getPlugins(
+        props.editorProps,
+        this.props.editorProps,
+        props.createAnalyticsEvent,
+      ),
       props.editorProps,
     );
 
@@ -273,7 +281,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
    * Create analytics event handler, if createAnalyticsEvent exist
    * @param createAnalyticsEvent
    */
-  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEventSignature) {
+  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEvent) {
     if (createAnalyticsEvent) {
       this.analyticsEventHandler = fireAnalyticsEvent(createAnalyticsEvent);
       this.eventDispatcher.on(analyticsEventKey, this.analyticsEventHandler);
@@ -302,9 +310,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
   // Helper to allow tests to inject plugins directly
   getPlugins(
     editorProps: EditorProps,
-    createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+    prevEditorProps?: EditorProps,
+    createAnalyticsEvent?: CreateUIAnalyticsEvent,
   ): EditorPlugin[] {
-    return createPluginList(editorProps, createAnalyticsEvent);
+    return createPluginList(editorProps, prevEditorProps, createAnalyticsEvent);
   }
 
   createEditorState = (options: {
@@ -329,6 +338,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     this.config = processPluginsList(
       this.getPlugins(
         options.props.editorProps,
+        undefined,
         options.props.createAnalyticsEvent,
       ),
       options.props.editorProps,

@@ -16,11 +16,17 @@ export interface WithDimensionsProps {
 // Compute height and width of wrapped component before ranking
 export default function withDimensions<
   WrappedComponentProps extends WithDimensionsProps
->(WrappedComponent: React.ComponentType<WrappedComponentProps>) {
-  return class WithDimensions extends React.Component<
-    Omit<WrappedComponentProps, 'refWidth' | 'refHeight' | 'innerRef'>,
-    State
-  > {
+>(
+  WrappedComponent: React.ComponentType<WrappedComponentProps>,
+): React.ComponentClass<
+  Omit<WrappedComponentProps, 'refWidth' | 'refHeight' | 'innerRef'>,
+  State
+> {
+  type WrappedProps = Omit<
+    WrappedComponentProps,
+    'refWidth' | 'refHeight' | 'innerRef'
+  >;
+  return class WithDimensions extends React.Component<WrappedProps, State> {
     ref?: HTMLElement;
 
     state = {
@@ -34,12 +40,7 @@ export default function withDimensions<
       }
     };
 
-    componentWillReceiveProps(
-      nextProps: Omit<
-        WrappedComponentProps,
-        'refWidth' | 'refHeight' | 'innerRef'
-      >,
-    ) {
+    UNSAFE_componentWillReceiveProps(nextProps: WrappedProps) {
       const wasRanking = this.props.isRanking;
       const willRanking = nextProps.isRanking;
 
@@ -67,12 +68,11 @@ export default function withDimensions<
       const { refWidth, refHeight } = this.state;
 
       return (
-        // @ts-ignore - TypeScript does not recognise that Omit<WrappedComponentProps, 'refWidth' | 'refHeight'> contains isRanking
         <WrappedComponent
           refWidth={refWidth}
           refHeight={refHeight}
           innerRef={this.innerRef}
-          {...this.props}
+          {...this.props as WrappedComponentProps}
         />
       );
     }

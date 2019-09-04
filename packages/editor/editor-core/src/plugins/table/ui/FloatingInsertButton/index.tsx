@@ -101,7 +101,11 @@ class FloatingInsertButton extends React.Component<
       return null;
     }
 
-    const targetCellRef = closestElement(target, `td, th`);
+    const targetCellRef =
+      type === 'row'
+        ? closestElement(target, 'tr')
+        : closestElement(target, 'td, th');
+
     if (!targetCellRef) {
       return null;
     }

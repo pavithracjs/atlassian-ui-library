@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import BookIcon from '@atlaskit/icon/glyph/book';
 import EditIcon from '@atlaskit/icon/glyph/edit';
-import { CardAction, CardStatus, CardEvent } from '../src';
+import { CardAction, CardStatus } from '../src';
 import { MediaType } from '@atlaskit/media-store';
 import { CardView } from '../src/root/cardView';
 import { FileDetails } from '@atlaskit/media-client';
@@ -194,19 +194,8 @@ class Example extends React.Component<{}, State> {
         <CardView
           status={status}
           metadata={metadata}
-          mediaItemType={isExternalImage ? 'external-image' : 'file'}
-          onClick={(e: CardEvent) =>
-            console.log(
-              'mouse click!',
-              e.mediaItemDetails && (e.mediaItemDetails as FileDetails).id,
-            )
-          }
-          onMouseEnter={(e: CardEvent) =>
-            console.log(
-              'mouse enter!',
-              e.mediaItemDetails && (e.mediaItemDetails as FileDetails).id,
-            )
-          }
+          onClick={(e: React.MouseEvent) => console.log('mouse click!')}
+          onMouseEnter={(e: React.MouseEvent) => console.log('mouse enter!')}
           resizeMode="crop"
           progress={0.5}
           disableOverlay={disableOverlay}

@@ -19,11 +19,12 @@ import {
   getActionSubject,
   getExtraAttributes,
   getPackageInfo,
+  getPackageHierarchy,
   getComponents,
 } from './extract-data-from-event';
 import Logger from '../helpers/logger';
 import { version as listenerVersion } from '../version.json';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 const ATLASKIT_TAG = 'atlaskit';
 
@@ -54,21 +55,14 @@ const ATLASKIT_TAG = 'atlaskit';
  *  }
  */
 
-export default (
-  event: UIAnalyticsEventInterface,
-  logger: Logger,
-): GasPayload | null => {
+export default (event: UIAnalyticsEvent, logger: Logger): GasPayload | null => {
   const sources = getSources(event);
   const source = last(sources) || DEFAULT_SOURCE;
   const extraAttributes = getExtraAttributes(event);
   const components = getComponents(event);
 
-  const packages = getPackageInfo(event);
   const { packageName, packageVersion } =
     last(getPackageInfo(event)) || ({} as any);
-  const packageHierarchy = packages.map(p =>
-    p.packageVersion ? `${p.packageName}@${p.packageVersion}` : p.packageName,
-  );
 
   const {
     eventType = UI_EVENT_TYPE,
@@ -80,7 +74,7 @@ export default (
     listenerVersion,
     sourceHierarchy: sources.join('.') || undefined,
     componentHierarchy: components.join('.') || undefined,
-    packageHierarchy: packageHierarchy.join(',') || undefined,
+    packageHierarchy: getPackageHierarchy(event) || undefined,
     ...{ packageName, packageVersion },
     ...merge(extraAttributes, payloadAttributes),
   };

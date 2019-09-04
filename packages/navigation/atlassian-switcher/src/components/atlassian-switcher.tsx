@@ -20,12 +20,12 @@ import {
 } from '../utils/analytics';
 import packageContext from '../utils/package-context';
 import mapPropsToFeatures from '../utils/map-props-to-features';
+import { WithTheme } from '../theme/types';
 
-type AtlassianSwitcherProps = {
+type AtlassianSwitcherProps = WithTheme & {
   product: string;
   cloudId?: string;
   triggerXFlow?: TriggerXFlowCallback;
-  isDiscoverMoreForEveryoneEnabled?: boolean;
   onDiscoverMoreClicked?: DiscoverMoreCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;

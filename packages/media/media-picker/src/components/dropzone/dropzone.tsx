@@ -10,25 +10,37 @@ import {
   DropzoneUploadEventPayloadMap,
 } from '../types';
 
-const toArray = (arr: any) => [].slice.call(arr, 0);
+import {
+  withAnalyticsEvents,
+  withAnalyticsContext,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 
-export type DropzoneProps = LocalUploadComponentBaseProps & {
-  config: DropzoneConfig;
-  onDrop?: () => void;
-  onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
-  onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
-  onCancelFn?: (cancel: (uploadId: string) => void) => void;
-};
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../../version.json';
+
+import { ANALYTICS_MEDIA_CHANNEL } from '../media-picker-analytics-error-boundary';
+
+export type DropzoneProps = LocalUploadComponentBaseProps &
+  WithAnalyticsEventsProps & {
+    config: DropzoneConfig;
+    onDrop?: () => void;
+    onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
+    onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
+    onCancelFn?: (cancel: (uploadId: string) => void) => void;
+  };
 
 function dragContainsFiles(event: DragEvent): boolean {
   if (!event.dataTransfer) {
     return false;
   }
   const { types } = event.dataTransfer;
-  return toArray(types).indexOf('Files') > -1;
+  return Array.from(types).indexOf('Files') > -1;
 }
 
-export class Dropzone extends LocalUploadComponentReact<
+export class DropzoneBase extends LocalUploadComponentReact<
   DropzoneProps,
   DropzoneUploadEventPayloadMap
 > {
@@ -57,7 +69,7 @@ export class Dropzone extends LocalUploadComponentReact<
     this.removeContainerListeners(this.getContainer());
   }
 
-  public componentWillReceiveProps(nextProps: DropzoneProps): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: DropzoneProps): void {
     const {
       config: { container: newContainer },
     } = nextProps;
@@ -127,8 +139,9 @@ export class Dropzone extends LocalUploadComponentReact<
     dragEvent.stopPropagation();
     this.onDrop(dragEvent);
 
-    const filesArray = [].slice.call(dragEvent.dataTransfer.files);
-    this.uploadService.addFiles(filesArray);
+    const files = Array.from(dragEvent.dataTransfer.files);
+
+    this.uploadService.addFiles(files);
   };
 
   // Cross-browser way of getting dragged items length, we prioritize "items" if present
@@ -138,7 +151,7 @@ export class Dropzone extends LocalUploadComponentReact<
   // available on 'drop'
   private getDraggedItemsLength(dataTransfer: DataTransfer): number {
     if (dataTransfer.items) {
-      const items = toArray(dataTransfer.items);
+      const items = Array.from(dataTransfer.items);
       return items.filter((i: DataTransferItem) => i.kind === 'file').length;
     }
     // This is required for IE11
@@ -148,17 +161,23 @@ export class Dropzone extends LocalUploadComponentReact<
   private onDrop = (e: DragEvent): void => {
     if (e.dataTransfer && dragContainsFiles(e)) {
       const dataTransfer = e.dataTransfer;
-      const length = this.getDraggedItemsLength(dataTransfer);
+      const fileCount = this.getDraggedItemsLength(dataTransfer);
+
+      this.fireAnalyticsEvent('droppedInto', fileCount);
+
       if (this.props.onDrop) this.props.onDrop();
-      this.emitDragLeave({ length });
+      this.emitDragLeave({ length: fileCount });
     }
   };
 
-  private emitDragOver(e: DropzoneDragEnterEventPayload): void {
+  private emitDragOver(payload: DropzoneDragEnterEventPayload): void {
     if (!this.uiActive) {
       const { onDragEnter } = this.props;
       this.uiActive = true;
-      if (onDragEnter) onDragEnter(e);
+
+      this.fireAnalyticsEvent('draggedInto', payload.length);
+
+      if (onDragEnter) onDragEnter(payload);
     }
   }
 
@@ -172,9 +191,27 @@ export class Dropzone extends LocalUploadComponentReact<
       window.setTimeout(() => {
         if (!this.uiActive) {
           const { onDragLeave } = this.props;
+
+          this.fireAnalyticsEvent('draggedOut', payload.length);
+
           if (onDragLeave) onDragLeave(payload);
         }
       }, 50);
+    }
+  }
+
+  private fireAnalyticsEvent(action: string, fileCount: number): void {
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) {
+      const analyticsEvent = createAnalyticsEvent({
+        eventType: 'ui',
+        actionSubject: 'dropzone',
+        action,
+        attributes: {
+          fileCount,
+        },
+      });
+      analyticsEvent.fire(ANALYTICS_MEDIA_CHANNEL);
     }
   }
 
@@ -182,3 +219,9 @@ export class Dropzone extends LocalUploadComponentReact<
     return null;
   }
 }
+
+export const Dropzone = withAnalyticsContext({
+  componentName: 'dropzone',
+  packageName,
+  packageVersion,
+})(withAnalyticsEvents()(DropzoneBase));

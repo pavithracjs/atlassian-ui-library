@@ -18,7 +18,7 @@ export interface Props {
   editorActions?: EditorActions;
   eventDispatcher?: EventDispatcher;
   providerFactory: ProviderFactory;
-  appearance: EditorAppearance;
+  appearance?: EditorAppearance;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
@@ -63,7 +63,7 @@ export default class PluginSlot extends React.Component<Props, any> {
     this.addModeChangeListener(this.props.contentArea);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.contentArea !== nextProps.contentArea) {
       this.removeModeChangeListener(this.props.contentArea);
       this.addModeChangeListener(nextProps.contentArea);
@@ -134,7 +134,7 @@ export default class PluginSlot extends React.Component<Props, any> {
             eventDispatcher: eventDispatcher as EventDispatcher,
             providerFactory,
             dispatchAnalyticsEvent,
-            appearance,
+            appearance: appearance!,
             popupsMountPoint,
             popupsBoundariesElement,
             popupsScrollableElement,

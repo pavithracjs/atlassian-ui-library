@@ -16,6 +16,8 @@ import {
   FileIdentifier,
   ExternalImageIdentifier,
   Identifier,
+  getMediaClient,
+  FileState,
 } from '@atlaskit/media-client';
 import { MediaType } from '@atlaskit/adf-schema';
 import {
@@ -71,6 +73,7 @@ export interface MediaCardProps {
 export interface State {
   mediaClientConfig?: MediaClientConfig;
   contextIdentifierProvider?: ContextIdentifierProvider;
+  fileState?: FileState;
 }
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
@@ -125,7 +128,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         contextIdentifierProvider: await contextIdentifierProvider,
       });
     }
-
     const mediaProviderObject = await mediaProvider;
     let mediaClientConfig: MediaClientConfig;
     if (mediaProviderObject.viewMediaClientConfig) {
@@ -151,10 +153,21 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         }
       });
     }
-
     this.setState({
       mediaClientConfig: mediaClientConfig,
     });
+
+    if (id) {
+      this.saveFileState(id, mediaClientConfig);
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(newProps: MediaCardProps) {
+    const { mediaClientConfig } = this.state;
+    const { id: newId } = newProps;
+    if (mediaClientConfig && newId && newId !== this.props.id) {
+      this.saveFileState(newId, mediaClientConfig);
+    }
   }
 
   componentWillUnmount() {
@@ -166,6 +179,20 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       mediaIdentifierMap.delete(dataURI);
     }
   }
+
+  saveFileState = async (id: string, mediaClientConfig: MediaClientConfig) => {
+    const { collection: collectionName } = this.props;
+    const mediaClient = getMediaClient({
+      mediaClientConfig,
+    });
+    const options = {
+      collectionName,
+    };
+    const fileState = await mediaClient.file.getCurrentState(id, options);
+    this.setState({
+      fileState,
+    });
+  };
 
   private renderLoadingCard = () => {
     const { cardDimensions } = this.props;
@@ -240,7 +267,11 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   };
 
   render() {
-    const { contextIdentifierProvider, mediaClientConfig } = this.state;
+    const {
+      contextIdentifierProvider,
+      mediaClientConfig,
+      fileState,
+    } = this.state;
     const {
       id,
       type,
@@ -291,6 +322,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
           collection,
           contextIdentifierProvider,
           cardDimensions,
+          fileState,
         })}
       >
         <Card
@@ -320,11 +352,13 @@ export const getClipboardAttrs = ({
   collection,
   contextIdentifierProvider,
   cardDimensions,
+  fileState,
 }: {
   id: string;
   collection?: string;
   contextIdentifierProvider?: ContextIdentifierProvider;
   cardDimensions?: CardDimensions;
+  fileState?: FileState;
 }): { [key: string]: string | number | undefined } => {
   const contextId =
     contextIdentifierProvider && contextIdentifierProvider.objectId;
@@ -336,6 +370,15 @@ export const getClipboardAttrs = ({
     cardDimensions &&
     cardDimensions.height &&
     parseInt(`${cardDimensions.height}`);
+  let fileName = 'file'; // default name is needed for Confluence
+  let fileSize = 1;
+  let fileMimeType = '';
+
+  if (fileState && fileState.status !== 'error') {
+    fileSize = fileState.size;
+    fileName = fileState.name;
+    fileMimeType = fileState.mimeType;
+  }
 
   return {
     'data-context-id': contextId,
@@ -345,6 +388,9 @@ export const getClipboardAttrs = ({
     'data-height': height,
     'data-id': id,
     'data-collection': collection,
+    'data-file-name': fileName,
+    'data-file-size': fileSize,
+    'data-file-mime-type': fileMimeType,
   };
 };
 

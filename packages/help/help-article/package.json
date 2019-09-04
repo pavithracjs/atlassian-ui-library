@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-article",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "description": "A cross-product help-article component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -17,7 +17,8 @@
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/theme": "^9.1.0",
+    "@atlaskit/icon": "^19.0.6",
+    "@atlaskit/theme": "^9.1.6",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.7",
     "exenv": "^1.2.2"
@@ -27,7 +28,7 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/docs": "^8.1.5",
     "enzyme": "^3.7.0",
     "react-test-renderer": "^16.8.0"
   },

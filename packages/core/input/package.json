@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/input",
-  "version": "6.0.1",
+  "version": "6.0.7",
   "description": "Internal component used by field-base to create field-text. DO NOT USE DIRECTLY",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -10,13 +10,13 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel DC",
+    "Harsha I",
+    "Alex R"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/theme": "^9.1.1",
+    "@atlaskit/theme": "^9.1.6",
     "@babel/runtime": "^7.0.0",
     "keycode": "^2.1.7"
   },
@@ -26,9 +26,11 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/field-base": "^13.0.5",
-    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/build-utils": "^2.2.5",
+    "@atlaskit/docs": "^8.1.5",
+    "@atlaskit/field-base": "^13.0.13",
+    "@atlaskit/section-message": "^4.0.12",
+    "@atlaskit/ssr": "^0.1.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
   },

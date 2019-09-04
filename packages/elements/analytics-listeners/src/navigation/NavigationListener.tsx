@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AnalyticsListener,
-  UIAnalyticsEventHandlerSignature,
+  UIAnalyticsEventHandler,
 } from '@atlaskit/analytics-next';
 
 import { sendEvent } from '../analytics-web-client-wrapper';
@@ -10,7 +10,7 @@ import { ListenerProps, FabricChannel } from '../types';
 import processEvent from './process-event';
 
 export default class NavigationListener extends React.Component<ListenerProps> {
-  listenerHandler: UIAnalyticsEventHandlerSignature = event => {
+  listenerHandler: UIAnalyticsEventHandler = event => {
     const { client, logger } = this.props;
     logger.debug('Received Navigation event', event);
     const payload = processEvent(event, logger);

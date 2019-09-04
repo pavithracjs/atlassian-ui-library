@@ -77,12 +77,12 @@ class DynamicTable extends React.Component<Props, State> {
     },
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     validateSortKey(this.props.sortKey, this.props.head);
     assertIsSortable(this.props.head);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.sortKey !== nextProps.sortKey ||
       this.props.head !== nextProps.head
@@ -257,12 +257,12 @@ class DynamicTable extends React.Component<Props, State> {
 export { DynamicTable as DynamicTableWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'dynamicTable',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onSort: createAndFireEventOnAtlaskit({
       action: 'sorted',
       actionSubject: 'dynamicTable',

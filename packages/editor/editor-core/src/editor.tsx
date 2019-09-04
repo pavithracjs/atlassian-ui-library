@@ -16,7 +16,7 @@ import {
 } from '@atlaskit/editor-common';
 import { Context as CardContext } from '@atlaskit/smart-card';
 import { FabricEditorAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import { getUiComponent } from './create-editor';
 import EditorActions from './actions';
@@ -61,7 +61,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
 
   private providerFactory: ProviderFactory;
   private editorActions: EditorActions;
-  private createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  private createAnalyticsEvent?: CreateUIAnalyticsEvent;
 
   constructor(props: EditorProps, context: Context) {
     super(props);
@@ -89,7 +89,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
     this.handleProviders(this.props);
   }
 
-  componentWillReceiveProps(nextProps: EditorProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: EditorProps) {
     this.handleProviders(nextProps);
   }
 

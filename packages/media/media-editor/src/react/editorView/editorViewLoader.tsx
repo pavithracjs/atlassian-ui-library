@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ModalSpinner } from '@atlaskit/media-ui';
 import EditorViewType, { EditorViewProps } from './editorView';
 
-interface AsyncEditorViewState {
+export interface AsyncEditorViewState {
   EditorView?: typeof EditorViewType;
 }
 
@@ -18,12 +18,16 @@ export default class AsyncEditorView extends React.PureComponent<
     EditorView: AsyncEditorView.EditorView,
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     if (!this.state.EditorView) {
-      const module = await import(/* webpackChunkName:"@atlaskit-internal_media-editor-view" */
-      './editorView');
-      AsyncEditorView.EditorView = module.default;
-      this.setState({ EditorView: module.default });
+      try {
+        const module = await import(/* webpackChunkName:"@atlaskit-internal_media-editor-view" */
+        './editorView');
+        AsyncEditorView.EditorView = module.default;
+        this.setState({ EditorView: module.default });
+      } catch (error) {
+        // TODO [MS-2279]: Add operational error to catch async import error
+      }
     }
   }
 

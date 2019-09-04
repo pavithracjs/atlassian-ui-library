@@ -55,7 +55,7 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
     }
   }
 
-  componentWillReceiveProps(nextProps: BrowserProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: BrowserProps) {
     const { isOpen } = this.props;
     const { isOpen: nextIsOpen } = nextProps;
 

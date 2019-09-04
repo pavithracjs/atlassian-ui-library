@@ -7,7 +7,7 @@ import {
   // @ts-ignore - it's exported the type is just missing
   fontSizeSmall,
   gridSize as gridSizeFn,
-} from '@atlaskit/theme';
+} from '@atlaskit/theme/constants';
 
 interface Props {
   /** React Elements to be displayed within the group. This should generally be

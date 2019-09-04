@@ -10,7 +10,6 @@ import {
   subsup,
   underline,
   code,
-  emojiQuery,
   typeAheadQuery,
   confluenceInlineComment,
   action,
@@ -185,7 +184,6 @@ const marksInOrder: SchemaBuiltInItem[] = [
   { name: 'subsup', spec: subsup },
   { name: 'underline', spec: underline },
   { name: 'code', spec: code },
-  { name: 'emojiQuery', spec: emojiQuery },
   { name: 'typeAheadQuery', spec: typeAheadQuery },
   { name: 'action', spec: action },
   { name: 'alignment', spec: alignment },
@@ -206,8 +204,14 @@ export function createSchema(config: SchemaConfig): Schema {
     .concat(config.marks || [])
     .concat(markGroupDeclarationsNames);
 
-  let nodes = addItems(nodesInOrder, nodesConfig, customNodeSpecs);
-  let marks = addItems(marksInOrder, marksConfig, customMarkSpecs);
+  let nodes = addItems(nodesInOrder, nodesConfig, customNodeSpecs) as Record<
+    string,
+    NodeSpec
+  >;
+  let marks = addItems(marksInOrder, marksConfig, customMarkSpecs) as Record<
+    string,
+    MarkSpec
+  >;
   nodes = sanitizeNodes(nodes, marks);
   return new Schema<string, string>({
     nodes,

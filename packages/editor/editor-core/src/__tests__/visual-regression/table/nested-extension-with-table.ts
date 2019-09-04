@@ -1,20 +1,23 @@
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import adf from './__fixtures__/nested-table.adf.json';
 import { clickFirstCell } from '../../__helpers/page-objects/_table';
-import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: nested block extension with table', () => {
-  let page: any;
+  let page: Page;
 
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
   });
 
-  it(`looks correct at LaptopMDPI for fullpage`, async () => {
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
+  it(`looks correct`, async () => {
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      viewport: { width: 1040, height: 600 },
+    });
     await clickFirstCell(page);
-    await animationFrame(page);
     await snapshot(page);
   });
 });

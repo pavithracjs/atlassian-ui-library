@@ -55,8 +55,20 @@ export interface MediaSingleOptions {
   disableLayout?: boolean;
 }
 
+export interface MediaPMPluginOptions {
+  allowLazyLoading?: boolean;
+  allowBreakoutSnapPoints?: boolean;
+  allowAdvancedToolBarOptions?: boolean;
+  allowMediaSingleEditable?: boolean;
+  allowRemoteDimensionsFetch?: boolean;
+  allowDropzoneDropLine?: boolean;
+  allowMarkingUploadsAsIncomplete?: boolean;
+  fullWidthEnabled?: boolean;
+}
+
 const mediaPlugin = (
   options?: MediaOptions,
+  pluginOptions?: MediaPMPluginOptions,
   appearance?: EditorAppearance,
 ): EditorPlugin => ({
   nodes() {
@@ -102,6 +114,8 @@ const mediaPlugin = (
               nodeViews: {
                 mediaGroup: ReactMediaGroupNode(
                   portalProviderAPI,
+                  providerFactory,
+                  pluginOptions && pluginOptions.allowLazyLoading,
                   props.appearance,
                 ),
                 mediaSingle: ReactMediaSingleNode(
@@ -109,8 +123,9 @@ const mediaPlugin = (
                   eventDispatcher,
                   providerFactory,
                   options,
-                  props.appearance,
-                  props.appearance === 'full-width',
+                  pluginOptions,
+                  pluginOptions && pluginOptions.fullWidthEnabled,
+                  dispatchAnalyticsEvent,
                 ),
               },
               errorReporter,
@@ -119,13 +134,11 @@ const mediaPlugin = (
               customDropzoneContainer:
                 options && options.customDropzoneContainer,
               customMediaPicker: options && options.customMediaPicker,
-              appearance: props.appearance,
               allowResizing: !!(options && options.allowResizing),
             },
             reactContext,
             dispatch,
-            props.appearance,
-            dispatchAnalyticsEvent,
+            pluginOptions,
           ),
       },
       { name: 'mediaKeymap', plugin: () => keymapPlugin() },
@@ -134,8 +147,7 @@ const mediaPlugin = (
     if (options && options.allowMediaSingle) {
       pmPlugins.push({
         name: 'mediaSingleKeymap',
-        plugin: ({ schema, props }) =>
-          keymapMediaSinglePlugin(schema, props.appearance),
+        plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
       });
     }
 
@@ -233,10 +245,12 @@ const mediaPlugin = (
     floatingToolbar: (state, intl, providerFactory) =>
       floatingToolbar(state, intl, {
         providerFactory,
-        appearance,
+        // appearance, // TODO: required?
         allowResizing: options && options.allowResizing,
         allowAnnotation: options && options.allowAnnotation,
         allowLinking: options && options.allowLinking,
+        allowAdvancedToolBarOptions:
+          pluginOptions && pluginOptions.allowAdvancedToolBarOptions,
       }),
   },
 });

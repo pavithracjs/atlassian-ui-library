@@ -79,10 +79,7 @@ export const mediaEditor = (
   uploadErrorHandler?: () => void,
 ) => {
   const contextIdentifierProvider = storyContextIdentifierProviderFactory();
-  const mediaProvider = storyMediaProviderFactory({
-    collectionName: testCollectionName,
-    includeUserAuthProvider: true,
-  });
+  const mediaProvider = getFreshMediaProvider();
 
   const providerFactory = ProviderFactory.create({
     mediaProvider,

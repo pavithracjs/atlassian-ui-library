@@ -9,7 +9,7 @@ import {
   MentionNameStatus,
 } from '../../../types';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
@@ -548,7 +548,7 @@ describe('MentionNameResolver', () => {
       actionSubjectId: 'hydration',
       eventType: 'operational',
     };
-    let mockCreateAnalyticsEvent: jest.Mock<CreateUIAnalyticsEventSignature>;
+    let mockCreateAnalyticsEvent: jest.Mock<CreateUIAnalyticsEvent>;
 
     beforeEach(() => {
       mockCreateAnalyticsEvent = jest.fn();

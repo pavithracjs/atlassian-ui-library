@@ -6,7 +6,10 @@ import {
   Vector2,
   getCssFromImageOrientation,
 } from '@atlaskit/media-ui';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
 import { BaselineExtend, ImageWrapper, Img } from '../../styled';
 import { ZoomLevel } from '../../domain/zoomLevel';
 import { closeOnDirectClick } from '../../utils/closeOnDirectClick';
@@ -35,14 +38,14 @@ const naturalSizeRectangle = (el: HTMLImageElement): Rectangle => {
   return new Rectangle(naturalWidth, naturalHeight);
 };
 
-export type Props = {
+export interface Props extends WithAnalyticsEventsProps {
   src: string;
   orientation?: number;
   onClose?: () => void;
   onLoad?: () => void;
   onError?: () => void;
   onBlanketClicked?: () => void;
-};
+}
 
 export type State = {
   zoomLevel: ZoomLevel;
@@ -214,8 +217,8 @@ export class InteractiveImgComponent extends React.Component<Props, State> {
   };
 }
 
-export const InteractiveImg = withAnalyticsEvents<Props>({
-  onBlanketClicked: (createAnalyticsEvent: any) => {
+export const InteractiveImg = withAnalyticsEvents({
+  onBlanketClicked: createAnalyticsEvent => {
     const event = createAnalyticsEvent(closedEvent('blanket'));
     event.fire(channel);
   },

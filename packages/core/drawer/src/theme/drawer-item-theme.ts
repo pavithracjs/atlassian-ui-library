@@ -1,5 +1,6 @@
 import { itemThemeNamespace } from '@atlaskit/item';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 import chromatism from 'chromatism';
 import { DrawerTheme, Background, ItemTheme, ScrollBarTheme } from './types';
 import {

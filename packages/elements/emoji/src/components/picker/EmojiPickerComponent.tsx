@@ -38,7 +38,7 @@ import EmojiPickerList from './EmojiPickerList';
 import * as styles from './styles';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import {
   createAndFireEventInElementsChannel,
@@ -68,7 +68,7 @@ export interface Props {
   onSelection?: OnEmojiEvent;
   onPickerRef?: PickerRefHandler;
   hideToneSelector?: boolean;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface State {
@@ -135,7 +135,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.openTime = Date.now();
     this.fireAnalytics(openedPickerEvent());
   }
@@ -165,7 +165,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     );
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const prevEmojiProvider = this.props.emojiProvider;
     const nextEmojiProvider = nextProps.emojiProvider;
     if (prevEmojiProvider !== nextEmojiProvider) {

@@ -13,6 +13,7 @@ import {
   noResultsCrossProductSearchClient,
   errorCrossProductSearchClient,
   mockCrossProductSearchClient,
+  mockErrorCrossProductSearchClient,
 } from '../../../../__tests__/unit/mocks/_mockCrossProductSearchClient';
 import {
   noResultsPeopleSearchClient,
@@ -20,11 +21,7 @@ import {
   mockPeopleSearchClient,
 } from '../../../../__tests__/unit/mocks/_mockPeopleSearchClient';
 import { mockLogger } from '../../../../__tests__/unit/mocks/_mockLogger';
-import {
-  mockErrorJiraClient,
-  mockJiraClientWithData,
-  mockNoResultJiraClient,
-} from '../../../../__tests__/unit/mocks/_mockJiraClient';
+import { mockNoResultJiraClient } from '../../../../__tests__/unit/mocks/_mockJiraClient';
 import {
   makeJiraObjectResult,
   makePersonResult,
@@ -54,6 +51,18 @@ const boards = [
     contentType: ContentType.JiraBoard,
   }),
 ];
+
+const recentlytIssuesAndBoards: SearchResultsMap = {
+  'jira.issue': {
+    items: issues,
+    totalSize: issues.length,
+  },
+  'jira.board,project,filter': {
+    items: boards,
+    totalSize: boards.length,
+  },
+} as SearchResultsMap;
+
 const people = [makePersonResult(), makePersonResult(), makePersonResult()];
 const referralContextIdentifiers: ReferralContextIdentifiers = {
   currentContainerId: '123-container',
@@ -90,7 +99,9 @@ describe('Jira Quick Search Container', () => {
   ) => {
     const quickSearch = wrapper.find(BaseJiraQuickSearchContainerJira);
     const quickSearchProps = quickSearch.props();
-    return quickSearchProps[property] as any;
+
+    // @ts-ignore
+    return quickSearchProps[property];
   };
 
   beforeEach(() => {
@@ -121,13 +132,14 @@ describe('Jira Quick Search Container', () => {
   describe('getRecentItems', () => {
     it('should not throw when recent promise throw', async () => {
       const error = new Error('something wrong');
-      const jiraClient = mockErrorJiraClient(error);
+      const crossProductSearchClient = mockErrorCrossProductSearchClient(error);
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient }),
+        renderComponent({ crossProductSearchClient }),
         'getRecentItems',
       );
-      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const { eagerRecentItemsPromise } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
@@ -144,16 +156,19 @@ describe('Jira Quick Search Container', () => {
     });
 
     it('should not throw when people recent promise is rejected', async () => {
-      const jiraClient = mockNoResultJiraClient();
+      const recentsSpy = jest.spyOn(
+        noResultsCrossProductSearchClient,
+        'getRecentItems',
+      );
       const getRecentItems = getQuickSearchProperty(
         renderComponent({
-          jiraClient,
+          crossProductSearchClient: noResultsCrossProductSearchClient,
           peopleSearchClient: errorPeopleSearchClient,
         }),
         'getRecentItems',
       );
-      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const { eagerRecentItemsPromise } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
@@ -170,45 +185,59 @@ describe('Jira Quick Search Container', () => {
     });
 
     it('should return correct recent items', async () => {
-      const jiraClient = mockJiraClientWithData([...issues, ...boards]);
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        { results: recentlytIssuesAndBoards },
+        DEFAULT_AB_TEST,
+      );
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
       });
 
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient, peopleSearchClient }),
+        renderComponent({ crossProductSearchClient, peopleSearchClient }),
         'getRecentItems',
       );
       const {
         eagerRecentItemsPromise,
         lazyLoadedRecentItemsPromise,
-      } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: issues,
           containers: boards,
-          people: people,
         },
       });
 
-      expect(await lazyLoadedRecentItemsPromise).toEqual({});
+      expect(await lazyLoadedRecentItemsPromise).toEqual({
+        people,
+      });
       expect(logger.safeError).toHaveBeenCalledTimes(0);
     });
 
     it('should not return recent people if no browse permission', async () => {
-      const jiraClient = mockJiraClientWithData([...issues, ...boards], false);
+      const jiraClient = mockNoResultJiraClient(false);
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        { results: recentlytIssuesAndBoards },
+        DEFAULT_AB_TEST,
+      );
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
+
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
       });
 
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient, peopleSearchClient }),
+        renderComponent({
+          jiraClient,
+          crossProductSearchClient,
+          peopleSearchClient,
+        }),
         'getRecentItems',
       );
-      const recentItems = await getRecentItems(sessionId)
-        .eagerRecentItemsPromise;
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const recentItems = await getRecentItems().eagerRecentItemsPromise;
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(recentItems).toMatchObject({
         results: {
           objects: issues,
@@ -428,7 +457,7 @@ describe('Jira Quick Search Container', () => {
         expect(redirectSpy).toHaveBeenCalledTimes(1);
       });
 
-      it('should not call redriect', () => {
+      it('should not call redirect', () => {
         const spy = jest.fn(e => e.preventDefault());
         const handleSearchSubmit = mountComponent(spy);
         const mockedEvent = mockEvent();
@@ -438,6 +467,195 @@ describe('Jira Quick Search Container', () => {
         expect(mockedEvent.stopPropagation).toHaveBeenCalledTimes(1);
         expect(redirectSpy).toHaveBeenCalledTimes(0);
       });
+    });
+  });
+
+  describe('faster search', () => {
+    const mockSearchResults: JiraResultsMap = {
+      objects: issues,
+      containers: boards,
+      people: [makePersonResult()],
+    };
+
+    const recentItemCommon1a = 'Common-1-A';
+    const recentItemCommon1b = 'Common-1-B';
+    const recentItemCommon2 = 'Common-2';
+
+    const mockRecentItems: JiraResultsMap = {
+      objects: [
+        makeJiraObjectResult({
+          resultId: recentItemCommon2,
+          name: recentItemCommon2,
+          contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-123',
+        }),
+        makeJiraObjectResult({
+          resultId: recentItemCommon1a,
+          name: recentItemCommon1a,
+          contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-1',
+        }),
+        makeJiraObjectResult({
+          resultId: recentItemCommon1b,
+          name: recentItemCommon1b,
+          contentType: ContentType.JiraIssue,
+          objectKey: 'TEST-2',
+        }),
+      ],
+      containers: [
+        makeJiraObjectResult({
+          name: 'Common-Board',
+          contentType: ContentType.JiraBoard,
+        }),
+      ],
+      people: [makePersonResult()],
+    };
+
+    it('should show filtered list of recent issues when loading', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'common-1',
+        mockRecentItems,
+        true,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // Only show the first group (issues) when loading, we also expect the results to be filtered by name
+      const issueNames = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.name);
+      expect(issueNames).toEqual([recentItemCommon1a, recentItemCommon1b]);
+
+      // Expect all the other results to be empty (we also exclude issue-advanced because that's a group hacked on to show advanced search)
+      displayedResults
+        .filter(
+          result => result.key !== 'issues' && result.key !== 'issue-advanced',
+        )
+        .forEach(resultGroup => {
+          expect(resultGroup.items.length).toBe(0);
+        });
+    });
+
+    it('should include issue keys when filtering', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'test-1',
+        mockRecentItems,
+        true,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // The results are filtered by issue-key
+      const issueKeys = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.objectKey);
+      expect(issueKeys).toEqual(['TEST-123', 'TEST-1']);
+    });
+
+    it('should show issueKey matches before title matches', () => {
+      const recentItems: JiraResultsMap = {
+        objects: [
+          makeJiraObjectResult({
+            resultId: recentItemCommon1a,
+            name: 'This issue has TEST-123 in the title',
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-4',
+          }),
+          makeJiraObjectResult({
+            resultId: recentItemCommon2,
+            name: recentItemCommon2,
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-123',
+          }),
+          makeJiraObjectResult({
+            resultId: recentItemCommon1b,
+            name: recentItemCommon1b,
+            contentType: ContentType.JiraIssue,
+            objectKey: 'TEST-12',
+          }),
+        ],
+        containers: [],
+        people: [],
+      };
+
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'test-1',
+        recentItems,
+        true,
+        'some-session-id',
+      );
+
+      expect(displayedResults.length).toBe(4);
+      const issueKeys = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.objectKey);
+      // The issueKey matches should appear before the title matches
+      expect(issueKeys).toEqual(['TEST-123', 'TEST-12', 'TEST-4']);
+    });
+
+    it('should show normal list of issues when not loading with matching recent items at the top', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'common-1',
+        mockRecentItems,
+        false,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // Only show the first group (issues) when loading, we also expect the results to be filtered by name
+      const issueNames = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.name);
+      const searchResultNames = mockSearchResults.objects.map(
+        issue => issue.name,
+      );
+      expect(issueNames).toEqual([
+        recentItemCommon1a,
+        recentItemCommon1b,
+        ...searchResultNames,
+      ]);
+
+      // Expect all the other results to not be empty (we also exclude search-jira because that's a group hacked on to show advanced search)
+      displayedResults
+        .filter(result => result.key !== 'issues')
+        .forEach(resultGroup => {
+          expect(resultGroup.items.length).not.toBe(0);
+        });
     });
   });
 });

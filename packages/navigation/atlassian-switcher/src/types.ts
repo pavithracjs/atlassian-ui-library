@@ -1,15 +1,15 @@
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 export interface TriggerXFlowCallback {
   (
     productKey: string,
     sourceComponent: string,
     event: any,
-    analyticsEvent: UIAnalyticsEventInterface,
+    analyticsEvent: UIAnalyticsEvent,
   ): void;
 }
 export interface DiscoverMoreCallback {
-  (event: any, analyticsEvent: UIAnalyticsEventInterface): void;
+  (event: any, analyticsEvent: UIAnalyticsEvent): void;
 }
 
 export interface WithCloudId {
@@ -54,15 +54,29 @@ export enum Feature {
   enableUserCentricProducts = 'enableUserCentricProducts',
   disableCustomLinks = 'disableCustomLinks',
   disableRecentContainers = 'disableRecentContainers',
+  disableHeadings = 'disableHeadings',
   xflow = 'xflow',
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }
 
+export enum MultiVariateFeature {
+  productTopItemVariation = 'productTopItemVariation',
+}
+
+export enum ProductTopItemVariation {
+  mostFrequentSite = 'most-frequent-site',
+  currentSite = 'current-site',
+}
+
 export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
+} & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
 };
 
-export type FeatureMap = { [key in Feature]: boolean };
+export type FeatureMap = { [key in Feature]: boolean } & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
+};
 
 export type CustomLinksResponse = CustomLink[];
 
@@ -120,6 +134,7 @@ interface AvailableProductWithUrl {
 export interface AvailableSite {
   adminAccess: boolean;
   availableProducts: AvailableProduct[];
+  avatar: string | null;
   cloudId: string;
   displayName: string;
   url: string;
@@ -151,4 +166,5 @@ export type RecommendationsFeatureFlags = {
 export interface SwitcherChildItem {
   href: string;
   label: string;
+  avatar: string | null;
 }

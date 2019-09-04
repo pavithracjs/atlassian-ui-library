@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import GlobalQuickSearchWithAnalytics, {
   GlobalQuickSearch,
   Props,
@@ -7,7 +7,10 @@ import GlobalQuickSearchWithAnalytics, {
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import { CreateAnalyticsEventFn } from '../../analytics/types';
 import { ReferralContextIdentifiers } from '../../GlobalQuickSearchWrapper';
-import { FilterType, Filter } from '../../../api/CrossProductSearchClient';
+import {
+  FilterType,
+  FilterWithMetadata,
+} from '../../../api/CrossProductSearchClient';
 
 const noop = () => {};
 const DEFAULT_PROPS = {
@@ -26,7 +29,7 @@ function render(partialProps: Partial<Props>) {
     ...partialProps,
   };
 
-  return shallow(<GlobalQuickSearch {...props} />);
+  return mount(<GlobalQuickSearch {...props} />);
 }
 
 describe('GlobalQuickSearch', () => {
@@ -52,8 +55,7 @@ describe('GlobalQuickSearch', () => {
     const wrapper = render({ onSearch: searchMock });
 
     const onSearchInput: Function = wrapper
-      .children()
-      .first()
+      .find('QuickSearch')
       .prop('onSearchInput');
     onSearchInput({ target: { value: 'foo' } });
 
@@ -62,14 +64,13 @@ describe('GlobalQuickSearch', () => {
 
   it('should handle searching with filter applied', () => {
     const searchMock = jest.fn();
-    const filters: Filter[] = [
-      { '@type': FilterType.Spaces, spaceKeys: ['TEST'] },
+    const filters: FilterWithMetadata[] = [
+      { filter: { '@type': FilterType.Spaces, spaceKeys: ['TEST'] } },
     ];
     const wrapper = render({ onSearch: searchMock, filters });
 
     const onSearchInput: Function = wrapper
-      .children()
-      .first()
+      .find('QuickSearch')
       .prop('onSearchInput');
     onSearchInput({ target: { value: 'foo' } });
 
@@ -81,8 +82,7 @@ describe('GlobalQuickSearch', () => {
     const wrapper = render({ onSearch: searchMock });
 
     const onSearchInput: Function = wrapper
-      .children()
-      .first()
+      .find('QuickSearch')
       .prop('onSearchInput');
 
     onSearchInput({ target: { value: 'foo' } });
@@ -97,8 +97,7 @@ describe('GlobalQuickSearch', () => {
     const wrapper = render({ onSearch: searchMock });
 
     const onSearchInput: Function = wrapper
-      .children()
-      .first()
+      .find('QuickSearch')
       .prop('onSearchInput');
     onSearchInput({ target: { value: '  pattio   ' } });
 
@@ -152,7 +151,7 @@ describe('GlobalQuickSearch', () => {
 
     const deepRender = (): Function =>
       render({ searchSessionId })
-        .dive()
+        .find('QuickSearch')
         .prop('firePrivateAnalyticsEvent');
 
     ['ArrowUp', 'ArrowDown'].forEach(key => {

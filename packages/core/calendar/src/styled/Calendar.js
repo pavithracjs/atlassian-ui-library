@@ -3,10 +3,11 @@
 /* eslint no-confusing-arrow: 0 */
 
 import styled, { css } from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { N0, N700, N200, text } from '@atlaskit/theme/colors';
 
-const wrapperBackgroundColor = themed({ light: colors.N0, dark: colors.N700 });
-const getCalendarThColor = themed({ light: colors.N200, dark: colors.N200 });
+const wrapperBackgroundColor = themed({ light: N0, dark: N700 });
+const getCalendarThColor = themed({ light: N200, dark: N200 });
 
 export const Announcer = styled.div`
   border: 0;
@@ -56,7 +57,7 @@ export const CalendarThead = styled.thead`
 
 export const Wrapper = styled.div`
   background-color: ${wrapperBackgroundColor};
-  color: ${colors.text};
+  color: ${text};
   display: inline-block;
   padding: 16px;
   user-select: none;

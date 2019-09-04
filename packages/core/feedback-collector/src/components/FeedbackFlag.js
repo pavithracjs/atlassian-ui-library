@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { AutoDismissFlag } from '@atlaskit/flag';
-import { colors } from '@atlaskit/theme';
+import { G300 } from '@atlaskit/theme/colors';
 import SuccessIcon from '@atlaskit/icon/glyph/check-circle';
 
 type AkProps = {
@@ -10,7 +10,7 @@ type AkProps = {
 };
 const FeedbackFlag = (props: AkProps) => (
   <AutoDismissFlag
-    icon={<SuccessIcon primaryColor={colors.G300} label="Success" />}
+    icon={<SuccessIcon primaryColor={G300} label="Success" />}
     id="feedbackSent"
     description="Your valuable feedback helps us continually improve our products."
     title="Thanks!"

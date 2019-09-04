@@ -1,20 +1,14 @@
 // @flow
 
 import { type ComponentType } from 'react';
-import {
-  withAnalyticsEvents,
-  type WithAnalyticsEventsProps,
-} from '@atlaskit/analytics-next';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 
 export const navigationChannel = 'navigation';
 
 export type CollapseExpandTrigger = 'chevron' | 'resizerClick' | 'resizerDrag';
 
 export const navigationExpandedCollapsed = (
-  createAnalyticsEvent: $PropertyType<
-    WithAnalyticsEventsProps,
-    'createAnalyticsEvent',
-  >,
+  createAnalyticsEvent: Function,
   {
     isCollapsed,
     trigger,
@@ -45,6 +39,7 @@ export const withGlobalItemAnalytics = (Component: ComponentType<*>) => {
         });
         event.fire(navigationChannel);
       }
+
       return null;
     },
   })(Component);

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { gridSize, typography } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { h700 } from '@atlaskit/theme/typography';
 
 const truncationStyles = css`
   overflow-x: hidden;
@@ -19,7 +20,7 @@ export const Outer = styled.div`
 `;
 
 export const StyledTitle = styled.h1`
-  ${typography.h700()};
+  ${h700()};
   ${getTruncationStyles} line-height: ${gridSize() * 4}px;
   margin-top: 0;
 `;

@@ -29,10 +29,21 @@ export type State = {
   groupId: string;
   exampleId: string;
   examplesPath: string | undefined;
+  client: AnalyticsWebClient;
 };
 
 export type ExampleLoaderProps = {
   example: File;
+  client: AnalyticsWebClient;
+};
+
+// Using console.debug instead of console.log to reduce noise.
+// Chrome's default logging level excludes debug
+const mockClient: AnalyticsWebClient = {
+  sendUIEvent: e => console.debug('UI event', e),
+  sendOperationalEvent: e => console.debug('Operational event', e),
+  sendTrackEvent: e => console.debug('Track event', e),
+  sendScreenEvent: e => console.debug('Screen event', e),
 };
 
 export default class ExamplesIFrame extends React.Component<{}, State> {
@@ -41,8 +52,10 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
     groupId: '',
     exampleId: '',
     examplesPath: undefined,
+    client: mockClient,
   };
-  componentWillMount() {
+
+  async UNSAFE_componentWillMount() {
     if (window) {
       const { packageId, groupId, exampleId, examplesPath } = qs.parse(
         window.location.search,
@@ -53,6 +66,52 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
         exampleId,
         examplesPath,
       });
+    }
+
+    if (ENABLE_ANALYTICS_GASV3) {
+      try {
+        const analyticsWebClientModule = await import(/*webpackChunkName: "@atlassiansox/analytics-web-client" */ '@atlassiansox/analytics-web-client');
+
+        const {
+          default: AnalyticsWebClient,
+          originType,
+          envType,
+          platformType,
+        } = analyticsWebClientModule;
+        const analyticsWebClient = new AnalyticsWebClient({
+          env: envType.DEV,
+          product: 'atlaskit',
+          origin: originType.WEB,
+          platform: platformType.WEB,
+          subproduct: 'website',
+          user: '-',
+          serverTime: Date.now(),
+        });
+        analyticsWebClient.startUIViewedEvent();
+        this.setState({ client: analyticsWebClient });
+      } catch (error) {
+        console.log(`
+You're running Atlaskit passing "ENABLE_ANALYTICS_GASV3=true" parameter.
+You should install "@atlassiansox/analytics-web-client" locally without saving
+in "package.json" nor "yarn.lock" files by running the command
+
+1. Install "@atlassiansox/analytics-web-client" globally
+
+yarn global add @atlassiansox/analytics-web-client
+
+2. Link the package in website folder located in atlaskit repository
+
+cd "$(yarn global dir)/node_modules/@atlassiansox/analytics-web-client" && yarn link
+
+cd <your-atlaskit-folder>/website && yarn link "@atlassiansox/analytics-web-client"
+
+3. Go back to the root folder of atlaskit repository, rerun the website again passing 'ENABLE_ANALYTICS_GASV3=true' as a prefix
+
+cd <your-atlaskit-folder>
+ENABLE_ANALYTICS_GASV3=true bolt <your-command>
+
+${error}`);
+      }
     }
   }
 
@@ -68,6 +127,7 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
       );
       observePerformanceMetrics(location);
     }
+
     initializeGA();
   }
 
@@ -79,7 +139,9 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
       this.state.examplesPath,
     );
     if (example && exampleId) {
-      return <ExampleLoader example={example as File} />;
+      return (
+        <ExampleLoader example={example as File} client={this.state.client} />
+      );
     }
 
     return (
@@ -91,15 +153,6 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
     );
   }
 }
-
-// Using console.debug instead of console.log to reduce noise.
-// Chrome's default logging level excludes debug
-const mockClient: AnalyticsWebClient = {
-  sendUIEvent: e => console.debug('UI event', e),
-  sendOperationalEvent: e => console.debug('Operational event', e),
-  sendTrackEvent: e => console.debug('Track event', e),
-  sendScreenEvent: e => console.debug('Screen event', e),
-};
 
 export type Metadata = {
   meta?: {
@@ -130,7 +183,7 @@ function ExampleLoader(props: ExampleLoaderProps) {
       return meta.noListener ? (
         <ExampleComp />
       ) : (
-        <FabricAnalyticsListeners client={mockClient}>
+        <FabricAnalyticsListeners client={props.client}>
           <ExampleComp />
         </FabricAnalyticsListeners>
       );

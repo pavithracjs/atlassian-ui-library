@@ -27,7 +27,7 @@ export type ButtonState = {
 };
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
-  static defaultProps: ButtonProps = {
+  static defaultProps = {
     appearance: 'default',
     autoFocus: false,
     isDisabled: false,
@@ -35,12 +35,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     isSelected: false,
     shouldFitContainer: false,
     spacing: 'default',
-    theme: (current, props) => current(props),
     type: 'button',
   };
 
   // ref can be a range of things because we render button, a, span or other React components
-  button = React.createRef<HTMLElement>();
+  button: React.Ref<HTMLButtonElement> = React.createRef<HTMLButtonElement>();
 
   // Makes sure we don't call ref every render.
   getComposedRefs = memoize(composeRefs);
@@ -241,12 +240,12 @@ const ButtonWithRef = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 ButtonWithRef.displayName = 'Button';
 
-export default withAnalyticsContext<ButtonProps>({
+export default withAnalyticsContext({
   componentName: 'button',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<ButtonProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'button',

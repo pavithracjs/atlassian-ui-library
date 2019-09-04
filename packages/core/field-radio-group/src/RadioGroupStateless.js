@@ -11,6 +11,13 @@ import { name as packageName, version as packageVersion } from './version.json';
 import Radio from './Radio';
 import type { RadioGroupStatelessPropTypes } from './types';
 
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/field-radio-group has been deprecated. Please use the @atlaskit/radio package instead.',
+  );
+}
+
 class FieldRadioGroupStateless extends Component<
   RadioGroupStatelessPropTypes,
   void,

@@ -44,9 +44,10 @@ export class ContextHolder {
     );
   }
 
-  static getContext(canvas: HTMLCanvasElement): WebGLRenderingContext | null {
+  static getContext(canvas: HTMLCanvasElement) {
     return (
-      canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+      canvas.getContext('webgl') ||
+      (canvas.getContext('experimental-webgl') as WebGLRenderingContext | null)
     );
   }
 }

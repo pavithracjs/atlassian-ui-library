@@ -44,7 +44,7 @@ export default class ConfigurableMentionPicker extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.refreshMentions(nextProps.config);
   }
 

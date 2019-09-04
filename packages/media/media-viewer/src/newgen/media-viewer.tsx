@@ -5,7 +5,7 @@ import { IntlProvider, intlShape } from 'react-intl';
 import { Shortcut } from '@atlaskit/media-ui';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
@@ -27,7 +27,7 @@ export type Props = {
   featureFlags?: MediaViewerFeatureFlags;
   mediaClient: MediaClient;
   itemSource: ItemSource;
-} & WithAnalyticsEventProps;
+} & WithAnalyticsEventsProps;
 
 export class MediaViewerComponent extends React.Component<Props, {}> {
   static contextTypes = {
@@ -45,7 +45,7 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
     }
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.fireAnalytics(mediaViewerModalEvent());
     MediaViewerComponent.startTime = Date.now();
   }
@@ -123,4 +123,4 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
   }
 }
 
-export const MediaViewer = withAnalyticsEvents<Props>()(MediaViewerComponent);
+export const MediaViewer = withAnalyticsEvents()(MediaViewerComponent);

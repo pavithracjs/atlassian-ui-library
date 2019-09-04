@@ -17,6 +17,24 @@ describe('features', () => {
     isNavAutocompleteEnabled: false,
   };
 
+  it('returns expected value for isInFasterSearchExperiment when in faster-search experiment', () => {
+    const features = createFeatures({
+      ...defaultParameters,
+      abTest: abTestData('faster-search', 'blah'),
+      disableJiraPreQueryPeopleSearch: true,
+    });
+    expect(features.isInFasterSearchExperiment).toEqual(true);
+  });
+
+  it('returns expected value for isInFasterSearchExperiment when not in faster-search experiment', () => {
+    const features = createFeatures({
+      ...defaultParameters,
+      abTest: abTestData('not-faster-search', 'blah'),
+      disableJiraPreQueryPeopleSearch: true,
+    });
+    expect(features.isInFasterSearchExperiment).toEqual(false);
+  });
+
   it('returns expected value for useUrsForBootstrapping', () => {
     const features = createFeatures({
       ...defaultParameters,
@@ -32,14 +50,5 @@ describe('features', () => {
       disableJiraPreQueryPeopleSearch: true,
     });
     expect(features.disableJiraPreQueryPeopleSearch).toEqual(true);
-  });
-
-  it('returns expected value for enablePreQueryFromAggregator', () => {
-    const features = createFeatures({
-      ...defaultParameters,
-      abTest: abTestData('', 'default'),
-      enablePreQueryFromAggregator: true,
-    });
-    expect(features.enablePreQueryFromAggregator).toEqual(true);
   });
 });

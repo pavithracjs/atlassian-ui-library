@@ -3,7 +3,10 @@ import Avatar from '@atlaskit/avatar';
 import Checkbox from '@atlaskit/checkbox/Checkbox';
 import baseItem, { withItemFocus } from '@atlaskit/item';
 import * as React from 'react';
-import { Filter, FilterType } from '../../api/CrossProductSearchClient';
+import {
+  FilterType,
+  FilterWithMetadata,
+} from '../../api/CrossProductSearchClient';
 import { fireSpaceFilterShownEvent } from '../../util/analytics-event-helper';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 
@@ -16,7 +19,7 @@ export interface Props {
   searchSessionId: string;
   isDisabled?: boolean;
   isFilterOn?: boolean;
-  onFilterChanged(filter: Filter[]): void;
+  onFilterChanged(filter: FilterWithMetadata[]): void;
 
   // These are provided by the withAnalytics HOC
   createAnalyticsEvent?: CreateAnalyticsEventFn;
@@ -31,14 +34,21 @@ export class ConfluenceSpaceFilter extends React.Component<Props, State> {
     isChecked: false,
   };
 
-  generateFilter = (): Filter[] => {
+  generateFilter = (): FilterWithMetadata[] => {
     const { isChecked } = this.state;
+    const { spaceAvatar, spaceTitle, spaceKey } = this.props;
     return isChecked
       ? []
       : [
           {
-            '@type': FilterType.Spaces,
-            spaceKeys: [this.props.spaceKey],
+            filter: {
+              '@type': FilterType.Spaces,
+              spaceKeys: [spaceKey],
+            },
+            metadata: {
+              spaceTitle,
+              spaceAvatar,
+            },
           },
         ];
   };

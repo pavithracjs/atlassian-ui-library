@@ -2,10 +2,10 @@ import { sendEvent } from '../analytics-web-client-wrapper';
 import { AnalyticsWebClient } from '../types';
 import Logger from '../helpers/logger';
 import { processEventPayload } from './process-event-payload';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 export const handleEvent = (
-  event: UIAnalyticsEventInterface,
+  event: UIAnalyticsEvent,
   tag: string,
   logger: Logger,
   client?: AnalyticsWebClient | Promise<AnalyticsWebClient>,

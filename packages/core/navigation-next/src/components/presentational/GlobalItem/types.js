@@ -1,7 +1,6 @@
 // @flow
 
 import type { ComponentType, ElementConfig, ElementRef, Node } from 'react';
-import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 import type { StyleReducer, WithGlobalThemeProps } from '../../../theme/types';
 import type { InteractionState } from '../InteractionStateManager/types';
@@ -80,7 +79,7 @@ export type GlobalItemRenderComponentProps = {
 
 export type InjectedGlobalItemProps = {|
   ...$Exact<WithGlobalThemeProps>,
-  ...$Exact<WithAnalyticsEventsProps>,
+  createAnalyticsEvent: Function,
 |};
 
 /**

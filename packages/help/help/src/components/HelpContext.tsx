@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import { withAnalyticsEvents } from '../analytics';
 import {
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
@@ -46,6 +46,8 @@ export interface Props {
   ): void;
   // Default content. This prop is optional
   defaultContent?: React.ReactNode;
+  // Wrapped content
+  children?: React.ReactNode;
 }
 
 export interface State {
@@ -116,7 +118,7 @@ const initialiseHelpData = (data: State) => {
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 class HelpContextProviderImplementation extends React.Component<
-  Props & { createAnalyticsEvent?: CreateUIAnalyticsEventSignature },
+  Props & { createAnalyticsEvent?: CreateUIAnalyticsEvent },
   State
 > {
   requestLoadingTimeout: any;
@@ -379,7 +381,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 }
 
-export const HelpContextProvider = withAnalyticsEvents<Props>()(
+export const HelpContextProvider = withAnalyticsEvents()(
   HelpContextProviderImplementation,
 );
 

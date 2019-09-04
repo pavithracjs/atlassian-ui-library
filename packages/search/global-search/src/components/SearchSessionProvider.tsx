@@ -21,13 +21,33 @@ export interface SearchSessionProps {
 export function injectSearchSession<T>(
   Component: React.ComponentType<T & SearchSessionProps>,
 ) {
-  return (props: Pick<T, Exclude<keyof T, keyof SearchSessionProps>>) => (
-    <SearchSessionContext.Consumer>
-      {({ searchSessionId }) => (
-        <Component {...props} searchSessionId={searchSessionId || uuid()} />
-      )}
-    </SearchSessionContext.Consumer>
-  );
+  type WrapperComponentProps = Pick<
+    T,
+    Exclude<keyof T, keyof SearchSessionProps>
+  >;
+
+  return class WrapperComponent extends React.Component<WrapperComponentProps> {
+    searchSessionId: string | null = null;
+
+    render() {
+      return (
+        <SearchSessionContext.Consumer>
+          {({ searchSessionId }) => {
+            if (!this.searchSessionId) {
+              this.searchSessionId = searchSessionId || uuid();
+            }
+
+            return (
+              <Component
+                {...this.props as T}
+                searchSessionId={this.searchSessionId}
+              />
+            );
+          }}
+        </SearchSessionContext.Consumer>
+      );
+    }
+  };
 }
 
 /**

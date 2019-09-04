@@ -9,7 +9,7 @@ import {
 import EmojiButton from './EmojiButton';
 import {
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
   AnalyticsEventPayload,
 } from '@atlaskit/analytics-next';
 import {
@@ -33,7 +33,7 @@ const extractAllTones = (
 };
 
 export class ToneSelectorInternal extends PureComponent<
-  Props & WithAnalyticsEventProps,
+  Props & WithAnalyticsEventsProps,
   {}
 > {
   private fireEvent(event: AnalyticsEventPayload) {
@@ -44,7 +44,7 @@ export class ToneSelectorInternal extends PureComponent<
     }
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.fireEvent(toneSelectorOpenedEvent({}));
   }
 
@@ -86,6 +86,6 @@ export class ToneSelectorInternal extends PureComponent<
   }
 }
 
-const ToneSelector = withAnalyticsEvents<Props>()(ToneSelectorInternal);
+const ToneSelector = withAnalyticsEvents()(ToneSelectorInternal);
 
 export default ToneSelector;

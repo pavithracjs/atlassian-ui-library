@@ -1,4 +1,15 @@
 import * as React from 'react';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
+
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../../../version.json';
+import { withAnalyticsEvents, withAnalyticsContext } from '../../../analytics';
+import { Analytics } from '../../../model/Analytics';
 
 import {
   ArticlesListItemTitleIcon,
@@ -9,19 +20,26 @@ import {
 } from './styled';
 
 interface Props {
-  onClick: (id: string) => void;
+  createAnalyticsEvent: CreateUIAnalyticsEvent;
+  onClick: (id: string, analyticsEvent: UIAnalyticsEvent) => void;
   title: string;
   description: string;
   icon: React.ReactNode;
   id: string;
 }
 
-const ArticlesListItem = (props: Props) => {
-  const { id, title, description, icon, onClick } = props;
+const ArticlesListItem = (props: Props & Analytics) => {
+  const { id, title, description, icon, onClick, createAnalyticsEvent } = props;
 
   const handleOnClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    onClick(id);
+    if (onClick) {
+      const analyticsEvent: UIAnalyticsEvent = createAnalyticsEvent({
+        action: 'click',
+      });
+
+      onClick(id, analyticsEvent);
+    }
   };
 
   return (
@@ -40,4 +58,8 @@ const ArticlesListItem = (props: Props) => {
   );
 };
 
-export default ArticlesListItem;
+export default withAnalyticsContext({
+  componentName: 'ArticleListItem',
+  packageName,
+  packageVersion,
+})(withAnalyticsEvents()(ArticlesListItem));

@@ -1,5 +1,20 @@
 # @atlaskit/embedded-document
 
+## 0.6.5
+
+- Updated dependencies [08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+  - @atlaskit/editor-core@112.44.2
+  - @atlaskit/editor-common@40.0.0
+  - @atlaskit/renderer@50.0.0
+
+## 0.6.4
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
 ## 0.6.3
 
 ### Patch Changes

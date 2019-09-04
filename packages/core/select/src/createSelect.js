@@ -4,7 +4,8 @@ import { mergeStyles } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import memoizeOne from 'memoize-one';
 import isEqual from 'react-fast-compare';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import * as colors from '@atlaskit/theme/colors';
 
 import * as defaultComponents from './components';
 
@@ -270,7 +271,7 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
       tabSelectsValue: false,
     };
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       this.cacheComponents(nextProps.components, nextProps.enableAnimation);
     }
 

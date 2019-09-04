@@ -42,7 +42,9 @@ export const isMobileUploadCompleted = (
   mediaPluginState: MediaPluginState,
   mediaId: string,
 ) =>
-  mediaPluginState.editorAppearance === 'mobile' &&
+  mediaPluginState.mediaPluginOptions &&
+  // This flag tells us that it's a 'mobile' env.
+  mediaPluginState.mediaPluginOptions.allowMarkingUploadsAsIncomplete &&
   typeof mediaPluginState.mobileUploadComplete[mediaId] === 'boolean'
     ? mediaPluginState.mobileUploadComplete[mediaId]
     : undefined;

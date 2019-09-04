@@ -1,8 +1,17 @@
 // @flow
 import React from 'react';
 import { code, md, Example, Props } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+${(
+  <SectionMessage
+    appearance="warning"
+    title="Note: @atlaskit/field-base is deprecated."
+  >
+    Please use the Form/Textfield/Textarea/etc packages instead.
+  </SectionMessage>
+)}
 
 This component contains all the common behaviour and styles for fields.
 

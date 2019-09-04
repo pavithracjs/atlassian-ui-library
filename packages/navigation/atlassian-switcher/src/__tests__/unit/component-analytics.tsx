@@ -7,12 +7,8 @@ import ManageButton from '../../primitives/manage-button';
 import messages from '../../utils/messages';
 import { IntlProvider } from 'react-intl';
 import createStream, { Stream } from '../../../test-helpers/stream';
-import {
-  AnalyticsListener,
-  UIAnalyticsEventInterface,
-  ObjectType,
-} from '@atlaskit/analytics-next';
-import { WorklensProductType } from '../../types';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { ProductTopItemVariation, WorklensProductType } from '../../types';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -78,6 +74,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
         href: 'https://example.com',
       },
     ],
+    ...(props.overrideSwitcherLinks || {}),
   };
   return (
     <IntlProvider locale="en">
@@ -90,6 +87,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           messages={messages}
           hasLoaded
           hasLoadedCritical
+          productTopItemVariation={ProductTopItemVariation.mostFrequentSite}
           {...switcherLinks}
           {...props}
         />
@@ -98,7 +96,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
   );
 };
 
-const flattenContext = (context: ObjectType[]) =>
+const flattenContext = (context: Record<string, any>[]) =>
   context.reduce(
     (flattenedContext, contextLayer) =>
       contextLayer.navigationCtx && contextLayer.navigationCtx.attributes
@@ -112,7 +110,7 @@ const flattenContext = (context: ObjectType[]) =>
 
 describe('Atlassian Switcher - Component Analytics', () => {
   let wrapper: ReactWrapper;
-  let eventStream: Stream<UIAnalyticsEventInterface>;
+  let eventStream: Stream<UIAnalyticsEvent>;
   beforeEach(() => {
     eventStream = createStream();
     wrapper = mount(<DefaultAtlassianSwitcher onEventFired={eventStream} />);
@@ -129,6 +127,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
+        productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
+        numberOfSites: 2,
       },
     });
 
@@ -141,6 +141,45 @@ describe('Atlassian Switcher - Component Analytics', () => {
     });
     expect(payload.attributes).toHaveProperty('duration');
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should fire "atlassianSwitcher viewed" with correct numberOfSites for site-centric', async () => {
+    // site-centric response doesn't have any childItems
+    const overrideSwitcherLinks = {
+      licensedProductLinks: [
+        {
+          key: 'jira',
+          label: 'Jira',
+          Icon: () => <span />,
+          href: '/secure/MyJiraHome.jspa',
+          productType: WorklensProductType.JIRA_BUSINESS,
+        },
+      ],
+    };
+    eventStream = createStream();
+    wrapper = mount(
+      <DefaultAtlassianSwitcher
+        onEventFired={eventStream}
+        productTopItemVariation={ProductTopItemVariation.currentSite}
+        overrideSwitcherLinks={overrideSwitcherLinks}
+      />,
+    );
+
+    // UI event when the Switcher is viewed at all (before content load)
+    const { payload: viewedPayload } = await eventStream.next();
+    expect(viewedPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'viewed',
+      actionSubject: 'atlassianSwitcher',
+      attributes: {
+        suggestedProducts: ['confluence.ondemand'],
+        licensedProducts: ['jira'],
+        adminLinks: ['discoverMore'],
+        fixedLinks: ['people'],
+        productTopItemVariation: ProductTopItemVariation.currentSite,
+        numberOfSites: 1,
+      },
+    });
   });
 
   describe('should fire "atlassianSwitcherItem clicked"', () => {
@@ -263,11 +302,13 @@ describe('Atlassian Switcher - Component Analytics', () => {
     // skip viewed/rendered events
     eventStream.skip(2);
 
-    const expandToggle = wrapper.find(
-      '[data-test-id="switcher-expand-toggle"]',
-    );
+    const expandToggle = wrapper
+      .find(Item)
+      .find('[data-test-id="switcher-expand-toggle"]');
+
     expandToggle.at(0).simulate('click');
     const { payload, context } = await eventStream.next();
+
     expect(payload).toMatchObject({
       eventType: 'ui',
       action: 'clicked',
@@ -278,7 +319,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
       ...analyticsData,
     });
 
-    const childItem = wrapper.find('[data-test-id="switcher-child-item"]');
+    const childItem = wrapper
+      .find(Item)
+      .find('[data-test-id="switcher-child-item"]');
     childItem.at(0).simulate('click');
 
     const {

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, type Node, type ComponentType } from 'react';
-import { colors } from '@atlaskit/theme';
+import { B400, N40 } from '@atlaskit/theme/colors';
 import PropTypes from 'prop-types';
 import getDisplayName from '../../util/getDisplayName';
 import safeContextCall from '../../util/safeContextCall';
@@ -48,7 +48,7 @@ const withToggleInteraction = (
       this.callContextFn('setItemSelected', id, isSelected, defaultSelected);
     }
 
-    componentWillReceiveProps(nextProps: Object) {
+    UNSAFE_componentWillReceiveProps(nextProps: Object) {
       const { id, defaultSelected, isSelected } = nextProps;
       if (this.props.isSelected !== isSelected) {
         this.callContextFn('setItemSelected', id, isSelected, defaultSelected);
@@ -57,13 +57,13 @@ const withToggleInteraction = (
 
     getIconColors = (isSelected: boolean = false) => {
       if (isSelected) {
-        return { primary: colors.B400, secondary: colors.N40 };
+        return { primary: B400, secondary: N40 };
       }
-      return { primary: colors.N40, secondary: colors.N40 };
+      return { primary: N40, secondary: N40 };
     };
 
     warnIfUseControlledAndUncontrolledState = () => {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
         if (this.props.defaultSelected && this.props.isSelected) {
           // eslint-disable-next-line no-console
           console.warn(

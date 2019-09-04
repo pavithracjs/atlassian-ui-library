@@ -1,0 +1,13 @@
+{
+  "name": "@atlaskit/build-validator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Validates built dists against versions downloaded from npm",
+  "scripts": {
+    "validate-packages": "node scripts/validate-packages.js"
+  },
+  "dependencies": {
+    "npm-packlist": "^1.4.4",
+    "p-limit": "^2.2.1"
+  }
+}

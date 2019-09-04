@@ -2,24 +2,26 @@ import { ABTest, DEFAULT_AB_TEST } from '../api/CrossProductSearchClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
-const SEARCH_EXTENSIONS_EXPERIMENT = 'search-extensions-simple';
+const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT = 'search-extensions-complex';
+const SPACEBALLS_EXPERIMENT = 'spaceballs';
 
-const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
-  return (
-    abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT ||
-    isInSearchExtensionsComplexExperiment(abTest)
-  );
+const isInFasterSearchExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === FASTER_SEARCH_EXPERIMENT;
 };
 
 const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
   return abTest.experimentId === SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT;
 };
 
+const isInSpaceballsExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === SPACEBALLS_EXPERIMENT;
+};
+
 export interface CommonFeatures {
   abTest: ABTest;
-  searchExtensionsEnabled: boolean;
   complexSearchExtensionsEnabled: boolean;
+  spaceballsExperimentEnabled: boolean;
 }
 
 export interface ConfluenceFeatures extends CommonFeatures {
@@ -30,7 +32,7 @@ export interface ConfluenceFeatures extends CommonFeatures {
 
 export interface JiraFeatures extends CommonFeatures {
   disableJiraPreQueryPeopleSearch: boolean;
-  enablePreQueryFromAggregator: boolean;
+  isInFasterSearchExperiment: boolean;
 }
 
 export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
@@ -39,8 +41,8 @@ export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
   isNavAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
   disableJiraPreQueryPeopleSearch: false,
-  enablePreQueryFromAggregator: false,
-  searchExtensionsEnabled: false,
+  isInFasterSearchExperiment: false,
+  spaceballsExperimentEnabled: false,
   abTest: DEFAULT_AB_TEST,
 };
 
@@ -69,12 +71,13 @@ export const createFeatures: (
       useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
-      searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
+      isInFasterSearchExperiment: isInFasterSearchExperiment(abTest),
       isAutocompleteEnabled,
       isNavAutocompleteEnabled,
       complexSearchExtensionsEnabled: isInSearchExtensionsComplexExperiment(
         abTest,
       ),
+      spaceballsExperimentEnabled: isInSpaceballsExperiment(abTest),
     };
   },
   deepEqual,

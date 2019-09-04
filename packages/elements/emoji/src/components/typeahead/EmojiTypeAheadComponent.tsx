@@ -26,7 +26,7 @@ import EmojiList from './EmojiTypeAheadList';
 import * as styles from './styles';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
 export interface OnLifecycle {
@@ -40,7 +40,7 @@ export interface EmojiTypeAheadBaseProps {
 
   onOpen?: OnLifecycle;
   onClose?: OnLifecycle;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export interface Props extends EmojiTypeAheadBaseProps {
@@ -152,7 +152,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     this.selected = false;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const prevEmojiProvider = this.props.emojiProvider;
     const nextEmojiProvider = nextProps.emojiProvider;
     if (prevEmojiProvider !== nextEmojiProvider) {

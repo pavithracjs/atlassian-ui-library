@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switcher should be able to disable headers with "disableHeadings" 1`] = `
+<NavigationAnalyticsContext
+  data={
+    Object {
+      "attributes": Object {
+        "itemsCount": 0,
+      },
+    }
+  }
+>
+  <SwitcherWrapper
+    appearance="drawer"
+  >
+    <WithAnalyticsEvents(class_2)
+      data={
+        Object {
+          "adminLinks": Array [],
+          "fixedLinks": Array [],
+          "licensedProducts": Array [],
+          "numberOfSites": 0,
+          "productTopItemVariation": undefined,
+          "suggestedProducts": Array [],
+        }
+      }
+      subject="atlassianSwitcher"
+    />
+    <Component
+      sectionId="switchTo"
+      title={null}
+    />
+    <Component
+      sectionId="recent"
+      title={null}
+    />
+    <Component
+      sectionId="customLinks"
+      title={null}
+    />
+  </SwitcherWrapper>
+</NavigationAnalyticsContext>
+`;
+
+exports[`Switcher should render sections with headers by default 1`] = `
+<NavigationAnalyticsContext
+  data={
+    Object {
+      "attributes": Object {
+        "itemsCount": 0,
+      },
+    }
+  }
+>
+  <SwitcherWrapper
+    appearance="drawer"
+  >
+    <WithAnalyticsEvents(class_2)
+      data={
+        Object {
+          "adminLinks": Array [],
+          "fixedLinks": Array [],
+          "licensedProducts": Array [],
+          "numberOfSites": 0,
+          "productTopItemVariation": undefined,
+          "suggestedProducts": Array [],
+        }
+      }
+      subject="atlassianSwitcher"
+    />
+    <Component
+      sectionId="switchTo"
+      title={
+        <Unknown
+          defaultMessage="Switch to"
+          description="In a context in which users are able to switch between products, this text is the title of the category displaying the products the user is able to switch to."
+          id="fabric.atlassianSwitcher.switchTo"
+        />
+      }
+    />
+    <Component
+      sectionId="recent"
+      title={
+        <Unknown
+          defaultMessage="Recent"
+          description="In a context in which users are able to view recent projects or spaces they've viewed, this text is the title of the section displaying all the recent projects or spaces."
+          id="fabric.atlassianSwitcher.recent"
+        />
+      }
+    />
+    <Component
+      sectionId="customLinks"
+      title={
+        <Unknown
+          defaultMessage="More"
+          description="In a context in which users are able to view predefined custom links, this text is the title of the section displaying all existing custom links."
+          id="fabric.atlassianSwitcher.more"
+        />
+      }
+    />
+  </SwitcherWrapper>
+</NavigationAnalyticsContext>
+`;

@@ -25,7 +25,6 @@ import {
 } from '../pm-plugins/main';
 
 import { ProsemirrorGetPosHandler, ReactNodeProps } from '../../../nodeviews';
-import { EditorAppearance } from '../../../types';
 
 // This is being used by DropPlaceholder now
 export const MEDIA_HEIGHT = 125;
@@ -44,7 +43,7 @@ export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
   onExternalImageLoaded?: (
     dimensions: { width: number; height: number },
   ) => void;
-  editorAppearance: EditorAppearance;
+  allowLazyLoading?: boolean;
   mediaProvider?: Promise<MediaProvider>;
   viewMediaClientConfig?: MediaClientConfig;
   uploadComplete?: boolean;
@@ -97,13 +96,12 @@ class MediaNode extends Component<MediaNodeProps> {
       selected,
       cardDimensions,
       onClick,
-      editorAppearance,
+      allowLazyLoading,
       viewMediaClientConfig,
       uploadComplete,
     } = this.props;
 
     const { id, type, collection, url } = node.attrs;
-    const isMobile = editorAppearance === 'mobile';
 
     if (
       type !== 'external' &&
@@ -139,8 +137,8 @@ class MediaNode extends Component<MediaNodeProps> {
         selected={selected}
         disableOverlay={true}
         onClick={onClick}
-        useInlinePlayer={!isMobile}
-        isLazy={!isMobile}
+        useInlinePlayer={allowLazyLoading}
+        isLazy={allowLazyLoading}
       />
     );
   }

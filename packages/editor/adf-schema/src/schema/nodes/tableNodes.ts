@@ -247,16 +247,6 @@ const cellAttrs = {
   background: { default: null },
 };
 
-const createCellDOM = (cellHtmlTagType: 'th' | 'td', node: PmNode) => {
-  const cellContentDOMStructure = [
-    'div',
-    { class: tableCellContentWrapperSelector },
-    ['div', { class: tableCellContentDomSelector }, 0],
-  ];
-
-  return [cellHtmlTagType, setCellAttrs(node), cellContentDOMStructure];
-};
-
 export const tableCell = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock |  mediaGroup | mediaSingle | applicationCard | decisionList | taskList | blockCard | extension | unsupportedBlock)+',
@@ -275,7 +265,7 @@ export const tableCell = {
       getAttrs: (dom: HTMLElement) => getCellAttrs(dom),
     },
   ],
-  toDOM: (node: PmNode) => createCellDOM('td', node),
+  toDOM: (node: PmNode) => ['td', setCellAttrs(node), 0],
 };
 
 export const toJSONTableCell = (node: PmNode) => ({
@@ -305,7 +295,7 @@ export const tableHeader = {
     },
   ],
 
-  toDOM: (node: PmNode) => createCellDOM('th', node),
+  toDOM: (node: PmNode) => ['th', setCellAttrs(node), 0],
 };
 
 export const toJSONTableHeader = toJSONTableCell;

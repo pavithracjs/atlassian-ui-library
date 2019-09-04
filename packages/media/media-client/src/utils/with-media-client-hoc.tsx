@@ -58,7 +58,9 @@ export const withMediaClient: WithMediaClientFunction = <
   return class extends React.Component<WithContextOrMediaClientConfigProps<P>> {
     render() {
       const props = this.props;
-      return <Component {...props} mediaClient={getMediaClient(this.props)} />;
+      return (
+        <Component {...props as any} mediaClient={getMediaClient(this.props)} />
+      );
     }
   };
 };

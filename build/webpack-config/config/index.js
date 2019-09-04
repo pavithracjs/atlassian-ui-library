@@ -39,6 +39,13 @@ module.exports = async function createWebpackConfig(
 ) {
   const isProduction = mode === 'production';
 
+  // GASv3 integration should be enabled only in development mode
+  // So we should check if is not production and we are requiring GASv3
+  // integration in dev mode
+  const isAnalyticsGASv3Enabled =
+    !isProduction &&
+    (process.env.ENABLE_ANALYTICS_GASV3 || '').toLowerCase() === 'true';
+
   return {
     stats: statsOptions,
     mode,
@@ -195,6 +202,17 @@ module.exports = async function createWebpackConfig(
       extensions: ['.js', '.ts', '.tsx'],
       alias: {
         ...(await moduleResolveMapBuilder()),
+        // Mocking the modules in case the of the flag is not enabled (default behavior)
+        // In case it's enabled the user needs to make sure that the package was installed globally
+        // and linked properly on `website` folder
+        ...(isAnalyticsGASv3Enabled
+          ? {}
+          : {
+              '@atlassiansox/analytics-web-client': path.resolve(
+                websiteDir,
+                'src/module-mocks/analytics-web-client.js',
+              ),
+            }),
       },
     },
     resolveLoader: {
@@ -203,7 +221,13 @@ module.exports = async function createWebpackConfig(
         'node_modules',
       ],
     },
-    plugins: getPlugins({ websiteDir, isProduction, websiteEnv, report }),
+    plugins: getPlugins({
+      websiteDir,
+      isProduction,
+      websiteEnv,
+      report,
+      isAnalyticsGASv3Enabled,
+    }),
     optimization: getOptimizations({
       isProduction,
       noMinimizeFlag: noMinimize,
@@ -217,7 +241,8 @@ function getPlugins(
     isProduction,
     websiteEnv,
     report,
-  } /*: { websiteDir: string, websiteEnv: string, report: boolean, isProduction: boolean } */,
+    isAnalyticsGASv3Enabled = false,
+  } /*: { websiteDir: string, websiteEnv: string, report: boolean, isProduction: boolean, isAnalyticsGASv3Enabled: boolean } */,
 ) {
   const faviconPath = path.join(
     websiteDir,
@@ -241,22 +266,25 @@ function getPlugins(
     }),
 
     new webpack.DefinePlugin({
+      ENABLE_ANALYTICS_GASV3: `${String(isAnalyticsGASv3Enabled)}`,
       WEBSITE_ENV: `"${websiteEnv}"`,
       BASE_TITLE: `"Atlaskit by Atlassian ${!isProduction ? '- DEV' : ''}"`,
       DEFAULT_META_DESCRIPTION: `"Atlaskit is the official component library for Atlassian's Design System."`,
     }),
   ];
 
-  plugins.push(
-    new BundleAnalyzerPlugin({
-      analyzerMode: report ? 'static' : 'disabled',
-      generateStatsFile: true,
-      openAnalyzer: report,
-      logLevel: 'error',
-      statsOptions: statsOptions,
-      defaultSizes: 'gzip',
-    }),
-  );
+  if (report) {
+    plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        generateStatsFile: true,
+        openAnalyzer: true,
+        logLevel: 'error',
+        statsOptions: { ...statsOptions, assets: true, modules: true },
+        defaultSizes: 'gzip',
+      }),
+    );
+  }
 
   return plugins;
 }

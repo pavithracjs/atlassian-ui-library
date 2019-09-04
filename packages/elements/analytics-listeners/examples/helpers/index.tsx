@@ -6,7 +6,9 @@ import {
 import {
   createAndFireEvent,
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
+  AnalyticsEventPayload,
+  withAnalyticsContext,
 } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 import * as React from 'react';
@@ -16,7 +18,7 @@ export type OwnProps = {
   onClick: (e: React.SyntheticEvent) => void;
 };
 
-export type Props = WithAnalyticsEventProps & OwnProps;
+export type Props = WithAnalyticsEventsProps & OwnProps;
 
 const CustomButton = ({
   onClick,
@@ -105,7 +107,7 @@ const componentChannels = {
 };
 
 export const createComponentWithAnalytics = (channel: FabricChannel) =>
-  withAnalyticsEvents<OwnProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -116,7 +118,7 @@ export const createComponentWithAnalytics = (channel: FabricChannel) =>
 export const createComponentWithAttributesWithAnalytics = (
   channel: FabricChannel,
 ) =>
-  withAnalyticsEvents<OwnProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -134,7 +136,7 @@ export const createTaggedComponentWithAnalytics = (
   channel: FabricChannel,
   tag: string,
 ) =>
-  withAnalyticsEvents<OwnProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -144,7 +146,7 @@ export const createTaggedComponentWithAnalytics = (
   })(componentChannels[channel]);
 
 export const IncorrectEventType = (channel: FabricChannel) =>
-  withAnalyticsEvents<OwnProps>({
+  withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -155,10 +157,21 @@ export const IncorrectEventType = (channel: FabricChannel) =>
 export const createButtonWithAnalytics = (
   payload: GasPurePayload,
   channel: FabricChannel,
-) =>
-  withAnalyticsEvents<OwnProps>({
+  context: AnalyticsEventPayload[] = [], // Context should incluide all data in the same order that AnalyticsListener would receive it
+): typeof MyButton => {
+  const ButtonWithAnalyticsEvents = withAnalyticsEvents({
     onClick: createAndFireEvent(channel)(payload),
   })(MyButton);
+
+  const reversedContext = [...context].reverse();
+  return reversedContext.reduce(
+    (ButtonWithAnalyticsContext, contextData: AnalyticsEventPayload) =>
+      withAnalyticsContext(contextData)(
+        ButtonWithAnalyticsContext as React.FunctionComponent,
+      ),
+    ButtonWithAnalyticsEvents,
+  ) as typeof MyButton;
+};
 
 export const createAnalyticsWebClientMock = () => ({
   sendUIEvent: (event: GasPurePayload) => {

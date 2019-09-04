@@ -6,6 +6,7 @@
 const axios = require('axios');
 const yaml = require('js-yaml');
 const fs = require('fs');
+const stripAnsi = require('strip-ansi');
 
 // started_on and duration_in_seconds are added to the object only for the logic below they are not sent to the service.
 /*::
@@ -28,7 +29,13 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
-
+/* This function strip logs from the pipeline based on the last command that did not fail. */
+function stripLogs(logs /*: string */, command /*: string */) {
+  if (logs.indexOf(command) >= 0) {
+    // The logs are displayed with colors and style, using stripAnsi() will clean its.
+    return stripAnsi(logs.split(command)[1]);
+  }
+}
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
  */
@@ -260,6 +267,13 @@ async function getStepEvents(buildId /*: string*/) {
           : 'FAILED'
         : stepObject.state.result.name;
       const stepTime = await getStepTime(stepObject, stepObject.length);
+      const stepLogs = await getStepFailedLogs(
+        buildId,
+        stepObject.uuid,
+        buildStatus,
+        stepObject.script_commands[stepObject.script_commands.length - 1]
+          .command,
+      );
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
@@ -269,6 +283,7 @@ async function getStepEvents(buildId /*: string*/) {
             step_duration: stepTime,
             step_status: buildStatus,
             step_name: stepObject.name || stepPayload.build_type, // if there is one step and no step name, we can refer to the build type.
+            step_logs: stepLogs,
           },
         ],
       };
@@ -277,6 +292,26 @@ async function getStepEvents(buildId /*: string*/) {
     console.error(err.toString());
     process.exit(1);
   }
+}
+
+async function getStepFailedLogs(
+  buildId /*: string */,
+  stepUuid /*: string */,
+  status /*: string */,
+  command /*: string */,
+) {
+  let logs = '';
+  if (status === 'FAILED' && buildId && command) {
+    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepUuid}/log`;
+    try {
+      const resp = await axios.get(url);
+      logs = stripLogs(resp.data, command);
+    } catch (err) {
+      // Sometimes some logs are not found,
+      logs = `${err}`;
+    }
+  }
+  return logs;
 }
 
 module.exports = { getPipelinesBuildEvents, getStepEvents };

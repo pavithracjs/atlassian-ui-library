@@ -1,19 +1,20 @@
 import { doc, createEditorFactory } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { IntlProvider } from 'react-intl';
 import { buildToolbar, messages } from '../../../../plugins/layout/toolbar';
 import { EditorView } from 'prosemirror-view';
 import {
   FloatingToolbarConfig,
-  FloatingToolbarButton,
+  FloatingToolbarItem,
 } from '../../../../plugins/floating-toolbar/types';
-import { MessageDescriptor, Command } from '../../../../types';
+import { Command } from '../../../../types';
 import commonMessages from '../../../../messages';
 import { buildLayoutForWidths } from './_utils';
 import { LAYOUT_TYPE } from '../../../../plugins/analytics/types/node-events';
+import { getToolbarItems, findToolbarBtn } from '../floating-toolbar/_helpers';
 
 describe('layout toolbar', () => {
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: CreateUIAnalyticsEvent;
   const createEditor = createEditorFactory();
   const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
@@ -43,15 +44,7 @@ describe('layout toolbar', () => {
   ];
   let editorView: EditorView;
   let toolbar: FloatingToolbarConfig;
-
-  const findToolbarBtn = (
-    toolbar: FloatingToolbarConfig,
-    message: MessageDescriptor,
-  ): FloatingToolbarButton<Command> =>
-    toolbar.items.find(
-      item =>
-        item.type === 'button' && item.title === intl.formatMessage(message),
-    ) as FloatingToolbarButton<Command>;
+  let items: Array<FloatingToolbarItem<Command>>;
 
   beforeEach(() => {
     ({ editorView } = editor(doc(buildLayoutForWidths([50, 50], true))));
@@ -66,19 +59,27 @@ describe('layout toolbar', () => {
         true,
         true,
       ) as FloatingToolbarConfig;
+
+      items = getToolbarItems(toolbar, editorView);
     });
 
     it('displays all 5 layout buttons', () => {
       stdLayoutButtons.forEach(button => {
-        expect(findToolbarBtn(toolbar, button.message)).toBeDefined();
+        expect(
+          findToolbarBtn(items, intl.formatMessage(button.message)),
+        ).toBeDefined();
       });
       sidebarLayoutButtons.forEach(button => {
-        expect(findToolbarBtn(toolbar, button.message)).toBeDefined();
+        expect(
+          findToolbarBtn(items, intl.formatMessage(button.message)),
+        ).toBeDefined();
       });
     });
 
     it('displays delete button', () => {
-      expect(findToolbarBtn(toolbar, commonMessages.remove)).toBeDefined();
+      expect(
+        findToolbarBtn(items, intl.formatMessage(commonMessages.remove)),
+      ).toBeDefined();
     });
   });
 
@@ -91,19 +92,27 @@ describe('layout toolbar', () => {
         true,
         false,
       ) as FloatingToolbarConfig;
+
+      items = getToolbarItems(toolbar, editorView);
     });
 
     it('displays only 2 original layout buttons', () => {
       stdLayoutButtons.forEach(button => {
-        expect(findToolbarBtn(toolbar, button.message)).toBeDefined();
+        expect(
+          findToolbarBtn(items, intl.formatMessage(button.message)),
+        ).toBeDefined();
       });
       sidebarLayoutButtons.forEach(button => {
-        expect(findToolbarBtn(toolbar, button.message)).not.toBeDefined();
+        expect(
+          findToolbarBtn(items, intl.formatMessage(button.message)),
+        ).not.toBeDefined();
       });
     });
 
     it('displays delete button', () => {
-      expect(findToolbarBtn(toolbar, commonMessages.remove)).toBeDefined();
+      expect(
+        findToolbarBtn(items, intl.formatMessage(commonMessages.remove)),
+      ).toBeDefined();
     });
   });
 
@@ -116,6 +125,8 @@ describe('layout toolbar', () => {
         true,
         true,
       ) as FloatingToolbarConfig;
+
+      items = getToolbarItems(toolbar, editorView);
     });
 
     [...stdLayoutButtons, ...sidebarLayoutButtons].forEach(button => {
@@ -129,13 +140,13 @@ describe('layout toolbar', () => {
           // select another layout first
           if (button.name === previousLayout) {
             previousLayout = LAYOUT_TYPE.THREE_COLS_EQUAL;
-            findToolbarBtn(toolbar, messages.threeColumns).onClick(
-              editorView.state,
-              editorView.dispatch,
-            );
+            findToolbarBtn(
+              items,
+              intl.formatMessage(messages.threeColumns),
+            ).onClick(editorView.state, editorView.dispatch);
           }
 
-          findToolbarBtn(toolbar, button.message).onClick(
+          findToolbarBtn(items, intl.formatMessage(button.message)).onClick(
             editorView.state,
             editorView.dispatch,
           );
@@ -154,10 +165,10 @@ describe('layout toolbar', () => {
         });
 
         it('fires analytics event when click delete button', () => {
-          findToolbarBtn(toolbar, commonMessages.remove).onClick(
-            editorView.state,
-            editorView.dispatch,
-          );
+          findToolbarBtn(
+            items,
+            intl.formatMessage(commonMessages.remove),
+          ).onClick(editorView.state, editorView.dispatch);
           expect(createAnalyticsEvent).toHaveBeenCalledWith({
             action: 'deleted',
             actionSubject: 'layout',

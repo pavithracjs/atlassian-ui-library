@@ -122,12 +122,12 @@ class InlineDialog extends Component<Props, {}> {
 export { InlineDialog as InlineDialogWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext({
   componentName: 'inlineDialog',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents({
     onClose: createAndFireEventOnAtlaskit({
       action: 'closed',
       actionSubject: 'inlineDialog',

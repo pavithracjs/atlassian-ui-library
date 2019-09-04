@@ -1,5 +1,96 @@
 # @atlaskit/media-client
 
+## 2.1.2
+
+- Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+  - @atlaskit/media-core@30.0.14
+  - @atlaskit/media-test-helpers@25.1.1
+  - @atlaskit/media-card@65.0.0
+
+## 2.1.1
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
+## 2.1.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
+## 2.0.5
+
+### Patch Changes
+
+- [patch][097b696613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/097b696613):
+
+  Components now depend on TS 3.6 internally, in order to fix an issue with TS resolving non-relative imports as relative imports
+
+## 2.0.4
+
+### Patch Changes
+
+- [patch][0d7d459f1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7d459f1a):
+
+  Fixes type errors which were incompatible with TS 3.6
+
+## 2.0.3
+
+### Patch Changes
+
+- [patch][ecca4d1dbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ecca4d1dbb):
+
+  Upgraded Typescript to 3.3.x
+
+## 2.0.2
+
+- Updated dependencies [3624730f44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3624730f44):
+  - @atlaskit/media-core@30.0.11
+  - @atlaskit/media-test-helpers@25.0.2
+  - @atlaskit/media-card@64.0.0
+
+## 2.0.1
+
+- Updated dependencies [69586b5353](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69586b5353):
+  - @atlaskit/media-card@63.3.11
+  - @atlaskit/media-core@30.0.10
+  - @atlaskit/media-test-helpers@25.0.0
+
+## 2.0.0
+
+### Major Changes
+
+- [major][ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+
+  Remove getCurrentState method from FileStreamCache
+
+  Before you could do:
+
+  ```
+  import {getFileStreamsCache} from '@atlaskit/media-client'
+
+  const currentFileState = await getFileStreamsCache().getCurrentState('some-uuid');
+  ```
+
+  That will return the last state from that fileState in a promise rather than having to
+  use Observables to subscribe and get the last event.
+
+  Now you could just use the already existing method getCurrentState from mediaClient:
+
+  ```
+  import {getMediaClient} from '@atlaskit/media-client';
+
+  const mediaClient = getMediaClient({
+    mediaClientConfig: {} // Some MediaClientConfig
+  });
+  const state = await mediaClient.file.getCurrentState('some-uuid');
+  ```
+
 ## 1.5.3
 
 ### Patch Changes

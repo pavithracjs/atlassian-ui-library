@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { B100 } from '@atlaskit/theme/colors';
 import {
   arrowsStyle,
   cellStyle,
@@ -38,4 +39,7 @@ export const HeadCell = styled.th<HeadCellProps>`
   position: relative;
   text-align: left;
   vertical-align: top;
+  &:focus {
+    outline: solid 2px ${B100};
+  }
 `;

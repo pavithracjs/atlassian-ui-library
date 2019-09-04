@@ -734,12 +734,17 @@ describe('CrossProductSearchClient', () => {
       expect(result1).not.toEqual(result2);
     });
   });
+
   describe('NavCompletion', () => {
     let requestSpy: jest.SpyInstance;
 
     beforeEach(() => {
       requestSpy = jest.spyOn(utils, 'requestService');
-      requestSpy.mockReturnValue(Promise.resolve(undefined));
+      requestSpy.mockReturnValue(
+        Promise.resolve({
+          scopes: [],
+        }),
+      );
     });
 
     afterEach(() => {

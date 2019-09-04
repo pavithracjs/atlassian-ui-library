@@ -1,4 +1,4 @@
-import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import tableInExtAdf from './__fixtures__/nested-table-inside-bodied-ext.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
@@ -14,13 +14,12 @@ describe('Snapshot Test: Nested table inside bodied extension', () => {
   ];
 
   const initEditor = async () => {
-    await initFullPageEditorWithAdf(
-      page,
-      tableInExtAdf,
-      Device.LaptopHiDPI,
-      undefined,
-      { allowDynamicTextSizing: true },
-    );
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf: tableInExtAdf,
+      viewport: { width: 1280, height: 500 },
+      editorProps: { allowDynamicTextSizing: true },
+    });
   };
 
   beforeAll(async () => {

@@ -19,7 +19,6 @@ import resizedTableInExt from '../table/__fixtures__/nested-table-inside-bodied-
 import resizedTableFWM from './__fixtures__/resized-table-fwm.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
-import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 type ToggleFullWidthOptions = {
   // Focus is lost after toggling full width mode so if your test
@@ -116,7 +115,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
 
     it('handles breakout mode + gap cursor', async () => {
       const panelContentSelector = '.ak-editor-panel__content';
-      await initEditor(layoutWithBreakoutAdf);
+      await initEditor(layoutWithBreakoutAdf, { width: 1440, height: 500 });
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
       await toggleFullWidthProp({
@@ -133,7 +132,6 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   describe('Media', () => {
     it('resizes image correctly', async () => {
       await initEditor(mediaAdf);
-      await waitForLoadedImageElements(page);
       await toggleFullWidthMode();
     });
   });

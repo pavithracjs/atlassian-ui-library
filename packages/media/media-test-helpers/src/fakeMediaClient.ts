@@ -36,11 +36,14 @@ export const fakeMediaClient = (
     mediaClient.collection = collectionFetcher;
     mediaClient.config = config;
     mediaClient.mediaStore = mockMediaStore;
-
+    mediaClient.mediaStore.getItems = jest
+      .fn()
+      .mockResolvedValue({ data: { items: [] } });
     asMock(mediaClient.getImageUrl).mockResolvedValue('some-image-url');
     asMock(mediaClient.getImage).mockImplementation(mockMediaStore.getImage);
     asMock(mediaClient.collection.getItems).mockReturnValue(of([]));
     asMock(mediaClient.file.copyFile).mockReturnValue({ id: 'copied-file-id' });
+    asMock(mediaClient.file.getCurrentState).mockReturnValue({ id: 'file-id' });
     return mediaClient;
   } else {
     return new MediaClient(config);

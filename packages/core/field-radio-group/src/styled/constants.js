@@ -1,5 +1,5 @@
 // @flow
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 // Border
 export const borderWidth = 1; // 1

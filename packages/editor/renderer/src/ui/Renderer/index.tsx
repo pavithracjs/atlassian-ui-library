@@ -17,7 +17,7 @@ import {
   startMeasure,
   stopMeasure,
 } from '@atlaskit/editor-common';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { FabricChannel } from '@atlaskit/analytics-listeners';
 import { FabricEditorAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { ReactSerializer, renderDocument, RendererContext } from '../../';
@@ -49,7 +49,7 @@ export interface Props {
   allowDynamicTextSizing?: boolean;
   maxHeight?: number;
   truncated?: boolean;
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEvent;
 }
 
 export class Renderer extends PureComponent<Props, {}> {
@@ -95,7 +95,7 @@ export class Renderer extends PureComponent<Props, {}> {
     });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.portal !== this.props.portal ||
       nextProps.appearance !== this.props.appearance

@@ -1,3 +1,6 @@
+# Follows https://git-scm.com/docs/gitignore#_pattern_format
+# In particular, if the pattern has a slash that isn't trailing, it becomes relative to the current file
+# So use ** in those cases
 node_modules
 coverage
 dist

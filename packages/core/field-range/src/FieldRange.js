@@ -22,6 +22,13 @@ type State = {
   valuePercent: string,
 };
 
+if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/field-range has been deprecated. Please use the @atlaskit/range package instead.',
+  );
+}
+
 export default class Slider extends Component<Props, State> {
   props: Props;
 
@@ -49,7 +56,7 @@ export default class Slider extends Component<Props, State> {
 
   state: State;
 
-  componentWillReceiveProps({ value: nextValue, min, max }: Props) {
+  UNSAFE_componentWillReceiveProps({ value: nextValue, min, max }: Props) {
     const { value: currentValue } = this.props;
 
     if (currentValue !== nextValue) {

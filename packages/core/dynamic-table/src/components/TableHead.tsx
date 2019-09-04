@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import { Head } from '../styled/TableHead';
 import { validateSortKey } from '../internal/helpers';
 import { HeadType, SortOrderType, RowCellType } from '../types';
@@ -16,11 +16,11 @@ interface Props {
 }
 
 class TableHead extends React.Component<Props, {}> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     validateSortKey(this.props.sortKey, this.props.head);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.sortKey !== nextProps.sortKey ||
       this.props.head !== nextProps.head
@@ -28,6 +28,9 @@ class TableHead extends React.Component<Props, {}> {
       validateSortKey(nextProps.sortKey, nextProps.head);
     }
   }
+
+  canSortOnEnterPressed = (e: KeyboardEvent, isSortable: Boolean | void) =>
+    isSortable && e.key === 'Enter';
 
   render() {
     const {
@@ -61,6 +64,11 @@ class TableHead extends React.Component<Props, {}> {
                 isRanking={isRanking}
                 key={key || index}
                 onClick={isSortable ? onSort(cell) : undefined}
+                onKeyDown={(e: KeyboardEvent) =>
+                  this.canSortOnEnterPressed(e, isSortable)
+                    ? onSort(cell)()
+                    : undefined
+                }
                 sortOrder={key === sortKey ? sortOrder : undefined}
                 {...restCellProps}
               />

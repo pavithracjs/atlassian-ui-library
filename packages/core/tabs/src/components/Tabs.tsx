@@ -52,7 +52,7 @@ class Tabs extends Component<TabsProps, TabsState> {
     };
   }
 
-  componentWillReceiveProps(newProps: TabsProps) {
+  UNSAFE_componentWillReceiveProps(newProps: TabsProps) {
     if (
       typeof newProps.selected !== 'undefined' &&
       newProps.selected !== this.state.selected
@@ -126,12 +126,12 @@ class Tabs extends Component<TabsProps, TabsState> {
 export { Tabs as TabsWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<TabsProps>({
+export default withAnalyticsContext({
   componentName: 'tabs',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<TabsProps>({
+  withAnalyticsEvents({
     onSelect: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'tab',

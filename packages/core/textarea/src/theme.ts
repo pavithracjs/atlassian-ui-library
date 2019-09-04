@@ -1,4 +1,4 @@
-import { createTheme } from '@atlaskit/theme';
+import { createTheme } from '@atlaskit/theme/components';
 import * as componentTokens from './component-tokens';
 
 const disabledRules = {

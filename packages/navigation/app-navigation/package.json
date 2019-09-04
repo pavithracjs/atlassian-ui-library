@@ -1,0 +1,52 @@
+{
+  "name": "@atlaskit/app-navigation",
+  "version": "0.2.0",
+  "license": "Apache-2.0",
+  "atlaskit:src": "src/index.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "sideEffects": false,
+  "author": "Atlassian Pty Ltd",
+  "description": "The new app navigation",
+  "maintainers": [],
+  "atlaskit": {
+    "internal": true,
+    "name": "App navigation",
+    "team": "navigation"
+  },
+  "dependencies": {
+    "@atlaskit/analytics-namespaced-context": "^4.1.0",
+    "@atlaskit/avatar": "^16.0.12",
+    "@atlaskit/badge": "^13.0.0",
+    "@atlaskit/button": "^13.0.2",
+    "@atlaskit/docs": "^8.1.5",
+    "@atlaskit/drawer": "^5.0.6",
+    "@atlaskit/dropdown-menu": "^8.0.1",
+    "@atlaskit/icon": "^19.0.4",
+    "@atlaskit/notification-indicator": "^7.0.8",
+    "@atlaskit/notification-log-client": "^4.0.4",
+    "@atlaskit/spinner": "^12.0.9",
+    "@atlaskit/theme": "^9.0.1",
+    "@atlaskit/tooltip": "^15.0.12",
+    "@atlaskit/width-detector": "^2.0.0",
+    "@emotion/core": "^10.0.9",
+    "@emotion/css": "^10.0.14",
+    "@emotion/styled": "^10.0.7",
+    "chromatism": "^2.6.0",
+    "emotion-theming": "^10.0.7",
+    "url-parse": "^1.4.3"
+  },
+  "devDependencies": {
+    "@atlaskit/atlassian-switcher": "^3.22.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/logo": "^12.0.0",
+    "fetch-mock": "^7.3.3",
+    "jest-emotion": "^10.0.10",
+    "react": "^16.8.0",
+    "react-intl": "^2.6.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  }
+}

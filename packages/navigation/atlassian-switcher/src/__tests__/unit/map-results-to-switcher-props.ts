@@ -10,20 +10,24 @@ import {
   AvailableSite,
   WorklensProductType,
   AvailableProduct,
+  ProductTopItemVariation,
+  LicenseInformationResponse,
 } from '../../types';
 
 describe('map-results-to-switcher-props', () => {
   describe('hasLoaded flags', () => {
-    it('hasLoadedCritical is set when license information has been loaded', () => {
+    it('account-centric hasLoadedCritical is set when license information has been loaded', () => {
       const props = mapResultsToSwitcherProps(
-        cloudId,
+        null,
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
           disableCustomLinks: false,
           disableRecentContainers: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: true,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -32,9 +36,9 @@ describe('map-results-to-switcher-props', () => {
       expect(props.hasLoaded).toEqual(false);
     });
 
-    it('hasLoaded is set when license information + permissions + product recommendations have been loaded', () => {
+    it('account-centric hasLoaded is set when license information + permissions + product recommendations have been loaded', () => {
       const props = mapResultsToSwitcherProps(
-        cloudId,
+        null,
         {
           ...loadingProvidersResult,
           isXFlowEnabled: asCompletedProvider(true),
@@ -48,6 +52,64 @@ describe('map-results-to-switcher-props', () => {
           disableRecentContainers: false,
           isDiscoverMoreForEveryoneEnabled: false,
           xflow: true,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
+          disableHeadings: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(true);
+    });
+
+    it('site-centric hasLoadedCritical is set when license information has been loaded', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        {
+          ...loadingProvidersResult,
+          licenseInformation: asCompletedProvider<LicenseInformationResponse>({
+            hostname: 'hostname',
+            products: {},
+          }),
+        },
+        {
+          enableUserCentricProducts: false,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
+          xflow: true,
+          disableHeadings: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(false);
+    });
+
+    it('site-centric hasLoaded is set when license information + permissions + product recommendations have been loaded', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        {
+          ...loadingProvidersResult,
+          licenseInformation: asCompletedProvider<LicenseInformationResponse>({
+            hostname: 'hostname',
+            products: {},
+          }),
+          isXFlowEnabled: asCompletedProvider(true),
+          managePermission: asCompletedProvider(true),
+          addProductsPermission: asCompletedProvider(true),
+          productRecommendations: asCompletedProvider([]),
+        },
+        {
+          enableUserCentricProducts: false,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          xflow: true,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -71,7 +133,9 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: true,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -93,7 +157,9 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
       );
@@ -112,8 +178,10 @@ describe('map-results-to-switcher-props', () => {
           enableUserCentricProducts: true,
           disableCustomLinks: false,
           disableRecentContainers: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -181,6 +249,114 @@ describe('map-results-to-switcher-props', () => {
       ]);
     });
 
+    it('shows the most frequently used site at the top of the product if the variation is enabled', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        loadingProvidersResult,
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
+          xflow: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({
+          sites: [
+            generateSite('site60', [WorklensProductType.JIRA_SOFTWARE, 60]),
+            generateSite('site30', [WorklensProductType.JIRA_SOFTWARE, 30]),
+            generateSite('site10', [WorklensProductType.JIRA_SOFTWARE, 10]),
+            generateSite(cloudId, [WorklensProductType.JIRA_SOFTWARE, 0]),
+          ],
+        }),
+      );
+
+      expect(props.licensedProductLinks).toMatchObject([
+        {
+          description: 'site60',
+          label: 'Jira Software',
+          href: `https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
+          childItems: [
+            {
+              label: 'site10',
+              href:
+                'https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+
+            {
+              label: 'site30',
+              href:
+                'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: 'site60',
+              href:
+                'https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: cloudId,
+              href: `https://${cloudId}.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('shows the current site at the top of the product by default', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        loadingProvidersResult,
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
+          xflow: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({
+          sites: [
+            generateSite('site60', [WorklensProductType.JIRA_SOFTWARE, 60]),
+            generateSite('site30', [WorklensProductType.JIRA_SOFTWARE, 30]),
+            generateSite('site10', [WorklensProductType.JIRA_SOFTWARE, 10]),
+            generateSite(cloudId, [WorklensProductType.JIRA_SOFTWARE, 0]),
+          ],
+        }),
+      );
+
+      expect(props.licensedProductLinks).toMatchObject([
+        {
+          description: cloudId,
+          label: 'Jira Software',
+          href: `https://${cloudId}.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
+          childItems: [
+            {
+              label: 'site10',
+              href:
+                'https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+
+            {
+              label: 'site30',
+              href:
+                'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: 'site60',
+              href:
+                'https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: cloudId,
+              href: `https://${cloudId}.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
+            },
+          ],
+        },
+      ]);
+    });
+
     it('shows descriptions for products that belong to multiple sites', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
@@ -189,8 +365,10 @@ describe('map-results-to-switcher-props', () => {
           enableUserCentricProducts: true,
           disableCustomLinks: false,
           disableRecentContainers: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -212,7 +390,7 @@ describe('map-results-to-switcher-props', () => {
       ]);
     });
 
-    it('does not show descriptions for products that belong to the one site', () => {
+    it('does not show descriptions for products that belong to a single site', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
         loadingProvidersResult,
@@ -221,7 +399,9 @@ describe('map-results-to-switcher-props', () => {
           isDiscoverMoreForEveryoneEnabled: false,
           disableCustomLinks: false,
           disableRecentContainers: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           xflow: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -250,7 +430,9 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
+          productTopItemVariation: ProductTopItemVariation.currentSite,
           isDiscoverMoreForEveryoneEnabled: false,
+          disableHeadings: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -303,6 +485,7 @@ function generateSite(
   return {
     adminAccess: false,
     availableProducts,
+    avatar: null,
     cloudId: siteName,
     displayName: siteName,
     url: `https://${siteName}.atlassian.net`,

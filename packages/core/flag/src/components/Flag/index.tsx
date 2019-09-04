@@ -39,7 +39,7 @@ class Flag extends Component<FlagProps, State> {
 
   state = { isExpanded: false };
 
-  componentWillReceiveProps(nextProps: FlagProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: FlagProps) {
     const { actions, description } = nextProps;
     if (
       this.isBold() &&
@@ -161,12 +161,12 @@ class Flag extends Component<FlagProps, State> {
 export { Flag as FlagWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<FlagProps>({
+export default withAnalyticsContext({
   componentName: 'flag',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<FlagProps>({
+  withAnalyticsEvents({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'flag',

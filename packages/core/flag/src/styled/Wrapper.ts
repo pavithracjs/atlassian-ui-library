@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export const flagWidth = gridSize() * 50;
 export const flagAnimationTime = 400;
@@ -48,6 +48,10 @@ const Wrapper = styled.div`
   position: absolute;
   transition: transform ${flagAnimationDuration} ease-in-out;
   width: ${flagWidth}px;
+
+  @media (max-width: 560px) {
+    width: 100vw;
+  }
 
   &:first-child {
     animation: ${getAnimation};
