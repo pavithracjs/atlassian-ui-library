@@ -2,7 +2,6 @@
  * Tells TypeScript to ignore flow components by declaring them as empty modules
  */
 declare module '@atlaskit/analytics';
-declare module '@atlaskit/avatar-group';
 declare module '@atlaskit/calendar';
 declare module '@atlaskit/codemod-util-shared-styles-to-theme';
 declare module '@atlaskit/comment';
