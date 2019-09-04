@@ -1,1 +1,0 @@
-required user id so that the recents api is not called for anonymous users

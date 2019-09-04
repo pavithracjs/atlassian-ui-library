@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 12.0.0
+
+### Major Changes
+
+- [major][d20d909c2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d20d909c2e):
+
+  required user id so that the recents api is not called for anonymous users
+
 ## 11.4.4
 
 - Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
