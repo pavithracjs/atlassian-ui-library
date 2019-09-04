@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.6.2
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/avatar-group@4.0.13
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
 ## 11.6.1
 
 ### Patch Changes

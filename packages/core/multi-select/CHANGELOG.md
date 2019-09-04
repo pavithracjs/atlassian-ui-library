@@ -1,5 +1,13 @@
 # @atlaskit/multi-select
 
+## 13.1.1
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/tag@9.0.7
+  - @atlaskit/tag-group@9.0.4
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
 ## 13.1.0
 
 ### Minor Changes

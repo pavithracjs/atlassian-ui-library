@@ -1,5 +1,13 @@
 # @atlaskit/app-navigation
 
+## 0.2.1
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/drawer@5.0.10
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
 ## 0.2.0
 
 ### Minor Changes

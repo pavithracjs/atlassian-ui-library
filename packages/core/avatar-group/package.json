@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/avatar-group",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "A component to display avatars as a group, either as a stack or in a grid.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -21,10 +21,10 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/avatar": "^16.0.14",
-    "@atlaskit/dropdown-menu": "^8.0.17",
-    "@atlaskit/item": "^10.1.4",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/avatar": "^17.0.0",
+    "@atlaskit/dropdown-menu": "^8.1.1",
+    "@atlaskit/item": "^10.1.5",
+    "@atlaskit/theme": "^9.2.2",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {

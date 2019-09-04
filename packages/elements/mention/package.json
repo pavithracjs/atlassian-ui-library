@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/mention",
-  "version": "18.15.0",
+  "version": "18.15.1",
   "config": {
     "access": "public"
   },
@@ -13,11 +13,11 @@
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.10",
     "@atlaskit/analytics-next": "^6.1.0",
-    "@atlaskit/avatar": "^16.1.0",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/icon": "^19.0.6",
     "@atlaskit/lozenge": "^9.0.7",
-    "@atlaskit/theme": "^9.2.0",
+    "@atlaskit/theme": "^9.2.2",
     "@atlaskit/tooltip": "^15.0.14",
     "@atlaskit/util-service-support": "^4.0.7",
     "@babel/runtime": "^7.0.0",

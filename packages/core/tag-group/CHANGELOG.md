@@ -1,5 +1,11 @@
 # @atlaskit/tag-group
 
+## 9.0.4
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/tag@9.0.7
+  - @atlaskit/avatar@17.0.0
+
 ## 9.0.3
 
 ### Patch Changes

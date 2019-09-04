@@ -1,5 +1,12 @@
 # @atlaskit/comment
 
+## 8.0.13
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/editor-core@112.44.5
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
 ## 8.0.12
 
 ### Patch Changes

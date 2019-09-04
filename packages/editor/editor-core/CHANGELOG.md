@@ -1,5 +1,19 @@
 # @atlaskit/editor-core
 
+## 112.44.5
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/avatar-group@4.0.13
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/item@10.1.5
+  - @atlaskit/modal-dialog@10.2.1
+  - @atlaskit/renderer@50.0.2
+  - @atlaskit/mention@18.15.1
+  - @atlaskit/task-decision@15.3.2
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+  - @atlaskit/user-picker@4.0.23
+
 ## 112.44.4
 
 ### Patch Changes
