@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 7.7.0
+
+### Minor Changes
+
+- [minor][c68c9bc048](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68c9bc048):
+
+  Adds props to allow global navigation to control the focus lock for all the drawers
+
 ## 7.6.5
 
 ### Patch Changes

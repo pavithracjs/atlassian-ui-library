@@ -1,1 +1,0 @@
-Adds props to allow global navigation to control the focus lock for all the drawers
