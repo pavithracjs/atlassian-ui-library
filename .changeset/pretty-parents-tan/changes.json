@@ -1,0 +1,253 @@
+{
+  "releases": [
+    { "name": "@atlaskit/avatar", "type": "major" },
+    { "name": "@atlaskit/theme", "type": "patch" },
+    { "name": "@atlaskit/user-picker", "type": "patch" },
+    { "name": "@atlaskit/profilecard", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/avatar-group",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/item",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/comment",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/editor-core",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/drawer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/item",
+        "@atlaskit/quick-search",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/dropdown-menu",
+      "type": "patch",
+      "dependencies": ["@atlaskit/item", "@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/dynamic-table",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/navigation-next",
+        "@atlaskit/tag",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/item",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/modal-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/textfield",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/item",
+        "@atlaskit/single-select",
+        "@atlaskit/quick-search",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/multi-select",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/tag",
+        "@atlaskit/tag-group",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/global-navigation",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/single-select",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/tag",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/tag-group",
+      "type": "patch",
+      "dependencies": ["@atlaskit/tag", "@atlaskit/avatar"]
+    },
+    {
+      "name": "@atlaskit/textfield",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/conversation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/comment",
+        "@atlaskit/single-select",
+        "@atlaskit/editor-core",
+        "@atlaskit/renderer",
+        "@atlaskit/avatar"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar-group",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/item",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/renderer",
+        "@atlaskit/mention",
+        "@atlaskit/task-decision",
+        "@atlaskit/avatar",
+        "@atlaskit/theme",
+        "@atlaskit/user-picker"
+      ]
+    },
+    {
+      "name": "@atlaskit/renderer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/navigation-next",
+        "@atlaskit/mention",
+        "@atlaskit/task-decision",
+        "@atlaskit/avatar",
+        "@atlaskit/theme",
+        "@atlaskit/profilecard"
+      ]
+    },
+    {
+      "name": "@atlaskit/mention",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/task-decision",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar-group",
+        "@atlaskit/renderer",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/refinement-bar",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/textfield",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-ui",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar-group",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/app-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/focused-task-close-account",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/global-navigation",
+        "@atlaskit/item",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/navigation-next",
+        "@atlaskit/quick-search",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/quick-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/drawer",
+        "@atlaskit/item",
+        "@atlaskit/navigation",
+        "@atlaskit/avatar",
+        "@atlaskit/theme"
+      ]
+    }
+  ]
+}

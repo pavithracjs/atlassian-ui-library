@@ -3,7 +3,6 @@
  */
 declare module '@atlaskit/analytics';
 declare module '@atlaskit/avatar-group';
-declare module '@atlaskit/avatar';
 declare module '@atlaskit/calendar';
 declare module '@atlaskit/codemod-util-shared-styles-to-theme';
 declare module '@atlaskit/comment';

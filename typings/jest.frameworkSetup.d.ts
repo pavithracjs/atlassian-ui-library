@@ -12,5 +12,11 @@ declare namespace jest {
     toMatchProdImageSnapshot(): R;
     toMatchCustomSnapshot(testName: string): R;
     toMatchCustomDocSnapshot(testName: string): R;
+
+    /**
+     * Jest Styled Components Matchers
+     */
+    toMatchStyledComponentsSnapshot(): void;
+    toHaveStyleRule(property: string, value: any): void;
   }
 }

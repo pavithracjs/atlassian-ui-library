@@ -13,6 +13,10 @@ declare module '@atlaskit/atlassian-switcher' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/avatar' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/badge' {
   declare module.exports: any;
 }
