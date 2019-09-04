@@ -262,7 +262,7 @@ describe('CardActions', () => {
       );
     });
 
-    it('should fire analytics event on every clicked action and dropdown menu', async () => {
+    it('should fire analytics event on every clicked menu item and dropdown menu', async () => {
       const analyticsEventHandler = jest.fn();
       const fourActions = [
         annotateAction,
