@@ -3,7 +3,10 @@ import { mount, ReactWrapper } from 'enzyme';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
-import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventHandler,
+} from '@atlaskit/analytics-next';
 import { FabricChannel } from '@atlaskit/analytics-listeners';
 
 import {
@@ -14,7 +17,6 @@ import {
 import { CardActionButton } from '../../cardActions/styled';
 import { CardAction } from '../../../actions';
 import PreventClickThrough from '../../preventClickThrough';
-import { formatAnalyticsEventActionLabel } from '../../../utils/cardActions/analyticsHelper';
 
 describe('CardActions', () => {
   const openAction = {
@@ -48,7 +50,7 @@ describe('CardActions', () => {
   const setup = (
     actions: CardAction[],
     triggerColor?: string,
-    analyticsHandler?: AnalyticsListener['onEvent'],
+    analyticsHandler?: UIAnalyticsEventHandler,
   ) => {
     const TheCardActionsView = () => (
       <CardActionsView actions={actions} triggerColor={triggerColor} />
@@ -205,37 +207,28 @@ describe('CardActions', () => {
         .at(at)
         .simulate('click');
 
-    const matchActionPayload = (
-      actions: CardAction[],
-      callNumber: number,
-      actionPosition: number,
+    const matchingActionEventPayload = (
       actionSubjectId: string,
-      analyticsEventHandler: AnalyticsListener['onEvent'],
+      label: string,
     ) =>
-      expect(
-        (analyticsEventHandler.mock.calls[callNumber][0] as UIAnalyticsEvent)
-          .payload,
-      ).toMatchObject({
-        eventType: 'ui',
-        action: 'clicked',
-        actionSubject: 'button',
-        actionSubjectId,
-        attributes: {
-          label: actions[actionPosition].label,
+      expect.objectContaining({
+        payload: {
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId,
+          attributes: expect.objectContaining({ label }),
         },
       });
+    const matchingPrimaryAction = (label: string) =>
+      matchingActionEventPayload('mediaCardPrimaryActionButton', label);
+    const matchingSecondaryAction = (label: string) =>
+      matchingActionEventPayload('mediaCardSecondaryActionButton', label);
+    const matchingMenuItemAction = (label: string) =>
+      matchingActionEventPayload('mediaCardDropDownMenuItem', label);
 
-    const matchMenuPayload = (
-      callNumber: number,
-      analyticsEventHandler: AnalyticsListener['onEvent'],
-    ) =>
-      expect(
-        (analyticsEventHandler.mock.calls[callNumber][0] as UIAnalyticsEvent)
-          .payload,
-      ).toMatchObject({ actionSubjectId: 'mediaCardDropDownMenu' });
-
-    it('should fire analytics event on every action clicked', async () => {
-      const analyticsEventHandler = jest.fn();
+    it('should fire analytics event on every action clicked', () => {
+      const analyticsEventHandler: jest.Mock = jest.fn();
       const twoActions = [annotateAction, deleteAction];
       const { card: card1 } = setup(
         twoActions,
@@ -246,24 +239,29 @@ describe('CardActions', () => {
       clickIconButton(card1, 1);
 
       expect(analyticsEventHandler).toBeCalledTimes(2);
-      matchActionPayload(
-        twoActions,
-        0,
-        0,
-        'mediaCardPrimaryActionButton',
-        analyticsEventHandler,
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
+        1,
+        matchingPrimaryAction(twoActions[0].label),
+        'media',
       );
-      matchActionPayload(
-        twoActions,
-        1,
-        1,
-        'mediaCardSecondaryActionButton',
-        analyticsEventHandler,
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
+        2,
+        matchingSecondaryAction(twoActions[1].label),
+        'media',
       );
     });
 
-    it('should fire analytics event on every clicked menu item and dropdown menu', async () => {
-      const analyticsEventHandler = jest.fn();
+    it('should fire analytics event on every clicked menu item and dropdown menu', () => {
+      const matchingDropdownAnalyticsEvent = expect.objectContaining({
+        payload: expect.objectContaining({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'mediaCardDropDownMenu',
+        }),
+      });
+
+      const analyticsEventHandler: jest.Mock = jest.fn();
       const fourActions = [
         annotateAction,
         openAction,
@@ -275,46 +273,44 @@ describe('CardActions', () => {
         undefined,
         analyticsEventHandler,
       );
-      // Click in dropdown from setup   // call 2 - open dropdown
-      clickIconButton(card2, 0); // call 1 - action 0
-      clickDropdownItem(card2, 0); // call 2 - action 1
-      openDropdownMenuIfExists(card2); // call 3 - Reopen dropdown
-      clickDropdownItem(card2, 1); // call 4 - action 2
-      openDropdownMenuIfExists(card2); // call 5 - Reopen dropdown
-      clickDropdownItem(card2, 2); // call 6 - action 3
+      // There is a click in dropdown from setup
+      clickDropdownItem(card2, 0); // dropdown[0] = fourActions[1]
+      openDropdownMenuIfExists(card2);
+      clickDropdownItem(card2, 1); // dropdown[1] = fourActions[2]
+      openDropdownMenuIfExists(card2);
+      clickDropdownItem(card2, 2); // dropdown[2] = fourActions[3]
 
-      expect(analyticsEventHandler).toBeCalledTimes(7);
-      matchMenuPayload(0, analyticsEventHandler); // call 0 - open dropdown
-      matchActionPayload(
-        fourActions,
+      expect(analyticsEventHandler).toBeCalledTimes(6);
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
         1,
-        0,
-        'mediaCardPrimaryActionButton',
-        analyticsEventHandler,
-      ); // call 1 - action 0
-      matchActionPayload(
-        fourActions,
+        matchingDropdownAnalyticsEvent,
+        'media',
+      );
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
         2,
-        1,
-        'mediaCardDropDownMenuItem',
-        analyticsEventHandler,
-      ); // call 2 - action 1
-      matchMenuPayload(3, analyticsEventHandler); // call 3 - Reopen dropdown
-      matchActionPayload(
-        fourActions,
-        4,
-        2,
-        'mediaCardDropDownMenuItem',
-        analyticsEventHandler,
-      ); // call 4 - action 2
-      matchMenuPayload(5, analyticsEventHandler); // call 5 - Reopen dropdown
-      matchActionPayload(
-        fourActions,
-        6,
+        matchingMenuItemAction(fourActions[1].label),
+        'media',
+      );
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
         3,
-        'mediaCardDropDownMenuItem',
-        analyticsEventHandler,
-      ); // call 6 - action 3
+        matchingDropdownAnalyticsEvent,
+        'media',
+      );
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
+        4,
+        matchingMenuItemAction(fourActions[2].label),
+        'media',
+      );
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
+        5,
+        matchingDropdownAnalyticsEvent,
+        'media',
+      );
+      expect(analyticsEventHandler).toHaveBeenNthCalledWith(
+        6,
+        matchingMenuItemAction(fourActions[3].label),
+        'media',
+      );
     });
   });
 });

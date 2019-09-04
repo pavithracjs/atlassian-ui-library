@@ -168,12 +168,7 @@ export class CardOverlay extends Component<CardOverlayProps, CardOverlayState> {
       return (
         <ErrorWrapper>
           <ErrorIcon />
-          <RetryWithAnalytics
-            onClick={(e: MouseEvent) => {
-              e.stopPropagation();
-              onRetry();
-            }}
-          >
+          <RetryWithAnalytics onClick={onRetry}>
             <FormattedMessage {...messages.retry} />
           </RetryWithAnalytics>
         </ErrorWrapper>

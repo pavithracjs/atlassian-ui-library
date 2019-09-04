@@ -53,19 +53,18 @@ export class CardActionsView extends Component<CardActionsViewProps> {
 
   private renderActionIconButton(
     action: CardAction,
-    isPrimary: boolean,
+    isPrimary?: boolean,
   ): JSX.Element {
     const { triggerColor } = this.props;
     const { icon, handler, label } = action;
-    const actionSubjectId = isPrimary
-      ? 'mediaCardPrimaryActionButton'
-      : 'mediaCardSecondaryActionButton';
     const CardActionIconButtonWithAnalytics = withAnalyticsEvents({
       onClick: createAndFireMediaEvent({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
-        actionSubjectId,
+        actionSubjectId: isPrimary
+          ? 'mediaCardPrimaryActionButton'
+          : 'mediaCardSecondaryActionButton',
         attributes: {
           label,
         },
