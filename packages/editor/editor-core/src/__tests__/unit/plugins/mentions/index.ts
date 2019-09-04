@@ -15,7 +15,10 @@ import {
   MentionNameResolver,
 } from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
 import { EditorProps } from '../../../../types';
@@ -187,14 +190,18 @@ describe('mentionTypeahead', () => {
    * @return Object containing the mocks `event` and `createAnalyticsEvent`.
    */
   const analyticsMocks = () => {
-    const event = { fire: jest.fn().mockName('event.fire') };
+    const event = {
+      fire: jest.fn().mockName('event.fire') as any,
+    } as UIAnalyticsEvent;
     const createAnalyticsEvent = jest
       .fn(payload =>
         // We're only interested in recording events for 'mentionTypeahead'
         // ignoring all others
         payload.actionSubject === expectedActionSubject
           ? event
-          : { fire: jest.fn() },
+          : ({
+              fire: jest.fn() as any,
+            } as UIAnalyticsEvent),
       )
       .mockName('createAnalyticsEvent');
 

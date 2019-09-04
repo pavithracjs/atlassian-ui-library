@@ -27,7 +27,10 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { taskDecision } from '@atlaskit/util-data-test';
 import { uuid } from '@atlaskit/adf-schema';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 describe('tasks and decisions - input rules', () => {
   const createEditor = createEditorFactory();
@@ -43,7 +46,7 @@ describe('tasks and decisions - input rules', () => {
   });
 
   const editorFactory = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       editorProps: {
         taskDecisionProvider: Promise.resolve(

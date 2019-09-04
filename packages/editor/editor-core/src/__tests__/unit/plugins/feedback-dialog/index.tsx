@@ -8,7 +8,10 @@ import {
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import ToolbarFeedback from '../../../../ui/ToolbarFeedback';
 
@@ -22,10 +25,12 @@ describe('feedbackDialogPlugin', () => {
     LoadJiraCollectorDialogScript,
     'default',
   );
-  loadJiraCollectorDialogScript.mockImplementation(() => () => () => {});
+  loadJiraCollectorDialogScript.mockImplementation(() =>
+    Promise.resolve(() => {}),
+  );
 
   const editor = (doc: any, _trackEvent?: () => {}) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
 
     return createEditor({
       doc,

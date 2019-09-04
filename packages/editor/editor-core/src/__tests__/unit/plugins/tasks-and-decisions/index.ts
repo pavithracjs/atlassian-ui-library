@@ -9,7 +9,10 @@ import {
   decisionList,
   decisionItem,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { uuid } from '@atlaskit/adf-schema';
 import { EditorView } from 'prosemirror-view';
 
@@ -29,7 +32,7 @@ describe('tasks and decisions', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: { allowAnalyticsGASV3: true, allowTasksAndDecisions: true },

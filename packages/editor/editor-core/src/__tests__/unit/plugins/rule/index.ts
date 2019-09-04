@@ -7,7 +7,10 @@ import {
   bodiedExtension,
   bodiedExtensionData,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 describe('rule', () => {
   const createEditor = createEditorFactory();
@@ -15,7 +18,7 @@ describe('rule', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any, trackEvent = () => {}) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: {

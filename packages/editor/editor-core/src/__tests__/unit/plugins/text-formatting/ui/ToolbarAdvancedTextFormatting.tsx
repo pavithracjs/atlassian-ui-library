@@ -34,7 +34,7 @@ import { AnalyticsHandler } from '../../../../../analytics';
 
 describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent, any>;
   let analyticsHandler: AnalyticsHandler;
 
   const editor = (doc: any) => {

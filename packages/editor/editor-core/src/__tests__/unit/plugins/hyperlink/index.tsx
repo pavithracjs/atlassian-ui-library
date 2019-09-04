@@ -9,7 +9,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import * as Toolbar from '../../../../plugins/hyperlink/Toolbar';
-import { FloatingToolbarHandler } from '../../../../plugins/floating-toolbar/types';
+import { FloatingToolbarConfig } from '../../../../plugins/floating-toolbar/types';
 import { EditorProps } from '../../../../types';
 
 describe('hyperlink', () => {
@@ -60,7 +60,7 @@ describe('hyperlink', () => {
   describe('floating toolbar', () => {
     let waitForAnimationFrame: any;
     let getFloatingToolbarSpy: jest.SpyInstance<
-      FloatingToolbarHandler | undefined
+      FloatingToolbarConfig | undefined
     >;
 
     beforeAll(() => {

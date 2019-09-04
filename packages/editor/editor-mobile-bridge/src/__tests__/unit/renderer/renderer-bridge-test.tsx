@@ -20,7 +20,10 @@ const initialDocument = JSON.stringify({
 
 describe('renderer bridge', () => {
   beforeEach(() => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => {
+      cb(1);
+      return 1;
+    });
   });
 
   it('should call renderBridge.onContentRendered() once rendered', () => {

@@ -58,7 +58,7 @@ const googleUrl = 'http://www.google.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent, any>;
   const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const editorWrapper = createEditor({

@@ -17,7 +17,7 @@ const picker: any = {
 };
 picker.init = jest.fn().mockReturnValue(picker);
 
-const mockMediaPickerFacade = jest.fn(() => picker);
+const mockMediaPickerFacade = jest.fn<typeof picker, Array<any>>(() => picker);
 
 jest.mock(
   '../../../../../plugins/media/picker-facade',

@@ -17,7 +17,10 @@ import {
   li,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import {
   removePanel,
   changePanelType,
@@ -30,7 +33,7 @@ describe('@atlaskit/editor-core ui/PanelPlugin', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: {

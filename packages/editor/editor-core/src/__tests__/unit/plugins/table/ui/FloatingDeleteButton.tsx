@@ -87,7 +87,7 @@ describe('Floating Delete Button', () => {
       );
       jest.spyOn(tableWrapper!, 'getBoundingClientRect').mockReturnValue({
         width: COLUMN_WIDTH * 3,
-      });
+      } as DOMRect);
       tableWrapper!.scrollLeft = 0;
       jest
         .spyOn(tableUtils, 'getColumnsWidths')

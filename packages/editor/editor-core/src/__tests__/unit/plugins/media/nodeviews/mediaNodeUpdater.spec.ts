@@ -21,10 +21,10 @@ import { MediaProvider } from '../../../../../plugins/media/pm-plugins/main';
 describe('MediaNodeUpdater', () => {
   const setup = (props?: Partial<MediaNodeUpdaterProps>) => {
     jest.resetAllMocks();
-    jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => {});
+    jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => true);
     jest
       .spyOn(mediaCommon, 'getViewMediaClientConfigFromMediaProvider')
-      .mockReturnValue(getDefaultMediaClientConfig());
+      .mockReturnValue(Promise.resolve(getDefaultMediaClientConfig()));
 
     const mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);

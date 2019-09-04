@@ -21,7 +21,8 @@ const mock: CreateUIAnalyticsEvent = (
 });
 
 export default function createAnalyticsEventMock(): jest.MockInstance<
-  UIAnalyticsEvent
+  UIAnalyticsEvent,
+  any
 > {
   return jest.fn(mock);
 }

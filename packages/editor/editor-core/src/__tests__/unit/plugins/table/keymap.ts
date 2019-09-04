@@ -24,7 +24,10 @@ import {
 
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
 import { TablePluginState } from '../../../../plugins/table/types';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
 describe('table keymap', () => {
@@ -35,7 +38,7 @@ describe('table keymap', () => {
   let editorView: EditorView;
 
   const editor = (doc: any, trackEvent: AnalyticsHandler = () => {}) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: {

@@ -33,7 +33,7 @@ describe('layout', () => {
 
       flatmap(content, callbackSpy);
       expect(callbackSpy).toHaveBeenCalledTimes(3);
-      callbackSpy.mock.calls.forEach(args => {
+      callbackSpy.mock.calls.forEach((args: any) => {
         expect(args[0]).toBeInstanceOf(Node);
         expect(typeof args[1]).toBe('number');
         expect(args[2]).toEqual(content);

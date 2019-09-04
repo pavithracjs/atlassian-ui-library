@@ -21,7 +21,10 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { AnalyticsHandler } from '../../../../analytics';
 import { setNodeSelection } from '../../../../utils';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 
 const codeBlockGASV3Payload = {
@@ -37,10 +40,10 @@ const codeBlockGASV3Payload = {
 describe('codeBlock - keymaps', () => {
   const createEditor = createEditorFactory();
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
-  let analyticsHandler: jest.MockInstance<AnalyticsHandler>;
+  let analyticsHandler: jest.MockInstance<AnalyticsHandler, any[]>;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     analyticsHandler = jest.fn();
     return createEditor({
       doc,

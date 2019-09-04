@@ -25,7 +25,7 @@ const atlassianUrl = 'http://www.atlassian.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent, any>;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
@@ -157,9 +157,11 @@ describe('card', () => {
         });
 
         describe('visit command', () => {
-          let windowSpy: jest.MockInstance<any>;
+          let windowSpy: jest.MockInstance<any, any[]>;
           beforeEach(() => {
-            windowSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
+            windowSpy = jest
+              .spyOn(window, 'open')
+              .mockImplementation(() => null);
             visitCardLink(editorView.state, editorView.dispatch);
           });
 

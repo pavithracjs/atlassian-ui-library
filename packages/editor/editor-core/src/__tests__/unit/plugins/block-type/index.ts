@@ -26,7 +26,10 @@ import {
   insertBlockTypesWithAnalytics,
 } from '../../../../plugins/block-type/commands';
 import { HEADING_1 } from '../../../../plugins/block-type/types';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION,
@@ -41,7 +44,12 @@ describe('block-type', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(
+      () =>
+        ({
+          fire() {},
+        } as UIAnalyticsEvent),
+    );
     return createEditor({
       doc,
       editorProps: {

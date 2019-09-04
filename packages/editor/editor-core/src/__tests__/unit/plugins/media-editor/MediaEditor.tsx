@@ -19,10 +19,13 @@ import { MediaEditorState } from '../../../../plugins/media/types';
 import { uploadAnnotation } from '../../../../plugins/media/commands/media-editor';
 
 describe('media editor', () => {
-  const mockView = jest.fn<EditorView>(() => ({
-    state: {},
-    dispatch: jest.fn(),
-  }));
+  const mockView = jest.fn(
+    () =>
+      (({
+        state: {},
+        dispatch: jest.fn(),
+      } as any) as EditorView),
+  );
 
   const identifier: FileIdentifier = {
     id: 'abc',

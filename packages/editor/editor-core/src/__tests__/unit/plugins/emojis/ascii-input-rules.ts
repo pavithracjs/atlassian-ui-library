@@ -11,7 +11,10 @@ import {
   emoji,
   typeAheadQuery,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
 import { EditorState } from 'prosemirror-state';
 
@@ -24,7 +27,7 @@ describe('ascii emojis - input rules', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     const editor = createEditor({
       doc,
       editorProps: {

@@ -114,7 +114,7 @@ describe('text-formatting input rules', () => {
   const createEditor = createEditorFactory();
 
   let trackEvent: AnalyticsHandler;
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent, any>;
 
   const editor = (doc: any, disableCode = false) => {
     createAnalyticsEvent = createAnalyticsEventMock();

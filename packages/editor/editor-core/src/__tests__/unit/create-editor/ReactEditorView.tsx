@@ -64,7 +64,7 @@ const payload: AnalyticsEventPayload = {
 };
 
 describe(name, () => {
-  let mockFire: jest.SpyInstance;
+  let mockFire: ReturnType<typeof AnalyticsPlugin.fireAnalyticsEvent>;
 
   beforeEach(() => {
     mockFire = jest.fn();

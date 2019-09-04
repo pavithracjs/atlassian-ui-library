@@ -24,6 +24,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   toggleOrderedList,
   toggleBulletList,
@@ -39,7 +40,7 @@ describe('lists', () => {
   let analyticsHandler: AnalyticsHandler;
 
   const editor = (doc: any, trackEvent?: () => {}) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     analyticsHandler = trackEvent || jest.fn();
     return createEditor({
       doc,

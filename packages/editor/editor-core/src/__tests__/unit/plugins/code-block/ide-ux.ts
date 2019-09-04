@@ -33,7 +33,7 @@ const createIndentationAttributes = (
 
 describe('IDE UX plugin', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent>;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEvent, any>;
   let trackEvent = jest.fn();
 
   const editor = (doc: any) => {

@@ -11,7 +11,10 @@ import {
   MediaPluginState,
   MediaProvider,
 } from '../../../../plugins/media/pm-plugins/main';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import PickerFacade from '../../../../plugins/media/picker-facade';
 import { MediaFile } from '../../../../../../../media/media-picker';
 import {
@@ -35,7 +38,7 @@ describe('Media Analytics', () => {
       mediaProvider,
       contextIdentifierProvider,
     });
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
 
     return createEditor({
       doc,
