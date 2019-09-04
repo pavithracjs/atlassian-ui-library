@@ -1,0 +1,1 @@
+ED-7201 Add new background cell colors and improve text color
