@@ -168,6 +168,7 @@ const getRecentItems = (product: string) =>
             <GlobalQuickSearch
               cloudId="cloudId"
               context={product as Props['context']}
+              userId="abc123"
               referralContextIdentifiers={{
                 currentContentId: '123',
                 currentContainerId: '456',

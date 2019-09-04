@@ -106,11 +106,13 @@ type JiraMyPermissionsResponse = {
 export default class JiraClientImpl implements JiraClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
+  private isUserAnonymous: boolean;
   private canSearchUsersCache: boolean | undefined;
 
-  constructor(url: string, cloudId: string) {
+  constructor(url: string, cloudId: string, isUserAnonymous: boolean) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
+    this.isUserAnonymous = isUserAnonymous;
   }
 
   // Unused, just to mute ts lint
@@ -128,6 +130,9 @@ export default class JiraClientImpl implements JiraClient {
     searchSessionId: string,
     recentItemCounts: RecentItemsCounts = DEFAULT_RECENT_ITEMS_COUNT,
   ): Promise<JiraResult[]> {
+    if (this.isUserAnonymous) {
+      return [];
+    }
     const options: RequestServiceOptions = {
       path: RECENT_ITEMS_PATH,
       queryParams: {
@@ -149,6 +154,9 @@ export default class JiraClientImpl implements JiraClient {
   }
 
   public async canSearchUsers(): Promise<boolean> {
+    if (this.isUserAnonymous) {
+      return false;
+    }
     if (typeof this.canSearchUsersCache === 'boolean') {
       return Promise.resolve(this.canSearchUsersCache);
     }

@@ -18,6 +18,7 @@ import {
   ContainerResult,
   JiraResult,
   PersonResult,
+  Result,
 } from '../../../model/Result';
 import {
   generateRandomJiraBoard,
@@ -54,7 +55,12 @@ describe('CrossProductSearchClient', () => {
   let searchClient: CrossProductSearchClient;
 
   beforeEach(() => {
-    searchClient = new CrossProductSearchClient('localhost', '123', undefined);
+    searchClient = new CrossProductSearchClient(
+      'localhost',
+      '123',
+      false,
+      undefined,
+    );
   });
 
   afterEach(() => {
@@ -237,6 +243,39 @@ describe('CrossProductSearchClient', () => {
       expect(result.results[Scope.JiraBoardProjectFilter]!.items).toHaveLength(
         3,
       );
+    });
+  });
+
+  describe('Recents', () => {
+    let requestSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      requestSpy = jest.spyOn(utils, 'requestService');
+      requestSpy.mockReturnValue(
+        Promise.resolve({
+          scopes: [],
+        }),
+      );
+    });
+
+    afterEach(() => {
+      requestSpy.mockRestore();
+    });
+
+    it('should not make recents request when user is anonymous', async () => {
+      searchClient = new CrossProductSearchClient(
+        'localhost',
+        '123',
+        true,
+        undefined,
+      );
+      await searchClient.getRecentItems({
+        context: 'jira',
+        modelParams: [],
+        mapItemToResult: () => ({} as Result),
+      });
+
+      expect(requestSpy).toHaveBeenCalledTimes(0);
     });
   });
 

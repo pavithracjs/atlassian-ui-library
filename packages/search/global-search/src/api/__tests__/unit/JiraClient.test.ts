@@ -10,6 +10,7 @@ import { ContentType, JiraResult } from '../../../model/Result';
 
 const url = 'https://www.example.jira.dev.com/';
 const cloudId = 'cloudId';
+const isUserAnonymous = false;
 const RECENT_PATH = 'rest/internal/2/productsearch/recent';
 const MY_PERMISSION_PATH = 'rest/api/2/mypermissions?permissions=USER_PICKER';
 
@@ -30,7 +31,7 @@ describe('JiraClient', () => {
 
     requestSpy.mockReturnValue(Promise.resolve(undefined));
 
-    jiraClient = new JiraClientImpl(url, cloudId);
+    jiraClient = new JiraClientImpl(url, cloudId, isUserAnonymous);
   });
 
   afterEach(() => {
@@ -162,6 +163,21 @@ describe('JiraClient', () => {
         search_id: sessionId,
         counts: 'issues=7,projects=5,boards=3,filters=1',
       });
+    });
+
+    it('should not call endpoint when user is anonymous', () => {
+      jiraClient = new JiraClientImpl(url, cloudId, true);
+      const sessionId = 'sessionId-1';
+      const counts = {
+        issues: 7,
+        projects: 5,
+        boards: 3,
+        filters: 1,
+      };
+
+      jiraClient.getRecentItems(sessionId, counts);
+
+      expect(requestSpy).toHaveBeenCalledTimes(0);
     });
 
     EXCEPTION_CASES.forEach(mockImpl => {
