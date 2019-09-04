@@ -111,9 +111,7 @@ describe('Async Card Loader', () => {
 
       await nextTick();
 
-      expect(wrapper.find(CardLoading).prop('dimensions')).toEqual(
-        props.dimensions,
-      );
+      expect(wrapper.find(CardLoading)).toHaveLength(1);
     });
   });
 });

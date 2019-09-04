@@ -33,7 +33,7 @@ export default class CardLoader extends React.PureComponent<
   };
 
   async componentDidMount() {
-    if (!this.state.Card || !this.state.MediaCardErrorBoundary) {
+    if (!this.state.Card) {
       try {
         const [
           mediaClient,
