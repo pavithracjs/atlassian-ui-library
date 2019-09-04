@@ -198,6 +198,7 @@ export default class CachingCrossProductSearchClientImpl
   implements CrossProductSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
+  private isUserAnonymous: boolean;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
   private bootstrapPeopleCache: Promise<CrossProductSearchResults> | undefined;
   private crossProductRecentsCache: Promise<SearchResultsMap> | undefined;
@@ -208,10 +209,12 @@ export default class CachingCrossProductSearchClientImpl
   constructor(
     url: string,
     cloudId: string,
+    isUserAnonymous: boolean,
     prefetchResults: GlobalSearchPrefetchedResults | undefined,
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
+    this.isUserAnonymous = isUserAnonymous;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
     this.crossProductRecentsCache = prefetchResults
       ? prefetchResults.crossProductRecentItemsPromise
@@ -318,6 +321,10 @@ export default class CachingCrossProductSearchClientImpl
     filters = [],
     mapItemToResult,
   }: RecentParams): Promise<CrossProductSearchResults> {
+    if (this.isUserAnonymous) {
+      return EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE;
+    }
+
     const scopes = mapContextToScopes(context);
 
     if (this.crossProductRecentsCache) {

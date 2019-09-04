@@ -75,6 +75,7 @@ export const getConfluencePrefetchedData = (
   const { confluenceClient, crossProductSearchClient } = configureSearchClients(
     cloudId,
     config,
+    false,
   );
 
   // Pre-call the relevant endpoints to cache the results
@@ -94,6 +95,7 @@ export const getConfluencePrefetchedData = (
 
 export const getJiraPrefetchedData = (
   cloudId: string,
+  isUserAnonymous: boolean,
   jiraUrl?: string,
 ): JiraPrefetchedResults => {
   const config = jiraUrl
@@ -101,7 +103,11 @@ export const getJiraPrefetchedData = (
         jiraUrl,
       }
     : {};
-  const { crossProductSearchClient } = configureSearchClients(cloudId, config);
+  const { crossProductSearchClient } = configureSearchClients(
+    cloudId,
+    config,
+    isUserAnonymous,
+  );
 
   return {
     crossProductRecentItemsPromise: prefetchJira(crossProductSearchClient),
