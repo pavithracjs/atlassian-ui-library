@@ -1,1 +1,0 @@
-The tooltip is now closed when user clicks on the share button (so it does not remains forever visible)
