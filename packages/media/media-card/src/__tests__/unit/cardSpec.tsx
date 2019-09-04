@@ -769,6 +769,19 @@ describe('Card', () => {
     expect(releaseDataURI).toHaveBeenCalledTimes(1);
   });
 
+  it('should not release preview for external identifier', () => {
+    const revokeObjectURLSpy = jest.spyOn(URL, 'revokeObjectURL');
+    const identifier: ExternalImageIdentifier = {
+      mediaItemType: 'external-image',
+      dataURI: 'bla',
+      name: 'some external image',
+    };
+    const { component } = setup(undefined, { identifier });
+
+    component.unmount();
+    expect(revokeObjectURLSpy).not.toBeCalled();
+  });
+
   it('ED-6584: should keep dataURI in the state if it was already generated', async () => {
     const { component, mediaClient } = setup(undefined, {
       dimensions: { width: 50, height: 50 },

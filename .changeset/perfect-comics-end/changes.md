@@ -1,0 +1,1 @@
+Dont release file preview from Card when an external file is passed
