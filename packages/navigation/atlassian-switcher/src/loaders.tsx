@@ -1,16 +1,16 @@
 import Loadable from 'react-loadable';
 
 export const loadAtlassianSwitcher = () =>
-  import(/* webpackChunkName: "atlassian-switcher" */ './components/atlassian-switcher');
+  import(/* webpackChunkName: "@atlaskit/atlassian-switcher/async-chunk/atlassian-switcher" */ './components/atlassian-switcher');
 
 export const loadJiraSwitcher = () =>
-  import(/* webpackChunkName: "jira-switcher" */ './components/jira-switcher');
+  import(/* webpackChunkName: "@atlaskit/atlassian-switcher/async-chunk/jira-switcher" */ './components/jira-switcher');
 
 export const loadConfluenceSwitcher = () =>
-  import(/* webpackChunkName: "confluence-switcher" */ './components/confluence-switcher');
+  import(/* webpackChunkName: "@atlaskit/atlassian-switcher/async-chunk/confluence-switcher" */ './components/confluence-switcher');
 
 export const loadGenericSwitcher = () =>
-  import(/* webpackChunkName: "generic-switcher" */ './components/generic-switcher');
+  import(/* webpackChunkName: "@atlaskit/atlassian-switcher/async-chunk/generic-switcher" */ './components/generic-switcher');
 
 export const AtlassianSwitcherLoader = Loadable({
   loader: loadAtlassianSwitcher,
