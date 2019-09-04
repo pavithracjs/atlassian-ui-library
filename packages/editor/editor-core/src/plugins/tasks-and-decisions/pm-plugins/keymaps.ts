@@ -104,8 +104,6 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
 
         const { $from } = state.selection;
         if (dispatch) {
-          // TODO: check that there's a taskItem preceeding it
-
           const blockRange = getBlockRange($from);
           if (!blockRange) {
             return false;
@@ -129,37 +127,16 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
 
         const { $from } = state.selection;
         if (dispatch) {
-          // if we're the first taskItem in a taskList, we want to move the taskItem up to the preceeding taskList
-          // --------------------------------------
-          // if ($from.index(-1) === 0) {
-          //   console.warn('first taskItem');
-          //   const blockRange = getBlockRange($from);
-          //   if (!blockRange) {
-          //     console.warn('no block range');
-          //     return false;
-          //   }
-
-          //   dispatch(state.tr.join($from.start() - 1));
-          //   // state.tr.join
-
-          //   return true;
-          // }
-
-          // TODO: until end of next taskList
           const blockRange = getBlockRange($from);
           if (!blockRange) {
             return false;
           }
-
-          console.log('block range', blockRange);
 
           const wrapping = findWrapping(
             blockRange,
             state.schema.nodes.taskList,
           );
           if (!wrapping) {
-            console.error('no wrapping');
-            // move as child
             return false;
           }
 
