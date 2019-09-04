@@ -56,7 +56,11 @@ class ConfluenceSwitcherExample extends React.Component {
         globalPrimaryIcon={<AtlassianIcon size="large" label="Atlassian" />}
         globalPrimaryItemHref="/"
         globalSecondaryActions={[
-          <PrefetchTrigger cloudId="some-cloud-id" key="switcher-global-item">
+          <PrefetchTrigger
+            cloudId="some-cloud-id"
+            key="switcher-global-item"
+            product="confluence"
+          >
             <AkGlobalItem onClick={this.openDrawer}>
               <Tooltip content="Switch apps" position="right">
                 <SwitcherIcon

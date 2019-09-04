@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import AtlassianSwitcher from '../../index';
+import AtlassianSwitcher from '../../components/atlassian-switcher';
 
 const noop = () => void 0;
 
