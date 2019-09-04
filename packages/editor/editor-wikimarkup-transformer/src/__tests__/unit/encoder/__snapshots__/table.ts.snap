@@ -71,3 +71,9 @@ exports[`ADF => WikiMarkup - Table should convert advanced Table node into {adf}
 {\\"type\\":\\"table\\",\\"attrs\\":{\\"isNumberColumnEnabled\\":false,\\"layout\\":\\"default\\"},\\"content\\":[{\\"type\\":\\"tableRow\\",\\"content\\":[{\\"type\\":\\"tableCell\\",\\"attrs\\":{\\"colspan\\":2},\\"content\\":[{\\"type\\":\\"codeBlock\\",\\"attrs\\":{\\"language\\":\\"javascript\\"},\\"content\\":[{\\"type\\":\\"text\\",\\"text\\":\\"const i = 0;\\"}]}]}]},{\\"type\\":\\"tableRow\\",\\"content\\":[{\\"type\\":\\"tableCell\\",\\"attrs\\":{},\\"content\\":[{\\"type\\":\\"codeBlock\\",\\"attrs\\":{\\"language\\":\\"javascript\\"},\\"content\\":[{\\"type\\":\\"text\\",\\"text\\":\\"const i = 0;\\"}]}]},{\\"type\\":\\"tableCell\\",\\"attrs\\":{},\\"content\\":[{\\"type\\":\\"codeBlock\\",\\"attrs\\":{\\"language\\":\\"javascript\\"},\\"content\\":[{\\"type\\":\\"text\\",\\"text\\":\\"const i = 0;\\"}]}]}]}]}
 {adf}"
 `;
+
+exports[`ADF => WikiMarkup - Table should convert empty table cells 1`] = `
+"|| ||
+| |
+| |"
+`;
