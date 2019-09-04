@@ -53,6 +53,9 @@ export default class AsyncMediaViewer extends React.PureComponent<
           mediaViewerModule.MediaViewer,
         );
         AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
+        AsyncMediaViewer.MediaViewerErrorBoundary =
+          mediaViewerErrorBoundaryModule.default;
+
         this.setState({
           MediaViewer: MediaViewerWithClient,
           MediaViewerErrorBoundary: mediaViewerErrorBoundaryModule.default,

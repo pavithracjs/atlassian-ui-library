@@ -50,6 +50,9 @@ export class DropzoneLoader extends React.PureComponent<
           dropzoneModule.Dropzone,
         );
 
+        DropzoneLoader.MediaPickerErrorBoundary =
+          mediaPickerErrorBoundaryModule.default;
+
         this.setState({
           Dropzone: DropzoneLoader.Dropzone,
           MediaPickerErrorBoundary: mediaPickerErrorBoundaryModule.default,

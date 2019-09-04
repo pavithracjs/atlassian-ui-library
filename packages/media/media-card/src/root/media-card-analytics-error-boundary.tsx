@@ -14,10 +14,10 @@ export default class MediaCardAnalyticsErrorBoundary extends React.Component<
   static displayName = 'MediaCardAnalyticsErrorBoundary';
 
   render() {
-    const { data = {} } = this.props;
+    const { data = {}, children } = this.props;
     return (
       <AnalyticsErrorBoundary channel={ANALYTICS_MEDIA_CHANNEL} data={data}>
-        {this.props.children}
+        {children}
       </AnalyticsErrorBoundary>
     );
   }
