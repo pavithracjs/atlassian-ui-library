@@ -23,6 +23,7 @@ import { TaskDecisionListType } from '../types';
 import { Command } from '../../../types';
 import { canSplit, findWrapping } from 'prosemirror-transform';
 import { liftListItem } from 'prosemirror-schema-list';
+import { autoJoin } from 'prosemirror-commands';
 
 const isInsideTaskOrDecisionItem = (state: EditorState) => {
   const { decisionItem, taskItem } = state.schema.nodes;
@@ -95,71 +96,80 @@ const getBlockRange = ($from: ResolvedPos) => {
 
 export function keymapPlugin(schema: Schema): Plugin | undefined {
   const keymaps = {
-    'Shift-Tab': (state: EditorState, dispatch: (tr: Transaction) => void) => {
-      if (!isInsideTaskOrDecisionItem(state)) {
-        return false;
-      }
-
-      const { $from } = state.selection;
-      if (dispatch) {
-        // TODO: check that there's a taskItem preceeding it
-
-        const blockRange = getBlockRange($from);
-        if (!blockRange) {
+    'Shift-Tab': autoJoin(
+      (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+        if (!isInsideTaskOrDecisionItem(state)) {
           return false;
         }
 
-        dispatch(
-          state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
-        );
-      }
+        const { $from } = state.selection;
+        if (dispatch) {
+          // TODO: check that there's a taskItem preceeding it
 
-      return true;
-    },
+          const blockRange = getBlockRange($from);
+          if (!blockRange) {
+            return false;
+          }
 
-    Tab: (state: EditorState, dispatch: (tr: Transaction) => void) => {
-      if (!isInsideTaskOrDecisionItem(state)) {
-        return false;
-      }
+          dispatch(
+            state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
+          );
+        }
 
-      const { $from } = state.selection;
-      if (dispatch) {
-        // if we're the first taskItem in a taskList, we want to move the taskItem up to the preceeding taskList
-        // --------------------------------------
-        // if ($from.index(-1) === 0) {
-        //   console.warn('first taskItem');
-        //   const blockRange = getBlockRange($from);
-        //   if (!blockRange) {
-        //     console.warn('no block range');
-        //     return false;
-        //   }
+        return true;
+      },
+      ['taskList'],
+    ),
 
-        //   dispatch(state.tr.join($from.start() - 1));
-        //   // state.tr.join
-
-        //   return true;
-        // }
-
-        // TODO: until end of next taskList
-        const blockRange = getBlockRange($from);
-        if (!blockRange) {
+    Tab: autoJoin(
+      (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+        if (!isInsideTaskOrDecisionItem(state)) {
           return false;
         }
 
-        console.log('block range', blockRange);
+        const { $from } = state.selection;
+        if (dispatch) {
+          // if we're the first taskItem in a taskList, we want to move the taskItem up to the preceeding taskList
+          // --------------------------------------
+          // if ($from.index(-1) === 0) {
+          //   console.warn('first taskItem');
+          //   const blockRange = getBlockRange($from);
+          //   if (!blockRange) {
+          //     console.warn('no block range');
+          //     return false;
+          //   }
 
-        const wrapping = findWrapping(blockRange, state.schema.nodes.taskList);
-        if (!wrapping) {
-          console.error('no wrapping');
-          // move as child
-          return false;
+          //   dispatch(state.tr.join($from.start() - 1));
+          //   // state.tr.join
+
+          //   return true;
+          // }
+
+          // TODO: until end of next taskList
+          const blockRange = getBlockRange($from);
+          if (!blockRange) {
+            return false;
+          }
+
+          console.log('block range', blockRange);
+
+          const wrapping = findWrapping(
+            blockRange,
+            state.schema.nodes.taskList,
+          );
+          if (!wrapping) {
+            console.error('no wrapping');
+            // move as child
+            return false;
+          }
+
+          dispatch(state.tr.wrap(blockRange, wrapping).scrollIntoView());
         }
 
-        dispatch(state.tr.wrap(blockRange, wrapping).scrollIntoView());
-      }
-
-      return true;
-    },
+        return true;
+      },
+      ['taskList'],
+    ),
     Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const { selection, tr } = state;
       const { $from } = selection;
