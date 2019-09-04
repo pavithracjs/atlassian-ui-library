@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme/constants';
 import {
@@ -6,7 +5,7 @@ import {
   backgroundHover,
   backgroundActive,
 } from '@atlaskit/theme/colors';
-import { BORDER_WIDTH } from '@atlaskit/avatar';
+import { BORDER_WIDTH, SizeType } from '@atlaskit/avatar';
 
 const gutterUnitless = gridSize() / 2;
 const gutter = `${gutterUnitless}px`;
@@ -26,7 +25,7 @@ export const Grid = styled.div`
   }
 `;
 
-export const Stack = styled.div`
+export const Stack = styled.div<{ size: SizeType }>`
   display: flex;
   line-height: 1;
   /* Balance the negative margin of the children */
@@ -41,8 +40,8 @@ export function getBackgroundColor({
   isActive,
   isHover,
 }: {
-  isActive: boolean,
-  isHover: boolean,
+  isActive: boolean;
+  isHover: boolean;
 }) {
   let themedBackgroundColor = backgroundOnLayer;
 

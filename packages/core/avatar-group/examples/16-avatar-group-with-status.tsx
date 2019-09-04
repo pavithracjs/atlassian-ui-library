@@ -1,7 +1,7 @@
-// @flow
 import React, { Component } from 'react';
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import Toggle from '@atlaskit/toggle';
+import { AppearanceType, SizeType } from '@atlaskit/avatar';
 import AvatarGroup from '../src';
 import { RANDOM_USERS, getAdorableAvatar } from '../examples-util/data';
 
@@ -19,20 +19,22 @@ function getStatus() {
 
 const data = RANDOM_USERS.slice(0, 10).map(user => ({
   ...user,
-  appearance: 'circle',
+  appearance: 'circle' as AppearanceType,
   enableTooltip: true,
-  size: 'medium',
+  size: 'medium' as SizeType,
   src: getAdorableAvatar(user.email),
   status: getStatus(),
 }));
 
-type State = {
-  theme: 'light' | 'dark',
-};
+type ThemeMode = 'light' | 'dark';
+
+interface State {
+  theme: ThemeMode;
+}
 
 export default class AvatarGroupWithStatus extends Component<{}, State> {
   state = {
-    theme: 'light',
+    theme: 'light' as ThemeMode,
   };
 
   toggleTheme = () => {

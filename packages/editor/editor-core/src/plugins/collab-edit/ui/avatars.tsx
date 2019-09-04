@@ -2,7 +2,7 @@ import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import styled, { keyframes } from 'styled-components';
 import { EditorView } from 'prosemirror-view';
-import Avatar from '@atlaskit/avatar';
+import Avatar, { SizeType } from '@atlaskit/avatar';
 import AvatarGroup from '@atlaskit/avatar-group';
 import { gridSize, colors } from '@atlaskit/theme';
 import InviteTeamIcon from '@atlaskit/icon/glyph/editor/add';
@@ -173,7 +173,7 @@ class Avatars extends React.Component<Props & InjectedIntlProps, any> {
         name: p.name,
         src: p.avatar,
         sessionId: p.sessionId,
-        size: 'medium',
+        size: 'medium' as SizeType,
         component: Item,
       }))
       .sort(p => (p.sessionId === sessionId ? -1 : 1));

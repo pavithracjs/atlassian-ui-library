@@ -68,7 +68,7 @@ class AvatarItem extends Component<Props> {
   };
 
   // disallow click on disabled avatars
-  guardedClick = (event: KeyboardEvent | MouseEvent) => {
+  guardedClick = (event: React.MouseEvent) => {
     const { isDisabled, onClick } = this.props;
 
     if (isDisabled || typeof onClick !== 'function') return;

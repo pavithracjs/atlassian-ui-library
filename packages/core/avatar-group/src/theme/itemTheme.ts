@@ -1,4 +1,3 @@
-// @flow
 import { itemThemeNamespace } from '@atlaskit/item';
 import { gridSize } from '@atlaskit/theme/constants';
 import { multiply } from '@atlaskit/theme/math';
@@ -16,7 +15,7 @@ const dropdownPadding = {
 };
 
 // Override specific parts of droplist's item theme
-const avatarItemTheme: Object = {
+const avatarItemTheme: Record<string, any> = {
   borderRadius: '0px',
   default: {
     background: backgroundOnLayer,

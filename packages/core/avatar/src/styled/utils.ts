@@ -7,7 +7,7 @@ import {
   BORDER_WIDTH,
   TRANSITION_DURATION,
 } from './constants';
-import { AvatarPropTypes, AppearanceType, SizeType } from '../types';
+import { AvatarClickType, AppearanceType, SizeType } from '../types';
 
 const backgroundColorFocus = B200;
 const overlayColorDefault = 'transparent';
@@ -31,9 +31,9 @@ export function getBorderRadius(
     : `${AVATAR_RADIUS[props.size] + borderWidth}px`;
 }
 
-export const getSize = (props: { size: SizeType }) => AVATAR_SIZES[props.size]; // for testing
+export const getSize = ({ size }: { size: SizeType }) => AVATAR_SIZES[size]; // for testing
 export function getAvatarDimensions(
-  props: { size: SizeType },
+  { size }: { size: SizeType },
   config: {
     includeBorderWidth: boolean;
     sizeOnly: boolean;
@@ -43,24 +43,40 @@ export function getAvatarDimensions(
   },
 ) {
   const borderWidth: number = config.includeBorderWidth
-    ? BORDER_WIDTH[props.size] * 2
+    ? BORDER_WIDTH[size] * 2
     : 0;
-  const size: number = AVATAR_SIZES[props.size] + borderWidth;
+
+  const finalSize: number = AVATAR_SIZES[size] + borderWidth;
 
   return config.sizeOnly
-    ? size
+    ? finalSize
     : `
-    height: ${size}px;
-    width: ${size}px;
+    height: ${finalSize}px;
+    width: ${finalSize}px;
   `;
+}
+
+interface InnerStylesProps {
+  appearance?: AppearanceType;
+  size?: SizeType;
+  isInteractive?: boolean;
+  href?: string;
+  borderColor?: string | (() => string);
+  stackIndex?: number;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  isFocus?: boolean;
+  isHover?: boolean;
+  isSelected?: boolean;
+  onClick?: AvatarClickType;
 }
 
 // expose here for use with multiple element types
 export function getInnerStyles(
-  props: AvatarPropTypes & { isInteractive?: boolean },
+  props: InnerStylesProps = { appearance: 'circle', size: 'medium' },
 ) {
   const boxSizing: string = 'content-box';
-  const borderWidth: string = `${BORDER_WIDTH[props.size || 'medium']}px`;
+  const borderWidth: string = `${BORDER_WIDTH[props.size!]}px`;
   const isInteractive: boolean = Boolean(
     props.isInteractive || props.href || props.onClick,
   );

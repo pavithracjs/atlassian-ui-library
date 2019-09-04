@@ -1,15 +1,13 @@
-// @flow
-/* eslint-disable react/no-array-index-key */
-import React, { Component, type ElementConfig } from 'react';
+import React, { Component, ElementType } from 'react';
 import { ThemeProvider } from 'styled-components';
 import DropdownMenu, { DropdownItemGroup } from '@atlaskit/dropdown-menu';
 import Avatar, {
-  type AvatarClickType,
-  type AvatarPropTypes,
-  type SizeType,
+  AvatarClickType,
+  AvatarPropTypes,
+  SizeType,
 } from '@atlaskit/avatar';
 import { Grid, Stack } from '../styled/AvatarGroup';
-import MoreIndicator from './MoreIndicator';
+import MoreIndicator, { MoreIndicatorProps } from './MoreIndicator';
 import itemTheme from '../theme/itemTheme';
 import AvatarGroupItem from './AvatarGroupItem';
 
@@ -22,36 +20,36 @@ const MAX_COUNT = {
   stack: 5,
 };
 
-type Props = {
+interface Props {
   /** Indicates the shape of the avatar. Most avatars are circular, but square avatars
    can be used for 'container' objects. */
-  appearance: 'grid' | 'stack',
+  appearance: 'grid' | 'stack';
   /** Component used to render each avatar */
-  avatar: ElementConfig<typeof Avatar>,
+  avatar: ElementType<AvatarPropTypes>;
   /** The maximum number of avatars allowed in the grid */
-  maxCount: number,
+  maxCount: number;
   /** Defines the size of the avatar */
-  size: SizeType,
+  size: SizeType;
   /** Typically the background color that the avatar is presented on.
    Accepts any color argument that the CSS border-color property accepts. */
-  borderColor?: string,
+  borderColor?: string;
   /**
     Array of avatar data passed to each `avatar` component. These props will be spread
     on to the component passed into avatar.
   */
-  data: Array<AvatarPropTypes>,
+  data: AvatarPropTypes[];
   /** Handle the click event on the avatar item */
-  onAvatarClick?: AvatarClickType,
+  onAvatarClick?: AvatarClickType;
   /** Take control of the click event on the more indicator. This will cancel
-   the default dropdown behaviour. */
-  onMoreClick?: () => mixed,
+   the default dropdown behavior. */
+  onMoreClick?: (event: React.MouseEvent) => unknown;
   /** Provide additional props to the MoreButton. Example use cases: altering
    tab order by providing tabIndex; adding onClick behaviour without losing the
    default dropdown */
-  showMoreButtonProps?: $Shape<HTMLElement>,
+  showMoreButtonProps?: Partial<React.HTMLAttributes<HTMLElement>>;
 
-  boundariesElement?: 'viewport' | 'window' | 'scrollParent',
-};
+  boundariesElement?: 'viewport' | 'window' | 'scrollParent';
+}
 
 export default class AvatarGroup extends Component<Props> {
   static defaultProps = {
@@ -78,15 +76,14 @@ export default class AvatarGroup extends Component<Props> {
     if (total <= max) return null;
 
     // prepare the button -- we'll use it twice
-    const MoreButton = props => (
+    const MoreButton = (props: MoreIndicatorProps) => (
       <MoreIndicator
         {...showMoreButtonProps}
         borderColor={borderColor}
         count={total - max}
-        isInteractive
         isStack={appearance === 'stack'}
         size={size}
-        {...props}
+        {...props as any}
       />
     );
 
@@ -100,7 +97,6 @@ export default class AvatarGroup extends Component<Props> {
       .slice(max)
       .map((avatar: AvatarPropTypes, index: number) => (
         <AvatarGroupItem
-          isInteractive
           avatar={avatar}
           key={index}
           onAvatarClick={onAvatarClick}
@@ -146,7 +142,6 @@ export default class AvatarGroup extends Component<Props> {
           {...avatar}
           borderColor={borderColor}
           groupAppearance={appearance}
-          index={idx}
           key={idx}
           onClick={avatar.onClick || onAvatarClick}
           size={size}
