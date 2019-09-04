@@ -65,8 +65,13 @@ describe('Async Card Loader', () => {
   });
 
   describe('When the async import returns with success', () => {
+    let MediaPickerAnalyticsErrorBoundary: React.ReactComponentElement<any>;
     beforeEach(() => {
       jest.unmock('../../card');
+      jest.unmock('../../media-card-analytics-error-boundary');
+      MediaPickerAnalyticsErrorBoundary = jest.requireActual(
+        '../../media-card-analytics-error-boundary',
+      ).default;
     });
 
     it('should render Card component', async () => {
@@ -78,6 +83,40 @@ describe('Async Card Loader', () => {
       await nextTick();
 
       expect(wrapper.state().Card).not.toBeUndefined();
+    });
+
+    it('should render Error boundary component', async () => {
+      const wrapper = await mount<
+        CardWithMediaClientConfigProps,
+        AsyncCardState
+      >(<CardLoader {...props} />);
+      await nextTick();
+      expect(wrapper.find(MediaPickerAnalyticsErrorBoundary)).toBeDefined();
+    });
+  });
+
+  describe('When the async import for Error Boundary returns with error', () => {
+    let MediaCard: React.ReactComponentElement<any>;
+    beforeEach(() => {
+      jest.unmock('../../card');
+      jest.mock('../../media-card-analytics-error-boundary', () => {
+        throw new Error('Forcing error boundary async import error');
+      });
+      MediaCard = jest.requireActual('../../card').Card;
+    });
+
+    it('should NOT render Card component', async () => {
+      const wrapper = await mount<
+        CardWithMediaClientConfigProps,
+        AsyncCardState
+      >(<CardLoader {...props} />);
+
+      await nextTick();
+
+      expect(wrapper.find(CardLoading).prop('dimensions')).toEqual(
+        props.dimensions,
+      );
+      expect(wrapper.find(MediaCard)).toHaveLength(0);
     });
   });
 });
