@@ -6,6 +6,7 @@ import { AkFieldRadioGroup as StatelessRadioGroup } from '@atlaskit/field-radio-
 import { AtlassianIcon } from '@atlaskit/logo';
 import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
+import { Checkbox } from '@atlaskit/checkbox';
 import { LayoutManager, NavigationProvider } from '@atlaskit/navigation-next';
 import { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import { ToggleStateless } from '@atlaskit/toggle';
@@ -45,6 +46,14 @@ type Props = {
   notificationCount: number,
   onNotificationDrawerOpen: () => void,
   unmountOnExit: boolean,
+  isRecentDrawerFocusLockEnabled: boolean,
+  isStarredDrawerFocusLockEnabled: boolean,
+  isSearchDrawerFocusLockEnabled: boolean,
+  isCreateDrawerFocusLockEnabled: boolean,
+  isNotificationDrawerFocusLockEnabled: boolean,
+  isInviteDrawerFocusLockEnabled: boolean,
+  isHelpDrawerFocusLockEnabled: boolean,
+  isSettingsDrawerFocusLockEnabled: boolean,
 };
 
 const HelpDropdown = () => (
@@ -163,6 +172,14 @@ class GlobalNavWithDrawers extends Component<Props, State> {
       helpItemOpens,
       notificationCount,
       onNotificationDrawerOpen,
+      isRecentDrawerFocusLockEnabled,
+      isStarredDrawerFocusLockEnabled,
+      isSearchDrawerFocusLockEnabled,
+      isCreateDrawerFocusLockEnabled,
+      isNotificationDrawerFocusLockEnabled,
+      isInviteDrawerFocusLockEnabled,
+      isHelpDrawerFocusLockEnabled,
+      isSettingsDrawerFocusLockEnabled,
       unmountOnExit,
     } = this.props;
 
@@ -176,6 +193,7 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           starredDrawerContents={this.renderStarredDrawerContents}
           onStarredDrawerCloseComplete={this.onCloseComplete}
           shouldStarredDrawerUnmountOnExit={unmountOnExit}
+          isStarredDrawerFocusLockEnabled={isStarredDrawerFocusLockEnabled}
           // Create
           onCreateClick={
             createItemOpens === 'modal' ? this.openCreateModal : null
@@ -183,6 +201,7 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           onCreateDrawerCloseComplete={this.onCloseComplete}
           createDrawerContents={this.renderCreateDrawerContents}
           shouldCreateDrawerUnmountOnExit={unmountOnExit}
+          isCreateDrawerFocusLockEnabled={isCreateDrawerFocusLockEnabled}
           // Search
           onSearchClick={this.openSearchDrawer}
           searchTooltip="Search (\)"
@@ -191,30 +210,38 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           onSearchDrawerClose={this.closeSearchDrawer}
           onSearchDrawerCloseComplete={this.onCloseComplete}
           shouldSearchDrawerUnmountOnExit={unmountOnExit}
+          isSearchDrawerFocusLockEnabled={isSearchDrawerFocusLockEnabled}
           // Notifications
           notificationDrawerContents={this.renderNotificationDrawerContents}
           onNotificationDrawerOpen={onNotificationDrawerOpen}
           onNotificationDrawerCloseComplete={this.onCloseComplete}
           notificationCount={notificationCount}
           shouldNotificationDrawerUnmountOnExit={unmountOnExit}
+          isNotificationDrawerFocusLockEnabled={
+            isNotificationDrawerFocusLockEnabled
+          }
           // Help
           helpItems={HelpDropdown}
           helpDrawerContents={this.renderHelpDrawerContents}
           onHelpDrawerCloseComplete={this.onCloseComplete}
           shouldHelpDrawerUnmountOnExit={unmountOnExit}
+          isHelpDrawerFocusLockEnabled={isHelpDrawerFocusLockEnabled}
           enableHelpDrawer={helpItemOpens === 'drawer'}
           // Settings
           settingsDrawerContents={this.renderSettingsDrawerContents}
           onSettingsDrawerCloseComplete={this.onCloseComplete}
           shouldSettingsDrawerUnmountOnExit={unmountOnExit}
+          isSettingsDrawerFocusLockEnabled={isSettingsDrawerFocusLockEnabled}
           // Recent drawer
           recentDrawerContents={this.renderRecentDrawerContents}
           onRecentDrawerCloseComplete={this.onCloseComplete}
           shouldRecentDrawerUnmountOnExit={unmountOnExit}
+          isRecentDrawerFocusLockEnabled={isRecentDrawerFocusLockEnabled}
           // Invite drawer
           inviteDrawerContents={this.renderInviteDrawerContents}
           onInviteDrawerCloseComplete={this.onCloseComplete}
           shouldInviteDrawerUnmountOnExit={unmountOnExit}
+          isInviteDrawerFocusLockEnabled={isInviteDrawerFocusLockEnabled}
           // define drawer back icon
           drawerBackIcon={CrossIcon}
         />
@@ -239,6 +266,14 @@ type NavState = {
   helpItemOpens: 'drawer' | 'menu',
   notificationCount: number,
   shouldUnmountOnExit: boolean,
+  isRecentDrawerFocusLockEnabled: boolean,
+  isStarredDrawerFocusLockEnabled: boolean,
+  isSearchDrawerFocusLockEnabled: boolean,
+  isCreateDrawerFocusLockEnabled: boolean,
+  isNotificationDrawerFocusLockEnabled: boolean,
+  isInviteDrawerFocusLockEnabled: boolean,
+  isHelpDrawerFocusLockEnabled: boolean,
+  isSettingsDrawerFocusLockEnabled: boolean,
 };
 
 // Need two components because both have state
@@ -249,6 +284,14 @@ export default class extends Component<{||}, NavState> {
     helpItemOpens: 'menu',
     notificationCount: DEFAULT_NOTIFICATION_COUNT,
     shouldUnmountOnExit: false,
+    isRecentDrawerFocusLockEnabled: true,
+    isStarredDrawerFocusLockEnabled: true,
+    isSearchDrawerFocusLockEnabled: true,
+    isCreateDrawerFocusLockEnabled: true,
+    isNotificationDrawerFocusLockEnabled: true,
+    isInviteDrawerFocusLockEnabled: true,
+    isHelpDrawerFocusLockEnabled: true,
+    isSettingsDrawerFocusLockEnabled: true,
   };
 
   componentDidMount() {
@@ -274,12 +317,29 @@ export default class extends Component<{||}, NavState> {
   resetNotificationCount = () =>
     this.setState({ notificationCount: DEFAULT_NOTIFICATION_COUNT });
 
+  toggleFocusLock = (ev: SyntheticMouseEvent<*>) => {
+    const propName = `is${
+      (ev.target: window.HTMLInputElement).id
+    }FocusLockEnabled`;
+    this.setState(state => ({
+      [propName]: !state[propName],
+    }));
+  };
+
   renderGlobalNavigation = () => {
     const {
       createItemOpens,
       helpItemOpens,
       notificationCount,
       shouldUnmountOnExit,
+      isRecentDrawerFocusLockEnabled,
+      isStarredDrawerFocusLockEnabled,
+      isSearchDrawerFocusLockEnabled,
+      isCreateDrawerFocusLockEnabled,
+      isNotificationDrawerFocusLockEnabled,
+      isInviteDrawerFocusLockEnabled,
+      isHelpDrawerFocusLockEnabled,
+      isSettingsDrawerFocusLockEnabled,
     } = this.state;
     return (
       <GlobalNavWithDrawers
@@ -288,6 +348,16 @@ export default class extends Component<{||}, NavState> {
         notificationCount={notificationCount}
         onNotificationDrawerOpen={this.clearNotificationCount}
         unmountOnExit={shouldUnmountOnExit}
+        isRecentDrawerFocusLockEnabled={isRecentDrawerFocusLockEnabled}
+        isStarredDrawerFocusLockEnabled={isStarredDrawerFocusLockEnabled}
+        isSearchDrawerFocusLockEnabled={isSearchDrawerFocusLockEnabled}
+        isCreateDrawerFocusLockEnabled={isCreateDrawerFocusLockEnabled}
+        isNotificationDrawerFocusLockEnabled={
+          isNotificationDrawerFocusLockEnabled
+        }
+        isInviteDrawerFocusLockEnabled={isInviteDrawerFocusLockEnabled}
+        isHelpDrawerFocusLockEnabled={isHelpDrawerFocusLockEnabled}
+        isSettingsDrawerFocusLockEnabled={isSettingsDrawerFocusLockEnabled}
       />
     );
   };
@@ -349,6 +419,67 @@ export default class extends Component<{||}, NavState> {
                 onChange={this.toggleUnmountBehaviour}
               />{' '}
               Retain drawer contents after closing the drawer.
+            </div>
+            <h6>Toggle focus lock for:</h6>
+            <div
+              css={{ display: 'flex', flexDirection: 'row', marginTop: '1rem' }}
+            >
+              <Checkbox
+                label="Recent drawer"
+                id="RecentDrawer"
+                value="column"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Star drawer"
+                id="StarredDrawer"
+                value="column"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Search drawer"
+                id="SearchDrawer"
+                value="column"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Create drawer"
+                id="CreateDrawer"
+                value="row"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Invite drawer"
+                id="InviteDrawer"
+                value="row"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Notification drawer"
+                id="NotificationDrawer"
+                value="row"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Help drawer"
+                id="HelpDrawer"
+                value="row"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
+              <Checkbox
+                label="Settings drawer"
+                id="SettingsDrawer"
+                value="row"
+                onChange={this.toggleFocusLock}
+                defaultChecked
+              />
             </div>
             <p>
               <Button
