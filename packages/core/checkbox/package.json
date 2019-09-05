@@ -29,6 +29,7 @@
     "@emotion/core": "^10.0.9",
     "emotion-theming": "^10.0.7",
     "lodash.merge": "^4.6.1",
+    "memoize-one": "^5.1.0",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
