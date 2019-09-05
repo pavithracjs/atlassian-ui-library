@@ -23,7 +23,7 @@ export interface RadioGroupProps {
   /** Function that gets fired after each invalid event */
   onInvalid?: (event: SyntheticEvent<any>) => void;
   /** Function that gets after each change event */
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   [key: string]: any;
 }
 
@@ -58,9 +58,8 @@ export default class RadioGroup extends Component<RadioGroupProps, State> {
     this.setState({
       value: event.currentTarget.value,
     });
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(event);
-    }
+
+    this.props.onChange!(event);
   };
 
   buildOptions = (): RadioElementArray => {
