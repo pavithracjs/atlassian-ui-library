@@ -14,7 +14,8 @@
     "build": "webpack -p"
   },
   "maintainers": [
-    "Nathan F"
+    "Stanislav S",
+    "Vijay S"
   ],
   "atlaskit": {
     "name": "Editor Mobile Bridge",
