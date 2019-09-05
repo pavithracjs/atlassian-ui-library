@@ -21,9 +21,15 @@ import {
 import { INPUT_METHOD } from '../../analytics';
 import { TaskDecisionListType } from '../types';
 import { Command } from '../../../types';
-import { canSplit, findWrapping, Transform } from 'prosemirror-transform';
+import {
+  canSplit,
+  findWrapping,
+  Transform,
+  ReplaceAroundStep,
+} from 'prosemirror-transform';
 import { liftListItem } from 'prosemirror-schema-list';
 import { autoJoin } from 'prosemirror-commands';
+import { findCutBefore } from '../../../utils/commands';
 
 const isInsideTaskOrDecisionItem = (state: EditorState) => {
   const { decisionItem, taskItem } = state.schema.nodes;
@@ -96,11 +102,47 @@ const indent = autoJoin(
 
 const backspace = autoJoin(
   (state: EditorState, dispatch?: (tr: Transaction) => void) => {
-    if (!isInsideTaskOrDecisionItem(state)) {
-      return false;
+    const { $from } = state.selection;
+
+    const $cut = findCutBefore($from);
+    if ($cut) {
+      console.log('$cut', $cut);
+
+      if (
+        $cut.nodeBefore &&
+        $cut.nodeBefore.type.name === 'taskList' &&
+        $cut.nodeAfter &&
+        $cut.nodeAfter.type.name === 'paragraph'
+      ) {
+        // taskList contains taskItem, so this is the end of the inside
+        const $dest = $cut.doc.resolve($cut.pos - 4);
+
+        const slice = state.tr.doc.slice($dest.pos, $cut.pos);
+        console.warn('slice', slice);
+
+        // join them
+        const tr = state.tr.step(
+          new ReplaceAroundStep(
+            $dest.pos,
+            $cut.pos + $cut.nodeAfter.nodeSize,
+            $cut.pos + 1,
+            $cut.pos + $cut.nodeAfter.nodeSize - 1,
+            slice,
+            0,
+            true,
+          ),
+        );
+
+        if (dispatch) {
+          dispatch(tr);
+        }
+        return true;
+      }
     }
 
-    const { $from } = state.selection;
+    if (!isInsideTaskOrDecisionItem(state) || $from.start() !== $from.pos) {
+      return false;
+    }
 
     // if nested, just unindent
     if ($from.node($from.depth - 2).type.name === 'taskList') {
@@ -112,6 +154,7 @@ const backspace = autoJoin(
     // we achieve this by slicing the content out, and replacing
     if (canSplitListItem(state.tr)) {
       console.log('can split');
+
       if (dispatch) {
         const taskContent = state.doc.slice($from.start(), $from.end()).content;
 
@@ -134,9 +177,8 @@ const backspace = autoJoin(
 );
 
 const canSplitListItem = (tr: Transaction) => {
-  const afterTaskItem = tr.doc.resolve(tr.selection.$from.end()).nodeAfter;
-
-  console.log('after', afterTaskItem);
+  const { $from } = tr.selection;
+  const afterTaskItem = tr.doc.resolve($from.end()).nodeAfter;
 
   return (
     !afterTaskItem || (afterTaskItem && afterTaskItem.type.name === 'taskItem')
