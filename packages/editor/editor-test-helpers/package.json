@@ -10,7 +10,7 @@
   "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Stanislas S"
+    "Stanislav S"
   ],
   "atlaskit": {
     "internal": true,
