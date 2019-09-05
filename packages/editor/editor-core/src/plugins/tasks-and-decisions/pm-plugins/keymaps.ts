@@ -149,7 +149,8 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
     Tab: indent,
 
     Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
-      const { selection, tr } = state;
+      const { selection } = state;
+      let tr = state.tr;
       const { $from } = selection;
       const node = $from.node($from.depth);
       const nodeType = node && node.type;
@@ -161,16 +162,35 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
         return false;
       }
 
-      if (isEmpty) {
+      // unindent if it's an empty nested taskItem (inside taskList)
+      if (isEmpty && $from.node($from.depth - 2).type.name === 'taskList') {
         return unindent(state, dispatch);
       }
 
-      // this is from prosemirror-schema-list
-      // will unindent if empty
+      const afterTaskItem = tr.doc.resolve($from.pos + 1).nodeAfter;
 
-      if (isEmpty && $from.parent.type.name !== 'taskList') {
-        console.warn('using old method');
-        dispatch(splitListAtSelection(tr, schema));
+      // not nested, exit the list if possible
+      if (
+        isEmpty &&
+        (!afterTaskItem ||
+          (afterTaskItem && afterTaskItem.type.name === 'taskItem'))
+      ) {
+        // split just before the current item
+        // TODO: new id for split taskList
+        tr = tr.split($from.pos - 1);
+
+        // and delete the action at the current pos
+        // we can do this because we know either first new child will be taskItem or nothing at all
+        tr = tr.deleteRange($from.pos + 2, $from.pos + 3);
+
+        // taskList and taskItem positions collapse (nodes get deleted), so $from.pos is now the
+        // start of the split taskList or remaining nodes in doc
+        tr = tr.insert($from.pos, schema.nodes.paragraph.createChecked());
+
+        // put cursor inside paragraph
+        tr = tr.setSelection(new TextSelection(tr.doc.resolve($from.pos + 1)));
+
+        dispatch(tr);
         return true;
       }
 
@@ -198,6 +218,7 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
         insertTr.scrollIntoView();
         dispatch(insertTr);
       }
+
       return true;
     },
   };
