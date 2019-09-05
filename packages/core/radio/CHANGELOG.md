@@ -1,5 +1,13 @@
 # @atlaskit/radio
 
+## 3.0.17
+
+### Patch Changes
+
+- [patch][7dc767eabb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7dc767eabb):
+
+  onChange is now marked as an optional prop
+
 ## 3.0.16
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/radio",
-  "version": "3.0.16",
+  "version": "3.0.17",
   "description": "A radio group React component used for selecting discrete values in a form",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
