@@ -9,15 +9,11 @@
   "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    {
-      "name": "Hector Z"
-    },
-    {
-      "name": "Michael J"
-    },
-    {
-      "name": "James N"
-    }
+    "Ali C",
+    "Hector Z",
+    "Wilson MN",
+    "Vladimir V",
+    "Aleksandr M"
   ],
   "atlaskit": {
     "name": "Media Card",

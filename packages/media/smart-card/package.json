@@ -9,7 +9,9 @@
   "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "James N"
+    "Abhi K",
+    "Callum O",
+    "Artur B"
   ],
   "atlaskit": {
     "name": "Smart Card",
