@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-mobile-bridge",
-  "version": "8.9.2",
+  "version": "8.9.3",
   "description": "Mobile distribution of the Editor",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
@@ -14,7 +14,8 @@
     "build": "webpack -p"
   },
   "maintainers": [
-    "Nathan F"
+    "Stanislav S",
+    "Vijay S"
   ],
   "atlaskit": {
     "name": "Editor Mobile Bridge",
@@ -35,7 +36,7 @@
     "@atlaskit/emoji": "^62.4.0",
     "@atlaskit/mention": "^18.15.0",
     "@atlaskit/renderer": "^50.0.0",
-    "@atlaskit/smart-card": "^12.5.2",
+    "@atlaskit/smart-card": "^12.5.3",
     "@atlaskit/status": "^0.9.11",
     "@atlaskit/task-decision": "^15.3.1",
     "@atlaskit/textarea": "^2.1.10",

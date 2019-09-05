@@ -25,13 +25,8 @@ import {
   videoSquareFileIdItem,
 } from '../example-helpers';
 import { MediaViewer } from '../src';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
 const mediaClientConfig = createStorybookMediaClientConfig();
-
-const handleEvent = (/*analyticsEvent: UIAnalyticsEvent*/) => {
-  // instrument here...
-};
 
 export type State = {
   selectedIdentifier?: Identifier;
@@ -119,15 +114,13 @@ export default class Example extends React.Component<{}, State> {
             </ButtonList>
           </Group>
           {selectedIdentifier && (
-            <AnalyticsListener channel="media" onEvent={handleEvent}>
-              <MediaViewer
-                mediaClientConfig={mediaClientConfig}
-                selectedItem={selectedIdentifier}
-                dataSource={{ list: [selectedIdentifier] }}
-                collectionName={defaultCollectionName}
-                onClose={() => this.setState({ selectedIdentifier: undefined })}
-              />
-            </AnalyticsListener>
+            <MediaViewer
+              mediaClientConfig={mediaClientConfig}
+              selectedItem={selectedIdentifier}
+              dataSource={{ list: [selectedIdentifier] }}
+              collectionName={defaultCollectionName}
+              onClose={() => this.setState({ selectedIdentifier: undefined })}
+            />
           )}
         </Container>
       </I18NWrapper>

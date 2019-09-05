@@ -1,5 +1,4 @@
-import { JsonLd } from '../../client/types';
-import CardClient from '../../client';
+import { JsonLd, CardClient } from '../../client/types';
 import { CardActionType } from '../actions/types';
 
 export type CardType =

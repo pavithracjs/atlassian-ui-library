@@ -10,7 +10,7 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Stanislas S"
+    "Stanislav S"
   ],
   "atlaskit": {
     "name": "Editor Jira Transformer",

@@ -3,9 +3,23 @@ import { Component } from 'react';
 
 import { CardAction } from '../../actions';
 import { Wrapper } from './styled';
-import { CardActionIconButton } from './cardActionIconButton';
+import {
+  CardActionIconButton,
+  CardActionIconButtonProps,
+} from './cardActionIconButton';
 import { CardActionsDropdownMenu } from './cardActionsDropdownMenu';
 import { PreventClickThrough } from '../preventClickThrough';
+import { createAndFireMediaEvent } from '../analytics';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventsProps,
+} from '@atlaskit/analytics-next';
+
+type CardActionIconButtonPropsWithAnalytics = CardActionIconButtonProps &
+  WithAnalyticsEventsProps;
+const CardActionIconButtonWithProps = (
+  props: CardActionIconButtonPropsWithAnalytics,
+) => <CardActionIconButton {...props} />;
 
 export interface CardActionsViewProps {
   readonly actions: CardAction[];
@@ -28,18 +42,36 @@ export class CardActionsView extends Component<CardActionsViewProps> {
     return (
       <PreventClickThrough>
         <Wrapper>
-          {primaryAction ? this.renderActionIconButton(primaryAction) : null}
+          {primaryAction
+            ? this.renderActionIconButton(primaryAction, true)
+            : null}
           {this.renderOtherActionButtons(otherActions)}
         </Wrapper>
       </PreventClickThrough>
     );
   }
 
-  private renderActionIconButton(action: CardAction): JSX.Element {
+  private renderActionIconButton(
+    action: CardAction,
+    isPrimary?: boolean,
+  ): JSX.Element {
     const { triggerColor } = this.props;
-    const { icon, handler } = action;
+    const { icon, handler, label } = action;
+    const CardActionIconButtonWithAnalytics = withAnalyticsEvents({
+      onClick: createAndFireMediaEvent({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: isPrimary
+          ? 'mediaCardPrimaryActionButton'
+          : 'mediaCardSecondaryActionButton',
+        attributes: {
+          label,
+        },
+      }),
+    })(CardActionIconButtonWithProps);
     return (
-      <CardActionIconButton
+      <CardActionIconButtonWithAnalytics
         icon={icon}
         triggerColor={triggerColor}
         onClick={() => handler()}
@@ -58,7 +90,7 @@ export class CardActionsView extends Component<CardActionsViewProps> {
       );
 
       if (firstActionWithIcon && otherActions.length === 0) {
-        return this.renderActionIconButton(firstActionWithIcon);
+        return this.renderActionIconButton(firstActionWithIcon, false);
       } else {
         return (
           <CardActionsDropdownMenu

@@ -50,9 +50,12 @@ export class DropzoneLoader extends React.PureComponent<
           dropzoneModule.Dropzone,
         );
 
+        DropzoneLoader.MediaPickerErrorBoundary =
+          mediaPickerErrorBoundaryModule.default;
+
         this.setState({
           Dropzone: DropzoneLoader.Dropzone,
-          MediaPickerErrorBoundary: mediaPickerErrorBoundaryModule.default,
+          MediaPickerErrorBoundary: DropzoneLoader.MediaPickerErrorBoundary,
         });
       } catch (error) {
         // TODO [MS-2272]: Add operational error to catch async import error
@@ -61,14 +64,15 @@ export class DropzoneLoader extends React.PureComponent<
   }
 
   render() {
-    if (!this.state.Dropzone || !this.state.MediaPickerErrorBoundary) {
+    const { Dropzone, MediaPickerErrorBoundary } = this.state;
+    if (!Dropzone || !MediaPickerErrorBoundary) {
       return null;
     }
 
     return (
-      <this.state.MediaPickerErrorBoundary>
-        <this.state.Dropzone {...this.props} />
-      </this.state.MediaPickerErrorBoundary>
+      <MediaPickerErrorBoundary>
+        <Dropzone {...this.props} />
+      </MediaPickerErrorBoundary>
     );
   }
 }

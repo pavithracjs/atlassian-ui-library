@@ -18,8 +18,8 @@ jest.doMock('@atlaskit/outbound-auth-flow-client', () => ({
   auth: mockAuthFlow,
 }));
 
-const mockContext = {
-  config: { maxAge: 100, maxLoading: 100 },
+const getMockContext = (): CardContext => ({
+  config: { maxAge: 100, maxLoadingDelay: 100 },
   connections: {
     client: {
       fetchData: jest.fn(),
@@ -28,8 +28,12 @@ const mockContext = {
   store: {
     getState: jest.fn(() => ({})),
     dispatch: jest.fn(),
+    subscribe: jest.fn(),
+    replaceReducer: jest.fn(),
   },
-};
+});
+
+let mockContext: CardContext;
 jest.doMock('../../context', () => ({
   useSmartLinkContext: jest.fn(() => mockContext),
 }));
@@ -37,12 +41,26 @@ jest.doMock('../../context', () => ({
 import { useSmartCardActions } from '..';
 import { mocks } from '../../../utils/mocks';
 import { FetchError } from '../../../client';
+import { CardContext } from '../../context';
+import { JsonLd } from '../../../client/types';
+import { CardState } from '../../types';
+import { ERROR_MESSAGE_OAUTH, ERROR_MESSAGE_FATAL } from '../constants';
 
 describe('Smart Card: Actions', () => {
   let url: string;
   let dispatchAnalytics: jest.Mock;
+  const mockFetchData = (response: Promise<JsonLd | undefined>) => {
+    (mockContext.connections.client
+      .fetchData as jest.Mock).mockImplementationOnce(() => response);
+  };
+  const mockState = (state: CardState) => {
+    (mockContext.store.getState as jest.Mock).mockImplementationOnce(() => ({
+      [url]: state,
+    }));
+  };
 
   beforeEach(() => {
+    mockContext = getMockContext();
     url = 'https://some/url';
     dispatchAnalytics = jest.fn();
   });
@@ -53,18 +71,11 @@ describe('Smart Card: Actions', () => {
 
   describe('register()', () => {
     it('dispatches pending action if card not in store', async () => {
-      const { connections } = mockContext;
-      const { client } = connections;
-      const mockFetchData = async () => mocks.success;
-      client.fetchData.mockImplementationOnce(mockFetchData);
-
+      mockFetchData(Promise.resolve(mocks.success));
       const actions = useSmartCardActions(url, dispatchAnalytics);
-      actions.register();
+      await actions.register();
 
-      await mockFetchData();
-
-      expect(client.fetchData).toBeCalled();
-      expect(client.fetchData).toBeCalledWith(url);
+      expect(mockContext.connections.client.fetchData).toBeCalledWith(url);
       expect(dispatchAnalytics).toBeCalled();
       expect(mockEvents.resolvedEvent).toBeCalled();
     });
@@ -72,25 +83,21 @@ describe('Smart Card: Actions', () => {
 
   describe('resolve()', () => {
     it('throws (allowing editor to handle) if resolving fails and there is no previous data', async () => {
-      const { connections } = mockContext;
-      const { client } = connections;
-      const mockFetchData = () =>
-        Promise.reject(new FetchError('fatal', '0xBAADF00D'));
-      client.fetchData.mockImplementationOnce(mockFetchData);
-      mockContext.store.getState.mockImplementationOnce(() => ({
-        [url]: {
-          status: 'pending',
-          lastUpdatedAt: 0,
-          details: undefined,
-        },
-      }));
+      mockFetchData(Promise.reject(new FetchError('fatal', '0xBAADF00D')));
+      mockState({
+        status: 'pending',
+        lastUpdatedAt: 0,
+        details: undefined,
+      });
 
       const actions = useSmartCardActions(url, dispatchAnalytics);
       const promise = actions.register();
       await expect(promise).rejects.toThrow(Error);
       await expect(promise).rejects.toHaveProperty('kind', 'fatal');
 
-      expect(client.fetchData).toHaveBeenCalledWith(url);
+      expect(mockContext.connections.client.fetchData).toHaveBeenCalledWith(
+        url,
+      );
       expect(mockContext.store.dispatch).toHaveBeenCalledTimes(1);
       expect(mockContext.store.dispatch).toHaveBeenCalledWith({
         payload: undefined,
@@ -100,24 +107,20 @@ describe('Smart Card: Actions', () => {
     });
 
     it('falls back to previous data if the URL failed to be resolved', async () => {
-      const { connections } = mockContext;
-      const { client } = connections;
-      const mockFetchData = () =>
-        Promise.reject(new FetchError('fatal', '0xBAADF00D'));
-      client.fetchData.mockImplementationOnce(mockFetchData);
-      mockContext.store.getState.mockImplementation(() => ({
-        [url]: {
-          status: 'resolved',
-          lastUpdatedAt: 0,
-          details: mocks.success,
-        },
-      }));
+      mockFetchData(Promise.reject(new FetchError('fatal', '0xBAADF00D')));
+      mockState({
+        status: 'resolved',
+        lastUpdatedAt: 0,
+        details: mocks.success,
+      });
 
       const actions = useSmartCardActions(url, dispatchAnalytics);
       const promise = actions.register();
       await expect(promise).resolves.toBeUndefined();
 
-      expect(client.fetchData).toHaveBeenCalledWith(url);
+      expect(mockContext.connections.client.fetchData).toHaveBeenCalledWith(
+        url,
+      );
       expect(mockContext.store.dispatch).toHaveBeenCalledTimes(1);
       expect(mockContext.store.dispatch).toHaveBeenCalledWith({
         payload: mocks.success,
@@ -127,24 +130,22 @@ describe('Smart Card: Actions', () => {
     });
 
     it('resolves to authentication error data if resolving failed for auth reasons', async () => {
-      const { connections } = mockContext;
-      const { client } = connections;
-      const mockFetchData = () =>
-        Promise.reject(new FetchError('auth', 'YOU SHALL NOT PASS'));
-      client.fetchData.mockImplementationOnce(mockFetchData);
-      mockContext.store.getState.mockImplementationOnce(() => ({
-        [url]: {
-          status: 'pending',
-          lastUpdatedAt: 0,
-          details: undefined,
-        },
-      }));
+      mockFetchData(
+        Promise.reject(new FetchError('auth', 'YOU SHALL NOT PASS')),
+      );
+      mockState({
+        status: 'pending',
+        lastUpdatedAt: 0,
+        details: undefined,
+      });
 
       const actions = useSmartCardActions(url, dispatchAnalytics);
       const promise = actions.register();
       await expect(promise).resolves.toBeUndefined();
 
-      expect(client.fetchData).toHaveBeenCalledWith(url);
+      expect(mockContext.connections.client.fetchData).toHaveBeenCalledWith(
+        url,
+      );
       expect(mockContext.store.dispatch).toHaveBeenCalledTimes(2);
       expect(mockContext.store.dispatch).toHaveBeenCalledWith({
         payload: {
@@ -157,6 +158,59 @@ describe('Smart Card: Actions', () => {
           data: {},
         },
         type: 'resolved',
+        url: 'https://some/url',
+      });
+    });
+
+    it('resolves to error data if no authFlow is available and authorisation is required', async () => {
+      mockContext = {
+        ...mockContext,
+        config: {
+          ...mockContext.config,
+          authFlow: 'disabled',
+        },
+      };
+      mockFetchData(Promise.resolve(mocks.unauthorized));
+      mockState({
+        status: 'unauthorized',
+        lastUpdatedAt: 0,
+        details: undefined,
+      });
+
+      const actions = useSmartCardActions(url, dispatchAnalytics);
+      const promise = actions.register();
+      await expect(promise).resolves.toBeUndefined();
+
+      expect(mockContext.connections.client.fetchData).toHaveBeenCalledWith(
+        url,
+      );
+      expect(mockContext.store.dispatch).toHaveBeenCalledTimes(2);
+      expect(mockContext.store.dispatch).toHaveBeenCalledWith({
+        payload: ERROR_MESSAGE_OAUTH,
+        type: 'errored',
+        url: 'https://some/url',
+      });
+    });
+
+    it('resolves to error data response is undefined', async () => {
+      mockFetchData(Promise.resolve(undefined));
+      mockState({
+        status: 'pending',
+        lastUpdatedAt: 0,
+        details: undefined,
+      });
+
+      const actions = useSmartCardActions(url, dispatchAnalytics);
+      const promise = actions.register();
+      await expect(promise).resolves.toBeUndefined();
+
+      expect(mockContext.connections.client.fetchData).toHaveBeenCalledWith(
+        url,
+      );
+      expect(mockContext.store.dispatch).toHaveBeenCalledTimes(2);
+      expect(mockContext.store.dispatch).toHaveBeenCalledWith({
+        payload: ERROR_MESSAGE_FATAL,
+        type: 'errored',
         url: 'https://some/url',
       });
     });
