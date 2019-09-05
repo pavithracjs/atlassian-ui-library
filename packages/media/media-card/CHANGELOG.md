@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 65.1.0
+
+### Minor Changes
+
+- [minor][b95f6ba701](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b95f6ba701):
+
+  Added Analytics events for Media Card Action, Dropdown Menu and Retry buttons
+
 ## 65.0.1
 
 ### Patch Changes
