@@ -140,7 +140,23 @@ const backspace = autoJoin(
       }
     }
 
-    if (!isInsideTaskOrDecisionItem(state) || $from.start() !== $from.pos) {
+    if (!isInsideTaskOrDecisionItem(state)) {
+      return false;
+    }
+
+    if ($from.start() !== $from.pos) {
+      return false;
+    }
+
+    // if ($from.nodeBefore)
+    const taskBefore = $from.doc.resolve($from.before());
+    console.log('before', taskBefore.nodeBefore);
+    if (
+      taskBefore.nodeBefore &&
+      taskBefore.nodeBefore.type.name === 'taskItem' &&
+      taskBefore.nodeBefore.nodeSize === 2
+    ) {
+      console.warn('just delete backwards');
       return false;
     }
 
@@ -180,6 +196,8 @@ const canSplitListItem = (tr: Transaction) => {
   const { $from } = tr.selection;
   const afterTaskItem = tr.doc.resolve($from.end()).nodeAfter;
 
+  console.log('after', afterTaskItem, $from.nodeAfter);
+
   return (
     !afterTaskItem || (afterTaskItem && afterTaskItem.type.name === 'taskItem')
   );
@@ -208,6 +226,21 @@ const splitListItemWith = (
 
   // put cursor inside paragraph
   tr = tr.setSelection(new TextSelection(tr.doc.resolve($from.pos + 1)));
+
+  // lift list up a level if now placeholder is top level
+  const after = tr.mapping.map($from.pos);
+  const $after = tr.doc.resolve(after);
+  const afterNode = $after.node();
+  if (afterNode.firstChild && afterNode.firstChild.nodeSize === 2) {
+    // taskItem was empty
+    const blockRange = getBlockRange($after, $after);
+    if (blockRange) {
+      tr = tr.lift(blockRange, blockRange.depth - 1).scrollIntoView();
+    }
+
+    console.log('after', after);
+    tr = tr.deleteRange(after - 1, after);
+  }
 
   return tr;
 };
