@@ -17,10 +17,10 @@ const newThemeTokens: ComponentTokens = {
 
 const customTheme = (
   current: (props: { tokens: ComponentTokens; mode: string }) => ThemeTokens,
-  { tokens, mode }: { tokens: ComponentTokens; mode: string },
+  props: { tokens: ComponentTokens; mode: string },
 ) => {
-  const mergedTokens = merge({}, tokens, newThemeTokens);
-  return current({ tokens: mergedTokens, mode });
+  const themeTokens = current(props);
+  return merge({}, themeTokens, newThemeTokens);
 };
 
 export default () => <Checkbox label="Remember me" theme={customTheme} />;
