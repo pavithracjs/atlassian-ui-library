@@ -1,19 +1,25 @@
 # Atlaskit Measure Tool
 
-The atlaskit measure tool is effectively a quick script to analyze the webpack bundle for a package. This is incredibly useful both to get the bundle size at-a-glance as well as when doing deep dives into bundle size.
+The Atlaskit measure tool is effectively a quick script to analyze the webpack bundle for a package. This is incredibly useful both to get the bundle size at-a-glance as well as when doing deep dives into bundle size.
 
-There are two commands in measure:
+For further details on how we measure the bundle size in Atlaskit, please read this [documentation](https://atlaskit.atlassian.com/docs/guides/bundle-size).
 
-## Basic usage
-
-```sh
-yarn measure [path1] [path2] [path3]
+## Usage
 ```
+    Usage
+        $ measure <[paths]>
 
-For example, to measure button, you would use:
+      Options
+        --analyze               Opens bundle analyzer report
+        --json                  Outputs measure stats as json
+        --lint                  Lint mode fails build if size has been increased beyond threshold
+        --updateSnapshot        Update measure snapshots
+        --s3                    Run S3 flow
 
-```sh
-yarn measure packages/core/button
+      Examples
+        $ measure button badge
+        $ measure button --updateSnapshot
+        $ measure button --analyze
 ```
 
 This prints output just to the terminal which will look like:
@@ -22,27 +28,7 @@ This prints output just to the terminal which will look like:
 
 As you can see, we have split our code into different chunks to better understand where weight is. Most importantly, you can see if atlaskit, the code's own source, or external dependencies are the things weighing the package down.
 
-## Updating snapshot
-
-If changes that have been introduced increase a bundle size beyond the allowed threshold, you might need to update measure snapshot. To do this, you can add the `--updateSnapshot` flag.
-
-Please make sure that this decision is carefully considered and discussed. The point of measuring bundle size change like this is to prevent things growing unexpectedly. Always ask if there is a better way to do what you are trying to do.
-
-```sh
-yarn measure:updateSnapshot [path]
-```
-
-## In-depth analysis
-
-Sometime you will need to look into what is in each chunk. To do this, you can add the `--analyze` flag.
-
-```sh
-yarn measure [path] --analyze
-```
-
-This will output the information above to the console, but will also launch a new tab in your browser which shows the [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) view of the code.
-
-With this, you can see exactly what packages or files are heavy.
+The ratchet files are now stored into s3.
 
 ## Exceptions
 
@@ -55,6 +41,17 @@ The excluded packages are:
 - `styled-components` 43.1kb (16kb)
 - `tslib` 5.6kb (2kb)
 - `prop-types` 829B (502B)
+
+## Adding a new package or a new team folder in Atlaskit
+
+Now that the ratchet are stored on s3, if you have to add a new package or a new team folder, you need to follow the below steps:
+- If your adding a new team folder, 
+  ** Find the custom build `push-bundle-size-to-s3` in the `bitbucket-pipelines.yml`.
+  ** In the step name `Bundle size update for all other packages`, add your team folder name to the list `export input=`
+- Rebase your branch on top of latest master.
+- In Bitbucket, find your [branch](https://bitbucket.org/atlassian/atlaskit-mk-2/branches/).
+- Click on the `...` and select from `Run pipeline for a branch` the custom build `push-bundle-size-to-s3`.
+- Run the build
 
 ## A note on this package
 

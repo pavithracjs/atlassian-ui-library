@@ -17,11 +17,13 @@ const cli = meow(
       $ node build/ci-scripts/get.changed.packages.since.master.js
 
     Options
-      --dependents='direct' Include "direct" dependent packages
+      --dependents='direct' Include "direct" dependent packages.
 
-      --spaceDelimited      Change the output of changed packages script from an array to a space delimited output
+      --spaceDelimited      Change the output of changed packages script from an array to a space delimited output.
 
-      --only='packages'     Target only 'packages' folder name
+      --only='packages'     Target only 'packages' folder name, this flag is mostly used with 'bolt measure', the bundle size tool.
+
+      --exclude='monorepo-tooling'     Exclude folders or packages, this flag is mostly used with 'bolt measure', the bundle size tool.
 
     Examples
       $ node build/ci-scripts/get.changed.packages.since.master.js --dependents='direct'
@@ -38,6 +40,9 @@ const cli = meow(
         type: 'boolean',
       },
       only: {
+        type: 'string',
+      },
+      exclude: {
         type: 'string',
       },
     },
@@ -94,11 +99,23 @@ const displayChangedPackagesSinceMaster = async () => {
 
   // Those exceptions scripts are related to the measure of the bundle size.
   // This check if the `--only='folderName'` flag is set when using the measure tool.
+  // This will filter the changed packages to only returned, the packages included in the folder or package path.
+  // For example, if we need to `only` include the folder 'packages' when measuring the package bundle size.
   if (cli.flags.only) {
     const includedPattern = cli.flags.only;
-    // For example, if we need to `only` include the component 'packages' when measuring the package bundle size.
     changedPackagesRelativePaths = changedPackagesRelativePaths.filter(pkg =>
       pkg.includes(includedPattern),
+    );
+  }
+
+  // Those exceptions scripts are related to the measure of the bundle size.
+  // This check if the `--exclude='folderName'` flag is set when using the measure tool.
+  // This will filter the changed packages to exclude the packages matching the folder or package path.
+  // For example, if we need to `exclude` the folder 'monorepo-tooling' when measuring the package bundle size.
+  if (cli.flags.exclude) {
+    const excludePattern = cli.flags.exclude.split(',');
+    changedPackagesRelativePaths = changedPackagesRelativePaths.filter(
+      pkg => excludePattern.filter(x => !pkg.includes(x)).length > 0,
     );
   }
 
