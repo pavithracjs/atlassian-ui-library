@@ -10,12 +10,11 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    {
-      "name": "Hector Z"
-    },
-    {
-      "name": "James N"
-    }
+    "Ali C",
+    "Hector Z",
+    "Wilson MN",
+    "Vladimir V",
+    "Aleksandr M"
   ],
   "atlaskit": {
     "name": "Media UI",

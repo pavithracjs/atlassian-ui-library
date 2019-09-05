@@ -9,12 +9,11 @@
   "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Jimmy L",
-    "Hector Z",
-    "James N",
-    "Aleksandr M",
     "Ali C",
-    "Michael J"
+    "Hector Z",
+    "Wilson MN",
+    "Vladimir V",
+    "Aleksandr M"
   ],
   "atlaskit": {
     "internal": true,

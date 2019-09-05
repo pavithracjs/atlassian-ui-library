@@ -9,9 +9,10 @@
   "atlaskit:src": "src/index.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Jimmy L",
+    "Ali C",
     "Hector Z",
-    "James N",
+    "Wilson MN",
+    "Vladimir V",
     "Aleksandr M"
   ],
   "atlaskit": {
