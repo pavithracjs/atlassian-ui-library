@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { Ellipsify } from '@atlaskit/media-ui';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import { CardOverlay } from '../../cardImageView/cardOverlay';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import {
   TitleWrapper,
   Metadata,
@@ -11,6 +12,7 @@ import {
 } from '../../cardImageView/cardOverlay/styled';
 
 import { CardActionsView } from '../../../utils/';
+import { FabricChannel } from '@atlaskit/analytics-listeners';
 
 describe('CardOverlay', () => {
   const errorMessage = 'Loading failed';
@@ -62,5 +64,34 @@ describe('CardOverlay', () => {
     expect(retryComponent).toHaveLength(1);
     retryComponent.simulate('click');
     expect(onRetry).toHaveBeenCalled();
+  });
+
+  it('should fire analytics event on Retry click', () => {
+    const analyticsEventHandler = jest.fn();
+    const card = mountWithIntlContext(
+      <AnalyticsListener
+        channel={FabricChannel.media}
+        onEvent={analyticsEventHandler}
+      >
+        <CardOverlay
+          persistent={false}
+          onRetry={() => {}}
+          error={errorMessage}
+        />
+        ,
+      </AnalyticsListener>,
+    );
+    const retryComponent = card.find(Retry);
+    expect(retryComponent).toHaveLength(1);
+    retryComponent.simulate('click');
+    expect(analyticsEventHandler).toBeCalledTimes(1);
+    const actualFiredEvent: UIAnalyticsEvent =
+      analyticsEventHandler.mock.calls[0][0];
+    expect(actualFiredEvent.payload).toMatchObject({
+      eventType: 'ui',
+      action: 'clicked',
+      actionSubject: 'button',
+      actionSubjectId: 'mediaCardRetry',
+    });
   });
 });

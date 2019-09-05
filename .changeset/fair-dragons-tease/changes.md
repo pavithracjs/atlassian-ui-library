@@ -1,0 +1,1 @@
+Added Analytics events for Media Card Action, Dropdown Menu and Retry buttons
