@@ -51,7 +51,7 @@ export default class CardLoader extends React.PureComponent<
 
         this.setState({
           Card: CardLoader.Card,
-          MediaCardErrorBoundary: mediaCardErrorBoundaryModule.default,
+          MediaCardErrorBoundary: CardLoader.MediaCardErrorBoundary,
         });
       } catch (error) {
         // TODO [MS-2278]: Add operational error to catch async import error
@@ -61,15 +61,16 @@ export default class CardLoader extends React.PureComponent<
 
   render() {
     const { dimensions } = this.props;
+    const { Card, MediaCardErrorBoundary } = this.state;
 
-    if (!this.state.Card || !this.state.MediaCardErrorBoundary) {
+    if (!Card || !MediaCardErrorBoundary) {
       return <CardLoading dimensions={dimensions} />;
     }
 
     return (
-      <this.state.MediaCardErrorBoundary>
-        <this.state.Card {...this.props} />
-      </this.state.MediaCardErrorBoundary>
+      <MediaCardErrorBoundary>
+        <Card {...this.props} />
+      </MediaCardErrorBoundary>
     );
   }
 }
