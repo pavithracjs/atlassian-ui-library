@@ -55,10 +55,17 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
       this.props.taskDecisionProvider,
       this.props.containerAri,
       this.props.objectAri,
+      this.props.isDone,
     );
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.isDone !== this.state.isDone) {
+      // This only occurs for Actions (DONE vs TODO), since Decisions only support DECIDED.
+      // If the document is refreshed or changed, we need to reset the local state to match the new
+      // source of truth from the revised data.
+      this.onUpdate(nextProps.isDone ? 'DONE' : 'TODO');
+    }
     if (
       nextProps.taskDecisionProvider !== this.props.taskDecisionProvider ||
       nextProps.containerAri !== this.props.containerAri ||
@@ -69,6 +76,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
         nextProps.taskDecisionProvider,
         nextProps.containerAri,
         nextProps.objectAri,
+        nextProps.isDone,
       );
     }
   }
@@ -82,13 +90,14 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
     taskDecisionProvider?: Promise<TaskDecisionProvider>,
     containerAri?: string,
     objectAri?: string,
+    isDone?: boolean,
   ) {
     if (taskDecisionProvider && containerAri && objectAri) {
       taskDecisionProvider.then(provider => {
         if (!this.mounted) {
           return;
         }
-        const { taskId, isDone } = this.props;
+        const { taskId } = this.props;
         const objectKey = { localId: taskId, objectAri, containerAri };
         const item: BaseItem<TaskState> = {
           ...objectKey,
