@@ -1,0 +1,1 @@
+Adding an optional prop `testId` that will set the attribute value `data-testid`. It will help products to write better integration and end to end tests.

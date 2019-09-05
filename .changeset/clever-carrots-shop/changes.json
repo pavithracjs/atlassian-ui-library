@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/button", "type": "minor" },
+    { "name": "@atlaskit/modal-dialog", "type": "minor" }
+  ],
+  "dependents": []
+}
