@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 65.0.1
+
+### Patch Changes
+
+- [patch][8e2cb88526](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e2cb88526):
+
+  Adding Error boundary in Media Card
+
 ## 65.0.0
 
 ### Major Changes
