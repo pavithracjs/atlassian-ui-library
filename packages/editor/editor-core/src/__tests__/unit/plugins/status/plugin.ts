@@ -16,7 +16,10 @@ import {
 } from '../../../../plugins/status/actions';
 import { setNodeSelectionNearPos } from '../../../../plugins/status/utils';
 import { pluginKey } from '../../../../plugins/status/plugin';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 export const setSelectionAndPickerAt = (pos: number) => (
   editorView: EditorView,
@@ -56,7 +59,7 @@ describe('status plugin: plugin', () => {
   let editorView: EditorView;
 
   const editorFactory = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       editorProps: {
         allowStatus: true,

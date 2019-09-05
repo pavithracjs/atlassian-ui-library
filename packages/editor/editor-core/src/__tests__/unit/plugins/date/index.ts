@@ -15,7 +15,10 @@ import {
   closeDatePicker,
 } from '../../../../plugins/date/actions';
 import { pluginKey } from '../../../../plugins/date/plugin';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 import { EditorView } from 'prosemirror-view';
 
@@ -25,7 +28,7 @@ describe('date plugin', () => {
   let editorView: EditorView;
 
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: { allowDate: true, allowAnalyticsGASV3: true },

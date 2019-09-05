@@ -134,14 +134,14 @@ describe('Compare Nodes', () => {
         [new Date('2019-01-01'), CompareResult.less, new Date('2019-02-01')],
         [new Date('2019-01-02'), CompareResult.greater, new Date('2019-01-01')],
         [new Date('2019-01-01'), CompareResult.less, new Date('2019-01-02')],
-      ].map(([dateA, result, dateB]) => [
+      ].map<[number, CompareResult, number]>(([dateA, result, dateB]) => [
         (dateA as Date).getTime(),
-        result,
+        result as CompareResult,
         (dateB as Date).getTime(),
       ]),
     )(
       `should node p(date({ timestamp: '%d' })) be %s than node p(date({ timestamp: '%d' }))`,
-      (timestampA: number, expected: CompareResult, timestampB: number) => {
+      (timestampA, expected, timestampB) => {
         const nodeA = td()(p(date({ timestamp: timestampA })))(
           editorView.state.schema,
         );
@@ -155,7 +155,7 @@ describe('Compare Nodes', () => {
   });
 
   describe('Mention inline node', () => {
-    test.each([
+    test.each<[string, CompareResult, string | undefined]>([
       ['awood', CompareResult.less, 'Carolyn'],
       ['Carolyn', CompareResult.greater, 'awood'],
       ['John Doe', CompareResult.greater, 'Jane Doe'],
@@ -165,11 +165,7 @@ describe('Compare Nodes', () => {
       ['John Doe', CompareResult.greater, undefined],
     ])(
       `should node p(mention({ text: '%s' })) be %s than node p(mention({ text: '%s' }))`,
-      (
-        textA: string | undefined,
-        expected: CompareResult,
-        textB: string | undefined,
-      ) => {
+      (textA, expected, textB) => {
         const nodeA = td()(p(mention({ id: 'a', text: textA })()))(
           editorView.state.schema,
         );
@@ -183,12 +179,12 @@ describe('Compare Nodes', () => {
   });
 
   describe('Link inline node', () => {
-    test.each([
+    test.each<[string, CompareResult, string]>([
       ['http://google.com', CompareResult.less, 'http://yahoo.com'],
       ['Google Url', CompareResult.greater, 'Google Link'],
     ])(
       `should node p(link(any)('%s')) be %s than node p(link(any)('%s'))`,
-      (textLinkA: string, expected: CompareResult, textLinkB: string) => {
+      (textLinkA, expected, textLinkB) => {
         const nodeA = td()(p(a({ href: '' })(textLinkA)))(
           editorView.state.schema,
         );

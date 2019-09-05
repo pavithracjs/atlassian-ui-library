@@ -22,7 +22,10 @@ import {
   PresetLayout,
 } from '../../../../../plugins/layout/actions';
 import { layouts, buildLayoutForWidths } from '../_utils';
-import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEvent,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 describe('layout', () => {
   let createAnalyticsEvent: CreateUIAnalyticsEvent;
@@ -33,7 +36,7 @@ describe('layout', () => {
     UNSAFE_addSidebarLayouts: true,
   });
   const editor = (doc: any) => {
-    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} } as UIAnalyticsEvent));
     return createEditor({
       doc,
       editorProps: { allowLayouts: true, allowAnalyticsGASV3: true },
