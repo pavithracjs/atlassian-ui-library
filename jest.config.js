@@ -72,6 +72,7 @@ const config = {
   globals: {
     'ts-jest': {
       tsConfig: './tsconfig.jest.json',
+      diagnostics: false,
     },
     __BASEURL__: 'http://localhost:9000',
   },
