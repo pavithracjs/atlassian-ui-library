@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.9.3
+
+### Patch Changes
+
+- [patch][07dd73fa12](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07dd73fa12):
+
+  FM-2240 Fix issue where smart links would cause hybrid renderer to crash in Android
+
 ## 8.9.2
 
 ### Patch Changes
