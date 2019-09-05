@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { colors } from '@atlaskit/theme';
-import { EventHandlers } from '@atlaskit/editor-common';
+import { EventHandlers, mediaSingleClassName } from '@atlaskit/editor-common';
 import styled from 'styled-components';
 
 import { getEventHandler } from '../../utils';
@@ -8,7 +8,16 @@ import { getEventHandler } from '../../utils';
 const StyledAnchor = styled.a`
   color: ${colors.B400};
 
+  & > .${mediaSingleClassName} {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+
   &:hover {
+    & > .${mediaSingleClassName} {
+      opacity: 0.8;
+    }
+
     color: ${colors.B300};
     text-decoration: underline;
   }

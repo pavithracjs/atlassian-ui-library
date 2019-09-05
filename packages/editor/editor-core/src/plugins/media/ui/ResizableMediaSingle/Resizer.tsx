@@ -6,6 +6,7 @@ import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { gridTypeForLayout } from '../../../grid';
 import { snapTo, handleSides } from './utils';
 import { Props as ResizableMediaSingleProps, EnabledHandles } from './types';
+import { mediaSingleClassName } from '@atlaskit/editor-common';
 
 interface ReResizableNumberSize {
   width: number;
@@ -180,7 +181,7 @@ export default class Resizer extends React.Component<
           height: 'auto',
         }}
         className={classnames(
-          'media-single',
+          mediaSingleClassName,
           `image-${this.props.layout}`,
           this.props.className,
           {

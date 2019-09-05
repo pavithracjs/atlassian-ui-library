@@ -3,6 +3,7 @@
 import { css, Styles, StyledComponentClass } from 'styled-components';
 import {
   mediaSingleSharedStyle,
+  mediaSingleClassName,
   akEditorDeleteBorder,
   akEditorDeleteBackground,
   akEditorSelectedBorderBoldSize,
@@ -13,8 +14,8 @@ import { colors } from '@atlaskit/theme';
 
 export const mediaStyles = css`
   .ProseMirror {
-    ${mediaSingleSharedStyle} & [layout='full-width'] .media-single,
-    & [layout='wide'] .media-single {
+    ${mediaSingleSharedStyle} & [layout='full-width'] .${mediaSingleClassName},
+    & [layout='wide'] .${mediaSingleClassName} {
       margin-left: 50%;
       transform: translateX(-50%);
     }
@@ -33,7 +34,7 @@ export const mediaStyles = css`
       & + h6 {
         clear: both !important;
       }
-      & .media-single {
+      & .${mediaSingleClassName} {
         margin-left: 0;
         margin-right: 0;
       }
@@ -81,17 +82,17 @@ export const mediaStyles = css`
     border-radius: 6px;
   }
 
-  .media-single:hover .mediaSingle-resize-handle-left::after,
-  .media-single:hover .mediaSingle-resize-handle-right::after {
+  .${mediaSingleClassName}:hover .mediaSingle-resize-handle-left::after,
+  .${mediaSingleClassName}:hover .mediaSingle-resize-handle-right::after {
     background: ${colors.N60};
   }
 
   .mediaSingle-selected .mediaSingle-resize-handle-right::after,
   .mediaSingle-selected .mediaSingle-resize-handle-left::after,
-  .media-single .mediaSingle-resize-handle-right:hover::after,
-  .media-single .mediaSingle-resize-handle-left:hover::after,
-  .media-single.is-resizing .mediaSingle-resize-handle-right::after,
-  .media-single.is-resizing .mediaSingle-resize-handle-left::after {
+  .${mediaSingleClassName} .mediaSingle-resize-handle-right:hover::after,
+  .${mediaSingleClassName} .mediaSingle-resize-handle-left:hover::after,
+  .${mediaSingleClassName}.is-resizing .mediaSingle-resize-handle-right::after,
+  .${mediaSingleClassName}.is-resizing .mediaSingle-resize-handle-left::after {
     background: ${colors.B200};
   }
 
@@ -114,7 +115,7 @@ export const mediaStyles = css`
   /* Danger when nested node or common */
   .danger {
     /* Media single */
-    .media-single div div div::after {
+    .${mediaSingleClassName} div div div::after {
       border: ${akEditorSelectedBorderBoldSize}px solid ${akEditorDeleteBorder};
     }
 
