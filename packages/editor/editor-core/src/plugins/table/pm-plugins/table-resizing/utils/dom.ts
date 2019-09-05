@@ -1,10 +1,9 @@
 import { TableMap } from 'prosemirror-tables';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { getCellsInRow } from 'prosemirror-utils';
+import { getCellsInColumn } from 'prosemirror-utils';
 import { TableCssClassName as ClassName } from '../../../types';
 import { getPluginState as getMainPluginState } from '../../main';
-import { closestElement } from '../../../../../utils';
 import { updateOverflowShadows } from '../../../nodeviews/TableComponent';
 
 function getHeights(
@@ -92,19 +91,24 @@ export const getResizeCellPos = (
   if (!target.classList.contains(ClassName.RESIZE_HANDLE)) {
     return null;
   }
-  const parent = closestElement(target, '[data-start-index]');
-  if (!parent) {
-    return null;
-  }
-  const index = parseInt(parent.getAttribute('data-start-index') || '-1', 10);
+  const index = parseInt(target.getAttribute('data-col-index') || '-1', 10);
   if (index === -1) {
     return null;
   }
-  const cells = getCellsInRow(0)(state.selection);
+  const cells = getCellsInColumn(index)(state.selection);
   if (!cells) {
     return null;
   }
-  const cellPos = cells[index].pos;
+  let cellPos;
+  for (let i = 0, count = cells.length; i < count; i++) {
+    if (cells[i].node.attrs.colspan === 1) {
+      cellPos = cells[i].pos;
+      break;
+    }
+  }
+  if (!cellPos) {
+    return null;
+  }
   if (!lastColumnResizable) {
     const $cell = state.doc.resolve(cellPos);
     const map = TableMap.get($cell.node(-1));
