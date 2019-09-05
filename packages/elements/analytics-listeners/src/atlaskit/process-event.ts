@@ -19,6 +19,7 @@ import {
   getActionSubject,
   getExtraAttributes,
   getPackageInfo,
+  getPackageHierarchy,
   getComponents,
 } from './extract-data-from-event';
 import Logger from '../helpers/logger';
@@ -60,12 +61,8 @@ export default (event: UIAnalyticsEvent, logger: Logger): GasPayload | null => {
   const extraAttributes = getExtraAttributes(event);
   const components = getComponents(event);
 
-  const packages = getPackageInfo(event);
   const { packageName, packageVersion } =
     last(getPackageInfo(event)) || ({} as any);
-  const packageHierarchy = packages.map(p =>
-    p.packageVersion ? `${p.packageName}@${p.packageVersion}` : p.packageName,
-  );
 
   const {
     eventType = UI_EVENT_TYPE,
@@ -77,7 +74,7 @@ export default (event: UIAnalyticsEvent, logger: Logger): GasPayload | null => {
     listenerVersion,
     sourceHierarchy: sources.join('.') || undefined,
     componentHierarchy: components.join('.') || undefined,
-    packageHierarchy: packageHierarchy.join(',') || undefined,
+    packageHierarchy: getPackageHierarchy(event) || undefined,
     ...{ packageName, packageVersion },
     ...merge(extraAttributes, payloadAttributes),
   };

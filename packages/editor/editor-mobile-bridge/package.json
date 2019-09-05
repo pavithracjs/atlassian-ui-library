@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-mobile-bridge",
-  "version": "8.8.21",
+  "version": "8.9.3",
   "description": "Mobile distribution of the Editor",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
@@ -14,7 +14,8 @@
     "build": "webpack -p"
   },
   "maintainers": [
-    "Nathan F"
+    "Stanislav S",
+    "Vijay S"
   ],
   "atlaskit": {
     "name": "Editor Mobile Bridge",
@@ -29,17 +30,17 @@
   "license": "Apache-2.0",
   "homepage": "https://bitbucket.org/atlaskit/atlaskit-mk-2#readme",
   "dependencies": {
-    "@atlaskit/editor-common": "^39.18.3",
-    "@atlaskit/editor-core": "^112.42.4",
-    "@atlaskit/editor-json-transformer": "^6.3.1",
-    "@atlaskit/emoji": "^62.3.3",
-    "@atlaskit/mention": "^18.14.4",
-    "@atlaskit/renderer": "^49.8.3",
-    "@atlaskit/smart-card": "^12.5.2",
+    "@atlaskit/editor-common": "^40.0.0",
+    "@atlaskit/editor-core": "^112.44.2",
+    "@atlaskit/editor-json-transformer": "^6.3.2",
+    "@atlaskit/emoji": "^62.4.0",
+    "@atlaskit/mention": "^18.15.0",
+    "@atlaskit/renderer": "^50.0.0",
+    "@atlaskit/smart-card": "^12.5.3",
     "@atlaskit/status": "^0.9.11",
-    "@atlaskit/task-decision": "^15.2.4",
+    "@atlaskit/task-decision": "^15.3.1",
     "@atlaskit/textarea": "^2.1.10",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.0",
     "@babel/polyfill": "^7.0.0",
     "@types/prosemirror-view": "^1.9.0",
     "enzyme": "^3.7.0",
@@ -47,24 +48,27 @@
     "prosemirror-view": "^1.9.12"
   },
   "peerDependencies": {
+    "@atlaskit/media-core": "^30.0.13",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
-    "@atlaskit/editor-test-helpers": "^9.11.11",
+    "@atlaskit/editor-test-helpers": "^9.11.13",
     "@atlaskit/form": "^6.1.12",
+    "@atlaskit/icon": "^19.0.6",
+    "@atlaskit/media-client": "^2.1.1",
     "@atlaskit/media-core": "^30.0.13",
-    "@atlaskit/media-client": "^2.0.5",
     "@atlaskit/media-test-helpers": "^25.0.4",
     "@atlaskit/multi-entry-tools": "^0.0.3",
-    "@atlaskit/select": "^10.0.8",
+    "@atlaskit/select": "^10.1.0",
     "@atlaskit/textfield": "^3.0.5",
     "@atlaskit/util-data-test": "^12.9.6",
     "@atlaskit/webdriver-runner": "^0.1.4",
     "ajv": "^4.11.3",
     "babel-loader": "^8.0.2",
+    "chai": "^4.1.2",
     "copy-pkg": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash.constant": "^3.0.0",
@@ -73,8 +77,10 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "rxjs": "^5.5.0",
+    "sinon": "^2.2.0",
     "styled-components": "^3.2.6",
     "ts-loader": "^4.4.2",
+    "uuid": "^3.1.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0"
   }

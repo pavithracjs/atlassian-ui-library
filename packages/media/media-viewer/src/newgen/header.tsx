@@ -54,7 +54,7 @@ export class Header extends React.Component<Props & InjectedIntlProps, State> {
 
   private subscription?: Subscription;
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     if (this.needsReset(this.props, nextProps)) {
       this.release();
       this.init(nextProps);

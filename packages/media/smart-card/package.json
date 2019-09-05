@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/smart-card",
-  "version": "12.5.2",
+  "version": "12.5.3",
   "description": "Smart card component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -9,7 +9,9 @@
   "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "James N"
+    "Abhi K",
+    "Callum O",
+    "Artur B"
   ],
   "atlaskit": {
     "name": "Smart Card",

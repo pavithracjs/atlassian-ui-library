@@ -34,8 +34,8 @@
     "react-intl": "^2.6.0"
   },
   "devDependencies": {
+    "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
-    "@atlaskit/i18n-tools": "^0.5.2",
     "@atlaskit/navigation": "^35.1.21",
     "@atlaskit/page": "^11.0.8",
     "@atlaskit/section-message": "^4.0.12",

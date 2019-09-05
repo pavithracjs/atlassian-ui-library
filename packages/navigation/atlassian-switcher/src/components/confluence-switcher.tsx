@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import Switcher from './switcher';
+import Switcher from '../primitives/themed-switcher';
 import {
   CustomLinksProvider,
   MANAGE_HREF,
@@ -16,8 +16,9 @@ import {
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
+import { WithTheme } from '../theme/types';
 
-type ConfluenceSwitcherProps = {
+type ConfluenceSwitcherProps = WithTheme & {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;

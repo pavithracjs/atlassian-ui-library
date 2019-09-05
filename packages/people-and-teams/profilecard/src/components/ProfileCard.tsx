@@ -28,6 +28,7 @@ import {
   LozengeWrapper,
   SpinnerContainer,
 } from '../styled/Card';
+import { AnalyticsName } from '../internal/analytics';
 
 export default class Profilecard extends React.PureComponent<ProfilecardProps> {
   static defaultProps: ProfilecardProps = {
@@ -53,7 +54,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     this.timeOpen = null;
 
     this.clientFetchProfile = (...args: any) => {
-      this.callAnalytics('profile-card.reload', {});
+      this.callAnalytics(AnalyticsName.PROFILE_CARD_RELOAD, {});
       this.callClientFetchProfile(...args);
     };
   }
@@ -77,7 +78,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
 
   componentDidMount() {
     this.timeOpen = Date.now();
-    this.callAnalytics('profile-card.view', {});
+    this.callAnalytics(AnalyticsName.PROFILE_CARD_VIEW, {});
   }
 
   renderErrorMessage() {
@@ -102,7 +103,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
               appearance={idx === 0 ? 'default' : 'subtle'}
               key={action.label}
               onClick={(...args: any) => {
-                this.callAnalytics('profile-card.click', {
+                this.callAnalytics(AnalyticsName.PROFILE_CARD_CLICK, {
                   id: action.id || null,
                   duration: this.durationSince(this.timeOpen),
                 });
@@ -264,7 +265,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     const canRender = fullName || status === 'closed';
 
     if (this.props.hasError) {
-      this.callAnalytics('profile-card.error', {});
+      this.callAnalytics(AnalyticsName.PROFILE_CARD_ERROR, {});
 
       cardContent = this.renderErrorMessage();
     } else if (this.props.isLoading) {
@@ -277,7 +278,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
       const isDisabledUser = status === 'inactive' || status === 'closed';
       const actions = this.renderActionsButtons();
 
-      this.callAnalytics('profile-card.loaded', {
+      this.callAnalytics(AnalyticsName.PROFILE_CARD_LOADED, {
         duration: this.durationSince(this.timeOpen),
       });
 
@@ -286,7 +287,11 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
           <ProfileImage>
             <Avatar
               size="xlarge"
-              src={this.props.status !== 'closed' ? this.props.avatarUrl : null}
+              src={
+                this.props.status !== 'closed'
+                  ? this.props.avatarUrl
+                  : undefined
+              }
               borderColor={colors.N0}
             />
           </ProfileImage>

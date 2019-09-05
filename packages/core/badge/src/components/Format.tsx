@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 const { Fragment } = React;
 
@@ -9,7 +9,7 @@ interface Props {
   max?: number;
 }
 
-const Format: React.SFC<Props> = (props: Props) => {
+const Format: FC<Props> = props => {
   let formatted: number | string = '';
   let { children = 0, max = 0 } = props;
 
@@ -31,7 +31,5 @@ const Format: React.SFC<Props> = (props: Props) => {
 
   return <Fragment>{formatted}</Fragment>;
 };
-
-Format.displayName = 'Ak.Badge.Format';
 
 export default Format;

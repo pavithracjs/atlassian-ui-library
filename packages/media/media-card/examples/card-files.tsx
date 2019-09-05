@@ -8,7 +8,6 @@ import {
   errorFileId,
 } from '@atlaskit/media-test-helpers';
 import { FileIdentifier } from '@atlaskit/media-client';
-import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import { Card } from '../src';
 import { createApiCards, actions } from '../example-helpers';
@@ -154,40 +153,34 @@ const collectionConfigCards = [
     ),
   },
 ];
-const handleEvent = (analyticsEvent: UIAnalyticsEvent) => {
-  const { payload, context } = analyticsEvent;
-  console.log('Received event:', { payload, context });
-};
 
 export default () => (
-  <AnalyticsListener channel="media" onEvent={handleEvent}>
-    <div>
-      <h1 style={{ margin: '10px 20px' }}>File cards</h1>
-      <div style={{ margin: '20px 40px' }}>
-        <h3>Standard</h3>
-        <StoryList>{standardCards}</StoryList>
+  <div>
+    <h1 style={{ margin: '10px 20px' }}>File cards</h1>
+    <div style={{ margin: '20px 40px' }}>
+      <h3>Standard</h3>
+      <StoryList>{standardCards}</StoryList>
 
-        <h3>Error</h3>
-        <StoryList>{errorCards}</StoryList>
+      <h3>Error</h3>
+      <StoryList>{errorCards}</StoryList>
 
-        <h3>Menu</h3>
-        <StoryList>{menuCards}</StoryList>
+      <h3>Menu</h3>
+      <StoryList>{menuCards}</StoryList>
 
-        <h3>API Cards</h3>
-        <StoryList>{apiCards}</StoryList>
+      <h3>API Cards</h3>
+      <StoryList>{apiCards}</StoryList>
 
-        <h3>Thumbnail not available</h3>
-        <StoryList>{noThumbnailCards}</StoryList>
+      <h3>Thumbnail not available</h3>
+      <StoryList>{noThumbnailCards}</StoryList>
 
-        <h3>Lazy load</h3>
-        <StoryList>{lazyLoadCards}</StoryList>
+      <h3>Lazy load</h3>
+      <StoryList>{lazyLoadCards}</StoryList>
 
-        <h3>Collection configurations</h3>
-        <StoryList>{collectionConfigCards}</StoryList>
+      <h3>Collection configurations</h3>
+      <StoryList>{collectionConfigCards}</StoryList>
 
-        <h3>Overlay disabled</h3>
-        <StoryList>{noHoverStateCards}</StoryList>
-      </div>
+      <h3>Overlay disabled</h3>
+      <StoryList>{noHoverStateCards}</StoryList>
     </div>
-  </AnalyticsListener>
+  </div>
 );

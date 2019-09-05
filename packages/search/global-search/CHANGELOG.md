@@ -1,5 +1,60 @@
 # @atlaskit/global-search
 
+## 12.0.0
+
+### Major Changes
+
+- [major][d20d909c2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d20d909c2e):
+
+  required user id so that the recents api is not called for anonymous users
+
+## 11.4.4
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/drawer@5.0.10
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/global-navigation@7.7.1
+  - @atlaskit/item@10.1.5
+  - @atlaskit/modal-dialog@10.2.1
+  - @atlaskit/navigation-next@6.6.2
+  - @atlaskit/quick-search@7.7.1
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
+## 11.4.3
+
+- Updated dependencies [6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+  - @atlaskit/badge@13.0.0
+  - @atlaskit/global-navigation@7.6.5
+  - @atlaskit/navigation-next@6.6.1
+
+## 11.4.2
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
+## 11.4.1
+
+### Patch Changes
+
+- [patch][4638a2e06a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4638a2e06a):
+
+  Fixed QuickSearchContainer so it doesn't end up with a new session id on update if not a child of SearchSessionProvider
+
+## 11.4.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 11.3.4
 
 ### Patch Changes

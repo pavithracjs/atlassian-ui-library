@@ -40,10 +40,12 @@ export class MobileSmartCardClient extends Client {
      * https://atlaskit.atlassian.com/packages/media/smart-card/docs/client
      *
      */
-    return (await createPromise(
+    return createPromise<ResolveResponse>(
       'getResolvedLink',
       JSON.stringify({ url }),
-    ).submit()) as ResolveResponse;
+    )
+      .submit()
+      .then(response => response, error => error);
   }
 }
 

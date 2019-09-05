@@ -13,7 +13,7 @@ export default () => (
         isActive || isHover ? (
           <CloseButton size="small" />
         ) : (
-          <Badge appearance="primary" value={3} />
+          <Badge appearance="primary">3</Badge>
         )
       }
       before={s => <ItemAvatar itemState={s} presence="online" size="small" />}

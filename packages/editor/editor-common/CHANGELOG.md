@@ -1,5 +1,55 @@
 # @atlaskit/editor-common
 
+## 40.0.1
+
+- Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+  - @atlaskit/media-client@2.1.2
+  - @atlaskit/media-core@30.0.14
+  - @atlaskit/media-card@65.0.0
+
+## 40.0.0
+
+### Major Changes
+
+- [major][08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+
+  ED-7532 Expose ability to cancel default browser behaviour when clicking Smart Links within the Mobile Renderer.
+
+## 39.21.0
+
+### Minor Changes
+
+- [minor][6b9ed8f471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b9ed8f471):
+
+  Export and consume validator from editor-common
+
+## 39.20.0
+
+### Minor Changes
+
+- [minor][73e0198ae4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/73e0198ae4):
+
+  AK-6504: Fix MentionWithProfilecard for mentions in editor view mode
+
+## 39.19.1
+
+### Patch Changes
+
+- [patch][9bd9cc7d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9bd9cc7d25):
+
+  Avoid importing all of editor-common in jira-transformer
+
+## 39.19.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 39.18.3
 
 ### Patch Changes

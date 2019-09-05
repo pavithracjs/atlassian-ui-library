@@ -1,5 +1,11 @@
 # @atlaskit/item
 
+## 10.1.5
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
 ## 10.1.4
 
 ### Patch Changes

@@ -36,7 +36,7 @@ export default class AsyncMediaViewer extends React.PureComponent<
     MediaViewerErrorBoundary: AsyncMediaViewer.MediaViewerErrorBoundary,
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     if (!this.state.MediaViewer || !this.state.MediaViewerErrorBoundary) {
       try {
         const [
@@ -53,9 +53,12 @@ export default class AsyncMediaViewer extends React.PureComponent<
           mediaViewerModule.MediaViewer,
         );
         AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
+        AsyncMediaViewer.MediaViewerErrorBoundary =
+          mediaViewerErrorBoundaryModule.default;
+
         this.setState({
           MediaViewer: MediaViewerWithClient,
-          MediaViewerErrorBoundary: mediaViewerErrorBoundaryModule.default,
+          MediaViewerErrorBoundary: AsyncMediaViewer.MediaViewerErrorBoundary,
         });
       } catch (error) {
         // TODO [MS-2277]: Add operational error to catch async import error
@@ -64,16 +67,17 @@ export default class AsyncMediaViewer extends React.PureComponent<
   }
 
   render() {
-    if (!this.state.MediaViewer || !this.state.MediaViewerErrorBoundary) {
+    const { MediaViewer, MediaViewerErrorBoundary } = this.state;
+    if (!MediaViewer || !MediaViewerErrorBoundary) {
       return (
         <ModalSpinner blankedColor={colors.DN30} invertSpinnerColor={true} />
       );
     }
 
     return (
-      <this.state.MediaViewerErrorBoundary>
-        <this.state.MediaViewer {...this.props} />
-      </this.state.MediaViewerErrorBoundary>
+      <MediaViewerErrorBoundary>
+        <MediaViewer {...this.props} />
+      </MediaViewerErrorBoundary>
     );
   }
 }

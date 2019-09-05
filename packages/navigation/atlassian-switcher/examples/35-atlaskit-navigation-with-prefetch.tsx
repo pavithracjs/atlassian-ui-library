@@ -1,9 +1,9 @@
 import * as React from 'react';
-import AtlassianIcon from '@atlaskit/icon/glyph/atlassian';
+import { AtlassianIcon } from '@atlaskit/logo';
 import Navigation, { AkGlobalItem } from '@atlaskit/navigation';
 import Tooltip from '@atlaskit/tooltip';
 import SwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import AkDrawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
@@ -56,7 +56,11 @@ class ConfluenceSwitcherExample extends React.Component {
         globalPrimaryIcon={<AtlassianIcon size="large" label="Atlassian" />}
         globalPrimaryItemHref="/"
         globalSecondaryActions={[
-          <PrefetchTrigger cloudId="some-cloud-id" key="switcher-global-item">
+          <PrefetchTrigger
+            cloudId="some-cloud-id"
+            key="switcher-global-item"
+            product="confluence"
+          >
             <AkGlobalItem onClick={this.openDrawer}>
               <Tooltip content="Switch apps" position="right">
                 <SwitcherIcon

@@ -1,5 +1,5 @@
 import { AvatarItem } from '@atlaskit/avatar';
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const AvatarComponent = styled.div`
@@ -21,9 +21,9 @@ export const TextWrapper = styled.span`
 `;
 
 export type AvatarItemOptionProps = {
-  avatar: React.ReactNode;
-  primaryText: React.ReactNode;
-  secondaryText: React.ReactNode;
+  avatar: ReactNode;
+  primaryText?: ReactNode;
+  secondaryText?: ReactNode;
 };
 
 export const AvatarItemOption = (props: AvatarItemOptionProps) => (

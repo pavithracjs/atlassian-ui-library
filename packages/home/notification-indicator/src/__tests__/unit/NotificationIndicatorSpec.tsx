@@ -93,7 +93,7 @@ describe('NotificationIndicator', () => {
     wrapper.update();
     const badge = wrapper.find(Badge);
 
-    expect(badge.prop('value')).toEqual(5);
+    expect(badge.prop('children')).toEqual(5);
     expect(badge.prop('max')).toEqual(10);
     expect(badge.prop('appearance')).toEqual('primary');
   });

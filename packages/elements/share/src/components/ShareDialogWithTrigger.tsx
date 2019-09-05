@@ -339,6 +339,7 @@ export class ShareDialogWithTriggerInternal extends React.PureComponent<
             formatMessage(messages.shareTriggerButtonTooltipText)
           }
           position={triggerButtonTooltipPosition}
+          hideTooltipOnClick
         >
           {button}
         </Aktooltip>

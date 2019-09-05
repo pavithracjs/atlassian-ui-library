@@ -14,10 +14,10 @@ import { CardLoading } from '../utils/lightCards/cardLoading';
 
 import {
   withAnalyticsEvents,
-  createAndFireEvent,
   WithAnalyticsEventsProps,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
+import { createAndFireMediaEvent } from '../utils/analytics';
 
 export interface InlinePlayerOwnProps {
   identifier: FileIdentifier;
@@ -114,7 +114,6 @@ class InlinePlayerBase extends Component<InlinePlayerProps, InlinePlayerState> {
 
   setFileSrc = (fileSrc: string) => {
     this.setState({ fileSrc });
-    window.setTimeout(this.unsubscribe, 0);
   };
 
   // Tries to use the binary artifact to provide something to play while the video is still processing
@@ -204,8 +203,11 @@ class InlinePlayerBase extends Component<InlinePlayerProps, InlinePlayerState> {
   }
 }
 
-const createAndFireEventOnMedia = createAndFireEvent('media');
-
 export const InlinePlayer = withAnalyticsEvents({
-  onClick: createAndFireEventOnMedia({ action: 'clicked' }),
+  onClick: createAndFireMediaEvent({
+    eventType: 'ui',
+    action: 'clicked',
+    actionSubject: 'mediaCard',
+    actionSubjectId: 'mediaCardInlinePlayer',
+  }),
 })(InlinePlayerBase);

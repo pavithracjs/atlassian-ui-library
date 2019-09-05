@@ -1,5 +1,13 @@
 # @atlaskit/notification-indicator
 
+## 7.0.8
+
+### Patch Changes
+
+- [patch][6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+
+  Deprecated props, `value` and `onValueUpdated` have been removed from the Badge component. Please use the children prop instead.
+
 ## 7.0.7
 
 ### Patch Changes

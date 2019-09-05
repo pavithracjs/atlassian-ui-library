@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-client",
-  "version": "2.0.5",
+  "version": "2.1.2",
   "description": "Media API Web Client Library",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
@@ -10,8 +10,11 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Aleksandr Motsjonov",
-    "Hector Zarco Garcia"
+    "Ali C",
+    "Hector Z",
+    "Wilson MN",
+    "Vladimir V",
+    "Aleksandr M"
   ],
   "atlaskit": {
     "name": "Media Client",
@@ -34,13 +37,14 @@
     "@atlaskit/build-utils": "^2.2.5",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
-    "@atlaskit/media-card": "^64.0.2",
-    "@atlaskit/media-core": "^30.0.13",
-    "@atlaskit/media-test-helpers": "^25.0.4",
+    "@atlaskit/media-card": "^65.0.0",
+    "@atlaskit/media-core": "^30.0.14",
+    "@atlaskit/media-test-helpers": "^25.1.1",
     "@atlaskit/ssr": "^0.1.1",
     "@types/fetch-mock": "^6.0.3",
     "@types/query-string": "^4.3.1",
     "@types/uuid-validate": "^0.0.0",
+    "enzyme": "^3.7.0",
     "fetch-mock": "^7.3.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
@@ -48,7 +52,8 @@
     "styled-components": "^3.2.6"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.13",
+    "@atlaskit/media-core": "^30.0.14",
+    "react": "^16.8.0",
     "rxjs": "^5.5.0"
   },
   "resolutions": {

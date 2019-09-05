@@ -1,5 +1,40 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.9.3
+
+### Patch Changes
+
+- [patch][07dd73fa12](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07dd73fa12):
+
+  FM-2240 Fix issue where smart links would cause hybrid renderer to crash in Android
+
+## 8.9.2
+
+### Patch Changes
+
+- [patch][08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+
+  ED-7532 Expose ability to cancel default browser behaviour when clicking Smart Links within the Mobile Renderer.
+
+## 8.9.1
+
+### Patch Changes
+
+- [patch][9c28ef71fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c28ef71fe):
+
+  Add missing peerDependency in package.json
+
+## 8.9.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 8.8.21
 
 ### Patch Changes

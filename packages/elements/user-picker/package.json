@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/user-picker",
-  "version": "4.0.22",
+  "version": "4.0.23",
   "config": {
     "access": "public"
   },
@@ -12,13 +12,13 @@
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics-next": "^6.0.3",
-    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/field-base": "^13.0.13",
     "@atlaskit/icon": "^19.0.6",
     "@atlaskit/lozenge": "^9.0.7",
     "@atlaskit/select": "^10.0.8",
-    "@atlaskit/tag": "^9.0.6",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/tag": "^9.0.7",
+    "@atlaskit/theme": "^9.2.2",
     "@atlaskit/tooltip": "^15.0.14",
     "lodash.debounce": "^4.0.8",
     "memoize-one": "^5.1.0",
@@ -46,6 +46,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/analytics-viewer": "^0.3.5",
+    "@atlaskit/button": "^13.1.6",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/elements-test-helpers": "^0.6.4",
     "@atlaskit/i18n-tools": "^0.5.2",

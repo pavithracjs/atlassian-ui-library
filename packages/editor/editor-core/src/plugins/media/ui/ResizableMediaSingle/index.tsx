@@ -54,7 +54,7 @@ export default class ResizableMediaSingle extends React.Component<
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig) {
       this.checkVideoFile(nextProps.viewMediaClientConfig);
     }
@@ -65,17 +65,23 @@ export default class ResizableMediaSingle extends React.Component<
 
   async checkVideoFile(viewMediaClientConfig?: MediaClientConfig) {
     const $pos = this.$pos;
+
     if (!$pos || !viewMediaClientConfig) {
       return;
     }
-    const getMediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
+
+    const mediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
+
+    if (!mediaNode) {
+      return;
+    }
+
     const mediaClient = getMediaClient({
       mediaClientConfig: viewMediaClientConfig,
     });
-    const state = await mediaClient.file.getCurrentState(
-      getMediaNode!.attrs.id,
-      { collectionName: getMediaNode!.attrs.collection },
-    );
+    const state = await mediaClient.file.getCurrentState(mediaNode.attrs.id, {
+      collectionName: mediaNode.attrs.collection,
+    });
     if (state && state.status !== 'error' && state.mediaType === 'image') {
       this.setState({
         isVideoFile: false,

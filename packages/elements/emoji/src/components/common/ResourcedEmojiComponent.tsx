@@ -73,10 +73,10 @@ export default class ResourcedEmojiComponent extends Component<Props, State> {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.ready = true;
     if (!this.state.emoji) {
-      // using componentWillMount instead of componentDidMount to avoid needless
+      // using UNSAFE_componentWillMount instead of componentDidMount to avoid needless
       // rerendering.
       this.refreshEmoji(this.props.emojiProvider, this.props.emojiId);
     }
@@ -86,7 +86,7 @@ export default class ResourcedEmojiComponent extends Component<Props, State> {
     this.ready = false;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.emojiProvider !== this.props.emojiProvider ||
       nextProps.emojiId !== this.props.emojiId

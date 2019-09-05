@@ -1,5 +1,81 @@
 # @atlaskit/editor-core
 
+## 112.44.5
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/avatar-group@4.0.13
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/item@10.1.5
+  - @atlaskit/modal-dialog@10.2.1
+  - @atlaskit/renderer@50.0.2
+  - @atlaskit/mention@18.15.1
+  - @atlaskit/task-decision@15.3.2
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+  - @atlaskit/user-picker@4.0.23
+
+## 112.44.4
+
+### Patch Changes
+
+- [patch][c19165aec0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c19165aec0):
+
+  Fix non-critical exception when updating media nodes
+
+  `contextIdentifierProvider` is an optional provider for consumers of the Editor. Some code assumed that this was always provided. Some tests, for example, did not pass this, so they would blow up.
+
+## 112.44.3
+
+- Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+  - @atlaskit/editor-common@40.0.1
+  - @atlaskit/renderer@50.0.1
+  - @atlaskit/media-client@2.1.2
+  - @atlaskit/media-core@30.0.14
+  - @atlaskit/media-filmstrip@34.3.6
+  - @atlaskit/media-editor@36.3.1
+  - @atlaskit/media-picker@47.1.2
+  - @atlaskit/media-test-helpers@25.1.1
+  - @atlaskit/media-card@65.0.0
+  - @atlaskit/analytics-listeners@6.2.0
+
+## 112.44.2
+
+- Updated dependencies [08ec269915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08ec269915):
+  - @atlaskit/editor-bitbucket-transformer@6.2.3
+  - @atlaskit/editor-json-transformer@6.3.2
+  - @atlaskit/editor-markdown-transformer@3.1.5
+  - @atlaskit/editor-test-helpers@9.11.13
+  - @atlaskit/task-decision@15.3.1
+  - @atlaskit/editor-common@40.0.0
+  - @atlaskit/renderer@50.0.0
+
+## 112.44.1
+
+### Patch Changes
+
+- [patch][a05133283c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a05133283c):
+
+  Add missing dependency in package.json
+
+## 112.44.0
+
+### Minor Changes
+
+- [minor][e5c3f6ae3e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c3f6ae3e):
+
+  ED-6216: External images will now be uploaded to media services if possible
+
+## 112.43.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 112.42.4
 
 ### Patch Changes

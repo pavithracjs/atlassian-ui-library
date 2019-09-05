@@ -3,7 +3,6 @@ import { MouseEvent } from 'react';
 import { FileDetails, ImageResizeMode } from '@atlaskit/media-client';
 import {
   withAnalyticsEvents,
-  createAndFireEvent,
   WithAnalyticsEventsProps,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
@@ -24,6 +23,7 @@ import { isValidPercentageUnit } from '../utils/isValidPercentageUnit';
 import { getCSSUnitValue } from '../utils/getCSSUnitValue';
 import { getElementDimension } from '../utils/getElementDimension';
 import { Wrapper } from './styled';
+import { createAndFireMediaEvent } from '../utils/analytics';
 
 export interface CardViewOwnProps extends SharedCardProps {
   readonly status: CardStatus;
@@ -69,7 +69,7 @@ export class CardViewBase extends React.Component<
     this.saveElementWidth();
   }
 
-  componentWillReceiveProps(nextProps: CardViewProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: CardViewProps) {
     const { selected: currSelected } = this.props;
     const { selectable: nextSelectable, selected: nextSelected } = nextProps;
 
@@ -184,8 +184,11 @@ export class CardViewBase extends React.Component<
   };
 }
 
-const createAndFireEventOnMedia = createAndFireEvent('media');
-
 export const CardView = withAnalyticsEvents({
-  onClick: createAndFireEventOnMedia({ action: 'clicked' }),
+  onClick: createAndFireMediaEvent({
+    eventType: 'ui',
+    action: 'clicked',
+    actionSubject: 'mediaCard',
+    actionSubjectId: 'mediaCardCardView',
+  }),
 })(CardViewBase);

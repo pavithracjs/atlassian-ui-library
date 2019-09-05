@@ -1,5 +1,42 @@
 # @atlaskit/media-picker
 
+## 47.1.2
+
+- Updated dependencies [af72468517](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af72468517):
+  - @atlaskit/media-client@2.1.2
+  - @atlaskit/media-core@30.0.14
+  - @atlaskit/media-editor@36.3.1
+  - @atlaskit/media-store@12.0.12
+  - @atlaskit/media-test-helpers@25.1.1
+  - @atlaskit/media-viewer@43.4.1
+  - @atlaskit/media-card@65.0.0
+  - @atlaskit/analytics-listeners@6.2.0
+
+## 47.1.1
+
+### Patch Changes
+
+- [patch][aa23bf2bc5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa23bf2bc5):
+
+  Emit processed state when file gets copied
+
+  Fixes CEMS-244:
+
+  Currently some properties are missing after a file get’s copied (inserted from MediaPicker) and when the user tries to see on MediaViewer, the preview fails to load.
+
+  It happens for files that require artifacts, like documents or videos
+
+## 47.1.0
+
+### Minor Changes
+
+- [minor][c6efb2f5b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6efb2f5b6):
+
+  Prefix the legacy lifecycle methods with UNSAFE\_\* to avoid warning in React 16.9+
+
+  More information about the deprecation of lifecycles methods can be found here:
+  https://reactjs.org/blog/2018/03/29/react-v-16-3.html#component-lifecycle-changes
+
 ## 47.0.5
 
 ### Patch Changes

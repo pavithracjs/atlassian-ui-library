@@ -67,8 +67,7 @@ describe('Widgets', () => {
     expect(badge.props()).toEqual(
       expect.objectContaining({
         appearance: 'default',
-        max: 99,
-        value: 12,
+        children: 12,
       }),
     );
   });
@@ -173,9 +172,7 @@ describe('Widgets', () => {
     ).toBeTruthy();
 
     expect(
-      widgets
-        .at(3)
-        .contains(<Badge appearance="default" max={99} value={12} />),
+      widgets.at(3).contains(<Badge appearance="default" children={12} />),
     ).toBeTruthy();
   });
 });

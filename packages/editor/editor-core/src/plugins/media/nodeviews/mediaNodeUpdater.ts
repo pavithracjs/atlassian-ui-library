@@ -1,5 +1,5 @@
 import uuidV4 from 'uuid/v4';
-import { updateMediaNodeAttrs } from '../commands';
+import { updateMediaNodeAttrs, replaceExternalMedia } from '../commands';
 import { MediaAttributes, ExternalMediaAttributes } from '@atlaskit/adf-schema';
 import {
   DEFAULT_IMAGE_HEIGHT,
@@ -15,6 +15,12 @@ import { EditorView } from 'prosemirror-view';
 import { MediaProvider } from '../types';
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { MediaPMPluginOptions } from '../';
+import {
+  DispatchAnalyticsEvent,
+  ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+} from '../../analytics';
 
 export type RemoteDimensions = { id: string; height: number; width: number };
 
@@ -22,9 +28,10 @@ export interface MediaNodeUpdaterProps {
   view: EditorView;
   node: PMNode; // assumed to be media type node (ie. child of MediaSingle, MediaGroup)
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
   isMediaSingle: boolean;
   mediaPluginOptions?: MediaPMPluginOptions;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export class MediaNodeUpdater {
@@ -114,11 +121,55 @@ export class MediaNodeUpdater {
     return undefined;
   };
 
-  getObjectId = async (): Promise<string> => {
+  getObjectId = async (): Promise<string | undefined> => {
     const contextIdentifierProvider = await this.props
       .contextIdentifierProvider;
 
-    return contextIdentifierProvider.objectId;
+    return contextIdentifierProvider && contextIdentifierProvider.objectId;
+  };
+
+  uploadExternalMedia = async (pos: number) => {
+    const { node } = this.props;
+    const mediaProvider = await this.props.mediaProvider;
+
+    if (node && mediaProvider) {
+      const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+        mediaProvider,
+      );
+      if (!uploadMediaClientConfig || !node.attrs.url) {
+        return;
+      }
+      const mediaClient = getMediaClient({
+        mediaClientConfig: uploadMediaClientConfig,
+      });
+
+      const collection =
+        mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
+
+      try {
+        const uploader = await mediaClient.file.uploadExternal(
+          node.attrs.url,
+          collection,
+        );
+
+        const { uploadableFileUpfrontIds, dimensions } = uploader;
+        replaceExternalMedia(pos + 1, {
+          id: uploadableFileUpfrontIds.id,
+          collection,
+          height: dimensions.height,
+          width: dimensions.width,
+        })(this.props.view.state, this.props.view.dispatch);
+      } catch (e) {
+        //keep it as external media
+        if (this.props.dispatchAnalyticsEvent) {
+          this.props.dispatchAnalyticsEvent({
+            action: ACTION.UPLOAD_EXTERNAL_FAIL,
+            actionSubject: ACTION_SUBJECT.EDITOR,
+            eventType: EVENT_TYPE.OPERATIONAL,
+          });
+        }
+      }
+    }
   };
 
   getCurrentContextId = (): string | undefined => {
@@ -231,7 +282,7 @@ export class MediaNodeUpdater {
       mediaClientConfig: uploadMediaClientConfig,
     });
 
-    if (uploadMediaClientConfig.getAuthFromContext) {
+    if (uploadMediaClientConfig.getAuthFromContext && contextId) {
       const auth = await uploadMediaClientConfig.getAuthFromContext(contextId);
       const { id, collection } = attrs;
       const source = {

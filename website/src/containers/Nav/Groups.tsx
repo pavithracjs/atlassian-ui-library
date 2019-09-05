@@ -37,11 +37,11 @@ export default class Groups extends React.Component<GroupsProps, GroupsState> {
     stack: [[]],
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.resolveRoutes(this.context.router.route.location.pathname);
   }
 
-  componentWillReceiveProps(
+  UNSAFE_componentWillReceiveProps(
     nextProps: GroupsProps,
     nextContext: GroupsContext,
   ) {

@@ -1,5 +1,13 @@
 # @atlaskit/field-base
 
+## 13.0.14
+
+### Patch Changes
+
+- [patch][01b580e17e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/01b580e17e):
+
+  Fix type definitions
+
 ## 13.0.13
 
 ### Patch Changes

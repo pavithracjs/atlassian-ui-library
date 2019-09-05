@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/mention",
-  "version": "18.14.4",
+  "version": "18.15.1",
   "config": {
     "access": "public"
   },
@@ -12,12 +12,12 @@
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.10",
-    "@atlaskit/analytics-next": "^6.0.3",
-    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/analytics-next": "^6.1.0",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/icon": "^19.0.6",
     "@atlaskit/lozenge": "^9.0.7",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.2",
     "@atlaskit/tooltip": "^15.0.14",
     "@atlaskit/util-service-support": "^4.0.7",
     "@babel/runtime": "^7.0.0",
@@ -33,6 +33,7 @@
     "@atlaskit/ssr": "^0.1.1",
     "@atlaskit/util-common-test": "^2.4.2",
     "@atlaskit/util-data-test": "^12.9.6",
+    "@babel/types": "^7.5.5",
     "@types/fetch-mock": "^6.0.3",
     "@types/query-string": "^4.3.1",
     "enzyme": "^3.7.0",

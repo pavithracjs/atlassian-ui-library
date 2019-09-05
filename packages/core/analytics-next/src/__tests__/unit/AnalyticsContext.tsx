@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import PropTypes from 'prop-types';
 import { AnalyticsContext } from '../..';
 
@@ -22,7 +22,7 @@ ContextConsumer.contextTypes = {
 };
 
 it('should render', () => {
-  const wrapper = shallow(
+  const wrapper = mount(
     <AnalyticsContext data={{}}>
       <div />
     </AnalyticsContext>,
@@ -33,7 +33,7 @@ it('should render', () => {
 
 it('should not create a component with multiple children', () => {
   expect(() => {
-    shallow(
+    mount(
       <AnalyticsContext data={{}}>
         <div />
         <div />

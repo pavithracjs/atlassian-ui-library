@@ -10,6 +10,7 @@ import { MediaProvider } from '../types';
 import { MediaOptions, MediaPMPluginOptions } from '../index';
 import { MediaPluginState } from '../pm-plugins/main';
 import { MediaSingleNodeProps } from './types';
+import { DispatchAnalyticsEvent } from '../../analytics';
 
 export interface MediaSingleNodeProps {
   view: EditorView;
@@ -22,9 +23,10 @@ export interface MediaSingleNodeProps {
   mediaPluginOptions?: MediaPMPluginOptions;
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
   fullWidthMode?: boolean;
   mediaPluginState: MediaPluginState;
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
 }
 
 export interface MediaSingleNodeViewProps {
@@ -33,4 +35,5 @@ export interface MediaSingleNodeViewProps {
   mediaOptions: MediaOptions;
   mediaPluginOptions?: MediaPMPluginOptions;
   fullWidthMode?: boolean;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }

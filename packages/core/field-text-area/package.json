@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/field-text-area",
-  "version": "6.0.11",
+  "version": "6.0.12",
   "description": "Field Text Component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -18,15 +18,15 @@
   ],
   "atlaskit": {
     "name": "Field Text Area",
-    "team": "core"
+    "team": "core",
+    "internal": true
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^6.0.3",
     "@atlaskit/field-base": "^13.0.13",
     "@atlaskit/theme": "^9.1.6",
-    "@babel/runtime": "^7.0.0",
-    "prop-types": "^15.5.10"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
@@ -39,7 +39,8 @@
     "@atlaskit/section-message": "^4.0.12",
     "@atlaskit/ssr": "^0.1.1",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "wait-for-expect": "^1.2.0"
   },
   "keywords": [
     "atlaskit",

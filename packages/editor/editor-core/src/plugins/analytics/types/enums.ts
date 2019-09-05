@@ -30,6 +30,7 @@ export enum ACTION {
   VISITED = 'visited',
   BROWSER_FREEZE = 'browserFreeze',
   SLOW_INPUT = 'slowInput',
+  UPLOAD_EXTERNAL_FAIL = 'uploadExternalFailed',
 }
 
 export enum INPUT_METHOD {

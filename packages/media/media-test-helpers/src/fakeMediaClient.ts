@@ -36,7 +36,9 @@ export const fakeMediaClient = (
     mediaClient.collection = collectionFetcher;
     mediaClient.config = config;
     mediaClient.mediaStore = mockMediaStore;
-
+    mediaClient.mediaStore.getItems = jest
+      .fn()
+      .mockResolvedValue({ data: { items: [] } });
     asMock(mediaClient.getImageUrl).mockResolvedValue('some-image-url');
     asMock(mediaClient.getImage).mockImplementation(mockMediaStore.getImage);
     asMock(mediaClient.collection.getItems).mockReturnValue(of([]));

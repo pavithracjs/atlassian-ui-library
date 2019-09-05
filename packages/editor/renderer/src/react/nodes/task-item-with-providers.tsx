@@ -27,11 +27,11 @@ export interface State {
 export default class TaskItemWithProviders extends Component<Props, State> {
   state: State = { resolvedContextProvider: undefined };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.updateContextIdentifierProvider(this.props);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.contextIdentifierProvider !==
       this.props.contextIdentifierProvider

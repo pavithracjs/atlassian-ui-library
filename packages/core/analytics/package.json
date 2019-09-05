@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/analytics",
-  "version": "6.0.6",
+  "version": "6.1.0",
   "description": "The Atlaskit Component Analytics Framework",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -17,7 +17,8 @@
   ],
   "atlaskit": {
     "name": "Analytics",
-    "team": "core"
+    "team": "core",
+    "internal": true
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
@@ -35,6 +36,7 @@
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0",
     "react-redux": "^5.0.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "wait-for-expect": "^1.2.0"
   }
 }
