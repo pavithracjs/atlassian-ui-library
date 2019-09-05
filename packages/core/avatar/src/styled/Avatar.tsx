@@ -1,0 +1,79 @@
+import React, { FC } from 'react';
+import { ReactNode } from 'react';
+import { Theme } from '../theme';
+import { SizeType, AppearanceType } from '../types';
+
+interface AvatarProps {
+  size: SizeType;
+  children: ReactNode;
+  stackIndex?: number;
+}
+
+const Avatar: FC<AvatarProps> = props => (
+  <Theme.Consumer {...props} includeBorderWidth>
+    {({ dimensions }) => {
+      return (
+        <div
+          style={{
+            display: 'inline-block',
+            position: 'relative',
+            outline: 0,
+            zIndex: props.stackIndex,
+            ...dimensions,
+          }}
+        >
+          {props.children}
+        </div>
+      );
+    }}
+  </Theme.Consumer>
+);
+
+export default Avatar;
+
+interface PresenceWrapperProps {
+  appearance: AppearanceType;
+  size: SizeType;
+  children: ReactNode;
+}
+
+export const PresenceWrapper: FC<PresenceWrapperProps> = props => (
+  <Theme.Consumer {...props} includeBorderWidth>
+    {({ presence }) => {
+      return (
+        <span
+          style={{
+            pointerEvents: 'none',
+            position: 'absolute',
+            ...presence,
+          }}
+        >
+          {props.children}
+        </span>
+      );
+    }}
+  </Theme.Consumer>
+);
+
+interface StatusWrapperProps {
+  appearance: AppearanceType;
+  size: SizeType;
+  children: any;
+}
+
+export const StatusWrapper: FC<StatusWrapperProps> = props => (
+  <Theme.Consumer {...props} includeBorderWidth>
+    {({ status }) => {
+      return (
+        <span
+          style={{
+            position: 'absolute',
+            ...status,
+          }}
+        >
+          {props.children}
+        </span>
+      );
+    }}
+  </Theme.Consumer>
+);

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/profilecard",
-  "version": "12.0.7",
+  "version": "12.0.9",
   "config": {
     "access": "public"
   },
@@ -14,7 +14,7 @@
     "i18n:pull": "i18n-tools pull --resource profilecard . --type ts"
   },
   "dependencies": {
-    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/icon": "^19.0.6",
     "@atlaskit/layer": "^7.0.8",
@@ -22,7 +22,7 @@
     "@atlaskit/popper": "^3.1.4",
     "@atlaskit/portal": "^3.0.12",
     "@atlaskit/spinner": "^12.0.9",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.2",
     "@atlaskit/util-shared-styles": "^2.10.3",
     "@babel/runtime": "^7.0.0",
     "date-fns": "^1.30.1",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.5",
-    "@atlaskit/dynamic-table": "^13.1.13",
+    "@atlaskit/dynamic-table": "^13.2.1",
     "@atlaskit/i18n-tools": "^0.5.2",
     "@atlaskit/util-data-test": "^12.9.6",
     "enzyme": "^3.7.0",

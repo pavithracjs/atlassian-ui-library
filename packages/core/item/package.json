@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/item",
-  "version": "10.1.4",
+  "version": "10.1.5",
   "description": "A generic item component to be used within other components",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -16,7 +16,7 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.2",
     "@babel/runtime": "^7.0.0",
     "prop-types": "^15.5.10",
     "react-addons-text-content": "^0.0.4",
@@ -28,7 +28,7 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/build-utils": "^2.2.5",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/icon": "^19.0.6",

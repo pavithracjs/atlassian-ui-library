@@ -7,6 +7,8 @@ import {
   createAndFireEvent,
   withAnalyticsEvents,
   WithAnalyticsEventsProps,
+  AnalyticsEventPayload,
+  withAnalyticsContext,
 } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 import * as React from 'react';
@@ -155,10 +157,21 @@ export const IncorrectEventType = (channel: FabricChannel) =>
 export const createButtonWithAnalytics = (
   payload: GasPurePayload,
   channel: FabricChannel,
-) =>
-  withAnalyticsEvents({
+  context: AnalyticsEventPayload[] = [], // Context should incluide all data in the same order that AnalyticsListener would receive it
+): typeof MyButton => {
+  const ButtonWithAnalyticsEvents = withAnalyticsEvents({
     onClick: createAndFireEvent(channel)(payload),
   })(MyButton);
+
+  const reversedContext = [...context].reverse();
+  return reversedContext.reduce(
+    (ButtonWithAnalyticsContext, contextData: AnalyticsEventPayload) =>
+      withAnalyticsContext(contextData)(
+        ButtonWithAnalyticsContext as React.FunctionComponent,
+      ),
+    ButtonWithAnalyticsEvents,
+  ) as typeof MyButton;
+};
 
 export const createAnalyticsWebClientMock = () => ({
   sendUIEvent: (event: GasPurePayload) => {

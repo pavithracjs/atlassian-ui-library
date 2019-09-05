@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tag",
-  "version": "9.0.6",
+  "version": "9.0.7",
   "description": "This component displays as a tag with an optional link and/or button to remove the given tag.",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^6.0.3",
     "@atlaskit/icon": "^19.0.6",
-    "@atlaskit/theme": "^9.1.6",
+    "@atlaskit/theme": "^9.2.2",
     "create-error": "^0.3.1",
     "debug": "^2.2.0",
     "tslib": "^1.9.3"
@@ -34,7 +34,7 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^16.0.14",
+    "@atlaskit/avatar": "^17.0.0",
     "@atlaskit/build-utils": "^2.2.5",
     "@atlaskit/docs": "^8.1.5",
     "@atlaskit/section-message": "^4.0.12",

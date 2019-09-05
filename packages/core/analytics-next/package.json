@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/analytics-next",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "The 🆕 Atlaskit component analytics framework",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

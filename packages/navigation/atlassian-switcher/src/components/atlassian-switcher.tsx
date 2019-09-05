@@ -1,7 +1,4 @@
 import * as React from 'react';
-import JiraSwitcher from './jira-switcher';
-import ConfluenceSwitcher from './confluence-switcher';
-import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
 import {
   TriggerXFlowCallback,
@@ -21,6 +18,12 @@ import {
 import packageContext from '../utils/package-context';
 import mapPropsToFeatures from '../utils/map-props-to-features';
 import { WithTheme } from '../theme/types';
+
+import {
+  JiraSwitcherLoader,
+  ConfluenceSwitcherLoader,
+  GenericSwitcherLoader,
+} from '../loaders';
 
 type AtlassianSwitcherProps = WithTheme & {
   product: string;
@@ -43,13 +46,13 @@ const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
   let Switcher: React.ElementType;
   switch (product) {
     case Product.JIRA:
-      Switcher = JiraSwitcher;
+      Switcher = JiraSwitcherLoader;
       break;
     case Product.CONFLUENCE:
-      Switcher = ConfluenceSwitcher;
+      Switcher = ConfluenceSwitcherLoader;
       break;
     default:
-      Switcher = GenericSwitcher;
+      Switcher = GenericSwitcherLoader;
   }
 
   const features = mapPropsToFeatures(props);

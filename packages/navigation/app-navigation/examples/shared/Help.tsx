@@ -1,7 +1,7 @@
 import { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdown-menu';
 import React, { Fragment } from 'react';
 
-import { Help } from '../../src';
+import { ThemedHelp } from '../../src';
 
 const HelpContent = () => (
   <Fragment>
@@ -29,7 +29,7 @@ const onClose = (...args: any[]) => {
 };
 
 export const DefaultHelp = () => (
-  <Help
+  <ThemedHelp
     dropdownContent={HelpContent}
     onClick={onClick}
     onClose={onClose}

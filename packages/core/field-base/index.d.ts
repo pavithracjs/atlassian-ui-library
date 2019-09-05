@@ -35,7 +35,7 @@ declare module '@atlaskit/field-base' {
   export interface LabelProps {
     label: string;
     isLabelHidden?: boolean;
-    onClick?: (event: any) => mixed;
+    onClick?: (event: any) => unknown;
     isRequired?: boolean;
     isDisabled?: boolean;
     htmlFor?: string;

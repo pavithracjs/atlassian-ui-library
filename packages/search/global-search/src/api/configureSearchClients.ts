@@ -46,6 +46,7 @@ const defaultConfig: Config = {
 function configureSearchClients(
   cloudId: string,
   partialConfig: Partial<Config>,
+  isUserAnonymous: boolean,
   prefetchedResults?: GlobalSearchPrefetchedResults,
 ): SearchClients {
   const config = {
@@ -65,6 +66,7 @@ function configureSearchClients(
     crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
+      isUserAnonymous,
       prefetchedResults,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
@@ -79,7 +81,7 @@ function configureSearchClients(
       config.autocompleteUrl,
       cloudId,
     ),
-    jiraClient: new JiraClientImpl(config.jiraUrl, cloudId),
+    jiraClient: new JiraClientImpl(config.jiraUrl, cloudId, isUserAnonymous),
   };
 }
 

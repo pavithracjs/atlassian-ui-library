@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { PrimaryButtonProps } from '../PrimaryButton/types';
+import { AppNavigationTheme } from '../../theme';
+import { ThemedPrimaryButtonProps } from '../PrimaryButton/types';
 
 export type AppNavigationProps = {
-  primaryItems: PrimaryButtonProps[];
+  primaryItems: ThemedPrimaryButtonProps[];
   renderAppSwitcher?: React.ComponentType<{}>;
   renderCreate?: React.ComponentType<{}>;
   renderHelp?: React.ComponentType<{}>;
@@ -12,9 +13,11 @@ export type AppNavigationProps = {
   renderProfile: React.ComponentType<{}>;
   renderSearch?: React.ComponentType<{}>;
   renderSettings?: React.ComponentType<{}>;
+  theme?: AppNavigationTheme;
 };
 
 export type AppNavigationSkeletonProps = {
   primaryItemsCount?: number;
   secondaryItemsCount?: number;
+  theme?: AppNavigationTheme;
 };

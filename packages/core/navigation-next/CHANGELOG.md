@@ -1,5 +1,23 @@
 # @atlaskit/navigation-next
 
+## 6.6.2
+
+- Updated dependencies [8d0f37c23e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d0f37c23e):
+  - @atlaskit/drawer@5.0.10
+  - @atlaskit/dropdown-menu@8.1.1
+  - @atlaskit/global-navigation@7.7.1
+  - @atlaskit/modal-dialog@10.2.1
+  - @atlaskit/avatar@17.0.0
+  - @atlaskit/theme@9.2.2
+
+## 6.6.1
+
+### Patch Changes
+
+- [patch][6410edd029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6410edd029):
+
+  Deprecated props, `value` and `onValueUpdated` have been removed from the Badge component. Please use the children prop instead.
+
 ## 6.6.0
 
 ### Minor Changes

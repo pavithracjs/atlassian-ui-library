@@ -201,6 +201,11 @@ export interface Props {
    * Props to pass down to the feedback collector
    */
   feedbackCollectorProps?: FeedbackCollectorProps;
+
+  /**
+   * The user's account id. null if the user is anonymous.
+   */
+  userId: string | null;
 }
 
 const ConfluenceContainerWithFeedback = withFeedbackButton(
@@ -371,6 +376,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
             const searchClients = configureSearchClients(
               this.props.cloudId,
               this.makeConfig(),
+              this.props.userId === null,
               prefetchedResults,
             );
 

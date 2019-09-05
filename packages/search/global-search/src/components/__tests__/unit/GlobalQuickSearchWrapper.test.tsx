@@ -43,7 +43,7 @@ describe('GlobalQuickSearchWrapper', () => {
 
   it('should render PrefetchedResultsProvider wrapper matching snapshot', () => {
     const wrapper = shallow(
-      <GlobalQuickSearch cloudId="123" context="confluence" />,
+      <GlobalQuickSearch cloudId="123" context="confluence" userId="abc123" />,
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('GlobalQuickSearchWrapper', () => {
 
   it('should render AbTestProvider wrapper matching snapshot', () => {
     const wrapper = shallow(
-      <GlobalQuickSearch cloudId="123" context="confluence" />,
+      <GlobalQuickSearch cloudId="123" context="confluence" userId="abc123" />,
     );
 
     expect(wrapper.childAt(0).dive()).toMatchSnapshot();
@@ -59,7 +59,7 @@ describe('GlobalQuickSearchWrapper', () => {
 
   it('should render the confluence container with context confluence', () => {
     const wrapper = shallow(
-      <GlobalQuickSearch cloudId="123" context="confluence" />,
+      <GlobalQuickSearch cloudId="123" context="confluence" userId="abc123" />,
     );
 
     const featuresProviderWrapper = wrapper
@@ -72,7 +72,9 @@ describe('GlobalQuickSearchWrapper', () => {
   });
 
   it('should render the jira container with context jira', () => {
-    const wrapper = shallow(<GlobalQuickSearch cloudId="123" context="jira" />);
+    const wrapper = shallow(
+      <GlobalQuickSearch cloudId="123" context="jira" userId="abc123" />,
+    );
 
     const featuresProviderWrapper = wrapper
       .childAt(0)
@@ -91,6 +93,7 @@ describe('GlobalQuickSearchWrapper', () => {
         cloudId="123"
         context="confluence"
         linkComponent={MyLinkComponent}
+        userId="abc123"
       />,
     );
 
@@ -119,6 +122,7 @@ describe('GlobalQuickSearchWrapper', () => {
           <GlobalQuickSearch
             cloudId="123"
             context={product as QuickSearchContext}
+            userId="abc123"
             onAdvancedSearch={spy}
           />,
         );
@@ -153,6 +157,7 @@ describe('GlobalQuickSearchWrapper', () => {
           <GlobalQuickSearch
             cloudId="123"
             context={product as QuickSearchContext}
+            userId="abc123"
             onAdvancedSearch={spy}
           />,
         );

@@ -7,7 +7,7 @@ import {
   DropdownMenuStateless,
 } from '@atlaskit/dropdown-menu';
 import Avatar from '@atlaskit/avatar';
-import HomeFilledIcon from '@atlaskit/icon/glyph/home-filled';
+import HomeFilledIcon from '@atlaskit/icon/glyph/home';
 import MenuIcon from '@atlaskit/icon/glyph/menu';
 import NotificationIcon from '@atlaskit/icon/glyph/notification';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';

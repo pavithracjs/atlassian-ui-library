@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.27.0
+
+### Minor Changes
+
+- [minor][f1b05c87ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f1b05c87ab):
+
+  Lazy load underlying switcher component to avoid loading unnecessary code
+
 ## 3.26.0
 
 ### Minor Changes

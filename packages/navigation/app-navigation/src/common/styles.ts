@@ -1,5 +1,5 @@
 import { css } from '@emotion/core';
-import { N50 } from '@atlaskit/theme/colors';
+import { AppNavigationTheme } from '../theme';
 import { CREATE_BREAKPOINT } from './constants';
 
 export const actionSectionDesktopStyles = css`
@@ -14,7 +14,7 @@ export const actionSectionMobileStyles = css`
   }
 `;
 
-export const globalSkeletonStyles = css`
-  background: ${N50};
-  opacity: 0.5;
-`;
+export const skeletonStyles = ({ mode: { skeleton } }: AppNavigationTheme) => ({
+  opacity: 0.15,
+  ...skeleton,
+});

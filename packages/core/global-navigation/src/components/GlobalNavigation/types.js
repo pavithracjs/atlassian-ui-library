@@ -33,6 +33,8 @@ export type GlobalNavDrawerProps = {
   /** A callback function which will be fired when the create drawer is opened.
    * */
   onCreateDrawerOpen?: () => void,
+  /* Control if focus lock is enabled for create drawer */
+  isCreateDrawerFocusLock?: boolean,
   /** A callback function which will be fired when the create drawer is closed.
    * */
   onCreateDrawerClose?: () => void,
@@ -45,6 +47,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of the recent drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isRecentDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for recent drawer */
+  isRecentDrawerFocusLock?: boolean,
   /** The contents of the recent drawer. */
   recentDrawerContents?: ComponentType<*>,
   /** The width of the recent drawer. This is "wide" by default. */
@@ -64,6 +68,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of the Global Invite drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isInviteDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for invite drawer */
+  isInviteDrawerFocusLock?: boolean,
   /** The contents of the global invite drawer. */
   inviteDrawerContents?: ComponentType<*>,
   /** The width of the global invite drawer. This is "wide" by default. */
@@ -83,6 +89,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isSearchDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for search drawer */
+  isSearchDrawerFocusLock?: boolean,
   /** The contents of the search drawer. This is ignored if onSearchClick is
    * passed. */
   searchDrawerContents?: ComponentType<*>,
@@ -103,6 +111,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isNotificationDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for notification drawer */
+  isNotificationDrawerFocusLock?: boolean,
   /** The contents of the notifications drawer. */
   notificationDrawerContents?: ComponentType<*>,
   /** The width of the notification drawer. This is "wide" by default. */
@@ -132,6 +142,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of the star drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isStarredDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for starred drawer */
+  isStarredDrawerFocusLock?: boolean,
   /** The contents of the starred drawer. */
   starredDrawerContents?: ComponentType<*>,
   /** The width of the starred drawer. This is "wide" by default. */
@@ -151,6 +163,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of the settings drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isSettingsDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for settings drawer */
+  isSettingsDrawerFocusLock?: boolean,
   /** The contents of the settings drawer. */
   settingsDrawerContents?: ComponentType<*>,
   /** A callback function which will be called when the settings drawer is
@@ -168,6 +182,8 @@ export type GlobalNavDrawerProps = {
   /** A prop to take control over the opening and closing of the help drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isHelpDrawerOpen?: boolean,
+  /* Control if focus lock is enabled for help drawer */
+  isHelpDrawerFocusLock?: boolean,
   /** The contents of the help drawer. */
   helpDrawerContents?: ComponentType<*>,
   /** The width of the help drawer. This is "wide" by default. */

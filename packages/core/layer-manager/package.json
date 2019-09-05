@@ -16,7 +16,8 @@
   ],
   "atlaskit": {
     "name": "Layer Manager",
-    "team": "core"
+    "team": "core",
+    "internal": true
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

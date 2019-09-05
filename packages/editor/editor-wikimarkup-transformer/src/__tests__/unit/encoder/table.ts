@@ -141,4 +141,11 @@ describe('ADF => WikiMarkup - Table', () => {
     )(defaultSchema);
     expect(transformer.encode(node)).toMatchSnapshot();
   });
+
+  test('should convert empty table cells', () => {
+    const node = doc(table()(tr(th()(p())), tr(td()(p())), tr(td()(p()))))(
+      defaultSchema,
+    );
+    expect(transformer.encode(node)).toMatchSnapshot();
+  });
 });

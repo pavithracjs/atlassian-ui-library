@@ -1,9 +1,10 @@
-import React, { Component, MouseEvent } from 'react';
+import React, { Component, FC, MouseEvent } from 'react';
 import {
   AnalyticsListener,
   UIAnalyticsEvent,
   withAnalyticsEvents,
   WithAnalyticsEventsProps,
+  useAnalyticsEvents_experimental,
 } from '../src';
 
 interface Props extends WithAnalyticsEventsProps {
@@ -34,6 +35,25 @@ class ButtonBase extends Component<Props> {
 
 const Button = withAnalyticsEvents()(ButtonBase);
 
+const FunctionalButton: FC<Props> = ({ onClick, ...props }) => {
+  // Decompose function from the hook
+  const { createAnalyticsEvent } = useAnalyticsEvents_experimental();
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    // Create our analytics event
+    const analyticsEvent = createAnalyticsEvent({ action: 'click' });
+
+    // Fire our analytics event
+    analyticsEvent.fire('atlaskit');
+
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
+  return <button {...props} onClick={handleClick} />;
+};
+
 export default class App extends Component<void> {
   handleEvent = (analyticsEvent: UIAnalyticsEvent) => {
     const { payload, context } = analyticsEvent;
@@ -44,8 +64,11 @@ export default class App extends Component<void> {
     return (
       <AnalyticsListener channel="atlaskit" onEvent={this.handleEvent}>
         <Button onClick={() => console.log('onClick callback')}>
-          Click me
+          Click me (HOC)
         </Button>
+        <FunctionalButton onClick={() => console.log('onClick callback')}>
+          Click me (Hook)
+        </FunctionalButton>
       </AnalyticsListener>
     );
   }

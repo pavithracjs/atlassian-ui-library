@@ -17,7 +17,8 @@
   ],
   "atlaskit": {
     "name": "Analytics",
-    "team": "core"
+    "team": "core",
+    "internal": true
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

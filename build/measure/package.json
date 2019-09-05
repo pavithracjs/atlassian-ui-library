@@ -1,6 +1,7 @@
 {
   "name": "@atlaskit/measure",
   "version": "0.4.2",
+  "private": true,
   "description": "Tool for measuring bundle size of an individual package in Atlaskit",
   "main": "./cli.js",
   "bin": {

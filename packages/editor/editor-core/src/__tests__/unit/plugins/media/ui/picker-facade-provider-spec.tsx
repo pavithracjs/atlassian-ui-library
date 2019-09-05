@@ -65,7 +65,7 @@ describe('PickerFacadeProvider', () => {
     (global.console.error as jest.Mock).mockRestore();
     jest.clearAllMocks();
   });
-  it('should initialize PickerFacade properly', () => {
+  it('should initialize PickerFacade properly', done => {
     mount(
       <PickerFacadeProvider
         mediaState={pluginState}
@@ -89,12 +89,9 @@ describe('PickerFacadeProvider', () => {
           expect(picker.init).toBeCalled();
 
           expect(picker.onNewMedia).toBeCalledWith(pluginState.insertFile);
-          expect(pluginState.trackNewMediaEvent).toBeCalledWith(
-            'analyticsNameTest',
-          );
-          expect(picker.onNewMedia).toBeCalledWith(sendAnalyticsSpy);
           expect(picker.setUploadParams).toBeCalledWith(provider.uploadParams);
-          expect.assertions(10);
+          expect.assertions(8);
+          done();
           return null;
         }}
       </PickerFacadeProvider>,

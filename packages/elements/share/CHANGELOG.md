@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.6.6
+
+### Patch Changes
+
+- [patch][f69c99217c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f69c99217c):
+
+  The tooltip is now closed when user clicks on the share button (so it does not remains forever visible)
+
 ## 0.6.5
 
 ### Patch Changes

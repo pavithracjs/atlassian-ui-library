@@ -13,13 +13,17 @@ import {
   EmojiProvider,
 } from '../providers';
 import { cardClient } from '../providers/cardProvider';
-import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
+import {
+  Provider as SmartCardProvider,
+  Client as CardClient,
+} from '@atlaskit/smart-card';
 import { eventDispatcher } from './dispatcher';
 import { ObjectKey, TaskState } from '@atlaskit/task-decision';
 
 export interface MobileRendererProps extends RendererProps {
   document: string;
   mediaProvider?: Promise<MediaProviderType>;
+  cardClient?: CardClient;
 }
 
 export interface MobileRendererState {
@@ -99,8 +103,9 @@ export default class MobileRenderer extends React.Component<
       // Temporarily opting out of the default oauth2 flow for phase 1 of Smart Links
       // See https://product-fabric.atlassian.net/browse/FM-2149 for details.
       const authFlow = 'disabled';
+      const smartCardClient = this.props.cardClient || cardClient;
       return (
-        <SmartCardProvider client={cardClient} authFlow={authFlow}>
+        <SmartCardProvider client={smartCardClient} authFlow={authFlow}>
           <ReactRenderer
             onComplete={() => {
               if (
