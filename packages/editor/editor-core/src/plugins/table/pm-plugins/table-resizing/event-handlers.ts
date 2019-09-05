@@ -16,7 +16,7 @@ import {
   pointsAtCell,
   updateControls,
 } from './utils';
-import { getSelectedColumnIndexes, updateResizeHandles } from '../../utils';
+import { getSelectedColumnIndexes } from '../../utils';
 import { pluginKey as widthPluginKey } from '../../../width';
 import { getPluginState } from './plugin';
 import { setDragging, evenColumns } from './commands';
@@ -52,6 +52,7 @@ export const handleMouseDown = (
 
   const containerWidth = widthPluginKey.getState(state);
   const parentWidth = getParentNodeWidth(start, state, containerWidth);
+  const colIndex = getColIndex(view, event.target, resizeHandlePos);
 
   let maxSize =
     parentWidth ||
@@ -126,11 +127,6 @@ export const handleMouseDown = (
       // For example, if a table col is deleted we won't be able to reliably remap the new widths
       // There may be a more elegant solution to this, to avoid a jarring experience.
       if (table.eq(originalTable)) {
-        const map = TableMap.get(table);
-        const colIndex =
-          map.colCount($cell.pos - start) +
-          ($cell.nodeAfter ? $cell.nodeAfter.attrs.colspan : 1) -
-          1;
         const selectionRect = getSelectionRect(state.selection);
         const selectedColumns = selectionRect
           ? getSelectedColumnIndexes(selectionRect)
@@ -165,19 +161,9 @@ export const handleMouseDown = (
     ) {
       return finish(event);
     }
-
-    const $cell = state.doc.resolve(resizeHandlePos);
-    const table = $cell.node(-1);
-    const map = TableMap.get(table);
-    const colIndex =
-      map.colCount($cell.pos - $cell.start(-1)) +
-      $cell.nodeAfter!.attrs.colspan -
-      1;
-
     resizeColumn(resizeState, colIndex, clientX - dragging.startX, dom);
 
     updateControls(state);
-    updateResizeHandles(dom);
   }
 
   window.addEventListener('mouseup', finish);
@@ -185,3 +171,27 @@ export const handleMouseDown = (
 
   return true;
 };
+
+function getColIndex(
+  view: EditorView,
+  resizeHandle: EventTarget | null,
+  resizeHandlePos: number,
+): number {
+  const colIndex = parseInt(
+    (resizeHandle as HTMLElement).getAttribute('data-col-index') || '-1',
+    10,
+  );
+
+  if (colIndex === -1) {
+    const $cell = view.state.doc.resolve(resizeHandlePos);
+    const table = $cell.node(-1);
+    const map = TableMap.get(table);
+    return (
+      map.colCount($cell.pos - $cell.start(-1)) +
+      $cell.nodeAfter!.attrs.colspan -
+      1
+    );
+  }
+
+  return colIndex;
+}

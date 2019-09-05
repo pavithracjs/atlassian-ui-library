@@ -27,7 +27,7 @@ const getDecorationSet = (
     decorationSet = updateNodeDecorations(
       tr.doc,
       decorationSet,
-      createColumnControlsDecoration(tr.selection, allowColumnResizing),
+      createColumnControlsDecoration(tr.doc, tr.selection, allowColumnResizing),
       TableDecorations.COLUMN_CONTROLS_DECORATIONS,
     );
   }

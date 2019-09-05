@@ -11,6 +11,7 @@ import {
   getColumnStateFromDOM,
 } from './column-state';
 import { insertColgroupFromNode, hasTableBeenResized } from './colgroup';
+import { updateResizeHandles } from '../../../utils';
 
 export interface ResizeState {
   cols: ColumnState[];
@@ -70,6 +71,7 @@ export const resizeColumn = (
       : resizeState;
 
   updateColgroup(newState, tableRef);
+  updateResizeHandles(tableRef, newState, colIndex);
 
   return newState;
 };

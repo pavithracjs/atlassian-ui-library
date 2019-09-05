@@ -82,7 +82,11 @@ export const setTableRef = (ref?: HTMLElement | null) =>
       if (allowControls && tableRef) {
         decorationSet = updatePluginStateDecorations(
           state,
-          createColumnControlsDecoration(state.selection, allowColumnResizing),
+          createColumnControlsDecoration(
+            state.doc,
+            state.selection,
+            allowColumnResizing,
+          ),
           TableDecorations.COLUMN_CONTROLS_DECORATIONS,
         );
       }
