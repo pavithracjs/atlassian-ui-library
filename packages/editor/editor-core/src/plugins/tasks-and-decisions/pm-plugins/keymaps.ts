@@ -21,7 +21,7 @@ import {
 import { INPUT_METHOD } from '../../analytics';
 import { TaskDecisionListType } from '../types';
 import { Command } from '../../../types';
-import { canSplit, findWrapping } from 'prosemirror-transform';
+import { canSplit, findWrapping, Transform } from 'prosemirror-transform';
 import { liftListItem } from 'prosemirror-schema-list';
 import { autoJoin } from 'prosemirror-commands';
 
@@ -29,55 +29,6 @@ const isInsideTaskOrDecisionItem = (state: EditorState) => {
   const { decisionItem, taskItem } = state.schema.nodes;
   return hasParentNodeOfType([decisionItem, taskItem])(state.selection);
 };
-
-// node.depth < 2 check if to see if we're being called towards document level
-function splitListItem(itemType: NodeType): Command {
-  return function(state, dispatch) {
-    let { $from, $to, from } = state.selection;
-    const node = state.doc.nodeAt(from);
-
-    if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
-      return false;
-    }
-
-    let parent = $from.node(); // -1 for inline
-    if (parent.type != itemType) return false;
-    const grandParentItems: Node[] = [];
-    $from.node(-1).content.forEach(listChild => {
-      if (listChild.type.name === 'taskItem') {
-        grandParentItems.push(listChild);
-      }
-    });
-
-    if ($from.parent.content.size !== 0) {
-      return false;
-    }
-
-    // In an empty block. If this is a nested list, the wrapping
-    // list item should be split. Otherwise, bail out and let next
-    // command handle lifting.
-    if (
-      $from.depth == 2 ||
-      $from.node(-1).type.name != 'taskList' || // -1 for inline
-      grandParentItems.indexOf(parent) != grandParentItems.length - 1 // -1 for inline
-    ) {
-      // debugger;
-      return false;
-    }
-    if (dispatch) {
-      const blockRange = $from.blockRange(state.doc.resolve($from.end(-1)));
-      if (!blockRange) {
-        return false;
-      }
-
-      dispatch(
-        state.tr.lift(blockRange, blockRange.depth - 1).scrollIntoView(),
-      );
-    }
-
-    return true;
-  };
-}
 
 const getBlockRange = ($from: ResolvedPos, $to: ResolvedPos) => {
   const { taskList } = $from.doc.type.schema.nodes;
@@ -143,14 +94,107 @@ const indent = autoJoin(
   ['taskList'],
 );
 
+const backspace = autoJoin(
+  (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+    if (!isInsideTaskOrDecisionItem(state)) {
+      return false;
+    }
+
+    const { $from } = state.selection;
+
+    // if nested, just unindent
+    if ($from.node($from.depth - 2).type.name === 'taskList') {
+      console.log('can unindent');
+      return unindent(state, dispatch);
+    }
+
+    // bottom level, should "unwrap" taskItem contents into paragraph
+    // we achieve this by slicing the content out, and replacing
+    if (canSplitListItem(state.tr)) {
+      console.log('can split');
+      if (dispatch) {
+        const taskContent = state.doc.slice($from.start(), $from.end()).content;
+
+        // might be end of document after
+        const slice = taskContent.size
+          ? taskContent
+          : state.schema.nodes.paragraph.createChecked();
+
+        dispatch(splitListItemWith(state.tr, slice));
+      }
+
+      return true;
+    }
+
+    console.warn('no split or unindent');
+
+    return false;
+  },
+  ['taskList'],
+);
+
+const canSplitListItem = (tr: Transaction) => {
+  const afterTaskItem = tr.doc.resolve(tr.selection.$from.end()).nodeAfter;
+
+  console.log('after', afterTaskItem);
+
+  return (
+    !afterTaskItem || (afterTaskItem && afterTaskItem.type.name === 'taskItem')
+  );
+};
+
+const splitListItemWith = (
+  tr: Transaction,
+  content: Fragment | Node | Node[],
+) => {
+  const { $from } = tr.selection;
+
+  // split just before the current item
+  // TODO: new id for split taskList
+  tr = tr.split($from.pos - 1);
+
+  // and delete the action at the current pos
+  // we can do this because we know either first new child will be taskItem or nothing at all
+  tr = tr.deleteRange(
+    tr.mapping.map($from.pos),
+    tr.mapping.map($from.end() + 1),
+  );
+
+  // taskList and taskItem positions collapse (nodes get deleted), so $from.pos is now the
+  // start of the split taskList or remaining nodes in doc
+  tr = tr.insert($from.pos, content);
+
+  // put cursor inside paragraph
+  tr = tr.setSelection(new TextSelection(tr.doc.resolve($from.pos + 1)));
+
+  return tr;
+};
+
+const splitListItem = (
+  state: EditorState,
+  dispatch?: (tr: Transaction) => void,
+) => {
+  let { tr } = state;
+  const { schema } = state;
+
+  if (canSplitListItem(tr)) {
+    if (dispatch) {
+      dispatch(splitListItemWith(tr, schema.nodes.paragraph.createChecked()));
+    }
+    return true;
+  }
+
+  return false;
+};
+
 export function keymapPlugin(schema: Schema): Plugin | undefined {
   const keymaps = {
     'Shift-Tab': unindent,
     Tab: indent,
+    Backspace: backspace,
 
     Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const { selection } = state;
-      let tr = state.tr;
       const { $from } = selection;
       const node = $from.node($from.depth);
       const nodeType = node && node.type;
@@ -167,30 +211,8 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
         return unindent(state, dispatch);
       }
 
-      const afterTaskItem = tr.doc.resolve($from.pos + 1).nodeAfter;
-
       // not nested, exit the list if possible
-      if (
-        isEmpty &&
-        (!afterTaskItem ||
-          (afterTaskItem && afterTaskItem.type.name === 'taskItem'))
-      ) {
-        // split just before the current item
-        // TODO: new id for split taskList
-        tr = tr.split($from.pos - 1);
-
-        // and delete the action at the current pos
-        // we can do this because we know either first new child will be taskItem or nothing at all
-        tr = tr.deleteRange($from.pos + 2, $from.pos + 3);
-
-        // taskList and taskItem positions collapse (nodes get deleted), so $from.pos is now the
-        // start of the split taskList or remaining nodes in doc
-        tr = tr.insert($from.pos, schema.nodes.paragraph.createChecked());
-
-        // put cursor inside paragraph
-        tr = tr.setSelection(new TextSelection(tr.doc.resolve($from.pos + 1)));
-
-        dispatch(tr);
+      if (isEmpty && splitListItem(state, dispatch)) {
         return true;
       }
 
