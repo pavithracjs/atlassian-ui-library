@@ -19,7 +19,7 @@ const customTheme = (
   current: (props: { tokens: ComponentTokens; mode: string }) => ThemeTokens,
   { tokens, mode }: { tokens: ComponentTokens; mode: string },
 ) => {
-  const mergedTokens = merge(tokens, newThemeTokens);
+  const mergedTokens = merge({}, tokens, newThemeTokens);
   return current({ tokens: mergedTokens, mode });
 };
 
