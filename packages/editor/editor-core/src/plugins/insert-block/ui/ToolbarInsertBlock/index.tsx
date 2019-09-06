@@ -73,6 +73,7 @@ import {
 } from '../../../analytics';
 import { insertEmoji } from '../../../emoji/commands/insert-emoji';
 import { DropdownItem } from '../../../block-type/ui/ToolbarBlockType';
+import { safeInsert } from '../../../../../src/utils/insert';
 
 export const messages = defineMessages({
   action: {
@@ -801,12 +802,20 @@ class ToolbarInsertBlock extends React.PureComponent<
     'atlassian.editor.format.horizontalrule.button',
     (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      const tr = createHorizontalRule(
-        editorView.state,
+
+      let tr = safeInsert(
+        editorView.state.schema.nodes.rule.createChecked(),
         editorView.state.selection.from,
-        editorView.state.selection.to,
-        inputMethod,
-      );
+      )(editorView.state.tr);
+
+      if (!tr) {
+        tr = createHorizontalRule(
+          editorView.state,
+          editorView.state.selection.from,
+          editorView.state.selection.to,
+          inputMethod,
+        );
+      }
 
       if (tr) {
         editorView.dispatch(tr);

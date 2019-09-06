@@ -1,6 +1,9 @@
 import { Node as PMNode, Schema, Fragment, Slice } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { safeInsert, hasParentNodeOfType } from 'prosemirror-utils';
+import {
+  safeInsert as pmSafeInsert,
+  hasParentNodeOfType,
+} from 'prosemirror-utils';
 import { EditorState, Selection } from 'prosemirror-state';
 import { MediaSingleLayout, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import {
@@ -31,6 +34,7 @@ import {
   InputMethodInsertMedia,
   InsertEventPayload,
 } from '../../analytics';
+import { safeInsert } from '../../../utils/insert';
 
 export const wrappedLayouts: MediaSingleLayout[] = [
   'wrap-left',
@@ -169,13 +173,15 @@ export const insertMediaSingleNode = (
       dispatch,
     );
   } else {
-    let tr = safeInsert(
-      shouldAddParagraph(view.state)
+    let tr = safeInsert(node, state.selection.from)(state.tr);
+
+    if (!tr) {
+      const content = shouldAddParagraph(view.state)
         ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
-        : node,
-      undefined,
-      true,
-    )(state.tr);
+        : node;
+      tr = pmSafeInsert(content, undefined, true)(state.tr);
+    }
+
     if (inputMethod) {
       tr = addAnalytics(
         tr,

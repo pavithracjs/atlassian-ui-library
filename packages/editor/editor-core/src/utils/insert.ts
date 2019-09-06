@@ -55,9 +55,10 @@ export const safeInsert = (
   content: InsertableContent,
   position?: number,
   tryToReplace?: boolean,
+  fallbackInsert?: Function,
 ) => (tr: Transaction) => {
   // Temporary whitelist of currently implemented nodes
-  const whitelist = ['rule'];
+  const whitelist = ['rule', 'mediaSingle'];
   if (content instanceof Fragment || !whitelist.includes(content.type.name)) {
     return pmuSafeInsert(content, position, tryToReplace)(tr);
   }
@@ -83,8 +84,8 @@ export const safeInsert = (
   }
 
   if (!lookDirection) {
-    // Insert by split
-    return finaliseInsert(tr.insert($insertPos.pos, content), content.nodeSize);
+    // fallback to consumer for now
+    return null;
   }
 
   // Replace empty paragraph
@@ -111,6 +112,7 @@ export const safeInsert = (
       );
     }
 
+    // If we can't insert, and we think we should split, we fallback to consumer for now
     if (shouldSplit(parentNode.type, tr.doc.type.schema.nodes)) {
       return finaliseInsert(
         insertBeforeOrAfter(
@@ -140,7 +142,7 @@ const finaliseInsert = (tr: Transaction, nodeLength: number) => {
   if (
     !(lastStep instanceof ReplaceStep || lastStep instanceof ReplaceAroundStep)
   ) {
-    return;
+    return null;
   }
 
   // Place gap cursor after the newly inserted node
