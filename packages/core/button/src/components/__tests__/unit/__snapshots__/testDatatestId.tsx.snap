@@ -24,7 +24,7 @@ exports[`Using enzyme Button snapshot should be same with data-testid  1`] = `
   background: rgba(9,30,66,0.04);
   border-radius: 3px;
   box-shadow: 0 0 0 2px inherit;
-  color: #505F79 !important;
+  color: #42526E !important;
   cursor: default;
   height: 2.2857142857142856em;
   line-height: 2.2857142857142856em;
@@ -146,7 +146,7 @@ exports[`Using react-test-library Button should be found by data-testid Using co
   background: rgba(9,30,66,0.04);
   border-radius: 3px;
   box-shadow: 0 0 0 2px inherit;
-  color: #505F79 !important;
+  color: #42526E !important;
   cursor: default;
   height: 2.2857142857142856em;
   line-height: 2.2857142857142856em;
