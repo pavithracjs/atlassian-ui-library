@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import meow from 'meow';
 import simpleGit from 'simple-git/promise';
+import util from 'util';
+import childProcess from 'child_process';
+
+const exec = util.promisify(childProcess.exec);
 
 //@ts-ignore
 import installFromCommit from '@atlaskit/branch-installer';
@@ -18,6 +22,7 @@ const HELP_MSG = `
      ${chalk.yellow('--atlaskitBranchName')} The name of the Atlaskit branch being installed
      ${chalk.yellow('--packageEngine')} The package manager to use, currently only tested with Bolt and yarn [default=yarn]
      ${chalk.yellow('--packages')} comma delimited list of packages to install branch deploy of
+     ${chalk.yellow('--dedupe')} run yarn deduplicate at the end to deduplicate the lock file
 `;
 
 export async function run() {
@@ -41,6 +46,10 @@ export async function run() {
         type: 'string',
         default: 'all',
       },
+      dedupe: {
+        type: 'boolean',
+        default: false,
+      },
     },
   });
   const {
@@ -49,6 +58,7 @@ export async function run() {
     branchPrefix,
     packageEngine,
     packages,
+    dedupe,
   } = cli.flags;
 
   const git = simpleGit('./');
@@ -110,4 +120,16 @@ This commit was auto-generated.
     `BOT Atlaskit branch deploy integrator <${authorEmail}>`,
   ]);
   await git.push('origin', branchName);
+
+  if (dedupe) {
+    console.log(chalk.yellow('Running yarn-deduplicate'));
+    await exec('yarn yarn-deduplicate yarn.lock');
+    await git.add(['./']);
+
+    await git.commit(`Deduplicated yarn.lock file`, [
+      '--author',
+      `BOT Atlaskit branch deploy integrator <${authorEmail}>`,
+    ]);
+    await git.push('origin', branchName);
+  }
 }
