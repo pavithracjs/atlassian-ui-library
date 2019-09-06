@@ -1,0 +1,1 @@
+Date, Time, and DateTime pickers now correctly clear their value when the Backspace or Delete key is pressed
