@@ -15,6 +15,8 @@ This is a CLI for automatically creating branches installing Atlaskit branch dep
 
 `--packages` comma delimited list of packages to install branch deploy of
 
+`--dedupe` !yarn only! run yarn deduplicate at the end to deduplicate the lock file 
+
 
 ## Bamboo example implementation: 
 
