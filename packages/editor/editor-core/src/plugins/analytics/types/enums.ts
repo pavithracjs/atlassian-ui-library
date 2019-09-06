@@ -123,7 +123,7 @@ export enum ACTION_SUBJECT_ID {
   TYPEAHEAD_MENTION = 'mentionTypeAhead',
   TYPEAHEAD_QUICK_INSERT = 'quickInsertTypeAhead',
   PASTE_BLOCK_CARD = 'blockCard',
-  PASTE_BLOCKQUOTE = 'blockquote',
+  PASTE_BLOCKQUOTE = 'blockQuote',
   PASTE_BODIED_EXTENSION = 'bodiedExtension',
   PASTE_BULLET_LIST = 'bulletList',
   PASTE_CODE_BLOCK = 'codeBlock',
