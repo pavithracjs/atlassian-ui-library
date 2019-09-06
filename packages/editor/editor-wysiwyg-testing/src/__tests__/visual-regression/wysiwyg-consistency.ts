@@ -55,7 +55,7 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
     { node: 'panel' },
   ];
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // @ts-ignore
     page = global.page;
     await page.setViewport({ width: 2000, height: 1000 });
@@ -76,32 +76,34 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
     });
   });
 
-  describe.each(containerNodes)(
-    'Nested content: %p',
-    async ({ node: containerNode }: FragmentNodeLookup) => {
-      const containerAdf = createDocumentADF(containerNode, true);
-      // Nested nodes
-      it.each(contentNodes)(
-        `%p inside ${containerNode}`,
-        async ({ node: contentNode, waitFor }: FragmentNodeLookup) => {
-          const contentAdf = createDocumentADF(contentNode).content;
-          const adf = traverse(containerAdf, {
-            any: (node: any) => {
-              if (node.content && node.content.length === 0) {
-                // Insert nested content into container
-                node.content = contentAdf;
-              }
-              return node;
-            },
-          });
-          await loadKitchenSinkWithAdf(page, adf);
-          await snapshotAndCompare(
-            page,
-            `${contentNode} inside ${containerNode}`,
-            waitFor,
-          );
-        },
-      );
-    },
-  );
+  describe('Nested content', () => {
+    describe.each(containerNodes)(
+      '',
+      ({ node: containerNode }: FragmentNodeLookup) => {
+        const containerAdf = createDocumentADF(containerNode, true);
+        // Nested nodes
+        it.each(contentNodes)(
+          `%p inside ${containerNode}`,
+          async ({ node: contentNode, waitFor }: FragmentNodeLookup) => {
+            const contentAdf = createDocumentADF(contentNode).content;
+            const adf = traverse(containerAdf, {
+              any: (node: any) => {
+                if (node.content && node.content.length === 0) {
+                  // Insert nested content into container
+                  node.content = contentAdf;
+                }
+                return node;
+              },
+            });
+            await loadKitchenSinkWithAdf(page, adf);
+            await snapshotAndCompare(
+              page,
+              `${contentNode} inside ${containerNode}`,
+              waitFor,
+            );
+          },
+        );
+      },
+    );
+  });
 });

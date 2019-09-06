@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WYSIWYG Comparison: actions 1`] = `
+Object {
+  "consistency": "100%",
+  "divergence": 0,
+}
+`;
+
+exports[`WYSIWYG Comparison: actions inside columns 1`] = `
+Object {
+  "consistency": "92.05%",
+  "divergence": 0.0794590856144438,
+}
+`;
+
+exports[`WYSIWYG Comparison: actions inside panel 1`] = `
+Object {
+  "consistency": "88.85%",
+  "divergence": 0.11146304675716441,
+}
+`;
+
+exports[`WYSIWYG Comparison: actions inside table 1`] = `
+Object {
+  "consistency": "94.94%",
+  "divergence": 0.05063659692064745,
+}
+`;
+
+exports[`WYSIWYG Comparison: blockquote 1`] = `
+Object {
+  "consistency": "92.29%",
+  "divergence": 0.07712418300653595,
+}
+`;
+
+exports[`WYSIWYG Comparison: blockquote inside columns 1`] = `
+Object {
+  "consistency": "84.67%",
+  "divergence": 0.1533067464273845,
+}
+`;
+
+exports[`WYSIWYG Comparison: blockquote inside panel 1`] = `
+Object {
+  "consistency": "88.85%",
+  "divergence": 0.11146304675716441,
+}
+`;
+
+exports[`WYSIWYG Comparison: blockquote inside table 1`] = `
+Object {
+  "consistency": "79.06%",
+  "divergence": 0.20940383506343713,
+}
+`;
+
+exports[`WYSIWYG Comparison: bullet list 1`] = `
+Object {
+  "consistency": "99.98%",
+  "divergence": 0.0001513840830449827,
+}
+`;
+
+exports[`WYSIWYG Comparison: bullet list inside columns 1`] = `
+Object {
+  "consistency": "97.23%",
+  "divergence": 0.027658045977011495,
+}
+`;
+
+exports[`WYSIWYG Comparison: bullet list inside panel 1`] = `
+Object {
+  "consistency": "99.99%",
+  "divergence": 0.00014450867052023122,
+}
+`;
+
+exports[`WYSIWYG Comparison: bullet list inside table 1`] = `
+Object {
+  "consistency": "98.31%",
+  "divergence": 0.016903456297773345,
+}
+`;
+
+exports[`WYSIWYG Comparison: codeblock 1`] = `
+Object {
+  "consistency": "97.87%",
+  "divergence": 0.021318527410964384,
+}
+`;
+
+exports[`WYSIWYG Comparison: codeblock inside columns 1`] = `
+Object {
+  "consistency": "96.11%",
+  "divergence": 0.038887347391786904,
+}
+`;
+
+exports[`WYSIWYG Comparison: codeblock inside panel 1`] = `
+Object {
+  "consistency": "99.99%",
+  "divergence": 0.00014450867052023122,
+}
+`;
+
+exports[`WYSIWYG Comparison: codeblock inside table 1`] = `
+Object {
+  "consistency": "97.02%",
+  "divergence": 0.02977941176470588,
+}
+`;
+
+exports[`WYSIWYG Comparison: date 1`] = `
+Object {
+  "consistency": "98.79%",
+  "divergence": 0.012096774193548387,
+}
+`;
+
+exports[`WYSIWYG Comparison: date inside columns 1`] = `
+Object {
+  "consistency": "94.1%",
+  "divergence": 0.05897435897435897,
+}
+`;
+
+exports[`WYSIWYG Comparison: date inside panel 1`] = `
+Object {
+  "consistency": "99%",
+  "divergence": 0.01001589825119237,
+}
+`;
+
+exports[`WYSIWYG Comparison: date inside table 1`] = `
+Object {
+  "consistency": "94.9%",
+  "divergence": 0.0509640522875817,
+}
+`;
+
+exports[`WYSIWYG Comparison: decisions 1`] = `
+Object {
+  "consistency": "100%",
+  "divergence": 0,
+}
+`;
+
+exports[`WYSIWYG Comparison: decisions inside columns 1`] = `
+Object {
+  "consistency": "91.57%",
+  "divergence": 0.08433677926616191,
+}
+`;
+
+exports[`WYSIWYG Comparison: decisions inside panel 1`] = `
+Object {
+  "consistency": "99%",
+  "divergence": 0.01001589825119237,
+}
+`;
+
+exports[`WYSIWYG Comparison: decisions inside table 1`] = `
+Object {
+  "consistency": "94.77%",
+  "divergence": 0.05232925384919068,
+}
+`;
+
+exports[`WYSIWYG Comparison: divider 1`] = `
+Object {
+  "consistency": "100%",
+  "divergence": 0,
+}
+`;
+
+exports[`WYSIWYG Comparison: divider inside columns 1`] = `
+Object {
+  "consistency": "100%",
+  "divergence": 0,
+}
+`;
+
+exports[`WYSIWYG Comparison: divider inside panel 1`] = `
+Object {
+  "consistency": "99%",
+  "divergence": 0.01001589825119237,
+}
+`;
+
+exports[`WYSIWYG Comparison: divider inside table 1`] = `
+Object {
+  "consistency": "97.32%",
+  "divergence": 0.0268048128342246,
+}
+`;
+
+exports[`WYSIWYG Comparison: emoji 1`] = `
+Object {
+  "consistency": "98.68%",
+  "divergence": 0.01318785578747628,
+}
+`;
+
+exports[`WYSIWYG Comparison: emoji inside columns 1`] = `
+Object {
+  "consistency": "91.27%",
+  "divergence": 0.08729260935143288,
+}
+`;
+
+exports[`WYSIWYG Comparison: emoji inside panel 1`] = `
+Object {
+  "consistency": "98.9%",
+  "divergence": 0.010969793322734499,
+}
+`;
+
+exports[`WYSIWYG Comparison: emoji inside table 1`] = `
+Object {
+  "consistency": "93.87%",
+  "divergence": 0.061274509803921566,
+}
+`;
+
+exports[`WYSIWYG Comparison: heading 1`] = `
+Object {
+  "consistency": "98.92%",
+  "divergence": 0.010814203730272597,
+}
+`;
+
+exports[`WYSIWYG Comparison: heading inside columns 1`] = `
+Object {
+  "consistency": "91.31%",
+  "divergence": 0.0868976846057572,
+}
+`;
+
+exports[`WYSIWYG Comparison: heading inside panel 1`] = `
+Object {
+  "consistency": "99.04%",
+  "divergence": 0.009599224305106659,
+}
+`;
+
+exports[`WYSIWYG Comparison: heading inside table 1`] = `
+Object {
+  "consistency": "94.9%",
+  "divergence": 0.05102441462021702,
+}
+`;
+
+exports[`WYSIWYG Comparison: mention 1`] = `
+Object {
+  "consistency": "99.29%",
+  "divergence": 0.007068311195445921,
+}
+`;
+
+exports[`WYSIWYG Comparison: mention inside columns 1`] = `
+Object {
+  "consistency": "94.95%",
+  "divergence": 0.050490196078431374,
+}
+`;
+
+exports[`WYSIWYG Comparison: mention inside panel 1`] = `
+Object {
+  "consistency": "99.42%",
+  "divergence": 0.005802861685214627,
+}
+`;
+
+exports[`WYSIWYG Comparison: mention inside table 1`] = `
+Object {
+  "consistency": "95.33%",
+  "divergence": 0.04666666666666667,
+}
+`;
+
+exports[`WYSIWYG Comparison: ordered list 1`] = `
+Object {
+  "consistency": "99.98%",
+  "divergence": 0.0001513840830449827,
+}
+`;
+
+exports[`WYSIWYG Comparison: ordered list inside columns 1`] = `
+Object {
+  "consistency": "96.92%",
+  "divergence": 0.030802062204192023,
+}
+`;
+
+exports[`WYSIWYG Comparison: ordered list inside panel 1`] = `
+Object {
+  "consistency": "99.99%",
+  "divergence": 0.00014450867052023122,
+}
+`;
+
+exports[`WYSIWYG Comparison: ordered list inside table 1`] = `
+Object {
+  "consistency": "98.16%",
+  "divergence": 0.01843635759388501,
+}
+`;
+
+exports[`WYSIWYG Comparison: panel 1`] = `
+Object {
+  "consistency": "100%",
+  "divergence": 0,
+}
+`;
+
+exports[`WYSIWYG Comparison: paragraph 1`] = `
+Object {
+  "consistency": "92.83%",
+  "divergence": 0.07167755991285403,
+}
+`;
+
+exports[`WYSIWYG Comparison: paragraph inside columns 1`] = `
+Object {
+  "consistency": "83.65%",
+  "divergence": 0.16347402597402597,
+}
+`;
+
+exports[`WYSIWYG Comparison: paragraph inside panel 1`] = `
+Object {
+  "consistency": "93.61%",
+  "divergence": 0.06387254901960784,
+}
+`;
+
+exports[`WYSIWYG Comparison: paragraph inside table 1`] = `
+Object {
+  "consistency": "79.77%",
+  "divergence": 0.20230320069204152,
+}
+`;
+
+exports[`WYSIWYG Comparison: status 1`] = `
+Object {
+  "consistency": "99.33%",
+  "divergence": 0.006688804554079697,
+}
+`;
+
+exports[`WYSIWYG Comparison: status inside columns 1`] = `
+Object {
+  "consistency": "88.85%",
+  "divergence": 0.11146304675716441,
+}
+`;
+
+exports[`WYSIWYG Comparison: status inside panel 1`] = `
+Object {
+  "consistency": "99.49%",
+  "divergence": 0.005127186009538951,
+}
+`;
+
+exports[`WYSIWYG Comparison: status inside table 1`] = `
+Object {
+  "consistency": "94.39%",
+  "divergence": 0.05607843137254902,
+}
+`;
+
+exports[`WYSIWYG Comparison: table 1`] = `
+Object {
+  "consistency": "95.01%",
+  "divergence": 0.04986787683823529,
+}
+`;

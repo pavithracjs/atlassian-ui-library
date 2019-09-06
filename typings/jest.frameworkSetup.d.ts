@@ -18,5 +18,14 @@ declare namespace jest {
      */
     toMatchStyledComponentsSnapshot(): void;
     toHaveStyleRule(property: string, value: any): void;
+
+    /**
+     * Jest Editor Matchers
+     */
+    toMatchWYSIWYGSnapshot(
+      testName: string,
+      onImprovement: (percent: number) => {},
+      onRegression: (percent: number) => {},
+    ): R;
   }
 }

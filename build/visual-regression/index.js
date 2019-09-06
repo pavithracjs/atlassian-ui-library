@@ -79,6 +79,7 @@ if (cli.flags.debug) {
 }
 
 if (cli.flags.updateSnapshot) {
+  // Add an env update snapshot flag for access outside of this file
   process.env.UPDATE_SNAPSHOT = 'true';
 }
 

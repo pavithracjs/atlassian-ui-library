@@ -9,7 +9,7 @@ const hasSnapshotDiffFail = failedExpectations => {
     return false;
   }
   return !!failedExpectations.find(failure =>
-    failure.message.match(/different from snapshot/),
+    failure.message.match(/different from snapshot|WYSIWYG Comparison/),
   );
 };
 

@@ -14,13 +14,14 @@
   ],
   "main": "index.js",
   "devDependencies": {
-    "@atlaskit/adf-utils": "^6.1.0",
-    "@atlaskit/analytics-reporting": "0.1.0",
-    "@atlaskit/editor-common": "^39.4.0",
-    "@atlaskit/editor-core": "^112.2.7",
-    "@atlaskit/renderer": "^48.3.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/adf-utils": "^6.1.6",
+    "@atlaskit/analytics-reporting": "0.1.1",
+    "@atlaskit/editor-common": "^40.0.1",
+    "@atlaskit/editor-core": "^112.44.1",
+    "@atlaskit/renderer": "^50.0.2",
+    "@atlaskit/visual-regression": "^0.1.3",
     "pixelmatch": "^4.0.2",
-    "pngjs": "^3.4.0"
+    "pngjs": "^3.4.0",
+    "rimraf": "^2.6.3"
   }
 }

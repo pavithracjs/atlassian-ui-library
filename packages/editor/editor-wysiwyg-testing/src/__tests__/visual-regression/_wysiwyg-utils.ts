@@ -2,10 +2,76 @@ import {
   getExampleUrl,
   loadExampleUrl,
 } from '@atlaskit/visual-regression/helper';
+import sendLogs from '@atlaskit/analytics-reporting';
+import { toMatchSnapshot } from 'jest-snapshot';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
+
+interface ConsistencyReport {
+  consistency: string;
+  divergence: number;
+}
+
+expect.extend({
+  toMatchWYSIWYGSnapshot(
+    received: ConsistencyReport,
+    testName: string,
+    onImprovement: (percent: number) => void,
+    onRegression: (percent: number) => void,
+  ) {
+    // @ts-ignore
+    const snapshotData = this.snapshotState._snapshotData;
+    const customCurrentTestName = `WYSIWYG Comparison: ${testName}`;
+    // Check previous results (if they exist)
+    const data: string = snapshotData[`${customCurrentTestName} 1`];
+    if (data) {
+      // Parse the data object by trimming the 'Object ' prefix, and the trailing comma off the last property.
+      const trimmed = data
+        .substr(7)
+        .trim()
+        .replace(/,\s*}$/, '}');
+      const baseline = JSON.parse(trimmed);
+
+      if (baseline && baseline.divergence) {
+        // Measure difference
+        const diff = baseline.divergence - received.divergence;
+        const regressed = diff < 0;
+        const percent = clampPercentage(regressed ? diff * -1 : diff);
+
+        if (percent)
+          console.warn(
+            `${testName} ${regressed ? 'regressed' : 'improved'} ${percent}%`,
+          );
+
+        // Consistency improved
+        if (received.divergence < baseline.divergence) {
+          // FIXME: pass through renamed test into callbacks?
+          onImprovement(percent);
+        }
+        // Consistency worsensed
+        if (received.divergence > baseline.divergence) {
+          onRegression(percent);
+        }
+      }
+    } else {
+      // This is the first time this test scenario has run.
+      dispatchAnalyticsEvent(
+        testName,
+        1 - received.divergence,
+        `${received.consistency}%`,
+        'N/A',
+      );
+    }
+
+    // Rename test using alternate 'this' for brevity and simplicity
+    return toMatchSnapshot.call(
+      { ...this, currentTestName: customCurrentTestName },
+      received,
+    );
+  },
+});
 
 /**
  * Create an ADF document from a loaded JSON fragment.
@@ -77,7 +143,6 @@ const editorContentSelector = '.ProseMirror';
 const rendererContentSelector = '.ak-renderer-document';
 const editorSelectedNode = '.ProseMirror-selectednode';
 
-// TODO: Convert to custom 99-wysiwyg-testing version once POC is proven?
 export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
   const url = getExampleUrl('editor', 'editor-core', 'kitchen-sink');
   await loadExampleUrl(page, url);
@@ -137,57 +202,6 @@ export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
   await page.click(rendererContentSelector);
 };
 
-interface ConsistencyReportNode {
-  name: string;
-  divergence: number;
-  consistency: string;
-}
-
-interface ConsistencyReport {
-  name?: string;
-  description?: string;
-  nodes: ConsistencyReportNode[];
-}
-
-// Load WYSIWYG consistency report JSON
-function loadConsistencyReport(path: string): ConsistencyReport {
-  if (fs.existsSync(path)) {
-    const reportData = fs.readFileSync(path);
-    return JSON.parse(reportData as any);
-  } else {
-    // eslint-disable-next-line no-console
-    console.error(`Unable to load WYSIWYG consistency report: ${path}`);
-  }
-
-  return { nodes: [] };
-}
-
-// Find or create a report node
-function getReportNode(
-  testName: string,
-  report: ConsistencyReport,
-): ConsistencyReportNode {
-  const { nodes } = report;
-  let reportNode = nodes.find(
-    (node: { name: string }) => node.name === testName,
-  );
-
-  if (!reportNode) {
-    reportNode = {
-      name: testName,
-      divergence: 1,
-      consistency: '0%',
-    };
-    // Inject new node and sort alphabetically
-    nodes.push(reportNode);
-    nodes.sort((a: { name: string }, b: { name: string }) =>
-      a.name.toUpperCase().localeCompare(b.name.toUpperCase()),
-    );
-  }
-
-  return reportNode;
-}
-
 function createCompositeImage(
   editorImage: any,
   rendererImage: any,
@@ -231,7 +245,7 @@ type AsyncAwaitFunction = (page: any) => Promise<void>;
  *
  * Unlike regular VR tests we don't store visual snapshots (these are covered by the VR tests
  * inside `@atlaskit/editor-core` and `@atlaskit/renderer`), instead we store the percentage
- * values in a JSON file to measure and track the visual consistency (or divergence) between
+ * values in a snapshot file to measure and track the visual consistency (or divergence) between
  * the rendered results of the editor & renderer.
  *
  * Similar to regular VR testing, if changes result in widening the gap, an image based
@@ -260,13 +274,6 @@ export async function snapshotAndCompare(
   if (!fs.existsSync(snapshotsPath)) fs.mkdirSync(snapshotsPath);
 
   const diffPath = path.join(snapshotsPath, '__diff_output__');
-  const consistencyReportPath = path.join(
-    __dirname,
-    'wysiwyg-consistency.json',
-  );
-
-  // Load existing baseline figures
-  const report = loadConsistencyReport(consistencyReportPath);
 
   // Take screenshots
   const editorImageBuffer = await editor.screenshot();
@@ -275,9 +282,6 @@ export async function snapshotAndCompare(
   const rendererImage = PNG.sync.read(rendererImageBuffer);
   const { width, height } = editorImage;
   const diffImage = new PNG({ width, height });
-
-  // Find the node for this test
-  const reportNode = getReportNode(testName, report);
 
   // Measure change
   const diffPixelCount = pixelmatch(
@@ -291,21 +295,12 @@ export async function snapshotAndCompare(
 
   const totalPixels = editorImage.width * editorImage.height;
   const divergence = diffPixelCount / totalPixels;
-  let divergenceBaseline = reportNode.divergence;
+  const consistency = clampPercentage(1 - divergence);
 
-  const updateSnapshot = process.env.UPDATE_SNAPSHOT === 'true';
-  const debugging = process.env.DEBUG === 'true';
-
-  // Improved consistency, or explicitly updating snapshot
-  if ((divergence < divergenceBaseline && !debugging) || updateSnapshot) {
-    // Update the report to relect this as the new baseline.
-    reportNode.consistency = clampPercentage(1 - divergence) + '%';
-    reportNode.divergence = divergence;
-    // Updated reports need to be committed by a developer to remain tracked.
-    fs.writeFileSync(consistencyReportPath, JSON.stringify(report, null, 2));
-
-    if (updateSnapshot) divergenceBaseline = divergence;
-  }
+  const reportNode = {
+    divergence,
+    consistency: `${consistency}%`,
+  };
 
   // Remove existing diff files prior to potential regeneration
   if (!fs.existsSync(diffPath)) fs.mkdirSync(diffPath);
@@ -313,12 +308,10 @@ export async function snapshotAndCompare(
   const imagePath = cleanupFile(
     path.join(diffPath, `wysiwyg-${testFilename}-erd.png`),
   );
-  const textPath = cleanupFile(
-    path.join(diffPath, `wysiwyg-${testFilename}-fig.txt`),
-  );
 
-  // Decreased consistency
-  if (divergence > divergenceBaseline || debugging) {
+  const debugging = process.env.DEBUG === 'true';
+
+  if (debugging) {
     // Create composite image of result
     const compositeImage = createCompositeImage(
       editorImage,
@@ -329,22 +322,96 @@ export async function snapshotAndCompare(
 
     // Write image to disk
     fs.writeFileSync(imagePath, compositeBuffer);
-
-    if (divergence !== divergenceBaseline) {
-      const diff = divergenceBaseline - divergence;
-      const regressed = diff < 0;
-      const percent = clampPercentage(regressed ? diff * -1 : diff);
-
-      // Write percentages to disk
-      fs.writeFileSync(
-        textPath,
-        `baseline: ${divergenceBaseline}\ncurrent: ${divergence}\n${
-          regressed ? 'regressed' : 'improved'
-        }: ${percent}%`,
-      );
-    }
   }
 
-  // To prevent regressions we fail if the visual consistency worsens
-  expect(divergence).toBeLessThanOrEqual(divergenceBaseline);
+  // To prevent regressions we fail if the visual consistency changes.
+  // If the consistency improves please update the snapshot to reflect the change.
+  // Otherwise, if it worsens, please investigata the cause and fix it if possible.
+  // Or if it's due to downstream changes outside of your control, then you can update
+  // the snapshot to reflect the new state. Only do this as a last resort!
+  expect(reportNode).toMatchWYSIWYGSnapshot(
+    testName,
+    // Improvement callback
+    (percent: number) => {
+      // TODO: Only ping analytics when committeng via -u? and perhaps I should ping it when they're newly created/added too to set the baseline?
+
+      // Update analytics
+      dispatchAnalyticsEvent(
+        testName,
+        1 - divergence,
+        `${consistency}%`,
+        `${percent}%`,
+      );
+    },
+    // Regression callback
+    (percent: string) => {
+      // Update analytics
+      dispatchAnalyticsEvent(
+        testName,
+        1 - divergence,
+        `${consistency}%`,
+        `${-percent}%`,
+      );
+
+      // Create composite image of result
+      const compositeImage = createCompositeImage(
+        editorImage,
+        rendererImage,
+        diffImage,
+      );
+      const compositeBuffer = PNG.sync.write(compositeImage, { filterType: 4 });
+
+      // Write image to disk for CI artefacts
+      fs.writeFileSync(imagePath, compositeBuffer);
+    },
+  );
+}
+
+function createAnalyticsEventPayload(
+  test: string,
+  consistencyRaw: number,
+  consistency: string,
+  percentageChange: string,
+) {
+  const payload = {
+    name: 'atlaskit.qa.wysiwyg_vr_test.consistency',
+    server: process.env.CI ? 'master' : 'test',
+    product: 'atlaskit',
+    properties: {
+      test,
+      // Percentage (0 - 1) as a number. e.g. 0.9842367
+      consistencyRaw,
+      // Percentage (0 - 100) as a string. e.g. 98.42%
+      consistency,
+      // Percentage (-100 - 100) as a string (negative for regression) e.g. 4.3% or -1.2%
+      change: percentageChange,
+    },
+    user: process.env.CI ? '-' : process.env.USER, // On CI we send as an anonymous user
+    serverTime: Date.now(),
+  };
+  return JSON.stringify({ events: [payload] });
+}
+
+function dispatchAnalyticsEvent(
+  test: string,
+  consistencyRaw: number,
+  consistency: string,
+  percentageChange: string,
+) {
+  const updateSnapshot = process.env.UPDATE_SNAPSHOT === 'true';
+  // For the purpose of tracking WYSIWYG consistency & divergence over time, we only care about when we
+  // decide to commit to visual changes by updating the snapshot file.
+  if (updateSnapshot) {
+    const analytics = createAnalyticsEventPayload(
+      test,
+      consistencyRaw,
+      consistency,
+      percentageChange,
+    );
+    sendLogs(analytics).then(res => {
+      console.log(
+        `Sent WYSIWYG consistency change Event for '${test}'. Consistency: ${consistency}%, Change: ${percentageChange}`,
+      );
+    });
+  }
 }

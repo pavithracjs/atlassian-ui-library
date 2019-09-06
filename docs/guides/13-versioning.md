@@ -92,7 +92,9 @@ Consider making the package private by setting `internal` flag to true in packag
   // package.json
   {
     "atlaskit": {
-      "internal": true
+      "internal": true,
+      "name": "Atlaskit docs",
+      "team": "core"
     }
   }
 ```
