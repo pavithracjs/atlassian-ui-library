@@ -5,6 +5,7 @@ import {
 import { ThemeProp } from '@atlaskit/theme/components';
 import { ReactNode, ComponentType } from 'react';
 import { ThemeProps, ThemeTokens } from './theme';
+import { WithPseudoStateProps } from './hoc/withPseudoState';
 
 export type AppearanceType = 'circle' | 'square';
 export type PresenceType =
@@ -18,17 +19,19 @@ export type SizeType =
   | 'large'
   | 'xlarge'
   | 'xxlarge';
-export type SupportedSizeWithAnIcon = 'small' | 'medium' | 'large' | 'xlarge';
+export type IndicatorSizeType = 'small' | 'medium' | 'large' | 'xlarge';
 
 export type StatusType = ('approved' | 'declined' | 'locked') | ReactNode;
 export type StyledComponentType = 'custom' | 'button' | 'link' | 'span';
 
 export type AvatarClickType = (
-  event?: { event?: KeyboardEvent | MouseEvent; item: Object },
+  event: { event: React.MouseEvent; item: Record<string, any> },
   analyticsEvent?: AnalyticsEvent,
 ) => void;
 
-export interface AvatarPropTypesBase extends WithAnalyticsEventsProps {
+export interface AvatarPropTypes
+  extends WithAnalyticsEventsProps,
+    WithPseudoStateProps {
   /** Indicates the shape of the avatar. Most avatars are circular, but square avatars
    can be used for 'container' objects. */
   appearance?: AppearanceType;
@@ -78,12 +81,10 @@ export interface AvatarPropTypesBase extends WithAnalyticsEventsProps {
 
   /** The theme that should be applied to the avatar. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
+  /** Handler to be called on click. */
+  onClick?: AvatarClickType;
 
   label?: string;
   className?: string;
-}
-
-export interface AvatarPropTypes extends AvatarPropTypesBase {
-  /** Handler to be called on click. */
-  onClick?: AvatarClickType;
+  groupAppearance?: string;
 }

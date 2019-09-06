@@ -12,7 +12,13 @@ export { ThemeItem } from './theme/item';
 
 // The below are exposed for use by avatarGroup
 export { AVATAR_SIZES, BORDER_WIDTH } from './styled/constants';
-export { AvatarClickType, AvatarPropTypes, SizeType } from './types';
+export {
+  AvatarClickType,
+  AvatarPropTypes,
+  AppearanceType,
+  SizeType,
+  IndicatorSizeType,
+} from './types';
 export { withPseudoState } from './hoc';
 export { getProps } from './helpers';
 export { getBorderRadius, getInnerStyles } from './styled/utils';

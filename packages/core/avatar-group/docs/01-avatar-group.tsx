@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { md, Example, Props, Prop, code } from '@atlaskit/docs';
 
@@ -40,8 +39,8 @@ ${(
     heading="Avatar Group Props"
     props={require('!!extract-react-types-loader!../src/components/AvatarGroup')}
     overrides={{
+      // @ts-ignore
       data: props => {
-        /* eslint-disable */
         if (
           props &&
           props.typeValue &&
@@ -52,14 +51,14 @@ ${(
             { kind: 'id', name: '@atlaskit/avatar props' },
           ];
         }
-        /* eslint-enable */
-        return <Prop {...props} type="Array<@atlaskit/avatar props>" />;
+
+        return <Prop {...props} interface="Array<@atlaskit/avatar props>" />;
       },
+      // @ts-ignore
       avatar: props => {
-        // Currently prett-proptypes does not have a good print type for function
+        // Currently pretty-propinterfaces does not have a good print interface for function
         // calls, so we are overriding how this is printed. AK-5133 should resolve
         // this.
-        /* eslint-disable */
         if (
           props &&
           props.typeValue &&
@@ -70,7 +69,7 @@ ${(
             { kind: 'id', name: '@atlaskit/avatar' },
           ];
         }
-        /* eslint-enable */
+
         return <Prop {...props} defaultValue="@atlaskit/avatar" />;
       },
     }}

@@ -1,5 +1,5 @@
-// @flow
 import React from 'react';
+import { AppearanceType, SizeType } from '@atlaskit/avatar';
 import AvatarGroup from '../src';
 import { ExampleGroup } from '../examples-util/helpers';
 import { RANDOM_USERS, getAdorableAvatar } from '../examples-util/data';
@@ -11,8 +11,8 @@ export default () => {
     name: d.name,
     src: getAdorableAvatar(d.email),
     href: '#',
-    appearance: 'circle',
-    size: 'medium',
+    appearance: 'circle' as AppearanceType,
+    size: 'medium' as SizeType,
     enableTooltip: true,
   }));
 

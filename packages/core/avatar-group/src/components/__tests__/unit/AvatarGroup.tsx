@@ -1,21 +1,20 @@
-// @flow
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import Avatar from '@atlaskit/avatar';
+import Avatar, { SizeType, AppearanceType } from '@atlaskit/avatar';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import AvatarGroup from '../../AvatarGroup';
 import MoreIndicator from '../../MoreIndicator';
 
-const generateData = avatarCount => {
+const generateData = (avatarCount: number) => {
   const data = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < avatarCount; i++) {
     data.push({
       name: `Name ${i}`,
       src: `#${i}`,
-      size: 'medium',
-      appearance: 'circle',
+      size: 'medium' as SizeType,
+      appearance: 'circle' as AppearanceType,
       enableTooltip: true,
       href: '#',
     });

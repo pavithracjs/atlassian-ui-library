@@ -1,7 +1,14 @@
 import React, { Component, ComponentType } from 'react';
 import { getDisplayName } from '../utils';
 
-export interface InternalHandlerProps {
+// export interface InternalHandlerProps {}
+
+export interface WithPseudoStateProps {
+  href?: string;
+  isActive?: boolean;
+  isFocus?: boolean;
+  isHover?: boolean;
+  isInteractive?: boolean;
   onBlur?: (...args: any) => void;
   onClick?: (...args: any) => void;
   onFocus?: (...args: any) => void;
@@ -13,14 +20,6 @@ export interface InternalHandlerProps {
   onMouseUp?: (...args: any) => void;
 }
 
-export interface WithPseudoStateProps {
-  href?: string;
-  isActive?: boolean;
-  isFocus?: boolean;
-  isHover?: boolean;
-  isInteractive?: boolean;
-}
-
 export interface State {
   isActive: boolean;
   isFocus: boolean;
@@ -28,16 +27,13 @@ export interface State {
   isInteractive: boolean;
 }
 
-export default function withPseudoState<Props extends Object>(
+export default function withPseudoState<Props extends WithPseudoStateProps>(
   WrappedComponent: ComponentType<Props>,
 ) {
-  return class ComponentWithPseudoState extends Component<
-    Props & InternalHandlerProps & WithPseudoStateProps,
-    State
-  > {
+  return class ComponentWithPseudoState extends Component<Props, State> {
     static displayName = getDisplayName('withPseudoState', WrappedComponent);
 
-    component: React.Ref<InternalHandlerProps & WithPseudoStateProps> = null;
+    component: React.Ref<Props> = null;
 
     actionKeys: string[] = [];
 

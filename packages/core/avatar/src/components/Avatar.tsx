@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { ReactNode } from 'react';
+import React, { ReactNode, Component } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -21,7 +20,7 @@ import { mapProps, withPseudoState } from '../hoc';
 import { Theme } from '../theme';
 import {
   AvatarPropTypes,
-  SupportedSizeWithAnIcon,
+  IndicatorSizeType,
   AppearanceType,
   SizeType,
 } from '../types';
@@ -75,7 +74,7 @@ class Avatar extends Component<AvatarPropTypes> {
 
   // disallow click on disabled avatars
   // only return avatar data properties
-  guardedClick = (event: KeyboardEvent | MouseEvent) => {
+  guardedClick = (event: React.MouseEvent) => {
     const { isDisabled, onClick } = this.props;
 
     if (isDisabled || typeof onClick !== 'function') return;
@@ -115,7 +114,7 @@ class Avatar extends Component<AvatarPropTypes> {
     }
 
     // we can cast here because we already know that it is a valid icon size
-    const size = this.props.size as SupportedSizeWithAnIcon;
+    const size = this.props.size as IndicatorSizeType;
 
     const indicator: ReactNode = (() => {
       if (showPresence) {

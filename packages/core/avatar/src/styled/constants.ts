@@ -1,8 +1,8 @@
-import { SizeType, SupportedSizeWithAnIcon } from '../types';
+import { SizeType, IndicatorSizeType } from '../types';
 import { gridSize } from '@atlaskit/theme/constants';
 
 type AvatarSizeMap = Record<SizeType, number>;
-type IconSizeMap = Record<SupportedSizeWithAnIcon, number>;
+type IconSizeMap = Record<IndicatorSizeType, number>;
 
 export const TRANSITION_DURATION = '200ms';
 

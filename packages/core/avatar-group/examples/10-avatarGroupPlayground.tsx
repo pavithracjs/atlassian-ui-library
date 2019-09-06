@@ -1,25 +1,24 @@
-// @flow
 import React, { Component } from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ArrowDown from '@atlaskit/icon/glyph/arrow-down';
 import ArrowUp from '@atlaskit/icon/glyph/arrow-up';
 import { Label } from '@atlaskit/field-base';
 import { ToggleStateless } from '@atlaskit/toggle';
-import { AVATAR_SIZES } from '@atlaskit/avatar';
+import { AVATAR_SIZES, SizeType } from '@atlaskit/avatar';
 import { Note, Code } from '../examples-util/helpers';
 import AvatarGroup from '../src';
 import { avatarUrl } from '../examples-util/data';
 
-type State = {|
-  avatarCount: number,
-  avatarCountMax: number,
-  gridWidth: number,
-  mode: 'stack' | 'grid',
-  sizeIndex: number,
-  tooltipsEnabled: boolean,
-|};
+type State = {
+  avatarCount: number;
+  avatarCountMax: number;
+  gridWidth: number;
+  mode: 'stack' | 'grid';
+  sizeIndex: number;
+  tooltipsEnabled: boolean;
+};
 
-export default class AvatarGroupExample extends Component<*, State> {
+export default class AvatarGroupExample extends Component<{}, State> {
   state: State = {
     avatarCount: 20,
     avatarCountMax: 11,
@@ -29,11 +28,21 @@ export default class AvatarGroupExample extends Component<*, State> {
     tooltipsEnabled: true,
   };
 
-  decrement = (key: string) =>
-    this.setState(state => ({ [key]: state[key] - 1 }));
+  decrement = (key: keyof Omit<State, 'mode' | 'tooltipsEnabled'>) => {
+    const nextState = this.state;
 
-  increment = (key: string) =>
-    this.setState(state => ({ [key]: state[key] + 1 }));
+    nextState[key] = this.state[key] - 1;
+
+    this.setState(nextState);
+  };
+
+  increment = (key: keyof Omit<State, 'mode' | 'tooltipsEnabled'>) => {
+    const nextState = this.state;
+
+    nextState[key] = this.state[key] - 1;
+
+    this.setState(nextState);
+  };
 
   toggleTooltips = () => {
     this.setState({
@@ -49,7 +58,7 @@ export default class AvatarGroupExample extends Component<*, State> {
       mode,
       sizeIndex,
     } = this.state;
-    const sizes = Object.keys(AVATAR_SIZES);
+    const sizes = Object.keys(AVATAR_SIZES) as SizeType[];
     const avatarSize = sizes[sizeIndex];
     const stackSourceURLs = [];
     // eslint-disable-next-line no-plusplus
