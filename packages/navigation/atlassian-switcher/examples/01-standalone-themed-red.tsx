@@ -3,7 +3,7 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
 import styled from 'styled-components';
-import { Grid, GridColumn } from '@atlaskit/page';
+import Page, { Grid, GridColumn } from '@atlaskit/page';
 import ColorScheme from './helpers/ColorScheme';
 
 const Container = styled.div`
@@ -74,9 +74,9 @@ class InlineDialogSwitcherExample extends React.Component {
 
     return (
       this.state.isLoaded && (
-        <Grid layout="fixed">
-          <GridColumn medium={8}>
-            {this.state.isLoaded && (
+        <Page>
+          <Grid layout="fixed">
+            <GridColumn medium={8}>
               <Container>
                 <AtlassianSwitcher
                   product="trello"
@@ -91,12 +91,12 @@ class InlineDialogSwitcherExample extends React.Component {
                   theme={redishColorScheme}
                 />
               </Container>
-            )}
-          </GridColumn>
-          <GridColumn medium={4}>
-            <ColorScheme colorScheme={redishColorScheme} />
-          </GridColumn>
-        </Grid>
+            </GridColumn>
+            <GridColumn medium={4}>
+              <ColorScheme colorScheme={redishColorScheme} />
+            </GridColumn>
+          </Grid>
+        </Page>
       )
     );
   }
