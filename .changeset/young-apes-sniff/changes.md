@@ -1,1 +1,0 @@
-Fix bug where resize handler is been shown when column resizing is disabled

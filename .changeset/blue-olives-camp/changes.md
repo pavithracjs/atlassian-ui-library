@@ -1,1 +1,0 @@
-ED-7573: fix resizing merged columns in the first row
