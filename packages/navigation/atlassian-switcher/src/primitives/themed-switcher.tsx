@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Switcher, { SwitcherProps } from '../components/switcher';
+import { ThemeProvider } from 'styled-components';
 import {
   TopLevelItemWrapperTheme,
   ItemTheme,
@@ -16,14 +17,16 @@ export default ({
   const customTheme = createCustomTheme(theme);
 
   return (
-    <TopLevelItemWrapperTheme.Provider
-      value={customTheme.topLevelItemWrapperTheme}
-    >
-      <ItemTheme.Provider value={customTheme.itemTheme}>
-        <ChildItemTheme.Provider value={customTheme.childItemTheme}>
-          <Switcher {...rest} appearance={appearance} />
-        </ChildItemTheme.Provider>
-      </ItemTheme.Provider>
-    </TopLevelItemWrapperTheme.Provider>
+    <ThemeProvider theme={{}}>
+      <TopLevelItemWrapperTheme.Provider
+        value={customTheme.topLevelItemWrapperTheme}
+      >
+        <ItemTheme.Provider value={customTheme.itemTheme}>
+          <ChildItemTheme.Provider value={customTheme.childItemTheme}>
+            <Switcher {...rest} appearance={appearance} />
+          </ChildItemTheme.Provider>
+        </ItemTheme.Provider>
+      </TopLevelItemWrapperTheme.Provider>
+    </ThemeProvider>
   );
 };
