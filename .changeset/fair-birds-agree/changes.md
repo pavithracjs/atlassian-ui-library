@@ -1,0 +1,1 @@
+Remove unnecessary `tableBackgroundBorderColors` in favour of unique `tableBackgroundBorderColor` for all table cell background border
