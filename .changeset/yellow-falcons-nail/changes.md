@@ -1,0 +1,1 @@
+ED-7244 refactor hardcoded media single class name using a constant
