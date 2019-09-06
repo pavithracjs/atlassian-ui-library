@@ -1,4 +1,4 @@
-export { compareNodes } from './compareNodes';
+export { createCompareNodes } from './compareNodes';
 export {
   getSelectedColumnIndexes,
   getSelectedRowIndexes,

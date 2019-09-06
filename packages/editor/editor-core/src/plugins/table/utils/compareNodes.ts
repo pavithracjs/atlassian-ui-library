@@ -14,6 +14,10 @@ enum ContentType {
   LINK = 25,
 }
 
+interface CompareOptions {
+  getInlineCardTextFromStore(link: string): string | null, // null means doesn't found anything
+}
+
 interface NodeMetaGenerator<Type, Value> {
   type: Type;
   value: Value;
@@ -32,7 +36,7 @@ function getLinkMark(node: PMNode): Mark | null {
   return linkMark || null;
 }
 
-function getMetaFromNode(node: PMNode): NodeMeta | null {
+function getMetaFromNode(node: PMNode, options: CompareOptions): NodeMeta | null {
   const firstChild = node.firstChild;
   if (!firstChild) {
     return null;
@@ -41,8 +45,12 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
   switch (firstChild.type.name) {
     // Text case
     case 'paragraph': {
-      return getMetaFromNode(firstChild);
+      return getMetaFromNode(firstChild, options);
     }
+    // case 'inlineCard': {
+    //   const link = (firstChild.attrs as )
+    //   const maybeTitle = options.getInlineCardTextFromStore
+    // }
     case 'text': {
       // treat as a link if contain a link
       const linkMark = getLinkMark(firstChild);
@@ -121,27 +129,31 @@ function compareValue(
  *    0  -> NodeA === NodeB
  *    -1 -> Node A < NodeB
  */
-export const compareNodes = (
-  nodeA: PMNode | null,
-  nodeB: PMNode | null,
-): number => {
-  if (nodeA === null || nodeB === null) {
-    return nodeB === null ? 1 : -1;
-  }
-
-  const metaNodeA = getMetaFromNode(nodeA);
-  const metaNodeB = getMetaFromNode(nodeB);
-  if (metaNodeA === metaNodeB) {
-    return 0;
-  }
-
-  if (metaNodeA === null || metaNodeB === null) {
-    return metaNodeB === null ? 1 : -1;
-  }
-
-  if (metaNodeA.type !== metaNodeB.type) {
-    return metaNodeA.type > metaNodeB.type ? 1 : -1;
-  }
-
-  return compareValue(metaNodeA.value, metaNodeB.value);
-};
+export const createCompareNodes = (options: CompareOptions) => {
+  
+  return (
+    nodeA: PMNode | null,
+    nodeB: PMNode | null,
+  ): number => {
+    if (nodeA === null || nodeB === null) {
+      return nodeB === null ? 1 : -1;
+    }
+  
+    const metaNodeA = getMetaFromNode(nodeA, options);
+    const metaNodeB = getMetaFromNode(nodeB, options);
+    if (metaNodeA === metaNodeB) {
+      return 0;
+    }
+  
+    if (metaNodeA === null || metaNodeB === null) {
+      return metaNodeB === null ? 1 : -1;
+    }
+  
+    if (metaNodeA.type !== metaNodeB.type) {
+      return metaNodeA.type > metaNodeB.type ? 1 : -1;
+    }
+  
+    return compareValue(metaNodeA.value, metaNodeB.value);
+  };
+  
+}

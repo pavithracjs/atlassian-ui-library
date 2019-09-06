@@ -1,5 +1,5 @@
 import { Node as PMNode } from 'prosemirror-model';
-import { Selection } from 'prosemirror-state';
+import { Selection, EditorState } from 'prosemirror-state';
 import {
   findTable,
   convertTableNodeToArrayOfRows,
@@ -8,12 +8,30 @@ import {
   getSelectionRect,
   findCellRectClosestToPos,
 } from 'prosemirror-utils';
-import { compareNodes } from '../utils';
+import { createCompareNodes } from '../utils';
 
 import { TablePluginState, SortOrder } from '../types';
 import { getPluginState } from '../pm-plugins/main';
 import { Command } from '../../../types';
 import { TableMap } from 'prosemirror-tables';
+import { pluginKey } from '../../card/pm-plugins/main';
+import { CardPluginState } from '../../card/types';
+
+
+
+function createGetInlineCardTextFromStore(state: EditorState) {
+  const cardState = pluginKey.getState(state) as CardPluginState | undefined; 
+  if (!cardState) { // If not card state, return null always
+    return () => null; 
+  }
+  return (link: string): string | null =>{
+    const card = cardState.cards.find(({url}) => url === link);
+    if (card && card.title) {
+      return card.title;
+    }
+    return null;
+  }
+}
 
 export const sortByColumn = (
   columnIndex: number,
@@ -40,6 +58,10 @@ export const sortByColumn = (
   if (tablePluginState.isHeaderRowEnabled) {
     headerRow = tableArray.shift();
   }
+  const compareNodes = createCompareNodes({
+    getInlineCardTextFromStore: createGetInlineCardTextFromStore(state),
+  });
+
   const sortedTable = tableArray.sort(
     (rowA: Array<PMNode | null>, rowB: Array<PMNode | null>) =>
       (order === SortOrder.DESC ? -1 : 1) *

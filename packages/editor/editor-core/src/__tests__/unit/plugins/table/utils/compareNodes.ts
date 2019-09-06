@@ -9,8 +9,14 @@ import {
   BuilderContent,
 } from '@atlaskit/editor-test-helpers';
 import { EditorView } from 'prosemirror-view';
-import { compareNodes } from '../../../../../plugins/table/utils';
+import { createCompareNodes } from '../../../../../plugins/table/utils';
 import { mention as mentionDataTest } from '@atlaskit/util-data-test';
+
+const compareNodes = createCompareNodes({
+  getInlineCardTextFromStore() {
+    return null;
+  },
+});
 
 enum CompareResult {
   greater = 'greater',
