@@ -1,0 +1,1 @@
+Fix examples when Grid was used without Page

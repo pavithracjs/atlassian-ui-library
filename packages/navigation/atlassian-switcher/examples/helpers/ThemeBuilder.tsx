@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 import { Field } from '@atlaskit/form';
-import { Grid, GridColumn } from '@atlaskit/page';
+import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { ThemingPublicApi } from '../../src/theme/types';
 import ColorScheme from './ColorScheme';
 import styled from 'styled-components';
@@ -90,51 +90,53 @@ export default class ThemeBuilder extends React.Component<Props, State> {
   };
   render() {
     return (
-      <Grid layout="fixed">
-        <GridColumn medium={6}>{this.props.children(this.state)}</GridColumn>
-        <GridColumn medium={6}>
-          <h6>Examples:</h6>
-          <PresetList>
-            {colorSchemes.map(preset => {
-              return (
-                <PresetItem
-                  onClick={() => this.selectPreset(preset.colorScheme)}
-                >
-                  <ColorScheme colorScheme={preset.colorScheme} />
-                  {preset.name}
-                </PresetItem>
-              );
-            })}
-          </PresetList>
-          <h6>Customize your own:</h6>
-          {Object.keys(this.state).map(fieldName => (
-            <Field name={fieldName} label={fieldName}>
-              {({ fieldProps }: any) => {
-                const currentColor = this.state[
-                  fieldName as keyof ThemingPublicApi
-                ];
+      <Page>
+        <Grid layout="fixed">
+          <GridColumn medium={6}>{this.props.children(this.state)}</GridColumn>
+          <GridColumn medium={6}>
+            <h6>Examples:</h6>
+            <PresetList>
+              {colorSchemes.map(preset => {
                 return (
-                  <>
-                    <FieldWrapper>
-                      <TextField
-                        {...fieldProps}
-                        defaultValue={currentColor}
-                        onChange={this.createUpdateColorFn(
-                          fieldName as keyof ThemingPublicApi,
-                        )}
-                      />
-                    </FieldWrapper>
-                    <Color color={currentColor} />
-                  </>
+                  <PresetItem
+                    onClick={() => this.selectPreset(preset.colorScheme)}
+                  >
+                    <ColorScheme colorScheme={preset.colorScheme} />
+                    {preset.name}
+                  </PresetItem>
                 );
-              }}
-            </Field>
-          ))}
+              })}
+            </PresetList>
+            <h6>Customize your own:</h6>
+            {Object.keys(this.state).map(fieldName => (
+              <Field name={fieldName} label={fieldName}>
+                {({ fieldProps }: any) => {
+                  const currentColor = this.state[
+                    fieldName as keyof ThemingPublicApi
+                  ];
+                  return (
+                    <>
+                      <FieldWrapper>
+                        <TextField
+                          {...fieldProps}
+                          defaultValue={currentColor}
+                          onChange={this.createUpdateColorFn(
+                            fieldName as keyof ThemingPublicApi,
+                          )}
+                        />
+                      </FieldWrapper>
+                      <Color color={currentColor} />
+                    </>
+                  );
+                }}
+              </Field>
+            ))}
 
-          <h6>Copy your theme:</h6>
-          <pre>{JSON.stringify(this.state, null, 3)}</pre>
-        </GridColumn>
-      </Grid>
+            <h6>Copy your theme:</h6>
+            <pre>{JSON.stringify(this.state, null, 3)}</pre>
+          </GridColumn>
+        </Grid>
+      </Page>
     );
   }
 }
