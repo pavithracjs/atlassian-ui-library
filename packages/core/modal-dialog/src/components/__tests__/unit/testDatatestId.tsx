@@ -3,13 +3,8 @@ import { mount } from 'enzyme';
 import { render, cleanup } from '@testing-library/react';
 
 import cases from 'jest-in-case';
-// import Blanket from '@atlaskit/blanket';
 
 import ModalDialog, { ModalTransition } from '../../..';
-// import Positioner from '../../Positioner';
-// import Content from '../../Content';
-// import Header from '../../Header';
-// import Footer from '../../Footer';
 
 // dialogs require an onClose function
 const noop = () => {};
@@ -78,7 +73,3 @@ describe('Using react-test-library', () => {
     });
   });
 });
-
-describe.skip('Modal-dialog content', () => {});
-describe.skip('Modal-dialog footer', () => {});
-describe.skip('Modal-dialog button', () => {});
