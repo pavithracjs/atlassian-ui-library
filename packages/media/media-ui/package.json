@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "11.6.2",
+  "version": "11.6.3",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -26,8 +26,8 @@
     "i18n:pull": "rm -rf ./src/i18n && i18n-tools pull --resource media-ui --type ts ."
   },
   "dependencies": {
-    "@atlaskit/avatar": "^17.0.0",
-    "@atlaskit/avatar-group": "^4.0.13",
+    "@atlaskit/avatar": "^17.0.1",
+    "@atlaskit/avatar-group": "^5.0.0",
     "@atlaskit/badge": "^13.0.0",
     "@atlaskit/button": "^13.1.6",
     "@atlaskit/dropdown-menu": "^8.1.1",

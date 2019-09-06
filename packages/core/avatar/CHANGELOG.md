@@ -1,5 +1,13 @@
 # @atlaskit/avatar
 
+## 17.0.1
+
+### Patch Changes
+
+- [patch][40bda8f796](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40bda8f796):
+
+  @atlaskit/avatar-group has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 17.0.0
 
 ### Major Changes
