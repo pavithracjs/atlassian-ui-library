@@ -1,0 +1,1 @@
+ED-7244 added hover effects for media link in renderer
