@@ -40,14 +40,15 @@ expect.extend({
         const regressed = diff < 0;
         const percent = clampPercentage(regressed ? diff * -1 : diff);
 
-        if (percent)
+        if (percent) {
+          // eslint-disable-next-line no-console
           console.warn(
             `${testName} ${regressed ? 'regressed' : 'improved'} ${percent}%`,
           );
+        }
 
         // Consistency improved
         if (received.divergence < baseline.divergence) {
-          // FIXME: pass through renamed test into callbacks?
           onImprovement(percent);
         }
         // Consistency worsensed
@@ -295,7 +296,8 @@ export async function snapshotAndCompare(
 
   const totalPixels = editorImage.width * editorImage.height;
   const divergence = diffPixelCount / totalPixels;
-  const consistency = clampPercentage(1 - divergence);
+  const consistencyFloat = 1 - divergence;
+  const consistency = clampPercentage(consistencyFloat);
 
   const reportNode = {
     divergence,
@@ -309,9 +311,9 @@ export async function snapshotAndCompare(
     path.join(diffPath, `wysiwyg-${testFilename}-erd.png`),
   );
 
-  const debugging = process.env.DEBUG === 'true';
-
-  if (debugging) {
+  // On CI we only output images is there is a change,
+  // but for local testing it may be useful to see all image diffs.
+  if (!process.env.CI) {
     // Create composite image of result
     const compositeImage = createCompositeImage(
       editorImage,
@@ -320,8 +322,11 @@ export async function snapshotAndCompare(
     );
     const compositeBuffer = PNG.sync.write(compositeImage, { filterType: 4 });
 
-    // Write image to disk
-    fs.writeFileSync(imagePath, compositeBuffer);
+    // Write image to disk (prefixed with an underscore to denote local debugging)
+    const debugImagePath = cleanupFile(
+      path.join(diffPath, `_wysiwyg-${testFilename}-erd.png`),
+    );
+    fs.writeFileSync(debugImagePath, compositeBuffer);
   }
 
   // To prevent regressions we fail if the visual consistency changes.
@@ -333,12 +338,10 @@ export async function snapshotAndCompare(
     testName,
     // Improvement callback
     (percent: number) => {
-      // TODO: Only ping analytics when committeng via -u? and perhaps I should ping it when they're newly created/added too to set the baseline?
-
       // Update analytics
       dispatchAnalyticsEvent(
         testName,
-        1 - divergence,
+        consistencyFloat,
         `${consistency}%`,
         `${percent}%`,
       );
@@ -348,7 +351,7 @@ export async function snapshotAndCompare(
       // Update analytics
       dispatchAnalyticsEvent(
         testName,
-        1 - divergence,
+        consistencyFloat,
         `${consistency}%`,
         `${-percent}%`,
       );
@@ -409,6 +412,7 @@ function dispatchAnalyticsEvent(
       percentageChange,
     );
     sendLogs(analytics).then(res => {
+      // eslint-disable-next-line no-console
       console.log(
         `Sent WYSIWYG consistency change Event for '${test}'. Consistency: ${consistency}%, Change: ${percentageChange}`,
       );
