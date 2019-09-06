@@ -4,7 +4,7 @@ import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
 import {
-  cardProvider,
+  cardProviderStaging,
   customInsertMenuItems,
   extensionHandlers,
   storyMediaProviderFactory,
@@ -210,7 +210,7 @@ class ExampleEditorComponent extends React.Component<
               allowDynamicTextSizing={true}
               allowTemplatePlaceholders={{ allowInserting: true }}
               UNSAFE_cards={{
-                provider: Promise.resolve(cardProvider),
+                provider: Promise.resolve(cardProviderStaging),
               }}
               annotationProvider={{
                 component: ExampleInlineCommentComponent,

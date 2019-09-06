@@ -2,6 +2,7 @@ import {
   createEditorFactory,
   date,
   p,
+  inlineCard,
   status,
   td,
   mention,
@@ -11,6 +12,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { createCompareNodes } from '../../../../../plugins/table/utils';
 import { mention as mentionDataTest } from '@atlaskit/util-data-test';
+import { CardAttributes, UrlType } from '@atlaskit/adf-schema';
 
 const compareNodes = createCompareNodes({
   getInlineCardTextFromStore() {
@@ -43,6 +45,7 @@ describe('Compare Nodes', () => {
         mentionProvider: Promise.resolve(
           mentionDataTest.storyData.resourceProvider,
         ),
+        UNSAFE_cards: {},
       },
     }));
   });
@@ -186,6 +189,32 @@ describe('Compare Nodes', () => {
         expect(compareNodes(nodeA, nodeB)).toBe(compareResultToValue[expected]);
       },
     );
+  });
+  describe('Inline card', () => {
+    const createMockInlineStore = (data: { [key: string]: string }) => (
+      attrs: CardAttributes,
+    ) => {
+      return data[(attrs as UrlType).url];
+    };
+
+    test('should node inline cards node compare to resolved value', () => {
+      const nodeA = td()(p(inlineCard({ url: 'http://atlassian.com' })()))(
+        editorView.state.schema,
+      );
+      const nodeB = td()(p(inlineCard({ url: 'http://trello.com' })()))(
+        editorView.state.schema,
+      );
+
+      const customCompareNodes = createCompareNodes({
+        getInlineCardTextFromStore: createMockInlineStore({
+          'http://atlassian.com': 'b',
+          'http://trello.com': 'a',
+        }),
+      });
+      expect(customCompareNodes(nodeA, nodeB)).toBe(
+        compareResultToValue[CompareResult.greater],
+      );
+    });
   });
 
   describe('Link inline node', () => {

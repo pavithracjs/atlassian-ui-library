@@ -43,7 +43,7 @@ export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
           pos: getPos(),
         })(view.state.tr),
       ),
-    );
+    )();
   };
 
   render() {

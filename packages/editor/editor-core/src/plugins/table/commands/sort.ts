@@ -16,21 +16,25 @@ import { Command } from '../../../types';
 import { TableMap } from 'prosemirror-tables';
 import { pluginKey } from '../../card/pm-plugins/main';
 import { CardPluginState } from '../../card/types';
-
-
+import { CardAttributes, UrlType } from '@atlaskit/adf-schema';
 
 function createGetInlineCardTextFromStore(state: EditorState) {
-  const cardState = pluginKey.getState(state) as CardPluginState | undefined; 
-  if (!cardState) { // If not card state, return null always
-    return () => null; 
+  const cardState = pluginKey.getState(state) as CardPluginState | undefined;
+  if (!cardState) {
+    // If not card state, return null always
+    return () => null;
   }
-  return (link: string): string | null =>{
-    const card = cardState.cards.find(({url}) => url === link);
-    if (card && card.title) {
-      return card.title;
+  return (attrs: CardAttributes): string | null => {
+    const { url: cardUrl } = attrs as UrlType;
+    if (cardUrl) {
+      const card = cardState.cards.find(({ url }) => url === cardUrl);
+      if (card && card.title) {
+        return card.title;
+      }
     }
+
     return null;
-  }
+  };
 }
 
 export const sortByColumn = (

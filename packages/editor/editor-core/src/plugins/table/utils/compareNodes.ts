@@ -3,7 +3,9 @@ import {
   StatusDefinition,
   DateDefinition,
   MentionAttributes,
+  CardAttributes,
 } from '@atlaskit/adf-schema';
+import { UrlType } from '../../../../../adf-schema/src/schema/nodes/inline-card';
 
 enum ContentType {
   NUMBER = 0,
@@ -15,7 +17,7 @@ enum ContentType {
 }
 
 interface CompareOptions {
-  getInlineCardTextFromStore(link: string): string | null, // null means doesn't found anything
+  getInlineCardTextFromStore(attrs: CardAttributes): string | null; // null means that could not find the title
 }
 
 interface NodeMetaGenerator<Type, Value> {
@@ -36,7 +38,10 @@ function getLinkMark(node: PMNode): Mark | null {
   return linkMark || null;
 }
 
-function getMetaFromNode(node: PMNode, options: CompareOptions): NodeMeta | null {
+function getMetaFromNode(
+  node: PMNode,
+  options: CompareOptions,
+): NodeMeta | null {
   const firstChild = node.firstChild;
   if (!firstChild) {
     return null;
@@ -47,10 +52,21 @@ function getMetaFromNode(node: PMNode, options: CompareOptions): NodeMeta | null
     case 'paragraph': {
       return getMetaFromNode(firstChild, options);
     }
-    // case 'inlineCard': {
-    //   const link = (firstChild.attrs as )
-    //   const maybeTitle = options.getInlineCardTextFromStore
-    // }
+    case 'inlineCard': {
+      const attrs = firstChild.attrs as CardAttributes;
+      const maybeTitle = options.getInlineCardTextFromStore(attrs);
+      if (maybeTitle) {
+        return {
+          type: ContentType.LINK,
+          value: maybeTitle,
+        };
+      }
+      const url = (attrs as UrlType).url;
+      return {
+        type: ContentType.LINK,
+        value: url ? url : '',
+      };
+    }
     case 'text': {
       // treat as a link if contain a link
       const linkMark = getLinkMark(firstChild);
@@ -130,30 +146,25 @@ function compareValue(
  *    -1 -> Node A < NodeB
  */
 export const createCompareNodes = (options: CompareOptions) => {
-  
-  return (
-    nodeA: PMNode | null,
-    nodeB: PMNode | null,
-  ): number => {
+  return (nodeA: PMNode | null, nodeB: PMNode | null): number => {
     if (nodeA === null || nodeB === null) {
       return nodeB === null ? 1 : -1;
     }
-  
+
     const metaNodeA = getMetaFromNode(nodeA, options);
     const metaNodeB = getMetaFromNode(nodeB, options);
     if (metaNodeA === metaNodeB) {
       return 0;
     }
-  
+
     if (metaNodeA === null || metaNodeB === null) {
       return metaNodeB === null ? 1 : -1;
     }
-  
+
     if (metaNodeA.type !== metaNodeB.type) {
       return metaNodeA.type > metaNodeB.type ? 1 : -1;
     }
-  
+
     return compareValue(metaNodeA.value, metaNodeB.value);
   };
-  
-}
+};
