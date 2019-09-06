@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.27.1
+
+### Patch Changes
+
+- [patch][5129434a9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5129434a9b):
+
+  Fix examples when Grid was used without Page
+
 ## 3.27.0
 
 ### Minor Changes
