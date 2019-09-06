@@ -52,7 +52,7 @@ type Props = {
   name: string,
   /** Called when the field is blurred. */
   onBlur: (e: SyntheticFocusEvent<>) => void,
-  /** Called when the value changes. The only argument is an ISO time. */
+  /** Called when the value changes. The only argument is an ISO time or empty string. */
   onChange: string => void,
   /** Called when the field is focused. */
   onFocus: (e: SyntheticFocusEvent<>) => void,
@@ -271,7 +271,6 @@ class DatePicker extends Component<Props, State> {
     const { view, selectedValue } = this.getState();
 
     const keyPressed = key.toLowerCase();
-
     switch (keyPressed) {
       case 'arrowup':
       case 'arrowdown':
@@ -293,6 +292,7 @@ class DatePicker extends Component<Props, State> {
         this.setState({ isOpen: false });
         break;
       case 'backspace':
+      case 'delete':
         if (
           selectedValue &&
           target instanceof HTMLInputElement &&

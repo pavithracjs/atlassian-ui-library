@@ -46,7 +46,7 @@ type Props = {
   name: string,
   /** Called when the field is blurred. */
   onBlur: () => void,
-  /** Called when the value changes and the date / time is a complete value, or empty. The only value is an ISO string. */
+  /** Called when the value changes and the date / time is a complete value, or empty. The only value is an ISO string or empty string. */
   onChange: string => void,
   /** Called when the field is focused. */
   onFocus: () => void,
@@ -266,6 +266,10 @@ class DateTimePicker extends Component<Props, State> {
 
       this.setState({ value });
       this.props.onChange(value);
+      // If the date or time value was cleared when there is an existing datetime value, then clear the value.
+    } else if (this.getState().value) {
+      this.setState({ value: '' });
+      this.props.onChange('');
     }
   }
 

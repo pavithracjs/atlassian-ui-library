@@ -92,3 +92,37 @@ test('DatePicker default parseInputValue parses valid dates to the expected valu
 
   expect(onChangeSpy).toBeCalledWith(expectedResult);
 });
+
+test('DatePicker pressing the Backspace key to empty the input should clear the value', () => {
+  const dateValue = new Date('06/08/2018').toUTCString();
+  const onChangeSpy = jest.fn();
+  const expectedResult = '';
+  const datePickerWrapper = mount(
+    <DatePicker value={dateValue} onChange={onChangeSpy} />,
+  );
+
+  const target = document.createElement('input');
+  target.value = '';
+  datePickerWrapper
+    .first('input')
+    .simulate('keyDown', { key: 'Backspace', target });
+
+  expect(onChangeSpy).toBeCalledWith(expectedResult);
+});
+
+test('DatePicker pressing the Delete key to empty the input should clear the value', () => {
+  const dateValue = new Date('06/08/2018').toUTCString();
+  const onChangeSpy = jest.fn();
+  const expectedResult = '';
+  const datePickerWrapper = mount(
+    <DatePicker value={dateValue} onChange={onChangeSpy} />,
+  );
+
+  const target = document.createElement('input');
+  target.value = '';
+  datePickerWrapper
+    .first('input')
+    .simulate('keyDown', { key: 'Delete', target });
+
+  expect(onChangeSpy).toBeCalledWith(expectedResult);
+});

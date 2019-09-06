@@ -62,7 +62,7 @@ type Props = {
   name: string,
   /** Called when the field is blurred. */
   onBlur: () => void,
-  /** Called when the value changes. The only argument is an ISO time. */
+  /** Called when the value changes. The only argument is an ISO time or empty string. */
   onChange: string => void,
   /** Called when the field is focused. */
   onFocus: () => void,
@@ -273,6 +273,7 @@ class TimePicker extends Component<Props, State> {
             Menu: FixedLayerMenu,
           }}
           instanceId={id}
+          isClearable
           isDisabled={isDisabled}
           menuIsOpen={isOpen && !isDisabled}
           menuPlacement="auto"

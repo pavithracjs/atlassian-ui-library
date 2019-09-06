@@ -9,7 +9,7 @@ The \`datetime-picker\` component is capable of rendering a date picker, time pi
 composed from several components including \`@atlaskit/select\` and \`@atlaskit/calendar\`.
 
 The date & time pickers will open onFocus while onBlur, 'Enter' or selecting via a click will trigger an onChange. A keypress of 'Escape'
-while the calendar or select is open will close it but not change or clear the value. When focussed 'Backspace' will clear the value.
+while the calendar or select is open will close it but not change or clear the value. When focussed 'Backspace' or 'Delete' will clear the value.
 
 If needed you can modify or these default behaviours by passing props to the select component using the prop selectProps.
 
