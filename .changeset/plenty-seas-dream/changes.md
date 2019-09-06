@@ -1,0 +1,1 @@
+Added option to run yarn dedupe at the end
