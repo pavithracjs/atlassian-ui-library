@@ -449,3 +449,9 @@ export const breakout = (attrs: BreakoutMarkAttrs) =>
   markFactory(sampleSchema.marks.breakout, attrs);
 export const indentation = (attrs: IndentationMarkAttributes) =>
   markFactory(sampleSchema.marks.indentation, attrs);
+
+// builderEval is used for doc-builder example, and needs scope of the above node factories
+export const builderEval = (data: string) => {
+  // eslint-disable-next-line no-eval
+  return eval(data);
+};
