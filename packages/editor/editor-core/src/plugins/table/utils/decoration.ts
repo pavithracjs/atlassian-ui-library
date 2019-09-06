@@ -1,14 +1,10 @@
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorState, Selection, Transaction } from 'prosemirror-state';
-import {
-  getCellsInRow,
-  ContentNodeWithPos,
-  getSelectionRect,
-  findTable,
-} from 'prosemirror-utils';
+import { NodeWithPos, getSelectionRect, findTable } from 'prosemirror-utils';
 import { TableMap } from 'prosemirror-tables';
 import { CellAttributes } from '@atlaskit/adf-schema';
+import { tableResizeHandleWidth } from '@atlaskit/editor-common';
 import {
   TableCssClassName as ClassName,
   TableDecorations,
@@ -22,9 +18,15 @@ const filterDecorationByKey = (
 ): Decoration[] =>
   decorationSet.find(undefined, undefined, spec => spec.key.indexOf(key) > -1);
 
-const createResizeHandleNode = (): HTMLElement => {
+const createResizeHandleNode = (
+  colIndex: number,
+  colSpanIndex: number,
+): HTMLElement => {
   const node = document.createElement('div');
   node.classList.add(ClassName.RESIZE_HANDLE);
+  node.setAttribute('data-col-index', `${colIndex}`);
+  // index within a merged column
+  node.setAttribute('data-colspan-index', `${colSpanIndex}`);
   return node;
 };
 
@@ -130,18 +132,56 @@ export const createColumnSelectedDecorations = (
 };
 
 export const createColumnControlsDecoration = (
+  doc: PmNode,
   selection: Selection,
+  allowColumnResizing?: boolean,
 ): Decoration[] => {
-  const cells: ContentNodeWithPos[] = getCellsInRow(0)(selection) || [];
+  const prevTable = findTable(selection) as NodeWithPos;
+  // taking the table node from the document updated by the transaction changes
+  const table = doc.nodeAt(prevTable.pos) as PmNode;
+  const cells: NodeWithPos[] = [];
+  (table.content.firstChild as PmNode).descendants((child, pos) => {
+    cells.push({ node: child, pos: pos + prevTable.pos + 2 });
+    return false;
+  });
   let index = 0;
-  return cells.map(cell => {
-    const colspan = (cell.node.attrs as CellAttributes).colspan || 1;
+  const cellsCount = cells.length;
+  return cells.map((cell, colIndex) => {
+    const attrs = cell.node.attrs as CellAttributes;
+    const colspan = attrs.colspan || 1;
     const element = document.createElement('div');
     element.classList.add(ClassName.COLUMN_CONTROLS_DECORATIONS);
+    const startIndex = index;
     element.dataset.startIndex = `${index}`;
     index += colspan;
     element.dataset.endIndex = `${index}`;
-    element.appendChild(createResizeHandleNode());
+
+    if (allowColumnResizing) {
+      let start = 0;
+      // looping through colspans and creating resize handle node for each
+      Array.from(Array(colspan).keys()).forEach(colSpanIndex => {
+        const node = createResizeHandleNode(
+          startIndex + colSpanIndex,
+          colSpanIndex,
+        );
+        const colWidth = (attrs.colwidth || [])[colSpanIndex];
+
+        // last resize handle in the table (we don't want it to go beyond the table width)
+        if (colIndex === cellsCount - 1 && colSpanIndex === colspan - 1) {
+          node.style.right = `${-tableResizeHandleWidth / 2 - 1}px`;
+        } else {
+          const offset = tableResizeHandleWidth / 2 + 4;
+          node.style.left = colWidth
+            ? // table has been resized, we position resize handles using values form colWidth attribute
+              `${colWidth + start - offset}px`
+            : // table hasn't been resized, we position with cell using %
+              `calc(${(100 / colspan) * (colSpanIndex + 1)}% - ${offset}px)`;
+        }
+
+        start += colWidth;
+        element.appendChild(node);
+      });
+    }
 
     return Decoration.widget(
       cell.pos + 1,
