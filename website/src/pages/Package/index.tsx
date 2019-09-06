@@ -7,6 +7,7 @@ import Button from '@atlaskit/button';
 import { AtlassianIcon } from '@atlaskit/logo';
 import ExamplesIcon from '@atlaskit/icon/glyph/screen';
 import { gridSize, colors, math } from '@atlaskit/theme';
+import Lozenge from '@atlaskit/lozenge';
 
 import MetaData from './MetaData';
 import * as fs from '../../utils/fs';
@@ -24,12 +25,18 @@ import fetchPackageData, {
 } from './utils/fsOperations';
 import LinkButton from '../../components/LinkButton';
 
-export const Title = styled.div`
+const TopRow = styled.div`
   display: flex;
+`;
 
-  h1 {
-    flex-grow: 1;
-  }
+const Title = styled.h1`
+  flex-grow: 1;
+`;
+
+const Actions = styled.div``;
+
+const Badges = styled.div`
+  margin-top: ${math.multiply(gridSize, 1.5)}px;
 `;
 
 export const Intro = styled.p`
@@ -146,8 +153,18 @@ class Package extends React.Component<Props> {
       pkgId,
       examples,
     );
-
     const title = fs.titleize(pkgId);
+
+    const badges: React.ReactNode[] = [
+      Boolean(pkg.types) ? (
+        <Lozenge key="ts" appearance="inprogress">
+          Typescript{' '}
+          <span role="img" aria-label="Heart">
+            ❤️
+          </span>
+        </Lozenge>
+      ) : null,
+    ].filter(Boolean);
 
     return (
       <Media query={`(min-width: ${DESKTOP_BREAKPOINT_MIN}px)`}>
@@ -158,28 +175,34 @@ class Package extends React.Component<Props> {
                 <title>{`${title} package - ${BASE_TITLE}`}</title>
               </Helmet>
             )}
-            <Title>
-              <h1>{title}</h1>
-              {examplePath && exampleModalPath && (
-                <ButtonGroup>
-                  <LinkButton
-                    iconBefore={<ExamplesIcon label="Examples Icon" />}
-                    to={examplePath}
-                  />
-                  {isDesktop && (
-                    <LinkButton to={exampleModalPath}>Examples</LinkButton>
-                  )}
-                  {pkg && pkg['atlaskit:designLink'] && (
-                    <Button
-                      iconBefore={<AtlassianIcon size="small" />}
-                      href={pkg['atlaskit:designLink'] as string}
-                    >
-                      Design docs
-                    </Button>
-                  )}
-                </ButtonGroup>
-              )}
-            </Title>
+            <TopRow>
+              <Title>{title}</Title>
+              <Actions>
+                {examplePath && exampleModalPath && (
+                  <ButtonGroup>
+                    <LinkButton
+                      iconBefore={<ExamplesIcon label="Examples Icon" />}
+                      to={examplePath}
+                    />
+                    {isDesktop && (
+                      <LinkButton to={exampleModalPath}>Examples</LinkButton>
+                    )}
+                    {pkg && pkg['atlaskit:designLink'] && (
+                      <Button
+                        iconBefore={<AtlassianIcon size="small" />}
+                        href={pkg['atlaskit:designLink'] as string}
+                      >
+                        Design docs
+                      </Button>
+                    )}
+                  </ButtonGroup>
+                )}
+              </Actions>
+            </TopRow>
+            {/* Only show a badges section if there are badges */}
+            {badges.length ? (
+              <Badges>{badges.map((badge: React.ReactNode) => badge)}</Badges>
+            ) : null}
             <Intro>{pkg.description}</Intro>
             <MetaData
               packageName={pkg.name as string}
