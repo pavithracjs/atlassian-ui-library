@@ -327,7 +327,7 @@
     "@yarnpkg/lockfile": "^1.1.0",
     "abortcontroller-polyfill": "^1.1.9",
     "adf-builder": "^3.2.0",
-    "ajv": "^4.11.3",
+    "ajv": "^6.12.3",
     "apply-ref": "^0.2.0",
     "array-find": "^1.0.0",
     "axios": "^0.18.0",
